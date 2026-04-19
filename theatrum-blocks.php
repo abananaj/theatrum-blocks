@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name:       Theatrum Blocks
  * Description:       Example block scaffolded with Create Block tool.
@@ -13,9 +14,11 @@
  * @package CreateBlock
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
+
+require_once __DIR__ . '/src/scripts/helpers.php';
 /**
  * Registers the block(s) metadata from the `blocks-manifest.php` and registers the block type(s)
  * based on the registered block metadata. Behind the scenes, it registers also all assets so they can be enqueued
@@ -32,22 +35,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Registers the blocks using block.json files
  */
-function theatrum_register_blocks() {
-	$custom_blocks = array (
+function theatrum_register_blocks()
+{
+	$custom_blocks = array(
 		'artist-credits',
 		'block-dynamic',
 		'block-static',
 		'board-member',
 		'card-carousel',
 		'copyright-date-block',
-		// 'cover-card',
+		'cover-card',
 		'meta-button',
-		// 'meta-date',
-		// 'meta-field',
+		'meta-date',
+		'meta-field',
 		'meta-gallery',
 		'meta-image',
-		// 'meta-repeater',
-		// 'meta-time',
+		'meta-repeater',
+		'meta-time',
 		'popup',
 		'production-credits',
 		'production-details',
@@ -56,49 +60,51 @@ function theatrum_register_blocks() {
 		'staff-member',
 		'term-meta'
 	);
-	
-	foreach ( $custom_blocks as $block ) {
-		register_block_type( __DIR__ . '/build/blocks/' . $block );
+
+	foreach ($custom_blocks as $block) {
+		register_block_type(__DIR__ . '/build/blocks/' . $block);
 	}
 }
-add_action( 'init', 'theatrum_register_blocks' );
+add_action('init', 'theatrum_register_blocks');
 
 /**
  * Enqueues the block assets for the editor
  */
-function multiblock_enqueue_block_assets() {
+function multiblock_enqueue_block_assets()
+{
 	wp_enqueue_script(
 		'multi-block-editor-js',
-		plugin_dir_url( __FILE__ ) . 'build/multi-block-editor.js',
+		plugin_dir_url(__FILE__) . 'build/multi-block-editor.js',
 		array('wp-blocks', 'wp-components', 'wp-data', 'wp-dom-ready', 'wp-edit-post', 'wp-element', 'wp-i18n', 'wp-plugins'),
 		null,
 		false
 	);
-	
+
 	wp_enqueue_style(
 		'multi-block-editor-css',
-		plugin_dir_url( __FILE__ ) . 'build/multi-block-editor.css',
+		plugin_dir_url(__FILE__) . 'build/multi-block-editor.css',
 		array(),
 		null
 	);
 }
-add_action( 'enqueue_block_editor_assets', 'multiblock_enqueue_block_assets' );
+add_action('enqueue_block_editor_assets', 'multiblock_enqueue_block_assets');
 
 /**
  * Enqueues the block assets for the frontend
  */
-function multiblock_enqueue_frontend_assets() {
+function multiblock_enqueue_frontend_assets()
+{
 	wp_enqueue_style(
 		'multi-block-frontend-css',
-		plugin_dir_url( __FILE__ ) . 'build/style-multi-block-editor.css',
+		plugin_dir_url(__FILE__) . 'build/style-multi-block-editor.css',
 	);
 
 	wp_enqueue_script(
 		'multi-block-frontend-js',
-		plugin_dir_url( __FILE__ ) . 'build/multi-block-frontend.js',
+		plugin_dir_url(__FILE__) . 'build/multi-block-frontend.js',
 		array(),
 		null,
 		true
 	);
 }
-add_action( 'wp_enqueue_scripts', 'multiblock_enqueue_frontend_assets' );
+add_action('wp_enqueue_scripts', 'multiblock_enqueue_frontend_assets');
