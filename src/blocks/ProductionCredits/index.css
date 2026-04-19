@@ -1,0 +1,60 @@
+/* Production Credits Block Styles */
+
+.wp-block-chance-production-credits {
+  margin-bottom: 2rem;
+}
+
+.production-credits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+display:flex;
+flex-flow: row wrap;
+  li {
+    display: flex;
+flex: 1 1 50%;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .artist-headshot {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .artist-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: end;
+    align-items: end;
+  }
+
+  .role {
+    font-family: "gabarito", sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+  }
+
+  .artist {
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: #666;
+    text-decoration: none;
+    line-height: 1.2;
+  }
+
+  .artist:hover {
+    color: #000;
+    text-decoration: underline;
+  }
+
+}

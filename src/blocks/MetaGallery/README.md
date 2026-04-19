@@ -1,0 +1,2 @@
+Build upon the MetaImage block to create a MetaGallery block that can display multiple images from a user input meta key which will return an array of images. This block should have all the options and functionality of the WP core/gallery block styling and options.
+[acf documentation](https://www.advancedcustomfields.com/resources/gallery/)

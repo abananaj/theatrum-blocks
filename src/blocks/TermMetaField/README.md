@@ -1,0 +1,1 @@
+Get term selected by user in the block editor, the get the term meta field value for the meta key input by user in blockeditor.
