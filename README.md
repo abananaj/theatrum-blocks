@@ -1,55 +1,40 @@
-=== Theatrum Blocks ===
-Contributors:      The WordPress Contributors
-Tags:              block
-Tested up to:      6.8
-Stable tag:        0.1.0
-License:           GPL-2.0-or-later
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Example block scaffolded with Create Block tool.
+# ✅ [Tutorial: Build your first block](https://developer.wordpress.org/block-editor/getting-started/tutorial/)
 
-== Description ==
+1. Scaffold & setup a new plugin-based block:
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+```bash
+npx @wordpress/create-block@latest  --variant=dynamic
+wp plugin activate copyright-date-block
+ cd copyright-date-block
+ npm run start
+```
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+2. Updating block.json
+   [block.json reference](https://developer.wordpress.org/block-editor/getting-started/fundamentals/block-json/)
+   [supports reference](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/)
+3. Updating index.js - custom icon here
+   [block registration](https://developer.wordpress.org/block-editor/getting-started/fundamentals/registration-of-a-block/)
+4. Updating edit.js
+   [block wrapper docs](https://developer.wordpress.org/block-editor/getting-started/fundamentals/block-wrapper/)
+5. Updating render.php
+6. Cleanup, delete unused files
+7. Stop npm run start and run:
 
-== Installation ==
+```bash
+npm run build
+```
 
-This section describes how to install the plugin and get it working.
+8. Add block attributes
+   [block attributes](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/)
+9. Inspector Controls and block editor UI components
+   [Inspector Controls docs](https://developer.wordpress.org/block-editor/reference-guides/components/inspector-controls/)
+   [Components and panels](https://developer.wordpress.org/block-editor/reference-guides/components/panel/#panelbody)
 
-e.g.
+- TextControl, ToggleControl, SelectControl, etc.
 
-1. Upload the plugin files to the `/wp-content/plugins/theatrum-blocks` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+10. Add static rendering fallback (optional)
+    [Static vs Dynamic rendering](https://developer.wordpress.org/block-editor/getting-started/fundamentals/static-dynamic-rendering/)
 
 
-== Frequently Asked Questions ==
-
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
-
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
-
-== Changelog ==
-
-= 0.1.0 =
-* Release
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+# [Multi-block plugin](https://developer.wordpress.org/news/2024/09/how-to-build-a-multi-block-plugin/)
