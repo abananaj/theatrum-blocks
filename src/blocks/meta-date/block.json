@@ -1,0 +1,72 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/meta-date",
+	"title": "Meta Date",
+	"category": "chance",
+	"description": "Display date meta fields with configurable formatting",
+	"supports": {
+		"html": false,
+		"align": true,
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontWeight": true,
+			"fontStyle": true,
+			"lineHeight": true,
+			"letterSpacing": true,
+			"textDecoration": true,
+			"textTransform": true,
+			"textColumns": false
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true,
+		"opacity": true,
+		"filters": {
+			"duotone": true
+		}
+	},
+	"usesContext": ["postId", "postType"],
+	"attributes": {
+		"keyInput": {
+			"type": "string",
+			"default": ""
+		},
+		"dateFormat": {
+			"type": "string",
+			"default": "Y-m-d"
+		},
+		"customFormat": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "p"
+		}
+	},
+	"textdomain": "meta-date",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

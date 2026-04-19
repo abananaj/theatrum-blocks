@@ -6,7 +6,6 @@
   "category": "common",
   "icon": "visibility",
   "description": "A simple popup block with a button to reveal hidden content",
-  "textdomain": "chance-ollie",
   "supports": {
     "html": false,
     "align": true,
@@ -56,5 +55,10 @@
     }
   },
   "usesInnerBlocks": true,
-  "viewScript": "file:./frontend.js"
+  "textdomain": "popup",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
 }

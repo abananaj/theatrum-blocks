@@ -1,0 +1,1 @@
+{"version":3,"file":"multi-block-frontend.js","mappings":";;;;AAAAA,OAAO,CAACC,GAAG,CAAE,eAAgB,CAAC,C","sources":["webpack://theatrum-blocks/./src/multi-block-frontend.js"],"sourcesContent":["console.log( 'frontend test' )\n"],"names":["console","log"],"sourceRoot":""}

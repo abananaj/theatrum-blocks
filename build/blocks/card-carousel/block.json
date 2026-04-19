@@ -1,0 +1,72 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/card-carousel",
+  "title": "Card Carousel",
+  "category": "common",
+  "icon": "images-alt2",
+  "description": "A responsive carousel display for cards with images, titles, and subtitles",
+  "textdomain": "card-carousel",
+  "supports": {
+    "html": false,
+    "align": true,
+    "anchor": true,
+    "className": true,
+    "customClassName": true,
+    "typography": {
+      "fontSize": true,
+      "fontFamily": true,
+      "fontStyle": true,
+      "fontWeight": true,
+      "letterSpacing": true,
+      "lineHeight": true,
+      "textDecoration": true,
+      "textTransform": true
+    },
+    "color": {
+      "text": true,
+      "background": true,
+      "gradient": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": true
+    },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "shadow": true,
+    "opacity": true,
+    "filters": {
+      "duotone": true
+    }
+  },
+  "attributes": {
+    "headline": {
+      "type": "string",
+      "default": "Headline"
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "id": 1,
+          "image": "https://picsum.photos/id/21/300/300",
+          "title": "Card Title",
+          "subtitle": "Subtitle text",
+          "link": "#"
+        }
+      ]
+    }
+  },
+  "usesInnerBlocks": false,
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}

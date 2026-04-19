@@ -1,0 +1,68 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/staff-member",
+	"title": "Staff Member",
+	"category": "widgets",
+	"description": "Display staff member information from WordPress options",
+	"icon": "admin-settings",
+	"supports": {
+		"html": false,
+		"align": true,
+		"reusable": true,
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true,
+		"opacity": true,
+		"filters": {
+			"duotone": true
+		}
+	},
+	"attributes": {
+		"optionName": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "p"
+		},
+		"href": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "staff-member",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

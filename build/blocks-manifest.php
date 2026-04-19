@@ -1,14 +1,14 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
-	'ArtistCredits' => array(
+	'artist-credits' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/artist-credits',
 		'title' => 'Artist Credits',
 		'category' => 'widgets',
 		'description' => 'Display a list of artist credits for a production',
-		'textdomain' => 'chance-ollie',
+		'textdomain' => 'artist-credits',
 		'icon' => 'list-view',
 		'supports' => array(
 			'html' => false,
@@ -52,7 +52,11 @@ return array(
 		'attributes' => array(
 			
 		),
-		'render' => 'file:./render.php'
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
 	'block-dynamic' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -97,14 +101,14 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),
-	'BoardMember' => array(
+	'board-member' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/board-member',
 		'title' => 'Board Member',
 		'category' => 'widgets',
 		'description' => 'Display board member information from WordPress options',
-		'textdomain' => 'chance-ollie',
+		'textdomain' => 'board-member',
 		'icon' => 'admin-settings',
 		'supports' => array(
 			'html' => false,
@@ -159,9 +163,13 @@ return array(
 				'default' => ''
 			)
 		),
-		'render' => 'file:./render.php'
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'CardCarousel' => array(
+	'card-carousel' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/card-carousel',
@@ -169,7 +177,7 @@ return array(
 		'category' => 'common',
 		'icon' => 'images-alt2',
 		'description' => 'A responsive carousel display for cards with images, titles, and subtitles',
-		'textdomain' => 'chance-ollie',
+		'textdomain' => 'card-carousel',
 		'supports' => array(
 			'html' => false,
 			'align' => true,
@@ -227,16 +235,61 @@ return array(
 			)
 		),
 		'usesInnerBlocks' => false,
-		'render' => 'file:./render.php'
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'CoverCard' => array(
-		'$schema' => 'https://schemas.wp.org/wp/6.3/block.json',
+	'copyright-date-block' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'create-block/copyright-date-block',
+		'version' => '0.1.0',
+		'title' => 'Copyright Date Block',
+		'category' => 'widgets',
+		'icon' => 'admin-settings',
+		'description' => 'Example block scaffolded with Create Block tool.',
+		'example' => array(
+			
+		),
+		'attributes' => array(
+			'fallbackCurrentYear' => array(
+				'type' => 'string'
+			),
+			'showStartingYear' => array(
+				'type' => 'boolean'
+			),
+			'startingYear' => array(
+				'type' => 'string'
+			)
+		),
+		'supports' => array(
+			'color' => array(
+				'background' => true,
+				'text' => true
+			),
+			'html' => false,
+			'typography' => array(
+				'fontSize' => true,
+				'textAlign' => true,
+				'lineHeight' => true
+			)
+		),
+		'textdomain' => 'copyright-date-block',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
+	),
+	'cover-card' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/cover-card',
 		'title' => 'Cover Card',
 		'category' => 'widgets',
 		'description' => 'Display a featured production or event as a card with featured image background and overlaid title',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'cover-image',
 		'supports' => array(
 			'html' => false,
@@ -306,12 +359,15 @@ return array(
 		'innerBlocks' => array(
 			
 		),
-		'render' => 'file:./render.php',
+		'textdomain' => 'cover-card',
+		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./index.css'
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'MetaButton' => array(
-		'$schema' => 'https://schemas.wp.org/wp/6.3/block.json',
+	'meta-button' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-button',
 		'title' => 'Meta Button',
@@ -370,12 +426,15 @@ return array(
 				'default' => 'Learn More'
 			)
 		),
-		'render' => 'file:./render.php',
+		'textdomain' => 'meta-button',
+		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./index.css'
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'MetaDate' => array(
-		'$schema' => 'https://schemas.wp.org/wp/6.3/block.json',
+	'meta-date' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-date',
 		'title' => 'Meta Date',
@@ -442,18 +501,20 @@ return array(
 				'default' => 'p'
 			)
 		),
-		'render' => 'file:./render.php',
+		'textdomain' => 'meta-date',
+		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./index.css'
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'MetaField' => array(
+	'meta-field' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-field',
 		'title' => 'Meta Field',
 		'category' => 'widgets',
 		'description' => 'Display a value from post metadata by entering a key',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'admin-generic',
 		'supports' => array(
 			'html' => false,
@@ -520,18 +581,20 @@ return array(
 			'postId',
 			'postType'
 		),
-		'render' => 'file:./render.php',
+		'textdomain' => 'meta-date',
+		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./index.css'
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'MetaGallery' => array(
+	'meta-gallery' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-gallery',
 		'title' => 'Meta Gallery',
 		'category' => 'media',
 		'description' => 'Display a gallery of images from a post meta or ACF gallery field by entering a key',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'format-gallery',
 		'supports' => array(
 			'html' => false,
@@ -584,16 +647,20 @@ return array(
 				'default' => false
 			)
 		),
-		'render' => 'file:./render.php'
+		'textdomain' => 'meta-gallery',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'MetaImage' => array(
+	'meta-image' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-image',
 		'title' => 'Meta Image',
 		'category' => 'media',
 		'description' => 'Display an image from a post meta or ACF image field by entering a key',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'format-image',
 		'supports' => array(
 			'html' => false,
@@ -655,10 +722,15 @@ return array(
 				'default' => false
 			)
 		),
-		'render' => 'file:./render.php'
+		'textdomain' => 'meta-image',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'MetaRepeater' => array(
-		'$schema' => 'https://schemas.wp.org/wp/6.3/block.json',
+	'meta-repeater' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-repeater',
 		'title' => 'Meta Repeater',
@@ -721,12 +793,15 @@ return array(
 				'default' => 'ul'
 			)
 		),
-		'render' => 'file:./render.php',
+		'textdomain' => 'meta-repeater',
+		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./index.css'
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'MetaTime' => array(
-		'$schema' => 'https://schemas.wp.org/wp/6.3/block.json',
+	'meta-time' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-time',
 		'title' => 'Meta Time',
@@ -793,11 +868,14 @@ return array(
 				'default' => 'p'
 			)
 		),
-		'render' => 'file:./render.php',
+		'textdomain' => 'meta-time',
+		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./index.css'
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'Popup' => array(
+	'popup' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/popup',
@@ -805,7 +883,6 @@ return array(
 		'category' => 'common',
 		'icon' => 'visibility',
 		'description' => 'A simple popup block with a button to reveal hidden content',
-		'textdomain' => 'chance-ollie',
 		'supports' => array(
 			'html' => false,
 			'align' => true,
@@ -855,16 +932,20 @@ return array(
 			)
 		),
 		'usesInnerBlocks' => true,
-		'viewScript' => 'file:./frontend.js'
+		'textdomain' => 'popup',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'ProductionCredits' => array(
+	'production-credits' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/production-credits',
 		'title' => 'Production Credits',
 		'category' => 'widgets',
 		'description' => 'Display credits for the current production',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'list-view',
 		'supports' => array(
 			'html' => false,
@@ -908,9 +989,14 @@ return array(
 		'attributes' => array(
 			
 		),
-		'render' => 'file:./render.php'
+		'textdomain' => 'meta-date',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'ProductionDetails' => array(
+	'production-details' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/production-details',
@@ -959,16 +1045,20 @@ return array(
 		'attributes' => array(
 			
 		),
-		'render' => 'file:./render.php'
+		'textdomain' => 'production-details',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'ProductionQuotes' => array(
+	'production-quotes' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/production-quotes',
 		'title' => 'Production Quotes',
 		'category' => 'widgets',
 		'description' => 'Display quotes from the production_quotes ACF repeater field',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'format-quote',
 		'supports' => array(
 			'html' => false,
@@ -1016,16 +1106,20 @@ return array(
 			'postId',
 			'postType'
 		),
-		'render' => 'file:./render.php'
+		'textdomain' => 'production-quotes',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'SiteOption' => array(
+	'site-option' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/site-option',
 		'title' => 'Site Option',
 		'category' => 'widgets',
 		'description' => 'Display a value from the WordPress options table',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'admin-settings',
 		'supports' => array(
 			'html' => false,
@@ -1080,16 +1174,20 @@ return array(
 				'default' => ''
 			)
 		),
-		'render' => 'file:./render.php'
+		'textdomain' => 'site-option',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'StaffMember' => array(
+	'staff-member' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/staff-member',
 		'title' => 'Staff Member',
 		'category' => 'widgets',
 		'description' => 'Display staff member information from WordPress options',
-		'textdomain' => 'chance-ollie',
 		'icon' => 'admin-settings',
 		'supports' => array(
 			'html' => false,
@@ -1144,13 +1242,18 @@ return array(
 				'default' => ''
 			)
 		),
-		'render' => 'file:./render.php'
+		'textdomain' => 'staff-member',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
 	),
-	'TermMetaField' => array(
-		'$schema' => 'https://schemas.wp.org/wp/6.3/block.json',
+	'term-meta' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/term-meta-field',
-		'title' => 'Term Meta Field',
+		'name' => 'chance/term-meta',
+		'title' => 'Term Meta',
 		'category' => 'chance',
 		'description' => 'Display metadata for a selected taxonomy term',
 		'supports' => array(
@@ -1206,46 +1309,7 @@ return array(
 				'default' => 'p'
 			)
 		),
-		'render' => 'file:./render.php',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./index.css'
-	),
-	'copyright-date-block' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'create-block/copyright-date-block',
-		'version' => '0.1.0',
-		'title' => 'Copyright Date Block',
-		'category' => 'widgets',
-		'icon' => 'admin-settings',
-		'description' => 'Example block scaffolded with Create Block tool.',
-		'example' => array(
-			
-		),
-		'attributes' => array(
-			'fallbackCurrentYear' => array(
-				'type' => 'string'
-			),
-			'showStartingYear' => array(
-				'type' => 'boolean'
-			),
-			'startingYear' => array(
-				'type' => 'string'
-			)
-		),
-		'supports' => array(
-			'color' => array(
-				'background' => true,
-				'text' => true
-			),
-			'html' => false,
-			'typography' => array(
-				'fontSize' => true,
-				'textAlign' => true,
-				'lineHeight' => true
-			)
-		),
-		'textdomain' => 'copyright-date-block',
+		'textdomain' => 'term-meta',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
