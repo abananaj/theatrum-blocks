@@ -1,1 +1,0 @@
-wp.blocks.registerBlockType("chance/production-quotes",{edit:e=>wp.element.createElement(wp.serverSideRender,{block:"chance/production-quotes",attributes:e.attributes}),save:()=>null});
