@@ -5,6 +5,7 @@
  * Helper function to get the year from season taxonomy
  * Assumes season terms are named like "2022-season"
  */
+if ( ! function_exists( 'get_season_year' ) ) :
 function get_season_year($post_id)
 {
   $seasons = get_the_terms($post_id, 'season');
@@ -25,18 +26,17 @@ function get_season_year($post_id)
 
   return '';
 }
+endif;
 
 /**
- * Artist Credits Block - Server-side render callback
+ * Artist Credits Block - file template
  */
 
-function render_artist_credits_block($attributes, $content, $block)
-{
-  $post_id = get_the_ID();
+$post_id = get_the_ID();
 
-  if (!$post_id) {
-    return '';
-  }
+if (!$post_id) {
+  return;
+}
 
   // Query for ct-credit posts where meta field 'artist' = current post ID
   $args = array(
@@ -53,11 +53,11 @@ function render_artist_credits_block($attributes, $content, $block)
 
   $query = new WP_Query($args);
 
-  if (!$query->have_posts()) {
-    return '';
-  }
+if (!$query->have_posts()) {
+  return;
+}
 
-  $html = '<ul class="artist-credits-ul">';
+$html = '<ul class="artist-credits-ul">';
 
   while ($query->have_posts()) {
     $query->the_post();
@@ -89,16 +89,16 @@ function render_artist_credits_block($attributes, $content, $block)
     }
   }
 
-  $html .= '</ul>';
+$html .= '</ul>';
 
-  wp_reset_postdata();
+wp_reset_postdata();
 
-  return $html;
-}
+echo $html;
 
 /**
  * REST endpoint to fetch artist credits
  */
+if ( ! function_exists( 'register_artist_credits_rest_endpoint' ) ) :
 function register_artist_credits_rest_endpoint()
 {
   register_rest_route('chance/v1', '/artist-credits/(?P<post_id>\d+)', array(
@@ -110,6 +110,9 @@ function register_artist_credits_rest_endpoint()
   ));
 }
 
+endif;
+
+if ( ! function_exists( 'get_artist_credits_rest_callback' ) ) :
 function get_artist_credits_rest_callback($request)
 {
   $post_id = intval($request['post_id']);
@@ -160,5 +163,6 @@ function get_artist_credits_rest_callback($request)
 
   return new WP_REST_Response(array('credits' => $credits), 200);
 }
+endif;
 
 add_action('rest_api_init', 'register_artist_credits_rest_endpoint');

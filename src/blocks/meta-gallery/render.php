@@ -5,13 +5,11 @@
  * Meta Gallery Block - Server-side render callback
  * Handles ACF gallery fields that return an array of image arrays
  */
-function render_meta_gallery_block($attributes, $content, $block)
-{
-  $post_id = $block->context['postId'] ?? get_the_ID();
+$post_id = $block->context['postId'] ?? get_the_ID();
 
-  if (!$post_id) {
-    return '';
-  }
+if (!$post_id) {
+  return;
+}
 
   $key_input    = isset($attributes['keyInput'])   ? sanitize_text_field($attributes['keyInput'])   : '';
   $image_size   = isset($attributes['imageSize'])  ? sanitize_key($attributes['imageSize'])         : 'large';
@@ -20,21 +18,21 @@ function render_meta_gallery_block($attributes, $content, $block)
   $image_crop   = !empty($attributes['imageCrop']);
   $show_caption = !empty($attributes['showCaption']);
 
-  if (!$key_input) {
-    return '';
-  }
+if (!$key_input) {
+  return;
+}
 
-  // Get the raw ACF/meta value
+// Get the raw ACF/meta value
   $value = get_field($key_input, $post_id);
   if ($value === null || $value === false || $value === '') {
     $value = get_post_meta($post_id, $key_input, true);
   }
 
-  if (empty($value) || !is_array($value)) {
-    return '';
-  }
+if (empty($value) || !is_array($value)) {
+  return;
+}
 
-  // Build image list
+// Build image list
   $items_html = '';
 
   foreach ($value as $image) {
@@ -110,23 +108,23 @@ function render_meta_gallery_block($attributes, $content, $block)
     }
   }
 
-  if (!$items_html) {
-    return '';
-  }
-
-  $col_style = sprintf('grid-template-columns: repeat(%d, 1fr);', $columns);
-
-  return sprintf(
-    '<figure %s><ul class="wp-block-gallery blocks-gallery-grid" style="display:grid;%s;gap:8px;">%s</ul></figure>',
-    get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']),
-    $col_style,
-    $items_html
-  );
+if (!$items_html) {
+  return;
 }
+
+$col_style = sprintf('grid-template-columns: repeat(%d, 1fr);', $columns);
+
+printf(
+  '<figure %s><ul class="wp-block-gallery blocks-gallery-grid" style="display:grid;%s;gap:8px;">%s</ul></figure>',
+  get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']),
+  $col_style,
+  $items_html
+);
 
 /**
  * REST endpoint: returns array of image data for a given post+key in the editor
  */
+if ( ! function_exists( 'register_meta_gallery_rest_endpoint' ) ) :
 function register_meta_gallery_rest_endpoint()
 {
   register_rest_route('chance/v1', '/meta-gallery/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
@@ -141,8 +139,11 @@ function register_meta_gallery_rest_endpoint()
     ],
   ]);
 }
+endif;
+
 add_action('rest_api_init', 'register_meta_gallery_rest_endpoint');
 
+if ( ! function_exists( 'meta_gallery_rest_callback' ) ) :
 function meta_gallery_rest_callback($request)
 {
   $post_id = intval($request->get_param('post_id'));
@@ -189,3 +190,4 @@ function meta_gallery_rest_callback($request)
 
   return new WP_REST_Response(['images' => $images], 200);
 }
+endif;

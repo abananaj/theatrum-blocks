@@ -5,13 +5,11 @@
  * Meta Image Block - Server-side render callback
  * Handles ACF image fields that return array, URL, or attachment ID
  */
-function render_meta_image_block($attributes, $content, $block)
-{
-  $post_id = $block->context['postId'] ?? get_the_ID();
+$post_id = $block->context['postId'] ?? get_the_ID();
 
-  if (!$post_id) {
-    return '';
-  }
+if (!$post_id) {
+  return;
+}
 
   $key_input  = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
   $image_size = isset($attributes['imageSize']) ? sanitize_key($attributes['imageSize']) : 'full';
@@ -20,21 +18,21 @@ function render_meta_image_block($attributes, $content, $block)
   $open_new   = !empty($attributes['openInNewTab']);
   $show_caption = !empty($attributes['showCaption']);
 
-  if (!$key_input) {
-    return '';
-  }
+if (!$key_input) {
+  return;
+}
 
-  // Get the raw meta/ACF value
+// Get the raw meta/ACF value
   $value = get_field($key_input, $post_id);
   if ($value === null || $value === false || $value === '') {
     $value = get_post_meta($post_id, $key_input, true);
   }
 
-  if (empty($value)) {
-    return '';
-  }
+if (empty($value)) {
+  return;
+}
 
-  // Resolve image data from whatever ACF returns
+// Resolve image data from whatever ACF returns
   $img_url    = '';
   $img_alt    = '';
   $img_caption = '';
@@ -68,11 +66,11 @@ function render_meta_image_block($attributes, $content, $block)
     $img_url = esc_url($value);
   }
 
-  if (!$img_url) {
-    return '';
-  }
+if (!$img_url) {
+  return;
+}
 
-  // Determine link href
+// Determine link href
   $link_href = '';
   $link_target = $open_new ? ' target="_blank" rel="noopener noreferrer"' : '';
 
@@ -97,23 +95,23 @@ function render_meta_image_block($attributes, $content, $block)
     ? sprintf('<a href="%s"%s>%s</a>', $link_href, $link_target, $img_tag)
     : $img_tag;
 
-  // Optional caption
-  $caption_html = '';
-  if ($show_caption && $img_caption) {
-    $caption_html = sprintf('<figcaption class="wp-element-caption">%s</figcaption>', $img_caption);
-  }
-
-  return sprintf(
-    '<figure %s>%s%s</figure>',
-    get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-image']),
-    $img_content,
-    $caption_html
-  );
+// Optional caption
+$caption_html = '';
+if ($show_caption && $img_caption) {
+  $caption_html = sprintf('<figcaption class="wp-element-caption">%s</figcaption>', $img_caption);
 }
+
+printf(
+  '<figure %s>%s%s</figure>',
+  get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-image']),
+  $img_content,
+  $caption_html
+);
 
 /**
  * REST endpoint: returns image data for a given post+key in the editor
  */
+if ( ! function_exists( 'register_meta_image_rest_endpoint' ) ) :
 function register_meta_image_rest_endpoint()
 {
   register_rest_route('chance/v1', '/meta-image/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
@@ -128,8 +126,11 @@ function register_meta_image_rest_endpoint()
     ],
   ]);
 }
+endif;
+
 add_action('rest_api_init', 'register_meta_image_rest_endpoint');
 
+if ( ! function_exists( 'meta_image_rest_callback' ) ) :
 function meta_image_rest_callback($request)
 {
   $post_id = intval($request->get_param('post_id'));
@@ -170,3 +171,4 @@ function meta_image_rest_callback($request)
   // String URL
   return new WP_REST_Response(['url' => esc_url_raw($value), 'alt' => '', 'caption' => '', 'id' => 0], 200);
 }
+endif;

@@ -5,39 +5,38 @@
  * Render the Term Meta Field block on the frontend
  */
 
-function render_term_meta_block($attributes = array(), $content = '', $block = null)
-{
-  $term_id = isset($attributes['termId']) ? intval($attributes['termId']) : 0;
-  $meta_key = isset($attributes['metaKey']) ? sanitize_text_field($attributes['metaKey']) : '';
-  $tag = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
+$term_id = isset($attributes['termId']) ? intval($attributes['termId']) : 0;
+$meta_key = isset($attributes['metaKey']) ? sanitize_text_field($attributes['metaKey']) : '';
+$tag = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
 
-  if (! $term_id || ! $meta_key) {
-    return '';
-  }
+if (! $term_id || ! $meta_key) {
+  return;
+}
 
-  // Get the term meta value
-  $value = get_term_meta($term_id, $meta_key, true);
+// Get the term meta value
+$value = get_term_meta($term_id, $meta_key, true);
 
-  if (empty($value)) {
-    return sprintf(
-      '<%1$s %2$s>[%3$s]</%1$s>',
-      tag_escape($tag),
-      get_block_wrapper_attributes(),
-      esc_html($meta_key)
-    );
-  }
-
-  return sprintf(
-    '<%1$s %2$s>%3$s</%1$s>',
+if (empty($value)) {
+  printf(
+    '<%1$s %2$s>[%3$s]</%1$s>',
     tag_escape($tag),
     get_block_wrapper_attributes(),
-    esc_html($value)
+    esc_html($meta_key)
   );
+  return;
 }
+
+printf(
+  '<%1$s %2$s>%3$s</%1$s>',
+  tag_escape($tag),
+  get_block_wrapper_attributes(),
+  esc_html($value)
+);
 
 /**
  * Term Meta Field Block - REST endpoint for fetching term meta in editor
  */
+if ( ! function_exists( 'register_term_meta_field_rest_endpoint' ) ) :
 function register_term_meta_field_rest_endpoint()
 {
   register_rest_route(
@@ -53,6 +52,9 @@ function register_term_meta_field_rest_endpoint()
   );
 }
 
+endif;
+
+if ( ! function_exists( 'get_term_meta_field_rest_callback' ) ) :
 function get_term_meta_field_rest_callback($request)
 {
   $term_id = intval($request['term_id']);
@@ -67,5 +69,6 @@ function get_term_meta_field_rest_callback($request)
 
   return new WP_REST_Response(array('value' => esc_html((string) $value)), 200);
 }
+endif;
 
 add_action('rest_api_init', 'register_term_meta_field_rest_endpoint');

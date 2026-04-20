@@ -87,7 +87,7 @@ function multiblock_enqueue_block_assets()
 		null
 	);
 }
-add_action('enqueue_block_editor_assets', 'multiblock_enqueue_block_assets');
+add_action('enqueue_block_assets', 'multiblock_enqueue_block_assets');
 
 /**
  * Enqueues the block assets for the frontend

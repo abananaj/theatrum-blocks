@@ -13,12 +13,10 @@
  *
  * @return string
  */
-function render_production_details_block($attributes, $content, $block)
-{
-  // Only show on ct-production post type
-  if (get_post_type() !== 'ct-production') {
-    return '';
-  }
+// Only show on ct-production post type
+if (get_post_type() !== 'ct-production') {
+  return;
+}
 
   $post_id = get_the_ID();
 
@@ -26,27 +24,26 @@ function render_production_details_block($attributes, $content, $block)
   $venue = get_post_meta($post_id, '_venue', true);
   $venue_room = get_post_meta($post_id, '_venue_room', true);
 
-  if (empty($venue) && empty($venue_room)) {
-    return '';
-  }
-
-  $html = '<div class="production-details">';
-
-  if (!empty($venue)) {
-    $html .= '<p class="production-venue">';
-    $html .= '<strong>' . esc_html__('Venue:', 'chance-ollie') . '</strong> ';
-    $html .= esc_html($venue);
-    $html .= '</p>';
-  }
-
-  if (!empty($venue_room)) {
-    $html .= '<p class="production-venue-room">';
-    $html .= '<strong>' . esc_html__('Venue Room:', 'chance-ollie') . '</strong> ';
-    $html .= esc_html($venue_room);
-    $html .= '</p>';
-  }
-
-  $html .= '</div>';
-
-  return $html;
+if (empty($venue) && empty($venue_room)) {
+  return;
 }
+
+$html = '<div class="production-details">';
+
+if (!empty($venue)) {
+  $html .= '<p class="production-venue">';
+  $html .= '<strong>' . esc_html__('Venue:', 'chance-ollie') . '</strong> ';
+  $html .= esc_html($venue);
+  $html .= '</p>';
+}
+
+if (!empty($venue_room)) {
+  $html .= '<p class="production-venue-room">';
+  $html .= '<strong>' . esc_html__('Venue Room:', 'chance-ollie') . '</strong> ';
+  $html .= esc_html($venue_room);
+  $html .= '</p>';
+}
+
+$html .= '</div>';
+
+echo $html;

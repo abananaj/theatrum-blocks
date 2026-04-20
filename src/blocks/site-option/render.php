@@ -5,83 +5,82 @@
  * Site Option Block - Server-side render callback
  */
 
-function render_site_option_block($attributes, $content, $block)
-{
-  $option_name = isset($attributes['optionName']) ? $attributes['optionName'] : '';
+$option_name = isset($attributes['optionName']) ? $attributes['optionName'] : '';
 
-  if (!$option_name) {
-    return '';
-  }
-
-  // Get option value from wp_options table
-  $option_value = get_option($option_name);
-
-  if ($option_value === false) {
-    return '';
-  }
-
-  // Unserialize if needed
-  if (is_string($option_value)) {
-    $unserialized = @unserialize($option_value);
-    if ($unserialized !== false) {
-      $option_value = $unserialized;
-    }
-  }
-
-  // Convert to string
-  if (is_array($option_value) || is_object($option_value)) {
-    $display_value = json_encode($option_value);
-  } else {
-    $display_value = (string) $option_value;
-  }
-
-  if (empty($display_value)) {
-    return '';
-  }
-
-  $tag = isset($attributes['tagName']) ? $attributes['tagName'] : 'p';
-  $href = isset($attributes['href']) ? $attributes['href'] : '';
-
-  // Validate tag name to prevent injection
-  $allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a');
-  if (!in_array($tag, $allowed_tags)) {
-    $tag = 'p';
-  }
-
-  // Build class array for typography, spacing, and color support
-  $classes = array('wp-block-chance-site-option');
-
-  // Add generated classes from block supports
-  if (isset($attributes['className'])) {
-    $classes[] = $attributes['className'];
-  }
-
-  $class_string = implode(' ', $classes);
-  $wrapper_attrs = get_block_wrapper_attributes(array('class' => $class_string));
-
-  // Handle link tag with href
-  if ($tag === 'a') {
-    $href_attr = esc_url($href);
-    return sprintf(
-      '<div %s><a href="%s">%s</a></div>',
-      $wrapper_attrs,
-      $href_attr,
-      esc_html($display_value)
-    );
-  }
-
-  return sprintf(
-    '<div %s><%s>%s</%s></div>',
-    $wrapper_attrs,
-    $tag,
-    esc_html($display_value),
-    $tag
-  );
+if (!$option_name) {
+  return;
 }
+
+// Get option value from wp_options table
+$option_value = get_option($option_name);
+
+if ($option_value === false) {
+  return;
+}
+
+// Unserialize if needed
+if (is_string($option_value)) {
+  $unserialized = @unserialize($option_value);
+  if ($unserialized !== false) {
+    $option_value = $unserialized;
+  }
+}
+
+// Convert to string
+if (is_array($option_value) || is_object($option_value)) {
+  $display_value = json_encode($option_value);
+} else {
+  $display_value = (string) $option_value;
+}
+
+if (empty($display_value)) {
+  return;
+}
+
+$tag = isset($attributes['tagName']) ? $attributes['tagName'] : 'p';
+$href = isset($attributes['href']) ? $attributes['href'] : '';
+
+// Validate tag name to prevent injection
+$allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a');
+if (!in_array($tag, $allowed_tags)) {
+  $tag = 'p';
+}
+
+// Build class array for typography, spacing, and color support
+$classes = array('wp-block-chance-site-option');
+
+// Add generated classes from block supports
+if (isset($attributes['className'])) {
+  $classes[] = $attributes['className'];
+}
+
+$class_string = implode(' ', $classes);
+$wrapper_attrs = get_block_wrapper_attributes(array('class' => $class_string));
+
+// Handle link tag with href
+if ($tag === 'a') {
+  $href_attr = esc_url($href);
+  printf(
+    '<div %s><a href="%s">%s</a></div>',
+    $wrapper_attrs,
+    $href_attr,
+    esc_html($display_value)
+  );
+  return;
+}
+
+printf(
+  '<div %s><%s>%s</%s></div>',
+  $wrapper_attrs,
+  $tag,
+  esc_html($display_value),
+  $tag
+);
 
 /**
  * REST endpoint to fetch site option by name
  */
+if ( ! function_exists( 'register_site_option_rest_endpoint' ) ) :
 function register_site_option_rest_endpoint()
 {
   register_rest_route('chance/v1', '/site-option/(?P<option_name>[a-zA-Z0-9_-]+)', array(
@@ -93,6 +92,9 @@ function register_site_option_rest_endpoint()
   ));
 }
 
+endif;
+
+if ( ! function_exists( 'get_site_option_rest_callback' ) ) :
 function get_site_option_rest_callback($request)
 {
   $option_name = sanitize_text_field($request['option_name']);
@@ -125,5 +127,6 @@ function get_site_option_rest_callback($request)
 
   return new WP_REST_Response(array('value' => $value), 200);
 }
+endif;
 
 add_action('rest_api_init', 'register_site_option_rest_endpoint');

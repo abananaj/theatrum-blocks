@@ -5,9 +5,7 @@
  * Card Carousel Block - Server-side render callback
  */
 
-function render_card_carousel_block($attributes, $content, $block)
-{
-  $headline = isset($attributes['headline']) ? sanitize_text_field($attributes['headline']) : 'Headline';
+$headline = isset($attributes['headline']) ? sanitize_text_field($attributes['headline']) : 'Headline';
   $items = isset($attributes['items']) ? $attributes['items'] : [];
 
   // Build block classes
@@ -78,8 +76,7 @@ function render_card_carousel_block($attributes, $content, $block)
     </div>
   </div>
 <?php
-  return ob_get_clean();
-}
+echo ob_get_clean();
 
 // Register the block if it doesn't have render in block.json
 // register_block_type(
