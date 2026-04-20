@@ -27,10 +27,9 @@ wp.blocks.registerBlockType('chance/cover-card', {
       setIsLoading(true);
       setError('');
 
-      const url = `/wp-json/chance/v1/cover-card/${attributes.metaKey || attributes.postId}?current_post_id=${currentPostId}`;
+      const url = `/chance/v1/cover-card/${attributes.metaKey || attributes.postId}?current_post_id=${currentPostId}`;
 
-      fetch(url)
-        .then((response) => response.json())
+      wp.apiFetch({ path: url })
         .then((data) => {
           if (data.post_id) {
             setPostData(data);

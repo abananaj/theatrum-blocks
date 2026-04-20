@@ -24,10 +24,9 @@ wp.blocks.registerBlockType('chance/meta-repeater', {
 
       setIsLoading(true);
 
-      const url = `/wp-json/chance/v1/meta-repeater/${postId}/${attributes.repeaterKey}`;
+      const url = `/chance/v1/meta-repeater/${postId}/${attributes.repeaterKey}`;
 
-      fetch(url)
-        .then((response) => response.json())
+      wp.apiFetch({ path: url })
         .then((data) => {
           setRowCount(data.rows || 0);
           setIsLoading(false);

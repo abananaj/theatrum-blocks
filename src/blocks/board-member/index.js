@@ -27,8 +27,7 @@
         setIsLoading(true);
   
         // Fetch option using custom REST endpoint
-        fetch(`/wp-json/chance/v1/board-member/${attributes.optionName}`)
-          .then((response) => response.json())
+        wp.apiFetch({ path: `/chance/v1/board-member/${attributes.optionName}` })
           .then((data) => {
             setDisplayValue(data.value || '');
             setDisplayItems(data.items || []);

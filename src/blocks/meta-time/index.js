@@ -29,10 +29,9 @@ wp.blocks.registerBlockType('chance/meta-time', {
         ? (attributes.customFormat || 'h:i A')
         : attributes.timeFormat;
       const encodedFormat = encodeURIComponent(format);
-      const url = `/wp-json/chance/v1/meta-time/${postId}/${attributes.keyInput}/${encodedFormat}`;
+      const url = `/chance/v1/meta-time/${postId}/${attributes.keyInput}/${encodedFormat}`;
 
-      fetch(url)
-        .then((response) => response.json())
+      wp.apiFetch({ path: url })
         .then((data) => {
           setDisplayValue(data.value || '');
           setIsLoading(false);

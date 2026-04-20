@@ -18,10 +18,9 @@ wp.blocks.registerBlockType('chance/term-meta', {
 
       setIsLoading(true);
 
-      const url = `/wp-json/chance/v1/term-meta-field/${attributes.termId}/${attributes.metaKey}`;
+      const url = `/chance/v1/term-meta-field/${attributes.termId}/${attributes.metaKey}`;
 
-      fetch(url)
-        .then((response) => response.json())
+      wp.apiFetch({ path: url })
         .then((data) => {
           setMetaValue(data.value || '');
           setIsLoading(false);

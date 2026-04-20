@@ -19,8 +19,7 @@ wp.blocks.registerBlockType('chance/site-option', {
       setIsLoading(true);
 
       // Fetch option using custom REST endpoint
-      fetch(`/wp-json/chance/v1/site-option/${attributes.optionName}`)
-        .then((response) => response.json())
+      wp.apiFetch({ path: `/chance/v1/site-option/${attributes.optionName}` })
         .then((data) => {
           setDisplayValue(data.value || '');
           setIsLoading(false);

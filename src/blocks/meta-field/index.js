@@ -24,10 +24,9 @@ wp.blocks.registerBlockType('chance/meta-field', {
 
       setIsLoading(true);
 
-      const url = `/wp-json/chance/v1/post-meta/${postId}/${attributes.keyInput}`;
+      const url = `/chance/v1/post-meta/${postId}/${attributes.keyInput}`;
 
-      fetch(url)
-        .then((response) => response.json())
+      wp.apiFetch({ path: url })
         .then((data) => {
           setDisplayValue(data.value || '');
           setIsLoading(false);

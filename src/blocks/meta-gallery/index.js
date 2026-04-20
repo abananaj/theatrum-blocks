@@ -22,8 +22,7 @@ wp.blocks.registerBlockType('chance/meta-gallery', {
 
       setIsLoading(true);
 
-      fetch(`/wp-json/chance/v1/meta-gallery/${postId}/${attributes.keyInput}`)
-        .then((r) => r.json())
+      wp.apiFetch({ path: `/chance/v1/meta-gallery/${postId}/${attributes.keyInput}` })
         .then((data) => {
           setImages(Array.isArray(data.images) ? data.images : []);
           setIsLoading(false);

@@ -18,11 +18,11 @@ if (get_post_type() !== 'ct-production') {
   return;
 }
 
-  $post_id = get_the_ID();
+$post_id = get_the_ID();
 
-  // Retrieve production details from post meta
-  $venue = get_post_meta($post_id, '_venue', true);
-  $venue_room = get_post_meta($post_id, '_venue_room', true);
+// Retrieve production details from post meta
+$venue = get_post_meta($post_id, '_venue', true);
+$venue_room = get_post_meta($post_id, '_venue_room', true);
 
 if (empty($venue) && empty($venue_room)) {
   return;

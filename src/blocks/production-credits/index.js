@@ -23,8 +23,7 @@ wp.blocks.registerBlockType('chance/production-credits', {
       setIsLoading(true);
 
       // Fetch credits using REST endpoint
-      fetch(`/wp-json/chance/v1/production-credits/${postId}`)
-        .then((response) => response.json())
+      wp.apiFetch({ path: `/chance/v1/production-credits/${postId}` })
         .then((data) => {
           setCredits(data.credits || []);
           setIsLoading(false);

@@ -39,10 +39,9 @@ wp.blocks.registerBlockType('chance/meta-date', {
         ? (attributes.customFormat || 'Y-m-d')
         : attributes.dateFormat;
       const encodedFormat = encodeURIComponent(format);
-      const url = `/wp-json/chance/v1/meta-date/${postId}/${attributes.keyInput}/${encodedFormat}`;
+      const url = `/chance/v1/meta-date/${postId}/${attributes.keyInput}/${encodedFormat}`;
 
-      fetch(url)
-        .then((response) => response.json())
+      wp.apiFetch({ path: url })
         .then((data) => {
           setDisplayValue(data.value || '');
           setIsLoading(false);
