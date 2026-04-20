@@ -435,7 +435,7 @@ function get_board_member_rest_callback($request)
     return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
   }
 
-  if (is_string($value)) {
+  if (is_string($value) && is_serialized($value)) {
     $unserialized = unserialize($value, ['allowed_classes' => false]);
     if ($unserialized !== false) {
       $value = $unserialized;
@@ -528,8 +528,8 @@ function get_site_option_rest_callback($request)
     return new WP_REST_Response(array('value' => ''), 200);
   }
 
-  if (is_string($value)) {
-    $unserialized = @unserialize($value);
+  if (is_string($value) && is_serialized($value)) {
+    $unserialized = unserialize($value, ['allowed_classes' => false]);
     if ($unserialized !== false) {
       $value = $unserialized;
     }
@@ -570,7 +570,7 @@ function get_staff_member_rest_callback($request)
     return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
   }
 
-  if (is_string($value)) {
+  if (is_string($value) && is_serialized($value)) {
     $unserialized = unserialize($value, ['allowed_classes' => false]);
     if ($unserialized !== false) {
       $value = $unserialized;

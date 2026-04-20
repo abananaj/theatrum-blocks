@@ -19,8 +19,8 @@ if ($option_value === false) {
 }
 
 // Unserialize if needed
-if (is_string($option_value)) {
-  $unserialized = @unserialize($option_value);
+if (is_string($option_value) && is_serialized($option_value)) {
+  $unserialized = unserialize($option_value, ['allowed_classes' => false]);
   if ($unserialized !== false) {
     $option_value = $unserialized;
   }

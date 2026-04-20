@@ -1,4 +1,4 @@
-(function() {
+(function () {
   if (typeof wp === 'undefined' || !wp.blocks || !wp.blockEditor || !wp.element || !wp.components || !wp.data) {
     console.warn('WordPress block dependencies not available');
     return;
@@ -10,12 +10,12 @@
       const { TextControl, SelectControl, Spinner } = wp.components;
       const { useBlockProps, InspectorControls } = wp.blockEditor;
       const { Fragment, useState, useEffect } = wp.element;
-  
+
       const blockProps = useBlockProps({ style: { background: 'transparent', padding: 0 } });
       const [displayValue, setDisplayValue] = useState('');
       const [displayItems, setDisplayItems] = useState([]);
       const [isLoading, setIsLoading] = useState(false);
-  
+
       // Fetch the option value when optionName changes
       useEffect(() => {
         if (!attributes.optionName) {
@@ -23,9 +23,9 @@
           setDisplayItems([]);
           return;
         }
-  
+
         setIsLoading(true);
-  
+
         // Fetch option using custom REST endpoint
         wp.apiFetch({ path: `/chance/v1/board-member/${attributes.optionName}` })
           .then((data) => {
@@ -40,13 +40,13 @@
             setIsLoading(false);
           });
       }, [attributes.optionName]);
-  
+
       // Render items with full formatting (matching frontend)
       const renderItems = () => {
         if (displayItems.length === 0) {
           return null;
         }
-  
+
         return wp.element.createElement(
           'div',
           { style: { marginTop: '8px' } },
@@ -77,7 +77,7 @@
           )
         );
       };
-  
+
       return wp.element.createElement(
         Fragment,
         null,
@@ -142,5 +142,5 @@
     },
     save: () => null
   });
-  
+
 })();

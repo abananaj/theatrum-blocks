@@ -93,4 +93,3 @@ wp.blocks.registerBlockType('chance/meta-repeater', {
     return null;
   }
 });
-  
