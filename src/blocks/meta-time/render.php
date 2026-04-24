@@ -7,6 +7,8 @@
 
 $key = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
 $time_format = isset($attributes['timeFormat']) ? sanitize_text_field($attributes['timeFormat']) : 'h:i A';
+$prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
+$append = isset($attributes['append']) ? $attributes['append'] : '';
 
 // If custom format is selected, use the custom format value
 if ($time_format === 'custom') {
@@ -47,6 +49,8 @@ if (!$timestamp) {
 } else {
   $display_value = wp_date($format, $timestamp);
 }
+
+$display_value = $prepend . $display_value . $append;
 
 printf(
   '<%1$s %2$s>%3$s</%1$s>',

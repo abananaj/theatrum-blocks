@@ -1,0 +1,65 @@
+/* Frontend Styles */
+.wp-block-production-card {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.9;
+	}
+}
+
+.wp-block-cover {
+	background-size: cover;
+	background-position: center;
+	min-height: 300px;
+	display: flex;
+	align-items: flex-end;
+}
+
+.wp-block-cover__content {
+	width: 100%;
+}
+
+.wp-block-production-card__bottom-bar {
+	padding: 20px;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+}
+
+.wp-block-production-card__title {
+	margin: 0 0 12px 0;
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.wp-block-production-card__meta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.wp-block-production-card__dates {
+	margin: 0;
+	font-size: 14px;
+	color: #fff;
+}
+
+.wp-element-button {
+	background-color: #0073aa;
+	color: #fff;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+
+	&:hover {
+		background-color: #005a87;
+	}
+}

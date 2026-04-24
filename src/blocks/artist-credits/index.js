@@ -1,3 +1,4 @@
+import './editor.scss';
 wp.blocks.registerBlockType('chance/artist-credits', {
   edit: (props) => {
     const { useBlockProps } = wp.blockEditor;

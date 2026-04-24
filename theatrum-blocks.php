@@ -53,6 +53,8 @@ function theatrum_register_blocks()
 		'meta-image',
 		'meta-repeater',
 		'meta-time',
+		// 'onstage-current',  // TODO: Build these blocks
+		// 'onstage-next',     // TODO: Build these blocks
 		'popup',
 		'production-credits',
 		'production-details',
@@ -67,3 +69,18 @@ function theatrum_register_blocks()
 	}
 }
 add_action('init', 'theatrum_register_blocks');
+
+/**
+ * Registers the block variations using block.json files
+ */
+function theatrum_register_block_variations()
+{
+	$variation_blocks = array(
+		'post-cover',
+	);
+
+	foreach ($variation_blocks as $block) {
+		register_block_type(__DIR__ . '/build/blocks/_variations/' . $block);
+	}
+}
+add_action('init', 'theatrum_register_block_variations');

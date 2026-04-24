@@ -1,0 +1,76 @@
+.wp-block-chance-post-cover {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.wp-block-cover__image-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-attachment: scroll;
+		background-position: center;
+	}
+
+	.wp-block-cover__overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	.wp-block-cover__inner-container {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		max-width: 100%;
+		padding: 2rem;
+		box-sizing: border-box;
+
+		> * {
+			z-index: 1;
+		}
+
+		/* Support for core blocks */
+		&.is-dark {
+			color: #ffffff;
+
+			p,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				color: inherit;
+			}
+		}
+
+		&.is-light {
+			color: #000000;
+
+			p,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				color: inherit;
+			}
+		}
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.wp-block-cover__inner-container {
+			padding: 1.5rem;
+		}
+	}
+}

@@ -170,3 +170,229 @@ function theatrum_parse_flexible_time($time_str)
 	wp_cache_set($cache_key, null, 'ct_times', HOUR_IN_SECONDS);
 	return null;
 }
+
+/**
+ * Get current production for the season
+ *
+ * Retrieves a single production that is either currently running, or if none are running,
+ * the next upcoming production closest to today.
+ *
+ * @return array|null Production object with: ID, title, featured_image, opening, closing
+ *                    or null if none found
+ */
+function chance_get_current_production()
+{
+	// Get current_season from wp_options
+	$current_season = get_option('options_current_season');
+
+	if (empty($current_season)) {
+		return null;
+	}
+
+	$today_time = time();
+
+	// First, try to find a production that is currently running
+	$args = [
+		'post_type' => 'ct-production',
+		'posts_per_page' => 1,
+		'tax_query' => [
+			[
+				'taxonomy' => 'series',
+				'terms' => ['main', 'holiday'],
+				'operator' => 'IN',
+				'field' => 'slug'
+			],
+			[
+				'taxonomy' => 'season',
+				'terms' => [$current_season],
+				'operator' => 'IN',
+				'field' => 'term_id'
+			]
+		],
+		'meta_query' => [
+			[
+				'key' => 'opening',
+				'value' => $today_time,
+				'compare' => '<=',
+				'type' => 'DATETIME'
+			],
+			[
+				'key' => 'closing',
+				'value' => $today_time,
+				'compare' => '>=',
+				'type' => 'DATETIME'
+			]
+		]
+	];
+
+	$query = new WP_Query($args);
+
+	if ($query->have_posts()) {
+		$post = $query->posts[0];
+		wp_reset_postdata();
+
+		return chance_build_production_data($post);
+	}
+
+	// If nothing is currently running, get the closest upcoming production
+	$args = [
+		'post_type' => 'ct-production',
+		'posts_per_page' => 1,
+		'orderby' => 'meta_value',
+		'meta_key' => 'opening',
+		'order' => 'ASC',
+		'tax_query' => [
+			[
+				'taxonomy' => 'series',
+				'terms' => ['main', 'holiday'],
+				'operator' => 'IN',
+				'field' => 'slug'
+			],
+			[
+				'taxonomy' => 'season',
+				'terms' => [$current_season],
+				'operator' => 'IN',
+				'field' => 'term_id'
+			]
+		],
+		'meta_query' => [
+			[
+				'key' => 'opening',
+				'value' => date('Y-m-d', $today_time),
+				'compare' => '>',
+				'type' => 'DATE'
+			]
+		]
+	];
+
+	$query = new WP_Query($args);
+
+	if ($query->have_posts()) {
+		$post = $query->posts[0];
+		wp_reset_postdata();
+
+		return chance_build_production_data($post);
+	}
+
+	wp_reset_postdata();
+	return null;
+}
+
+/**
+ * Get next production for the season
+ *
+ * Retrieves the next production after the current one.
+ *
+ * @return array|null Production object with: ID, title, featured_image, opening, closing
+ *                    or null if none found
+ */
+function chance_get_next_production()
+{
+	// Get current_season from wp_options
+	$current_season = get_option('options_current_season');
+
+	if (empty($current_season)) {
+		return null;
+	}
+
+	$today_time = time();
+	$current_prod = chance_get_current_production();
+
+	if (!$current_prod) {
+		return null;
+	}
+
+	// Get the opening date of current production to find the next one after it
+	$current_opening = strtotime($current_prod['opening']);
+
+	$args = [
+		'post_type' => 'ct-production',
+		'posts_per_page' => 1,
+		'orderby' => 'meta_value',
+		'meta_key' => 'opening',
+		'order' => 'ASC',
+		'tax_query' => [
+			[
+				'taxonomy' => 'series',
+				'terms' => ['main', 'holiday'],
+				'operator' => 'IN',
+				'field' => 'slug'
+			],
+			[
+				'taxonomy' => 'season',
+				'terms' => [$current_season],
+				'operator' => 'IN',
+				'field' => 'term_id'
+			]
+		],
+		'meta_query' => [
+			[
+				'key' => 'opening',
+				'value' => date('Y-m-d H:i:s', $current_opening),
+				'compare' => '>',
+				'type' => 'DATETIME'
+			]
+		]
+	];
+
+	$query = new WP_Query($args);
+
+	if ($query->have_posts()) {
+		$post = $query->posts[0];
+		wp_reset_postdata();
+
+		return chance_build_production_data($post);
+	}
+
+	wp_reset_postdata();
+	return null;
+}
+
+/**
+ * Build production data array from post object
+ *
+ * @param WP_Post $post Post object
+ *
+ * @return array Production data with: ID, title, featured_image, featured_image_id, opening, closing, slug
+ */
+function chance_build_production_data($post)
+{
+	$opening_str = get_post_meta($post->ID, 'opening', true);
+	$closing_str = get_post_meta($post->ID, 'closing', true);
+
+	$featured_image_id = get_post_thumbnail_id($post->ID);
+	$featured_image_url = $featured_image_id ? wp_get_attachment_url($featured_image_id) : null;
+
+	return [
+		'ID' => $post->ID,
+		'title' => $post->post_title,
+		'featured_image' => $featured_image_url,
+		'featured_image_id' => $featured_image_id,
+		'opening' => $opening_str,
+		'closing' => $closing_str,
+		'slug' => $post->post_name,
+		'url' => get_permalink($post->ID)
+	];
+}
+
+/**
+ * Format production date from datetime string to readable string
+ *
+ * @param string $date Date string in Y-m-d H:i:s format
+ * @param string $format PHP date format string (default: 'F j, Y')
+ *
+ * @return string Formatted date or empty string if invalid
+ */
+function chance_format_production_date($date, $format = 'M j')
+{
+	if (empty($date)) {
+		return '';
+	}
+
+	$timestamp = strtotime($date);
+	if ($timestamp !== false) {
+		return date($format, $timestamp);
+	}
+
+	return '';
+}

@@ -70,15 +70,15 @@ wp.blocks.registerBlockType('chance/meta-button', {
           'a',
           {
             href: urlValue,
-            className: 'wp-block-button__link',
+            className: ['wp-block-button__link', 'wp-element-button'],
             style: {
-              display: 'inline-block',
-              padding: '12px 24px',
-              backgroundColor: '#3858e9',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
+              // display: 'inline-block',
+              // padding: '12px 24px',
+              // backgroundColor: '#3858e9',
+              // color: 'white',
+              // textDecoration: 'none',
+              // borderRadius: '4px',
+              // cursor: 'pointer'
             }
           },
           attributes.buttonText || 'Learn More'

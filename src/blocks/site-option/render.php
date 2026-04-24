@@ -6,6 +6,8 @@
  */
 
 $option_name = isset($attributes['optionName']) ? $attributes['optionName'] : '';
+$prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
+$append = isset($attributes['append']) ? $attributes['append'] : '';
 
 if (!$option_name) {
   return;
@@ -32,6 +34,8 @@ if (is_array($option_value) || is_object($option_value)) {
 } else {
   $display_value = (string) $option_value;
 }
+
+$display_value = $prepend . $display_value . $append;
 
 if (empty($display_value)) {
   return;

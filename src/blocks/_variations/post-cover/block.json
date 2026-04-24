@@ -1,0 +1,110 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/post-cover",
+	"title": "Post Cover",
+	"category": "media",
+	"parent": [],
+	"description": "Display a featured image from a selected post as a cover block with all core Cover block functionality",
+	"icon": "cover-image",
+	"keywords": ["cover", "image", "post", "background"],
+	"supports": {
+		"align": ["full", "wide", "left", "right", "center"],
+		"className": true,
+		"customClassName": true,
+		"anchor": true,
+		"reusable": true,
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true,
+		"opacity": true,
+		"filters": {
+			"duotone": true
+		}
+	},
+	"usesContext": [],
+	"attributes": {
+		"postId": {
+			"type": "number",
+			"default": 0,
+			"__experimentalRole": "content"
+		},
+		"dimRatio": {
+			"type": "number",
+			"default": 50,
+			"__experimentalRole": "content"
+		},
+		"overlayColor": {
+			"type": "string",
+			"__experimentalRole": "content"
+		},
+		"customOverlayColor": {
+			"type": "string",
+			"__experimentalRole": "content"
+		},
+		"focalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			},
+			"__experimentalRole": "content"
+		},
+		"minHeight": {
+			"type": ["number", "string"],
+			"__experimentalRole": "content"
+		},
+		"minHeightUnit": {
+			"type": "string",
+			"__experimentalRole": "content"
+		},
+		"contentPosition": {
+			"type": "string",
+			"default": "center center",
+			"__experimentalRole": "content"
+		},
+		"isDark": {
+			"type": "boolean",
+			"default": false,
+			"__experimentalRole": "content"
+		},
+		"isRepeated": {
+			"type": "boolean",
+			"default": false,
+			"__experimentalRole": "content"
+		},
+		"allowedBlocks": {
+			"type": "array",
+			"__experimentalRole": "content"
+		}
+	},
+	"editorScript": "file:./index.ts",
+	"editorStyle": "file:./editor.scss",
+	"style": "file:./style.scss",
+	"render": "file:./render.php"
+}

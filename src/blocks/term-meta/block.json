@@ -56,6 +56,14 @@
 		"tagName": {
 			"type": "string",
 			"default": "p"
+		},
+		"prepend": {
+			"type": "string",
+			"default": ""
+		},
+		"append": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"textdomain": "term-meta",

@@ -23,7 +23,7 @@
 			"fontStyle": true,
 			"lineHeight": true,
 			"letterSpacing": true,
-			"textDecoration": true, 
+			"textDecoration": true,
 			"textTransform": true,
 			"textColumns": false
 		},
@@ -61,6 +61,14 @@
 		"tagName": {
 			"type": "string",
 			"default": "p"
+		},
+		"prepend": {
+			"type": "string",
+			"default": ""
+		},
+		"append": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"textdomain": "meta-time",

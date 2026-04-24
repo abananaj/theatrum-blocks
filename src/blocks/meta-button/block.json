@@ -25,7 +25,7 @@
 			"letterSpacing": true,
 			"textDecoration": true,
 			"textTransform": true,
-			"textColumns": false
+			"textColumns": true
 		},
 		"spacing": {
 			"margin": true,

@@ -21,8 +21,8 @@ if (empty($url)) {
 }
 
 printf(
-  '<a %1$s href="%2$s" class="wp-block-button__link">%3$s</a>',
-  get_block_wrapper_attributes(array('class' => 'wp-block-button')),
+  '<div %1$s><a href="%2$s" class="wp-block-button__link wp-element-button">%3$s</a></div>',
+  get_block_wrapper_attributes( array( 'class' => 'wp-block-button' ) ),
   $url,
   esc_html($button_text)
 );

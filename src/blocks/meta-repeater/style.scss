@@ -1,10 +1,15 @@
 /* Meta Repeater Block Styles */
 
 .wp-block-chance-meta-repeater {
-  margin: 1rem 0;
-  padding-left: 2rem;
+	/* margin: 1rem 0; */
+	/* padding-left: 2rem; */
+	list-style: none;
+	ul {
+		list-style: none;
+	}
 }
 
+/* 
 .wp-block-chance-meta-repeater li {
   margin-bottom: 0.75rem;
   line-height: 1.6;
@@ -28,3 +33,4 @@
   border-left: 4px solid #3858e9;
   margin-bottom: 0;
 }
+*/

@@ -6,6 +6,8 @@
  */
 
 $option_name = isset($attributes['optionName']) ? $attributes['optionName'] : '';
+$prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
+$append = isset($attributes['append']) ? $attributes['append'] : '';
 
 if (!$option_name) {
   return;
@@ -68,7 +70,7 @@ if (is_array($option_value)) {
   }
 
   // Build HTML for each person
-  $html = '<div class="wp-block-chance-staff-member">';
+  $html = '<div class="wp-block-chance-staff-member">' . esc_html($prepend);
 
   foreach ($post_ids as $post_id) {
     $post_id = (int) $post_id;
@@ -93,11 +95,12 @@ if (is_array($option_value)) {
     }
   }
 
-  $html .= '</div>';
+  $html .= '</div>' . esc_html($append);
   echo $html;
 } else {
   // Single value - display as-is
   $display_value = (string) $option_value;
+  $display_value = $prepend . $display_value . $append;
   if (empty($display_value)) {
     return;
   }

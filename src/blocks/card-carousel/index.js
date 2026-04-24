@@ -1,4 +1,5 @@
 // Frontend carousel functionality
+import './editor.scss';
 document.addEventListener('DOMContentLoaded', initializeCarousels);
 
 function initializeCarousels() {
