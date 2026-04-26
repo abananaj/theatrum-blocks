@@ -69,7 +69,7 @@ while ($query->have_posts()) {
     $production_title = get_the_title($production_id);
     $production_url = get_permalink($production_id);
 
-    $html .= '<li class="credit"><a href="' . esc_url($production_url) . '"><p class="production">' . esc_html($production_title) . '</p></a>';
+    $html .= '<li class="credit"><a href="' . esc_url($production_url) . '"><p class="title">' . esc_html($production_title) . '</p></a>';
 
     // Display role, or fallback to role-group if role is blank
     $display_role = $role;
