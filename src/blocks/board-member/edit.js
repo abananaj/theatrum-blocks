@@ -41,6 +41,7 @@ export default function Edit({ attributes, setAttributes }) {
 		// Fetch option using custom REST endpoint
 		apiFetch({ path: `/chance/v1/board-member/${attributes.optionName}` })
 			.then((data) => {
+				console.log('Board member data:', data);
 				setDisplayValue(data.value || '');
 				setDisplayItems(data.items || []);
 				setIsLoading(false);
@@ -70,7 +71,6 @@ export default function Edit({ attributes, setAttributes }) {
 						) : (
 							<strong>{item.title}</strong>
 						)}
-						{item.position !== 'Board Members' && <span>, {item.position}</span>}
 						{item.meta_title && <br />}
 						{item.meta_title && <em>{item.meta_title}</em>}
 					</p>

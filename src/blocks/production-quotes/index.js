@@ -1,9 +1,10 @@
-wp.blocks.registerBlockType('chance/production-quotes', {
-  edit: (props) => {
-    return wp.element.createElement(wp.serverSideRender, {
-      block: 'chance/production-quotes',
-      attributes: props.attributes
-    });
-  },
-  save: () => null
+import { registerBlockType } from '@wordpress/blocks';
+import './style.scss';
+import './editor.scss';
+import Edit from './edit';
+import metadata from './block.json';
+
+registerBlockType(metadata.name, {
+  edit: Edit,
+  save: () => null,
 });

@@ -296,7 +296,9 @@ function register_meta_gallery_rest_endpoint()
       return current_user_can('edit_posts');
     },
     'args' => [
-      'post_id' => ['validate_callback' => function ($param) { return is_numeric($param); }],
+      'post_id' => ['validate_callback' => function ($param) {
+        return is_numeric($param);
+      }],
       'key'     => ['sanitize_callback' => 'sanitize_key'],
     ],
   ]);
@@ -363,7 +365,9 @@ function register_meta_image_rest_endpoint()
       return current_user_can('edit_posts');
     },
     'args' => [
-      'post_id' => ['validate_callback' => function ($param) { return is_numeric($param); }],
+      'post_id' => ['validate_callback' => function ($param) {
+        return is_numeric($param);
+      }],
       'key'     => ['sanitize_callback' => 'sanitize_key'],
     ],
   ]);
@@ -497,15 +501,30 @@ function get_board_member_rest_callback($request)
   }
 
   if (is_string($value)) {
+    // Check if it's a single numeric post ID
+    if (is_numeric($value) && !empty($value)) {
+      $post_id = (int) $value;
+      $post_title = get_the_title($post_id);
+      $post_url = get_permalink($post_id);
+      $post_meta_title = get_post_meta($post_id, 'title', true);
+
+      if (!empty($post_title)) {
+        return new WP_REST_Response(array(
+          'value' => '',
+          'items' => array(array(
+            'title' => html_entity_decode($post_title, ENT_QUOTES, 'UTF-8'),
+            'url' => $post_url,
+            'meta_title' => html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8'),
+            'position' => $pretty_option_name,
+          ))
+        ), 200);
+      }
+    }
     $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
   }
 
   return new WP_REST_Response(array('value' => $value, 'items' => array()), 200);
 }
-
-/* -----------------------------------------------------------------------
- * Site Option
- * -------------------------------------------------------------------- */
 
 function register_site_option_rest_endpoint()
 {
@@ -632,6 +651,25 @@ function get_staff_member_rest_callback($request)
   }
 
   if (is_string($value)) {
+    // Check if it's a single numeric post ID
+    if (is_numeric($value) && !empty($value)) {
+      $post_id = (int) $value;
+      $post_title = get_the_title($post_id);
+      $post_url = get_permalink($post_id);
+      $post_meta_title = get_post_meta($post_id, 'title', true);
+
+      if (!empty($post_title)) {
+        return new WP_REST_Response(array(
+          'value' => '',
+          'items' => array(array(
+            'title' => html_entity_decode($post_title, ENT_QUOTES, 'UTF-8'),
+            'url' => $post_url,
+            'meta_title' => html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8'),
+            'position' => $pretty_option_name,
+          ))
+        ), 200);
+      }
+    }
     $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
   }
 
@@ -777,4 +815,66 @@ function get_production_credits_rest($request)
 
   wp_reset_postdata();
   return new WP_REST_Response(array('credits' => $credits), 200);
+}
+
+/* -----------------------------------------------------------------------
+ * Meta Embed
+ * -------------------------------------------------------------------- */
+
+function register_meta_embed_rest_endpoint()
+{
+  register_rest_route('chance/v1', '/meta-embed/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
+    'methods'             => 'GET',
+    'callback'            => 'meta_embed_rest_callback',
+    'permission_callback' => function () {
+      return current_user_can('edit_posts');
+    },
+    'args' => [
+      'post_id' => ['validate_callback' => function ($param) {
+        return is_numeric($param);
+      }],
+      'key'     => ['sanitize_callback' => 'sanitize_key'],
+    ],
+  ]);
+}
+add_action('rest_api_init', 'register_meta_embed_rest_endpoint');
+
+function meta_embed_rest_callback($request)
+{
+  $post_id = intval($request->get_param('post_id'));
+  $key     = sanitize_key($request->get_param('key'));
+
+  if (!$post_id || !$key) {
+    return new WP_REST_Response(['html' => ''], 200);
+  }
+
+  // Get the URL from meta or ACF
+  $url = get_field($key, $post_id);
+  if ($url === null || $url === false || $url === '') {
+    $url = get_post_meta($post_id, $key, true);
+  }
+
+  if (empty($url) || !is_string($url)) {
+    return new WP_REST_Response(['html' => ''], 200);
+  }
+
+  $url = esc_url_raw($url);
+  if (empty($url)) {
+    return new WP_REST_Response(['html' => ''], 200);
+  }
+
+  // Try oEmbed first
+  $embed_html = wp_oembed_get($url);
+
+  if ($embed_html) {
+    return new WP_REST_Response(['html' => $embed_html], 200);
+  }
+
+  // Fallback to iframe embed for direct URLs
+  $iframe_html = sprintf(
+    '<iframe src="%s" width="100%%" height="400" frameborder="0" allowfullscreen></iframe>',
+    esc_attr($url)
+  );
+
+  return new WP_REST_Response(['html' => $iframe_html], 200);
 }

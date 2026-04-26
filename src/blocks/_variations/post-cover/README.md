@@ -38,6 +38,7 @@ A dynamic block that extends the WordPress Core Cover block with featured image 
 ## Server-Side Rendering
 
 The block uses server-side rendering (render.php) to:
+
 - Fetch the selected post data
 - Retrieve the featured image URL
 - Apply all styling and overlay settings
@@ -46,6 +47,7 @@ The block uses server-side rendering (render.php) to:
 ## Frontend Display
 
 The block renders with:
+
 - Featured image background from the selected post
 - Customizable overlay for text readability
 - All CSS classes compatible with WordPress core Cover block styling
@@ -54,6 +56,7 @@ The block renders with:
 ## Nesting Support
 
 Supports nesting of these core blocks inside:
+
 - Heading blocks
 - Paragraph blocks
 - Button blocks

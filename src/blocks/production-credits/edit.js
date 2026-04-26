@@ -1,38 +1,70 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
 import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+import { useState, useEffect } from '@wordpress/element';
+import { Spinner } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
 export default function Edit() {
+	const blockProps = useBlockProps();
+	const [credits, setCredits] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const postId = useSelect((select) => select('core/editor').getCurrentPostId());
+
+	useEffect(() => {
+		if (!postId) {
+			setCredits([]);
+			return;
+		}
+
+		setIsLoading(true);
+
+		apiFetch({ path: `/chance/v1/production-credits/${postId}` })
+			.then((data) => {
+				setCredits(data.credits || []);
+				setIsLoading(false);
+			})
+			.catch(() => {
+				setCredits([]);
+				setIsLoading(false);
+			});
+	}, [postId]);
+
+	const decodeHtmlEntities = (text) => {
+		const textarea = document.createElement('textarea');
+		textarea.innerHTML = text;
+		return textarea.value;
+	};
+
+	const listItems = credits.map((credit) => {
+		const artistTitle = decodeHtmlEntities(credit.artist_title);
+		const role = credit.role ? decodeHtmlEntities(credit.role) : '';
+
+		return (
+			<li key={credit.id}>
+				<a href={credit.artist_url}>
+					<span className="artist">{artistTitle}</span>
+				</a>
+				{role && (
+					<>
+						,{' '}
+						<span className="role">{role}</span>
+					</>
+				)}
+			</li>
+		);
+	});
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Block Artist Credits – hello from the editor!', 'artist-credits' ) }
-		</p>
+		<div {...blockProps}>
+			{isLoading ? (
+				<Spinner />
+			) : (
+				<ul className="production-credits-ul">
+					{credits.length > 0 ? listItems : <li>No credits found</li>}
+				</ul>
+			)}
+		</div>
 	);
 }

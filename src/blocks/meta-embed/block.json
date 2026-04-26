@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/meta-embed",
+	"title": "Meta Embed",
+	"category": "embed",
+	"description": "Embed a resource from a URL stored in post metadata",
+	"icon": "embed-generic",
+	"supports": {
+		"html": false,
+		"align": ["left", "center", "right", "wide", "full"],
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true
+	},
+	"usesContext": ["postId", "postType"],
+	"attributes": {
+		"keyInput": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "meta-embed",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

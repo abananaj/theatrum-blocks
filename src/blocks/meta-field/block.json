@@ -4,6 +4,7 @@
 	"name": "chance/meta-field",
 	"title": "Meta Field",
 	"category": "widgets",
+	"parent": ["core/paragraph", "core/heading"],
 	"description": "Display a value from post metadata by entering a key",
 	"icon": "admin-generic",
 	"supports": {
@@ -52,7 +53,7 @@
 		},
 		"tagName": {
 			"type": "string",
-			"default": "p"
+			"default": "span"
 		},
 		"href": {
 			"type": "string",

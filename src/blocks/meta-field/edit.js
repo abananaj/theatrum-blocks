@@ -5,7 +5,7 @@
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Fragment, useState, useEffect } from '@wordpress/element';
-import { TextControl, SelectControl, Spinner } from '@wordpress/components';
+import { TextControl, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
@@ -42,7 +42,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 			});
 	}, [attributes.keyInput, postId]);
 
-	const Tag = attributes.tagName || 'p';
 	const displayText = displayValue || `[${attributes.keyInput}]`;
 	const prependText = attributes.prepend || '';
 	const appendText = attributes.append || '';
@@ -73,46 +72,15 @@ export default function Edit({ attributes, setAttributes, context }) {
 						placeholder="Text to append"
 						help="Optional plain text to add after the value"
 					/>
-					<SelectControl
-						label="HTML Tag"
-						value={attributes.tagName || 'p'}
-						onChange={(value) => setAttributes({ tagName: value })}
-						options={[
-							{ label: '<p>', value: 'p' },
-							{ label: '<span>', value: 'span' },
-							{ label: '<a>', value: 'a' },
-							{ label: '<h1>', value: 'h1' },
-							{ label: '<h2>', value: 'h2' },
-							{ label: '<h3>', value: 'h3' },
-							{ label: '<h4>', value: 'h4' },
-							{ label: '<h5>', value: 'h5' },
-							{ label: '<h6>', value: 'h6' }
-						]}
-					/>
-					{attributes.tagName === 'a' && (
-						<TextControl
-							label="Link URL"
-							value={attributes.href || ''}
-							onChange={(value) => setAttributes({ href: value })}
-							placeholder="https://example.com"
-							help="Enter the URL for the link"
-						/>
-					)}
 				</div>
 			</InspectorControls>
 			<div {...blockProps}>
 				{isLoading ? (
 					<Spinner />
 				) : attributes.keyInput ? (
-					Tag === 'a' && attributes.href ? (
-						<a href={attributes.href} className="wp-block-chance-post-meta-field" style={{ wordBreak: 'break-word' }}>
-							{finalText}
-						</a>
-					) : (
-						<Tag className="wp-block-chance-post-meta-field" style={{ margin: 0, padding: '8px 0', wordBreak: 'break-word' }}>
-							{finalText}
-						</Tag>
-					)
+					<span className="wp-block-chance-post-meta-field" style={{ wordBreak: 'break-word' }}>
+						{finalText}
+					</span>
 				) : (
 					<em style={{ color: '#999' }}>Enter a key to display its value</em>
 				)}

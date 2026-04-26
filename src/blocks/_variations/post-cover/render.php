@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Post Cover Block — Render template
  * $attributes, $content, $block are injected by WordPress.

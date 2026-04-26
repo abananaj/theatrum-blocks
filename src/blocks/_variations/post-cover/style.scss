@@ -37,7 +37,7 @@
 			z-index: 1;
 		}
 
-		/* Support for core blocks */
+		// Support for core blocks
 		&.is-dark {
 			color: #ffffff;
 
@@ -67,7 +67,7 @@
 		}
 	}
 
-	/* Responsive */
+	// Responsive
 	@media (max-width: 768px) {
 		.wp-block-cover__inner-container {
 			padding: 1.5rem;

@@ -1,38 +1,54 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
+import { useBlockProps, InspectorControls, InnerBlocks } from '@wordpress/block-editor';
+import { Fragment, useState } from '@wordpress/element';
+import { TextControl, Button, PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { buttonText, isOpen } = attributes;
+	const blockProps = useBlockProps({ className: 'wp-block-chance-popup' });
+	const [open, setOpen] = useState(isOpen);
+
+	const togglePopup = () => {
+		setOpen(!open);
+		setAttributes({ isOpen: !open });
+	};
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Block Artist Credits – hello from the editor!', 'artist-credits' ) }
-		</p>
+		<Fragment>
+			<InspectorControls>
+				<PanelBody title={__('Popup Settings', 'chance-ollie')}>
+					<TextControl
+						label={__('Button Text', 'chance-ollie')}
+						value={buttonText || ''}
+						onChange={(value) => setAttributes({ buttonText: value })}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div {...blockProps}>
+				<Button
+					variant="primary"
+					onClick={togglePopup}
+					className="popup-toggle-button"
+				>
+					{buttonText}
+				</Button>
+				{open && (
+					<div
+						className="popup-backdrop"
+						onClick={togglePopup}
+						data-popup-backdrop="true"
+					/>
+				)}
+				<div
+					className={open ? 'popup-content-visible' : 'popup-content-hidden'}
+					style={{ display: open ? 'block' : 'none', marginTop: '12px' }}
+				>
+					<div className="wp-block-group popup-inner-content">
+						<InnerBlocks />
+					</div>
+				</div>
+			</div>
+		</Fragment>
 	);
 }

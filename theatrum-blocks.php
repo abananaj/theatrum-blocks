@@ -53,8 +53,8 @@ function theatrum_register_blocks()
 		'meta-image',
 		'meta-repeater',
 		'meta-time',
-		// 'onstage-current',  // TODO: Build these blocks
-		// 'onstage-next',     // TODO: Build these blocks
+		'onstage-current',
+		'onstage-next',
 		'popup',
 		'production-credits',
 		'production-details',

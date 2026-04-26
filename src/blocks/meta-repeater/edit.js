@@ -1,178 +1,83 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+import { Fragment, useState, useEffect } from '@wordpress/element';
+import { TextControl, SelectControl, Spinner } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
 
-import {
-	TextControl,
-	SelectControl,
-	Panel,
-	PanelBody,
-	PanelRow,
-} from '@wordpress/components';
-
-const TAG_OPTIONS = [
-	{ label: 'span', value: 'span' },
-	{ label: 'div', value: 'div' },
-	{ label: 'p', value: 'p' },
-	{ label: 'em', value: 'em' },
-	{ label: 'strong', value: 'strong' },
-	{ label: 'h1', value: 'h1' },
-	{ label: 'h2', value: 'h2' },
-	{ label: 'h3', value: 'h3' },
-	{ label: 'h4', value: 'h4' },
-	{ label: 'h5', value: 'h5' },
-	{ label: 'h6', value: 'h6' },
-];
-
-const WRAPPER_TAG_OPTIONS = [
-	{ label: 'ul', value: 'ul' },
-	{ label: 'ol', value: 'ol' },
-	{ label: 'div', value: 'div' },
-];
-
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit({ attributes, setAttributes }) {
-	const {
-		repeaterKey,
-		subfieldA,
-		subfieldB,
-		tagA,
-		tagB,
-		tagName,
-	} = attributes;
-
+export default function Edit({ attributes, setAttributes, context }) {
 	const blockProps = useBlockProps();
+	const [rowCount, setRowCount] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const editorPostId = useSelect((select) => select('core/editor').getCurrentPostId());
+	const contextPostId = context?.postId;
+	const postId = contextPostId || editorPostId;
+
+	useEffect(() => {
+		if (!attributes.repeaterKey || !postId) {
+			setRowCount(0);
+			return;
+		}
+
+		setIsLoading(true);
+
+		const url = `/chance/v1/meta-repeater/${postId}/${attributes.repeaterKey}`;
+
+		apiFetch({ path: url })
+			.then((data) => {
+				setRowCount(data.rows || 0);
+				setIsLoading(false);
+			})
+			.catch(() => {
+				setRowCount(0);
+				setIsLoading(false);
+			});
+	}, [attributes.repeaterKey, postId]);
 
 	return (
-		<div {...blockProps}>
+		<Fragment>
 			<InspectorControls>
-				<PanelBody title={__('Repeater Settings', 'meta-repeater')}>
+				<div style={{ padding: '16px' }}>
 					<TextControl
-						label={__('Repeater Field Key', 'meta-repeater')}
-						value={repeaterKey}
-						onChange={(value) =>
-							setAttributes({ repeaterKey: value })
-						}
-						help={__('ACF repeater field name/key', 'meta-repeater')}
+						label="Repeater Field Key"
+						value={attributes.repeaterKey || ''}
+						onChange={(value) => setAttributes({ repeaterKey: value })}
+						placeholder="e.g., team_members, gallery_items"
+						help="Enter the ACF repeater field key"
+					/>
+					<TextControl
+						label="Subfield Keys (comma-separated)"
+						value={attributes.subfields || ''}
+						onChange={(value) => setAttributes({ subfields: value })}
+						placeholder="e.g., name, title, email"
+						help="Enter the subfield keys to display, separated by commas"
 					/>
 					<SelectControl
-						label={__('Wrapper Tag', 'meta-repeater')}
-						value={tagName}
-						options={WRAPPER_TAG_OPTIONS}
-						onChange={(value) =>
-							setAttributes({ tagName: value })
-						}
+						label="List Tag"
+						value={attributes.tagName || 'ul'}
+						onChange={(value) => setAttributes({ tagName: value })}
+						options={[
+							{ label: 'Unordered List', value: 'ul' },
+							{ label: 'Ordered List', value: 'ol' },
+							{ label: 'Div', value: 'div' }
+						]}
 					/>
-				</PanelBody>
-
-				<PanelBody
-					title={__('Subfield A', 'meta-repeater')}
-					initialOpen={true}
-				>
-					<TextControl
-						label={__('Subfield A Key', 'meta-repeater')}
-						value={subfieldA}
-						onChange={(value) =>
-							setAttributes({ subfieldA: value })
-						}
-						help={__('ACF subfield name/key', 'meta-repeater')}
-					/>
-					<SelectControl
-						label={__('HTML Tag for Subfield A', 'meta-repeater')}
-						value={tagA}
-						options={TAG_OPTIONS}
-						onChange={(value) =>
-							setAttributes({ tagA: value })
-						}
-					/>
-				</PanelBody>
-
-				<PanelBody
-					title={__('Subfield B', 'meta-repeater')}
-					initialOpen={true}
-				>
-					<TextControl
-						label={__('Subfield B Key', 'meta-repeater')}
-						value={subfieldB}
-						onChange={(value) =>
-							setAttributes({ subfieldB: value })
-						}
-						help={__('ACF subfield name/key', 'meta-repeater')}
-					/>
-					<SelectControl
-						label={__('HTML Tag for Subfield B', 'meta-repeater')}
-						value={tagB}
-						options={TAG_OPTIONS}
-						onChange={(value) =>
-							setAttributes({ tagB: value })
-						}
-					/>
-				</PanelBody>
+				</div>
 			</InspectorControls>
-
-			<div className="wp-block-chance-meta-repeater-editor">
-				<p>
-					{__('Meta Repeater Block', 'meta-repeater')}
-				</p>
-				{repeaterKey && (
-					<ul>
-						<li>
-							{__('Repeater: ', 'meta-repeater')}
-							<strong>{repeaterKey}</strong>
-						</li>
-						{subfieldA && (
-							<li>
-								{__('Subfield A: ', 'meta-repeater')}
-								<strong>{subfieldA}</strong>
-								{__(' (', 'meta-repeater')}
-								{tagA}
-								{__(
-									')',
-									'meta-repeater'
-								)}
-							</li>
-						)}
-						{subfieldB && (
-							<li>
-								{__('Subfield B: ', 'meta-repeater')}
-								<strong>{subfieldB}</strong>
-								{__(' (', 'meta-repeater')}
-								{tagB}
-								{__(
-									')',
-									'meta-repeater'
-								)}
-							</li>
-						)}
-					</ul>
+			<div {...blockProps}>
+				{isLoading && <Spinner />}
+				{!isLoading && rowCount > 0 && (
+					<p style={{ color: '#666' }}>
+						{rowCount} row{rowCount === 1 ? '' : 's'} found
+					</p>
+				)}
+				{!isLoading && rowCount === 0 && (
+					<p style={{ color: '#999', fontStyle: 'italic' }}>
+						No repeater rows found for: {attributes.repeaterKey || '[not set]'}
+					</p>
 				)}
 			</div>
-		</div>
+		</Fragment>
 	);
 }

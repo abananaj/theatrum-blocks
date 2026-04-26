@@ -98,37 +98,67 @@ if (is_array($option_value)) {
   $html .= '</div>' . esc_html($append);
   echo $html;
 } else {
-  // Single value - display as-is
-  $display_value = (string) $option_value;
-  $display_value = $prepend . $display_value . $append;
-  if (empty($display_value)) {
-    return;
-  }
+  // Single value - check if it's a post ID
+  $single_id = (int) $option_value;
 
-  $tag = isset($attributes['tagName']) ? $attributes['tagName'] : 'p';
-  $href = isset($attributes['href']) ? $attributes['href'] : '';
+  if ($single_id > 0) {
+    // Treat as post ID and fetch the title
+    $post_title = get_the_title($single_id);
+    $post_url = get_permalink($single_id);
+    $post_meta_title = get_post_meta($single_id, 'title', true);
 
-  // Validate tag name to prevent injection
-  $allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a');
-  if (!in_array($tag, $allowed_tags)) {
-    $tag = 'p';
-  }
+    if (empty($post_title)) {
+      $post_title = 'Untitled';
+    }
 
-  // Handle link tag with href
-  if ($tag === 'a') {
-    $href_attr = esc_url($href);
+    $html = '<div class="wp-block-chance-staff-member">' . esc_html($prepend);
+    $html .= '<p>';
+    if ($post_url) {
+      $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
+    } else {
+      $html .= '<strong>' . esc_html($post_title) . '</strong>';
+    }
+    $html .= '</p>';
+
+    if (!empty($post_meta_title)) {
+      $html .= '<p><em>' . esc_html($post_meta_title) . '</em></p>';
+    }
+
+    $html .= '</div>' . esc_html($append);
+    echo $html;
+  } else {
+    // Not a post ID - display as-is
+    $display_value = (string) $option_value;
+    $display_value = $prepend . $display_value . $append;
+    if (empty($display_value)) {
+      return;
+    }
+
+    $tag = isset($attributes['tagName']) ? $attributes['tagName'] : 'p';
+    $href = isset($attributes['href']) ? $attributes['href'] : '';
+
+    // Validate tag name to prevent injection
+    $allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a');
+    if (!in_array($tag, $allowed_tags)) {
+      $tag = 'p';
+    }
+
+    // Handle link tag with href
+    if ($tag === 'a') {
+      $href_attr = esc_url($href);
+      printf(
+        '<div class="wp-block-chance-staff-member"><a href="%s">%s</a></div>',
+        $href_attr,
+        esc_html($display_value)
+      );
+      return;
+    }
+
     printf(
-      '<div class="wp-block-chance-staff-member"><a href="%s">%s</a></div>',
-      $href_attr,
-      esc_html($display_value)
+      '<div class="wp-block-chance-staff-member"><%s>%s</%s></div>',
+      $tag,
+      esc_html($display_value),
+      $tag
     );
-    return;
   }
-
-  printf(
-    '<div class="wp-block-chance-staff-member"><%s>%s</%s></div>',
-    $tag,
-    esc_html($display_value),
-    $tag
-  );
 }
