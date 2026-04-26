@@ -1,107 +1,35 @@
-wp.blocks.registerBlockType('chance/artist-credits', {
-  edit: (props) => {
-    const { useBlockProps } = wp.blockEditor;
-    const { useState, useEffect } = wp.element;
-    const { Spinner } = wp.components;
-    const { useSelect } = wp.data;
+/**
+ * Registers a new block provided a unique name and an object defining its behavior.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+import { registerBlockType } from '@wordpress/blocks';
 
-    const blockProps = useBlockProps();
-    const [credits, setCredits] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * All files containing `style` keyword are bundled together. The code used
+ * gets applied both to the front of your site and to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+import './style.scss';
+import './editor.scss';
 
-    // Get current post ID
-    const postId = useSelect((select) => select('core/editor').getCurrentPostId());
+/**
+ * Internal dependencies
+ */
+import Edit from './edit';
+import metadata from './block.json';
 
-    // Fetch credits when post ID changes
-    useEffect(() => {
-      if (!postId) {
-        setCredits([]);
-        return;
-      }
-
-      setIsLoading(true);
-
-      // Fetch credits using REST endpoint
-      wp.apiFetch({ path: `/chance/v1/artist-credits/${postId}` })
-        .then((data) => {
-          setCredits(data.credits || []);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error fetching artist credits:', error);
-          setCredits([]);
-          setIsLoading(false);
-        });
-    }, [postId]);
-
-    // Helper function to decode HTML entities
-    const decodeHtmlEntities = (text) => {
-      const textarea = document.createElement('textarea');
-      textarea.innerHTML = text;
-      return textarea.value;
-    };
-
-    const listItems = credits.map((credit) => {
-      const productionTitle = decodeHtmlEntities(credit.production_title);
-      const role = credit.role ? decodeHtmlEntities(credit.role) : '';
-      const date = credit.date ? decodeHtmlEntities(credit.date) : '';
-
-      const linkContent = wp.element.createElement(
-        'span',
-        { className: 'production' },
-        productionTitle
-      );
-
-      const link = wp.element.createElement(
-        'a',
-        { href: credit.production_url },
-        linkContent
-      );
-
-      const children = [link];
-
-      if (role) {
-        children.push(', ');
-        children.push(
-          wp.element.createElement(
-            'span',
-            { className: 'role', key: `${credit.id}-role` },
-            role
-          )
-        );
-      }
-
-      if (date) {
-        children.push(' ');
-        children.push(
-          wp.element.createElement(
-            'span',
-            { className: 'date', key: `${credit.id}-date` },
-            date
-          )
-        );
-      }
-
-      return wp.element.createElement(
-        'li',
-        { key: credit.id },
-        ...children
-      );
-    });
-
-    return wp.element.createElement(
-      'div',
-      blockProps,
-      isLoading
-        ? wp.element.createElement(Spinner, null)
-        : wp.element.createElement(
-          'ul',
-          { className: 'artist-credits-ul' },
-          listItems.length > 0
-            ? listItems
-            : wp.element.createElement('li', null, 'No credits found')
-        )
-    );
-  },
-  save: () => null
+/**
+ * Every block starts by registering a new block type definition.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+registerBlockType(metadata.name, {
+  /**
+   * @see ./edit.js
+   */
+  edit: Edit,
+  save: () => null,
 });

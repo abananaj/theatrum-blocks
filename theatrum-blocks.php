@@ -84,37 +84,3 @@ function theatrum_register_block_variations()
 	}
 }
 add_action('init', 'theatrum_register_block_variations');
-
-function multiblock_enqueue_block_assets() {
-	wp_enqueue_script(
-		'multi-block-editor-js',
-		plugin_dir_url( __FILE__ ) . 'build/multi-block-editor.js',
-		array('wp-blocks', 'wp-components', 'wp-data', 'wp-dom-ready', 'wp-edit-post', 'wp-element', 'wp-i18n', 'wp-plugins'),
-		null,
-		false
-	);
-	
-	wp_enqueue_style(
-		'multi-block-editor-css',
-		plugin_dir_url( __FILE__ ) . 'build/multi-block-editor.css',
-		array(),
-		null
-	);
-}
-add_action( 'enqueue_block_editor_assets', 'multiblock_enqueue_block_assets' );
-
-function multiblock_enqueue_frontend_assets() {
-	wp_enqueue_style(
-		'multi-block-frontend-css',
-		plugin_dir_url( __FILE__ ) . 'build/style-multi-block-editor.css',
-	);
-
-	wp_enqueue_script(
-		'multi-block-frontend-js',
-		plugin_dir_url( __FILE__ ) . 'build/multi-block-frontend.js',
-		array(),
-		null,
-		true
-	);
-}
-add_action( 'wp_enqueue_scripts', 'multiblock_enqueue_frontend_assets' );
