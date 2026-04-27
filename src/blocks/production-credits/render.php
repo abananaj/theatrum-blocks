@@ -3,29 +3,58 @@
 /**
  * Production Credits Block - Server-side render callback
  *
- * Displays the ct-artists credited for the current ct-production,
- * using the same pattern as the artist-credits block.
+ * Displays the ct-artists credited for the current ct-production.
+ * Filters by role-group based on the `roleGroup` attribute:
+ *   - "all"     → all ct-credits (default)
+ *   - "team"    → playwright, director, choreographer, designer, stage_management, other
+ *   - "cast"    → actor
+ *   - "partner" → producer
  */
 
-$post_id = get_the_ID();
+$post_id    = get_the_ID();
+$role_group = isset($attributes['roleGroup']) ? $attributes['roleGroup'] : 'all';
 
 if (! $post_id) {
   return;
 }
 
-// Query for ct-credit posts where meta field 'production' = current post ID
+$team_role_groups = array('playwright', 'director', 'choreographer', 'designer', 'stage_management', 'other');
+
+$meta_query = array(
+  'relation' => 'AND',
+  array(
+    'key'     => 'production',
+    'value'   => $post_id,
+    'compare' => '=',
+  ),
+);
+
+if ('team' === $role_group) {
+  $meta_query[] = array(
+    'key'     => 'role-group',
+    'value'   => $team_role_groups,
+    'compare' => 'IN',
+  );
+} elseif ('cast' === $role_group) {
+  $meta_query[] = array(
+    'key'     => 'role-group',
+    'value'   => 'actor',
+    'compare' => '=',
+  );
+} elseif ('partner' === $role_group) {
+  $meta_query[] = array(
+    'key'     => 'role-group',
+    'value'   => 'producer',
+    'compare' => '=',
+  );
+}
+
 $args = array(
   'post_type'      => 'ct-credit',
   'posts_per_page' => -1,
-  'meta_query'     => array(
-    array(
-      'key'     => 'production',
-      'value'   => $post_id,
-      'compare' => '=',
-    ),
-  ),
-  'orderby' => 'menu_order title',
-  'order'   => 'ASC',
+  'meta_query'     => $meta_query,
+  'orderby'        => 'menu_order title',
+  'order'          => 'ASC',
 );
 
 $query = new WP_Query($args);
@@ -46,7 +75,6 @@ while ($query->have_posts()) {
     $artist_title = get_the_title($artist_id);
     $artist_url   = get_permalink($artist_id);
 
-    // Display role, or fallback to role-group if role is blank
     $display_role = $role;
     if (empty($display_role)) {
       $display_role = get_post_meta($credit_id, 'role-group', true);

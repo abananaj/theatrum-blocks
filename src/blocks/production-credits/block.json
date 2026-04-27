@@ -46,7 +46,12 @@
 			"duotone": true
 		}
 	},
-	"attributes": {},
+	"attributes": {
+		"roleGroup": {
+			"type": "string",
+			"default": "all"
+		}
+	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

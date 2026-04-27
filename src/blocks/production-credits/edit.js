@@ -4,7 +4,25 @@ import { Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
-export default function Edit() {
+const TEAM_ROLE_GROUPS = ['playwright', 'director', 'choreographer', 'designer', 'stage_management', 'other'];
+
+const VARIATION_LABELS = {
+  all: 'Production Credits',
+  team: 'Production Team',
+  cast: 'Production Cast',
+  partner: 'Production Partners',
+};
+
+function filterByRoleGroup(credits, roleGroup) {
+  if (roleGroup === 'all' || !roleGroup) return credits;
+  if (roleGroup === 'team') return credits.filter((c) => TEAM_ROLE_GROUPS.includes(c.role_group));
+  if (roleGroup === 'cast') return credits.filter((c) => c.role_group === 'actor');
+  if (roleGroup === 'partner') return credits.filter((c) => c.role_group === 'producer');
+  return credits;
+}
+
+export default function Edit({ attributes }) {
+  const { roleGroup = 'all' } = attributes;
   const blockProps = useBlockProps();
   const [credits, setCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +39,7 @@ export default function Edit() {
 
     apiFetch({ path: `/chance/v1/production-credits/${postId}` })
       .then((data) => {
-        setCredits(data.credits || []);
+        setCredits(filterByRoleGroup(data.credits || [], roleGroup));
         setIsLoading(false);
       })
       .catch((error) => {
@@ -29,7 +47,7 @@ export default function Edit() {
         setCredits([]);
         setIsLoading(false);
       });
-  }, [postId]);
+  }, [postId, roleGroup]);
 
   const decodeHtmlEntities = (text) => {
     const textarea = document.createElement('textarea');
@@ -43,13 +61,12 @@ export default function Edit() {
 
     return (
       <li key={credit.id} className="credit">
-        <a href={credit.artist_url}>
-          <p className="title">{artistTitle}</p>
-        </a>
+        {credit.artist_thumbnail && (
+          <img src={credit.artist_thumbnail} alt={artistTitle} className="artist-headshot" />
+        )}
+        <p className="artist"><a href={credit.artist_url}>{artistTitle}</a></p>
         {role && (
-          <p>
-            <span className="role">{role}</span>
-          </p>
+          <p className="role">{role}</p>
         )}
       </li>
     );
@@ -57,6 +74,7 @@ export default function Edit() {
 
   return (
     <div {...blockProps}>
+      <p className="production-credits-label">{VARIATION_LABELS[roleGroup] || VARIATION_LABELS.all}</p>
       {isLoading ? (
         <Spinner />
       ) : (
@@ -67,3 +85,4 @@ export default function Edit() {
     </div>
   );
 }
+
