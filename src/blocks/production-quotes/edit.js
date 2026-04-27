@@ -1,19 +1,22 @@
-import ServerSideRender from '@wordpress/server-side-render';
+import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
-import metadata from './block.json';
 import './editor.scss';
 
-export default function Edit({ attributes, context }) {
-	const blockProps = useBlockProps();
-	const postId = context['postId'];
+export default function Edit() {
+	const blockProps = useBlockProps({ className: 'production-quotes-editor' });
 
 	return (
 		<div {...blockProps}>
-			<ServerSideRender
-				block={metadata.name}
-				attributes={attributes}
-				urlQueryArgs={{ post_id: postId }}
-			/>
+			<div className="production-quotes-placeholder">
+				<span className="dashicons dashicons-format-quote" />
+				<p>{__('Production Quotes', 'production-quotes')}</p>
+				<p className="description">
+					{__(
+						'Displays quotes from the production_quotes ACF repeater field.',
+						'production-quotes'
+					)}
+				</p>
+			</div>
 		</div>
 	);
 }
