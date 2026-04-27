@@ -1,7 +1,13 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
- * Chance Theater Custom Blocks Registration
+ * Theatrum Blocks - Helper functions for date/time parsing and production data queries.
+ *
+ * @package Theatrum_Blocks
  */
 
 /**
@@ -69,13 +75,13 @@ function theatrum_parse_flexible_date($date_str)
 
 	// Check for separators to determine format family
 	if (strpos($date_str, '-') !== false) {
-		$formats = ['Y-m-d', 'm-d-Y', 'd-m-Y'];
+		$formats = array('Y-m-d', 'm-d-Y', 'd-m-Y');
 	} elseif (strpos($date_str, '/') !== false) {
-		$formats = ['Y/m/d', 'm/d/Y', 'd/m/Y'];
+		$formats = array('Y/m/d', 'm/d/Y', 'd/m/Y');
 	} elseif (strpos($date_str, ',') !== false) {
-		$formats = ['F j, Y', 'M j, Y'];
+		$formats = array('F j, Y', 'M j, Y');
 	} else {
-		$formats = ['j F Y', 'j M Y'];
+		$formats = array('j F Y', 'j M Y');
 	}
 
 	// Get WordPress timezone, with fallback to UTC
@@ -130,7 +136,7 @@ function theatrum_parse_flexible_time($time_str)
 	$tz = new DateTimeZone($tz_string);
 
 	// Try common time formats
-	$time_formats = [
+	$time_formats = array(
 		'H:i:s',      // 14:30:00
 		'H:i',        // 14:30
 		'h:i:s A',    // 02:30:00 PM
@@ -139,7 +145,7 @@ function theatrum_parse_flexible_time($time_str)
 		'g:i A',      // 2:30 PM
 		'H:i:s a',    // 14:30:00 pm
 		'H:i a',      // 14:30 pm
-	];
+	);
 
 	foreach ($time_formats as $format) {
 		$dt = DateTime::createFromFormat($format, $time_str, $tz);
@@ -151,12 +157,12 @@ function theatrum_parse_flexible_time($time_str)
 	}
 
 	// Try datetime formats to extract time from full datetime strings
-	$datetime_formats = [
-		'Y-m-d H:i:s',  // 2026-01-01 14:30:00 (WordPress default)
-		'Y-m-d H:i',    // 2026-01-01 14:30
+	$datetime_formats = array(
+		'Y-m-d H:i:s',   // 2026-01-01 14:30:00 (WordPress default)
+		'Y-m-d H:i',     // 2026-01-01 14:30
 		'Y-m-d h:i:s A', // 2026-01-01 02:30:00 PM
-		'Y-m-d h:i A',  // 2026-01-01 02:30 PM
-	];
+		'Y-m-d h:i A',   // 2026-01-01 02:30 PM
+	);
 
 	foreach ($datetime_formats as $format) {
 		$dt = DateTime::createFromFormat($format, $time_str, $tz);
@@ -192,38 +198,38 @@ function chance_get_current_production()
 	$today_time = time();
 
 	// First, try to find a production that is currently running
-	$args = [
-		'post_type' => 'ct-production',
+	$args = array(
+		'post_type'      => 'ct-production',
 		'posts_per_page' => 1,
-		'tax_query' => [
-			[
+		'tax_query'      => array(
+			array(
 				'taxonomy' => 'series',
-				'terms' => ['main', 'holiday'],
+				'terms'    => array('main', 'holiday'),
 				'operator' => 'IN',
-				'field' => 'slug'
-			],
-			[
+				'field'    => 'slug',
+			),
+			array(
 				'taxonomy' => 'season',
-				'terms' => [$current_season],
+				'terms'    => array($current_season),
 				'operator' => 'IN',
-				'field' => 'term_id'
-			]
-		],
-		'meta_query' => [
-			[
-				'key' => 'opening',
-				'value' => $today_time,
+				'field'    => 'term_id',
+			),
+		),
+		'meta_query'     => array(
+			array(
+				'key'     => 'opening',
+				'value'   => $today_time,
 				'compare' => '<=',
-				'type' => 'DATETIME'
-			],
-			[
-				'key' => 'closing',
-				'value' => $today_time,
+				'type'    => 'DATETIME',
+			),
+			array(
+				'key'     => 'closing',
+				'value'   => $today_time,
 				'compare' => '>=',
-				'type' => 'DATETIME'
-			]
-		]
-	];
+				'type'    => 'DATETIME',
+			),
+		),
+	);
 
 	$query = new WP_Query($args);
 
@@ -235,35 +241,35 @@ function chance_get_current_production()
 	}
 
 	// If nothing is currently running, get the closest upcoming production
-	$args = [
-		'post_type' => 'ct-production',
+	$args = array(
+		'post_type'      => 'ct-production',
 		'posts_per_page' => 1,
-		'orderby' => 'meta_value',
-		'meta_key' => 'opening',
-		'order' => 'ASC',
-		'tax_query' => [
-			[
+		'orderby'        => 'meta_value',
+		'meta_key'       => 'opening',
+		'order'          => 'ASC',
+		'tax_query'      => array(
+			array(
 				'taxonomy' => 'series',
-				'terms' => ['main', 'holiday'],
+				'terms'    => array('main', 'holiday'),
 				'operator' => 'IN',
-				'field' => 'slug'
-			],
-			[
+				'field'    => 'slug',
+			),
+			array(
 				'taxonomy' => 'season',
-				'terms' => [$current_season],
+				'terms'    => array($current_season),
 				'operator' => 'IN',
-				'field' => 'term_id'
-			]
-		],
-		'meta_query' => [
-			[
-				'key' => 'opening',
-				'value' => date('Y-m-d', $today_time),
+				'field'    => 'term_id',
+			),
+		),
+		'meta_query'     => array(
+			array(
+				'key'     => 'opening',
+				'value'   => date('Y-m-d', $today_time),
 				'compare' => '>',
-				'type' => 'DATE'
-			]
-		]
-	];
+				'type'    => 'DATE',
+			),
+		),
+	);
 
 	$query = new WP_Query($args);
 
@@ -305,35 +311,35 @@ function chance_get_next_production()
 	// Get the opening date of current production to find the next one after it
 	$current_opening = strtotime($current_prod['opening']);
 
-	$args = [
-		'post_type' => 'ct-production',
+	$args = array(
+		'post_type'      => 'ct-production',
 		'posts_per_page' => 1,
-		'orderby' => 'meta_value',
-		'meta_key' => 'opening',
-		'order' => 'ASC',
-		'tax_query' => [
-			[
+		'orderby'        => 'meta_value',
+		'meta_key'       => 'opening',
+		'order'          => 'ASC',
+		'tax_query'      => array(
+			array(
 				'taxonomy' => 'series',
-				'terms' => ['main', 'holiday'],
+				'terms'    => array('main', 'holiday'),
 				'operator' => 'IN',
-				'field' => 'slug'
-			],
-			[
+				'field'    => 'slug',
+			),
+			array(
 				'taxonomy' => 'season',
-				'terms' => [$current_season],
+				'terms'    => array($current_season),
 				'operator' => 'IN',
-				'field' => 'term_id'
-			]
-		],
-		'meta_query' => [
-			[
-				'key' => 'opening',
-				'value' => date('Y-m-d H:i:s', $current_opening),
+				'field'    => 'term_id',
+			),
+		),
+		'meta_query'     => array(
+			array(
+				'key'     => 'opening',
+				'value'   => date('Y-m-d H:i:s', $current_opening),
 				'compare' => '>',
-				'type' => 'DATETIME'
-			]
-		]
-	];
+				'type'    => 'DATETIME',
+			),
+		),
+	);
 
 	$query = new WP_Query($args);
 
@@ -363,16 +369,16 @@ function chance_build_production_data($post)
 	$featured_image_id = get_post_thumbnail_id($post->ID);
 	$featured_image_url = $featured_image_id ? wp_get_attachment_url($featured_image_id) : null;
 
-	return [
-		'ID' => $post->ID,
-		'title' => $post->post_title,
-		'featured_image' => $featured_image_url,
-		'featured_image_id' => $featured_image_id,
-		'opening' => $opening_str,
-		'closing' => $closing_str,
-		'slug' => $post->post_name,
-		'url' => get_permalink($post->ID)
-	];
+	return array(
+		'ID'                 => $post->ID,
+		'title'              => $post->post_title,
+		'featured_image'     => $featured_image_url,
+		'featured_image_id'  => $featured_image_id,
+		'opening'            => $opening_str,
+		'closing'            => $closing_str,
+		'slug'               => $post->post_name,
+		'url'                => get_permalink($post->ID),
+	);
 }
 
 /**

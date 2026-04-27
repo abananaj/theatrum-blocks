@@ -20,10 +20,10 @@
 		"@wordpress/i18n": "latest"
 	},
 	"devDependencies": {
-		"@wordpress/api-fetch": "^7.44.0",
-		"@wordpress/blocks": "^15.17.0",
-		"@wordpress/dom-ready": "^4.44.0",
-		"@wordpress/env": "^10.39.0",
-		"@wordpress/scripts": "^32.0.0"
+		"@wordpress/api-fetch": "7.44.0",
+		"@wordpress/blocks": "15.17.0",
+		"@wordpress/dom-ready": "4.44.0",
+		"@wordpress/env": "10.39.0",
+		"@wordpress/scripts": "32.0.0"
 	}
 }

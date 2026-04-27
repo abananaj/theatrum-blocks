@@ -1,0 +1,21 @@
+.wp-block-chance-performance-repeater {
+  .repeater-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .performance-row {
+    display: flex;
+    gap: 0.5em;
+    align-items: baseline;
+  }
+
+  .performance-date {
+    font-weight: 600;
+  }
+
+  .performance-label {
+    opacity: 0.75;
+  }
+}

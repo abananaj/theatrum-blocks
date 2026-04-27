@@ -5,18 +5,29 @@ import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
 
-const SUBFIELD_TAG_OPTIONS = [
-	{ label: '<span>', value: 'span' },
-	{ label: '<li>', value: 'li' },
-	{ label: '<div>', value: 'div' },
-	{ label: '<p>', value: 'p' },
-	{ label: '<em>', value: 'em' },
-	{ label: '<strong>', value: 'strong' },
-	{ label: '<h3>', value: 'h3' },
-	{ label: '<h4>', value: 'h4' },
-	{ label: '<h5>', value: 'h5' },
-	{ label: '<h6>', value: 'h6' },
+const DATE_FORMAT_OPTIONS = [
+	{ label: 'Sunday, January 1', value: 'l, F j' },
+	{ label: 'Jan 1st', value: 'M jS' },
+	{ label: 'January 1', value: 'F j' },
+	{ label: '01-01-2026', value: 'm-d-Y' },
+	{ label: '1-1-2026', value: 'n-j-Y' },
+	{ label: 'Custom', value: 'custom' },
 ];
+
+/**
+ * Format a raw date string for editor preview using the Intl API.
+ * Falls back to the raw string if parsing fails.
+ */
+function formatDatePreview(rawValue, dateFormat) {
+	if (!rawValue) return '';
+	const dateOnly = rawValue.replace(/\s.*$/, '').substring(0, 10);
+	const parsed = new Date(dateOnly + 'T00:00:00');
+	if (isNaN(parsed.getTime())) return rawValue;
+
+	// Simple format approximation for preview
+	const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+	return parsed.toLocaleDateString('en-US', opts);
+}
 
 export default function Edit({ attributes, setAttributes, context }) {
 	const blockProps = useBlockProps();
@@ -46,8 +57,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 			});
 	}, [attributes.repeaterKey, postId]);
 
-	const TagA = attributes.tagA || 'span';
-	const TagB = attributes.tagB || 'span';
 	const TagWrapper = attributes.tagName || 'ul';
 
 	const renderPreview = () => {
@@ -70,20 +79,27 @@ export default function Edit({ attributes, setAttributes, context }) {
 		}
 
 		const items = rows.map((row, i) => {
-			const valA = attributes.subfieldA ? (row[attributes.subfieldA] ?? '') : '';
-			const valB = attributes.subfieldB ? (row[attributes.subfieldB] ?? '') : '';
+			const rawDate = attributes.dateSubfield ? (row[attributes.dateSubfield] ?? '') : '';
+			const label = attributes.labelSubfield ? (row[attributes.labelSubfield] ?? '') : '';
+			const formattedDate = rawDate ? formatDatePreview(rawDate, attributes.dateFormat) : '';
+
 			return (
-				<li key={i}>
-					{valA && createElement(TagA, { className: 'repeater-subfield-a' }, String(valA))}
-					{valB && createElement(TagB, { className: 'repeater-subfield-b' }, String(valB))}
-					{!valA && !valB && (
+				<li key={i} className="performance-row">
+					{formattedDate && <span className="performance-date">{formattedDate}</span>}
+					{label && <span className="performance-label">{String(label)}</span>}
+					{!formattedDate && !label && (
 						<span style={{ color: '#aaa' }}>Row {i + 1} — set subfield keys to see values</span>
 					)}
 				</li>
 			);
 		});
 
-		return createElement(Fragment, null, headingEl, createElement(TagWrapper, { className: 'wp-block-chance-meta-repeater-preview' }, ...items));
+		return createElement(
+			Fragment,
+			null,
+			headingEl,
+			createElement(TagWrapper, { className: 'wp-block-chance-performance-repeater-preview' }, ...items)
+		);
 	};
 
 	return (
@@ -94,7 +110,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						label="Repeater Field Key"
 						value={attributes.repeaterKey || ''}
 						onChange={(value) => setAttributes({ repeaterKey: value })}
-						placeholder="e.g., info, team_members"
+						placeholder="e.g., performances, show_dates"
 						help="The ACF repeater field key"
 					/>
 					<SelectControl
@@ -108,19 +124,37 @@ export default function Edit({ attributes, setAttributes, context }) {
 						]}
 					/>
 				</PanelBody>
-				<PanelBody title="Subfield A" initialOpen={true}>
+				<PanelBody title="Date Subfield" initialOpen={true}>
 					<TextControl
-						label="Subfield A Key"
-						value={attributes.subfieldA || ''}
-						onChange={(value) => setAttributes({ subfieldA: value })}
-						placeholder="e.g., text, name"
-						help="The ACF subfield key for the first field"
+						label="Date Subfield Key"
+						value={attributes.dateSubfield || ''}
+						onChange={(value) => setAttributes({ dateSubfield: value })}
+						placeholder="e.g., date, performance_date"
+						help="The ACF subfield key containing the date value"
 					/>
 					<SelectControl
-						label="HTML Tag for Subfield A"
-						value={attributes.tagA || 'span'}
-						onChange={(value) => setAttributes({ tagA: value })}
-						options={SUBFIELD_TAG_OPTIONS}
+						label="Date Format"
+						value={attributes.dateFormat || 'l, F j'}
+						onChange={(value) => setAttributes({ dateFormat: value })}
+						options={DATE_FORMAT_OPTIONS}
+					/>
+					{attributes.dateFormat === 'custom' && (
+						<TextControl
+							label="Custom Format"
+							value={attributes.customFormat || ''}
+							onChange={(value) => setAttributes({ customFormat: value })}
+							placeholder="e.g., M j, Y"
+							help="PHP date format string"
+						/>
+					)}
+				</PanelBody>
+				<PanelBody title="Label Subfield" initialOpen={false}>
+					<TextControl
+						label="Label Subfield Key"
+						value={attributes.labelSubfield || ''}
+						onChange={(value) => setAttributes({ labelSubfield: value })}
+						placeholder="e.g., note, venue, time"
+						help="Optional second subfield displayed alongside the date"
 					/>
 				</PanelBody>
 				<PanelBody title="Heading" initialOpen={false}>
@@ -128,8 +162,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						label="Heading Text"
 						value={attributes.headingText || ''}
 						onChange={(value) => setAttributes({ headingText: value })}
-						placeholder="e.g., Credits, Cast"
-						help="Appears before the list. Hidden when there are no rows."
+						placeholder="e.g., Performances, Show Dates"
+						help="Appears before the list."
 					/>
 					<SelectControl
 						label="Heading Level"
@@ -142,21 +176,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 							{ label: 'H5', value: 'h5' },
 							{ label: 'H6', value: 'h6' },
 						]}
-					/>
-				</PanelBody>
-				<PanelBody title="Subfield B" initialOpen={false}>
-					<TextControl
-						label="Subfield B Key"
-						value={attributes.subfieldB || ''}
-						onChange={(value) => setAttributes({ subfieldB: value })}
-						placeholder="e.g., url, title"
-						help="The ACF subfield key for the second field (optional)"
-					/>
-					<SelectControl
-						label="HTML Tag for Subfield B"
-						value={attributes.tagB || 'span'}
-						onChange={(value) => setAttributes({ tagB: value })}
-						options={SUBFIELD_TAG_OPTIONS}
 					/>
 				</PanelBody>
 			</InspectorControls>

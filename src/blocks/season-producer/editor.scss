@@ -1,0 +1,10 @@
+@use "./style.scss";
+
+/**
+ * Editor-only styles for the Season Producer block.
+ */
+
+.wp-block-chance-season-producer {
+	border: 1px dotted #aaa;
+	min-height: 2rem;
+}

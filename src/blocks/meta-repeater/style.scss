@@ -1,12 +1,16 @@
 /* Meta Repeater Block Styles */
 
 .wp-block-chance-meta-repeater {
-	/* margin: 1rem 0; */
-	/* padding-left: 2rem; */
-	list-style: none;
-	ul {
-		list-style: none;
-	}
+  .repeater-heading {
+    font-size: 1.25em;
+    margin: 0;
+  }
+  .repeater-rows {
+    list-style: none;
+    margin: 0;
+    font-size: 1em;
+  }
+
 }
 
 /* 

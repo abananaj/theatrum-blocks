@@ -33,7 +33,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		// In template editor, show placeholder
 		if (isEditingTemplate && !contextPostId) {
-			setDisplayValue('[Template: Meta field will display on frontend]');
+			setDisplayValue(`[${attributes.keyInput}]`);
 			return;
 		}
 
@@ -133,7 +133,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						{displayValue || `[${attributes.keyInput}]`}
 					</Tag>
 				) : (
-					<em style={{ color: '#999' }}>Enter a date field key to display its value</em>
+					<em style={{ color: '#999' }}>Enter a date field key</em>
 				)}
 			</div>
 		</Fragment>

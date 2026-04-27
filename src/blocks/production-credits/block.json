@@ -4,7 +4,8 @@
 	"name": "chance/production-credits",
 	"title": "Production Credits",
 	"category": "widgets",
-		"description": "Display credits for the current production",
+	"description": "Display a list of artists credited for a production",
+	"textdomain": "production-credits",
 	"icon": "list-view",
 	"supports": {
 		"html": false,
@@ -46,10 +47,9 @@
 		}
 	},
 	"attributes": {},
-	"textdomain": "meta-date",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
 }

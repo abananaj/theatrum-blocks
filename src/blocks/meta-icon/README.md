@@ -1,0 +1,1 @@
+This block will work similar to the meta image block. It will work with the ACF icon picker field and render the icon based on the input key . I should handle wordpress icon names, urls, and post IDs for attachments. It should also have all the styling options of the WP core icon block.

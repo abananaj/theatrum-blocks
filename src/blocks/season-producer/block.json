@@ -1,15 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/meta-field",
-	"title": "Meta Field",
-	"category": "widgets",
-	"description": "Display a value from post metadata by entering a key",
-	"icon": "admin-generic",
+	"name": "chance/season-producer",
+	"title": "Season Producer",
+	"category": "chance",
+	"description": "Display season producer titles from the current post's season taxonomy term.",
+	"icon": "awards",
 	"supports": {
 		"html": false,
 		"align": true,
-		"reusable": true,
 		"anchor": true,
 		"className": true,
 		"customClassName": true,
@@ -40,38 +39,21 @@
 			"width": true
 		},
 		"shadow": true,
-		"opacity": true,
-		"filters": {
-			"duotone": true
-		}
+		"opacity": true
 	},
 	"attributes": {
-		"keyInput": {
+		"metaKey": {
 			"type": "string",
-			"default": ""
+			"default": "season_producers"
 		},
 		"tagName": {
 			"type": "string",
-			"default": "span"
-		},
-		"href": {
-			"type": "string",
-			"default": ""
-		},
-		"prepend": {
-			"type": "string",
-			"default": ""
-		},
-		"append": {
-			"type": "string",
-			"default": ""
+			"default": "ul"
 		}
 	},
-	"usesContext": ["postId", "postType"],
-	"textdomain": "meta-date",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"render": "file:./render.php"
 }

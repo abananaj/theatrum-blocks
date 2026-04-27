@@ -1,11 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/meta-field",
-	"title": "Meta Field",
+	"name": "chance/meta-related",
+	"title": "Meta Related",
 	"category": "widgets",
-	"description": "Display a value from post metadata by entering a key",
-	"icon": "admin-generic",
+	"description": "Display a related post's title by entering a meta key that contains a post ID or Post Object",
+	"textdomain": "meta-related",
+	"icon": "admin-links",
 	"supports": {
 		"html": false,
 		"align": true,
@@ -45,6 +46,7 @@
 			"duotone": true
 		}
 	},
+	"usesContext": ["postId", "postType"],
 	"attributes": {
 		"keyInput": {
 			"type": "string",
@@ -52,11 +54,11 @@
 		},
 		"tagName": {
 			"type": "string",
-			"default": "span"
+			"default": "p"
 		},
-		"href": {
-			"type": "string",
-			"default": ""
+		"linkToPost": {
+			"type": "boolean",
+			"default": false
 		},
 		"prepend": {
 			"type": "string",
@@ -67,11 +69,8 @@
 			"default": ""
 		}
 	},
-	"usesContext": ["postId", "postType"],
-	"textdomain": "meta-date",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"render": "file:./render.php"
 }
