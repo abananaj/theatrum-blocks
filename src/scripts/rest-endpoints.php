@@ -889,11 +889,13 @@ function theatrum_get_production_credits_rest_callback($request)
 
 		if ($artist_id) {
 			$display_role = $role ?: get_post_meta($credit_id, 'role-group', true);
+			$role_group   = get_post_meta($credit_id, 'role-group', true);
 			$credits[]    = array(
 				'id'           => $credit_id,
 				'artist_title' => get_the_title($artist_id),
 				'artist_url'   => get_permalink($artist_id),
 				'role'         => $display_role,
+				'role_group'   => $role_group,
 			);
 		}
 	}

@@ -3,12 +3,17 @@ import { useBlockProps } from '@wordpress/block-editor';
 import metadata from './block.json';
 import './editor.scss';
 
-export default function Edit({ attributes }) {
+export default function Edit({ attributes, context }) {
 	const blockProps = useBlockProps();
+	const postId = context['postId'];
 
 	return (
 		<div {...blockProps}>
-			<ServerSideRender block={metadata.name} attributes={attributes} />
+			<ServerSideRender
+				block={metadata.name}
+				attributes={attributes}
+				urlQueryArgs={{ post_id: postId }}
+			/>
 		</div>
 	);
 }

@@ -5,7 +5,7 @@
  * $attributes, $content, $block are injected by WordPress.
  */
 
-$post_id = $block->context['postId'] ?? 0;
+$post_id = get_the_ID() ?: ($block->context['postId'] ?? 0);
 
 if (!$post_id) {
   return;
@@ -36,10 +36,10 @@ foreach ($quotes as $quote_row) {
 
   echo '<div class="wp-block-chance-production-quotes-item">';
   echo '<blockquote class="wp-block-quote">';
-  echo '<p>' . wp_kses_post($quote_text) . '</p>';
+  echo '<p class="quote-text">' . wp_kses_post($quote_text) . '</p>';
 
   if ($source) {
-    echo '<p><em>';
+    echo '<p class="quote-cite">– ';
     if ($quote_link_id) {
       $quote_link_url = get_permalink($quote_link_id);
       if ($quote_link_url) {
@@ -50,7 +50,7 @@ foreach ($quotes as $quote_row) {
     } else {
       echo esc_html($source);
     }
-    echo '</em></p>';
+    echo '</p>';
   }
 
   echo '</blockquote>';
