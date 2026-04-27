@@ -891,17 +891,76 @@ function theatrum_get_production_credits_rest_callback($request)
 			$display_role = $role ?: get_post_meta($credit_id, 'role-group', true);
 			$role_group   = get_post_meta($credit_id, 'role-group', true);
 			$credits[]    = array(
-				'id'           => $credit_id,
-				'artist_title' => get_the_title($artist_id),
-				'artist_url'   => get_permalink($artist_id),
-				'role'         => $display_role,
-				'role_group'   => $role_group,
+				'id'               => $credit_id,
+				'artist_title'     => get_the_title($artist_id),
+				'artist_url'       => get_permalink($artist_id),
+				'artist_thumbnail' => get_the_post_thumbnail_url($artist_id) ?: '',
+				'role'             => $display_role,
+				'role_group'       => $role_group,
 			);
 		}
 	}
 
 	wp_reset_postdata();
 	return new WP_REST_Response(array('credits' => $credits), 200);
+}
+
+/* -----------------------------------------------------------------------
+ * Production Cast
+ * -------------------------------------------------------------------- */
+
+function register_production_cast_rest_endpoint()
+{
+	register_rest_route('chance/v1', '/production-cast/(?P<post_id>\d+)', array(
+		'methods'             => 'GET',
+		'callback'            => 'theatrum_get_production_cast_rest_callback',
+		'permission_callback' => 'theatrum_editor_permission_check',
+	));
+}
+
+add_action('rest_api_init', 'register_production_cast_rest_endpoint');
+
+function theatrum_get_production_cast_rest_callback($request)
+{
+	$post_id = intval($request['post_id']);
+
+	$args = array(
+		'post_type'      => 'ct-credit',
+		'posts_per_page' => -1,
+		'meta_query'     => array(
+			'relation' => 'AND',
+			array('key' => 'production', 'value' => $post_id, 'compare' => '='),
+			array('key' => 'role-group', 'value' => 'actor', 'compare' => '='),
+		),
+		'orderby' => 'menu_order title',
+		'order'   => 'ASC',
+	);
+
+	$query = new WP_Query($args);
+	$cast  = array();
+
+	while ($query->have_posts()) {
+		$query->the_post();
+		$credit_id = get_the_ID();
+		$artist_id = get_post_meta($credit_id, 'artist', true);
+		$role      = get_post_meta($credit_id, 'role', true);
+
+		if ($artist_id) {
+			$display_role = $role ?: get_post_meta($credit_id, 'role-group', true);
+			$role_group   = get_post_meta($credit_id, 'role-group', true);
+			$cast[]       = array(
+				'id'               => $credit_id,
+				'artist_title'     => get_the_title($artist_id),
+				'artist_url'       => get_permalink($artist_id),
+				'artist_thumbnail' => get_the_post_thumbnail_url($artist_id) ?: '',
+				'role'             => $display_role,
+				'role_group'       => $role_group,
+			);
+		}
+	}
+
+	wp_reset_postdata();
+	return new WP_REST_Response(array('cast' => $cast), 200);
 }
 
 /* -----------------------------------------------------------------------
