@@ -29,6 +29,10 @@
 		"keyInput": {
 			"type": "string",
 			"default": ""
+		},
+		"embedType": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"textdomain": "meta-embed",

@@ -15,7 +15,7 @@ const variations = [
     description: __('Display the production team: directors, designers, choreographers, and crew.', 'theatrum-blocks'),
     icon: 'groups',
     attributes: { roleGroup: 'team' },
-    scope: ['block', 'inserter', 'transform'],
+    scope: ['inserter', 'transform'],
   },
   {
     name: 'production-cast',
@@ -23,7 +23,7 @@ const variations = [
     description: __('Display the cast members (actors).', 'theatrum-blocks'),
     icon: 'admin-users',
     attributes: { roleGroup: 'cast' },
-    scope: ['block', 'inserter', 'transform'],
+    scope: ['inserter', 'transform'],
   },
   {
     name: 'production-partners',
@@ -31,7 +31,7 @@ const variations = [
     description: __('Display producers and partner credits.', 'theatrum-blocks'),
     icon: 'businessman',
     attributes: { roleGroup: 'partner' },
-    scope: ['block', 'inserter', 'transform'],
+    scope: ['inserter', 'transform'],
   },
 ];
 

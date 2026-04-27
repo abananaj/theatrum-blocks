@@ -6,7 +6,7 @@
  * Displays the ct-artists credited for the current ct-production.
  * Filters by role-group based on the `roleGroup` attribute:
  *   - "all"     → all ct-credits (default)
- *   - "team"    → playwright, director, choreographer, designer, stage_management, other
+ *   - "team"    → all ct-credits excluding actor and producer
  *   - "cast"    → actor
  *   - "partner" → producer
  */
@@ -18,7 +18,7 @@ if (! $post_id) {
   return;
 }
 
-$team_role_groups = array('playwright', 'director', 'choreographer', 'designer', 'stage_management', 'other');
+$team_exclude_groups = array('actor', 'producer');
 
 $meta_query = array(
   'relation' => 'AND',
@@ -32,8 +32,8 @@ $meta_query = array(
 if ('team' === $role_group) {
   $meta_query[] = array(
     'key'     => 'role-group',
-    'value'   => $team_role_groups,
-    'compare' => 'IN',
+    'value'   => $team_exclude_groups,
+    'compare' => 'NOT IN',
   );
 } elseif ('cast' === $role_group) {
   $meta_query[] = array(

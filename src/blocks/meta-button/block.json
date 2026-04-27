@@ -4,6 +4,7 @@
 	"name": "chance/meta-button",
 	"title": "Meta Button",
 	"category": "widgets",
+	"icon": "button",
 	"description": "Display a button/link from a URL meta field",
 	"supports": {
 		"html": false,

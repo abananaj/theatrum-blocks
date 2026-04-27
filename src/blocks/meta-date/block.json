@@ -3,6 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-date",
 	"title": "Meta Date",
+	"icon": "calendar-alt",
 	"category": "chance",
 	"description": "Display date meta fields with configurable formatting",
 	"supports": {

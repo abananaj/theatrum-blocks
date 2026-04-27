@@ -4,6 +4,7 @@
 	"name": "chance/meta-time",
 	"title": "Meta Time",
 	"category": "chance",
+	"icon": "clock",
 	"description": "Display time meta fields with configurable formatting",
 	"supports": {
 		"html": false,

@@ -27,7 +27,6 @@ require_once __DIR__ . '/src/scripts/rest-endpoints.php';
 function theatrum_register_blocks()
 {
 	$custom_blocks = array(
-		'artist-credits',
 		'block-dynamic',
 		'block-static',
 		'board-member',
@@ -36,6 +35,7 @@ function theatrum_register_blocks()
 		'cover-card',
 		'meta-button',
 		'meta-date',
+		'meta-embed',
 		'meta-field',
 		'meta-gallery',
 		'meta-icon',
@@ -47,7 +47,6 @@ function theatrum_register_blocks()
 		'onstage-next',
 		'performances-list',
 		'popup',
-		'production-credits',
 		'production-details',
 		'production-quotes',
 		'season-producer',

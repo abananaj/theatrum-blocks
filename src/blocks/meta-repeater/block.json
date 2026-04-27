@@ -4,6 +4,7 @@
 	"name": "chance/meta-repeater",
 	"title": "Meta Repeater",
 	"category": "chance",
+	"icon": "update",
 	"description": "Display ACF repeater field rows with configurable subfield display",
 	"supports": {
 		"html": false,
@@ -94,6 +95,7 @@
 		{
 			"name": "chance/meta-repeater-awards",
 			"title": "Awards Repeater",
+			"icon": "awards",
 			"attributes": {
 				"tagName": "ul",
 				"subfields": "subfieldA|subfieldB"
