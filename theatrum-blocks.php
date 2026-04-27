@@ -45,7 +45,7 @@ function theatrum_register_blocks()
 		'meta-time',
 		'onstage-current',
 		'onstage-next',
-		'performance-repeater',
+		'performances-list',
 		'popup',
 		'production-credits',
 		'production-details',
