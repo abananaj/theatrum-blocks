@@ -34,13 +34,20 @@ if ($featured_image_url) {
   $bg_style = 'background-image: url(' . esc_url($featured_image_url) . ');';
 }
 ?>
-<div <?php echo get_block_wrapper_attributes(array('class' => 'wp-block-chance-cover-card')); ?>>
+<div <?php echo get_block_wrapper_attributes(); ?>>
   <div class="cover-card" style="<?php echo esc_attr($bg_style); ?>">
     <div class="user-content"><?php echo do_blocks($content); ?></div>
     <div class="bottom-bar">
-      <a href="<?php echo esc_url($post_permalink); ?>" class="post-link">
-        <h3 class="title"><?php echo esc_html($post_title); ?></h3>
-      </a>
+      <!-- <a href="<?php echo esc_url($post_permalink); ?>" class="post-link"> -->
+      <!-- <h3 class="title"><?php echo esc_html($post_title); ?></h3> -->
+      <h4 class="dates"><?php
+                        $opening = get_post_meta($post->ID, 'opening', true);
+                        $closing = get_post_meta($post->ID, 'closing', true);
+                        if ($opening) echo esc_html(date('M j', strtotime($opening)));
+                        if ($opening && $closing) echo ' – ';
+                        if ($closing) echo esc_html(date('M j', strtotime($closing)));
+                        ?></h4>
+      <!-- </a> -->
       <?php if ($button_text && $button_url) :
         $target = $open_in_new_window ? 'target="_blank" rel="noopener noreferrer"' : '';
       ?>

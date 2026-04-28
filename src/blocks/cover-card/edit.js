@@ -83,33 +83,33 @@ export default function Edit({ attributes, setAttributes, context }) {
         {isLoading && <Spinner />}
         {error && <p className="cover-card-error">Error: {error}</p>}
         {!isLoading && !error && postData && (
-          <div className="wp-block-chance-cover-card-editor">
-            <div
-              className="cover-card"
-              style={{
-                backgroundImage: postData.featured_image
-                  ? `url(${postData.featured_image})`
-                  : 'linear-gradient(to right, #ccc, #ddd)'
-              }}
-            >
-              <div className="user-content">
-                <InnerBlocks placeholder="Add blocks for inner content..." />
-              </div>
-              <div className="bottom-bar">
-                <a href="#" className="post-link">
-                  <h3 className="title">{postData.title || '(No Title)'}</h3>
+          <div
+            className="cover-card"
+            style={{
+              backgroundImage: postData.featured_image
+                ? `url(${postData.featured_image})`
+                : 'linear-gradient(to right, #ccc, #ddd)'
+            }}
+          >
+            <div className="user-content">
+              <InnerBlocks placeholder="Add blocks for inner content..." />
+            </div>
+            <div className="bottom-bar">
+              <h4 className="dates">
+                {postData.opening && new Date(postData.opening).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                {postData.opening && postData.closing && ' – '}
+                {postData.closing && new Date(postData.closing).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </h4>
+              {attributes.buttonText && (
+                <a
+                  href={attributes.buttonUrl || '#'}
+                  target={attributes.openInNewWindow ? '_blank' : '_self'}
+                  rel={attributes.openInNewWindow ? 'noopener noreferrer' : ''}
+                  className="button"
+                >
+                  {attributes.buttonText}
                 </a>
-                {attributes.buttonText && (
-                  <a
-                    href={attributes.buttonUrl || '#'}
-                    target={attributes.openInNewWindow ? '_blank' : '_self'}
-                    rel={attributes.openInNewWindow ? 'noopener noreferrer' : ''}
-                    className="button"
-                  >
-                    {attributes.buttonText}
-                  </a>
-                )}
-              </div>
+              )}
             </div>
           </div>
         )}
