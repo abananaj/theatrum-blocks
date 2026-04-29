@@ -94,12 +94,18 @@ function theatrum_get_cover_card_rest_callback($request)
 		? get_the_post_thumbnail_url($post->ID, 'full')
 		: '';
 
+	// Get opening and closing dates from post meta
+	$opening = get_post_meta($post->ID, 'opening', true);
+	$closing = get_post_meta($post->ID, 'closing', true);
+
 	return new WP_REST_Response(array(
 		'post_id'        => $post->ID,
 		'post_type'      => $post->post_type,
 		'title'          => $post->post_title,
 		'featured_image' => $featured_image_url,
 		'permalink'      => get_permalink($post->ID),
+		'opening'        => $opening ?: null,
+		'closing'        => $closing ?: null,
 	));
 }
 

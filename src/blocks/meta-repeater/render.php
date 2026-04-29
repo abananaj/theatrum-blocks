@@ -67,8 +67,10 @@ $tag_a        = isset($attributes['tagA']) ? sanitize_text_field($attributes['ta
 $tag_b        = isset($attributes['tagB']) ? sanitize_text_field($attributes['tagB']) : 'span';
 $tag_wrapper  = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'ul';
 
-// Get post ID from context or current post
-$post_id = isset($block->context['postId']) ? $block->context['postId'] : get_the_ID();
+// Get post ID: explicit override > block context > current post
+$override_post_id = ! empty($attributes['overridePostId']) ? absint($attributes['overridePostId']) : 0;
+$context_post_id  = isset($block->context['postId']) ? absint($block->context['postId']) : get_the_ID();
+$post_id          = $override_post_id ?: $context_post_id;
 
 if (! $repeater_key || ! $post_id) {
   return;

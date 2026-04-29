@@ -132,6 +132,8 @@ export default function Edit({ attributes, setAttributes }) {
               'Text displayed on the Learn More button',
               'onstage-next'
             )}
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
           />
         </PanelBody>
       </InspectorControls>

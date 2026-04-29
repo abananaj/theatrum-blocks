@@ -57,6 +57,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ keyInput: value })}
 						placeholder="e.g., page_title, description, custom_field"
 						help="Enter the key to retrieve the corresponding value"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<TextControl
 						label="Prepend"
@@ -64,6 +66,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ prepend: value })}
 						placeholder="Text to prepend"
 						help="Optional plain text to add before the value"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<TextControl
 						label="Append"
@@ -71,6 +75,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ append: value })}
 						placeholder="Text to append"
 						help="Optional plain text to add after the value"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 				</div>
 			</InspectorControls>

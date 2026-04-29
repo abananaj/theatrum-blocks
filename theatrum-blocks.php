@@ -68,6 +68,7 @@ function theatrum_register_block_variations()
 {
 	$variation_blocks = array(
 		'post-cover',
+		'subtitle-title',
 	);
 
 	foreach ($variation_blocks as $block) {

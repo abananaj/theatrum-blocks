@@ -52,6 +52,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ keyInput: value })}
 						placeholder="e.g., video_link, registration_url"
 						help="Enter the meta key that contains the URL"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<TextControl
 						label="Button Text"
@@ -59,6 +61,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ buttonText: value })}
 						placeholder="Learn More"
 						help="Text to display on the button"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 				</div>
 			</InspectorControls>

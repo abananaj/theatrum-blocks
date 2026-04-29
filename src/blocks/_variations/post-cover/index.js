@@ -144,6 +144,8 @@ function Edit({ attributes, setAttributes, className }) {
 						value={customOverlayColor || ''}
 						onChange={(value) => setAttributes({ customOverlayColor: value })}
 						placeholder="#000000"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 				</PanelBody>
 
@@ -177,11 +179,13 @@ function Edit({ attributes, setAttributes, className }) {
 						label={__('Is Dark', 'theatrum-blocks')}
 						checked={isDark}
 						onChange={(value) => setAttributes({ isDark: value })}
+						__nextHasNoMarginBottom 
 					/>
 					<ToggleControl
 						label={__('Repeat Background Image', 'theatrum-blocks')}
 						checked={isRepeated}
 						onChange={(value) => setAttributes({ isRepeated: value })}
+						__nextHasNoMarginBottom 
 					/>
 				</PanelBody>
 

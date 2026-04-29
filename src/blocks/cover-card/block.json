@@ -7,13 +7,48 @@
 	"description": "Display a featured production or event as a card with featured image background and overlaid title",
 	"icon": "cover-image",
 	"supports": {
-		"html": false,
+		"customCSS": true,
+		"ariaLabel": true,
+		"alignWide": true,
+		"allowedBlocks": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true
+		},
+		"contentRole": true,
+		"dimensions": {
+			"aspectRatio": true,
+			"minHeight": true,
+			"height": true,
+			"minWidth": true,
+			"width": true
+		},
+		"filter": {
+			"duotone": true
+		},
+		"inserter": true,
+		"interactivity": true,
+		"layout": true,
+		"listView": true,
+		"lock": true,
+		"multiple": true,
+		"position": {
+			"sticky": true
+		},
+		"renaming": true,
+		"splitting": true,
+		"visibility": true,
+		"html": true,
 		"align": true,
 		"reusable": true,
 		"anchor": true,
 		"className": true,
 		"customClassName": true,
 		"typography": {
+			"fitText": true,
+			"textAlign": true,
+			"textIndent": true,
 			"fontSize": true,
 			"fontFamily": true,
 			"fontStyle": true,
@@ -26,7 +61,12 @@
 		"color": {
 			"text": true,
 			"background": true,
-			"gradient": true
+			"gradient": true,
+			"button": true,
+			"enableContrastChecker": true,
+			"gradients": true,
+			"heading": true,
+			"link": true
 		},
 		"spacing": {
 			"margin": true,
@@ -68,7 +108,7 @@
 			"default": false
 		}
 	},
-	"innerBlocks": [],
+	"styles": [],
 	"textdomain": "cover-card",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

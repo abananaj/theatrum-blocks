@@ -1,4 +1,4 @@
-@use "./style.scss";
+// @use "./style.scss"; // Tutorial rec: re-import style.scss so editor styles match frontend (causes double-load via block.json)
 
 /**
  * The following styles get applied inside the editor only.
@@ -6,6 +6,6 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-chance-artist-credits {
-	border: 1px dotted #f00;
-}
+// .wp-block-chance-artist-credits {
+// 	border: 1px dotted #f00;
+// }

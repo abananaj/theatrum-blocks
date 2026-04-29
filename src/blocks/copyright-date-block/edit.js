@@ -56,8 +56,6 @@ export default function Edit({ attributes, setAttributes }) {
 			<InspectorControls>
 				<PanelBody title={__('Settings', 'copyright-date-block')}>
 					<ToggleControl
-
-						__next40pxDefaultSize
 						checked={!!showStartingYear}
 						label={__(
 							'Show starting year',
@@ -69,10 +67,10 @@ export default function Edit({ attributes, setAttributes }) {
 							})
 						}
 						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					{showStartingYear && (
 						<TextControl
-							__next40pxDefaultSize
 							label={__(
 								'Starting year',
 								'copyright-date-block'
@@ -82,6 +80,7 @@ export default function Edit({ attributes, setAttributes }) {
 								setAttributes({ startingYear: value })
 							}
 							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 						/>
 					)}
 				</PanelBody>

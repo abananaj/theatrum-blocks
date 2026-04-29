@@ -5,9 +5,10 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
-	const { buttonText, isOpen } = attributes;
+	const { buttonText, popupTitle, isOpen } = attributes;
 	const blockProps = useBlockProps({ className: 'wp-block-chance-popup' });
 	const [open, setOpen] = useState(isOpen);
+	const title = popupTitle || buttonText;
 
 	const togglePopup = () => {
 		setOpen(!open);
@@ -17,11 +18,21 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<Fragment>
 			<InspectorControls>
-				<PanelBody title={__('Popup Settings', 'chance-ollie')}>
+				<PanelBody title={__('Popup Settings', 'theatrum-blocks')}>
 					<TextControl
-						label={__('Button Text', 'chance-ollie')}
+						label={__('Button Text', 'theatrum-blocks')}
 						value={buttonText || ''}
 						onChange={(value) => setAttributes({ buttonText: value })}
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<TextControl
+						label={__('Dialog Title', 'theatrum-blocks')}
+						help={__('Heading shown inside the dialog. Defaults to button text if empty.', 'theatrum-blocks')}
+						value={popupTitle || ''}
+						onChange={(value) => setAttributes({ popupTitle: value })}
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -30,24 +41,48 @@ export default function Edit({ attributes, setAttributes }) {
 					variant="primary"
 					onClick={togglePopup}
 					className="popup-toggle-button"
+					aria-expanded={open}
+					aria-haspopup="dialog"
 				>
 					{buttonText}
 				</Button>
+
 				{open && (
 					<div
 						className="popup-backdrop"
 						onClick={togglePopup}
 						data-popup-backdrop="true"
+						aria-hidden="true"
 					/>
 				)}
-				<div
-					className={open ? 'popup-content-visible' : 'popup-content-hidden'}
-					style={{ display: open ? 'block' : 'none', marginTop: '12px' }}
-				>
-					<div className="wp-block-group popup-inner-content">
-						<InnerBlocks />
+
+				{open && (
+					<div
+						className="popup-dialog"
+						data-popup-content="true"
+						role="dialog"
+						aria-modal="true"
+						aria-label={title}
+						data-state="open"
+					>
+						<div className="popup-dialog-header">
+							<h2 className="popup-dialog-title">{title}</h2>
+							<button
+								className="popup-close-button"
+								onClick={togglePopup}
+								aria-label={__('Close dialog', 'theatrum-blocks')}
+								type="button"
+							>
+								<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none">
+									<path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+								</svg>
+							</button>
+						</div>
+						<div className="popup-dialog-content">
+							<InnerBlocks />
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</Fragment>
 	);

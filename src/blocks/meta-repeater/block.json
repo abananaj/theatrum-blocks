@@ -47,6 +47,10 @@
 	},
 	"usesContext": ["postId", "postType"],
 	"attributes": {
+		"overridePostId": {
+			"type": "integer",
+			"default": 0
+		},
 		"repeaterKey": {
 			"type": "string",
 			"default": ""

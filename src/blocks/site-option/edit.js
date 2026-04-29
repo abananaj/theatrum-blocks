@@ -40,6 +40,8 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(value) => setAttributes({ optionName: value })}
 						placeholder="e.g., siteurl, home, blogname"
 						help="Enter the WordPress option key to retrieve from wp_options table"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="HTML Tag"

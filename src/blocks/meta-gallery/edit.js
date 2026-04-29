@@ -55,6 +55,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ keyInput: value })}
 						placeholder="e.g., production_gallery, photos"
 						help="Enter the ACF/meta key for the gallery field"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<RangeControl
 						label="Columns"
@@ -89,11 +91,13 @@ export default function Edit({ attributes, setAttributes, context }) {
 						label="Crop images to same height"
 						checked={attributes.imageCrop || false}
 						onChange={(value) => setAttributes({ imageCrop: value })}
+						__nextHasNoMarginBottom 
 					/>
 					<ToggleControl
 						label="Show captions"
 						checked={attributes.showCaption || false}
 						onChange={(value) => setAttributes({ showCaption: value })}
+						__nextHasNoMarginBottom 
 					/>
 				</div>
 			</InspectorControls>

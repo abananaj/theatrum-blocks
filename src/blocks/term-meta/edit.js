@@ -41,6 +41,8 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(value) => setAttributes({ termId: value ? parseInt(value) : 0 })}
 						placeholder="e.g., 5"
 						help="Enter the ID of the taxonomy term"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<TextControl
 						label="Meta Key"
@@ -48,6 +50,8 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(value) => setAttributes({ metaKey: value })}
 						placeholder="e.g., description, color, icon"
 						help="Enter the meta key to display"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 				</div>
 			</InspectorControls>

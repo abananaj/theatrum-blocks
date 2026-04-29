@@ -1,17 +1,24 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/season-producer",
-	"title": "Season Producer",
-	"category": "chance",
-	"description": "Display season producer titles from the current post's season taxonomy term.",
-	"icon": "awards",
+	"name": "chance/subtitle-title",
+	"title": "Subtitle + Title",
+	"category": "text",
+	"icon": "heading",
+	"description": "Display the post title with an optional subtitle heading before or after it",
+	"keywords": ["title", "subtitle", "heading", "post title"],
 	"supports": {
 		"html": false,
 		"align": true,
 		"anchor": true,
 		"className": true,
 		"customClassName": true,
+		"reusable": true,
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
 		"typography": {
 			"fontSize": true,
 			"fontFamily": true,
@@ -21,11 +28,6 @@
 			"lineHeight": true,
 			"textDecoration": true,
 			"textTransform": true
-		},
-		"color": {
-			"text": true,
-			"background": true,
-			"gradient": true
 		},
 		"spacing": {
 			"margin": true,
@@ -37,31 +39,32 @@
 			"radius": true,
 			"style": true,
 			"width": true
-		},
-		"shadow": true,
-		"opacity": true
+		}
 	},
+	"usesContext": ["postId", "postType"],
 	"attributes": {
-		"metaKey": {
-			"type": "string",
-			"default": "season_producers"
+		"level": {
+			"type": "number",
+			"default": 1
 		},
-		"tagName": {
-			"type": "string",
-			"default": "ul"
-		},
-		"headingText": {
+		"subtitle": {
 			"type": "string",
 			"default": ""
 		},
-		"headingLevel": {
+		"subtitlePosition": {
 			"type": "string",
-			"default": "h2"
+			"default": "before"
+		},
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
 		}
 	},
-	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style.scss",
+	"editorStyle": "file:./editor.scss"
 }

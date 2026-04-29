@@ -5,8 +5,16 @@
  * Displays producer titles from the current post's season taxonomy term.
  */
 
-$post_id  = get_the_ID();
-$meta_key = isset($attributes['metaKey']) ? sanitize_key($attributes['metaKey']) : 'season_producers';
+$post_id      = get_the_ID();
+$meta_key     = isset($attributes['metaKey']) ? sanitize_key($attributes['metaKey']) : 'season_producers';
+$heading_text  = isset($attributes['headingText']) ? sanitize_text_field($attributes['headingText']) : '';
+$heading_level = isset($attributes['headingLevel']) ? sanitize_text_field($attributes['headingLevel']) : 'h2';
+
+// Validate heading level
+$allowed_headings = array('h2', 'h3', 'h4', 'h5', 'h6');
+if (! in_array($heading_level, $allowed_headings, true)) {
+  $heading_level = 'h2';
+}
 
 if (!$post_id) {
   return;
@@ -55,8 +63,13 @@ if (empty($producers)) {
 }
 
 ?>
-<ul <?php echo get_block_wrapper_attributes(['class' => 'season-producer-list']); ?>>
-  <?php foreach ($producers as $title) : ?>
-    <li class="season-producer-item"><?php echo esc_html($title); ?></li>
-  <?php endforeach; ?>
-</ul>
+<div <?php echo get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']); ?>>
+  <?php if ($heading_text !== '') : ?>
+    <<?php echo $heading_level; ?> class="season-producer-heading"><?php echo esc_html($heading_text); ?></<?php echo $heading_level; ?>>
+  <?php endif; ?>
+  <ul class="season-producer-list">
+    <?php foreach ($producers as $title) : ?>
+      <li class="season-producer-item"><?php echo esc_html($title); ?></li>
+    <?php endforeach; ?>
+  </ul>
+</div>

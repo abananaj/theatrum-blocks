@@ -43,6 +43,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ keyInput: value })}
 						placeholder="e.g., hero_image, poster"
 						help="Enter the ACF/meta key for the image field"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="Image Size"
@@ -73,6 +75,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 							value={attributes.customLink || ''}
 							onChange={(value) => setAttributes({ customLink: value })}
 							placeholder="https://example.com"
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 						/>
 					)}
 					{attributes.linkTo !== 'none' && (
@@ -80,12 +84,14 @@ export default function Edit({ attributes, setAttributes, context }) {
 							label="Open in new tab"
 							checked={attributes.openInNewTab || false}
 							onChange={(value) => setAttributes({ openInNewTab: value })}
+							__nextHasNoMarginBottom 
 						/>
 					)}
 					<ToggleControl
 						label="Show caption"
 						checked={attributes.showCaption || false}
 						onChange={(value) => setAttributes({ showCaption: value })}
+						__nextHasNoMarginBottom 
 					/>
 				</div>
 			</InspectorControls>

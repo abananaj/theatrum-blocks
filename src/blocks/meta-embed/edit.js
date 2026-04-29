@@ -87,6 +87,8 @@ export default function Edit({ attributes, setAttributes, context }) {
             onChange={(value) => setAttributes({ keyInput: value })}
             placeholder="e.g., trailer_url"
             help={metaKeyHelp}
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
           />
         </div>
       </InspectorControls>

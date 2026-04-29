@@ -47,7 +47,11 @@
 	"attributes": {
 		"buttonText": {
 			"type": "string",
-			"default": "Show More"
+			"default": "Open Dialog"
+		},
+		"popupTitle": {
+			"type": "string",
+			"default": ""
 		},
 		"isOpen": {
 			"type": "boolean",

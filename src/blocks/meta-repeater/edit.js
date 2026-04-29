@@ -1,6 +1,14 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Fragment, useState, useEffect, createElement } from '@wordpress/element';
-import { TextControl, SelectControl, Spinner, PanelBody } from '@wordpress/components';
+import {
+	TextControl,
+	SelectControl,
+	Spinner,
+	PanelBody,
+	ComboboxControl,
+	__experimentalToolsPanel as ToolsPanel,
+	__experimentalToolsPanelItem as ToolsPanelItem,
+} from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
@@ -22,10 +30,35 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const blockProps = useBlockProps();
 	const [rows, setRows] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [postSearchInput, setPostSearchInput] = useState('');
+	const [searchOptions, setSearchOptions] = useState([]);
 
 	const editorPostId = useSelect((select) => select('core/editor').getCurrentPostId());
 	const contextPostId = context?.postId;
-	const postId = contextPostId || editorPostId;
+	const defaultPostId = contextPostId || editorPostId;
+	const postId = attributes.overridePostId || defaultPostId;
+
+	// Fetch post search results for the ComboboxControl
+	useEffect(() => {
+		if (!postSearchInput || postSearchInput.length < 2) {
+			setSearchOptions([]);
+			return;
+		}
+		apiFetch({
+			path: `/wp/v2/search?search=${encodeURIComponent(postSearchInput)}&per_page=20&type=post&subtype=any`,
+		})
+			.then((results) => {
+				if (Array.isArray(results)) {
+					setSearchOptions(
+						results.map((r) => ({
+							label: `${r.title} — ${r.subtype} #${r.id}`,
+							value: String(r.id),
+						}))
+					);
+				}
+			})
+			.catch(() => setSearchOptions([]));
+	}, [postSearchInput]);
 
 	useEffect(() => {
 		if (!attributes.repeaterKey || !postId) {
@@ -89,6 +122,50 @@ export default function Edit({ attributes, setAttributes, context }) {
 	return (
 		<Fragment>
 			<InspectorControls>
+				<ToolsPanel
+					label="Post Source"
+					resetAll={() => {
+						setAttributes({ overridePostId: 0 });
+						setPostSearchInput('');
+						setSearchOptions([]);
+					}}
+				>
+					<ToolsPanelItem
+						hasValue={() => !!attributes.overridePostId}
+						label="Override Post"
+						onDeselect={() => {
+							setAttributes({ overridePostId: 0 });
+							setPostSearchInput('');
+							setSearchOptions([]);
+						}}
+						isShownByDefault={false}
+					>
+						<ComboboxControl
+							label="Search posts"
+							value={attributes.overridePostId ? String(attributes.overridePostId) : null}
+							options={searchOptions}
+							onFilterValueChange={(val) => setPostSearchInput(val)}
+							onChange={(val) => {
+								setAttributes({ overridePostId: val ? parseInt(val, 10) : 0 });
+							}}
+							help="Search by title to select a post"
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+						/>
+						<TextControl
+							label="Post ID"
+							type="number"
+							value={attributes.overridePostId || ''}
+							onChange={(val) => {
+								setAttributes({ overridePostId: val ? parseInt(val, 10) : 0 });
+							}}
+							placeholder={`Default: ${defaultPostId || '—'}`}
+							help="Or enter a numeric post ID directly"
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+						/>
+					</ToolsPanelItem>
+				</ToolsPanel>
 				<PanelBody title="Repeater Settings" initialOpen={true}>
 					<TextControl
 						label="Repeater Field Key"
@@ -96,6 +173,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ repeaterKey: value })}
 						placeholder="e.g., info, team_members"
 						help="The ACF repeater field key"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="Wrapper Tag"
@@ -115,6 +194,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ subfieldA: value })}
 						placeholder="e.g., text, name"
 						help="The ACF subfield key for the first field"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="HTML Tag for Subfield A"
@@ -130,6 +211,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ headingText: value })}
 						placeholder="e.g., Credits, Cast"
 						help="Appears before the list. Hidden when there are no rows."
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="Heading Level"
@@ -151,6 +234,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ subfieldB: value })}
 						placeholder="e.g., url, title"
 						help="The ACF subfield key for the second field (optional)"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="HTML Tag for Subfield B"

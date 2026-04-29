@@ -112,6 +112,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ repeaterKey: value })}
 						placeholder="e.g., performances, show_dates"
 						help="The ACF repeater field key"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="Wrapper Tag"
@@ -131,6 +133,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ dateSubfield: value })}
 						placeholder="e.g., date, performance_date"
 						help="The ACF subfield key containing the date value"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="Date Format"
@@ -145,6 +149,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 							onChange={(value) => setAttributes({ customFormat: value })}
 							placeholder="e.g., M j, Y"
 							help="PHP date format string"
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 						/>
 					)}
 				</PanelBody>
@@ -155,6 +161,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ labelSubfield: value })}
 						placeholder="e.g., note, venue, time"
 						help="Optional second subfield displayed alongside the date"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 				</PanelBody>
 				<PanelBody title="Heading" initialOpen={false}>
@@ -164,6 +172,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ headingText: value })}
 						placeholder="e.g., Performances, Show Dates"
 						help="Appears before the list."
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="Heading Level"

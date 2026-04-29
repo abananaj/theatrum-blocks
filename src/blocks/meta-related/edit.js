@@ -59,6 +59,8 @@ export default function Edit({ attributes, setAttributes, context }) {
             onChange={(value) => setAttributes({ keyInput: value })}
             placeholder="e.g., related_production, venue_id"
             help="Enter the meta key that contains a post ID or Post Object"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
           />
           <SelectControl
             label="HTML Tag"
@@ -80,18 +82,23 @@ export default function Edit({ attributes, setAttributes, context }) {
             checked={attributes.linkToPost}
             onChange={(value) => setAttributes({ linkToPost: value })}
             help="Wrap the title in a link to the related post"
+            __nextHasNoMarginBottom 
           />
           <TextControl
             label="Prepend text"
             value={attributes.prepend}
             onChange={(value) => setAttributes({ prepend: value })}
             placeholder="e.g., Venue: "
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
           />
           <TextControl
             label="Append text"
             value={attributes.append}
             onChange={(value) => setAttributes({ append: value })}
             placeholder="e.g., ."
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
           />
         </div>
       </InspectorControls>

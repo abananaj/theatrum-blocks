@@ -69,6 +69,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(value) => setAttributes({ keyInput: value })}
 						placeholder="e.g., event_date, publication_date"
 						help="Enter the meta key that contains the date value"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<SelectControl
 						label="Display Format"
@@ -105,6 +107,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 									<div>S=Ordinal suffix (eg. st, nd, rd, th)</div>
 								</Fragment>
 							}
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 						/>
 					)}
 					<SelectControl
@@ -123,6 +127,24 @@ export default function Edit({ attributes, setAttributes, context }) {
 							{ label: '<h6>', value: 'h6' }
 						]}
 					/>
+					<TextControl
+						label="Prepend"
+						value={attributes.prepend || ''}
+						onChange={(value) => setAttributes({ prepend: value })}
+						placeholder="Text to prepend"
+						help="Optional plain text to add before the value"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<TextControl
+						label="Append"
+						value={attributes.append || ''}
+						onChange={(value) => setAttributes({ append: value })}
+						placeholder="Text to append"
+						help="Optional plain text to add after the value"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
 				</div>
 			</InspectorControls>
 			<div {...blockProps}>
@@ -130,7 +152,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<Spinner />
 				) : attributes.keyInput ? (
 					<Tag className="wp-block-chance-meta-date" style={{ margin: 0, padding: '8px 0', wordBreak: 'break-word' }}>
-						{displayValue || `[${attributes.keyInput}]`}
+						{`${attributes.prepend || ''}${displayValue || `[${attributes.keyInput}]`}${attributes.append || ''}`}
 					</Tag>
 				) : (
 					<em style={{ color: '#999' }}>Enter a date field key</em>

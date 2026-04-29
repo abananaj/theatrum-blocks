@@ -1,102 +1,127 @@
 // Popup Block Frontend Script
 document.addEventListener('DOMContentLoaded', function () {
-  // Get all popup toggle buttons
   const popupButtons = document.querySelectorAll('[data-popup-toggle="true"]');
 
   popupButtons.forEach(button => {
+    const wrapper = button.closest('.wp-block-chance-popup');
+    if (!wrapper) return;
+
+    const popupDialog = wrapper.querySelector('[data-popup-content="true"]');
+    const backdrop = wrapper.querySelector('[data-popup-backdrop="true"]');
+    if (!popupDialog || !backdrop) return;
+
+    // Trigger open
     button.addEventListener('click', function (e) {
       e.preventDefault();
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closePopup(popupDialog, button, backdrop);
+      } else {
+        openPopup(popupDialog, button, backdrop);
+      }
+    });
 
-      // Find the corresponding popup content (next sibling div with data-popup-content)
-      const popupContent = this.parentElement.querySelector('[data-popup-content="true"]');
+    // Backdrop click closes dialog
+    backdrop.addEventListener('click', function () {
+      closePopup(popupDialog, button, backdrop);
+    });
 
-      if (popupContent) {
-        // Toggle the visible/hidden classes and display property
-        const isVisible = popupContent.classList.contains('popup-content-visible');
+    // Close button inside header
+    const closeBtn = popupDialog.querySelector('[data-close-popup="true"]');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        closePopup(popupDialog, button, backdrop);
+      });
+    }
 
-        if (isVisible) {
-          closePopup(popupContent, this);
-        } else {
-          openPopup(popupContent, this);
+    // Escape key closes dialog
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        closePopup(popupDialog, button, backdrop);
+        button.focus();
+      }
+    });
+
+    // Trap focus inside open dialog
+    popupDialog.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(
+        popupDialog.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter(el => !el.closest('[hidden]'));
+
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
         }
       }
     });
   });
 
-  // Handle backdrop clicks to close popup
-  document.addEventListener('click', function (e) {
-    if (e.target.hasAttribute('data-popup-backdrop')) {
-      // Find the associated button and popup content
-      const popupWrapper = e.target.parentElement.querySelector('[data-popup-toggle="true"]');
-      const popupContent = e.target.parentElement.querySelector('[data-popup-content="true"]');
-
-      if (popupContent && popupWrapper) {
-        closePopup(popupContent, popupWrapper);
-      }
-    }
-
-    if (e.target.hasAttribute('data-close-popup')) {
-      const popupContent = e.target.parentElement;
-      const wrapper = popupContent.parentElement;
-      const popupWrapper = wrapper.querySelector('[data-popup-toggle="true"]');
-      if (popupContent && popupWrapper) {
-        closePopup(popupContent, popupWrapper);
-      }
-    }
-  });
-
   /**
-   * Close popup helper function
+   * Open the dialog
    */
-  function closePopup(popupContent, button) {
-    popupContent.classList.remove('popup-content-visible');
-    popupContent.classList.add('popup-content-hidden');
-    popupContent.style.display = 'none';
-    button.setAttribute('aria-expanded', 'false');
+  function openPopup(popupDialog, button, backdrop) {
+    // Show elements (remove hidden attr)
+    popupDialog.removeAttribute('hidden');
+    backdrop.removeAttribute('hidden');
+    button.setAttribute('aria-expanded', 'true');
 
-    // Remove close button
-    const closeBtn = popupContent.querySelector('[data-close-popup]');
-    if (closeBtn) {
-      closeBtn.remove();
+    // Lock scroll
+    document.body.style.overflow = 'hidden';
+
+    // Trigger CSS enter animation (double rAF ensures paint before transition)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        popupDialog.setAttribute('data-state', 'open');
+        backdrop.setAttribute('data-state', 'open');
+      });
+    });
+
+    // Move focus into dialog — skip the close button as first focus target
+    const focusable = Array.from(
+      popupDialog.querySelectorAll(
+        'a[href], button:not([data-close-popup]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    );
+    if (focusable.length > 0) {
+      setTimeout(() => focusable[0].focus(), 50);
+    } else {
+      const closeBtn = popupDialog.querySelector('[data-close-popup="true"]');
+      if (closeBtn) setTimeout(() => closeBtn.focus(), 50);
     }
-
-    // Remove backdrop
-    const backdrop = button.parentElement.querySelector('[data-popup-backdrop="true"]');
-    if (backdrop) {
-      backdrop.remove();
-    }
-
-    // Unlock page scroll
-    document.body.style.overflow = '';
   }
 
   /**
-   * Open popup helper function
+   * Close the dialog, waiting for the exit animation to complete
    */
-  function openPopup(popupContent, button) {
-    popupContent.classList.remove('popup-content-hidden');
-    popupContent.classList.add('popup-content-visible');
-    popupContent.style.display = 'block';
-    button.setAttribute('aria-expanded', 'true');
+  function closePopup(popupDialog, button, backdrop) {
+    popupDialog.setAttribute('data-state', 'closed');
+    backdrop.setAttribute('data-state', 'closed');
+    button.setAttribute('aria-expanded', 'false');
 
-    // Create and add close button
-    const closeBtn = document.createElement('button');
-    closeBtn.setAttribute('data-close-popup', 'true');
-    closeBtn.setAttribute('aria-label', 'Close');
-    closeBtn.textContent = '✕';
-    popupContent.prepend(closeBtn);
+    const hide = () => {
+      popupDialog.setAttribute('hidden', '');
+      backdrop.setAttribute('hidden', '');
+      document.body.style.overflow = '';
+    };
 
-    // Lock page scroll
-    document.body.style.overflow = 'hidden';
-
-    // Create and add backdrop if it doesn't exist
-    const parentElement = button.parentElement;
-    const existingBackdrop = parentElement.querySelector('[data-popup-backdrop="true"]');
-    if (!existingBackdrop) {
-      const backdrop = document.createElement('div');
-      backdrop.className = 'popup-backdrop';
-      backdrop.setAttribute('data-popup-backdrop', 'true');
-      parentElement.insertBefore(backdrop, popupContent);
+    const duration = parseFloat(getComputedStyle(popupDialog).transitionDuration) * 1000;
+    if (duration > 0) {
+      popupDialog.addEventListener('transitionend', hide, { once: true });
+    } else {
+      hide();
     }
   }
 });

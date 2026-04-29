@@ -48,10 +48,11 @@ if ($featured_image_url) {
                         if ($closing) echo esc_html(date('M j', strtotime($closing)));
                         ?></h4>
       <!-- </a> -->
-      <?php if ($button_text && $button_url) :
+      <?php if ($button_text) :
+        $href = $button_url ?: $post_permalink;
         $target = $open_in_new_window ? 'target="_blank" rel="noopener noreferrer"' : '';
       ?>
-        <a href="<?php echo esc_url($button_url); ?>" class="button" <?php echo $target; ?>><?php echo esc_html($button_text); ?></a>
+        <a href="<?php echo esc_url($href); ?>" class="button" <?php echo $target; ?>><?php echo esc_html($button_text); ?></a>
       <?php endif; ?>
     </div>
   </div>

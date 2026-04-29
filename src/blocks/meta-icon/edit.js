@@ -73,6 +73,8 @@ export default function Edit({ attributes, setAttributes, context }) {
             onChange={(value) => setAttributes({ keyInput: value })}
             placeholder="e.g., venue_icon, category_icon"
             help="The ACF icon picker field key"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
           />
           <RangeControl
             label="Icon Size (px)"
