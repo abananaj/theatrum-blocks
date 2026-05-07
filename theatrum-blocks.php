@@ -18,8 +18,8 @@ if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
-require_once __DIR__ . '/src/scripts/helpers.php';
-require_once __DIR__ . '/src/scripts/rest-endpoints.php';
+require_once __DIR__ . '/inc/helpers.php';
+require_once __DIR__ . '/inc/rest-endpoints.php';
 
 /**
  * Registers the blocks using block.json files.
