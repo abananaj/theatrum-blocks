@@ -28,7 +28,7 @@
 	}
 
 	.bottom-bar {
-		padding: 0;
+		padding: 0 0 0 10px;
 		margin: 0;
 		position: absolute;
 		left: 0;
@@ -36,6 +36,7 @@
 		right: 0;
 		z-index: 1;
 		height: fit-content;
+		min-height:40px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -45,6 +46,8 @@
 	}
 
 	.title {
+		margin-left: 10px;
+		line-height: 1;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -59,7 +62,15 @@
 		margin: 0;
 		color: var(--wp--preset--color--white);
 	}
-
+.buttons {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex-flow: column nowrap;
+}
 	.button {
 		font-size: 0.85em;
 		background-color: var(--wp--preset--color--light-yellow);
@@ -67,9 +78,15 @@
 		text-decoration: none;
 		transition: all 0.3s;
 		margin-left: 10px;
-		padding: 5px;
-		display: inline-block;
+		height:40px;
+		padding: 5px 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		white-space: nowrap;
+		// border: 1px solid  var(--wp--preset--color--black);
+		border-top: 2px solid var(--wp--preset--color--black);
+		border-left: 2px solid var(--wp--preset--color--black);
 		&:hover {
 			background-color: var(--wp--preset--color--light-yellow);
 		}

@@ -41,16 +41,16 @@ $block_classes .= $margin_classes . $padding_classes;
 
 ob_start();
 ?>
-<div class="carousel <?php echo esc_attr($block_classes); ?>">
-  <div class="wrapper">
-    <div class="header">
-      <h2 class="headline"><?php echo wp_kses_post($headline); ?></h2>
-      <div class="controls">
-        <button class="arrow disabled arrow-prev" aria-label="Previous"></button>
-        <button class="arrow arrow-next" aria-label="Next"></button>
+<div class="<?php echo esc_attr($block_classes); ?>">
+  <div class="ct-carousel-wrapper">
+    <div class="ct-carousel-header">
+      <h2 class="ct-carousel-headline"><?php echo wp_kses_post($headline); ?></h2>
+      <div class="ct-carousel-controls">
+        <button class="ct-carousel-arrow disabled ct-arrow-prev" aria-label="Previous"></button>
+        <button class="ct-carousel-arrow ct-arrow-next" aria-label="Next"></button>
       </div>
     </div>
-    <ul class="content">
+    <ul class="ct-carousel-content">
       <?php if (!empty($items) && is_array($items)) : ?>
         <?php foreach ($items as $item) : ?>
           <?php
@@ -59,14 +59,14 @@ ob_start();
           $item_subtitle = isset($item['subtitle']) ? wp_kses_post($item['subtitle']) : '';
           $item_link = isset($item['link']) ? esc_url($item['link']) : '#';
           ?>
-          <li class="item">
+          <li class="ct-carousel-card">
             <a href="<?php echo $item_link; ?>">
               <?php if ($item_image) : ?>
-                <img class="item__image" src="<?php echo $item_image; ?>" alt="<?php echo esc_attr($item_title); ?>" />
+                <img class="ct-carousel-card-image" src="<?php echo $item_image; ?>" alt="<?php echo esc_attr($item_title); ?>" />
               <?php endif; ?>
-              <div class="description">
-                <h3 class="title"><?php echo $item_title; ?></h3>
-                <span class="subtitle"><?php echo $item_subtitle; ?></span>
+              <div class="ct-carousel-card-description">
+                <h3 class="ct-carousel-card-title"><?php echo $item_title; ?></h3>
+                <span class="ct-carousel-card-subtitle"><?php echo $item_subtitle; ?></span>
               </div>
             </a>
           </li>

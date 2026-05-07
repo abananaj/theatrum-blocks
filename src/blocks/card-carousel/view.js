@@ -1,25 +1,61 @@
-/**
- * Use this file for JavaScript code that you want to run in the front-end 
- * on posts/pages that contain this block.
- *
- * When this file is defined as the value of the `viewScript` property
- * in `block.json` it will be enqueued on the front end of the site.
- *
- * Example:
- *
- * ```js
- * {
- *   "viewScript": "file:./view.js"
- * }
- * ```
- *
- * If you're not making any changes to this file because your project doesn't need any 
- * JavaScript running in the front-end, then you should delete this file and remove 
- * the `viewScript` property from `block.json`. 
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#view-script
- */
- 
-/* eslint-disable no-console */
-console.log("Hello World! (from card-carousel view.js)");
-/* eslint-enable no-console */
+window.addEventListener('load', () => {
+  const COMPONENT_SELECTOR = '.ct-carousel-wrapper';
+  const CONTROLS_SELECTOR = '.ct-carousel-controls';
+  const CONTENT_SELECTOR = '.ct-carousel-content';
+
+  for (const component of document.querySelectorAll(COMPONENT_SELECTOR)) {
+    const content = component.querySelector(CONTENT_SELECTOR);
+    const nextButton = component.querySelector('.ct-arrow-next');
+    const prevButton = component.querySelector('.ct-arrow-prev');
+    const hasControls = component.querySelector(CONTROLS_SELECTOR) !== null;
+
+    const maxScrollWidth = content.scrollWidth - content.clientWidth;
+    const scrollBy = content.clientWidth / 2;
+
+    if (maxScrollWidth !== 0) {
+      component.classList.add('has-arrows');
+    }
+
+    nextButton?.addEventListener('click', (e) => {
+      e.preventDefault();
+      content.scroll({ left: content.scrollLeft + scrollBy, behavior: 'smooth' });
+    });
+
+    prevButton?.addEventListener('click', (e) => {
+      e.preventDefault();
+      content.scroll({ left: content.scrollLeft - scrollBy, behavior: 'smooth' });
+    });
+
+    const toggleArrows = () => {
+      nextButton?.classList.toggle('disabled', content.scrollLeft >= maxScrollWidth - 10);
+      prevButton?.classList.toggle('disabled', content.scrollLeft <= 10);
+    };
+
+    let mx = 0;
+    let startScrollLeft = 0;
+
+    content.addEventListener('mousemove', (e) => {
+      if (!mx) return;
+      content.scrollLeft = startScrollLeft + mx - (e.pageX - content.offsetLeft);
+    });
+
+    content.addEventListener('mousedown', (e) => {
+      startScrollLeft = content.scrollLeft;
+      mx = e.pageX - content.offsetLeft;
+      content.classList.add('dragging');
+    });
+
+    if (hasControls) {
+      content.addEventListener('scroll', toggleArrows);
+    }
+
+    const stopDrag = () => {
+      mx = 0;
+      content.classList.remove('dragging');
+    };
+
+    content.addEventListener('mouseup', stopDrag);
+    content.addEventListener('mouseleave', stopDrag);
+  }
+});
+
