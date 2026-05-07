@@ -1,0 +1,1 @@
+THi block will work exactly like the youtube embed core wp block and will have all the same options, except it will display the url stored in meta field of a input by the user in the editor.

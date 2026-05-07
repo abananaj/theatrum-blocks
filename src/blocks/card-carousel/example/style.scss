@@ -1,11 +1,11 @@
-.wp-block-chance-card-carousel {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 1rem;
+
+
+.ct-carousel {
+  padding: 24px;
 
   h2 {
     margin: 0;
-    font-variation-settings: "wght" 220;
+  font-variation-settings: "wght" 220;
   }
 
   a {
@@ -17,18 +17,13 @@
     aspect-ratio: 1/1;
     width: 175px;
     height: 175px;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
     user-drag: none;
     margin-bottom: 16px;
     border-radius: clamp(0px, ((100vw - 4px) - 100%) * 9999, 4px);
-    transition: 500ms ease-in-out;
-
+      transition:500ms ease-in-out;
     &:hover {
-      transform: scale(1.05);
-      transition: 500ms ease-in-out;
+    transform:scale(1.05);
+      transition:500ms ease-in-out;
     }
   }
 
@@ -95,13 +90,14 @@
     }
   }
 
-  .ct-carousel-card {
-    .ct-carousel-card-description {
+  .ct-carousel-item {
+    .ct-carousel-description {
       width: 100%;
     }
 
     a {
       display: flex;
+      justify-content: center;
       justify-content: flex-start;
       align-items: center;
       flex-direction: column;
@@ -138,11 +134,10 @@
       cursor: pointer;
     }
 
-    &.ct-arrow-prev:before {
+    &.arrow-prev:before {
       transform: rotate(90deg);
     }
-
-    &.ct-arrow-next:before {
+    &.arrow-next:before {
       transform: rotate(-90deg);
     }
   }
@@ -151,11 +146,5 @@
     &::before {
       filter: brightness(2);
     }
-  }
-}
-
-.disclaimer {
-  a {
-    color: #fff;
   }
 }

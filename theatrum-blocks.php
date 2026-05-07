@@ -52,7 +52,8 @@ function theatrum_register_blocks()
 		'season-producer',
 		'site-option',
 		'staff-member',
-		'term-meta'
+		'term-meta',
+		'video-trailer',
 	);
 
 	foreach ($custom_blocks as $block) {
