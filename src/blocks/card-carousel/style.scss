@@ -89,6 +89,46 @@
 		grid-gap: 24px;
 		grid-auto-flow: column;
 		list-style: none;
+  .ct-carousel-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+
+    &.has-arrows {
+      .ct-carousel-content {
+        @media only screen and (min-width: 1180px) {
+          justify-content: space-between;
+        }
+      }
+
+      .ct-carousel-arrows {
+        @media only screen and (min-width: 1180px) {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  .ct-carousel-header {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .ct-carousel-content {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: grid;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    padding: 0;
+    margin: 0;
+    grid-gap: 24px;
+    grid-auto-flow: column;
+    list-style: none;
 
 		&::-webkit-scrollbar {
 			display: none;
@@ -126,6 +166,37 @@
 		background: transparent;
 		box-shadow: none;
 		border: 0;
+  .ct-carousel-card {
+    .ct-carousel-card-description {
+      width: 100%;
+    }
+
+    a {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+      user-select: none;
+      margin: 10px 0px;
+      padding: 16px;
+      background: #181818;
+      border-radius: clamp(0px, ((100vw - 4px) - 100%) * 9999, 8px);
+      cursor: pointer;
+    }
+  }
+
+  .ct-carousel-controls {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 24px;
+  }
+
+  .ct-carousel-arrow {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border: 0;
 
 		&:before {
 			content: "";
@@ -152,6 +223,20 @@
 			filter: brightness(2);
 		}
 	}
+    &.ct-arrow-prev:before {
+      transform: rotate(90deg);
+    }
+
+    &.ct-arrow-next:before {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .ct-carousel-arrow.disabled {
+    &::before {
+      filter: brightness(2);
+    }
+  }
 }
 
 .disclaimer {
