@@ -1,4 +1,4 @@
-import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Fragment } from '@wordpress/element';
 import {
 	PanelBody,
@@ -13,7 +13,7 @@ import { createElement } from '@wordpress/element';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes, context }) {
-	const { level, subtitle, subtitlePosition, isLink, linkTarget } = attributes;
+	const { level, subtitlePosition, isLink, linkTarget } = attributes;
 	const blockProps = useBlockProps({ className: 'wp-block-chance-subtitle-title' });
 
 	// Resolve post ID from Query Loop context or current editor post
@@ -26,6 +26,10 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 	// Get the post title (live from entity store)
 	const [rawTitle] = useEntityProp('postType', postType, 'title', postId);
+
+	// Get subtitle from post meta
+	const [meta] = useEntityProp('postType', postType, 'meta', postId);
+	const subtitle = meta?.subtitle || '';
 	const titleText = typeof rawTitle === 'object' && rawTitle?.rendered
 		? rawTitle.rendered
 		: (rawTitle || '');
@@ -50,24 +54,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 				<ToolsPanel
 					label="Subtitle"
 					resetAll={() => {
-						setAttributes({ subtitle: '', subtitlePosition: 'before' });
+						setAttributes({ subtitlePosition: 'before' });
 					}}
 				>
-					<ToolsPanelItem
-						hasValue={() => !! subtitle}
-						label="Subtitle text"
-						onDeselect={() => setAttributes({ subtitle: '' })}
-						isShownByDefault
-					>
-						<RichText
-							tagName="p"
-							value={subtitle}
-							onChange={(val) => setAttributes({ subtitle: val })}
-							placeholder="Enter subtitle…"
-							allowedFormats={[]}
-							style={{ padding: '4px 8px', border: '1px solid #ddd', borderRadius: '2px', margin: '0' }}
-						/>
-					</ToolsPanelItem>
 					<ToolsPanelItem
 						hasValue={() => subtitlePosition !== 'before'}
 						label="Subtitle position"
@@ -88,21 +77,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 					</ToolsPanelItem>
 				</ToolsPanel>
 				<PanelBody title="Title Settings" initialOpen={false}>
-					<SelectControl
-						label="Title level"
-						value={String(level)}
-						options={[
-							{ label: 'H1', value: '1' },
-							{ label: 'H2', value: '2' },
-							{ label: 'H3', value: '3' },
-							{ label: 'H4', value: '4' },
-							{ label: 'H5', value: '5' },
-							{ label: 'H6', value: '6' },
-						]}
-						onChange={(val) => setAttributes({ level: parseInt(val, 10) })}
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-					/>
 					<ToggleControl
 						label="Make title a link"
 						checked={isLink}

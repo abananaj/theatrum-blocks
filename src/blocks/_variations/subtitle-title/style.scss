@@ -1,9 +1,13 @@
 .wp-block-chance-subtitle-title {
 	.subtitle-title__subtitle {
-		display: block;
+		// display: block;
+		font-weight: 600;
+		margin-block-start:0;
+		margin-block-end:0;
 	}
 
 	.subtitle-title__title {
-		display: block;
+		// display: block;
+		font-weight: 500;
 	}
 }

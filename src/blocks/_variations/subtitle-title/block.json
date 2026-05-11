@@ -20,6 +20,7 @@
 			"gradient": true
 		},
 		"typography": {
+			"textAlign": true,
 			"fontSize": true,
 			"fontFamily": true,
 			"fontStyle": true,
@@ -47,10 +48,6 @@
 			"type": "number",
 			"default": 1
 		},
-		"subtitle": {
-			"type": "string",
-			"default": ""
-		},
 		"subtitlePosition": {
 			"type": "string",
 			"default": "before"
@@ -65,6 +62,7 @@
 		}
 	},
 	"editorScript": "file:./index.js",
+	"render": "file:./render.php",
 	"style": "file:./style.scss",
 	"editorStyle": "file:./editor.scss"
 }

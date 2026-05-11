@@ -46,6 +46,10 @@
 		}
 	},
 	"attributes": {
+		"taxonomy": {
+			"type": "string",
+			"default": ""
+		},
 		"termId": {
 			"type": "number",
 			"default": 0

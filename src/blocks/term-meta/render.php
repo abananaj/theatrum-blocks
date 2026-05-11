@@ -28,7 +28,21 @@ if (empty($value)) {
   return;
 }
 
-$display_value = $prepend . esc_html($value) . $append;
+// Resolve post ID or post object to post title
+$resolved = null;
+
+if (is_numeric($value)) {
+  $post = get_post(intval($value));
+  if ($post instanceof WP_Post) {
+    $resolved = get_the_title($post);
+  }
+} elseif ($value instanceof WP_Post) {
+  $resolved = get_the_title($value);
+} elseif (is_array($value) && isset($value['ID'])) {
+  $resolved = get_the_title(intval($value['ID']));
+}
+
+$display_value = $prepend . esc_html($resolved ?? $value) . $append;
 
 printf(
   '<%1$s %2$s>%3$s</%1$s>',
