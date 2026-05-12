@@ -1,0 +1,74 @@
+/**
+ * Frontend Styles for Styled Text Block
+ */
+
+[data-styled-text] {
+	// Ensures proper text rendering
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
+
+	// Styled spans within the text
+	.styled-span {
+		transition:
+			color 0.2s ease,
+			background-color 0.2s ease;
+	}
+}
+
+// Heading variations
+.wp-block-chance-styled-text {
+	&.h1,
+	h1[data-styled-text] {
+		margin-top: 0.67em;
+		margin-bottom: 0.67em;
+		font-size: 2em;
+		font-weight: bold;
+	}
+
+	&.h2,
+	h2[data-styled-text] {
+		margin-top: 0.75em;
+		margin-bottom: 0.75em;
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+
+	&.h3,
+	h3[data-styled-text] {
+		margin-top: 0.83em;
+		margin-bottom: 0.83em;
+		font-size: 1.17em;
+		font-weight: bold;
+	}
+
+	&.h4,
+	h4[data-styled-text] {
+		margin-top: 1em;
+		margin-bottom: 1em;
+		font-size: 1em;
+		font-weight: bold;
+	}
+
+	&.h5,
+	h5[data-styled-text] {
+		margin-top: 1.17em;
+		margin-bottom: 1.17em;
+		font-size: 0.83em;
+		font-weight: bold;
+	}
+
+	&.h6,
+	h6[data-styled-text] {
+		margin-top: 1.33em;
+		margin-bottom: 1.33em;
+		font-size: 0.67em;
+		font-weight: bold;
+	}
+
+	&.p,
+	p[data-styled-text] {
+		margin: 1em 0;
+		line-height: 1.6;
+	}
+}
