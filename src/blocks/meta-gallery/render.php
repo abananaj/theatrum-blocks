@@ -11,12 +11,13 @@ if (!$post_id) {
   return;
 }
 
-$key_input    = isset($attributes['keyInput'])   ? sanitize_text_field($attributes['keyInput'])   : '';
-$image_size   = isset($attributes['imageSize'])  ? sanitize_key($attributes['imageSize'])         : 'large';
-$columns      = isset($attributes['columns'])    ? intval($attributes['columns'])                 : 3;
-$link_to      = isset($attributes['linkTo'])     ? sanitize_text_field($attributes['linkTo'])     : 'none';
+$key_input    = isset($attributes['keyInput'])     ? sanitize_text_field($attributes['keyInput'])   : '';
+$image_size   = isset($attributes['imageSize'])    ? sanitize_key($attributes['imageSize'])         : 'large';
+$columns      = isset($attributes['columns'])      ? intval($attributes['columns'])                 : 3;
+$link_to      = isset($attributes['linkTo'])       ? sanitize_text_field($attributes['linkTo'])     : 'none';
 $image_crop   = !empty($attributes['imageCrop']);
 $show_caption = !empty($attributes['showCaption']);
+$fallback_text = isset($attributes['fallbackText']) ? sanitize_text_field($attributes['fallbackText']) : '';
 
 if (!$key_input) {
   return;
@@ -29,6 +30,13 @@ if ($value === null || $value === false || $value === '') {
 }
 
 if (empty($value) || !is_array($value)) {
+  if ($fallback_text) {
+    printf(
+      '<figure %s><div style="text-align:center;color:#666;padding:20px;">%s</div></figure>',
+      get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']),
+      esc_html($fallback_text)
+    );
+  }
   return;
 }
 
@@ -84,39 +92,60 @@ foreach ($value as $image) {
     $link_close = '</a>';
   }
 
-  $crop_style = $image_crop
-    ? ' style="width:100%;height:200px;object-fit:cover;"'
-    : ' style="width:100%;height:auto;"';
+  $crop_style = '';
 
-  $img_tag = sprintf('<img src="%s" alt="%s" class="wp-image-%s"%s />', $img_url, $img_alt, $attach_id, $crop_style);
+  $img_tag = sprintf('<img src="%s" alt="%s" class="wp-image-%s" />', $img_url, $img_alt, $attach_id);
 
   $caption_html = ($show_caption && $img_caption)
-    ? sprintf('<figcaption class="wp-element-caption">%s</figcaption>', $img_caption)
+    ? sprintf('<figcaption>%s</figcaption>', $img_caption)
     : '';
 
-  $items_html .= sprintf(
-    '<li class="blocks-gallery-item"><figure>%s%s%s</figure></li>',
-    $link_open,
-    $img_tag,
-    $link_close
-  );
-
   if ($caption_html) {
-    // Rewrite to put caption inside figure correctly
-    $items_html = substr($items_html, 0, -strlen('</figure></li>'));
-    $items_html .= $caption_html . '</figure></li>';
+    $items_html .= sprintf(
+      '<li class="blocks-gallery-item"><figure>%s%s%s%s</figure></li>',
+      $link_open,
+      $img_tag,
+      $link_close,
+      $caption_html
+    );
+  } else {
+    $items_html .= sprintf(
+      '<li class="blocks-gallery-item"><figure>%s%s%s</figure></li>',
+      $link_open,
+      $img_tag,
+      $link_close
+    );
   }
 }
 
 if (!$items_html) {
+  if ($fallback_text) {
+    printf(
+      '<figure %s><div style="text-align:center;color:#666;padding:20px;">%s</div></figure>',
+      get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']),
+      esc_html($fallback_text)
+    );
+  }
   return;
 }
 
-$col_style = sprintf('grid-template-columns: repeat(%d, 1fr);', $columns);
+// Build gallery classes
+$gallery_classes = [
+  'wp-block-chance-meta-gallery',
+  'wp-block-gallery',
+  sprintf('columns-%d', $columns),
+];
+
+if ($image_crop) {
+  $gallery_classes[] = 'is-cropped';
+}
+
+$wrapper_classes = implode(' ', array_filter($gallery_classes));
+$gap_style = sprintf('--wp--style--unstable-gallery-gap: %dpx;', intval(apply_filters('chance/meta-gallery-gap', 16)));
 
 printf(
-  '<figure %s><ul class="wp-block-gallery blocks-gallery-grid" style="display:grid;%s;gap:8px;">%s</ul></figure>',
-  get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']),
-  $col_style,
+  '<figure %s style="%s"><ul class="wp-block-gallery blocks-gallery-grid">%s</ul></figure>',
+  get_block_wrapper_attributes(['class' => $wrapper_classes]),
+  $gap_style,
   $items_html
 );

@@ -49,6 +49,10 @@
 		"showCaption": {
 			"type": "boolean",
 			"default": false
+		},
+		"fallbackText": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"textdomain": "meta-gallery",

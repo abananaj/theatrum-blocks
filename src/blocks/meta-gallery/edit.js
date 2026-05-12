@@ -39,10 +39,25 @@ export default function Edit({ attributes, setAttributes, context }) {
 	}, [attributes.keyInput, postId]);
 
 	const columns = attributes.columns || 3;
+	const gap = 16; // pixels
+	const flexBasis = columns > 1
+		? `calc(${(100 / columns).toFixed(2)}% - ${(gap * (columns - 1) / columns).toFixed(2)}px)`
+		: '100%';
+
+	const galleryClasses = [
+		'wp-block-gallery',
+		`columns-${columns}`,
+		attributes.imageCrop ? 'is-cropped' : ''
+	].filter(Boolean).join(' ');
+
 	const gridStyle = {
-		display: 'grid',
-		gridTemplateColumns: `repeat(${columns}, 1fr)`,
-		gap: '8px'
+		display: 'flex',
+		flexWrap: 'wrap',
+		gap: `${gap}px`,
+		listStyle: 'none',
+		margin: 0,
+		padding: 0,
+		'--wp--style--unstable-gallery-gap': `${gap}px`
 	};
 
 	return (
@@ -91,54 +106,73 @@ export default function Edit({ attributes, setAttributes, context }) {
 						label="Crop images to same height"
 						checked={attributes.imageCrop || false}
 						onChange={(value) => setAttributes({ imageCrop: value })}
-						__nextHasNoMarginBottom 
+						__nextHasNoMarginBottom
 					/>
 					<ToggleControl
 						label="Show captions"
 						checked={attributes.showCaption || false}
 						onChange={(value) => setAttributes({ showCaption: value })}
-						__nextHasNoMarginBottom 
+						__nextHasNoMarginBottom
+					/>
+					<TextControl
+						label="Fallback Text"
+						value={attributes.fallbackText || ''}
+						onChange={(value) => setAttributes({ fallbackText: value })}
+						placeholder="Optional text if no images are found"
+						help="Leave empty to hide the block when no images are found"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 				</div>
 			</InspectorControls>
 			<figure {...blockProps}>
 				{isLoading && <Spinner />}
 				{!isLoading && images.length > 0 && (
-					<ul className="wp-block-gallery blocks-gallery-grid" style={gridStyle}>
+					<ul className={`${galleryClasses} blocks-gallery-grid`} style={gridStyle}>
 						{images.map((img, i) => (
-							<li key={i} className="blocks-gallery-item">
-								<figure>
+							<li key={i} className="blocks-gallery-item" style={{ flex: `1 1 ${flexBasis}`, minWidth: 0 }}>
+								<figure style={{ margin: 0, display: 'flex', flexDirection: 'column', position: 'relative', maxWidth: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
 									<img
 										src={img.url}
 										alt={img.alt || ''}
 										style={{
-											width: '100%',
-											height: attributes.imageCrop ? '200px' : 'auto',
+											display: 'block',
+											width: attributes.imageCrop ? '100%' : 'auto',
+											height: attributes.imageCrop ? '100%' : 'auto',
 											objectFit: attributes.imageCrop ? 'cover' : 'contain',
-											display: 'block'
+											maxWidth: '100%',
+											flex: attributes.imageCrop ? '1 0 0%' : 'initial'
 										}}
 									/>
 									{attributes.showCaption && img.caption && (
-										<figcaption className="wp-element-caption">{img.caption}</figcaption>
+										<figcaption style={{
+											position: 'absolute',
+											bottom: 0,
+											left: 0,
+											right: 0,
+											margin: 0,
+											padding: '1em',
+											color: '#fff',
+											fontSize: '13px',
+											textAlign: 'center',
+											boxSizing: 'border-box',
+											background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%)',
+											textShadow: '0 0 1.5px #000'
+										}}>{img.caption}</figcaption>
 									)}
 								</figure>
 							</li>
 						))}
 					</ul>
 				)}
-				{!isLoading && images.length === 0 && (
-					<div
-						style={{
-							background: '#f0f0f0',
-							border: '2px dashed #ccc',
-							padding: '40px',
-							textAlign: 'center',
-							color: '#999'
-						}}
-					>
-						{attributes.keyInput
-							? `No images found for key: "${attributes.keyInput}"`
-							: 'Enter a meta key in the sidebar to display a gallery'}
+				{!isLoading && images.length === 0 && attributes.fallbackText && (
+					<div style={{ textAlign: 'center', color: '#666', padding: '20px' }}>
+						{attributes.fallbackText}
+					</div>
+				)}
+				{!isLoading && images.length === 0 && !attributes.fallbackText && (
+					<div style={{ textAlign: 'center', color: '#ccc', padding: '20px', fontSize: '14px' }}>
+						No value found.
 					</div>
 				)}
 			</figure>

@@ -1,9 +1,129 @@
 /**
- * The following styles get applied inside the editor only.
- *
- * Replace them with your own styles or remove the file completely.
+ * Editor styles for Meta Gallery block
+ * Matches the core WordPress gallery block styling
  */
 
-.wp-block-chance-artist-credits {
-	border: 1px dotted #f00;
+.wp-block-chance-meta-gallery {
+	align-items: normal;
+
+	// Gallery grid container
+	.wp-block-gallery {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--wp--style--unstable-gallery-gap, 16px);
+	}
+
+	// Gallery list items
+	.blocks-gallery-item {
+		flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
+		min-width: 0;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		figure {
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			max-width: 100%;
+			box-sizing: border-box;
+
+			> div,
+			> a {
+				margin: 0;
+				flex-direction: column;
+				flex-grow: 1;
+			}
+
+			img {
+				display: block;
+				height: auto;
+				max-width: 100% !important;
+				width: auto;
+			}
+
+			figcaption {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: 0;
+				padding: 1em;
+				max-height: 100%;
+				color: #fff;
+				font-size: 13px;
+				text-align: center;
+				box-sizing: border-box;
+				overflow: auto;
+				background: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+				text-shadow: 0 0 1.5px #000;
+
+				a {
+					color: inherit;
+				}
+
+				img {
+					display: inline;
+				}
+			}
+		}
+	}
+
+	// Single column layout
+	&.wp-block-gallery.columns-1 {
+		.blocks-gallery-item {
+			flex: 1 1 100%;
+		}
+	}
+
+	// Two column layout
+	&.wp-block-gallery.columns-2 {
+		.blocks-gallery-item {
+			flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.5));
+		}
+	}
+
+	// Three column layout
+	&.wp-block-gallery.columns-3 {
+		.blocks-gallery-item {
+			flex: 1 1 calc(33.333% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.666));
+		}
+	}
+
+	// Four column layout
+	&.wp-block-gallery.columns-4 {
+		.blocks-gallery-item {
+			flex: 1 1 calc(25% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.75));
+		}
+	}
+
+	// Cropped images styling
+	&.is-cropped {
+		.blocks-gallery-item figure {
+			> div:not(.components-drop-zone),
+			> a {
+				display: flex;
+			}
+
+			a,
+			img {
+				width: 100%;
+				flex: 1 0 0%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+	}
+
+	// Alignment classes
+	&.aligncenter {
+		justify-content: center;
+	}
+
+	&.alignleft,
+	&.alignright {
+		max-width: 50%;
+		width: 100%;
+	}
 }
