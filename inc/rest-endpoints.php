@@ -98,14 +98,40 @@ function theatrum_get_cover_card_rest_callback($request)
 	$opening = get_post_meta($post->ID, 'opening', true);
 	$closing = get_post_meta($post->ID, 'closing', true);
 
+	// Format dates using PHP format (M j = Jan 15)
+	$formatted_opening = '';
+	$formatted_closing = '';
+
+	if ($opening) {
+		$timestamp = theatrum_parse_flexible_date($opening);
+		if (!$timestamp) {
+			$timestamp = strtotime($opening);
+		}
+		if ($timestamp) {
+			$formatted_opening = wp_date('M j', $timestamp);
+		}
+	}
+
+	if ($closing) {
+		$timestamp = theatrum_parse_flexible_date($closing);
+		if (!$timestamp) {
+			$timestamp = strtotime($closing);
+		}
+		if ($timestamp) {
+			$formatted_closing = wp_date('M j', $timestamp);
+		}
+	}
+
 	return new WP_REST_Response(array(
-		'post_id'        => $post->ID,
-		'post_type'      => $post->post_type,
-		'title'          => $post->post_title,
-		'featured_image' => $featured_image_url,
-		'permalink'      => get_permalink($post->ID),
-		'opening'        => $opening ?: null,
-		'closing'        => $closing ?: null,
+		'post_id'              => $post->ID,
+		'post_type'            => $post->post_type,
+		'title'                => $post->post_title,
+		'featured_image'       => $featured_image_url,
+		'permalink'            => get_permalink($post->ID),
+		'opening'              => $opening ?: null,
+		'closing'              => $closing ?: null,
+		'formatted_opening'    => $formatted_opening ?: null,
+		'formatted_closing'    => $formatted_closing ?: null,
 	));
 }
 
@@ -1054,4 +1080,69 @@ function theatrum_get_season_producer_rest_callback($request)
 	}
 
 	return new WP_REST_Response(array('producers' => $producers), 200);
+}
+
+/* -----------------------------------------------------------------------
+ * Meta File
+ * -------------------------------------------------------------------- */
+
+function register_meta_file_rest_endpoint()
+{
+	register_rest_route('chance/v1', '/meta-file/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
+		'methods'             => 'GET',
+		'callback'            => 'theatrum_get_meta_file_rest_callback',
+		'permission_callback' => 'theatrum_editor_permission_check',
+		'args' => [
+			'post_id' => ['validate_callback' => function ($param) {
+				return is_numeric($param);
+			}],
+			'key'     => ['sanitize_callback' => 'sanitize_key'],
+		],
+	]);
+}
+add_action('rest_api_init', 'register_meta_file_rest_endpoint');
+
+function theatrum_get_meta_file_rest_callback($request)
+{
+	$post_id = intval($request->get_param('post_id'));
+	$key     = sanitize_key($request->get_param('key'));
+
+	if (!$post_id || !$key) {
+		return new WP_REST_Response(['url' => ''], 200);
+	}
+
+	$value = get_field($key, $post_id);
+	if ($value === null || $value === false || $value === '') {
+		$value = get_post_meta($post_id, $key, true);
+	}
+
+	if (empty($value)) {
+		return new WP_REST_Response(['url' => ''], 200);
+	}
+
+	$file_url = '';
+	$file_name = '';
+	$attach_id = 0;
+
+	if (is_array($value)) {
+		// ACF file field array format: { ID, url, title, filename, ... }
+		$file_url   = $value['url'] ?? '';
+		$file_name  = $value['title'] ?? $value['filename'] ?? '';
+		$attach_id  = $value['ID'] ?? 0;
+	} elseif (is_numeric($value)) {
+		// Attachment ID
+		$attach_id = intval($value);
+		$file_url  = wp_get_attachment_url($attach_id);
+		$file_name = get_the_title($attach_id);
+	} elseif (is_string($value)) {
+		// Direct URL
+		$file_url = $value;
+		$file_name = basename($file_url);
+	}
+
+	return new WP_REST_Response([
+		'url'      => esc_url($file_url),
+		'name'     => sanitize_text_field($file_name),
+		'id'       => $attach_id,
+	], 200);
 }

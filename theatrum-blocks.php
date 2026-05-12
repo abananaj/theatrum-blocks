@@ -33,10 +33,14 @@ function theatrum_register_blocks()
 		'card-carousel',
 		'copyright-date-block',
 		'cover-card',
+		'cover-carousel',
+		'icon-list',
+		'media-popover',
 		'meta-button',
 		'meta-date',
 		'meta-embed',
 		'meta-field',
+		'meta-file',
 		'meta-gallery',
 		'meta-icon',
 		'meta-image',
@@ -45,6 +49,7 @@ function theatrum_register_blocks()
 		'meta-time',
 		'onstage-current',
 		'onstage-next',
+		'performance-repeater',
 		'performances-list',
 		'popup',
 		'production-details',
@@ -52,7 +57,10 @@ function theatrum_register_blocks()
 		'season-producer',
 		'site-option',
 		'staff-member',
+		'styled-text',
+		'svg-icon',
 		'term-meta',
+		'thumbnail-list',
 		'video-trailer',
 	);
 
@@ -70,6 +78,7 @@ function theatrum_register_block_variations()
 	$variation_blocks = array(
 		'post-cover',
 		'subtitle-title',
+		'toggle-heading',
 	);
 
 	foreach ($variation_blocks as $block) {

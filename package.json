@@ -17,7 +17,10 @@
 	},
 	"dependencies": {
 		"@wordpress/block-editor": "latest",
-		"@wordpress/i18n": "latest"
+		"@wordpress/i18n": "latest",
+		"@wordpress/hooks": "latest",
+		"@wordpress/components": "latest",
+		"@wordpress/element": "latest"
 	},
 	"devDependencies": {
 		"@wordpress/api-fetch": "7.44.0",
