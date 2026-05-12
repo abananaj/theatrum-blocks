@@ -103,6 +103,22 @@
 			"type": "string",
 			"default": ""
 		},
+		"button2Text": {
+			"type": "string",
+			"default": ""
+		},
+		"button2Url": {
+			"type": "string",
+			"default": ""
+		},
+		"button3Text": {
+			"type": "string",
+			"default": ""
+		},
+		"button3Url": {
+			"type": "string",
+			"default": ""
+		},
 		"openInNewWindow": {
 			"type": "boolean",
 			"default": false

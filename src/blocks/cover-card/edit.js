@@ -49,29 +49,6 @@ export default function Edit({ attributes, setAttributes, context }) {
       });
   }, [attributes.metaKey, attributes.postId, currentPostId, setAttributes]);
 
-  // Search for posts across multiple post types
-  const handleSearchPosts = (searchTerm) => {
-    if (!searchTerm || searchTerm.length < 1) {
-      setSearchResults([]);
-      return;
-    }
-
-    const postTypes = ['post', 'ct-production', 'ct-event', 'ct-artist'];
-    const searchPromises = postTypes.map((postType) =>
-      apiFetch({
-        path: `/wp/v2/${postType}?search=${encodeURIComponent(searchTerm)}&per_page=5`
-      }).catch(() => [])
-    );
-
-    Promise.all(searchPromises)
-      .then((results) => {
-        setSearchResults(results.flat());
-      })
-      .catch(() => {
-        setSearchResults([]);
-      });
-  };
-
   return (
     <Fragment>
       <InspectorControls>
@@ -148,8 +125,44 @@ export default function Edit({ attributes, setAttributes, context }) {
             __nextHasNoMarginBottom
             __next40pxDefaultSize
           />
+          <TextControl
+            label="Button 2 Text"
+            value={attributes.button2Text || ''}
+            onChange={(value) => setAttributes({ button2Text: value })}
+            placeholder="e.g., Learn More, Get Tickets"
+            help="Optional second button text (leave empty to hide)"
+            __nextHasNoMarginBottom
+            __next40pxDefaultSize
+          />
+          <TextControl
+            label="Button 2 URL"
+            value={attributes.button2Url || ''}
+            onChange={(value) => setAttributes({ button2Url: value })}
+            placeholder="https://example.com"
+            help="Leave empty to link to the post"
+            __nextHasNoMarginBottom
+            __next40pxDefaultSize
+          />
+          <TextControl
+            label="Button 3 Text"
+            value={attributes.button3Text || ''}
+            onChange={(value) => setAttributes({ button3Text: value })}
+            placeholder="e.g., Learn More, Get Tickets"
+            help="Optional third button text (leave empty to hide)"
+            __nextHasNoMarginBottom
+            __next40pxDefaultSize
+          />
+          <TextControl
+            label="Button 3 URL"
+            value={attributes.button3Url || ''}
+            onChange={(value) => setAttributes({ button3Url: value })}
+            placeholder="https://example.com"
+            help="Leave empty to link to the post"
+            __nextHasNoMarginBottom
+            __next40pxDefaultSize
+          />
           <CheckboxControl
-            label="Open button link in new window"
+            label="Open button links in new window"
             checked={attributes.openInNewWindow || false}
             onChange={(value) => setAttributes({ openInNewWindow: value })}
             __nextHasNoMarginBottom
@@ -173,20 +186,42 @@ export default function Edit({ attributes, setAttributes, context }) {
             </div>
             <div className="bottom-bar">
               <h4 className="dates">
-                {postData.opening && new Date(/^\d{4}-\d{2}-\d{2}$/.test(postData.opening) ? postData.opening + 'T00:00:00' : postData.opening).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                {postData.opening && postData.closing && ' – '}
-                {postData.closing && new Date(/^\d{4}-\d{2}-\d{2}$/.test(postData.closing) ? postData.closing + 'T00:00:00' : postData.closing).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                {postData.formatted_opening}
+                {postData.formatted_opening && postData.formatted_closing && ' – '}
+                {postData.formatted_closing}
               </h4>
-              {attributes.buttonText && (
-                <a
-                  href={attributes.buttonUrl || postData?.permalink || '#'}
-                  target={attributes.openInNewWindow ? '_blank' : '_self'}
-                  rel={attributes.openInNewWindow ? 'noopener noreferrer' : ''}
-                  className="button"
-                >
-                  {attributes.buttonText}
-                </a>
-              )}
+              <div className="buttons">
+                {attributes.buttonText && (
+                  <a
+                    href={attributes.buttonUrl || postData?.permalink || '#'}
+                    target={attributes.openInNewWindow ? '_blank' : '_self'}
+                    rel={attributes.openInNewWindow ? 'noopener noreferrer' : ''}
+                    className="button"
+                  >
+                    {attributes.buttonText}
+                  </a>
+                )}
+                {attributes.button2Text && (
+                  <a
+                    href={attributes.button2Url || postData?.permalink || '#'}
+                    target={attributes.openInNewWindow ? '_blank' : '_self'}
+                    rel={attributes.openInNewWindow ? 'noopener noreferrer' : ''}
+                    className="button"
+                  >
+                    {attributes.button2Text}
+                  </a>
+                )}
+                {attributes.button3Text && (
+                  <a
+                    href={attributes.button3Url || postData?.permalink || '#'}
+                    target={attributes.openInNewWindow ? '_blank' : '_self'}
+                    rel={attributes.openInNewWindow ? 'noopener noreferrer' : ''}
+                    className="button"
+                  >
+                    {attributes.button3Text}
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         )}
