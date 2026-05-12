@@ -1,0 +1,2 @@
+This block will link to an attachment by taking a meta key that is either a post object or post ID and render a link to it that opens in a new tab. The User will input the required text for the link. 
+[acf documentation](https://www.advancedcustomfields.com/resources/file/)

@@ -1,0 +1,30 @@
+.wp-block-chance-meta-file {
+	.wp-block-chance-meta-file-link {
+		display: inline-flex;
+		align-items: center;
+		color: var(--wp--preset--color--primary, #0073aa);
+		text-decoration: none;
+		padding: 0.25em 0.5em;
+		border-radius: 0.25em;
+		font-weight: 500;
+		transition: all 0.2s ease;
+
+		.dashicons {
+			display: inline-block;
+			width: 1em;
+			height: 1em;
+			margin-right: 0.5em;
+			vertical-align: middle;
+		}
+
+		&:hover {
+			color: var(--wp--preset--color--primary, #005a87);
+			background-color: rgba(0, 115, 170, 0.1);
+		}
+
+		&:focus {
+			outline: 2px solid var(--wp--preset--color--primary, #0073aa);
+			outline-offset: 2px;
+		}
+	}
+}
