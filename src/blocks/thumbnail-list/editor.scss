@@ -1,0 +1,42 @@
+/**
+ * Thumbnail List Block Editor Styles
+ * Editor-only styles for the block interface
+ */
+
+.wp-block-chance-thumbnail-list-preview {
+	.list-items {
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+	.list-item {
+		border-color: #ddd;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+
+		&.selected {
+			background-color: #f0f0f0;
+			color: #1e1e1e;
+		}
+
+		&:hover {
+			background-color: #fafafa;
+			color: #1e1e1e;
+		}
+	}
+
+	.thumbnail-display {
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+}
+
+// Inspector panel styles
+.components-panel {
+	.thumbnail-list-controls {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+}
