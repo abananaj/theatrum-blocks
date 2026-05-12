@@ -40,21 +40,16 @@ export default function Edit({ attributes, setAttributes }) {
 				<Button
 					variant="primary"
 					onClick={togglePopup}
-					className="popup-toggle-button"
-					aria-expanded={open}
-					aria-haspopup="dialog"
+					className="popup-toggle-button wp-element-button wp-block-button__link"
 				>
 					{buttonText}
 				</Button>
-
-				{open && (
-					<div
-						className="popup-backdrop"
-						onClick={togglePopup}
-						data-popup-backdrop="true"
-						aria-hidden="true"
-					/>
-				)}
+				<div
+					className="popup-backdrop"
+					onClick={togglePopup}
+					data-popup-backdrop="true"
+					aria-hidden="true"
+				/>
 
 				{open && (
 					<div

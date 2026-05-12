@@ -1,68 +1,72 @@
 /* Popup Block Styles — modelled on the Gutenberg Dialog component */
 
 .wp-block-chance-popup {
-  // Design tokens (fallbacks match Gutenberg Dialog defaults)
-  --popup-padding: 24px;
-  --popup-gap: 16px;
-  --popup-gap-sm: 8px;
-  --popup-border-radius: 12px;
-  --popup-border-color: rgba(0, 0, 0, 0.1);
-  --popup-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  --popup-bg: #fff;
-  --popup-title-color: #1e1e1e;
-  --popup-content-color: #1e1e1e;
-  --popup-close-size: 32px;
-  --popup-max-width: 640px; // medium — matches Dialog is-medium
-  --popup-backdrop-color: rgba(0, 0, 0, 0.35);
-  --popup-z-index: 9999;
+	// Design tokens (fallbacks match Gutenberg Dialog defaults)
+	--popup-padding: 24px;
+	--popup-gap: 16px;
+	--popup-gap-sm: 8px;
+	--popup-border-radius: 12px;
+	--popup-border-color: rgba(0, 0, 0, 0.1);
+	--popup-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06),
+		0 0 0 1px rgba(0, 0, 0, 0.04);
+	--popup-bg: #fff;
+	--popup-title-color: #1e1e1e;
+	--popup-content-color: #1e1e1e;
+	--popup-close-size: 32px;
+	--popup-max-width: 640px; // medium — matches Dialog is-medium
+	--popup-backdrop-color: rgba(0, 0, 0, 0.35);
+	--popup-z-index: 9999;
 
-  margin-bottom: 1em;
+	margin-bottom: 1em;
 }
 
 // ── Trigger button ──────────────────────────────────────────────────────────
+// Uses WordPress core button classes: .wp-element-button and .wp-block-button__link
 
-.popup-toggle-button {
-  cursor: pointer;
-  font-size: var(--wp--preset--font-size--body);
-  transition: all 0.3s ease;
-  display: inline-block;
-  padding: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
-  background-color: var(--wp--preset--color--dark-blue);
-  box-shadow: var(--wp--preset--shadow--button);
-  color: white;
-  border: none;
-  border-radius: var(--wp--preset--border-radius--medium);
-  text-decoration: none;
+.popup-toggle-button,
+.wp-block-chance-popup .wp-element-button,
+.wp-block-chance-popup .wp-block-button__link {
+	cursor: pointer;
+	font-size: var(--wp--preset--font-size--body);
+	transition: all 0.3s ease;
+	display: inline-block;
+	padding: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
+	background-color: var(--wp--preset--color--dark-blue);
+	box-shadow: var(--wp--preset--shadow--button);
+	color: white;
+	border: none;
+	border-radius: var(--wp--preset--border-radius--medium);
+	text-decoration: none;
 
-  &:hover {
-    opacity: 0.9;
-    background-color: var(--wp--preset--color--light-blue, #0a1e54);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
+	&:hover {
+		opacity: 0.9;
+		background-color: var(--wp--preset--color--light-blue, #0a1e54);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
 }
 
 // ── Backdrop ────────────────────────────────────────────────────────────────
 
 .popup-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: calc(var(--popup-z-index) - 1);
-  background-color: var(--popup-backdrop-color);
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
+	position: fixed;
+	inset: 0;
+	z-index: calc(var(--popup-z-index) - 1);
+	background-color: var(--popup-backdrop-color);
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
 
-  &[data-state="open"] {
-    opacity: 1;
-  }
+	&[data-state="open"] {
+		opacity: 1;
+	}
 
-  &[data-state="closed"] {
-    opacity: 0;
-  }
+	&[data-state="closed"] {
+		opacity: 0;
+	}
 
-  &[hidden] {
-    display: none !important;
-  }
+	&[hidden] {
+		display: none !important;
+	}
 }
 
 // ── Dialog popup ─────────────────────────────────────────────────────────────
@@ -72,56 +76,56 @@
 // Animation: opacity + scale, matching Gutenberg Dialog enter/exit curves.
 
 .popup-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: var(--popup-z-index);
-  transform: translate(-50%, -50%) scale(0.9);
-  opacity: 0;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: var(--popup-z-index);
+	transform: translate(-50%, -50%) scale(0.9);
+	opacity: 0;
 
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
 
-  // Sizing — matches Dialog is-medium (max-width: surface-width-lg ≈ 640px)
-  width: calc(100vw - 2 * var(--popup-padding));
-  max-width: var(--popup-max-width);
-  max-height: calc(100dvh - 2 * var(--popup-padding));
+	// Sizing — matches Dialog is-medium (max-width: surface-width-lg ≈ 640px)
+	width: calc(100vw - 2 * var(--popup-padding));
+	max-width: var(--popup-max-width);
+	max-height: calc(100dvh - 2 * var(--popup-padding));
 
-  background-color: var(--popup-bg);
-  border-radius: var(--popup-border-radius);
-  border: 1px solid var(--popup-border-color);
-  box-shadow: var(--popup-shadow);
-  overflow: hidden;
-  color: var(--popup-content-color);
+	background-color: var(--popup-bg);
+	border-radius: var(--popup-border-radius);
+	border: 1px solid var(--popup-border-color);
+	box-shadow: var(--popup-shadow);
+	overflow: hidden;
+	color: var(--popup-content-color);
 
-  // Enter animation (open state): ease in from scale 0.9
-  // Exit animation (closed state): ease out to scale 0.9
-  @media not (prefers-reduced-motion) {
-    transition:
-      opacity 0.2s cubic-bezier(1, 0, 0.2, 1),
-      transform 0.2s cubic-bezier(1, 0, 0.2, 1);
+	// Enter animation (open state): ease in from scale 0.9
+	// Exit animation (closed state): ease out to scale 0.9
+	@media not (prefers-reduced-motion) {
+		transition:
+			opacity 0.2s cubic-bezier(1, 0, 0.2, 1),
+			transform 0.2s cubic-bezier(1, 0, 0.2, 1);
 
-    &[data-state="open"] {
-      transition:
-        opacity 0.2s cubic-bezier(0.29, 0, 0, 1),
-        transform 0.2s cubic-bezier(0.29, 0, 0, 1);
-    }
-  }
+		&[data-state="open"] {
+			transition:
+				opacity 0.2s cubic-bezier(0.29, 0, 0, 1),
+				transform 0.2s cubic-bezier(0.29, 0, 0, 1);
+		}
+	}
 
-  &[data-state="open"] {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+	&[data-state="open"] {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
 
-  &[data-state="closed"] {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
+	&[data-state="closed"] {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.9);
+	}
 
-  &[hidden] {
-    display: none !important;
-  }
+	&[hidden] {
+		display: none !important;
+	}
 }
 
 // ── Dialog header ────────────────────────────────────────────────────────────
@@ -131,26 +135,26 @@
 // inner edge (toward content) → gap-lg minus 1px (border slot)
 
 .popup-dialog-header {
-  display: flex;
-  align-items: center;
-  gap: var(--popup-gap-sm);
-  padding-block: var(--popup-padding) calc(var(--popup-gap) - 1px);
-  padding-inline: var(--popup-padding);
-  min-height: 32px;
-  flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	gap: var(--popup-gap-sm);
+	padding-block: var(--popup-padding) calc(var(--popup-gap) - 1px);
+	padding-inline: var(--popup-padding);
+	min-height: 32px;
+	flex-shrink: 0;
 
-  // Reserve 1px border slot; colorized by scroll-state (optional enhancement)
-  border-block-end: 1px solid transparent;
+	// Reserve 1px border slot; colorized by scroll-state (optional enhancement)
+	border-block-end: 1px solid transparent;
 }
 
 // ── Dialog title ─────────────────────────────────────────────────────────────
 
 .popup-dialog-title {
-  color: var(--popup-title-color);
-  margin: 0 auto 0 0; // push close button to the inline end
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.5;
+	color: var(--popup-title-color);
+	margin: 0 auto 0 0; // push close button to the inline end
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.5;
 }
 
 // ── Dialog content (scrollable body) ─────────────────────────────────────────
@@ -160,39 +164,41 @@
 // Top padding is 0 because .popup-dialog-header already provides the inner gap.
 
 .popup-dialog-content {
-  flex: 1 1 auto;
-  min-block-size: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: var(--popup-padding);
-  padding-block-start: var(--popup-gap); // visual gap after header separator
+	flex: 1 1 auto;
+	min-block-size: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: var(--popup-padding);
+	padding-block-start: var(--popup-gap); // visual gap after header separator
 }
 
 // ── Close button ─────────────────────────────────────────────────────────────
 
 .popup-close-button {
-  flex-shrink: 0;
-  margin-inline-start: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--popup-close-size);
-  height: var(--popup-close-size);
-  padding: 0;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  color: var(--popup-content-color);
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+	flex-shrink: 0;
+	margin-inline-start: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--popup-close-size);
+	height: var(--popup-close-size);
+	padding: 0;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	cursor: pointer;
+	color: var(--popup-content-color);
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.1);
-  }
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.06);
+		border-color: rgba(0, 0, 0, 0.1);
+	}
 
-  &:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
-  }
+	&:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: -2px;
+	}
 }

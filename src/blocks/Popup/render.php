@@ -15,7 +15,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-
 ?>
 <div <?php echo $wrapper_attributes; ?>>
   <button
-    class="popup-toggle-button"
+    class="popup-toggle-button wp-element-button wp-block-button__link"
     data-popup-toggle="true"
     aria-expanded="false"
     aria-haspopup="dialog"
