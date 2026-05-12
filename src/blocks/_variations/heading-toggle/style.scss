@@ -1,0 +1,78 @@
+/**
+ * Heading Toggle Block – Complete styles (Frontend + Editor base)
+ */
+
+.wp-block-chance-toggle-heading {
+	details {
+		margin: 1em 0;
+		border: 1px solid #e0e0e0;
+		border-radius: 4px;
+		overflow: hidden;
+
+		summary {
+			cursor: pointer;
+			padding: 1em;
+			background-color: #f5f5f5;
+			user-select: none;
+			transition: background-color 0.2s ease;
+			list-style: none;
+
+			&:hover {
+				background-color: #efefef;
+			}
+
+			&::-webkit-details-marker {
+				margin-right: 0.5em;
+				display: none;
+			}
+
+			&::before {
+				content: "▶ ";
+				display: inline-block;
+				margin-right: 0.5em;
+				transition: transform 0.2s ease;
+				font-size: 0.8em;
+			}
+
+			.toggle-heading-title {
+				display: inline;
+				margin: 0;
+				font-size: inherit;
+				font-weight: inherit;
+			}
+		}
+
+		&[open] summary {
+			background-color: #f0f0f0;
+			border-bottom: 1px solid #e0e0e0;
+
+			&::before {
+				transform: rotate(90deg);
+			}
+		}
+
+		.toggle-heading-content {
+			padding: 1em;
+			background-color: #fff;
+
+			> * {
+				margin-top: 0;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+
+	// Heading level specific styles
+	@for $i from 1 through 6 {
+		&.toggle-heading-level-#{$i} {
+			details summary {
+				.toggle-heading-title {
+					font-size: var(--wp--preset--font-size--x-large, 1.25em);
+				}
+			}
+		}
+	}
+}

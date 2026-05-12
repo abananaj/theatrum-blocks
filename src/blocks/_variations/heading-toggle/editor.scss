@@ -1,0 +1,50 @@
+/**
+ * Heading Toggle Block – Editor-only style overrides
+ * These styles override base styles only in the WordPress block editor
+ */
+
+.wp-block-chance-toggle-heading {
+	details {
+		border: 2px solid #8b5cf6;
+		background: #fafbff;
+
+		summary {
+			background-color: #ede9fe;
+
+			&:hover {
+				background-color: #e9d5ff;
+			}
+
+			&::before {
+				color: #8b5cf6;
+			}
+		}
+
+		.toggle-heading-content {
+			min-height: 100px;
+		}
+	}
+
+	// Editor-specific heading level sizing
+	@for $i from 1 through 6 {
+		&.toggle-heading-level-#{$i} {
+			details summary {
+				.toggle-heading-title {
+					@if $i == 1 {
+						font-size: 2.44em;
+					} @else if $i == 2 {
+						font-size: 1.95em;
+					} @else if $i == 3 {
+						font-size: 1.56em;
+					} @else if $i == 4 {
+						font-size: 1.25em;
+					} @else if $i == 5 {
+						font-size: 1em;
+					} @else if $i == 6 {
+						font-size: 0.8em;
+					}
+				}
+			}
+		}
+	}
+}
