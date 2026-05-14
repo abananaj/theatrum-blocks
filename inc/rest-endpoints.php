@@ -1146,3 +1146,76 @@ function theatrum_get_meta_file_rest_callback($request)
 		'id'       => $attach_id,
 	], 200);
 }
+
+/* -----------------------------------------------------------------------
+ * Production Quotes
+ * -------------------------------------------------------------------- */
+
+function register_production_quotes_rest_endpoint()
+{
+	register_rest_route('chance/v1', '/production-quotes/(?P<post_id>\d+)', array(
+		'methods'             => 'GET',
+		'callback'            => 'theatrum_get_production_quotes_rest_callback',
+		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array(
+			'post_id' => array('validate_callback' => function ($param) {
+				return is_numeric($param);
+			}),
+		),
+	));
+}
+add_action('rest_api_init', 'register_production_quotes_rest_endpoint');
+
+function theatrum_get_production_quotes_rest_callback($request)
+{
+	$post_id = intval($request->get_param('post_id'));
+
+	if (!$post_id) {
+		return new WP_REST_Response(array('quotes' => array()), 200);
+	}
+
+	if (!function_exists('get_field')) {
+		return new WP_REST_Response(array('quotes' => array()), 200);
+	}
+
+	$rows = get_field('quotes', $post_id);
+
+	if (empty($rows) || !is_array($rows)) {
+		return new WP_REST_Response(array('quotes' => array()), 200);
+	}
+
+	$quotes = array();
+	foreach ($rows as $row) {
+		$quote_text    = isset($row['quote-text']) ? wp_kses_post($row['quote-text']) : '';
+		$source        = isset($row['quote-cite']) ? sanitize_text_field($row['quote-cite']) : '';
+		$quote_link_id = isset($row['quote-link']) ? $row['quote-link'] : '';
+		$link_url      = '';
+
+		if (!$quote_text) {
+			continue;
+		}
+
+		// Resolve quote-link to a permalink — ACF may return WP_Post, array, or raw ID
+		if ($quote_link_id) {
+			$resolved_id = 0;
+			if (is_a($quote_link_id, 'WP_Post')) {
+				$resolved_id = $quote_link_id->ID;
+			} elseif (is_array($quote_link_id) && isset($quote_link_id['ID'])) {
+				$resolved_id = intval($quote_link_id['ID']);
+			} elseif (is_numeric($quote_link_id)) {
+				$resolved_id = intval($quote_link_id);
+			}
+			if ($resolved_id) {
+				$link_url = get_permalink($resolved_id) ?: '';
+			}
+		}
+
+		$quotes[] = array(
+			'quote_text' => $quote_text,
+			'source'     => $source,
+			'link_url'   => $link_url ? esc_url($link_url) : '',
+		);
+	}
+
+	return new WP_REST_Response(array('quotes' => $quotes), 200);
+}

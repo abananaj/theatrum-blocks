@@ -27,15 +27,17 @@ require_once __DIR__ . '/inc/rest-endpoints.php';
 function theatrum_register_blocks()
 {
 	$custom_blocks = array(
-		'block-dynamic',
-		'block-static',
-		'board-member',
 		'card-carousel',
 		'copyright-date-block',
 		'cover-card',
 		'cover-carousel',
 		'icon-list',
 		'media-popover',
+		'popup',
+		'styled-text', // 🔨
+		'svg-icon',
+		'thumbnail-list',
+
 		'meta-button',
 		'meta-date',
 		'meta-embed',
@@ -47,21 +49,17 @@ function theatrum_register_blocks()
 		'meta-related',
 		'meta-repeater',
 		'meta-time',
-		'onstage-current',
-		'onstage-next',
-		'performance-repeater',
-		'performances-list',
-		'popup',
-		'production-details',
-		'production-quotes',
-		'season-producer',
-		'site-option',
-		'staff-member',
-		'styled-text',
-		'svg-icon',
-		'term-meta',
-		'thumbnail-list',
-		'video-trailer',
+
+		'production-details', // 🎭
+		'production-performances', // 🎭 var of repeater
+		'production-quotes', // 🎭 var of repeater
+		'production-trailer', // 🎭
+
+		'term-meta', // ⭐
+		'season-producer', // --> var of term-meta
+		'site-option', // ⭐
+		'staff-member', // --> var of site option
+		'board-member', // --> var of site option
 	);
 
 	foreach ($custom_blocks as $block) {

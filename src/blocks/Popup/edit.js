@@ -44,39 +44,41 @@ export default function Edit({ attributes, setAttributes }) {
 				>
 					{buttonText}
 				</Button>
-				<div
-					className="popup-backdrop"
-					onClick={togglePopup}
-					data-popup-backdrop="true"
-					aria-hidden="true"
-				/>
 
 				{open && (
-					<div
-						className="popup-dialog"
-						data-popup-content="true"
-						role="dialog"
-						aria-modal="true"
-						aria-label={title}
-						data-state="open"
-					>
-						<div className="popup-dialog-header">
-							<h2 className="popup-dialog-title">{title}</h2>
-							<button
-								className="popup-close-button"
-								onClick={togglePopup}
-								aria-label={__('Close dialog', 'theatrum-blocks')}
-								type="button"
-							>
-								<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none">
-									<path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-								</svg>
-							</button>
+					<>
+						<div
+							className="popup-backdrop"
+							onClick={togglePopup}
+							data-popup-backdrop="true"
+							aria-hidden="true"
+						/>
+						<div
+							className="popup-dialog"
+							data-popup-content="true"
+							role="dialog"
+							aria-modal="true"
+							aria-label={title}
+							data-state="open"
+						>
+							<div className="popup-dialog-header">
+								<h2 className="popup-dialog-title">{title}</h2>
+								<button
+									className="popup-close-button"
+									onClick={togglePopup}
+									aria-label={__('Close dialog', 'theatrum-blocks')}
+									type="button"
+								>
+									<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none">
+										<path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+									</svg>
+								</button>
+							</div>
+							<div className="popup-dialog-content">
+								<InnerBlocks />
+							</div>
 						</div>
-						<div className="popup-dialog-content">
-							<InnerBlocks />
-						</div>
-					</div>
+					</>
 				)}
 			</div>
 		</Fragment>

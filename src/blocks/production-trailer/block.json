@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "chance/video-trailer",
-	"title": "Video Trailer",
+	"title": "Production Trailer",
 	"category": "embed",
 	"description": "Embed a YouTube video trailer from a URL stored in post metadata",
 	"icon": "video-alt3",
