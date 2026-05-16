@@ -1,11 +1,10 @@
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
-export default function Save( { attributes } ) {
+export default function Save({ attributes }) {
 	const {
 		mediaUrl,
 		mediaAlt,
 		mediaType,
-		triggerText,
 		linkType,
 		linkUrl,
 		linkPageId,
@@ -15,39 +14,35 @@ export default function Save( { attributes } ) {
 		alignment,
 	} = attributes;
 
-	if ( ! mediaUrl ) {
-		return null;
-	}
-
-	const blockProps = useBlockProps.save( {
-		className: `align${ alignment ? alignment.charAt( 0 ).toUpperCase() + alignment.slice( 1 ) : '' }`,
-	} );
+	const blockProps = useBlockProps.save({
+		className: `align${alignment ? alignment.charAt(0).toUpperCase() + alignment.slice(1) : ''}`,
+	});
 
 	// Generate unique ID for scoped CSS
-	const blockId = blockProps.id || `media-popover-${ Math.random().toString( 36 ).substr( 2, 9 ) }`;
+	const blockId = blockProps.id || `media-popover-${Math.random().toString(36).substr(2, 9)}`;
 
 	// Determine link target and href
 	let linkHref = '';
 	let linkTargetAttr = '';
 	let linkRel = '';
 
-	if ( linkType === 'url' ) {
+	if (linkType === 'url') {
 		linkHref = linkUrl;
 		linkTargetAttr = linkTarget ? '_blank' : '_self';
 		linkRel = linkTarget ? 'noopener noreferrer' : '';
-	} else if ( linkType === 'page' && linkPageId ) {
-		linkHref = `?p=${ linkPageId }`;
+	} else if (linkType === 'page' && linkPageId) {
+		linkHref = `?p=${linkPageId}`;
 		linkTargetAttr = linkTarget ? '_blank' : '_self';
 	}
 
 	const scopedCSS = `
-		#${ blockId } .media-popover-trigger {
+		#${blockId} .media-popover-trigger {
 			cursor: pointer;
 			position: relative;
 			display: inline-block;
 		}
 
-		#${ blockId } .media-popover-content {
+		#${blockId} .media-popover-content {
 			position: absolute;
 			bottom: 100%;
 			left: 50%;
@@ -58,7 +53,7 @@ export default function Save( { attributes } ) {
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 			padding: 12px;
 			margin-bottom: 10px;
-			width: ${ width }${ widthUnit };
+			width: ${width}${widthUnit};
 			opacity: 0;
 			visibility: hidden;
 			transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -66,13 +61,13 @@ export default function Save( { attributes } ) {
 			pointer-events: none;
 		}
 
-		#${ blockId } .media-popover-trigger:hover .media-popover-content {
+		#${blockId} .media-popover-trigger:hover .media-popover-content {
 			opacity: 1;
 			visibility: visible;
 			pointer-events: auto;
 		}
 
-		#${ blockId } .media-popover-content::after {
+		#${blockId} .media-popover-content::after {
 			content: '';
 			position: absolute;
 			top: 100%;
@@ -82,7 +77,7 @@ export default function Save( { attributes } ) {
 			border-top-color: #ddd;
 		}
 
-		#${ blockId } .media-popover-content::before {
+		#${blockId} .media-popover-content::before {
 			content: '';
 			position: absolute;
 			top: 100%;
@@ -93,8 +88,8 @@ export default function Save( { attributes } ) {
 			margin-left: -5px;
 		}
 
-		#${ blockId } .media-popover-content img,
-		#${ blockId } .media-popover-content video {
+		#${blockId} .media-popover-content img,
+		#${blockId} .media-popover-content video {
 			width: 100%;
 			height: auto;
 			display: block;
@@ -103,46 +98,50 @@ export default function Save( { attributes } ) {
 	`;
 
 	return (
-		<div { ...blockProps } id={ blockId }>
-			<style>{ scopedCSS }</style>
-			<div className="media-popover-trigger" style={ { display: 'inline-block' } }>
-				{ linkHref ? (
+		<div {...blockProps} id={blockId}>
+			<style>{scopedCSS}</style>
+			<div className="media-popover-trigger" style={{ display: 'inline-block' }}>
+				{linkHref ? (
 					<a
-						href={ linkHref }
-						target={ linkTargetAttr }
-						rel={ linkRel }
-						style={ { color: 'inherit', textDecoration: 'none' } }
+						href={linkHref}
+						target={linkTargetAttr}
+						rel={linkRel}
+						className="media-popover-trigger-inner"
 					>
-						{ triggerText }
+						<InnerBlocks.Content />
 					</a>
 				) : (
-					<span>{ triggerText }</span>
-				) }
-				<div className="media-popover-content">
-					{ mediaType === 'video' ? (
-						<video
-							src={ mediaUrl }
-							controls
-							style={ {
-								width: '100%',
-								height: 'auto',
-								display: 'block',
-								borderRadius: '4px',
-							} }
-						/>
-					) : (
-						<img
-							src={ mediaUrl }
-							alt={ mediaAlt || 'Popover media' }
-							style={ {
-								width: '100%',
-								height: 'auto',
-								display: 'block',
-								borderRadius: '4px',
-							} }
-						/>
-					) }
-				</div>
+					<div className="media-popover-trigger-inner">
+						<InnerBlocks.Content />
+					</div>
+				)}
+				{mediaUrl && (
+					<div className="media-popover-content">
+						{mediaType === 'video' ? (
+							<video
+								src={mediaUrl}
+								controls
+								style={{
+									width: '100%',
+									height: 'auto',
+									display: 'block',
+									borderRadius: '4px',
+								}}
+							/>
+						) : (
+							<img
+								src={mediaUrl}
+								alt={mediaAlt || 'Popover media'}
+								style={{
+									width: '100%',
+									height: 'auto',
+									display: 'block',
+									borderRadius: '4px',
+								}}
+							/>
+						)}
+					</div>
+				)}
 			</div>
 		</div>
 	);

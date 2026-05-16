@@ -5,7 +5,7 @@
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Fragment, useState, useEffect } from '@wordpress/element';
-import { TextControl, Spinner } from '@wordpress/components';
+import { TextControl, Spinner, ToggleControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
@@ -46,6 +46,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const prependText = attributes.prepend || '';
 	const appendText = attributes.append || '';
 	const finalText = `${prependText}${displayText}${appendText}`;
+	const isEmpty = !displayValue && attributes.keyInput;
+	const shouldHideIfEmpty = attributes.hideIfEmpty && isEmpty;
 
 	return (
 		<Fragment>
@@ -78,9 +80,15 @@ export default function Edit({ attributes, setAttributes, context }) {
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
+					<ToggleControl
+						label="Hide if empty"
+						checked={attributes.hideIfEmpty || false}
+						onChange={(value) => setAttributes({ hideIfEmpty: value })}
+						help="Hide the parent container when this field has no value"
+					/>
 				</div>
 			</InspectorControls>
-			<div {...blockProps}>
+			<div {...blockProps} className={shouldHideIfEmpty ? 'meta-field-empty' : ''}>
 				{isLoading ? (
 					<Spinner />
 				) : attributes.keyInput ? (

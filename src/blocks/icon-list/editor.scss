@@ -2,26 +2,9 @@
  * Icon List Block - Editor Styles
  */
 
-.wp-block-chance-icon-list-preview {
-	list-style: none;
-	padding-left: 0;
-	margin: 0;
-	border: 1px dashed #ccc;
-	padding: 12px;
-	border-radius: 4px;
-	background-color: #fafafa;
-
+.wp-block-chance-icon-list {
 	li {
-		display: flex;
-		margin-bottom: 12px;
-		padding: 8px;
-		border-radius: 4px;
 		cursor: pointer;
-		transition: background-color 0.2s ease;
-
-		&:hover {
-			background-color: #f0f0f0;
-		}
 
 		&:last-child {
 			margin-bottom: 0;
@@ -34,8 +17,6 @@
 
 		span {
 			flex: 1;
-			margin-left: 8px;
-			align-self: center;
 		}
 	}
 }

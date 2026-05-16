@@ -53,15 +53,21 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	const handleSelectIcon = (media) => {
-		handleUpdateItem('iconId', media.id);
-		handleUpdateItem('iconUrl', media.url);
-		handleUpdateItem('iconAlt', media.alt || '');
+		const updatedItems = items.map((item) =>
+			item.id === selectedItemId
+				? { ...item, iconId: media.id, iconUrl: media.url, iconAlt: media.alt || '' }
+				: item
+		);
+		setAttributes({ items: updatedItems });
 	};
 
 	const handleRemoveIcon = () => {
-		handleUpdateItem('iconId', 0);
-		handleUpdateItem('iconUrl', '');
-		handleUpdateItem('iconAlt', '');
+		const updatedItems = items.map((item) =>
+			item.id === selectedItemId
+				? { ...item, iconId: 0, iconUrl: '', iconAlt: '' }
+				: item
+		);
+		setAttributes({ items: updatedItems });
 	};
 
 	const handleDeleteItem = () => {
@@ -85,7 +91,7 @@ export default function Edit({ attributes, setAttributes }) {
 		if (!items || items.length === 0) {
 			return (
 				<p style={{ color: '#999', fontStyle: 'italic' }}>
-					{__('No items yet. Click "Add Item" to get started.', 'theatrum-blocks')}
+					{__('No items yet. Add items from the block settings panel.', 'theatrum-blocks')}
 				</p>
 			);
 		}
@@ -105,13 +111,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 			const liStyle = {
 				display: 'flex',
-				alignItems: 'center',
-				flexDirection: iconPosition === 'top' || iconPosition === 'bottom' ? 'column' : 'row',
 				alignItems: iconPosition === 'top' || iconPosition === 'bottom' ? 'flex-start' : 'center',
-				cursor: item.id === selectedItemId ? 'pointer' : 'default',
-				backgroundColor: item.id === selectedItemId ? '#f0f0f0' : 'transparent',
-				padding: item.id === selectedItemId ? '8px' : '0',
-				borderRadius: '4px',
+				flexDirection: iconPosition === 'top' || iconPosition === 'bottom' ? 'column' : 'row',
+				cursor: 'pointer',
+				outline: item.id === selectedItemId ? '2px solid #007cba' : 'none',
+				outlineOffset: '2px',
+				borderRadius: '2px',
 			};
 
 			return (
@@ -133,7 +138,7 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 
 		return (
-			<ListTag className="wp-block-chance-icon-list-preview">
+			<ListTag className="wp-block-chance-icon-list">
 				{itemElements}
 			</ListTag>
 		);
@@ -144,6 +149,21 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<Fragment>
 			<InspectorControls>
+				<PanelBody title={__('Items', 'theatrum-blocks')} initialOpen={true}>
+					<Button
+						onClick={handleAddItem}
+						variant="primary"
+						style={{ width: '100%', justifyContent: 'center' }}
+					>
+						{__('Add Item', 'theatrum-blocks')}
+					</Button>
+					{items && items.length > 0 && (
+						<p style={{ marginTop: '8px', marginBottom: 0, fontSize: '12px', color: '#757575' }}>
+							{__('Click an item in the block to select and edit it.', 'theatrum-blocks')}
+						</p>
+					)}
+				</PanelBody>
+
 				<ToolsPanel
 					label={__('List Settings', 'theatrum-blocks')}
 					resetAll={() => {
@@ -386,14 +406,6 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div {...blockProps}>
 				{renderPreview()}
-				<div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
-					<Button
-						onClick={handleAddItem}
-						variant="primary"
-					>
-						{__('Add Item', 'theatrum-blocks')}
-					</Button>
-				</div>
 			</div>
 		</Fragment>
 	);

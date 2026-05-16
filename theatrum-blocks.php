@@ -47,7 +47,7 @@ function theatrum_register_blocks()
 		'meta-icon',
 		'meta-image',
 		'meta-related',
-		'meta-repeater',
+		'meta-repeater', // producers, performances, quotes, 
 		'meta-time',
 
 		'production-details', // 🎭
@@ -55,11 +55,11 @@ function theatrum_register_blocks()
 		'production-quotes', // 🎭 var of repeater
 		'production-trailer', // 🎭
 
-		'term-meta', // ⭐
+		'term-meta', // ⭐ 
 		'season-producer', // --> var of term-meta
 		'site-option', // ⭐
-		'staff-member', // --> var of site option
-		'board-member', // --> var of site option
+		'staff-member', // temp un-deprecated 
+		// 'board-member',
 	);
 
 	foreach ($custom_blocks as $block) {
@@ -74,7 +74,7 @@ add_action('init', 'theatrum_register_blocks');
 function theatrum_register_block_variations()
 {
 	$variation_blocks = array(
-		'post-cover',
+		// 'post-cover', - It does this naturally I guess!
 		'subtitle-title',
 		'toggle-heading',
 	);

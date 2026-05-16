@@ -1,33 +1,108 @@
 # Site Option Block
 
-A custom WordPress block for displaying values from the WordPress options table (wp_options).
+A custom WordPress block for displaying values from the WordPress options table (wp_options). Includes support for generic options, staff members, and board members.
 
 ## Overview
 
-This is a dynamic block that retrieves and displays values from the WordPress options table. It's useful for displaying site settings like site name, tagline, URL, or any custom options stored in wp_options.
+This is a dynamic block that retrieves and displays values from the WordPress options table. It's useful for displaying site settings like site name, tagline, URL, or any custom options stored in wp_options. It also includes specialized variations for displaying staff and board member information.
 
-## Block Structure
+## Block Variations
+
+### 1. Generic Option (Default)
+
+Display any value from the WordPress options table with customizable HTML tags.
+
+**Features:**
+
+- Specify any option key
+- Choose HTML tag: p, span, a, h1-h6
+- Optional link URL for anchor tags
+- Typography, color, and spacing support
+
+**Use Cases:**
+
+- Site name, tagline, URL
+- Custom plugin settings
+- General option display
+
+### 2. Staff Member Variation
+
+Display staff member information from WordPress options with position titles.
+
+**Features:**
+
+- Displays staff member posts with links
+- Includes position titles in output
+- Handles multiple post IDs or single values
+- ACF field integration for pretty option names
+- Position title displayed inline with staff name
+
+**Attributes:**
+
+- `memberType`: "staff"
+- `optionName`: WordPress option key
+
+**Output Format:**
 
 ```
-SiteOption/
-├── block.json      # Block metadata and configuration
-├── index.js        # Editor interface with option name control
-├── index.css       # Editor and frontend styles
-├── render.php      # Server-side render callback
-└── README.md       # Documentation
+Staff Name, Position Title
+Position Meta (Title)
 ```
+
+### 3. Board Member Variation
+
+Display board member information from WordPress options without position titles.
+
+**Features:**
+
+- Displays board member posts with links
+- No position title display in list
+- Handles multiple post IDs or single values
+- ACF field integration for pretty option names
+- Position meta on new line
+
+**Attributes:**
+
+- `memberType`: "board"
+- `optionName`: WordPress option key
+
+**Output Format:**
+
+```
+Board Member Name
+Title/Role Info
+```
+
+## Attributes
+
+- `memberType` (string): "" (generic), "staff", or "board" (default: "")
+- `optionName` (string): WordPress option key to retrieve from wp_options table
+- `tagName` (string): HTML tag for generic options - "p", "span", "a", "h1-h6" (default: "p")
+- `href` (string): URL for anchor tags
+- `prepend` (string): Optional text to prepend
+- `append` (string): Optional text to append
+- `className` (string): Custom CSS classes
+
+## REST Endpoints
+
+The block uses these endpoints based on display type:
+
+- Generic: `/chance/v1/site-option/{option_name}`
+- Staff: `/chance/v1/staff-member/{option_name}`
+- Board: `/chance/v1/board-member/{option_name}`
 
 ## Features
 
-- **Configurable Option Name**: Specify which option to retrieve via Inspector Controls
+- **Configurable Display Type**: Switch between generic option, staff, and board variations
 - **wp_options Integration**: Fetches values directly from WordPress options table
 - **Typography Support**: Full control over font settings (size, family, weight, style, line-height, letter-spacing, text transform, text decoration)
 - **Spacing Support**: Configure margins and padding
 - **Color Support**: Set text color and background color
 - **Serialized Data Support**: Handles serialized arrays/objects and converts to JSON
+- **ACF Integration**: Pretty option names from ACF field labels
 - **No Fallback**: Returns nothing if option doesn't exist or is empty
 - **Server-Rendered**: Dynamic block with server-side rendering
-- **Reusable**: Can be used multiple times with different option names
+- **Reusable**: Can be used multiple times with different configurations
 
 ## Installation
 

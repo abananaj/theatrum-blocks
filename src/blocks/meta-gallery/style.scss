@@ -1,208 +1,267 @@
-/* Post Meta Gallery Block Styles */
+/* Meta Gallery Block Styles - Matches core/gallery */
 
-.wp-block-chance-meta-gallery {
+figure.wp-block-chance-meta-gallery.has-nested-images {
 	align-items: normal;
+}
 
-	// Main gallery wrapper
-	figure {
+.wp-block-chance-meta-gallery.has-nested-images {
+	// Need bogus :not(#individual-image) to override long :not()
+	// specificity chain on default image block on front end.
+	figure.wp-block-image:not(#individual-image) {
+		width: calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
 		margin: 0;
-		padding: 0;
 	}
 
-	// Gallery grid container
-	.wp-block-gallery.blocks-gallery-grid {
+	figure.wp-block-image {
 		display: flex;
-		flex-wrap: wrap;
-		gap: var(--wp--style--unstable-gallery-gap, 16px);
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
+		flex-grow: 1;
+		justify-content: center;
+		position: relative;
+		flex-direction: column;
+		max-width: 100%;
+		box-sizing: border-box;
 
-	// Individual gallery items
-	.blocks-gallery-item {
-		flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
-		min-width: 0;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-
-		figure {
-			display: flex;
+		> div,
+		> a {
+			margin: 0;
 			flex-direction: column;
-			position: relative;
-			max-width: 100%;
-			box-sizing: border-box;
-			overflow: hidden;
+			flex-grow: 1;
+			display: flex;
+		}
 
-			> div,
-			> a {
-				margin: 0;
-				flex-direction: column;
-				flex-grow: 1;
-				display: flex;
-			}
+		img {
+			display: block;
+			height: auto;
+			max-width: 100% !important;
+			width: auto;
+		}
+
+		a {
+			margin: 0;
+		}
+
+		// Position caption and scrim at the bottom.
+		&:has(figcaption)::before,
+		figcaption {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			max-height: 100%;
+		}
+
+		// Create a background blur layer.
+		&:has(figcaption)::before {
+			content: "";
+			height: 100%;
+			max-height: 3em;
+			pointer-events: none;
+
+			// Blur the background under the gradient scrim.
+			backdrop-filter: blur(3px);
+
+			// Crop the caption so the blur is only on the edge.
+			mask-image: linear-gradient(0deg, #000 20%, transparent 100%);
+		}
+
+		// Place the caption at the bottom.
+		figcaption {
+			color: #fff;
+			text-shadow: 0 0 1.5px #000;
+			font-size: 13px;
+			margin: 0;
+			overflow: auto;
+			padding: 1em;
+			text-align: center;
+			box-sizing: border-box;
+
+			// Dark gradient scrim.
+			background: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
 
 			img {
-				display: block;
-				height: auto;
-				max-width: 100% !important;
-				width: auto;
+				display: inline;
 			}
 
 			a {
-				margin: 0;
-			}
-
-			&:has(figcaption)::before,
-			figcaption {
-				position: absolute;
-				bottom: 0;
-				right: 0;
-				left: 0;
-				max-height: 100%;
-			}
-
-			// Create a background blur layer under captions
-			&:has(figcaption)::before {
-				content: "";
-				height: 100%;
-				max-height: 3em;
-				pointer-events: none;
-				backdrop-filter: blur(3px);
-				mask-image: linear-gradient(0deg, #000 20%, transparent 100%);
-			}
-
-			// Caption styling
-			figcaption {
-				margin: 0;
-				padding: 1em;
-				color: #fff;
-				font-size: 13px;
-				text-align: center;
-				box-sizing: border-box;
-				overflow: auto;
-				text-shadow: 0 0 1.5px #000;
-				background: linear-gradient(
-					0deg,
-					rgba(0, 0, 0, 0.4) 0%,
-					transparent 100%
-				);
-
-				img {
-					display: inline;
-				}
-
-				a {
-					color: inherit;
-				}
-			}
-
-			// Styles for rounded or custom border images
-			&.is-style-rounded,
-			&.has-custom-border {
-				> div,
-				> a {
-					flex: 1 1 auto;
-				}
-
-				figcaption {
-					flex: initial;
-					background: none;
-					color: inherit;
-					margin: 0;
-					padding: 10px 10px 9px;
-					position: relative;
-					text-shadow: none;
-				}
-
-				&::before {
-					content: none;
-				}
+				color: inherit;
 			}
 		}
-	}
 
-	// Single column
-	&.wp-block-gallery.columns-1 .blocks-gallery-item {
-		flex: 1 1 100%;
-	}
-
-	// Two columns
-	&.wp-block-gallery.columns-2 .blocks-gallery-item {
-		flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.5));
-	}
-
-	// Three columns (default)
-	&.wp-block-gallery.columns-3 .blocks-gallery-item {
-		flex: 1 1
-			calc(33.333% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.666));
-	}
-
-	// Four columns
-	&.wp-block-gallery.columns-4 .blocks-gallery-item {
-		flex: 1 1 calc(25% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.75));
-	}
-
-	// Five to eight columns on larger screens
-	@media (min-width: 782px) {
-		&.wp-block-gallery.columns-5 .blocks-gallery-item {
-			flex: 1 1 calc(20% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.8));
-		}
-
-		&.wp-block-gallery.columns-6 .blocks-gallery-item {
-			flex: 1 1
-				calc(16.666% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.833));
-		}
-
-		&.wp-block-gallery.columns-7 .blocks-gallery-item {
-			flex: 1 1
-				calc(14.285% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.857));
-		}
-
-		&.wp-block-gallery.columns-8 .blocks-gallery-item {
-			flex: 1 1
-				calc(12.5% - (var(--wp--style--unstable-gallery-gap, 16px) * 0.875));
+		&.has-custom-border img {
+			box-sizing: border-box;
 		}
 	}
+}
 
-	// Cropped images - fill container with object-fit
-	&.is-cropped .blocks-gallery-item figure {
-		> div:not(.components-drop-zone),
+// Main gallery grid container
+.wp-block-gallery.blocks-gallery-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--style--unstable-gallery-gap, 16px);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+// Individual gallery items matching core gallery
+.blocks-gallery-item {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&:not(.wp-block-image) {
+		flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
+		min-width: 0;
+	}
+
+	figure {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		max-width: 100%;
+		box-sizing: border-box;
+		overflow: hidden;
+		margin: 0;
+
+		> div,
 		> a {
+			margin: 0;
+			flex-direction: column;
+			flex-grow: 1;
 			display: flex;
 		}
 
-		a,
-		img {
-			width: 100%;
-			flex: 1 0 0%;
-			height: 100%;
-			object-fit: cover;
-		}
-	}
-
-	// Non-cropped images - maintain aspect ratio
-	&:not(.is-cropped) .blocks-gallery-item figure {
 		img {
 			display: block;
+			height: auto;
+			max-width: 100% !important;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		a {
+			margin: 0;
+		}
+
+		// Position caption and scrim at the bottom.
+		&:has(figcaption)::before,
+		figcaption {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			max-height: 100%;
+		}
+
+		// Create a background blur layer under captions
+		&:has(figcaption)::before {
+			content: "";
+			height: 100%;
+			max-height: 3em;
+			pointer-events: none;
+			backdrop-filter: blur(3px);
+			mask-image: linear-gradient(0deg, #000 20%, transparent 100%);
+		}
+
+		// Caption styling
+		figcaption {
+			margin: 0;
+			padding: 1em;
+			color: #fff;
+			font-size: 13px;
+			text-align: center;
+			box-sizing: border-box;
+			overflow: auto;
+			text-shadow: 0 0 1.5px #000;
+			background: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+
+			img {
+				display: inline;
+			}
+
+			a {
+				color: inherit;
+			}
+		}
+
+		&.has-custom-border img {
+			box-sizing: border-box;
 		}
 	}
+}
 
-	// Alignment support
-	&.aligncenter {
-		justify-content: center;
+// Responsive column settings
+.wp-block-gallery {
+	&.columns-1 .blocks-gallery-item {
+		flex-basis: 100%;
+		max-width: 100%;
 	}
 
-	&.alignleft,
-	&.alignright {
-		max-width: 50%;
-		width: 100%;
+	&.columns-2 .blocks-gallery-item {
+		flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
+		max-width: calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
 	}
 
-	// Wide and full alignment
-	&.alignwide,
-	&.alignfull {
-		width: 100%;
+	&.columns-3 .blocks-gallery-item {
+		flex: 1 1 calc(33.333333% - (var(--wp--style--unstable-gallery-gap, 16px) * 2 / 3));
+		max-width: calc(33.333333% - (var(--wp--style--unstable-gallery-gap, 16px) * 2 / 3));
+	}
+
+	&.columns-4 .blocks-gallery-item {
+		flex: 1 1 calc(25% - (var(--wp--style--unstable-gallery-gap, 16px) * 3 / 4));
+		max-width: calc(25% - (var(--wp--style--unstable-gallery-gap, 16px) * 3 / 4));
+	}
+
+	&.columns-5 .blocks-gallery-item {
+		flex: 1 1 calc(20% - (var(--wp--style--unstable-gallery-gap, 16px) * 4 / 5));
+		max-width: calc(20% - (var(--wp--style--unstable-gallery-gap, 16px) * 4 / 5));
+	}
+
+	&.columns-6 .blocks-gallery-item {
+		flex: 1 1 calc(16.666666% - (var(--wp--style--unstable-gallery-gap, 16px) * 5 / 6));
+		max-width: calc(16.666666% - (var(--wp--style--unstable-gallery-gap, 16px) * 5 / 6));
+	}
+
+	&.columns-7 .blocks-gallery-item {
+		flex: 1 1 calc(14.285714% - (var(--wp--style--unstable-gallery-gap, 16px) * 6 / 7));
+		max-width: calc(14.285714% - (var(--wp--style--unstable-gallery-gap, 16px) * 6 / 7));
+	}
+
+	&.columns-8 .blocks-gallery-item {
+		flex: 1 1 calc(12.5% - (var(--wp--style--unstable-gallery-gap, 16px) * 7 / 8));
+		max-width: calc(12.5% - (var(--wp--style--unstable-gallery-gap, 16px) * 7 / 8));
 	}
 }
+
+// Cropped images
+.wp-block-gallery.is-cropped {
+	.blocks-gallery-item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		flex: 1 0 0%;
+	}
+}
+
+// Gallery caption
+.blocks-gallery-caption {
+	flex-basis: 100%;
+	margin: 0;
+	padding: 0;
+	display: none;
+
+	&:not(:empty) {
+		display: block;
+		padding: 8px 0 0;
+	}
+}
+
+// Wider alignment
+.wp-block-gallery.alignwide {
+	// Styles for wide alignment if needed
+}
+
+.wp-block-gallery.alignfull {
+	// Styles for full alignment if needed
+}
+

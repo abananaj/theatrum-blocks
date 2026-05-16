@@ -663,6 +663,7 @@ add_action('rest_api_init', 'register_site_option_rest_endpoint');
 function get_site_option_rest_callback($request)
 {
 	$option_name = sanitize_text_field($request['option_name']);
+	$meta_key    = sanitize_text_field($request->get_param('meta_key') ?? '');
 	$value       = get_option($option_name);
 
 	if ($value === false) {
@@ -676,7 +677,53 @@ function get_site_option_rest_callback($request)
 		}
 	}
 
-	if (is_array($value) || is_object($value)) {
+	if (is_array($value)) {
+		$post_ids = array_filter($value, function ($id) {
+			return is_numeric($id) && !empty($id);
+		});
+
+		if (!empty($post_ids)) {
+			$items = array();
+			foreach ($post_ids as $post_id) {
+				$post_id    = (int) $post_id;
+				$post_title = get_the_title($post_id);
+				$post_url   = get_permalink($post_id);
+
+				$display_text = $post_title;
+				if (!empty($meta_key)) {
+					$meta_value = get_post_meta($post_id, $meta_key, true);
+					if (!empty($meta_value)) {
+						$display_text = $meta_value;
+					}
+				}
+
+				if (!empty($display_text)) {
+					$items[] = array(
+						'title' => $display_text,
+						'url'   => $post_url ?: '',
+					);
+				}
+			}
+			return new WP_REST_Response(array('value' => '', 'items' => $items), 200);
+		} else {
+			$value = json_encode($value);
+		}
+	} elseif (is_numeric($value) && (int) $value > 0 && get_post((int) $value)) {
+		$post_id    = (int) $value;
+		$post_title = get_the_title($post_id);
+		$post_url   = get_permalink($post_id);
+
+		$display_text = $post_title;
+		if (!empty($meta_key)) {
+			$meta_value = get_post_meta($post_id, $meta_key, true);
+			if (!empty($meta_value)) {
+				$display_text = $meta_value;
+			}
+		}
+
+		$item = array('title' => $display_text ?: 'Untitled', 'url' => $post_url ?: '');
+		return new WP_REST_Response(array('value' => '', 'items' => array($item)), 200);
+	} elseif (is_object($value)) {
 		$value = json_encode($value);
 	} else {
 		$value = (string) $value;
@@ -1218,4 +1265,134 @@ function theatrum_get_production_quotes_rest_callback($request)
 	}
 
 	return new WP_REST_Response(array('quotes' => $quotes), 200);
+}
+
+/* -----------------------------------------------------------------------
+ * Production Performances
+ * -------------------------------------------------------------------- */
+
+function register_production_performances_rest_endpoint()
+{
+	register_rest_route('chance/v1', '/production-performances/(?P<post_id>\d+)', array(
+		'methods'             => 'GET',
+		'callback'            => 'get_production_performances_rest_callback',
+		'permission_callback' => 'theatrum_editor_permission_check',
+	));
+}
+add_action('rest_api_init', 'register_production_performances_rest_endpoint');
+
+function get_production_performances_rest_callback($request)
+{
+	$post_id = intval($request['post_id']);
+
+	if (!$post_id) {
+		return new WP_REST_Response(array('performances' => array()), 200);
+	}
+
+	if (!function_exists('get_field')) {
+		return new WP_REST_Response(array('performances' => array()), 200);
+	}
+
+	$rows = get_field('performances', $post_id);
+
+	if (empty($rows) || !is_array($rows)) {
+		return new WP_REST_Response(array('performances' => array()), 200);
+	}
+
+	// Today at midnight (start of day) in the site timezone.
+	$today_ts = mktime(0, 0, 0, (int) wp_date('n'), (int) wp_date('j'), (int) wp_date('Y'));
+
+	/**
+	 * Parse a raw ACF date value to a Unix timestamp.
+	 * Handles Ymd (20260501) and Y-m-d (2026-05-01) formats.
+	 */
+	$parse_date = function ($raw) {
+		if (empty($raw) || !is_string($raw)) {
+			return false;
+		}
+		// Strip any time component.
+		$date_only = preg_replace('/[\sT].*$/', '', trim($raw));
+
+		if (function_exists('theatrum_parse_flexible_date')) {
+			$ts = theatrum_parse_flexible_date($date_only);
+			if ($ts) {
+				return $ts;
+			}
+		}
+
+		// Ymd → Y-m-d
+		if (preg_match('/^\d{8}$/', $date_only)) {
+			$date_only = substr($date_only, 0, 4) . '-' . substr($date_only, 4, 2) . '-' . substr($date_only, 6, 2);
+		}
+
+		return strtotime($date_only);
+	};
+
+	/**
+	 * Parse a raw ACF time value to a Unix timestamp.
+	 * Handles H:i:s and H:i formats.
+	 */
+	$parse_time = function ($raw) {
+		if (empty($raw) || !is_string($raw)) {
+			return false;
+		}
+
+		if (function_exists('theatrum_parse_flexible_time')) {
+			$ts = theatrum_parse_flexible_time($raw);
+			if ($ts) {
+				return $ts;
+			}
+		}
+
+		return strtotime(trim($raw));
+	};
+
+	// Filter rows to upcoming (today or later) and attach parsed timestamp.
+	$upcoming = array();
+	foreach ($rows as $row) {
+		if (!is_array($row)) {
+			continue;
+		}
+		if (!empty($row['hide'])) {
+			continue;
+		}
+		$ts = $parse_date($row['date'] ?? '');
+		if (false === $ts || $ts < $today_ts) {
+			continue;
+		}
+		$upcoming[] = array(
+			'ts'   => $ts,
+			'date' => $row['date'] ?? '',
+			'time' => $row['time'] ?? '',
+			'note' => $row['note'] ?? '',
+		);
+	}
+
+	if (empty($upcoming)) {
+		return new WP_REST_Response(array('performances' => array()), 200);
+	}
+
+	// Sort ascending by date.
+	usort($upcoming, fn($a, $b) => $a['ts'] - $b['ts']);
+
+	// Take the next 5.
+	$upcoming = array_slice($upcoming, 0, 5);
+
+	// Format for response
+	$formatted = array();
+	foreach ($upcoming as $perf) {
+		$date_ts      = $perf['ts'];
+		$display_date = $date_ts ? wp_date('D M jS', $date_ts) : esc_html($perf['date']);
+		$time_ts      = $parse_time($perf['time']);
+		$display_time = $time_ts ? wp_date('g:i A', $time_ts) : esc_html($perf['time']);
+		$note         = sanitize_text_field($perf['note']);
+
+		$formatted[] = array(
+			'date' => $display_date,
+			'time' => $display_time,
+			'note' => $note,
+		);
+	}
+
+	return new WP_REST_Response(array('performances' => $formatted), 200);
 }

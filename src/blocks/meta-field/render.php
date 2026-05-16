@@ -22,6 +22,7 @@ $tag_name  = $attributes['tagName'] ?? 'p';
 $href      = $attributes['href'] ?? '';
 $prepend   = $attributes['prepend'] ?? '';
 $append    = $attributes['append'] ?? '';
+$hide_if_empty = $attributes['hideIfEmpty'] ?? false;
 
 if (!$key_input) {
   return;
@@ -31,6 +32,11 @@ if (!$key_input) {
 $value = get_post_meta($post->ID, $key_input, true);
 
 if ($value === '' || $value === false) {
+  // If hideIfEmpty is enabled, don't render parent container
+  if ($hide_if_empty) {
+    return;
+  }
+  // Otherwise, don't render anything (previous behavior)
   return;
 }
 

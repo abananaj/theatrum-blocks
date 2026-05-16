@@ -46,6 +46,11 @@
 		}
 	},
 	"attributes": {
+		"displayType": {
+			"type": "string",
+			"default": "generic",
+			"enum": ["generic", "season-producer"]
+		},
 		"taxonomy": {
 			"type": "string",
 			"default": ""
@@ -69,6 +74,14 @@
 		"append": {
 			"type": "string",
 			"default": ""
+		},
+		"headingText": {
+			"type": "string",
+			"default": ""
+		},
+		"headingLevel": {
+			"type": "string",
+			"default": "h2"
 		}
 	},
 	"textdomain": "term-meta",
@@ -76,5 +89,25 @@
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"viewScript": "file:./view.js",
+	"variations": [
+		{
+			"name": "generic",
+			"title": "Term Meta",
+			"description": "Display metadata for a selected taxonomy term",
+			"attributes": {
+				"displayType": "generic"
+			},
+			"isDefault": true
+		},
+		{
+			"name": "season-producer",
+			"title": "Season Producer",
+			"description": "Display season producer titles from the current post's season taxonomy term",
+			"attributes": {
+				"displayType": "season-producer",
+				"metaKey": "season_producers"
+			}
+		}
+	]
 }
