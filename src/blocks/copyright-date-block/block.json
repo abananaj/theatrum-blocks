@@ -4,7 +4,7 @@
 	"name": "create-block/copyright-date-block",
 	"version": "0.1.0",
 	"title": "Copyright Date Block",
-	"category": "widgets",
+	"category": "theatrum",
   "icon": "admin-settings",
 	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},

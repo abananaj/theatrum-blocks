@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/staff-member",
 	"title": "Staff Member",
-	"category": "widgets",
+	"category": "deprecated",
 	"description": "Display staff member information from WordPress options",
 	"icon": "admin-settings",
 	"supports": {

@@ -3,49 +3,67 @@
  * Frontend styles for the interactive thumbnail list
  */
 
+@use "@wordpress/base-styles/breakpoints" as *;
+
 .wp-block-chance-thumbnail-list {
-	--animation-speed: 0.3s;
-	--text-color: currentColor;
-	--border-color: currentColor;
+	box-sizing: border-box;
+
+	.thumbnail-list-wrapper {
+		display: grid;
+		gap: 2rem;
+		align-items: start;
+	}
 
 	.list-items {
 		display: flex;
 		flex-direction: column;
-		position: relative;
 	}
 
 	.list-item {
-		position: relative;
-		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 1em;
+		border-bottom: 1px solid currentColor;
+		cursor: pointer;
+		transition: color var(--animation-speed, 0.3s) ease;
 
-		&:hover {
-			color: #222;
-
-			.item-title {
-				transform: translateX(1rem);
-			}
-		}
-
-		.item-title {
-			transition: transform 0.3s ease;
-		}
-
-		.item-description {
-			transition: opacity 0.3s ease;
+		&:hover .item-title {
+			transform: translateX(1em);
 		}
 	}
 
-	// Thumbnail container with 3D effect
+	.item-title {
+		font-weight: bold;
+		font-size: 1.1em;
+		transition: transform var(--animation-speed, 0.3s) ease;
+	}
+
+	.item-description {
+		font-size: 0.9em;
+		opacity: 0.7;
+		margin-top: 0.25em;
+		transition: opacity var(--animation-speed, 0.3s) ease;
+	}
+
+	// Thumbnail container with 3D flip effect
 	.thumbnail-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: #f5f5f5;
-		border-radius: 4px;
+		position: relative;
+		perspective: 1000px;
+		transform-style: preserve-3d;
+		box-sizing: border-box;
 		overflow: hidden;
 
 		.thumbnail {
 			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			position: absolute;
+			top: 0;
+			left: 0;
+			backface-visibility: hidden;
+			transition: transform var(--animation-speed, 0.3s) ease;
 
 			&.thumbnail-0 {
 				transform: rotateX(0deg);
@@ -67,20 +85,6 @@
 		}
 	}
 
-	// Responsive adjustments
-	@media (max-width: 768px) {
-		.thumbnail-list-wrapper {
-			grid-template-columns: 1fr !important;
-		}
-
-		.thumbnail-container {
-			margin-top: 1rem;
-			width: 100%;
-			height: auto;
-			aspect-ratio: 4 / 3;
-		}
-	}
-
 	// Position variants
 	&.thumbnail-position-left {
 		.thumbnail-list-wrapper {
@@ -91,6 +95,20 @@
 	&.thumbnail-position-right {
 		.thumbnail-list-wrapper {
 			grid-template-columns: 1fr auto;
+		}
+	}
+
+	// Responsive adjustments
+	@media (max-width: #{ $break-medium }) {
+		.thumbnail-list-wrapper {
+			grid-template-columns: 1fr !important;
+		}
+
+		.thumbnail-container {
+			width: 100% !important;
+			height: auto !important;
+			aspect-ratio: 4 / 3;
+			margin-top: 1em;
 		}
 	}
 }

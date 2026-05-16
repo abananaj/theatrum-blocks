@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/video-trailer",
 	"title": "Production Trailer",
-	"category": "embed",
+	"category": "production",
 	"description": "Embed a YouTube video trailer from a URL stored in post metadata",
 	"icon": "video-alt3",
 	"keywords": ["youtube", "video", "trailer", "embed", "meta"],

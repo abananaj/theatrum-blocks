@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/thumbnail-list",
 	"title": "Thumbnail List",
-	"category": "common",
+	"category": "theatrum",
 	"icon": "format-gallery",
 	"description": "An interactive list with thumbnail images that display when hovering over items. Each item can have a title, description, and thumbnail image.",
 	"textdomain": "theatrum-blocks",

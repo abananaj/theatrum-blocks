@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/site-option",
 	"title": "Site Option",
-	"category": "widgets",
+	"category": "metablock",
 	"description": "Display values from WordPress options table, including staff/board members",
 	"icon": "admin-settings",
 	"supports": {

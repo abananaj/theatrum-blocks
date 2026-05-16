@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/cover-card",
 	"title": "Cover Card",
-	"category": "widgets",
+	"category": "theatrum",
 	"description": "Display a featured production or event as a card with featured image background and overlaid title",
 	"icon": "cover-image",
 	"supports": {

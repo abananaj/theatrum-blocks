@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/board-member",
 	"title": "Board Member",
-	"category": "widgets",
+	"category": "deprecated",
 	"description": "Display board member information from WordPress options",
 	"textdomain": "board-member",
 	"icon": "admin-settings",

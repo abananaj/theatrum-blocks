@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/icon-list",
 	"title": "Icon List",
-	"category": "text",
+	"category": "theatrum",
 	"description": "A list block with optional icons for each item. Supports ordered and unordered lists with customizable icon styling.",
 	"icon": "list-view",
 	"keywords": ["list", "icon", "item"],

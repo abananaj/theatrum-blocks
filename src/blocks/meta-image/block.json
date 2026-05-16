@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-image",
 	"title": "Meta Image",
-	"category": "media",
+	"category": "metablock",
 	"description": "Display an image from a post meta or ACF image field by entering a key",
 	"icon": "format-image",
 	"supports": {

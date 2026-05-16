@@ -84,3 +84,61 @@ function theatrum_register_block_variations()
 	}
 }
 add_action('init', 'theatrum_register_block_variations');
+
+/**
+ * Registers the "Custom Blocks" block category for all Theatrum blocks.
+ * The category is inserted just before the 'widgets' category so it appears
+ * in the correct position in both the block inserter and the Style Book.
+ *
+ * @param array[] $categories Array of block categories.
+ * @return array[] Modified array of block categories.
+ */
+function theatrum_register_block_category($categories)
+{
+	$theatrum_category = array(
+		'slug'  => 'theatrum',
+		'title' => __('Custom Blocks', 'theatrum-blocks'),
+		'icon'  => null,
+	);
+
+	// Find the position of the 'widgets' category and insert before it.
+	$widgets_index = array_search(
+		'widgets',
+		array_column($categories, 'slug'),
+		true
+	);
+
+	if (false !== $widgets_index) {
+		array_splice($categories, $widgets_index, 0, array($theatrum_category));
+	} else {
+		// Fallback: append if 'widgets' category is not found.
+		$categories[] = $theatrum_category;
+	}
+
+	return $categories;
+}
+add_filter('block_categories_all', 'theatrum_register_block_category');
+
+/**
+ * Enqueues the Style Book editor script that ensures the "Custom Blocks"
+ * tab is positioned correctly in the Site Editor Style Book.
+ */
+function theatrum_enqueue_style_book_script()
+{
+	$asset_file = __DIR__ . '/build/style-book.asset.php';
+
+	if (! file_exists($asset_file)) {
+		return;
+	}
+
+	$asset = require $asset_file;
+
+	wp_enqueue_script(
+		'theatrum-style-book',
+		plugins_url('build/style-book.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_style_book_script');

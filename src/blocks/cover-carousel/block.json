@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/cover-carousel",
 	"title": "Cover Carousel",
-	"category": "common",
+	"category": "theatrum",
 	"icon": "images-alt2",
 	"description": "A carousel block for displaying multiple images or videos with overlay content, similar to the Cover block but with carousel functionality",
 	"textdomain": "cover-carousel",

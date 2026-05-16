@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-button",
 	"title": "Meta Button",
-	"category": "widgets",
+	"category": "metablock",
 	"icon": "button",
 	"description": "Display a button/link from a URL meta field",
 	"supports": {

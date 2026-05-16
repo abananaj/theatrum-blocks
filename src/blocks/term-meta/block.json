@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/term-meta",
 	"title": "Term Meta",
-	"category": "chance",
+	"category": "metablock",
 	"icon": "tag",
 	"description": "Display metadata for a selected taxonomy term",
 	"supports": {

@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-file",
 	"title": "Meta File Link",
-	"category": "media",
+	"category": "metablock",
 	"description": "Display a link to a file from a post meta or ACF file field by entering a key",
 	"icon": "media-document",
 	"supports": {

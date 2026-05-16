@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/production-quotes",
 	"title": "Production Quotes",
-	"category": "widgets",
+	"category": "production",
 	"description": "Display quotes from the production_quotes ACF repeater field",
 	"icon": "format-quote",
 	"supports": {

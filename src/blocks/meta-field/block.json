@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-field",
 	"title": "Meta Field",
-	"category": "widgets",
+	"category": "metablock",
 	"description": "Display a value from post metadata by entering a key",
 	"icon": "admin-generic",
 	"supports": {

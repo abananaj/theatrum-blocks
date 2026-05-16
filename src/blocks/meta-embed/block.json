@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-embed",
 	"title": "Meta Embed",
-	"category": "embed",
+	"category": "metablock",
 	"description": "Embed a resource from a URL stored in post metadata",
 	"icon": "embed-generic",
 	"supports": {

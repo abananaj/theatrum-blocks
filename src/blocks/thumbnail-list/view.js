@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const listItems = block.querySelectorAll('.list-item');
     const thumbnailContainer = block.querySelector('.thumbnail-container');
     const thumbnails = block.querySelectorAll('.thumbnail');
-    const animationSpeed = block.dataset.animationSpeed || '0.3';
+    // Read animation speed from the CSS custom property set in save.js
+    const animationSpeed = getComputedStyle( block ).getPropertyValue( '--animation-speed' ).trim() || '0.3s';
 
     if (!thumbnailContainer || thumbnails.length === 0) {
       return;
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Update container transform for the flip effect
-    container.style.transitionDuration = `${speed}s`;
-    container.style.transform = `translateY(${index * 100}%) rotateX(${index * -180}deg)`;
+    container.style.transitionDuration = speed;
+    container.style.transform = `translateY(${ index * 100 }%) rotateX(${ index * -180 }deg)`;
   }
 });

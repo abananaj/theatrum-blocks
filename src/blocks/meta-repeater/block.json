@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-repeater",
 	"title": "Meta Repeater",
-	"category": "chance",
+	"category": "metablock",
 	"icon": "update",
 	"description": "Display ACF repeater field rows with configurable subfield display",
 	"supports": {

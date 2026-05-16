@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/popup",
 	"title": "Popup",
-	"category": "common",
+	"category": "theatrum",
 	"icon": "visibility",
 	"description": "A simple popup block with a button to reveal hidden content",
 	"supports": {

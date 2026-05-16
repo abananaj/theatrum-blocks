@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/season-producer",
 	"title": "Season Producer",
-	"category": "chance",
+	"category": "metablock",
 	"description": "Display season producer titles from the current post's season taxonomy term.",
 	"icon": "awards",
 	"supports": {

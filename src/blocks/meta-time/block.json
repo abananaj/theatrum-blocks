@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-time",
 	"title": "Meta Time",
-	"category": "chance",
+	"category": "metablock",
 	"icon": "clock",
 	"description": "Display time meta fields with configurable formatting",
 	"supports": {

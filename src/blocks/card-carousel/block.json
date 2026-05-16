@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/card-carousel",
 	"title": "Card Carousel",
-	"category": "common",
+	"category": "theatrum",
 	"icon": "images-alt2",
 	"description": "A responsive carousel display for cards with images, titles, and subtitles",
 	"textdomain": "card-carousel",

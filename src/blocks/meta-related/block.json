@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/meta-related",
 	"title": "Meta Related",
-	"category": "widgets",
+	"category": "metablock",
 	"description": "Display a related post's title by entering a meta key that contains a post ID or Post Object",
 	"textdomain": "meta-related",
 	"icon": "admin-links",

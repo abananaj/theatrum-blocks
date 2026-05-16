@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/production-details",
 	"title": "Production Details",
-	"category": "widgets",
+	"category": "production",
 	"icon": "info",
 	"supports": {
 		"html": false,

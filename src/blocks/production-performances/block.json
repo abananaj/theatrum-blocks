@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "chance/performances-list",
 	"title": "Production Performances",
-	"category": "chance",
+	"category": "production",
 	"description": "Display the next 5 upcoming performances from the ACF performances repeater field.",
 	"icon": "calendar-alt",
 	"supports": {
