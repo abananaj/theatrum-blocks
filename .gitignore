@@ -32,3 +32,7 @@ node_modules/
 # build
 build/
 *drafts
+
+node_modules/
+dist/
+*.sql
