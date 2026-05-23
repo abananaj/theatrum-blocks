@@ -1,0 +1,30 @@
+/**
+ * Tabs block — editor styles.
+ *
+ * In the editor, all tab items show their panels when selected (like accordion).
+ * The generated tablist is not present in the editor, so accordion layout is
+ * always used as the editing UI.
+ */
+
+.wp-block-chance-production-tabs {
+	// Show all accordion headings in the editor.
+	.wp-block-chance-production-tab-item {
+		&__heading {
+			display: block;
+		}
+
+		// Panel hidden until the item is selected / open.
+		&__panel {
+			display: none;
+		}
+
+		&.is-open > .wp-block-chance-production-tab-item__panel {
+			display: block;
+		}
+
+		// The toggle button isn't functional in the editor.
+		&__toggle {
+			cursor: default;
+		}
+	}
+}

@@ -21,6 +21,12 @@
 	background-position: center;
 	background-position: bottom 75% left 50%;
 	transition: 500ms ease-out;
+	&__link {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
 	.user-content {
 		min-height: 100%;
 		position: relative;
@@ -34,9 +40,8 @@
 		left: 0;
 		bottom: 0;
 		right: 0;
-		z-index: 1;
-		height: fit-content;
-		min-height:40px;
+		z-index: 2;
+		min-height: 40px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -62,15 +67,15 @@
 		margin: 0;
 		color: var(--wp--preset--color--white);
 	}
-.buttons {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	display: flex;
-	justify-content: flex-end;
-	align-items: stretch;
-	flex-flow: column nowrap;
-}
+	.buttons {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		display: flex;
+		justify-content: flex-end;
+		align-items: stretch;
+		flex-flow: column nowrap;
+	}
 	.button {
 		font-size: 0.85em;
 		background-color: var(--wp--preset--color--light-yellow);
@@ -78,7 +83,7 @@
 		text-decoration: none;
 		transition: all 0.3s;
 		margin-left: 10px;
-		height:40px;
+		height: 40px;
 		padding: 5px 10px;
 		display: flex;
 		justify-content: center;

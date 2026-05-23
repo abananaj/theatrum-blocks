@@ -6,6 +6,17 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-// .wp-block-chance-cover-card {
-// 	border: 1px dotted #f00;
-// }
+// Reset theme global element styles that bleed into the editor
+.wp-block-chance-cover-card {
+	.cover-card .button {
+		margin: 0;
+		line-height: 1;
+		box-shadow: none;
+		transform: none !important;
+	}
+
+	.cover-card h4.dates {
+		font-size: 1em;
+		margin: 0;
+	}
+}

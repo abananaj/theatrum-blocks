@@ -99,6 +99,7 @@ if ($is_member_type) {
     $wrapper_attrs = get_block_wrapper_attributes(array('class' => $class_string));
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
+    $html .= '<ul>';
 
     foreach ($post_ids as $post_id) {
       $post_id         = (int) $post_id;
@@ -110,38 +111,62 @@ if ($is_member_type) {
         $post_title = 'Untitled';
       }
 
-      $html .= '<p>';
+      $html .= '<li>';
       if ($post_url) {
         $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
       } else {
         $html .= '<strong>' . esc_html($post_title) . '</strong>';
       }
 
-      // Board members don't display position title
-      if ($member_type !== 'board' && $pretty_option_name !== 'Board Members') {
-        $html .= ', ' . esc_html($pretty_option_name);
-      }
-
       if (!empty($post_meta_title)) {
-        if ($member_type === 'board') {
-          $html .= '<br />';
-        }
+        $html .= '<br />';
         $html .= '<em>' . esc_html($post_meta_title) . '</em>';
       }
 
-      $html .= '</p>';
+      $html .= '</li>';
     }
 
+    $html .= '</ul>';
     $html .= '</div>' . esc_html($append);
     echo $html;
-  } else {
-    // Single value (string or numeric)
+  } elseif (is_numeric($option_value)) {
+    // Single post ID — resolve to title/link like the array branch
+    $post_id         = (int) $option_value;
+    $post_title      = get_the_title($post_id);
+    $post_url        = get_permalink($post_id);
+    $post_meta_title = get_post_meta($post_id, 'title', true);
+
+    if (empty($post_title)) {
+      $post_title = 'Untitled';
+    }
+
     $classes = array($css_class);
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
     }
-    $class_string = implode(' ', $classes);
-    $wrapper_attrs = get_block_wrapper_attributes(array('class' => $class_string));
+    $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+
+    $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
+    $html .= '<p>';
+    if ($post_url) {
+      $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
+    } else {
+      $html .= '<strong>' . esc_html($post_title) . '</strong>';
+    }
+    if (!empty($post_meta_title)) {
+      $html .= '<br />';
+      $html .= '<em>' . esc_html($post_meta_title) . '</em>';
+    }
+    $html .= '</p>';
+    $html .= '</div>' . esc_html($append);
+    echo $html;
+  } else {
+    // Single string value
+    $classes = array($css_class);
+    if (isset($attributes['className'])) {
+      $classes[] = $attributes['className'];
+    }
+    $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
     if ($option_value) {

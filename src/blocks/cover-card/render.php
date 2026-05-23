@@ -37,25 +37,37 @@ $bg_style = '';
 if ($featured_image_url) {
   $bg_style = 'background-image: url(' . esc_url($featured_image_url) . ');';
 }
+$target = $open_in_new_window ? ' target="_blank" rel="noopener noreferrer"' : '';
 ?>
 <div <?php echo get_block_wrapper_attributes(); ?>>
   <div class="cover-card" style="<?php echo esc_attr($bg_style); ?>">
+    <a class="cover-card__link" href="<?php echo esc_url($post_permalink); ?>" <?php echo $target; ?> aria-label="<?php echo esc_attr($post_title); ?>"></a>
     <div class="user-content"><?php echo do_blocks($content); ?></div>
     <div class="bottom-bar">
       <!-- <a href="<?php echo esc_url($post_permalink); ?>" class="post-link"> -->
       <!-- <h3 class="title"><?php echo esc_html($post_title); ?></h3> -->
       <h4 class="dates"><?php
-                        $opening = get_post_meta($post->ID, 'opening', true);
-                        $closing = get_post_meta($post->ID, 'closing', true);
-                        if ($opening) echo esc_html(date('M j', strtotime($opening)));
-                        if ($opening && $closing) echo ' – ';
-                        if ($closing) echo esc_html(date('M j', strtotime($closing)));
+                        if ('ct-event' === $post->post_type) {
+                          $event_date  = get_post_meta($post->ID, 'date', true);
+                          $event_start = get_post_meta($post->ID, 'start', true);
+                          $event_end   = get_post_meta($post->ID, 'end', true);
+                          // date is stored as m/d/Y
+                          if ($event_date) echo esc_html(date('M j', strtotime($event_date)));
+                          if ($event_date && ($event_start || $event_end)) echo ' @ ';
+                          // times are stored as H:i:s
+                          if ($event_start) echo esc_html(date('g:i A', strtotime($event_start)));
+                          // if ($event_start && $event_end) echo ' – ';
+                          // if ($event_end) echo esc_html(date('g:i A', strtotime($event_end)));
+                        } else {
+                          $opening = get_post_meta($post->ID, 'opening', true);
+                          $closing = get_post_meta($post->ID, 'closing', true);
+                          if ($opening) echo esc_html(date('M j', strtotime($opening)));
+                          if ($opening && $closing) echo ' – ';
+                          if ($closing) echo esc_html(date('M j', strtotime($closing)));
+                        }
                         ?></h4>
-      <!-- </a> -->
       <div class="buttons">
         <?php
-        $target = $open_in_new_window ? 'target="_blank" rel="noopener noreferrer"' : '';
-
         if ($button_text) :
           $href = $button_url ?: $post_permalink;
         ?>

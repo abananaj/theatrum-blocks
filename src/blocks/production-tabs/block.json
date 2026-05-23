@@ -1,0 +1,82 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/production-tabs",
+	"title": "Tabs",
+	"category": "theatrum",
+	"icon": "table-col-before",
+	"description": "Displays content in a tabbed layout on desktop, switching to an accordion on mobile.",
+	"example": {},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"align": ["wide", "full"],
+		"color": {
+			"background": true,
+			"gradients": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": ["top", "bottom"],
+			"blockGap": true
+		},
+		"shadow": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"fontFamily": true,
+			"fontWeight": true,
+			"fontStyle": true,
+			"textTransform": true,
+			"textDecoration": true,
+			"letterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"attributes": {
+		"iconPosition": {
+			"type": "string",
+			"default": "right"
+		},
+		"showIcon": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoclose": {
+			"type": "boolean",
+			"default": false
+		},
+		"headingLevel": {
+			"type": "number",
+			"default": 3
+		},
+		"initialTab": {
+			"type": "number",
+			"default": 0
+		},
+		"mobileBreakpoint": {
+			"type": "number",
+			"default": 768
+		}
+	},
+	"providesContext": {
+		"chance/tabs-icon-position": "iconPosition",
+		"chance/tabs-show-icon": "showIcon",
+		"chance/tabs-heading-level": "headingLevel"
+	},
+	"allowedBlocks": ["chance/production-tab-item"],
+	"textdomain": "theatrum-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

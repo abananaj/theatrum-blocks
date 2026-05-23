@@ -53,6 +53,8 @@ function theatrum_register_blocks()
 		'production-details', // 🎭
 		'production-performances', // 🎭 var of repeater
 		'production-quotes', // 🎭 var of repeater
+		'production-tab-item', // 🎭 child of production-tabs
+		'production-tabs', // 🎭
 		'production-trailer', // 🎭
 
 		'term-meta', // ⭐ 
@@ -60,6 +62,8 @@ function theatrum_register_blocks()
 		'site-option', // ⭐
 		'staff-member', // temp un-deprecated 
 		// 'board-member',
+
+		'query-filter', // 🔍 frontend filter/sort for query loops
 	);
 
 	foreach ($custom_blocks as $block) {

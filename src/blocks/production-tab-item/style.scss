@@ -1,0 +1,54 @@
+/**
+ * Tab Item block — frontend styles.
+ */
+
+.wp-block-chance-production-tab-item {
+	box-sizing: border-box;
+
+	&__heading {
+		margin: 0;
+		// Reset heading font-size so it inherits from the tabs container.
+		font-size: inherit;
+	}
+
+	&__toggle {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		background: transparent;
+		border: 0;
+		padding: 0.75em 1em;
+		cursor: pointer;
+		font: inherit;
+		color: inherit;
+		text-align: left;
+		gap: 0.5em;
+
+		&:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: -2px;
+			border-radius: 2px;
+		}
+	}
+
+	&__title {
+		flex: 1;
+	}
+
+	&__toggle-icon {
+		flex-shrink: 0;
+		font-size: 1.25em;
+		line-height: 1;
+		display: inline-block;
+		transition: transform 0.2s ease;
+	}
+
+	// Rotate icon when the accordion item is open.
+	&.is-open
+		> .wp-block-chance-production-tab-item__heading
+		> .wp-block-chance-production-tab-item__toggle
+		.wp-block-chance-production-tab-item__toggle-icon {
+		transform: rotate(45deg);
+	}
+}

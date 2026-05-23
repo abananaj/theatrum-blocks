@@ -1819,6 +1819,177 @@ return array(
 		'render' => 'file:./render.php',
 		'viewScript' => 'file:./view.js'
 	),
+	'production-tab-item' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/production-tab-item',
+		'title' => 'Tab Item',
+		'category' => 'theatrum',
+		'icon' => 'list-view',
+		'description' => 'A single tab with a label and content panel.',
+		'parent' => array(
+			'chance/production-tabs'
+		),
+		'supports' => array(
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'spacing' => array(
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'blockGap' => true
+			),
+			'shadow' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'fontFamily' => true,
+				'fontWeight' => true,
+				'fontStyle' => true,
+				'textTransform' => true,
+				'textDecoration' => true,
+				'letterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			)
+		),
+		'attributes' => array(
+			'title' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => '.wp-block-chance-production-tab-item__title'
+			),
+			'level' => array(
+				'type' => 'number',
+				'default' => 3
+			),
+			'iconPosition' => array(
+				'type' => 'string',
+				'default' => 'right'
+			),
+			'showIcon' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'openByDefault' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'usesContext' => array(
+			'chance/tabs-icon-position',
+			'chance/tabs-show-icon',
+			'chance/tabs-heading-level'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
+	),
+	'production-tabs' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/production-tabs',
+		'title' => 'Tabs',
+		'category' => 'theatrum',
+		'icon' => 'table-col-before',
+		'description' => 'Displays content in a tabbed layout on desktop, switching to an accordion on mobile.',
+		'example' => array(
+			
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'spacing' => array(
+				'padding' => true,
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'blockGap' => true
+			),
+			'shadow' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'fontFamily' => true,
+				'fontWeight' => true,
+				'fontStyle' => true,
+				'textTransform' => true,
+				'textDecoration' => true,
+				'letterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			)
+		),
+		'attributes' => array(
+			'iconPosition' => array(
+				'type' => 'string',
+				'default' => 'right'
+			),
+			'showIcon' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'autoclose' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'headingLevel' => array(
+				'type' => 'number',
+				'default' => 3
+			),
+			'initialTab' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'mobileBreakpoint' => array(
+				'type' => 'number',
+				'default' => 768
+			)
+		),
+		'providesContext' => array(
+			'chance/tabs-icon-position' => 'iconPosition',
+			'chance/tabs-show-icon' => 'showIcon',
+			'chance/tabs-heading-level' => 'headingLevel'
+		),
+		'allowedBlocks' => array(
+			'chance/production-tab-item'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
+	),
 	'production-trailer' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1894,6 +2065,67 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
+	),
+	'query-filter' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/query-filter',
+		'title' => 'Query Filter',
+		'category' => 'theatrum',
+		'description' => 'Frontend filter and sort controls for a Query Loop block.',
+		'icon' => 'filter',
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'interactivity' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			)
+		),
+		'attributes' => array(
+			'filterType' => array(
+				'type' => 'string',
+				'default' => 'taxonomy',
+				'enum' => array(
+					'taxonomy',
+					'orderby'
+				)
+			),
+			'taxonomy' => array(
+				'type' => 'string',
+				'default' => 'season'
+			),
+			'paramName' => array(
+				'type' => 'string',
+				'default' => 'season'
+			),
+			'label' => array(
+				'type' => 'string',
+				'default' => 'Season'
+			),
+			'showLabel' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'allLabel' => array(
+				'type' => 'string',
+				'default' => 'All'
+			),
+			'layout' => array(
+				'type' => 'string',
+				'default' => 'horizontal',
+				'enum' => array(
+					'horizontal',
+					'vertical'
+				)
+			)
+		),
+		'render' => 'file:./render.php',
+		'viewScriptModule' => 'file:./view.js',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style.scss',
+		'editorStyle' => 'file:./editor.scss'
 	),
 	'season-producer' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

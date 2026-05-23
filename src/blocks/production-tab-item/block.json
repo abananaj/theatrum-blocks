@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/production-tab-item",
+	"title": "Tab Item",
+	"category": "theatrum",
+	"icon": "list-view",
+	"description": "A single tab with a label and content panel.",
+	"parent": ["chance/production-tabs"],
+	"supports": {
+		"html": false,
+		"color": {
+			"background": true,
+			"gradients": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"spacing": {
+			"margin": ["top", "bottom"],
+			"padding": true,
+			"blockGap": true
+		},
+		"shadow": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"fontFamily": true,
+			"fontWeight": true,
+			"fontStyle": true,
+			"textTransform": true,
+			"textDecoration": true,
+			"letterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"attributes": {
+		"title": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": ".wp-block-chance-production-tab-item__title"
+		},
+		"level": {
+			"type": "number",
+			"default": 3
+		},
+		"iconPosition": {
+			"type": "string",
+			"default": "right"
+		},
+		"showIcon": {
+			"type": "boolean",
+			"default": true
+		},
+		"openByDefault": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [
+		"chance/tabs-icon-position",
+		"chance/tabs-show-icon",
+		"chance/tabs-heading-level"
+	],
+	"textdomain": "theatrum-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}
