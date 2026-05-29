@@ -1,6 +1,357 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
+	'accordion' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion',
+		'title' => 'Accordion',
+		'category' => 'design',
+		'description' => 'Displays a foldable layout that groups content in collapsible sections.',
+		'example' => array(
+			
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'background' => array(
+				'backgroundImage' => true,
+				'backgroundSize' => true,
+				'__experimentalDefaultControls' => array(
+					'backgroundImage' => true
+				)
+			),
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'spacing' => array(
+				'padding' => true,
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'blockGap' => true
+			),
+			'shadow' => true,
+			'layout' => true,
+			'ariaLabel' => true,
+			'interactivity' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'contentRole' => true,
+			'listView' => true
+		),
+		'attributes' => array(
+			'iconPosition' => array(
+				'type' => 'string',
+				'default' => 'right'
+			),
+			'showIcon' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'autoclose' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'headingLevel' => array(
+				'type' => 'number',
+				'default' => 3
+			),
+			'levelOptions' => array(
+				'type' => 'array'
+			)
+		),
+		'providesContext' => array(
+			'core/accordion-icon-position' => 'iconPosition',
+			'core/accordion-show-icon' => 'showIcon',
+			'core/accordion-heading-level' => 'headingLevel'
+		),
+		'allowedBlocks' => array(
+			'core/accordion-item'
+		),
+		'textdomain' => 'default',
+		'viewScriptModule' => '@wordpress/block-library/accordion/view'
+	),
+	'accordion-heading' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion-heading',
+		'title' => 'Accordion Heading',
+		'category' => 'design',
+		'description' => 'Displays a heading that toggles the accordion panel.',
+		'parent' => array(
+			'core/accordion-item'
+		),
+		'usesContext' => array(
+			'core/accordion-icon-position',
+			'core/accordion-show-icon',
+			'core/accordion-heading-level'
+		),
+		'supports' => array(
+			'anchor' => true,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'align' => false,
+			'interactivity' => true,
+			'spacing' => array(
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true
+				),
+				'__experimentalSkipSerialization' => true,
+				'__experimentalSelector' => '.wp-block-accordion-heading__toggle'
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'typography' => array(
+				'__experimentalSkipSerialization' => array(
+					'textDecoration',
+					'letterSpacing'
+				),
+				'fontSize' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'fontFamily' => true
+				)
+			),
+			'shadow' => true,
+			'visibility' => false,
+			'lock' => false
+		),
+		'selectors' => array(
+			'typography' => array(
+				'letterSpacing' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title',
+				'textDecoration' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title'
+			)
+		),
+		'attributes' => array(
+			'openByDefault' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'title' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => '.wp-block-accordion-heading__toggle-title',
+				'role' => 'content'
+			),
+			'level' => array(
+				'type' => 'number'
+			),
+			'iconPosition' => array(
+				'type' => 'string',
+				'enum' => array(
+					'left',
+					'right'
+				),
+				'default' => 'right'
+			),
+			'showIcon' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		),
+		'textdomain' => 'default'
+	),
+	'accordion-item' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion-item',
+		'title' => 'Accordion Item',
+		'category' => 'design',
+		'description' => 'Wraps the heading and panel in one unit.',
+		'parent' => array(
+			'core/accordion'
+		),
+		'allowedBlocks' => array(
+			'core/accordion-heading',
+			'core/accordion-panel'
+		),
+		'supports' => array(
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'interactivity' => true,
+			'spacing' => array(
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'blockGap' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'shadow' => true,
+			'layout' => array(
+				'allowEditing' => false
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'contentRole' => true
+		),
+		'attributes' => array(
+			'openByDefault' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'providesContext' => array(
+			'core/accordion-open-by-default' => 'openByDefault'
+		),
+		'textdomain' => 'default',
+		'style' => 'wp-block-accordion-item'
+	),
+	'accordion-panel' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion-panel',
+		'title' => 'Accordion Panel',
+		'category' => 'design',
+		'description' => 'Contains the hidden or revealed content beneath the heading.',
+		'parent' => array(
+			'core/accordion-item'
+		),
+		'usesContext' => array(
+			'core/accordion-open-by-default'
+		),
+		'supports' => array(
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'interactivity' => true,
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true,
+					'blockGap' => true
+				)
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'shadow' => true,
+			'layout' => array(
+				'allowEditing' => false
+			),
+			'visibility' => false,
+			'contentRole' => true,
+			'allowedBlocks' => true,
+			'lock' => false
+		),
+		'attributes' => array(
+			'templateLock' => array(
+				'type' => array(
+					'string',
+					'boolean'
+				),
+				'enum' => array(
+					'all',
+					'insert',
+					'contentOnly',
+					false
+				),
+				'default' => false
+			)
+		),
+		'textdomain' => 'default',
+		'style' => 'wp-block-accordion-panel'
+	),
 	'board-member' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -2450,6 +2801,429 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
+	),
+	'tab-heading' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion-heading',
+		'title' => 'Accordion Heading',
+		'category' => 'design',
+		'description' => 'Displays a heading that toggles the accordion panel.',
+		'parent' => array(
+			'core/accordion-item'
+		),
+		'usesContext' => array(
+			'core/accordion-icon-position',
+			'core/accordion-show-icon',
+			'core/accordion-heading-level'
+		),
+		'supports' => array(
+			'anchor' => true,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'align' => false,
+			'interactivity' => true,
+			'spacing' => array(
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true
+				),
+				'__experimentalSkipSerialization' => true,
+				'__experimentalSelector' => '.wp-block-accordion-heading__toggle'
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'typography' => array(
+				'__experimentalSkipSerialization' => array(
+					'textDecoration',
+					'letterSpacing'
+				),
+				'fontSize' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'fontFamily' => true
+				)
+			),
+			'shadow' => true,
+			'visibility' => false,
+			'lock' => false
+		),
+		'selectors' => array(
+			'typography' => array(
+				'letterSpacing' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title',
+				'textDecoration' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title'
+			)
+		),
+		'attributes' => array(
+			'openByDefault' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'title' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => '.wp-block-accordion-heading__toggle-title',
+				'role' => 'content'
+			),
+			'level' => array(
+				'type' => 'number'
+			),
+			'iconPosition' => array(
+				'type' => 'string',
+				'enum' => array(
+					'left',
+					'right'
+				),
+				'default' => 'right'
+			),
+			'showIcon' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		),
+		'textdomain' => 'default'
+	),
+	'tab-item' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion-item',
+		'title' => 'Accordion Item',
+		'category' => 'design',
+		'description' => 'Wraps the heading and panel in one unit.',
+		'parent' => array(
+			'core/accordion'
+		),
+		'allowedBlocks' => array(
+			'core/accordion-heading',
+			'core/accordion-panel'
+		),
+		'supports' => array(
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'interactivity' => true,
+			'spacing' => array(
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'blockGap' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'shadow' => true,
+			'layout' => array(
+				'allowEditing' => false
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'contentRole' => true
+		),
+		'attributes' => array(
+			'openByDefault' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'providesContext' => array(
+			'core/accordion-open-by-default' => 'openByDefault'
+		),
+		'textdomain' => 'default',
+		'style' => 'wp-block-accordion-item'
+	),
+	'tab-panel' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion-panel',
+		'title' => 'Accordion Panel',
+		'category' => 'design',
+		'description' => 'Contains the hidden or revealed content beneath the heading.',
+		'parent' => array(
+			'core/accordion-item'
+		),
+		'usesContext' => array(
+			'core/accordion-open-by-default'
+		),
+		'supports' => array(
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'interactivity' => true,
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true,
+					'blockGap' => true
+				)
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'shadow' => true,
+			'layout' => array(
+				'allowEditing' => false
+			),
+			'visibility' => false,
+			'contentRole' => true,
+			'allowedBlocks' => true,
+			'lock' => false
+		),
+		'attributes' => array(
+			'templateLock' => array(
+				'type' => array(
+					'string',
+					'boolean'
+				),
+				'enum' => array(
+					'all',
+					'insert',
+					'contentOnly',
+					false
+				),
+				'default' => false
+			)
+		),
+		'textdomain' => 'default',
+		'style' => 'wp-block-accordion-panel'
+	),
+	'tabs' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion',
+		'title' => 'Accordion',
+		'category' => 'design',
+		'description' => 'Displays a foldable layout that groups content in collapsible sections.',
+		'example' => array(
+			
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'background' => array(
+				'backgroundImage' => true,
+				'backgroundSize' => true,
+				'__experimentalDefaultControls' => array(
+					'backgroundImage' => true
+				)
+			),
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'spacing' => array(
+				'padding' => true,
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'blockGap' => true
+			),
+			'shadow' => true,
+			'layout' => true,
+			'ariaLabel' => true,
+			'interactivity' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'contentRole' => true,
+			'listView' => true
+		),
+		'attributes' => array(
+			'iconPosition' => array(
+				'type' => 'string',
+				'default' => 'right'
+			),
+			'showIcon' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'autoclose' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'headingLevel' => array(
+				'type' => 'number',
+				'default' => 3
+			),
+			'levelOptions' => array(
+				'type' => 'array'
+			)
+		),
+		'providesContext' => array(
+			'core/accordion-icon-position' => 'iconPosition',
+			'core/accordion-show-icon' => 'showIcon',
+			'core/accordion-heading-level' => 'headingLevel'
+		),
+		'allowedBlocks' => array(
+			'core/accordion-item'
+		),
+		'textdomain' => 'default',
+		'viewScriptModule' => '@wordpress/block-library/accordion/view'
+	),
+	'tabs-item' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'core/accordion-item',
+		'title' => 'Accordion Item',
+		'category' => 'design',
+		'description' => 'Wraps the heading and panel in one unit.',
+		'parent' => array(
+			'core/accordion'
+		),
+		'allowedBlocks' => array(
+			'core/accordion-heading',
+			'core/accordion-panel'
+		),
+		'supports' => array(
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'gradients' => true
+			),
+			'interactivity' => true,
+			'spacing' => array(
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'blockGap' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'shadow' => true,
+			'layout' => array(
+				'allowEditing' => false
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'contentRole' => true
+		),
+		'attributes' => array(
+			'openByDefault' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'providesContext' => array(
+			'core/accordion-open-by-default' => 'openByDefault'
+		),
+		'textdomain' => 'default',
+		'style' => 'wp-block-accordion-item'
 	),
 	'term-meta' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

@@ -62,6 +62,11 @@ function theatrum_register_blocks()
 		'site-option', // ⭐
 		'staff-member', // temp un-deprecated 
 		// 'board-member',
+		'tab', // ⭐
+		'tabs', // ⭐
+		'tab-list', // ⭐
+		'tab-panel', // ⭐
+		'tab-panels', // ⭐
 
 		'query-filter', // 🔍 frontend filter/sort for query loops
 	);
