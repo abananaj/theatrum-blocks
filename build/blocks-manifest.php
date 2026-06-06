@@ -2802,6 +2802,64 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),
+	'tab' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'__experimental' => true,
+		'apiVersion' => 3,
+		'name' => 'theatrum/tab',
+		'title' => 'Tab',
+		'description' => 'A single tab button in the tab list.',
+		'category' => 'design',
+		'textdomain' => 'default',
+		'parent' => array(
+			'theatrum/tab-list'
+		),
+		'usesContext' => array(
+			'theatrum/tabs-list',
+			'theatrum/tabs-activeTabIndex',
+			'theatrum/tabs-editorActiveTabIndex',
+			'theatrum/tab-index',
+			'theatrum/tab-id',
+			'theatrum/tab-label'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'visibility' => false,
+			'lock' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true,
+				'textAlign' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'spacing' => array(
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true
+				)
+			),
+			'__experimentalBorder' => array(
+				'radius' => true,
+				'color' => true,
+				'width' => true,
+				'style' => true
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./editor.css',
+		'style' => 'file:./style-index.css'
+	),
 	'tab-heading' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -2973,185 +3031,284 @@ return array(
 		'textdomain' => 'default',
 		'style' => 'wp-block-accordion-item'
 	),
-	'tab-panel' => array(
+	'tab-list' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'__experimental' => true,
 		'apiVersion' => 3,
-		'name' => 'core/accordion-panel',
-		'title' => 'Accordion Panel',
+		'name' => 'theatrum/tab-list',
+		'title' => 'Tab List',
+		'description' => 'Display the tab buttons for a tabbed interface.',
 		'category' => 'design',
-		'description' => 'Contains the hidden or revealed content beneath the heading.',
+		'textdomain' => 'default',
 		'parent' => array(
-			'core/accordion-item'
+			'theatrum/tabs'
+		),
+		'allowedBlocks' => array(
+			'theatrum/tab'
 		),
 		'usesContext' => array(
-			'core/accordion-open-by-default'
+			'theatrum/tabs-list'
+		),
+		'attributes' => array(
+			
 		),
 		'supports' => array(
 			'html' => false,
+			'reusable' => false,
+			'visibility' => false,
+			'lock' => false,
+			'dimensions' => array(
+				'aspectRatio' => false,
+				'height' => false,
+				'minHeight' => false,
+				'width' => false
+			),
 			'color' => array(
 				'background' => true,
-				'gradients' => true
-			),
-			'interactivity' => true,
-			'spacing' => array(
-				'padding' => true,
-				'blockGap' => true,
+				'text' => true,
 				'__experimentalDefaultControls' => array(
-					'padding' => true,
-					'blockGap' => true
+					'background' => true,
+					'text' => true
 				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
 				'radius' => true,
 				'style' => true,
-				'width' => true,
-				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => true,
-					'style' => true,
-					'width' => true
-				)
+				'width' => true
 			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true
-				)
-			),
-			'shadow' => true,
 			'layout' => array(
-				'allowEditing' => false
+				'default' => array(
+					'type' => 'flex',
+					'flexWrap' => 'nowrap',
+					'orientation' => 'horizontal'
+				),
+				'allowSwitching' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => true
 			),
-			'visibility' => false,
-			'contentRole' => true,
-			'allowedBlocks' => true,
-			'lock' => false
-		),
-		'attributes' => array(
-			'templateLock' => array(
-				'type' => array(
-					'string',
-					'boolean'
-				),
-				'enum' => array(
-					'all',
-					'insert',
-					'contentOnly',
-					false
-				),
-				'default' => false
+			'spacing' => array(
+				'padding' => true,
+				'margin' => true,
+				'blockGap' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true,
+					'margin' => true,
+					'blockGap' => true
+				)
 			)
 		),
-		'textdomain' => 'default',
-		'style' => 'wp-block-accordion-panel'
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./editor.css'
 	),
-	'tabs' => array(
+	'tab-panel' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'__experimental' => true,
 		'apiVersion' => 3,
-		'name' => 'core/accordion',
-		'title' => 'Accordion',
+		'name' => 'theatrum/tab-panel',
+		'title' => 'Tab Panel',
+		'description' => 'Content for a tab in a tabbed interface.',
 		'category' => 'design',
-		'description' => 'Displays a foldable layout that groups content in collapsible sections.',
-		'example' => array(
-			
+		'textdomain' => 'default',
+		'attributes' => array(
+			'label' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'parent' => array(
+			'theatrum/tab-panels'
+		),
+		'usesContext' => array(
+			'theatrum/tabs-activeTabIndex',
+			'theatrum/tabs-editorActiveTabIndex',
+			'theatrum/tabs-id'
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
-			'align' => array(
-				'wide',
-				'full'
-			),
-			'background' => array(
-				'backgroundImage' => true,
-				'backgroundSize' => true,
+			'reusable' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
 				'__experimentalDefaultControls' => array(
-					'backgroundImage' => true
+					'background' => true,
+					'text' => true
 				)
+			),
+			'layout' => true,
+			'spacing' => array(
+				'blockGap' => true,
+				'padding' => true,
+				'margin' => false
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
+				)
+			),
+			'renaming' => true,
+			'visibility' => false
+		),
+		'providesContext' => array(
+			'theatrum/tab-label' => 'label'
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css'
+	),
+	'tab-panels' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'__experimental' => true,
+		'apiVersion' => 3,
+		'name' => 'theatrum/tab-panels',
+		'title' => 'Tab Panels',
+		'description' => 'Container for tab panel content in a tabbed interface.',
+		'category' => 'design',
+		'textdomain' => 'default',
+		'parent' => array(
+			'theatrum/tabs'
+		),
+		'allowedBlocks' => array(
+			'theatrum/tab-panel'
+		),
+		'attributes' => array(
+			
+		),
+		'supports' => array(
+			'anchor' => false,
+			'html' => false,
+			'reusable' => false,
+			'visibility' => false,
+			'lock' => false,
+			'dimensions' => array(
+				'aspectRatio' => false,
+				'height' => false,
+				'minHeight' => false,
+				'width' => false
 			),
 			'color' => array(
 				'background' => true,
-				'gradients' => true
-			),
-			'__experimentalBorder' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true,
+				'text' => true,
+				'heading' => true,
+				'link' => true,
 				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => true,
-					'style' => true,
-					'width' => true
+					'background' => true,
+					'text' => true
 				)
 			),
 			'spacing' => array(
+				'blockGap' => false,
 				'padding' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'blockGap' => true
+				'margin' => true
 			),
-			'shadow' => true,
-			'layout' => true,
-			'ariaLabel' => true,
-			'interactivity' => true,
 			'typography' => array(
 				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true
-				)
+				'__experimentalFontFamily' => true
 			),
-			'contentRole' => true,
-			'listView' => true
-		),
-		'attributes' => array(
-			'iconPosition' => array(
-				'type' => 'string',
-				'default' => 'right'
+			'layout' => array(
+				'default' => array(
+					'type' => 'flex',
+					'flexWrap' => 'nowrap',
+					'justifyContent' => 'stretch',
+					'orientation' => 'vertical'
+				),
+				'allowSwitching' => false,
+				'allowVerticalAlignment' => false,
+				'allowOrientation' => false,
+				'allowJustification' => true,
+				'allowSizingOnChildren' => false
 			),
-			'showIcon' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'autoclose' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'headingLevel' => array(
-				'type' => 'number',
-				'default' => 3
-			),
-			'levelOptions' => array(
-				'type' => 'array'
+			'__experimentalBorder' => array(
+				'radius' => true,
+				'color' => true,
+				'width' => true,
+				'style' => true
 			)
 		),
-		'providesContext' => array(
-			'core/accordion-icon-position' => 'iconPosition',
-			'core/accordion-show-icon' => 'showIcon',
-			'core/accordion-heading-level' => 'headingLevel'
-		),
-		'allowedBlocks' => array(
-			'core/accordion-item'
-		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css'
+	),
+	'tabs' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'__experimental' => true,
+		'apiVersion' => 3,
+		'name' => 'theatrum/tabs',
+		'title' => 'Tabs',
+		'description' => 'Display content in a tabbed interface to help users navigate detailed content with ease.',
+		'category' => 'design',
 		'textdomain' => 'default',
-		'viewScriptModule' => '@wordpress/block-library/accordion/view'
+		'allowedBlocks' => array(
+			'theatrum/tab-list',
+			'theatrum/tab-panels'
+		),
+		'attributes' => array(
+			'activeTabIndex' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'editorActiveTabIndex' => array(
+				'type' => 'number',
+				'role' => 'local'
+			)
+		),
+		'supports' => array(
+			'align' => true,
+			'anchor' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'__experimentalDefaultControls' => array(
+					'text' => true,
+					'background' => true
+				)
+			),
+			'layout' => array(
+				'default' => array(
+					'type' => 'flex',
+					'flexWrap' => 'nowrap',
+					'justifyContent' => 'stretch',
+					'verticalAlignment' => 'stretch',
+					'orientation' => 'vertical'
+				),
+				'allowSwitching' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => true,
+				'allowSizingOnChildren' => true
+			),
+			'html' => false,
+			'interactivity' => true,
+			'spacing' => array(
+				'blockGap' => true,
+				'margin' => true,
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true
+			),
+			'renaming' => true
+		),
+		'providesContext' => array(
+			'theatrum/tabs-activeTabIndex' => 'activeTabIndex',
+			'theatrum/tabs-editorActiveTabIndex' => 'editorActiveTabIndex'
+		),
+		'usesContext' => array(
+			'theatrum/tabs-list',
+			'theatrum/tabs-id'
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => '@wordpress/block-library/tabs/view'
 	),
 	'tabs-item' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

@@ -1,0 +1,1 @@
+(()=>{"use strict";const w=window.wp.primitives;window.ReactJSXRuntime;w.SVG,w.Path,window.wp.blocks;const o=window.wp.i18n;window.wp.blockEditor,window.wp.data,window.wp.element,window.wp.components,window.wp.compose,(0,o.__)("Type / to choose a block");const{cancelAnimationFrame:n}=window,i=JSON.parse('{"UU":"theatrum/tab-panel"}'),{UU:t}=i})();

@@ -1,98 +1,74 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "__experimental": true,
   "apiVersion": 3,
-  "name": "core/accordion",
-  "title": "Accordion",
+  "name": "theatrum/tabs",
+  "title": "Tabs",
+  "description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
   "category": "design",
-  "description": "Displays a foldable layout that groups content in collapsible sections.",
-  "example": {},
-  "supports": {
-    "anchor": true,
-    "html": false,
-    "align": [
-      "wide",
-      "full"
-    ],
-    "background": {
-      "backgroundImage": true,
-      "backgroundSize": true,
-      "__experimentalDefaultControls": {
-        "backgroundImage": true
-      }
-    },
-    "color": {
-      "background": true,
-      "gradients": true
-    },
-    "__experimentalBorder": {
-      "color": true,
-      "radius": true,
-      "style": true,
-      "width": true,
-      "__experimentalDefaultControls": {
-        "color": true,
-        "radius": true,
-        "style": true,
-        "width": true
-      }
-    },
-    "spacing": {
-      "padding": true,
-      "margin": [
-        "top",
-        "bottom"
-      ],
-      "blockGap": true
-    },
-    "shadow": true,
-    "layout": true,
-    "ariaLabel": true,
-    "interactivity": true,
-    "typography": {
-      "fontSize": true,
-      "lineHeight": true,
-      "__experimentalFontFamily": true,
-      "__experimentalFontWeight": true,
-      "__experimentalFontStyle": true,
-      "__experimentalTextTransform": true,
-      "__experimentalTextDecoration": true,
-      "__experimentalLetterSpacing": true,
-      "__experimentalDefaultControls": {
-        "fontSize": true
-      }
-    },
-    "contentRole": true,
-    "listView": true
-  },
+  "textdomain": "default",
+  "allowedBlocks": [
+    "theatrum/tab-list",
+    "theatrum/tab-panels"
+  ],
   "attributes": {
-    "iconPosition": {
-      "type": "string",
-      "default": "right"
-    },
-    "showIcon": {
-      "type": "boolean",
-      "default": true
-    },
-    "autoclose": {
-      "type": "boolean",
-      "default": false
-    },
-    "headingLevel": {
+    "activeTabIndex": {
       "type": "number",
-      "default": 3
+      "default": 0
     },
-    "levelOptions": {
-      "type": "array"
+    "editorActiveTabIndex": {
+      "type": "number",
+      "role": "local"
     }
   },
-  "providesContext": {
-    "core/accordion-icon-position": "iconPosition",
-    "core/accordion-show-icon": "showIcon",
-    "core/accordion-heading-level": "headingLevel"
+  "supports": {
+    "align": true,
+    "anchor": true,
+    "color": {
+      "text": true,
+      "background": true,
+      "__experimentalDefaultControls": {
+        "text": true,
+        "background": true
+      }
+    },
+    "layout": {
+      "default": {
+        "type": "flex",
+        "flexWrap": "nowrap",
+        "justifyContent": "stretch",
+        "verticalAlignment": "stretch",
+        "orientation": "vertical"
+      },
+      "allowSwitching": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true
+    },
+    "html": false,
+    "interactivity": true,
+    "spacing": {
+      "blockGap": true,
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true
+    },
+    "renaming": true
   },
-  "allowedBlocks": [
-    "core/accordion-item"
+  "providesContext": {
+    "theatrum/tabs-activeTabIndex": "activeTabIndex",
+    "theatrum/tabs-editorActiveTabIndex": "editorActiveTabIndex"
+  },
+  "usesContext": [
+    "theatrum/tabs-list",
+    "theatrum/tabs-id"
   ],
-  "textdomain": "default",
-  "viewScriptModule": "@wordpress/block-library/accordion/view"
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "@wordpress/block-library/tabs/view"
 }

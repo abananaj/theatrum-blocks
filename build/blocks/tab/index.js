@@ -1,0 +1,1 @@
+(()=>{"use strict";const w=window.wp.primitives;window.ReactJSXRuntime;w.SVG,w.Path,window.wp.blocks,window.wp.i18n,window.wp.blockEditor,window.wp.data,window.wp.element,window.wp.components;const i=JSON.parse('{"UU":"theatrum/tab"}'),{UU:n}=i})();
