@@ -27,6 +27,7 @@ require_once __DIR__ . '/inc/rest-endpoints.php';
 function theatrum_register_blocks()
 {
 	$custom_blocks = array(
+		'breadcrumbs',
 		'card-carousel',
 		'copyright-date-block',
 		'cover-card',
@@ -53,8 +54,6 @@ function theatrum_register_blocks()
 		'production-details', // 🎭
 		'production-performances', // 🎭 var of repeater
 		'production-quotes', // 🎭 var of repeater
-		'production-tab-item', // 🎭 child of production-tabs
-		'production-tabs', // 🎭
 		'production-trailer', // 🎭
 
 		'term-meta', // ⭐ 
@@ -62,13 +61,13 @@ function theatrum_register_blocks()
 		'site-option', // ⭐
 		'staff-member', // temp un-deprecated 
 		// 'board-member',
-		'tab', // ⭐
-		'tabs', // ⭐
-		'tab-list', // ⭐
-		'tab-panel', // ⭐
-		'tab-panels', // ⭐
 
 		'query-filter', // 🔍 frontend filter/sort for query loops
+
+		'tabs',
+		'tab',
+
+		
 	);
 
 	foreach ($custom_blocks as $block) {

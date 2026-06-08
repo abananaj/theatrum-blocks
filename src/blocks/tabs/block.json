@@ -1,68 +1,32 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"__experimental": true,
 	"apiVersion": 3,
-	"name": "theatrum/tabs",
+	"name": "chance/tabs",
 	"title": "Tabs",
-	"description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
-	"category": "design",
-	"textdomain": "default",
-	"allowedBlocks": ["theatrum/tab-list", "theatrum/tab-panels"],
-	"attributes": {
-		"activeTabIndex": {
-			"type": "number",
-			"default": 0
-		},
-		"editorActiveTabIndex": {
-			"type": "number",
-			"role": "local"
-		}
-	},
+	"category": "theatrum",
+	"icon": "table-row-after",
+	"description": "Horizontal tabs on desktop, accordion on mobile. No JavaScript required.",
 	"supports": {
-		"align": true,
+		"html": false,
 		"anchor": true,
+		"className": true,
 		"color": {
 			"text": true,
-			"background": true,
-			"__experimentalDefaultControls": {
-				"text": true,
-				"background": true
-			}
+			"background": true
 		},
-		"layout": {
-			"default": {
-				"type": "flex",
-				"flexWrap": "nowrap",
-				"justifyContent": "stretch",
-				"verticalAlignment": "stretch",
-				"orientation": "vertical"
-			},
-			"allowSwitching": false,
-			"allowVerticalAlignment": true,
-			"allowJustification": true,
-			"allowOrientation": true,
-			"allowSizingOnChildren": true
-		},
-		"html": false,
-		"interactivity": true,
 		"spacing": {
-			"blockGap": true,
 			"margin": true,
 			"padding": true
-		},
-		"typography": {
-			"fontSize": true,
-			"__experimentalFontFamily": true
-		},
-		"renaming": true
+		}
 	},
-	"providesContext": {
-		"theatrum/tabs-activeTabIndex": "activeTabIndex",
-		"theatrum/tabs-editorActiveTabIndex": "editorActiveTabIndex"
+	"attributes": {
+		"tabCount": {
+			"type": "number",
+			"default": 2
+		}
 	},
-	"usesContext": ["theatrum/tabs-list", "theatrum/tabs-id"],
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScriptModule": "@wordpress/block-library/tabs/view"
+	"style": "file:./style-index.css"
 }

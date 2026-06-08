@@ -1,11 +1,14 @@
-/**
- * WordPress dependencies
- */
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
-export default function save() {
-	const blockProps = useBlockProps.save();
-	const innerBlocksProps = useInnerBlocksProps.save( blockProps );
+export default function Save( { attributes } ) {
+	const { tabCount } = attributes;
+	const blockProps = useBlockProps.save( {
+		style: { '--tab-count': tabCount },
+	} );
 
-	return <div { ...innerBlocksProps } />;
+	return (
+		<div { ...blockProps }>
+			<InnerBlocks.Content />
+		</div>
+	);
 }

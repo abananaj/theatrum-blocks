@@ -1,56 +1,29 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"__experimental": true,
 	"apiVersion": 3,
-	"name": "theatrum/tab",
-	"title": "Tab",
-	"description": "A single tab button in the tab list.",
-	"category": "design",
-	"textdomain": "default",
-	"parent": ["theatrum/tab-list"],
-	"usesContext": [
-		"theatrum/tabs-list",
-		"theatrum/tabs-activeTabIndex",
-		"theatrum/tabs-editorActiveTabIndex",
-		"theatrum/tab-index",
-		"theatrum/tab-id",
-		"theatrum/tab-label"
-	],
+	"name": "chance/tab",
+	"title": "Tab Item",
+	"category": "theatrum",
+	"icon": "table-col-after",
+	"description": "A single tab — use inside a Tabs block.",
+	"parent": [ "chance/tabs" ],
 	"supports": {
 		"html": false,
+		"className": false,
 		"reusable": false,
-		"visibility": false,
-		"lock": false,
-		"color": {
-			"background": true,
-			"text": true,
-			"__experimentalDefaultControls": {
-				"background": true,
-				"text": true
-			}
+		"lock": false
+	},
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": "Tab"
 		},
-		"typography": {
-			"fontSize": true,
-			"__experimentalFontFamily": true,
-			"textAlign": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true
-			}
-		},
-		"spacing": {
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"padding": true
-			}
-		},
-		"__experimentalBorder": {
-			"radius": true,
-			"color": true,
-			"width": true,
-			"style": true
+		"isDefault": {
+			"type": "boolean",
+			"default": false
 		}
 	},
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor.css",
-	"style": "file:./style-index.css"
+	"editorStyle": "file:./index.css"
 }

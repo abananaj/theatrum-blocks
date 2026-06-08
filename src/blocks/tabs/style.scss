@@ -1,3 +1,177 @@
-.wp-block-tabs {
-	box-sizing: border-box;
+// ============================================================
+//  Tabs Block — CSS Grid Tabs + Mobile Accordion
+//  Based on: https://codepen.io/annabananajennings/pen/NPbeYbW
+// ============================================================
+
+// Design tokens (fallback to site presets where available)
+.wp-block-chance-tabs {
+	--tabs-active-color: var(--wp--preset--color--light-blue, #1e90ff);
+	--tabs-tab-bg: #f8f8f8;
+	--tabs-tab-bg-hover: #e8e8e8;
+	--tabs-tab-bg-active: #fff;
+	--tabs-border-color: #eee;
+	--tabs-content-bg: #fff;
+	--tabs-label-color: #666;
+	--tabs-label-color-active: var(--tabs-active-color);
+	--tabs-border-radius: var(--wp--preset--border-radius--medium, 8px);
+}
+
+// ── Desktop Grid Layout ──────────────────────────────────────
+
+.wp-block-chance-tabs {
+	display: grid;
+	grid-template-columns: repeat(var(--tab-count, 2), minmax(160px, 1fr));
+	grid-template-rows: auto 1fr;
+	column-gap: 0;
+	background: var(--tabs-content-bg);
+	border-radius: var(--tabs-border-radius);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+// Each details spans the full grid
+.wp-block-chance-tabs > details {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-template-rows: subgrid;
+	grid-column: 1 / -1;
+	grid-row: 1 / span 2;
+}
+
+// Tab label (summary) — positioned by nth-child
+.wp-block-chance-tabs > details > summary {
+	grid-row: 1;
+	display: grid;
+	place-items: center;
+	padding: 1.25rem 1rem;
+	cursor: pointer;
+	user-select: none;
+	list-style: none;
+	background: var(--tabs-tab-bg);
+	border-bottom: 3px solid transparent;
+	transition:
+		background 0.2s ease,
+		color 0.2s ease,
+		border-color 0.2s ease;
+	font-weight: 500;
+	color: var(--tabs-label-color);
+	position: relative;
+	z-index: 1;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+
+	&:hover {
+		background: var(--tabs-tab-bg-hover);
+		color: #333;
+	}
+}
+
+// nth-child column positioning (supports up to 8 tabs)
+@for $i from 1 through 8 {
+	.wp-block-chance-tabs > details:nth-child(#{ $i }) > summary {
+		grid-column: #{$i} / span 1;
+	}
+}
+
+// Active tab label
+.wp-block-chance-tabs > details[open] > summary {
+	background: var(--tabs-tab-bg-active);
+	border-bottom-color: var(--tabs-active-color);
+	color: var(--tabs-label-color-active);
+	font-weight: 600;
+}
+
+// Tab panel content — ::details-content (modern) + fallback div
+.wp-block-chance-tabs > details::details-content,
+.wp-block-chance-tabs > details > .tab-content {
+	grid-row: 2;
+	grid-column: 1 / -1;
+	padding: 2rem;
+	background: var(--tabs-content-bg);
+	border-top: 1px solid var(--tabs-border-color);
+	animation: tabs-fade-in 0.3s ease;
+}
+
+.wp-block-chance-tabs > details:not([open])::details-content,
+.wp-block-chance-tabs > details:not([open]) > .tab-content {
+	display: none;
+}
+
+@keyframes tabs-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+// ── Mobile Accordion Layout ──────────────────────────────────
+
+@media (max-width: 768px) {
+	.wp-block-chance-tabs {
+		display: block;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.wp-block-chance-tabs > details {
+		display: block;
+		border-bottom: 1px solid #e0e0e0;
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	.wp-block-chance-tabs > details > summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.25rem 1rem;
+		background: var(--tabs-tab-bg);
+		border-bottom: none;
+		border-left: 3px solid transparent;
+
+		&::after {
+			content: "▼";
+			font-size: 0.8rem;
+			transition: transform 0.3s ease;
+			color: #999;
+		}
+	}
+
+	.wp-block-chance-tabs > details[open] > summary {
+		background: #e3f2fd;
+		border-left-color: var(--tabs-active-color);
+		color: var(--tabs-label-color-active);
+
+		&::after {
+			transform: rotate(-180deg);
+			color: var(--tabs-active-color);
+		}
+	}
+
+	.wp-block-chance-tabs > details::details-content,
+	.wp-block-chance-tabs > details > .tab-content {
+		padding: 1.25rem 1rem;
+		background: var(--tabs-content-bg);
+		border-top: 1px solid var(--tabs-border-color);
+		animation: tabs-slide-down 0.3s ease;
+	}
+
+	@keyframes tabs-slide-down {
+		from {
+			opacity: 0;
+			max-height: 0;
+		}
+		to {
+			opacity: 1;
+			max-height: 1000px;
+		}
+	}
 }
