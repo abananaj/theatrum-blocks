@@ -6,7 +6,7 @@
 	"category": "theatrum",
 	"icon": "table-col-after",
 	"description": "A single tab — use inside a Tabs block.",
-	"parent": [ "chance/tabs" ],
+	"parent": ["chance/tabs"],
 	"supports": {
 		"html": false,
 		"className": false,
