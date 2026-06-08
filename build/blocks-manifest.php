@@ -2393,6 +2393,7 @@ return array(
 			)
 		),
 		'textdomain' => 'theatrum-blocks',
+		'render' => 'file:./render.php',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css'
 	),
@@ -2424,6 +2425,7 @@ return array(
 			)
 		),
 		'textdomain' => 'theatrum-blocks',
+		'render' => 'file:./render.php',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'

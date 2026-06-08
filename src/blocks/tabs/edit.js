@@ -25,6 +25,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
   }, [innerBlockCount]);
 
   const blockProps = useBlockProps({
+    className: 'is-editor-preview',
     style: { '--tab-count': innerBlockCount || tabCount },
   });
 

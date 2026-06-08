@@ -1,3 +1,36 @@
-// No editor-specific styles needed.
-// render.php outputs the same HTML for both frontend and editor.
-// The frontend style.scss handles all styling.
+.editor-styles-wrapper {
+	.wp-block-chance-tab {
+		margin: 0;
+
+		> .tab-summary,
+		> summary {
+			display: grid;
+			place-items: center;
+			padding: 1.25rem 1rem;
+			min-height: 3.5rem;
+			background: var(--tabs-tab-bg, #f8f8f8);
+			color: var(--tabs-label-color, #666);
+			font-weight: 500;
+			border-bottom: 3px solid transparent;
+
+			&::-webkit-details-marker {
+				display: none;
+			}
+		}
+
+		&.is-default > .tab-summary,
+		&.is-default > summary,
+		&[open] > summary {
+			background: var(--tabs-tab-bg-active, #fff);
+			border-bottom-color: var(--tabs-active-color, #1e90ff);
+			color: var(--tabs-label-color-active, var(--tabs-active-color, #1e90ff));
+			font-weight: 600;
+		}
+
+		> .tab-content {
+			padding: 2rem;
+			background: var(--tabs-content-bg, #fff);
+			border-top: 1px solid var(--tabs-border-color, #eee);
+		}
+	}
+}

@@ -10,8 +10,8 @@ export default function Edit({ attributes, setAttributes }) {
   });
 
   return (
-    <details {...blockProps} open={isDefault}>
-      <summary>
+    <div {...blockProps}>
+      <div className="tab-summary">
         <RichText
           tagName="span"
           value={label}
@@ -19,10 +19,10 @@ export default function Edit({ attributes, setAttributes }) {
           placeholder={__('Tab label…', 'theatrum-blocks')}
           allowedFormats={['core/bold', 'core/italic']}
         />
-      </summary>
+      </div>
       <div className="tab-content">
         <InnerBlocks />
       </div>
-    </details>
+    </div>
   );
 }
