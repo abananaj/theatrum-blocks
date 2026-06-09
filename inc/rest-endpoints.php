@@ -895,7 +895,7 @@ function theatrum_get_production_cast_rest_callback($request)
 	$post_id = intval($request['post_id']);
 
 	$args = array(
-		'post_type'      => 'ct-credit',
+		'post_type'      => 'credit',
 		'posts_per_page' => -1,
 		'meta_query'     => array(
 			'relation' => 'AND',

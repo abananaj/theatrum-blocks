@@ -199,7 +199,7 @@ function chance_get_current_production()
 
 	// First, try to find a production that is currently running
 	$args = array(
-		'post_type'      => 'ct-production',
+		'post_type'      => 'production',
 		'posts_per_page' => 1,
 		'tax_query'      => array(
 			array(
@@ -242,7 +242,7 @@ function chance_get_current_production()
 
 	// If nothing is currently running, get the closest upcoming production
 	$args = array(
-		'post_type'      => 'ct-production',
+		'post_type'      => 'production',
 		'posts_per_page' => 1,
 		'orderby'        => 'meta_value',
 		'meta_key'       => 'opening',
@@ -312,7 +312,7 @@ function chance_get_next_production()
 	$current_opening = strtotime($current_prod['opening']);
 
 	$args = array(
-		'post_type'      => 'ct-production',
+		'post_type'      => 'production',
 		'posts_per_page' => 1,
 		'orderby'        => 'meta_value',
 		'meta_key'       => 'opening',

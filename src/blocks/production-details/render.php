@@ -13,8 +13,8 @@
  *
  * @return string
  */
-// Only show on ct-production post type
-if (get_post_type() !== 'ct-production') {
+// Only show on production post type
+if (get_post_type() !== 'production') {
   return;
 }
 

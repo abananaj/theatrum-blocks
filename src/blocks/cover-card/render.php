@@ -47,7 +47,7 @@ $target = $open_in_new_window ? ' target="_blank" rel="noopener noreferrer"' : '
       <!-- <a href="<?php echo esc_url($post_permalink); ?>" class="post-link"> -->
       <!-- <h3 class="title"><?php echo esc_html($post_title); ?></h3> -->
       <h4 class="dates"><?php
-                        if ('ct-event' === $post->post_type) {
+                        if ('event' === $post->post_type) {
                           $event_date  = get_post_meta($post->ID, 'date', true);
                           $event_start = get_post_meta($post->ID, 'start', true);
                           $event_end   = get_post_meta($post->ID, 'end', true);

@@ -1,11 +1,11 @@
 # Production Details Block
 
-Displays and edits production location information (venue and venue room) for the `ct-production` post type.
+Displays and edits production location information (venue and venue room) for the `production` post type.
 
 ## Block Features
 
 - **Display**: Shows venue name and venue room/space information
-- **Post Type Specific**: Only displays on `ct-production` posts
+- **Post Type Specific**: Only displays on `production` posts
 - **Editable**: Update venue details directly in the block editor
 - **Conditional**: Block only renders if venue data exists
 
@@ -30,10 +30,10 @@ For each production, displays:
 
 ## Usage
 
-1. Add the "Production Details" block to a `ct-production` post
+1. Add the "Production Details" block to a `production` post
 2. Edit the block settings in the inspector panel:
-    - Enter venue name
-    - Enter venue room/space (optional)
+   - Enter venue name
+   - Enter venue room/space (optional)
 3. Save & publish
 
 ## CSS Classes
@@ -47,5 +47,5 @@ The block uses these CSS classes for styling:
 ## Related
 
 - Refactored from: `src/php/prod-details.php`
-- Used for: `ct-production` custom post type editing
+- Used for: `production` custom post type editing
 - Similar concept: Post meta editing blocks
