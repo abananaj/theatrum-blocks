@@ -35,7 +35,6 @@ function theatrum_register_blocks()
 		'icon-list',
 		'media-popover',
 		'popup',
-		'styled-text', // 🔨
 		'svg-icon',
 		'thumbnail-list',
 
