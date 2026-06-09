@@ -1,15 +1,17 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/tabs",
+	"name": "theatrum/tabs",
 	"title": "Tabs",
 	"category": "theatrum",
-	"icon": "table-row-after",
-	"description": "Horizontal tabs on desktop, accordion on mobile. No JavaScript required.",
+	"icon": "list-view",
+	"description": "A tabbed content container with accessible keyboard navigation",
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"className": true,
+		"align": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		},
 		"color": {
 			"text": true,
 			"background": true
@@ -20,13 +22,16 @@
 		}
 	},
 	"attributes": {
-		"tabCount": {
-			"type": "number",
-			"default": 2
+		"orientation": {
+			"type": "string",
+			"default": "horizontal",
+			"enum": ["horizontal", "vertical"]
 		}
 	},
-	"textdomain": "theatrum-blocks",
+	"usesInnerBlocks": true,
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+	"editorStyle": "file:./editor.scss",
+	"style": "file:./style.scss",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
 }

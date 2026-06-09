@@ -1,40 +1,47 @@
-import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
-import './editor.scss';
+import { InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import {
+  PanelBody,
+  SelectControl,
+} from '@wordpress/components';
 
-const TEMPLATE = [
-  ['chance/tab', { label: 'Tab 1', isDefault: true }],
-  ['chance/tab', { label: 'Tab 2' }],
-];
+export default function Edit({ attributes, setAttributes }) {
+  const { orientation } = attributes;
 
-const ALLOWED_BLOCKS = ['chance/tab'];
-
-export default function Edit({ attributes, setAttributes, clientId }) {
-  const { tabCount } = attributes;
-
-  const innerBlockCount = useSelect(
-    (select) => select('core/block-editor').getBlockCount(clientId),
-    [clientId]
-  );
-
-  useEffect(() => {
-    if (innerBlockCount > 0 && innerBlockCount !== tabCount) {
-      setAttributes({ tabCount: innerBlockCount });
-    }
-  }, [innerBlockCount]);
-
-  const blockProps = useBlockProps({
-    style: { '--tab-count': innerBlockCount || tabCount },
-  });
+  const ALLOWED_BLOCKS = ['theatrum/tab'];
+  const TEMPLATE = [
+    ['theatrum/tab', { title: 'Tab 1' }],
+    ['theatrum/tab', { title: 'Tab 2' }],
+  ];
 
   return (
-    <div {...blockProps}>
-      <InnerBlocks
-        template={TEMPLATE}
-        allowedBlocks={ALLOWED_BLOCKS}
-        orientation="horizontal"
-      />
-    </div>
+    <>
+      <InspectorControls>
+        <PanelBody title="Tabs Settings">
+          <SelectControl
+            label="Orientation"
+            value={orientation}
+            options={[
+              { label: 'Horizontal', value: 'horizontal' },
+              { label: 'Vertical', value: 'vertical' },
+            ]}
+            onChange={(newOrientation) =>
+              setAttributes({ orientation: newOrientation })
+            }
+          />
+        </PanelBody>
+      </InspectorControls>
+
+      <div
+        className={`wp-block-theatrum-tabs wp-block-theatrum-tabs--${orientation}`}
+        data-tab-component="true"
+        data-tab-orientation={orientation}
+      >
+        <InnerBlocks
+          allowedBlocks={ALLOWED_BLOCKS}
+          template={TEMPLATE}
+          templateLock={false}
+        />
+      </div>
+    </>
   );
 }

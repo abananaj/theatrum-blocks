@@ -2366,48 +2366,21 @@ return array(
 		'viewScript' => 'file:./view.js'
 	),
 	'tab' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/tab',
-		'title' => 'Tab Item',
+		'name' => 'theatrum/tab',
+		'title' => 'Tab',
 		'category' => 'theatrum',
-		'icon' => 'table-col-after',
-		'description' => 'A single tab — use inside a Tabs block.',
 		'parent' => array(
-			'chance/tabs'
+			'theatrum/tabs'
 		),
+		'icon' => 'menu',
+		'description' => 'A single tab within a tabs block',
 		'supports' => array(
 			'html' => false,
-			'className' => false,
-			'reusable' => false,
-			'lock' => false
-		),
-		'attributes' => array(
-			'label' => array(
-				'type' => 'string',
-				'default' => 'Tab'
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true
 			),
-			'isDefault' => array(
-				'type' => 'boolean',
-				'default' => false
-			)
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css'
-	),
-	'tabs' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/tabs',
-		'title' => 'Tabs',
-		'category' => 'theatrum',
-		'icon' => 'table-row-after',
-		'description' => 'Horizontal tabs on desktop, accordion on mobile. No JavaScript required.',
-		'supports' => array(
-			'html' => false,
-			'anchor' => true,
-			'className' => true,
 			'color' => array(
 				'text' => true,
 				'background' => true
@@ -2418,15 +2391,61 @@ return array(
 			)
 		),
 		'attributes' => array(
-			'tabCount' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tabIndex' => array(
 				'type' => 'number',
-				'default' => 2
+				'default' => 0
 			)
 		),
-		'textdomain' => 'theatrum-blocks',
+		'usesInnerBlocks' => true,
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
+		'editorStyle' => 'file:./editor.scss',
+		'style' => 'file:./style.scss',
+		'viewScript' => 'file:./view.js',
+		'render' => 'file:./render.php'
+	),
+	'tabs' => array(
+		'apiVersion' => 3,
+		'name' => 'theatrum/tabs',
+		'title' => 'Tabs',
+		'category' => 'theatrum',
+		'icon' => 'list-view',
+		'description' => 'A tabbed content container with accessible keyboard navigation',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			)
+		),
+		'attributes' => array(
+			'orientation' => array(
+				'type' => 'string',
+				'default' => 'horizontal',
+				'enum' => array(
+					'horizontal',
+					'vertical'
+				)
+			)
+		),
+		'usesInnerBlocks' => true,
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./editor.scss',
+		'style' => 'file:./style.scss',
+		'viewScript' => 'file:./view.js',
+		'render' => 'file:./render.php'
 	),
 	'term-meta' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

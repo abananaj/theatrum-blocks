@@ -1,3 +1,22 @@
-// No editor-specific styles needed.
-// render.php outputs the same HTML for both frontend and editor.
-// The frontend style.scss handles all styling.
+// Tab Block - Editor Styles
+
+.wp-block-theatrum-tab {
+	border: 1px solid #e0e0e0;
+	padding: 1rem;
+	margin-bottom: 0.5rem;
+	background-color: #fff;
+
+	.tab-edit-title {
+		margin-bottom: 1rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid #e0e0e0;
+
+		input {
+			font-weight: 500;
+		}
+	}
+
+	.tab-edit-content {
+		min-height: 200px;
+	}
+}

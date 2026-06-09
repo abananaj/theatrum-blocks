@@ -37,6 +37,8 @@ function theatrum_register_blocks()
 		'popup',
 		'styled-text', // 🔨
 		'svg-icon',
+		'tabs',
+		'tab',
 		'thumbnail-list',
 
 		'meta-button',
@@ -55,7 +57,6 @@ function theatrum_register_blocks()
 		'production-performances', // 🎭 var of repeater
 		'production-quotes', // 🎭 var of repeater
 		'production-trailer', // 🎭
-
 		'term-meta', // ⭐ 
 		'season-producer', // --> var of term-meta
 		'site-option', // ⭐
@@ -64,10 +65,6 @@ function theatrum_register_blocks()
 
 		'query-filter', // 🔍 frontend filter/sort for query loops
 
-		'tabs',
-		'tab',
-
-		
 	);
 
 	foreach ($custom_blocks as $block) {

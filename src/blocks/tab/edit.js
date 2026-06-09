@@ -1,28 +1,22 @@
-import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
-import './editor.scss';
+import { InnerBlocks, RichText } from '@wordpress/block-editor';
+import { TextControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { label, isDefault } = attributes;
-
-  const blockProps = useBlockProps({
-    className: isDefault ? 'is-default' : '',
-  });
+  const { title } = attributes;
 
   return (
-    <details {...blockProps} open={isDefault}>
-      <summary>
-        <RichText
-          tagName="span"
-          value={label}
-          onChange={(value) => setAttributes({ label: value })}
-          placeholder={__('Tab label…', 'theatrum-blocks')}
-          allowedFormats={['core/bold', 'core/italic']}
+    <div className="wp-block-theatrum-tab">
+      <div className="tab-edit-title">
+        <TextControl
+          label="Tab Title"
+          value={title}
+          onChange={(newTitle) => setAttributes({ title: newTitle })}
+          placeholder="Enter tab title"
         />
-      </summary>
-      <div className="tab-content">
+      </div>
+      <div className="tab-edit-content">
         <InnerBlocks />
       </div>
-    </details>
+    </div>
   );
 }

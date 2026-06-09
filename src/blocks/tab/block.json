@@ -1,29 +1,40 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/tab",
-	"title": "Tab Item",
+	"name": "theatrum/tab",
+	"title": "Tab",
 	"category": "theatrum",
-	"icon": "table-col-after",
-	"description": "A single tab — use inside a Tabs block.",
-	"parent": ["chance/tabs"],
+	"parent": ["theatrum/tabs"],
+	"icon": "menu",
+	"description": "A single tab within a tabs block",
 	"supports": {
 		"html": false,
-		"className": false,
-		"reusable": false,
-		"lock": false
-	},
-	"attributes": {
-		"label": {
-			"type": "string",
-			"default": "Tab"
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
 		},
-		"isDefault": {
-			"type": "boolean",
-			"default": false
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
 		}
 	},
-	"textdomain": "theatrum-blocks",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"tabIndex": {
+			"type": "number",
+			"default": 0
+		}
+	},
+	"usesInnerBlocks": true,
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css"
+	"editorStyle": "file:./editor.scss",
+	"style": "file:./style.scss",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
 }
