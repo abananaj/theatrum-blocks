@@ -31,7 +31,12 @@
       ]
     }
   },
+<<<<<<< HEAD
   "usesInnerBlocks": true,
+=======
+  "textdomain": "theatrum-blocks",
+  "render": "file:./render.php",
+>>>>>>> dynamic-tabs
   "editorScript": "file:./index.js",
   "editorStyle": "file:./editor.scss",
   "style": "file:./style.scss",

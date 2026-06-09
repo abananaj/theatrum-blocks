@@ -2401,6 +2401,7 @@ return array(
 			)
 		),
 		'usesInnerBlocks' => true,
+		'render' => 'file:./render.php',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./editor.scss',
 		'style' => 'file:./style.scss',
@@ -2440,7 +2441,7 @@ return array(
 				)
 			)
 		),
-		'usesInnerBlocks' => true,
+		'textdomain' => 'theatrum-blocks',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./editor.scss',
 		'style' => 'file:./style.scss',
