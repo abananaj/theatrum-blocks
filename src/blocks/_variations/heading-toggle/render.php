@@ -21,22 +21,16 @@ $heading_tag = 'h' . $level;
 // Open state attribute
 $open_attr = $is_open ? 'open' : '';
 
-// Add inline frontend styles if not already enqueued
-if (!wp_style_is('chance-toggle-heading-frontend', 'enqueued')) {
-  wp_enqueue_style(
-    'chance-toggle-heading-frontend',
-    false,
-    array(),
-    null
-  );
-  wp_add_inline_style(
-    'chance-toggle-heading-frontend',
-    '.wp-block-chance-toggle-heading details{margin:1em 0;border:1px solid #e0e0e0;border-radius:4px;overflow:hidden}.wp-block-chance-toggle-heading details summary{cursor:pointer;padding:1em;background-color:#f5f5f5;user-select:none;transition:background-color 0.2s ease;list-style:none}.wp-block-chance-toggle-heading details summary:hover{background-color:#efefef}.wp-block-chance-toggle-heading details summary::-webkit-details-marker{display:none}.wp-block-chance-toggle-heading details summary::before{content:"▶ ";display:inline-block;margin-right:0.5em;transition:transform 0.2s ease;font-size:0.8em}.wp-block-chance-toggle-heading details summary .toggle-heading-title{display:inline;margin:0;font-size:inherit;font-weight:inherit}.wp-block-chance-toggle-heading details[open] summary{background-color:#f0f0f0;border-bottom:1px solid #e0e0e0}.wp-block-chance-toggle-heading details[open] summary::before{transform:rotate(90deg)}.wp-block-chance-toggle-heading details .toggle-heading-content{padding:1em;background-color:#fff}.wp-block-chance-toggle-heading details .toggle-heading-content>*{margin-top:0}.wp-block-chance-toggle-heading details .toggle-heading-content>*:last-child{margin-bottom:0}'
-  );
-}
+// Frontend + editor styles live in style.scss (loaded in both contexts via
+// block.json "style"), so no inline CSS is needed here. Build the wrapper with
+// get_block_wrapper_attributes() so supports-driven classes/styles apply, while
+// preserving the .wp-block-chance-toggle-heading class the stylesheet targets.
+$wrapper_attributes = get_block_wrapper_attributes(array(
+  'class' => 'wp-block-chance-toggle-heading toggle-heading-level-' . intval($level),
+));
 
 // Render the details/summary structure
-echo '<details class="wp-block-chance-toggle-heading toggle-heading-level-' . intval($level) . '" ' . $open_attr . '>';
+echo '<details ' . $wrapper_attributes . ' ' . $open_attr . '>';
 echo '<summary>';
 echo '<' . $heading_tag . ' class="toggle-heading-title">';
 echo $heading_text;

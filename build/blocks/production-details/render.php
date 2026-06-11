@@ -28,7 +28,9 @@ if (empty($venue) && empty($venue_room)) {
   return;
 }
 
-$html = '<div class="production-details">';
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'production-details'));
+
+$html = '<div ' . $wrapper_attributes . '>';
 
 if (!empty($venue)) {
   $html .= '<p class="production-venue">';

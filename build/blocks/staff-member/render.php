@@ -58,6 +58,8 @@ if (empty($pretty_option_name)) {
   $pretty_option_name = ucwords(str_replace('_', ' ', $pretty_option_name));
 }
 
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-staff-member'));
+
 // Check if the value is an array of post IDs
 if (is_array($option_value)) {
   // Filter out empty values and non-numeric IDs
@@ -70,7 +72,7 @@ if (is_array($option_value)) {
   }
 
   // Build HTML for each person
-  $html = '<div class="wp-block-chance-staff-member">' . esc_html($prepend);
+  $html = '<div ' . $wrapper_attributes . '>' . esc_html($prepend);
 
   foreach ($post_ids as $post_id) {
     $post_id = (int) $post_id;
@@ -111,7 +113,7 @@ if (is_array($option_value)) {
       $post_title = 'Untitled';
     }
 
-    $html = '<div class="wp-block-chance-staff-member">' . esc_html($prepend);
+    $html = '<div ' . $wrapper_attributes . '>' . esc_html($prepend);
     $html .= '<p>';
     if ($post_url) {
       $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
@@ -147,7 +149,8 @@ if (is_array($option_value)) {
     if ($tag === 'a') {
       $href_attr = esc_url($href);
       printf(
-        '<div class="wp-block-chance-staff-member"><a href="%s">%s</a></div>',
+        '<div %s><a href="%s">%s</a></div>',
+        $wrapper_attributes,
         $href_attr,
         esc_html($display_value)
       );
@@ -155,7 +158,8 @@ if (is_array($option_value)) {
     }
 
     printf(
-      '<div class="wp-block-chance-staff-member"><%s>%s</%s></div>',
+      '<div %s><%s>%s</%s></div>',
+      $wrapper_attributes,
       $tag,
       esc_html($display_value),
       $tag

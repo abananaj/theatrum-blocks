@@ -23,7 +23,9 @@ if (empty($quotes)) {
   return;
 }
 
-echo '<div class="wp-block-chance-production-quotes">';
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-production-quotes'));
+
+echo '<div ' . $wrapper_attributes . '>';
 
 foreach ($quotes as $quote_row) {
   $quote_text   = isset($quote_row['quote-text']) ? $quote_row['quote-text'] : '';

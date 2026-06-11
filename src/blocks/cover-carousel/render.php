@@ -17,24 +17,23 @@ $autoplay_speed = isset($attributes['autoplaySpeed']) ? absint($attributes['auto
 $transition_type = isset($attributes['transitionType']) ? sanitize_text_field($attributes['transitionType']) : 'fade';
 $transition_speed = isset($attributes['transitionSpeed']) ? absint($attributes['transitionSpeed']) : 500;
 
-// Build block classes
-$block_classes = 'wp-block-chance-cover-carousel';
-if (isset($attributes['align'])) {
-  $block_classes .= ' align' . sanitize_html_class($attributes['align']);
-}
-if (isset($attributes['className'])) {
-  $block_classes .= ' ' . sanitize_html_class($attributes['className']);
-}
+// Let WordPress generate the wrapper class plus all supports-driven
+// classes/inline styles (align, className, spacing, color) so the frontend
+// wrapper matches the editor. The carousel's own layout styles (min-height,
+// positioning) are merged into the wrapper's style attribute.
+$wrapper_attributes = get_block_wrapper_attributes(array(
+  'class' => 'wp-block-chance-cover-carousel',
+  'style' => 'min-height: ' . $min_height . $min_height_unit . '; position: relative; overflow: hidden;',
+));
 
 ob_start();
 ?>
 
-<div class="<?php echo esc_attr($block_classes); ?>"
+<div <?php echo $wrapper_attributes; ?>
   data-carousel-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
   data-carousel-speed="<?php echo esc_attr($autoplay_speed); ?>"
   data-carousel-transition="<?php echo esc_attr($transition_type); ?>"
-  data-carousel-transition-speed="<?php echo esc_attr($transition_speed); ?>"
-  style="min-height: <?php echo esc_attr($min_height . $min_height_unit); ?>; position: relative; overflow: hidden;">
+  data-carousel-transition-speed="<?php echo esc_attr($transition_speed); ?>">
 
   <!-- Slides -->
   <div class="wp-block-chance-cover-carousel__slides">

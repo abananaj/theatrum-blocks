@@ -1,22 +1,22 @@
-// @use "./style.scss"; // Tutorial rec: re-import style.scss so editor styles match frontend (causes double-load via block.json)
-
 /**
- * The following styles get applied inside the editor only.
+ * Editor-only styles for Cover Card.
  *
- * Replace them with your own styles or remove the file completely.
+ * The block's full appearance lives in style.scss, which WordPress loads
+ * into the editor iframe AND the frontend (apiVersion 3). So only keep
+ * rules here that neutralize theme/editor-chrome styles bleeding into the
+ * editor canvas — anything else just makes the editor diverge.
+ *
+ * Removed previously: a `.dates` reset that duplicated style.scss, and a
+ * `.button { margin: 0 }` that clobbered the intended `margin-left: 10px`.
  */
 
-// Reset theme global element styles that bleed into the editor
 .wp-block-chance-cover-card {
+	// Neutralize theme global button shadow/transform that bleed into the editor
+	// (the frontend button in style.scss has neither). Margin is intentionally
+	// left to style.scss so the 10px gap matches the frontend.
 	.cover-card .button {
-		margin: 0;
 		line-height: 1;
 		box-shadow: none;
 		transform: none !important;
-	}
-
-	.cover-card h4.dates {
-		font-size: 1em;
-		margin: 0;
 	}
 }

@@ -8,40 +8,14 @@
 $headline = isset($attributes['headline']) ? sanitize_text_field($attributes['headline']) : 'Headline';
 $items = isset($attributes['items']) ? $attributes['items'] : [];
 
-// Build block classes
-$block_classes = 'wp-block-chance-card-carousel';
-if (isset($attributes['align'])) {
-  $block_classes .= ' align' . sanitize_html_class($attributes['align']);
-}
-
-// Get spacing classes if set
-$margin_classes = '';
-if (isset($attributes['spacing']['margin'])) {
-  $margins = $attributes['spacing']['margin'];
-  if (isset($margins['top'])) {
-    $margin_classes .= ' has-margin-top-' . sanitize_html_class($margins['top']);
-  }
-  if (isset($margins['bottom'])) {
-    $margin_classes .= ' has-margin-bottom-' . sanitize_html_class($margins['bottom']);
-  }
-}
-
-$padding_classes = '';
-if (isset($attributes['spacing']['padding'])) {
-  $paddings = $attributes['spacing']['padding'];
-  if (isset($paddings['top'])) {
-    $padding_classes .= ' has-padding-top-' . sanitize_html_class($paddings['top']);
-  }
-  if (isset($paddings['bottom'])) {
-    $padding_classes .= ' has-padding-bottom-' . sanitize_html_class($paddings['bottom']);
-  }
-}
-
-$block_classes .= $margin_classes . $padding_classes;
+// Let WordPress generate the wrapper class plus all supports-driven
+// classes/inline styles (align, spacing, color, border, etc.) so the
+// frontend wrapper matches what useBlockProps() renders in the editor.
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-card-carousel'));
 
 ob_start();
 ?>
-<div class="<?php echo esc_attr($block_classes); ?>">
+<div <?php echo $wrapper_attributes; ?>>
   <div class="ct-carousel-wrapper">
     <div class="ct-carousel-header">
       <h2 class="ct-carousel-headline"><?php echo wp_kses_post($headline); ?></h2>

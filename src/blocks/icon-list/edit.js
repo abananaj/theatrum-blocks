@@ -97,6 +97,9 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 
 		const itemElements = items.map((item) => {
+			// Mirror the frontend (save.js) inline styles so the editor preview
+			// matches the published output. Classes below let the shared
+			// style.scss apply identically in the editor iframe.
 			const iconStyle = {
 				display: 'inline-block',
 				width: `${iconSize}${iconSizeUnit}`,
@@ -105,7 +108,9 @@ export default function Edit({ attributes, setAttributes }) {
 				marginBottom: iconPosition === 'top' ? `${iconSpacing}px` : undefined,
 				marginLeft: iconPosition === 'right' ? `${iconSpacing}px` : undefined,
 				marginTop: iconPosition === 'bottom' ? `${iconSpacing}px` : undefined,
-				order: iconPosition === 'right' || iconPosition === 'bottom' ? 2 : 1,
+				color: iconColor,
+				// Editor affordance: keep hover-only icons dimly visible so they
+				// remain selectable/editable (frontend hides them until hover).
 				opacity: hoverOnly ? 0.4 : 1,
 			};
 
@@ -113,6 +118,7 @@ export default function Edit({ attributes, setAttributes }) {
 				display: 'flex',
 				alignItems: iconPosition === 'top' || iconPosition === 'bottom' ? 'flex-start' : 'center',
 				flexDirection: iconPosition === 'top' || iconPosition === 'bottom' ? 'column' : 'row',
+				// Editor-only selection affordance.
 				cursor: 'pointer',
 				outline: item.id === selectedItemId ? '2px solid #007cba' : 'none',
 				outlineOffset: '2px',
@@ -123,6 +129,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<li
 					key={item.id}
 					style={liStyle}
+					className="icon-list-item"
 					onClick={() => setSelectedItemId(item.id)}
 				>
 					{item.iconUrl && (
@@ -130,15 +137,16 @@ export default function Edit({ attributes, setAttributes }) {
 							src={item.iconUrl}
 							alt={item.iconAlt}
 							style={iconStyle}
+							className={`icon-list-icon ${hoverOnly ? 'hover-only' : ''}`}
 						/>
 					)}
-					<span style={{ flex: 1, order: 3 }}>{item.text}</span>
+					<span className="icon-list-text">{item.text}</span>
 				</li>
 			);
 		});
 
 		return (
-			<ListTag className="wp-block-chance-icon-list">
+			<ListTag className={`wp-block-chance-icon-list ${hoverOnly ? 'icon-hover-only' : ''} icon-position-${iconPosition}`}>
 				{itemElements}
 			</ListTag>
 		);
