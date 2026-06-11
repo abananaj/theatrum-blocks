@@ -78,7 +78,7 @@ function theatrum_register_block_variations()
 	$variation_blocks = array(
 		// 'post-cover', - It does this naturally I guess!
 		'subtitle-title',
-		'toggle-heading',
+		'heading-toggle',
 	);
 
 	foreach ($variation_blocks as $block) {
