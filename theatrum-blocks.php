@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Theatrum Blocks
  * Description:       Custom Gutenberg blocks for Chance Theater.
- * Version:           0.1.0
+ * Version:           1.1.1
  * Requires at least: 6.8
  * Requires PHP:      7.4
  * Author:            Chance Theater
@@ -78,7 +78,7 @@ function theatrum_register_block_variations()
 	$variation_blocks = array(
 		// 'post-cover', - It does this naturally I guess!
 		'subtitle-title',
-		'toggle-heading',
+		'heading-toggle',
 	);
 
 	foreach ($variation_blocks as $block) {
