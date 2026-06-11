@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-## [1.1.1] - 2026-06-10
+## [0.1.1] - 2026-06-10
 
 ### Changed
 - Added comprehensive developer documentation (CLAUDE.md, AGENTS.md)
@@ -41,6 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Style Book editor integration
 - WordPress theme.json style support
 
-[Unreleased]: https://github.com/theatrum-design/theatrum-blocks/compare/1.1.1...HEAD
-[1.1.1]: https://github.com/theatrum-design/theatrum-blocks/compare/0.1.0...1.1.1
+[Unreleased]: https://github.com/theatrum-design/theatrum-blocks/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/theatrum-design/theatrum-blocks/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/theatrum-design/theatrum-blocks/releases/tag/0.1.0

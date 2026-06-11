@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Theatrum Blocks
  * Description:       Custom Gutenberg blocks for Chance Theater.
- * Version:           1.1.1
+ * Version:           0.1.1
  * Requires at least: 6.8
  * Requires PHP:      7.4
  * Author:            Chance Theater

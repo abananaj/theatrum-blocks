@@ -2,7 +2,7 @@
 
 A WordPress plugin providing 30+ custom Gutenberg blocks for Chance Theater's website. Includes production management, metadata displays, carousels, and filtering components.
 
-**Version:** 1.1.1  
+**Version:** 0.1.1  
 **License:** GPL-2.0-or-later
 
 ## Quick Links
