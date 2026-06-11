@@ -22,7 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.1] - 2026-06-10
 
 ### Changed
-- Claude Code setup and configuration
+- Added comprehensive developer documentation (CLAUDE.md, AGENTS.md)
+- Set up Claude Code configuration (.claude/settings.json) with changelog automation
+- Updated README with complete plugin overview and workflows
 
 ## [0.1.0] - 2026-06-10
 

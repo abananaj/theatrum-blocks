@@ -2,14 +2,14 @@
 
 A WordPress plugin providing 30+ custom Gutenberg blocks for Chance Theater's website. Includes production management, metadata displays, carousels, and filtering components.
 
-**Version:** 0.1.0  
+**Version:** 1.1.1  
 **License:** GPL-2.0-or-later
 
 ## Quick Links
 
 👉 **For development setup and commands:** See [CLAUDE.md](./CLAUDE.md)  
 👉 **For using Claude agents with this project:** See [AGENTS.md](./AGENTS.md)  
-👉 **For changelog and release workflow:** See [CHANGELOG-SETUP.md](./CHANGELOG-SETUP.md)
+👉 **For changelog and version history:** See [CHANGELOG.md](./CHANGELOG.md)
 
 > **Note:** This plugin operates independently from the theme and main project, but coordinates with both. The documentation patterns are similar across [chance-ollie theme](../../themes/chance-ollie/) and [wp_root project docs](../../). Check [.build/blocks.md](../../../../.build/blocks.md) for comprehensive block development guidance and [.deploy/deploy.md](../../../../.deploy/deploy.md) for deployment workflows.
 
@@ -171,8 +171,7 @@ Custom endpoints registered in `inc/rest-endpoints.php` provide data for block e
 2. Create release commit with message like "Release v0.2.0"
 3. Tag commit: `git tag -a v0.2.0`
 4. Run `npm run deploy` to build for distribution
-
-See [CHANGELOG-SETUP.md](./CHANGELOG-SETUP.md) for full changelog workflow.
+5. Update [CHANGELOG.md](./CHANGELOG.md) with release notes
 
 ## Code Review
 
@@ -195,7 +194,7 @@ See [AGENTS.md](./AGENTS.md) for more code review options.
 
 All changes are documented in [CHANGELOG.md](./CHANGELOG.md) following [Keep a Changelog](https://keepachangelog.com/) format with [Semantic Versioning](https://semver.org/).
 
-The changelog is automatically updated when you make git commits. See [CHANGELOG-SETUP.md](./CHANGELOG-SETUP.md) for details.
+Update the changelog whenever you make a release using the format: `## [VERSION] - YYYY-MM-DD` with sections for Added, Changed, Fixed, Deprecated, Removed, and Security.
 
 ## Resources
 
