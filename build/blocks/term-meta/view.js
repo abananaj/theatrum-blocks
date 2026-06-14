@@ -1,1 +1,0 @@
-console.log("Hello World! (from term-meta view.js)");

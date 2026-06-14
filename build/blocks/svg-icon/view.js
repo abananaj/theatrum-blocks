@@ -1,1 +1,0 @@
-document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".wp-block-chance-svg-icon img").forEach(e=>{e.complete&&!e.naturalWidth&&(e.style.opacity="0.5")})});
