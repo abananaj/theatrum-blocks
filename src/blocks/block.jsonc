@@ -9,15 +9,15 @@
 	"allowedBlocks": ["namespace/block-name"], // child blocks
 	"icon": "dashicons-wordpress", // https://developer.wordpress.org/resource/dashicons
 	"description": "Short description",
-  "textdomain": "theatrum-blocks", // slug of the plugin or theme that registers the block.
+	"textdomain": "theatrum-blocks", // slug of the plugin or theme that registers the block.
 	"keywords": ["keyword"],
 	"version": "1.0.0",
-  // ATTTRIBUTES: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/
+	// ATTTRIBUTES: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/
 	"attributes": {},
-  // CONTEXT: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/
+	// CONTEXT: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/
 	"providesContext": {},
 	"usesContext": [],
-  // SUPPORTS: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
+	// SUPPORTS: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
 	"supports": {
 		"anchor": true, //  Defaults to false.
 		"align": ["wide", "full", "left", "center", "right"], // Default false
@@ -27,12 +27,17 @@
 		"className": true, // Allows default CSS .wp-block-your-block-name is added to the root element of your saved markup.
 		"color": {
 			"background": true, // Default: true.
+			"text": true, // Default: true.
+			"enableContrastChecker": true, // Default: true.
 			"gradients": false, // Default: false.
 			"link": true, // Default: false.
-			"text": true, // Default: true.
 			"heading": false, // Defaults to false.
 			"button": true, // Defaults to false.
-			"enableContrastChecker": true // Default: true.
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
 		},
 		"customClassName": true,
 		"customCSS": true,
@@ -55,7 +60,8 @@
 		"inserter": true, // Default: true.
 		"renaming": true, // Default: true.
 		"visibility": true, // Default: true.
-		"layout": { // This value only applies to blocks that are containers for inner blocks.
+		"layout": {
+			// This value only applies to blocks that are containers for inner blocks.
 			"default": {
 				"type": "constrained", // constrained, flex, grid
 				"contentSize": "600px", // The content size used on all children
@@ -81,7 +87,8 @@
 			"lock": true, // Allow user to lock.
 			"position": true, // Allow blocks to stick to their immediate parent when scrolling the page.
 			"spacing": {
-				"margin": { // True/false, OR:
+				"margin": {
+					// True/false, OR:
 					"top": true,
 					"right": true,
 					"bottom": true,
@@ -112,102 +119,108 @@
 		"contentRole": true, // Mark block itself as content.
 		"listView": false, // Show nest bloicks as list view in right-hand Block Inspector.
 		"splitting": true, // Defaults to false.
-		"selectors": {
-			// Provides custom CSS selectors and mappings for the block.
-			"root": "string", //The primary CSS class to apply to the block. This replaces the `.wp-block-name` class if set.",
-			"border": {
-				// OR: "custom-css-selector", // Custom CSS selector used to generate rules for the block's theme.json border styles.
-				"root": "string",
-				"color": "string",
-				"radius": "string",
-				"style": "string",
-				"width": "string"
-			},
-			// "color":
-			"color": {
-				// OR: "custom-css-selector", // Generates rules for the block's theme.json color styles.
-				"root": "string",
-				"text": "string",
-				"background": "string"
-			},
-			"dimensions": {
-				// OR: "custom-css-selector", // Generates rules for the block's theme.json dimensions styles.
-				"root": "string",
-				"aspectRatio": "string",
-				"height": "string",
-				"minHeight": "string",
-				"minWidth": "string",
-				"width": "string"
-			},
-			"spacing": {
-				// OR: "custom-css-selector", // Generates rules for the block's theme.json spacing styles.
-				"root": "string",
-				"blockGap": "string",
-				"padding": "string",
-				"margin": "string"
-			},
-			"typography": {
-				// OR: "custom-css-selector", // Generates rules for the block's theme.json typography styles.
-				"root": "string",
-				"fontFamily": "string",
-				"fontSize": "string",
-				"fontStyle": "string",
-				"fontWeight": "string",
-				"lineHeight": "string",
-				"letterSpacing": "string",
-				"textDecoration": "string",
-				"textIndent": "string",
-				"textTransform": "string"
-			},
-			"css": "custom-css" //  OR: "[css selector]",
-		},
-		"styles": [
-			{
-				"name": "string", // REQUIRED
-				"label": "string", // REQUIRED
-				"isDefault": true // Default false.Indicates whether the current style is the default one.
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
 			}
-		],
-		"example": {
-			// It provides structured example data for the block. This data is used to construct a preview for the block to be shown in the Inspector Help Panel when the user mouses over the block.\n\nSee the example documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/#example-optional for more details.",
-			"viewportWidth": 1200, // Default 1200. The viewportWidth controls the width of the iFrame container in which the block preview will get rendered",
-			"attributes": {}, //Set the attributes for the block example",
-			"innerBlocks": [
-				{
-					"name": "core/heading",
-					"attributes": { "content": "This is an Example" }
-				}
-			] //Set the inner blocks that should be used within the block example. Where each block itself is an object that contains the block name, the block attributes, and the blocks inner blocks.
 		},
-		"blockHooks": ["before", "after", "firstChild", "lastChild"], // Block Hooks allow a block to automatically insert itself next to all instances of a given block type.\n\nSee the Block Hooks documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/#block-hooks-optional for more details.
-		"editorScript": "string", // OR: [ "string", "string"],
-		"script": "string", // OR: [ "string", "string"], // Block type frontend and editor script definition. It will be enqueued both in the editor and when viewing the content on the front of the site.
-		"viewScript": "string", // OR: [ "string", "string"] // Block type frontend script definition. It will be enqueued only when viewing the content on the front of the site.
-		"viewScriptModule": "string", // OR: [ "string", "string"] // Block type frontend script module definition. It will be enqueued only when viewing the content on the front of the site.",
-		"editorStyle": "string", // OR: [ "string", "string"] // Block type editor style definition. It will only be enqueued in the context of the editor.
-		"style": "string", // OR: [ "string", "string"] // Block type frontend style definition. It will be enqueued both in the editor and when viewing the content on the front of the site.
-		"viewStyle": "string", // OR: [ "string", "string"] // Block type frontend style definition. It will be enqueued only when viewing the content on the front of the site.
-
-		"variations": {
-			// OR: "path/to/file.php", // Path to PHP file that returns an array of block variations:
+		"typography": {
+			"fitText": true,
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true,
+			"textIndent": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true
+		}
+	},
+	"selectors": {
+		// Provides custom CSS selectors and mappings for the block.
+		"root": "string", //The primary CSS class to apply to the block. This replaces the `.wp-block-name` class if set.",
+		"border": {
+			// OR: "custom-css-selector", // Custom CSS selector used to generate rules for the block's theme.json border styles.
+			"root": "string",
+			"color": "string",
+			"radius": "string",
+			"style": "string",
+			"width": "string"
+		},
+		// "color":
+		"color": {
+			// OR: "custom-css-selector", // Generates rules for the block's theme.json color styles.
+			"root": "string",
+			"text": "string",
+			"background": "string"
+		},
+		"dimensions": {
+			// OR: "custom-css-selector", // Generates rules for the block's theme.json dimensions styles.
+			"root": "string",
+			"aspectRatio": "string",
+			"height": "string",
+			"minHeight": "string",
+			"minWidth": "string",
+			"width": "string"
+		},
+		"spacing": {
+			// OR: "custom-css-selector", // Generates rules for the block's theme.json spacing styles.
+			"root": "string",
+			"blockGap": "string",
+			"padding": "string",
+			"margin": "string"
+		},
+		"typography": {
+			// OR: "custom-css-selector", // Generates rules for the block's theme.json typography styles.
+			"root": "string",
+			"fontFamily": "string",
+			"fontSize": "string",
+			"fontStyle": "string",
+			"fontWeight": "string",
+			"lineHeight": "string",
+			"letterSpacing": "string",
+			"textDecoration": "string",
+			"textIndent": "string",
+			"textTransform": "string"
+		},
+		"css": "custom-css" //  OR: "[css selector]",
+	},
+	"styles": [
+		{
 			"name": "string", // REQUIRED
-			"title": "string", // REQUIRED
-			"description": "string",
-			"category": "text", // Options: text, media, design, widgets, theme, embed
-			"icon": "string", // An icon helping to visualize the variation. It can have the same shape as the block type.
-			"isDefault": true, // Default false.Indicates whether the current variation is the default one.
-			"attributes": {}, // Values that override block attributes.",
-			"innerBlocks": [], // Initial configuration of nested blocks.
-			"example": {}, // Example provides structured data for the block preview. You can set to undefined to disable the preview shown for the block type.",
-			"scope": ["inserter", "block", "transform"], // Defaults to ["inserter", "block"]. The list of scopes where the variation is applicable.",
-			"keywords": ["keyword"], // Alias for searching in block inserter.
-			"isActive": ["attr1", "attr2"] // "The list of attributes that should be compared.
-		},
-		"render": "render.php" // Template file loaded on the server when rendering a block.
+			"label": "string", // REQUIRED
+			"isDefault": true // Default false.Indicates whether the current style is the default one.
+		}
+	],
+	"example": {
+		// It provides structured example data for the block. This data is used to construct a preview for the block to be shown in the Inspector Help Panel when the user mouses over the block.\n\nSee the example documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/#example-optional for more details.",
+		"viewportWidth": 1200, // Default 1200. The viewportWidth controls the width of the iFrame container in which the block preview will get rendered",
+		"attributes": {}, //Set the attributes for the block example",
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": { "content": "This is an Example" }
+			}
+		] //Set the inner blocks that should be used within the block example. Where each block itself is an object that contains the block name, the block attributes, and the blocks inner blocks.
+	},
+	//  https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#block-hooks
+	"blockHooks": {
+		"core/verse": "before",
+		"core/spacer": "after",
+		"core/column": "firstChild",
+		"core/group": "lastChild"
 	},
 	"editorScript": "file:./index.js",
+	"script": "file:./script.js",
+	"viewScript": "file:./view.js",
+	"viewScriptModule": "file:./view.js",
 	"editorStyle": "file:./index.css",
+	"viewStyle": "file:./view.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"render": "file:./render.php"
 }
