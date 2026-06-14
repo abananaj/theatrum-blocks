@@ -6,7 +6,7 @@
   "category": "text",
   "description": "Version of core table block that allows nesting of table elements as nested blocks.",
   "textdomain": "table-advanced",
-  "icon": "dashicons-table",
+  "icon": "editor-table",
   "attributes": {
     "hasThead": {
       "type": "boolean",
@@ -23,12 +23,36 @@
       "role": "content"
     }
   },
+  "allowedBlocks": [
+    "theatrum/table-caption",
+    "theatrum/table-header",
+    "theatrum/table-body",
+    "theatrum/table-footer",
+    "theatrum/table-row",
+    "theatrum/table-header-cell",
+    "theatrum/table-cell"
+  ],
   "supports": {
     "anchor": true,
-    "align": true,
+    "align": [
+      "wide",
+      "full",
+      "left",
+      "center",
+      "right"
+    ],
+    "alignWide": true,
+    "allowedBlocks": true,
+    "className": true,
     "color": {
+      "background": true,
+      "text": true,
+      "enableContrastChecker": true,
+      "gradients": false,
+      "link": true,
+      "heading": false,
+      "button": true,
       "__experimentalSkipSerialization": true,
-      "gradients": true,
       "__experimentalDefaultControls": {
         "background": true,
         "text": true
@@ -42,9 +66,19 @@
         "padding": false
       }
     },
+    "dimensions": {
+      "aspectRatio": true,
+      "height": true,
+      "minHeight": true,
+      "minWidth": true,
+      "width": true
+    },
     "typography": {
+      "fitText": true,
       "fontSize": true,
       "lineHeight": true,
+      "textAlign": true,
+      "textIndent": true,
       "__experimentalFontFamily": true,
       "__experimentalFontStyle": true,
       "__experimentalFontWeight": true,
@@ -70,9 +104,12 @@
       "clientNavigation": true
     }
   },
+  "blockHooks": {
+    "theatrum/table-caption": "firstChild",
+    "theatrum/table-body": "firstChild"
+  },
   "selectors": {
-    "root": ".tm-block-table-adv > table",
-    "spacing": ".tm-block-table-adv"
+    "root": ".tm-table-adv"
   },
   "styles": [
     {

@@ -1,42 +1,28 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "theatrum/table-advanced",
-	"title": "Advanced Table",
+	"title": "Table Title",
+	"name": "theatrum/table-caption",
 	"category": "text",
-	"description": "Version of core table block that allows nesting of table elements as nested blocks.",
-	"textdomain": "table-advanced",
 	"icon": "editor-table",
+	"keywords": ["table"],
 	"attributes": {
-		"hasThead": {
-			"type": "boolean",
-			"default": true
-		},
-		"hasTFoot": {
-			"type": "boolean",
-			"default": false
-		},
-		"tableTitle": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": "table > caption",
-			"role": "content"
+		"headingLevel": {
+			"type":"number",
+			"default": 2
 		}
 	},
+	"parent": ["theatrum/table-advanced"],
 	"allowedBlocks": [
-		"theatrum/table-caption", 
-		"theatrum/table-header", 
-		"theatrum/table-body", 
-		"theatrum/table-footer",
-		"theatrum/table-row",
-		"theatrum/table-header-cell",
-		"theatrum/table-cell"
+		"core/paragraph",
+		"core/heading"
 	],
+	"providesContext": {
+		"theatrum/headingLevel": "attributes.headingLevel"
+	},
 	"supports": {
 		"anchor": true,
 		"align": ["wide", "full", "left", "center", "right"],
 		"alignWide": true,
-		"allowedBlocks": true,
 		"className": true,
 		"color": {
 			"background": true,
@@ -54,11 +40,7 @@
 		},
 		"spacing": {
 			"margin": true,
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"margin": false,
-				"padding": false
-			}
+			"padding": true
 		},
 		"dimensions": {
 			"aspectRatio": true,
@@ -87,32 +69,17 @@
 			"__experimentalSkipSerialization": true,
 			"color": true,
 			"style": true,
-			"width": true,
-			"__experimentalDefaultControls": {
-				"color": true,
-				"style": true,
-				"width": true
-			}
+			"width": true
 		},
 		"interactivity": {
 			"clientNavigation": true
 		}
 	},
 	"blockHooks": {
-		"theatrum/table-caption": "firstChild",
-		"theatrum/table-body": "firstChild"
+		"core/heading": "firstChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv"
+		"root": ".tm-table-adv .tm-table-adv-title"
 	},
-	"styles": [
-		{
-			"name": "regular",
-			"label": "Default",
-			"isDefault": true
-		},
-		{ "name": "stripes", "label": "Stripes" }
-	],
-	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css"
+	"editorScript": "file:./index.js"
 }

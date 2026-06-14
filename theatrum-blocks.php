@@ -108,7 +108,16 @@ function theatrum_register_blocks()
 		// - text overlaps on FE ![screenshot](image.png)
 		'term-meta', // ⭐ 
 		// 'tab',
-		'table-advanced', // ⭐
+
+		'table-advanced',
+		'table-advanced/table-caption',
+		'table-advanced/table-header',
+		'table-advanced/table-body',
+		'table-advanced/table-footer',
+		'table-advanced/table-row',
+		'table-advanced/table-heading-cell',
+		'table-advanced/table-cell',
+
 		'table-of-contents', // 🔍 auto-generate based on headings in conten
 		// 'tabs',
 		'term-meta',

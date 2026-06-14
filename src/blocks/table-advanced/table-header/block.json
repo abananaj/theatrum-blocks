@@ -1,0 +1,73 @@
+{
+	"apiVersion": 3,
+	"title": "Table Header",
+	"name": "theatrum/table-header",
+	"category": "text",
+	"icon": "editor-table",
+	"keywords": ["table"],
+	"parent": ["theatrum/table-advanced"],
+	"allowedBlocks": ["theatrum/table-row"],
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full", "left", "center", "right"],
+		"alignWide": true,
+		"allowedBlocks": true,
+		"className": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"enableContrastChecker": true,
+			"gradients": false,
+			"link": true,
+			"heading": false,
+			"button": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"dimensions": {
+			"height": true,
+			"minHeight": true,
+			"minWidth": true,
+			"width": true
+		},
+		"layout": {
+			"allowVerticalAlignment": true
+		},
+		"typography": {
+			"fitText": true,
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true,
+			"textIndent": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true
+		},
+		"__experimentalBorder": {
+			"__experimentalSkipSerialization": true,
+			"color": true,
+			"style": true,
+			"width": true
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"blockHooks": {
+		"theatrum/table-row": "firstChild"
+	},
+	"selectors": {
+		"root": ".tm-table-adv .tm-table-header"
+	},
+	"editorScript": "file:./index.js"
+}

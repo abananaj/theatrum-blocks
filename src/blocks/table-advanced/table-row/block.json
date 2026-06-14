@@ -1,34 +1,27 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "theatrum/table-advanced",
-	"title": "Advanced Table",
+	"title": "Table Row",
+	"name": "theatrum/table-row",
 	"category": "text",
-	"description": "Version of core table block that allows nesting of table elements as nested blocks.",
-	"textdomain": "table-advanced",
 	"icon": "editor-table",
+	"keywords": ["table"],
 	"attributes": {
-		"hasThead": {
-			"type": "boolean",
-			"default": true
+		"align": {
+			"type": "string",
+			"default": "left"
 		},
-		"hasTFoot": {
-			"type": "boolean",
-			"default": false
+		"char": {
+			"type": "string",
+			"default": ""
 		},
-		"tableTitle": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": "table > caption",
-			"role": "content"
+		"charoff": {
+			"type": "string",
+			"default": ""
 		}
 	},
+	"parent": ["theatrum/table-header", "theatrum/table-body", "theatrum/table-footer"],
+	"ancestor": ["theatrum/table-advanced"],
 	"allowedBlocks": [
-		"theatrum/table-caption", 
-		"theatrum/table-header", 
-		"theatrum/table-body", 
-		"theatrum/table-footer",
-		"theatrum/table-row",
 		"theatrum/table-header-cell",
 		"theatrum/table-cell"
 	],
@@ -59,6 +52,9 @@
 				"margin": false,
 				"padding": false
 			}
+		},
+		"layout": {
+			"allowVerticalAlignment": true
 		},
 		"dimensions": {
 			"aspectRatio": true,
@@ -99,20 +95,11 @@
 		}
 	},
 	"blockHooks": {
-		"theatrum/table-caption": "firstChild",
-		"theatrum/table-body": "firstChild"
+		"theatrum/table-header-cell": "firstChild",
+		"theatrum/table-cell": "lastChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv"
+		"root": ".tm-table-adv .tm-table-row"
 	},
-	"styles": [
-		{
-			"name": "regular",
-			"label": "Default",
-			"isDefault": true
-		},
-		{ "name": "stripes", "label": "Stripes" }
-	],
-	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css"
+	"editorScript": "file:./index.js"
 }

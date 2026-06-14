@@ -1,0 +1,6 @@
+.tm-table-body {
+	background-color: rgb(200 220 230);
+	> .tm-table-row:nth-of-type(even) {
+		background-color: rgb(237 238 242);
+	}
+}
