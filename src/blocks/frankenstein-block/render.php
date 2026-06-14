@@ -22,7 +22,7 @@ wp_interactivity_state(
 	array(
 		'isDark'    => false,
 		'darkText'  => esc_html__( 'Switch to Light', 'block-development-examples' ),
-		'lightText' => esc_html__( 'Switch to Light', 'block-development-examples' ),
+		'lightText' => esc_html__( 'Switch to Dark', 'block-development-examples' ),
 		'themeText' => esc_html__( 'Switch to Dark', 'block-development-examples' ),
 	)
 );
@@ -31,7 +31,7 @@ wp_interactivity_state(
 
 <?php /* @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
 <div
-	<?php echo get_block_wrapper_attributes(); ?>
+	<?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>
 	data-wp-interactive="frankenstein-block"
 	<?php echo wp_interactivity_data_wp_context( array( 'isOpen' => false ) ); ?>
 	data-wp-watch="callbacks.logIsOpen"

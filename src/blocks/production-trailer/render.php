@@ -79,9 +79,9 @@ if ($allow_responsive) {
   $figure_classes[] = 'wp-has-aspect-ratio';
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(
+$wrapper_attributes = wp_kses_data( get_block_wrapper_attributes(
   array('class' => implode(' ', $figure_classes))
-);
+) );
 
 $caption_html = '';
 if (! empty($caption)) {

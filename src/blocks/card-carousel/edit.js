@@ -14,7 +14,7 @@ import './editor.scss';
  * Generate a simple unique ID
  */
 const generateId = () => {
-	return 'item-' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+	return 'item-' + Math.random().toString(36).slice(2, 11) + Date.now().toString(36);
 };
 
 export default function Edit({ attributes, setAttributes }) {

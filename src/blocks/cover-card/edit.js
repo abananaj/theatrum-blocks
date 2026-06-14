@@ -49,6 +49,16 @@ export default function Edit({ attributes, setAttributes, context }) {
       });
   }, [attributes.metaKey, attributes.postId, currentPostId, setAttributes]);
 
+  const handleSearchPosts = (value) => {
+    if (!value || value.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+    apiFetch({ path: `/wp/v2/posts?search=${encodeURIComponent(value)}&per_page=20&_fields=id,title,link` })
+      .then((posts) => setSearchResults(posts))
+      .catch(() => setSearchResults([]));
+  };
+
   return (
     <Fragment>
       <InspectorControls>

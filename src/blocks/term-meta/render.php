@@ -67,7 +67,7 @@ if ($display_type === 'season-producer') {
   }
 
 ?>
-  <div <?php echo get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']); ?>>
+  <div <?php echo wp_kses_data( get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']) ); ?>>
     <?php if ($heading_text !== '') : ?>
       <<?php echo $heading_level; ?> class="season-producer-heading"><?php echo esc_html($heading_text); ?></<?php echo $heading_level; ?>>
     <?php endif; ?>
@@ -99,7 +99,7 @@ if (empty($value)) {
   printf(
     '<%1$s %2$s>[%3$s]</%1$s>',
     tag_escape($tag),
-    get_block_wrapper_attributes(),
+    wp_kses_data( get_block_wrapper_attributes() ),
     esc_html($meta_key)
   );
   return;

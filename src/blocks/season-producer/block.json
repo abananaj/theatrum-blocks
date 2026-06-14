@@ -59,6 +59,9 @@
 			"default": "h2"
 		}
 	},
+	"usesContext": ["postId", "postType"],
+	"example": {},
+	"keywords": ["producer", "season", "staff", "theater"],
 	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

@@ -5,6 +5,8 @@
 	"title": "Meta Related",
 	"category": "metablock",
 	"description": "Display a related post's title by entering a meta key that contains a post ID or Post Object",
+	"example": {},
+	"keywords": ["related", "posts", "meta", "custom field"],
 	"textdomain": "meta-related",
 	"icon": "admin-links",
 	"supports": {

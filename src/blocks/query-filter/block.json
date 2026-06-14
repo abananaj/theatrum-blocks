@@ -6,6 +6,8 @@
 	"category": "theatrum",
 	"description": "Frontend filter and sort controls for a Query Loop block.",
 	"icon": "filter",
+	"example": {},
+	"keywords": ["filter", "search", "sort", "query"],
 	"supports": {
 		"html": false,
 		"anchor": true,

@@ -18,7 +18,7 @@ if (get_post_type() !== 'production') {
   return;
 }
 
-$post_id = get_the_ID();
+$post_id = $block->context['postId'] ?? get_the_ID();
 
 // Retrieve production details from post meta
 $venue = get_post_meta($post_id, '_venue', true);
@@ -30,7 +30,7 @@ if (empty($venue) && empty($venue_room)) {
 
 $wrapper_attributes = get_block_wrapper_attributes(array('class' => 'production-details'));
 
-$html = '<div ' . $wrapper_attributes . '>';
+$html = '<div ' . wp_kses_data( $wrapper_attributes ) . '>';
 
 if (!empty($venue)) {
   $html .= '<p class="production-venue">';

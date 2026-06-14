@@ -107,7 +107,7 @@ usort($upcoming, fn($a, $b) => $a['ts'] - $b['ts']);
 $upcoming = array_slice($upcoming, 0, 5);
 
 ?>
-<div <?php echo get_block_wrapper_attributes(); ?>>
+<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
 
   <?php foreach ($upcoming as $perf) : ?>
 

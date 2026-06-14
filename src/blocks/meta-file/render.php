@@ -32,7 +32,7 @@ if (empty($value)) {
   if ($fallback_text) {
     printf(
       '<div %s>%s</div>',
-      get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')),
+      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
       esc_html($fallback_text)
     );
   }
@@ -69,7 +69,7 @@ if (! $file_url) {
   if ($fallback_text) {
     printf(
       '<div %s>%s</div>',
-      get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')),
+      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
       esc_html($fallback_text)
     );
   }
@@ -140,6 +140,6 @@ $link_html = sprintf(
 
 printf(
   '<div %s>%s</div>',
-  get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')),
+  wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
   $link_html
 );

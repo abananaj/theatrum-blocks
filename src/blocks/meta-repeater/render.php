@@ -113,7 +113,7 @@ if (! in_array($heading_level, $allowed_headings, true)) {
   $heading_level = 'h2';
 }
 
-printf('<div %s>', get_block_wrapper_attributes());
+printf('<div %s>', wp_kses_data( get_block_wrapper_attributes() ));
 
 if ($heading_text !== '') {
   printf('<%s class="repeater-heading">%s</%s>', $heading_level, esc_html($heading_text), $heading_level);

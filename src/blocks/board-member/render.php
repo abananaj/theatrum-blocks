@@ -58,7 +58,7 @@ if (empty($pretty_option_name)) {
   $pretty_option_name = ucwords(str_replace('_', ' ', $pretty_option_name));
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-board-member'));
+$wrapper_attributes = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-board-member')) );
 
 // Check if the value is an array of post IDs
 if (is_array($option_value)) {

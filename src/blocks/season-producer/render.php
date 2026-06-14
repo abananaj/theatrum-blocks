@@ -5,7 +5,7 @@
  * Displays producer titles from the current post's season taxonomy term.
  */
 
-$post_id      = get_the_ID();
+$post_id      = $block->context['postId'] ?? get_the_ID();
 $meta_key     = isset($attributes['metaKey']) ? sanitize_key($attributes['metaKey']) : 'season_producers';
 $heading_text  = isset($attributes['headingText']) ? sanitize_text_field($attributes['headingText']) : '';
 $heading_level = isset($attributes['headingLevel']) ? sanitize_text_field($attributes['headingLevel']) : 'h2';
@@ -63,7 +63,7 @@ if (empty($producers)) {
 }
 
 ?>
-<div <?php echo get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']); ?>>
+<div <?php echo wp_kses_data( get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']) ); ?>>
   <?php if ($heading_text !== '') : ?>
     <<?php echo $heading_level; ?> class="season-producer-heading"><?php echo esc_html($heading_text); ?></<?php echo $heading_level; ?>>
   <?php endif; ?>

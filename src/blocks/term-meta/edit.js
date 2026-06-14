@@ -10,7 +10,7 @@ const META_KEY_OPTIONS = [
 	{ label: 'Associate Season Producers', value: 'associate_season_producers' },
 ];
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, context }) {
 	const blockProps = useBlockProps();
 	const { displayType = 'generic', taxonomy, termId, metaKey, prepend, append, headingText, headingLevel } = attributes;
 	const isSeasonProducer = displayType === 'season-producer';
@@ -24,7 +24,9 @@ export default function Edit({ attributes, setAttributes }) {
 	const [isLoadingMeta, setIsLoadingMeta] = useState(false);
 	const [isLoadingProducers, setIsLoadingProducers] = useState(false);
 
-	const postId = useSelect((select) => select('core/editor').getCurrentPostId());
+	const editorPostId = useSelect((select) => select('core/editor').getCurrentPostId());
+	const contextPostId = context?.postId;
+	const postId = contextPostId || editorPostId;
 
 	// Fetch all taxonomies on mount (for generic display)
 	useEffect(() => {

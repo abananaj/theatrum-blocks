@@ -67,6 +67,8 @@
 			"default": ""
 		}
 	},
+	"example": {},
+	"keywords": ["staff", "team", "person", "bio"],
 	"textdomain": "staff-member",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

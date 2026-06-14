@@ -113,6 +113,8 @@
 		},
 		{ "name": "stripes", "label": "Stripes" }
 	],
+	"example": {},
+	"keywords": ["table", "data", "rows", "columns"],
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css"
 }

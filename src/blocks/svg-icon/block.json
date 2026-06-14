@@ -6,6 +6,7 @@
 	"category": "theatrum",
 	"description": "Display SVG files from the media library with custom styling and alignment options",
 	"icon": "image",
+	"example": {},
 	"keywords": ["svg", "icon", "image"],
 	"supports": {
 		"html": false,

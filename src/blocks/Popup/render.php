@@ -13,7 +13,7 @@ $popup_title = ! empty($attributes['popupTitle']) ? $attributes['popupTitle'] : 
 
 $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-popup']);
 ?>
-<div <?php echo $wrapper_attributes; ?>>
+<div <?php echo wp_kses_data( $wrapper_attributes ); ?>>
   <button
     class="popup-toggle-button wp-element-button wp-block-button__link"
     data-popup-toggle="true"
@@ -49,7 +49,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-
       </button>
     </div>
     <div class="popup-dialog-content">
-      <?php echo $content; ?>
+      <?php echo wp_kses_post( $content ); ?>
     </div>
   </div>
 </div>

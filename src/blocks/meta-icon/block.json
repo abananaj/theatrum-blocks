@@ -41,6 +41,8 @@
 			"default": 48
 		}
 	},
+	"example": {},
+	"keywords": ["icon", "meta", "svg", "custom field"],
 	"textdomain": "meta-icon",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

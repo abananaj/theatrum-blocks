@@ -103,7 +103,7 @@ if ($show_caption && $img_caption) {
 
 printf(
   '<figure %s>%s%s</figure>',
-  get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-image']),
+  wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-image']) ),
   $img_content,
   $caption_html
 );

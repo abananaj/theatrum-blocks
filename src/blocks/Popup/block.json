@@ -58,7 +58,8 @@
 			"default": false
 		}
 	},
-	"usesInnerBlocks": true,
+	"example": {},
+	"keywords": ["modal", "dialog", "overlay", "lightbox"],
 	"textdomain": "popup",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

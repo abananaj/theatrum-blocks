@@ -23,7 +23,7 @@ if (empty($quotes)) {
   return;
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-production-quotes'));
+$wrapper_attributes = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-production-quotes')) );
 
 echo '<div ' . $wrapper_attributes . '>';
 

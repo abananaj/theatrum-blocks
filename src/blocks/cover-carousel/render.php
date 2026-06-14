@@ -29,7 +29,7 @@ $wrapper_attributes = get_block_wrapper_attributes(array(
 ob_start();
 ?>
 
-<div <?php echo $wrapper_attributes; ?>
+<div <?php echo wp_kses_data( $wrapper_attributes ); ?>
   data-carousel-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
   data-carousel-speed="<?php echo esc_attr($autoplay_speed); ?>"
   data-carousel-transition="<?php echo esc_attr($transition_type); ?>"

@@ -96,7 +96,7 @@ if ($is_member_type) {
       $classes[] = $attributes['className'];
     }
     $class_string = implode(' ', $classes);
-    $wrapper_attrs = get_block_wrapper_attributes(array('class' => $class_string));
+    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $class_string)) );
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
     $html .= '<ul>';
@@ -144,7 +144,7 @@ if ($is_member_type) {
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
     }
-    $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
     $html .= '<p>';
@@ -166,7 +166,7 @@ if ($is_member_type) {
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
     }
-    $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
     if ($option_value) {
@@ -190,7 +190,7 @@ if (is_array($option_value)) {
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
     }
-    $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
 

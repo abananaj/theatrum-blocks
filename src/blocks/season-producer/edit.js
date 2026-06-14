@@ -10,12 +10,14 @@ const META_KEY_OPTIONS = [
   { label: 'Associate Season Producers', value: 'associate_season_producers' },
 ];
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, context }) {
   const blockProps = useBlockProps();
   const [producers, setProducers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const postId = useSelect((select) => select('core/editor').getCurrentPostId());
+  const editorPostId = useSelect((select) => select('core/editor').getCurrentPostId());
+  const contextPostId = context?.postId;
+  const postId = contextPostId || editorPostId;
 
   useEffect(() => {
     if (!postId) {

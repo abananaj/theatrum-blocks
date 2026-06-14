@@ -6,6 +6,7 @@
 	"category": "production",
 	"description": "Embed a YouTube video trailer from a URL stored in post metadata",
 	"icon": "video-alt3",
+	"example": {},
 	"keywords": ["youtube", "video", "trailer", "embed", "meta"],
 	"supports": {
 		"html": false,

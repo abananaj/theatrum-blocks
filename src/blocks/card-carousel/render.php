@@ -11,7 +11,7 @@ $items = isset($attributes['items']) ? $attributes['items'] : [];
 // Let WordPress generate the wrapper class plus all supports-driven
 // classes/inline styles (align, spacing, color, border, etc.) so the
 // frontend wrapper matches what useBlockProps() renders in the editor.
-$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-card-carousel'));
+$wrapper_attributes = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-card-carousel')) );
 
 ob_start();
 ?>

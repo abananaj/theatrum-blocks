@@ -51,10 +51,10 @@ foreach ($_GET as $key => $value) {
 // Interactivity API per-block context.
 $context = wp_interactivity_data_wp_context(['paramName' => $param_name]);
 
-$wrapper_attributes = get_block_wrapper_attributes([
+$wrapper_attributes = wp_kses_data( get_block_wrapper_attributes([
   'class'                => 'query-filter query-filter--' . esc_attr($layout),
   'data-wp-interactive' => 'chance/query-filter',
-]);
+]) );
 ?>
 
 <div <?php echo $wrapper_attributes; ?> <?php echo $context; ?>>
