@@ -20,9 +20,7 @@
 		}
 	},
 	"parent": ["theatrum/table-advanced"],
-	"allowedBlocks": [
-		"theatrum/table-row"
-	],
+	"allowedBlocks": ["theatrum/table-row"],
 	"supports": {
 		"anchor": true,
 		"align": ["wide", "full", "left", "center", "right"],
@@ -96,7 +94,7 @@
 		"theatrum/table-row": "firstChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv .tm-table-body"
+		"root": ".tm-table-advanced .tm-table-body"
 	},
 	"editorScript": "file:./index.js"
 }

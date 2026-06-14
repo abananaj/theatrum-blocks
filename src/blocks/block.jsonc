@@ -33,7 +33,6 @@
 			"link": true, // Default: false.
 			"heading": false, // Defaults to false.
 			"button": true, // Defaults to false.
-			"__experimentalSkipSerialization": true,
 			"__experimentalDefaultControls": {
 				"background": true,
 				"text": true
@@ -81,43 +80,20 @@
 			"allowJustification": true, // For flex, determines display of justification controls in the block toolbar and block sidebar. For the `constrained` layout type, determines display of justification control in the block sidebar.
 			"allowOrientation": true, // Flex only, determines display of the orientation control in the block toolbar.
 			"allowWrap": true, // Flex only, determines display of the wrap toggle in the block sidebar.
-			"allowCustomContentAndWideSize": true, // For the `constrained` layout
-			"multiple": true, // A non-multiple block can be inserted once in each post.
-			"reusable": true, // Display option to add the block to the reusable blocks library. Defaults to true.
-			"lock": true, // Allow user to lock.
-			"position": true, // Allow blocks to stick to their immediate parent when scrolling the page.
-			"spacing": {
-				"margin": {
-					// True/false, OR:
-					"top": true,
-					"right": true,
-					"bottom": true,
-					"left": true
-				}, // OR: { "vertical": true, "horizontal": true },
-				"padding": {
-					// True/false, or:
-					"top": true,
-					"right": true,
-					"bottom": true,
-					"left": true
-				} // OR: { "vertical": true, "horizontal": true },
-			},
-			"shadow": true, // boolean or object {},
-			"typography": {
-				"fontSize": true, // Defaults to false.
-				"lineHeight": true, // Defaults to false.
-				"textAlign": ["left", "center", "right"], // Defaults to false.
-				"fitText": true, // Defaults to false.
-				"textIndent": true // Defaults to false.
-			}
+			"allowCustomContentAndWideSize": true // For the `constrained` layout
 		},
+		"multiple": true, // A non-multiple block can be inserted once in each post.
+		"reusable": true, // Display option to add the block to the reusable blocks library. Defaults to true.
+		"lock": true, // Allow user to lock.
+		"position": true, // Allow blocks to stick to their immediate parent when scrolling the page.
+		"shadow": true, // boolean or object {}
 		"interactivity": {
 			//Indicates if the block is using Interactivity API features. Defaults to false.
 			"clientNavigation": true, // Defaults to false.
 			"interactive": true // Defaults to false.
 		},
 		"contentRole": true, // Mark block itself as content.
-		"listView": false, // Show nest bloicks as list view in right-hand Block Inspector.
+		"listView": false, // Show nested blocks as list view in right-hand Block Inspector.
 		"splitting": true, // Defaults to false.
 		"spacing": {
 			"margin": true,

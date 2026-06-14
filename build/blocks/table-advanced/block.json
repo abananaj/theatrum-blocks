@@ -109,7 +109,7 @@
     "theatrum/table-body": "firstChild"
   },
   "selectors": {
-    "root": ".tm-table-adv"
+    "root": ".tm-table-advanced"
   },
   "styles": [
     {

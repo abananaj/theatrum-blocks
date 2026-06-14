@@ -1,0 +1,39 @@
+@charset 'UTF-8';
+
+/**
+ * Frankenstein Block - Frontend Styles
+ */
+
+.wp-block-block-development-examples-frankenstein {
+	padding: 1rem;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: #fff;
+
+	button {
+		padding: 0.5rem 1rem;
+		background-color: #0073aa;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 0.875rem;
+
+		&:hover {
+			background-color: #005a87;
+		}
+	}
+
+	&.dark-theme {
+		background-color: #222;
+		color: #fff;
+
+		button {
+			background-color: #555;
+
+			&:hover {
+				background-color: #777;
+			}
+		}
+	}
+}

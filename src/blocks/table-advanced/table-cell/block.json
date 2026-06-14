@@ -7,7 +7,7 @@
 	"keywords": ["table"],
 	"attributes": {
 		"colspan": {
-			"type":"number",
+			"type": "number",
 			"default": 1
 		},
 		"headers": {
@@ -15,14 +15,14 @@
 			"default": ""
 		},
 		"rowspan": {
-			"type":"number",
+			"type": "number",
 			"default": 1
 		}
 	},
 	"parent": ["theatrum/table-row"],
 	"ancestor": ["theatrum/table-advanced"],
 	"allowedBlocks": [
-	"core/paragraph",
+		"core/paragraph",
 		"core/list",
 		"core/image",
 		"core/gallery",
@@ -91,7 +91,7 @@
 		"core/paragraph": "firstChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv .tm-table-cell"
+		"root": ".tm-table-advanced .tm-table-cell"
 	},
 	"editorScript": "file:./index.js"
 }

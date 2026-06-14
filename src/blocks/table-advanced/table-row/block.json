@@ -19,12 +19,13 @@
 			"default": ""
 		}
 	},
-	"parent": ["theatrum/table-header", "theatrum/table-body", "theatrum/table-footer"],
-	"ancestor": ["theatrum/table-advanced"],
-	"allowedBlocks": [
-		"theatrum/table-header-cell",
-		"theatrum/table-cell"
+	"parent": [
+		"theatrum/table-header",
+		"theatrum/table-body",
+		"theatrum/table-footer"
 	],
+	"ancestor": ["theatrum/table-advanced"],
+	"allowedBlocks": ["theatrum/table-header-cell", "theatrum/table-cell"],
 	"supports": {
 		"anchor": true,
 		"align": ["wide", "full", "left", "center", "right"],
@@ -99,7 +100,7 @@
 		"theatrum/table-cell": "lastChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv .tm-table-row"
+		"root": ".tm-table-advanced .tm-table-row"
 	},
 	"editorScript": "file:./index.js"
 }

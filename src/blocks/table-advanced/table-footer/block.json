@@ -91,7 +91,7 @@
 		"theatrum/table-row": "firstChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv .tm-table-footer"
+		"root": ".tm-table-advanced .tm-table-footer"
 	},
 	"editorScript": "file:./index.js"
 }

@@ -57,6 +57,7 @@ function theatrum_register_blocks()
 		// - [ ] won’t save media selected in BE
 		// - [ ] squished on FE
 		// - [ ] nav arrows don’t work on FE, but the horizontal scroll works on the BE
+
 		'copyright-date-block',
 		// - rename to theatrum/copyright-date
 
@@ -64,18 +65,24 @@ function theatrum_register_blocks()
 		// - working on home page
 		// - on blocks page "Error: Error fetching data" on BE
 		// - renders correctly on FE
+
 		'cover-carousel',
 		// - [ ] too many options in inspector panel, can’t see more than 1 slide at a time.
 		// - [ ] won’t save opacity set in BE
 		// - [ ] nav doesn't work on FE, can't see other slides
 		// - [ ] should show slide as nested blocks
+		
+		'frankenstein-block',
+
 		'icon-list',
 		// - looks nice, but need list item as a nested block, model after core/list and core/list-item blocks
+
 		'interactive-block',
 		'media-popover',
 		// - works nicely, is it possible to use on tables?
 		// - BE wp dasicons missing
 		// - should look the same on the BE and FE
+
 		'meta-button',
 		'meta-date',
 		'meta-embed',
@@ -89,24 +96,32 @@ function theatrum_register_blocks()
 		'meta-time',
 		'popup',
 		// - sync button, border, border-radius, and shadow??
+
 		'production-details', // 🎭❓ is this used anywhere
 		// - green "Production Details - Server rendered"
+
 		'production-performances', // 🎭 var of repeater
 		// - doesn't respond to block-spacing setting
+
 		'production-quotes', // 🎭 var of repeater
 		// - doesn't respond to font-size setting
+
 		'production-trailer', // 🎭
 		// - editor shows the dashed preview chip; real filter is frontend-only
+
 		'query-filter', // 🔍 frontend filter/sort for query loops
 		'season-producer', // --> var of term-meta ❓ do i need this?- use term meta field 
 		'site-option', // ⭐
 		'staff-member', // temp un-deprecated 
 		// 'svg-icon', ❌ just use icon block OR custom html to animate
+
 		'thumbnail-list',
 		// - editor shows static builder UI; 3D flip is frontend-only
 		// - doesn't save or display image on FE or BE
 		// - text overlaps on FE ![screenshot](image.png)
+
 		'term-meta', // ⭐ 
+		
 		// 'tab',
 
 		'table-advanced',

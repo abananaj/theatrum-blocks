@@ -67,7 +67,7 @@
 		"theatrum/table-row": "firstChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv .tm-table-header"
+		"root": ".tm-table-advanced .tm-table-header"
 	},
 	"editorScript": "file:./index.js"
 }

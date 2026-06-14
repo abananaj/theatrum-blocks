@@ -6,18 +6,17 @@
 	"icon": "editor-table",
 	"keywords": ["table"],
 	"attributes": {
-		
 		"abbr": {
 			"type": "string"
 		},
 		"colspan": {
-			"type":"number"
+			"type": "number"
 		},
 		"headers": {
 			"type": "string"
 		},
 		"rowspan": {
-			"type":"number"
+			"type": "number"
 		},
 		"scope": {
 			"type": "string",
@@ -26,12 +25,7 @@
 	},
 	"parent": ["theatrum/table-row"],
 	"ancestor": ["theatrum/table-advanced"],
-	"allowedBlocks": [
-	"core/paragraph",
-		"core/list",
-		"core/image",
-		"core/icon"
-	],
+	"allowedBlocks": ["core/paragraph", "core/list", "core/image", "core/icon"],
 	"supports": {
 		"anchor": true,
 		"align": ["wide", "full", "left", "center", "right"],
@@ -102,7 +96,7 @@
 		"core/paragraph": "firstChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv .tm-table-heading-cell"
+		"root": ".tm-table-advanced .tm-table-heading-cell"
 	},
 	"editorScript": "file:./index.js"
 }

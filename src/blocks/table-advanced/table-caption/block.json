@@ -7,15 +7,12 @@
 	"keywords": ["table"],
 	"attributes": {
 		"headingLevel": {
-			"type":"number",
+			"type": "number",
 			"default": 2
 		}
 	},
 	"parent": ["theatrum/table-advanced"],
-	"allowedBlocks": [
-		"core/paragraph",
-		"core/heading"
-	],
+	"allowedBlocks": ["core/paragraph", "core/heading"],
 	"providesContext": {
 		"theatrum/headingLevel": "attributes.headingLevel"
 	},
@@ -79,7 +76,7 @@
 		"core/heading": "firstChild"
 	},
 	"selectors": {
-		"root": ".tm-table-adv .tm-table-adv-title"
+		"root": ".tm-table-advanced .tm-table-adv-title"
 	},
 	"editorScript": "file:./index.js"
 }
