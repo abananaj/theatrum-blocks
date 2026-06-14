@@ -4,7 +4,6 @@
 	"title": "Footer",
 	"name": "theatrum/table-footer",
 	"category": "text",
-	"icon": "editor-table",
 	"keywords": ["table"],
 	"attributes": {
 		"align": {
@@ -91,5 +90,6 @@
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-footer"
 	},
-	"editorScript": "file:./index.js"
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
 }

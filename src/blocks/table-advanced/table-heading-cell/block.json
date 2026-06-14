@@ -4,7 +4,6 @@
 	"title": "Heading Cell",
 	"name": "theatrum/table-heading-cell",
 	"category": "text",
-	"icon": "editor-table",
 	"keywords": ["table"],
 	"attributes": {
 		"abbr": {
@@ -29,8 +28,6 @@
 	"allowedBlocks": ["core/paragraph", "core/list", "core/image", "core/icon"],
 	"supports": {
 		"anchor": true,
-		"align": ["wide", "full", "left", "center", "right"],
-		"alignWide": true,
 		"allowedBlocks": true,
 		"className": true,
 		"color": {
@@ -56,7 +53,6 @@
 			}
 		},
 		"dimensions": {
-			"aspectRatio": true,
 			"height": true,
 			"minHeight": true,
 			"minWidth": true,
@@ -96,5 +92,6 @@
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-heading-cell"
 	},
-	"editorScript": "file:./index.js"
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
 }

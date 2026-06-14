@@ -6,7 +6,6 @@
 	"category": "text",
 	"description": "Version of core table block that allows nesting of table elements as nested blocks.",
 	"textdomain": "table-advanced",
-	"icon": "editor-table",
 	"attributes": {
 		"hasThead": {
 			"type": "boolean",
@@ -112,6 +111,6 @@
 	"example": {},
 	"keywords": ["table", "data", "rows", "columns"],
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor-index.css",
+	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"
 }

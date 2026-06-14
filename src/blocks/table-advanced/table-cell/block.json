@@ -4,7 +4,6 @@
 	"title": "Cell",
 	"name": "theatrum/table-cell",
 	"category": "text",
-	"icon": "editor-table",
 	"keywords": ["table"],
 	"attributes": {
 		"colspan": {
@@ -91,5 +90,6 @@
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-cell"
 	},
-	"editorScript": "file:./index.js"
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
 }

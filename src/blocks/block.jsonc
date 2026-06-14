@@ -103,6 +103,17 @@
 				"padding": false
 			}
 		},
+		"__experimentalBorder": {
+			"__experimentalSkipSerialization": true,
+			"color": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true
+			}
+		},
 		"typography": {
 			"fitText": true,
 			"fontSize": true,

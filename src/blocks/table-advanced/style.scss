@@ -1,7 +1,9 @@
 .tm-table-advanced {
-	border-collapse: collapse;
-	border: 2px solid rgb(140 140 140);
+	// border-collapse: collapse;
+	border: 2px solid rgb(255, 0, 0);
 	font-family: sans-serif;
 	font-size: 0.8rem;
 	letter-spacing: 1px;
+	table-layout: fixed;
+  width: 100%;
 }

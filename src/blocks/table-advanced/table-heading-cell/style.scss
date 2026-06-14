@@ -1,7 +1,9 @@
 .tm-table-header-cell {
 	border: 1px solid rgb(160 160 160);
-	padding: 8px 10px;
-	&:last-of-type {
-		text-align: center;
-	}
+	
+	padding-top: var(--wp--preset--spacing--20);
+	padding-right: var(--wp--preset--spacing--40);
+	padding-bottom: var(--wp--preset--spacing--20);
+	padding-left: var(--wp--preset--spacing--40);
+	
 }

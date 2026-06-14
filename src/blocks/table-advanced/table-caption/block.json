@@ -4,7 +4,6 @@
 	"title": "Title",
 	"name": "theatrum/table-caption",
 	"category": "text",
-	"icon": "editor-table",
 	"keywords": ["table"],
 	"attributes": {
 		"headingLevel": {
@@ -76,5 +75,6 @@
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-adv-title"
 	},
-	"editorScript": "file:./index.js"
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
 }

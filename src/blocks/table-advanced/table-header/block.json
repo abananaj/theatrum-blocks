@@ -4,7 +4,6 @@
 	"title": "Header",
 	"name": "theatrum/table-header",
 	"category": "text",
-	"icon": "editor-table",
 	"keywords": ["table"],
 	"parent": ["theatrum/table-advanced"],
 	"allowedBlocks": ["theatrum/table-row"],
@@ -67,5 +66,6 @@
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-header"
 	},
-	"editorScript": "file:./index.js"
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
 }

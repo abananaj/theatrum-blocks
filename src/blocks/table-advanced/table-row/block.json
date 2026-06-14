@@ -4,7 +4,6 @@
 	"title": "Row",
 	"name": "theatrum/table-row",
 	"category": "text",
-	"icon": "editor-table",
 	"keywords": ["table"],
 	"attributes": {
 		"align": {
@@ -99,5 +98,6 @@
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-row"
 	},
-	"editorScript": "file:./index.js"
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
 }
