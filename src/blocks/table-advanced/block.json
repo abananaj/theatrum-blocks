@@ -19,17 +19,17 @@
 		"tableTitle": {
 			"type": "rich-text",
 			"source": "rich-text",
-			"selector": "table > caption",
+			"selector": ".tm-table-advanced > caption",
 			"role": "content"
 		}
 	},
 	"allowedBlocks": [
-		"theatrum/table-caption", 
-		"theatrum/table-header", 
-		"theatrum/table-body", 
+		"theatrum/table-caption",
+		"theatrum/table-header",
+		"theatrum/table-body",
 		"theatrum/table-footer",
 		"theatrum/table-row",
-		"theatrum/table-header-cell",
+		"theatrum/table-heading-cell",
 		"theatrum/table-cell"
 	],
 	"supports": {
@@ -98,10 +98,6 @@
 			"clientNavigation": true
 		}
 	},
-	"blockHooks": {
-		"theatrum/table-caption": "firstChild",
-		"theatrum/table-body": "firstChild"
-	},
 	"selectors": {
 		"root": ".tm-table-advanced"
 	},
@@ -116,5 +112,6 @@
 	"example": {},
 	"keywords": ["table", "data", "rows", "columns"],
 	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor-index.css",
 	"style": "file:./style-index.css"
 }

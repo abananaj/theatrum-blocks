@@ -1,6 +1,7 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"title": "Table Footer",
+	"title": "Footer",
 	"name": "theatrum/table-footer",
 	"category": "text",
 	"icon": "editor-table",
@@ -86,9 +87,6 @@
 				"width": true
 			}
 		}
-	},
-	"blockHooks": {
-		"theatrum/table-row": "firstChild"
 	},
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-footer"

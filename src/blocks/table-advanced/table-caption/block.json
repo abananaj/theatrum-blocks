@@ -1,6 +1,7 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"title": "Table Title",
+	"title": "Title",
 	"name": "theatrum/table-caption",
 	"category": "text",
 	"icon": "editor-table",
@@ -71,9 +72,6 @@
 		"interactivity": {
 			"clientNavigation": true
 		}
-	},
-	"blockHooks": {
-		"core/heading": "firstChild"
 	},
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-adv-title"

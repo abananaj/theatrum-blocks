@@ -1,6 +1,7 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"title": "Table Heading Cell",
+	"title": "Heading Cell",
 	"name": "theatrum/table-heading-cell",
 	"category": "text",
 	"icon": "editor-table",
@@ -91,9 +92,6 @@
 		"interactivity": {
 			"clientNavigation": true
 		}
-	},
-	"blockHooks": {
-		"core/paragraph": "firstChild"
 	},
 	"selectors": {
 		"root": ".tm-table-advanced .tm-table-heading-cell"
