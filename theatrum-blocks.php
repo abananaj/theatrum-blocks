@@ -26,18 +26,56 @@ require_once __DIR__ . '/inc/rest-endpoints.php';
  */
 function theatrum_register_blocks()
 {
+
+	$example_blocks = array(
+		'basic-block-translations',
+		'basic-esnext',
+		'block-dynamic-rendering',
+		'block-static-rendering',
+		'block-supports',
+		'block-toolbar',
+		'copyright-date-block',
+		'dynamic-block',
+		'inner-blocks',
+		'interactivity-api-countdown',
+		'interactivity-api-quiz',
+		'meta-block',
+		'minimal-block',
+		'my-first-interactive-block',
+		'post-meta-testimonial',
+		'quiz',
+		'quiz-progress',
+		'recipe-card',
+		'server-side-render-block'
+	);
+
 	$custom_blocks = array(
+		'board-member', // temp un-deprecated
 		'breadcrumbs',
 		'card-carousel',
+		// 		- editor shows the simplified card builder on BE, FE show replicate because it looks better and works better on the FE
+		// - [ ] won’t save media selected in BE
+		// - [ ] squished on FE
+		// - [ ] nav arrows don’t work on FE, but the horizontal scroll works on the BE
 		'copyright-date-block',
-		'cover-card',
-		'cover-carousel',
-		'icon-list',
-		'media-popover',
-		'popup',
-		'svg-icon',
-		'thumbnail-list',
+		// - rename to theatrum/copyright-date
 
+		'cover-card',
+		// - working on home page
+		// - on blocks page "Error: Error fetching data" on BE
+		// - renders correctly on FE
+		'cover-carousel',
+		// - [ ] too many options in inspector panel, can’t see more than 1 slide at a time.
+		// - [ ] won’t save opacity set in BE
+		// - [ ] nav doesn't work on FE, can't see other slides
+		// - [ ] should show slide as nested blocks
+		'icon-list',
+		// - looks nice, but need list item as a nested block, model after core/list and core/list-item blocks
+		'interactive-block',
+		'media-popover',
+		// - works nicely, is it possible to use on tables?
+		// - BE wp dasicons missing
+		// - should look the same on the BE and FE
 		'meta-button',
 		'meta-date',
 		'meta-embed',
@@ -49,27 +87,42 @@ function theatrum_register_blocks()
 		'meta-related',
 		'meta-repeater', // producers, performances, quotes, 
 		'meta-time',
-
-		'production-details', // 🎭
+		'popup',
+		// - sync button, border, border-radius, and shadow??
+		'production-details', // 🎭❓ is this used anywhere
+		// - green "Production Details - Server rendered"
 		'production-performances', // 🎭 var of repeater
+		// - doesn't respond to block-spacing setting
 		'production-quotes', // 🎭 var of repeater
+		// - doesn't respond to font-size setting
 		'production-trailer', // 🎭
-		'term-meta', // ⭐ 
-		'season-producer', // --> var of term-meta
+		// - editor shows the dashed preview chip; real filter is frontend-only
+		'query-filter', // 🔍 frontend filter/sort for query loops
+		'season-producer', // --> var of term-meta ❓ do i need this?- use term meta field 
 		'site-option', // ⭐
 		'staff-member', // temp un-deprecated 
-		// 'board-member',
-
-		'query-filter', // 🔍 frontend filter/sort for query loops
-
+		// 'svg-icon', ❌ just use icon block OR custom html to animate
+		'thumbnail-list',
+		// - editor shows static builder UI; 3D flip is frontend-only
+		// - doesn't save or display image on FE or BE
+		// - text overlaps on FE ![screenshot](image.png)
+		'term-meta', // ⭐ 
+		// 'tab',
+		'table-advanced', // ⭐
+		'table-of-contents', // 🔍 auto-generate based on headings in conten
+		// 'tabs',
+		'term-meta',
+		'thumbnail-list',
 	);
 
+	foreach ($example_blocks as $block) {
+		register_block_type(__DIR__ . '/build/blocks/_examples/' . $block);
+	}
 	foreach ($custom_blocks as $block) {
 		register_block_type(__DIR__ . '/build/blocks/' . $block);
 	}
 }
 add_action('init', 'theatrum_register_blocks');
-
 /**
  * Registers the block variations using block.json files.
  */
@@ -78,7 +131,7 @@ function theatrum_register_block_variations()
 	$variation_blocks = array(
 		// 'post-cover', - It does this naturally I guess!
 		'subtitle-title',
-		'heading-toggle',
+		// 'heading-toggle', //  ❌ use accordion block instead
 	);
 
 	foreach ($variation_blocks as $block) {
@@ -120,6 +173,30 @@ function theatrum_register_block_category($categories)
 	return $categories;
 }
 add_filter('block_categories_all', 'theatrum_register_block_category');
+
+/**
+ * Adds devMode attribute to all Theatrum blocks for development display.
+ *
+ * @param array $metadata Block metadata.
+ * @return array Modified metadata with devMode attribute.
+ */
+function theatrum_add_dev_mode_attribute($metadata)
+{
+	// Only add to Theatrum blocks
+	if (isset($metadata['name']) && strpos($metadata['name'], 'theatrum/') === 0) {
+		if (!isset($metadata['attributes'])) {
+			$metadata['attributes'] = array();
+		}
+
+		$metadata['attributes']['devMode'] = array(
+			'type'    => 'boolean',
+			'default' => false,
+		);
+	}
+
+	return $metadata;
+}
+add_filter('block_type_metadata', 'theatrum_add_dev_mode_attribute');
 
 /**
  * Enqueues the Style Book editor script that ensures the "Custom Blocks"

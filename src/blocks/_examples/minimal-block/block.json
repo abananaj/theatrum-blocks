@@ -1,0 +1,9 @@
+{
+	"apiVersion": 3,
+	"title": "Minimal Gutenberg Block",
+	"name": "block-development-examples/minimal-block",
+	"category": "media",
+	"icon": "smiley",
+	"keywords": ["example"],
+	"editorScript": "file:./index.js"
+}

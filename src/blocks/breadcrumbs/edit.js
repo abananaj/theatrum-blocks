@@ -22,6 +22,7 @@ import { useDisabled } from '@wordpress/compose';
  */
 import { useToolsPanelDropdownMenuProps } from '../utils/hooks';
 import HtmlRenderer from '../utils/html-renderer';
+import { DevModeToggle, useDevMode } from '../../inc/display-block-name';
 
 const separatorDefaultValue = '/';
 
@@ -37,6 +38,7 @@ export default function BreadcrumbEdit( {
 		showCurrentItem,
 		prefersTaxonomy,
 		showOnHomePage,
+		devMode,
 	} = attributes;
 	const {
 		post,
@@ -130,6 +132,13 @@ export default function BreadcrumbEdit( {
 	}, [ status ] );
 	const disabledRef = useDisabled();
 	const blockProps = useBlockProps( { ref: disabledRef } );
+
+	// Dev mode hook
+	useDevMode( {
+		element: blockProps.ref?.current,
+		isDevMode: devMode,
+		blockName: name,
+	} );
 
 	if ( isLoading ) {
 		return (
@@ -284,24 +293,30 @@ export default function BreadcrumbEdit( {
 			</InspectorControls>
 			<InspectorControls group="advanced">
 				<CheckboxControl
-					label={ __( 'Show on homepage' ) }
+					label={ __( ‘Show on homepage’ ) }
 					checked={ showOnHomePage }
 					onChange={ ( value ) =>
 						setAttributes( { showOnHomePage: value } )
 					}
 					help={ __(
-						'If this Breadcrumbs block appears in a template or template part that’s shown on the homepage, enable this option to display the breadcrumb trail. Otherwise, this setting has no effect.'
+						‘If this Breadcrumbs block appears in a template or template part that’s shown on the homepage, enable this option to display the breadcrumb trail. Otherwise, this setting has no effect.’
 					) }
 				/>
 				<CheckboxControl
-					label={ __( 'Prefer taxonomy terms' ) }
+					label={ __( ‘Prefer taxonomy terms’ ) }
 					checked={ prefersTaxonomy }
 					onChange={ ( value ) =>
 						setAttributes( { prefersTaxonomy: value } )
 					}
 					help={ __(
-						'The exact type of breadcrumbs shown will vary automatically depending on the page in which this block is displayed. In the specific case of a hierarchical post type with taxonomies, the breadcrumbs can either reflect its post hierarchy (default) or the hierarchy of its assigned taxonomy terms.'
+						‘The exact type of breadcrumbs shown will vary automatically depending on the page in which this block is displayed. In the specific case of a hierarchical post type with taxonomies, the breadcrumbs can either reflect its post hierarchy (default) or the hierarchy of its assigned taxonomy terms.’
 					) }
+				/>
+				<DevModeToggle
+					isDevMode={ devMode }
+					onChange={ ( value ) =>
+						setAttributes( { devMode: value } )
+					}
 				/>
 			</InspectorControls>
 			{ status === 'loading' &&

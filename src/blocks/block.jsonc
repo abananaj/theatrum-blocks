@@ -3,9 +3,9 @@
 	"apiVersion": 3,
 	"name": "theatrum/block-name",
 	"title": "string", // Display title.
-	"category": "text", // Options: text, media, design, widgets, theme, embed
-	"parent": ["namespace/block-name"], // Make block available only inside the specified block types.
-	"ancestor": ["namespace/block-name"], // Make block available inside the specified block types at any position of the ancestor block subtree.
+	"category": "text", // text, media, design, widgets, theme, embed
+	"parent": ["namespace/block-name"], // Block available in these blocks as a child block.
+	"ancestor": ["namespace/block-name"], // Block available in these blocks as a descendant block.
 	"allowedBlocks": ["namespace/block-name"], // child blocks
 	"icon": "dashicons-wordpress", // https://developer.wordpress.org/resource/dashicons
 	"description": "Short description",
@@ -205,9 +205,9 @@
 		},
 		"render": "render.php" // Template file loaded on the server when rendering a block.
 	},
-  "editorScript": "file.js",
-  "editorStyle": "file.css",
-  "script": "file.js",
-  "style": "file.css",
-  "viewScript": "file.js"
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
 }
