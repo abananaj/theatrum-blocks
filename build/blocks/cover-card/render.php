@@ -39,7 +39,7 @@ if ($featured_image_url) {
 }
 $target = $open_in_new_window ? ' target="_blank" rel="noopener noreferrer"' : '';
 ?>
-<div <?php echo get_block_wrapper_attributes(); ?>>
+<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
   <div class="cover-card" style="<?php echo esc_attr($bg_style); ?>">
     <a class="cover-card__link" href="<?php echo esc_url($post_permalink); ?>" <?php echo $target; ?> aria-label="<?php echo esc_attr($post_title); ?>"></a>
     <div class="user-content"><?php echo do_blocks($content); ?></div>

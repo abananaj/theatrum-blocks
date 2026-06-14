@@ -62,7 +62,7 @@ if ('youtube' === $embed_type) {
 
   printf(
     '<div %s><div class="meta-embed-youtube" style="position:relative;aspect-ratio:16/9"><iframe style="width:100%%;height:100%%;border:0" src="%s" title="%s" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>',
-    get_block_wrapper_attributes(),
+    wp_kses_data( get_block_wrapper_attributes() ),
     esc_url($embed_src),
     esc_attr__('YouTube video', 'theatrum-blocks')
   );
@@ -75,14 +75,14 @@ $embed_html = wp_oembed_get($url);
 if ($embed_html) {
   printf(
     '<div %s>%s</div>',
-    get_block_wrapper_attributes(),
+    wp_kses_data( get_block_wrapper_attributes() ),
     wp_kses_post($embed_html)
   );
 } else {
   // Fallback to iframe embed for direct URLs
   printf(
     '<div %s><iframe src="%s" width="100%%" height="400" frameborder="0" allowfullscreen></iframe></div>',
-    get_block_wrapper_attributes(),
+    wp_kses_data( get_block_wrapper_attributes() ),
     esc_attr($url)
   );
 }

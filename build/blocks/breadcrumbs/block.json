@@ -5,6 +5,13 @@
   "title": "Breadcrumbs",
   "category": "theme",
   "description": "Display a breadcrumb trail showing the path to the current page.",
+  "example": {},
+  "keywords": [
+    "navigation",
+    "nav",
+    "path",
+    "trail"
+  ],
   "textdomain": "default",
   "attributes": {
     "prefersTaxonomy": {

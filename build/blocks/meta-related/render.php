@@ -80,6 +80,6 @@ $inner = $link_to_post && $post_url
   ? sprintf('<a href="%s">%s</a>', esc_url($post_url), $display_text)
   : $display_text;
 
-$wrapper_attrs = get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-related']);
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-related']) );
 
 printf('<%1$s %2$s>%3$s</%1$s>', $tag_name, $wrapper_attrs, $inner);

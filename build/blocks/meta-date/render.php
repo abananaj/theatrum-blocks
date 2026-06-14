@@ -51,7 +51,7 @@ if (empty($value)) {
   printf(
     '<%1$s %2$s>[%3$s]</%1$s>',
     tag_escape($tag),
-    get_block_wrapper_attributes(),
+    wp_kses_data( get_block_wrapper_attributes() ),
     esc_html($key)
   );
   return;
@@ -66,7 +66,7 @@ if (empty($value)) {
   printf(
     '<%1$s %2$s>[%3$s]</%1$s>',
     tag_escape($tag),
-    get_block_wrapper_attributes(),
+    wp_kses_data( get_block_wrapper_attributes() ),
     esc_html($key)
   );
   return;

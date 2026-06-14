@@ -53,7 +53,7 @@ if (!in_array($tag_name, $allowed_tags)) {
   $tag_name = 'p';
 }
 
-$wrapper_attrs = get_block_wrapper_attributes(array('class' => 'wp-block-chance-post-meta-field'));
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-post-meta-field')) );
 
 if ($tag_name === 'a') {
   printf(

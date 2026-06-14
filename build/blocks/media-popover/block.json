@@ -6,6 +6,7 @@
   "category": "theatrum",
   "description": "Display media (image or video) in a tooltip-style popover that appears on hover. Link the popover to a URL or page.",
   "icon": "image",
+  "example": {},
   "keywords": [
     "media",
     "popover",

@@ -51,6 +51,13 @@
       "default": true
     }
   },
+  "example": {},
+  "keywords": [
+    "file",
+    "download",
+    "attachment",
+    "meta"
+  ],
   "textdomain": "meta-file",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
