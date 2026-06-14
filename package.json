@@ -6,7 +6,8 @@
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
-		"build": "wp-scripts build --experimental-modules --blocks-manifest --watch",
+		"build:watch": "wp-scripts build --experimental-modules --blocks-manifest --watch",
+		"build": "wp-scripts build --experimental-modules --blocks-manifest",
 		"deploy": "wp-scripts build --experimental-modules --blocks-manifest",
 		"start": "wp-scripts start --experimental-modules --blocks-manifest",
 		"format": "wp-scripts format",
