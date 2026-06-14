@@ -28,13 +28,12 @@ function theatrum_register_blocks()
 {
 
 	$example_blocks = array(
-		'basic-block-translations',
-		'basic-esnext',
-		'block-dynamic-rendering',
-		'block-static-rendering',
+		// 'basic-block-translations',
+		// 'basic-esnext',
+		// 'block-dynamic-rendering',
+		// 'block-static-rendering',
 		'block-supports',
 		'block-toolbar',
-		'copyright-date-block',
 		'dynamic-block',
 		'inner-blocks',
 		'interactivity-api-countdown',
@@ -45,8 +44,8 @@ function theatrum_register_blocks()
 		'post-meta-testimonial',
 		'quiz',
 		'quiz-progress',
+		// 'server-side-render-block',
 		'recipe-card',
-		'server-side-render-block'
 	);
 
 	$custom_blocks = array(
