@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"title": "Title",
+	"title": "Table Title",
 	"name": "theatrum/table-caption",
 	"category": "text",
 	"keywords": ["table"],

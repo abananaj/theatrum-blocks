@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"title": "Row",
+	"title": "Table Row",
 	"name": "theatrum/table-row",
 	"category": "text",
 	"keywords": ["table"],
