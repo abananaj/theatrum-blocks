@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/title-subtitle",
+	"title": "Title + Subtitle",
+	"category": "text",
+	"icon": "heading",
+	"description": "A heading group with a title and subtitle, each independently editable.",
+	"keywords": ["title", "subtitle", "heading", "heading group"],
+	"supports": {
+		"html": false,
+		"align": true,
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"reusable": true,
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style.scss",
+	"editorStyle": "file:./editor.scss"
+}
