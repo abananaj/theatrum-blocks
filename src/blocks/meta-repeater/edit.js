@@ -33,7 +33,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const [postSearchInput, setPostSearchInput] = useState('');
 	const [searchOptions, setSearchOptions] = useState([]);
 
-	const editorPostId = useSelect((select) => select('core/editor').getCurrentPostId());
+	const editorPostId = useSelect((select) => select('core/editor')?.getCurrentPostId?.() ?? 0);
 	const contextPostId = context?.postId;
 	const defaultPostId = contextPostId || editorPostId;
 	const postId = attributes.overridePostId || defaultPostId;
