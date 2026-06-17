@@ -1,1 +1,0 @@
-This variation of the core/heading block will add a toggle to the heading. This option will allow the user to nest blocks inside the toggle. Do it simply at first using details/summary.

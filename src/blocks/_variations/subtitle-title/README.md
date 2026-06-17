@@ -1,1 +1,0 @@
-This will be a verison of the wp core block title with the option to add a subtitle wrapped in a h2 Before or after the title and the option to add a class name to the wrapper div.

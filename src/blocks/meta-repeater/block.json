@@ -55,10 +55,6 @@
 			"type": "string",
 			"default": ""
 		},
-		"subfields": {
-			"type": "string",
-			"default": ""
-		},
 		"tagName": {
 			"type": "string",
 			"default": "ul"
@@ -93,16 +89,16 @@
 			"name": "chance/meta-repeater-bylines",
 			"title": "Bylines Repeater",
 			"attributes": {
-				"tagName": "ul"
+				"tagName": "ul",
+				"repeaterKey": "bylines"
 			}
 		},
 		{
 			"name": "chance/meta-repeater-awards",
 			"title": "Awards Repeater",
-			"icon": "awards",
 			"attributes": {
 				"tagName": "ul",
-				"subfields": "subfieldA|subfieldB"
+				"repeaterKey": "awards"
 			}
 		},
 		{
@@ -110,7 +106,9 @@
 			"title": "Notes Repeater",
 			"attributes": {
 				"tagName": "ul",
-				"subfields": "icon|note"
+				"repeaterKey": "notes",
+				"subfieldA": "icon",
+				"subfieldB": "note"
 			}
 		},
 		{
@@ -118,7 +116,9 @@
 			"title": "Producers Repeater",
 			"attributes": {
 				"tagName": "ul",
-				"subfields": "title|company"
+				"repeaterKey": "producers",
+				"subfieldA": "title",
+				"subfieldB": "company"
 			}
 		},
 		{
@@ -126,17 +126,17 @@
 			"title": "Performances Repeater",
 			"attributes": {
 				"tagName": "ul",
-				"subfields": {
-					"date": "date",
-					"time": "time"
-				}
+				"repeaterKey": "performances",
+				"subfieldA": "date",
+				"subfieldB": "time"
 			}
 		},
 		{
 			"name": "chance/meta-repeater-events",
 			"title": "Events Repeater",
 			"attributes": {
-				"tagName": "ul"
+				"tagName": "ul",
+				"repeaterKey": "events"
 			}
 		},
 		{
@@ -144,7 +144,9 @@
 			"title": "Quotes Repeater",
 			"attributes": {
 				"tagName": "ul",
-				"subfields": "quote|source"
+				"repeaterKey": "quotes",
+				"subfieldA": "quote",
+				"subfieldB": "source"
 			}
 		}
 	],
