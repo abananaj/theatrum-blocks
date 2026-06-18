@@ -1,0 +1,1 @@
+This will be a variation of the core Tabs block, with custom styling and options for use on production pages. The block should have a class of "production-tabs" for styling purposes.

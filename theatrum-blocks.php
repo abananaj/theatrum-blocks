@@ -78,21 +78,22 @@ function theatrum_register_blocks()
 
 		'interactive-block',
 		'media-popover',
-		// - works nicely, is it possible to use on tables?
-		// - BE wp dasicons missing
-		// - should look the same on the BE and FE
+		// - make child of element pargraph headings
 
-		'meta-button',
-		'meta-date',
-		'meta-embed',
-		'meta-field',
-		'meta-file',
-		'meta-gallery',
-		'meta-icon',
-		'meta-image',
-		'meta-related',
-		'meta-repeater', // producers, performances, quotes, 
-		'meta-time',
+		// VARIATION SETS:
+		'meta-button', // Convert to variation of core/button block that pulls URL and text from post meta
+		'meta-date', // Convert to variation of post date block? Also Opening Date block? 
+		// add Date-Time variation that pulls from post meta and displays in local timezone?
+		'meta-embed', // Convert to variation of core/embed block that pulls video URL from post meta
+		'meta-field', // Convert to generic block to pull any post meta value into a block — could be used for simple text, numbers, or even JSON for more complex blocks
+		'meta-file', // Convert to variation of core/file block that pulls file URL from post meta
+		'meta-gallery', // Convert to variation of core/gallery block that pulls image IDs from post meta
+		'meta-icon', // Convert to variation of core/icon block that pulls icon name from post meta
+		'meta-image', // Convert to variation of core/image block that pulls image ID from post meta
+		'meta-related', // Convert to variation of core/related block that pulls related posts from post meta
+		'meta-repeater', // Convert to variations: bylines, awards, producers, performances, quotes, notes, events, notes.
+		// Error on block-editor
+		'meta-time', // ❌ just use core date block with dynamic data pulled from post meta
 		'popup',
 		// - sync button, border, border-radius, and shadow??
 
@@ -108,12 +109,15 @@ function theatrum_register_blocks()
 		'production-trailer', // 🎭
 		// - editor shows the dashed preview chip; real filter is frontend-only
 
-		'query-filter', // 🔍 frontend filter/sort for query loops
+		'query-filter', // 🔍 frontend filter/sort for query loops - CONVERT? to variation of query filter
+		'query-loop', // variations by main post type ✅
 		'season-producer', // --> var of term-meta ❓ do i need this?- use term meta field 
 		'site-option', // ⭐
+		// reqrites option value when entering Post Meta Key. The correct meta value is showing, but it need to appear alongside the option value
 		'staff-member', // temp un-deprecated 
 		// 'svg-icon', ❌ just use icon block OR custom html to animate
 
+		'title-subtitle', // child of heading 
 		'thumbnail-list',
 		// - editor shows static builder UI; 3D flip is frontend-only
 		// - doesn't save or display image on FE or BE
@@ -133,7 +137,12 @@ function theatrum_register_blocks()
 		'table-advanced/table-cell',
 
 		'table-of-contents', // 🔍 auto-generate based on headings in conten
-		// 'tabs',
+
+		'tabs',
+		'tabs/tab-heading',
+		'tabs/tab-item',
+		'tabs/tab-panel',
+		
 		'term-meta',
 		'thumbnail-list',
 	);
@@ -146,22 +155,7 @@ function theatrum_register_blocks()
 	}
 }
 add_action('init', 'theatrum_register_blocks');
-/**
- * Registers the block variations using block.json files.
- */
-function theatrum_register_block_variations()
-{
-	$variation_blocks = array(
-		// 'post-cover', - It does this naturally I guess!
-		'subtitle-title',
-		// 'heading-toggle', //  ❌ use accordion block instead
-	);
 
-	foreach ($variation_blocks as $block) {
-		register_block_type(__DIR__ . '/build/blocks/_variations/' . $block);
-	}
-}
-add_action('init', 'theatrum_register_block_variations');
 
 /**
  * Registers the "Custom Blocks" block category for all Theatrum blocks.

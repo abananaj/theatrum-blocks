@@ -28,6 +28,7 @@ All blocks are fully configurable in the editor with color, typography, spacing,
 ## Block Categories
 
 ### Standard Display Blocks
+
 - `breadcrumbs` — Hierarchical breadcrumb navigation
 - `card-carousel` — Carousel of cards with swipe controls
 - `cover-carousel` — Full-width image carousel
@@ -39,6 +40,7 @@ All blocks are fully configurable in the editor with color, typography, spacing,
 - `thumbnail-list` — Grid of thumbnail cards
 
 ### Meta Blocks (Extract & Display Post Meta)
+
 - `meta-button` — Render meta as button
 - `meta-date` — Parse and format dates
 - `meta-embed` — Embed media from meta URLs
@@ -52,6 +54,7 @@ All blocks are fully configurable in the editor with color, typography, spacing,
 - `meta-time` — Time field display
 
 ### Production-Specific Blocks (Chance Theater)
+
 - `production-details` — Venue and performance details
 - `production-performances` — List performances using meta-repeater
 - `production-quotes` — Display quotes using meta-repeater
@@ -62,10 +65,12 @@ All blocks are fully configurable in the editor with color, typography, spacing,
 - `site-option` — Display site option values
 
 ### Query & Interaction
+
 - `query-filter` — Frontend filter/sort for query loops
 
 ### Block Variations
-- `subtitle-title` — Heading with subtitle variant
+
+- `title-subtitle` — Heading with subtitle variant
 - `heading-toggle` — Toggleable heading section
 
 ## Getting Started

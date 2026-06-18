@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.1] - 2026-06-10
 
 ### Changed
+
 - Added comprehensive developer documentation (CLAUDE.md, AGENTS.md)
 - Set up Claude Code configuration (.claude/settings.json) with changelog automation
 - Updated README with complete plugin overview and workflows
@@ -29,13 +30,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-06-10
 
 ### Added
+
 - Initial release of Theatrum Blocks plugin
 - 30+ custom Gutenberg blocks for Chance Theater website
 - Meta field blocks (meta-field, meta-date, meta-image, meta-gallery, etc.)
 - Production-specific blocks (production-details, production-performances, production-quotes)
 - Display blocks (breadcrumbs, carousels, popups, icon-list, etc.)
 - Query filter block for frontend filtering and sorting
-- Block variations system (subtitle-title, heading-toggle)
+- Block variations system (title-subtitle, heading-toggle)
 - REST API endpoints for block editors
 - Helper functions for date parsing and caching
 - Style Book editor integration
