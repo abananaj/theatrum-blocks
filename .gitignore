@@ -37,4 +37,10 @@ node_modules/
 # dist/
 *.sql
 build/
+<<<<<<< HEAD
 .claude/worktrees/agent-ad5c370d75023f0c3
+=======
+
+# Claude Code worktrees
+.claude/worktrees/
+>>>>>>> main
