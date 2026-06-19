@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 30+ custom Gutenberg blocks for Chance Theater website
 - Meta field blocks (meta-field, meta-date, meta-image, meta-gallery, etc.)
 - Production-specific blocks (production-details, production-performances, production-quotes)
-- Display blocks (breadcrumbs, carousels, popups, icon-list, etc.)
+- Display blocks (breadcrumbs, carousels, popups, list-icons, etc.)
 - Query filter block for frontend filtering and sorting
 - Block variations system (title-subtitle, heading-toggle)
 - REST API endpoints for block editors

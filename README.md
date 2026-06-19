@@ -33,7 +33,7 @@ All blocks are fully configurable in the editor with color, typography, spacing,
 - `card-carousel` — Carousel of cards with swipe controls
 - `cover-carousel` — Full-width image carousel
 - `cover-card` — Large card with background image
-- `icon-list` — Formatted list with icons
+- `list-icons` — Formatted list with icons
 - `media-popover` — Click-to-expand media modal
 - `popup` — Modal dialog block
 - `svg-icon` — Reusable SVG icon display

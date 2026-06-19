@@ -1,8 +1,16 @@
 .tm-table-cell {
 	border: 1px solid var(--wp--preset--color--lightest-gray);
-	padding-top: var(--wp--preset--spacing--20);
-	padding-right: var(--wp--preset--spacing--40);
-	padding-bottom: var(--wp--preset--spacing--20);
-	padding-left: var(--wp--preset--spacing--40);
+	padding: 0 5px;
+	align-items: center;
+	display: flex;
+	.wp-block-paragraph {
+		width:100%;
+		font-size: 1rem;
+		margin-top:0;
+		text-align:center;
+		font-weight: 300;
+		line-height: 1;
+		text-wrap: balance;
+	}
 }
 	

@@ -45,8 +45,12 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	const handleSelectImage = (media) => {
-		handleUpdateItem('image', media.url);
-		handleUpdateItem('imageId', media.id);
+		const updatedItems = items.map((item) =>
+			item.id === selectedItemId
+				? { ...item, image: media.url, imageId: media.id }
+				: item
+		);
+		setAttributes({ items: updatedItems });
 	};
 
 	const handleRemoveItem = (itemId) => {

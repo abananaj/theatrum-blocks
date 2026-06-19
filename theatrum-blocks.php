@@ -69,14 +69,14 @@ function theatrum_register_blocks()
 		// - [ ] too many options in inspector panel, can’t see more than 1 slide at a time.
 		// - [ ] won’t save opacity set in BE
 		// - [ ] nav doesn't work on FE, can't see other slides
-		// - [ ] should show slide as nested blocks
-		
+		// - [ ] should show slide as nested cover blocks
+
 		'frankenstein-block',
 
-		'icon-list',
+		'list-icons',
 		// - looks nice, but need list item as a nested block, model after core/list and core/list-item blocks
+		'list-icons/list-item-icon', // child of list-icons
 
-		'interactive-block',
 		'media-popover',
 		// - make child of element pargraph headings
 
@@ -105,7 +105,7 @@ function theatrum_register_blocks()
 
 		'production-quotes', // 🎭 var of repeater
 		// - doesn't respond to font-size setting
-
+		'production-tabs', // 🎭
 		'production-trailer', // 🎭
 		// - editor shows the dashed preview chip; real filter is frontend-only
 
@@ -123,18 +123,20 @@ function theatrum_register_blocks()
 		// - doesn't save or display image on FE or BE
 		// - text overlaps on FE ![screenshot](image.png)
 
-		'term-meta', // ⭐ 
-		
-		// 'tab',
 
-		'table-advanced',
+		'table-advanced', // Style all items on one level?
+		// toggle table-layout-fixed, default to table-layout:auto;
 		'table-advanced/table-caption',
 		'table-advanced/table-header',
-		'table-advanced/table-body',
+		'table-advanced/table-body', // only 1 per table, but can have multiple rows
 		'table-advanced/table-footer',
 		'table-advanced/table-row',
-		'table-advanced/table-heading-cell',
-		'table-advanced/table-cell',
+		'table-advanced/table-heading-cell', // not responding to background & text color settings
+		'table-advanced/table-cell', // not responding to background & text color settings
+		// add toggle for empty
+		// allow buttons & button.
+
+		// make flex & allow vertical & horizontal alignment, default center middle
 
 		'table-of-contents', // 🔍 auto-generate based on headings in conten
 
@@ -142,17 +144,18 @@ function theatrum_register_blocks()
 		'tabs/tab-heading',
 		'tabs/tab-item',
 		'tabs/tab-panel',
-		
-		'term-meta',
+
+		'term-meta', // ⭐ 
 		'thumbnail-list',
+		'title-subtitle',
 	);
 
 	// foreach ($example_blocks as $block) {
 	// 	register_block_type(__DIR__ . '/build/blocks/_examples/' . $block);
 	// }
-	// foreach ($custom_blocks as $block) {
-	// 	register_block_type(__DIR__ . '/build/blocks/' . $block);
-	// }
+	foreach ($custom_blocks as $block) {
+		register_block_type(__DIR__ . '/build/blocks/' . $block);
+	}
 }
 add_action('init', 'theatrum_register_blocks');
 

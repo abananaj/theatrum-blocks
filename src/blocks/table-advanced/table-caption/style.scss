@@ -1,5 +1,6 @@
 .tm-table-title {
+	overflow: hidden;
 	caption-side: bottom;
-	padding: 10px;
+	// padding: 0 var(--wp--preset--spacing--20);
 	font-weight: bold;
 }

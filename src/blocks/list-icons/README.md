@@ -57,20 +57,20 @@ A flexible list block that displays icons alongside list item text. Supports bot
 The block renders semantic HTML with appropriate aria labels and CSS classes:
 
 ```html
-<ul class="wp-block-chance-icon-list">
-	<li class="icon-list-item">
-		<img src="..." alt="..." class="icon-list-icon" />
-		<span class="icon-list-text">Item text</span>
+<ul class="wp-block-chance-list-icons">
+	<li class="list-icons-item">
+		<img src="..." alt="..." class="list-icons-icon" />
+		<span class="list-icons-text">Item text</span>
 	</li>
 </ul>
 ```
 
 ### CSS Classes
 
-- `.wp-block-chance-icon-list` - Main list wrapper
-- `.icon-list-item` - Individual list item
-- `.icon-list-icon` - Icon image
-- `.icon-list-text` - Item text
+- `.wp-block-chance-list-icons` - Main list wrapper
+- `.list-icons-item` - Individual list item
+- `.list-icons-icon` - Icon image
+- `.list-icons-text` - Item text
 - `.icon-position-{position}` - Positional modifier (left, right, top, bottom)
 - `.icon-hover-only` - Applied when hover-only is enabled
 - `.hover-only` - Applied to icons in hover-only mode

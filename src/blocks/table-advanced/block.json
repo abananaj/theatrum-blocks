@@ -15,6 +15,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"tableLayoutFixed": {
+			"type": "boolean",
+			"default": false
+		},
 		"tableTitle": {
 			"type": "rich-text",
 			"source": "rich-text",

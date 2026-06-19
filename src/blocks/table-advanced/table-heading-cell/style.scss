@@ -1,9 +1,18 @@
-.tm-table-header-cell {
+.tm-table-heading-cell {
 	border: 1px solid var(--wp--preset--color--black);
-	
-	padding-top: var(--wp--preset--spacing--20);
-	padding-right: var(--wp--preset--spacing--40);
-	padding-bottom: var(--wp--preset--spacing--20);
-	padding-left: var(--wp--preset--spacing--40);
-	
+	// padding: 0 var(--wp--preset--spacing--20);
+	font-family: var(--wp--preset--font-family--heading);
+	align-items: flex-end;
+	display: flex;
+	.wp-block-paragraph {
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		width:100%;
+		font-size: 1.15rem;
+		margin-top:0;
+		text-align:right;
+		font-weight: 500;
+		line-height: 1;
+		text-wrap: balance;
+	}
 }

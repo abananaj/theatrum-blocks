@@ -33,7 +33,7 @@ const ALLOWED_BLOCKS = [
 ];
 
 const Edit = ( { attributes, setAttributes, clientId } ) => {
-	const { hasThead, hasTFoot } = attributes;
+	const { hasThead, hasTFoot, tableLayoutFixed } = attributes;
 	const blockProps = useBlockProps( { className: 'tm-edit-table' } );
 
 	const { insertBlock, removeBlock } = useDispatch( blockEditorStore );
@@ -89,6 +89,12 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 						checked={ hasTFoot }
 						onChange={ onToggleTfoot }
 					/>
+					<ToggleControl
+						label="Fixed column widths"
+						help={ tableLayoutFixed ? 'Columns use fixed widths (table-layout: fixed).' : 'Columns size to content (table-layout: auto).' }
+						checked={ tableLayoutFixed }
+						onChange={ ( value ) => setAttributes( { tableLayoutFixed: value } ) }
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
@@ -101,11 +107,17 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 	);
 };
 
-const save = () => (
-	<table { ...useBlockProps.save( { className: 'tm-table-advanced' } ) }>
-		<InnerBlocks.Content />
-	</table>
-);
+const save = ( { attributes } ) => {
+	const { tableLayoutFixed } = attributes;
+	const className = tableLayoutFixed
+		? 'tm-table-advanced table-layout-fixed'
+		: 'tm-table-advanced';
+	return (
+		<table { ...useBlockProps.save( { className } ) }>
+			<InnerBlocks.Content />
+		</table>
+	);
+};
 
 registerBlockType( metadata.name, {
 	icon: tableIcon,

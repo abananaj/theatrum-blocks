@@ -66,15 +66,21 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const handleSelectThumbnail = (media) => {
-    handleUpdateItem('thumbnailId', media.id);
-    handleUpdateItem('thumbnailUrl', media.url);
-    handleUpdateItem('thumbnailAlt', media.alt || '');
+    const updatedItems = items.map((item) =>
+      item.id === selectedItemId
+        ? { ...item, thumbnailId: media.id, thumbnailUrl: media.url, thumbnailAlt: media.alt || '' }
+        : item
+    );
+    setAttributes({ items: updatedItems });
   };
 
   const handleRemoveThumbnail = () => {
-    handleUpdateItem('thumbnailId', 0);
-    handleUpdateItem('thumbnailUrl', '');
-    handleUpdateItem('thumbnailAlt', '');
+    const updatedItems = items.map((item) =>
+      item.id === selectedItemId
+        ? { ...item, thumbnailId: 0, thumbnailUrl: '', thumbnailAlt: '' }
+        : item
+    );
+    setAttributes({ items: updatedItems });
   };
 
   const handleDeleteItem = () => {

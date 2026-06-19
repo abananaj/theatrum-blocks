@@ -6,10 +6,6 @@
 	"category": "text",
 	"keywords": ["table"],
 	"attributes": {
-		"align": {
-			"type": "string",
-			"default": "left"
-		},
 		"char": {
 			"type": "string",
 			"default": ""
@@ -55,7 +51,10 @@
 			}
 		},
 		"layout": {
-			"allowVerticalAlignment": true
+			"allowVerticalAlignment": true,
+			"allowTextAlignment": true,
+			"allowOverlap": true,
+			"allowOverflow": true
 		},
 		"dimensions": {
 			"aspectRatio": true,

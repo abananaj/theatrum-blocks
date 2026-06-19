@@ -1,13 +1,22 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/icon-list",
+	"name": "chance/list-icons",
 	"title": "Icon List",
 	"category": "theatrum",
 	"description": "A list block with optional icons for each item. Supports ordered and unordered lists with customizable icon styling.",
 	"icon": "list-view",
 	"example": {},
 	"keywords": ["list", "icon", "item"],
+	"allowedBlocks": ["chance/list-item-icon"],
+	"providesContext": {
+		"chance/iconSize": "iconSize",
+		"chance/iconSizeUnit": "iconSizeUnit",
+		"chance/iconPosition": "iconPosition",
+		"chance/iconSpacing": "iconSpacing",
+		"chance/iconColor": "iconColor",
+		"chance/hoverOnly": "hoverOnly"
+	},
 	"supports": {
 		"html": false,
 		"align": true,
@@ -49,35 +58,6 @@
 			"type": "string",
 			"default": "ul",
 			"enum": ["ul", "ol"]
-		},
-		"items": {
-			"type": "array",
-			"default": [],
-			"items": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string",
-						"description": "Unique identifier for the list item"
-					},
-					"text": {
-						"type": "string",
-						"description": "Text content of the list item"
-					},
-					"iconId": {
-						"type": "number",
-						"description": "Media library attachment ID"
-					},
-					"iconUrl": {
-						"type": "string",
-						"description": "URL of the icon image"
-					},
-					"iconAlt": {
-						"type": "string",
-						"description": "Alt text for the icon"
-					}
-				}
-			}
 		},
 		"iconSize": {
 			"type": "string",
