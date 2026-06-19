@@ -147,12 +147,12 @@ function theatrum_register_blocks()
 		'thumbnail-list',
 	);
 
-	foreach ($example_blocks as $block) {
-		register_block_type(__DIR__ . '/build/blocks/_examples/' . $block);
-	}
-	foreach ($custom_blocks as $block) {
-		register_block_type(__DIR__ . '/build/blocks/' . $block);
-	}
+	// foreach ($example_blocks as $block) {
+	// 	register_block_type(__DIR__ . '/build/blocks/_examples/' . $block);
+	// }
+	// foreach ($custom_blocks as $block) {
+	// 	register_block_type(__DIR__ . '/build/blocks/' . $block);
+	// }
 }
 add_action('init', 'theatrum_register_blocks');
 

@@ -20,31 +20,8 @@
 	margin-bottom: 1em;
 }
 
-// ── Trigger button ──────────────────────────────────────────────────────────
+// ── Trigger button ────────────────────────────────────────────────────────── MOVED TO THEME
 // Uses WordPress core button classes: .wp-element-button and .wp-block-button__link
-
-.popup-toggle-button,
-.wp-block-chance-popup .wp-element-button,
-.wp-block-chance-popup .wp-block-button__link {
-	cursor: pointer;
-	font-size: var(--wp--preset--font-size--body);
-	transition: all 0.3s ease;
-	display: inline-block;
-	padding: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
-	background-color: var(--wp--preset--color--dark-blue);
-	box-shadow: var(--wp--preset--shadow--button);
-	color: white;
-	border: none;
-	border-radius: var(--wp--preset--border-radius--medium);
-	text-decoration: none;
-
-	&:hover {
-		opacity: 0.9;
-		background-color: var(--wp--preset--color--light-blue, #0a1e54);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	}
-}
 
 // ── Backdrop ────────────────────────────────────────────────────────────────
 

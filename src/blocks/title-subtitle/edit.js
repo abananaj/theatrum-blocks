@@ -5,7 +5,7 @@ const TEMPLATE = [
 	[ 'core/heading', { level: 2, placeholder: 'Subtitle' } ],
 ];
 
-const ALLOWED_BLOCKS = [ 'core/heading' ];
+const ALLOWED_BLOCKS = [ 'core/heading', 'core/post-title' ];
 
 export default function Edit() {
 	const blockProps = useBlockProps();
