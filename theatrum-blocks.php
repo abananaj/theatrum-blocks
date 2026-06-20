@@ -44,7 +44,7 @@ function theatrum_register_blocks()
 		'post-meta-testimonial',
 		'quiz',
 		'quiz-progress',
-		// 'server-side-render-block',
+		// - [ ] 'server-side-render-block',
 		'recipe-card',
 	);
 
@@ -52,7 +52,7 @@ function theatrum_register_blocks()
 		'board-member', // temp un-deprecated
 		'breadcrumbs',
 		'card-carousel',
-		// 		- editor shows the simplified card builder on BE, FE show replicate because it looks better and works better on the FE
+		// - [ ] editor shows the simplified card builder on BE, FE show replicate because it looks better and works better on the FE
 		// - [ ] won’t save media selected in BE
 		// - [ ] squished on FE
 		// - [ ] nav arrows don’t work on FE, but the horizontal scroll works on the BE
@@ -61,9 +61,9 @@ function theatrum_register_blocks()
 		// - rename to theatrum/copyright-date
 
 		'cover-card',
-		// - working on home page
-		// - on blocks page "Error: Error fetching data" on BE
-		// - renders correctly on FE
+		// - [ ] working on home page
+		// - [ ] on blocks page "Error: Error fetching data" on BE
+		// - [ ] renders correctly on FE
 
 		'cover-carousel',
 		// - [ ] too many options in inspector panel, can’t see more than 1 slide at a time.
@@ -73,66 +73,86 @@ function theatrum_register_blocks()
 
 
 		'list-icons',
-		// - looks nice, but need list item as a nested block, model after core/list and core/list-item blocks
-		'list-icons/list-item-icon', // child of list-icons
+		// - [ ] looks nice, but need list item as a nested block, model after core/list and core/list-item blocks
+		'list-icons/list-item-icon', 
+		// - [ ] child of list-icons
 
 		'media-popover',
-		// - make child of element pargraph headings
+		// - [ ] make child of element pargraph headings
 
 		// VARIATION SETS:
-		'meta-button', // Convert to variation of core/button block that pulls URL and text from post meta
-		'meta-date', // Convert to variation of post date block? Also Opening Date block? 
-		// add Date-Time variation that pulls from post meta and displays in local timezone?
-		'meta-embed', // Convert to variation of core/embed block that pulls video URL from post meta
-		'meta-field', // Convert to generic block to pull any post meta value into a block — could be used for simple text, numbers, or even JSON for more complex blocks
-		'meta-file', // Convert to variation of core/file block that pulls file URL from post meta
-		'meta-gallery', // Convert to variation of core/gallery block that pulls image IDs from post meta
-		'meta-icon', // Convert to variation of core/icon block that pulls icon name from post meta
-		'meta-image', // Convert to variation of core/image block that pulls image ID from post meta
-		'meta-related', // Convert to variation of core/related block that pulls related posts from post meta
-		'meta-repeater', // Convert to variations: bylines, awards, producers, performances, quotes, notes, events, notes.
-		// Error on block-editor
+		'meta-button', 
+		// - [ ] Convert to variation of core/button block that pulls URL and text from post meta
+		'meta-date', 
+		// - [ ] Convert to variation of post date block? Also Opening Date block? 
+		// - [ ] add Date-Time variation that pulls from post meta and displays in local timezone?
+		'meta-embed', 
+		// - [ ] Convert to variation of core/embed block that pulls video URL from post meta
+		'meta-field', 
+		// - [ ] Convert to generic block to pull any post meta value into a block — could be used for simple text, numbers, or even JSON for more complex blocks
+		'meta-file', 
+		// - [ ] Convert to variation of core/file block that pulls file URL from post meta
+		'meta-gallery', 
+		// - [ ] Convert to variation of core/gallery block that pulls image IDs from post meta
+		'meta-icon', 
+		// - [ ] Convert to variation of core/icon block that pulls icon name from post meta
+		'meta-image', 
+		// - [ ] Convert to variation of core/image block that pulls image ID from post meta
+		'meta-related', 
+		// - [ ] Convert to variation of core/related block that pulls related posts from post meta
+		'meta-repeater', 
+		// - [ ] Convert to variations: bylines, awards, producers, performances, quotes, notes, events, notes.
+		// - [ ] Error on block-editor when clicked "This block has encountered an error and cannot be previewed."
 		'meta-time', // ❌ just use core date block with dynamic data pulled from post meta
 		'popup',
-		// - sync button, border, border-radius, and shadow??
+		// - [ ] sync button, border, border-radius, and shadow??
 
-		'production-details', // 🎭❓ is this used anywhere
-		// - green "Production Details - Server rendered"
+		'production-details', 
+		// - [ ] 🎭❓ is this used anywhere
+		// - [ ] green "Production Details - Server rendered"
 
 		'production-performances', // 🎭 var of repeater
-		// - doesn't respond to block-spacing setting
+		// - [ ] doesn't respond to block-spacing setting
 
 		'production-quotes', // 🎭 var of repeater
-		// - doesn't respond to font-size setting
+		// - [ ] doesn't respond to font-size setting
 		'production-tabs', // 🎭
 		'production-trailer', // 🎭
-		// - editor shows the dashed preview chip; real filter is frontend-only
+		// - [ ] editor shows the dashed preview chip; real filter is frontend-only
 
-		'query-filter', // 🔍 frontend filter/sort for query loops - CONVERT? to variation of query filter
-		'query-loop', // variations by main post type ✅
-		'season-producer', // --> var of term-meta ❓ do i need this?- use term meta field 
-		'site-option', // ⭐
-		// reqrites option value when entering Post Meta Key. The correct meta value is showing, but it need to appear alongside the option value
+		'query-filter', 
+		// - [ ] 🔍 frontend filter/sort for query loops - CONVERT? to variation of query filter
+		'query-loop', 
+		// - [ ] variations by main post type ✅
+		'season-producer', 
+		// - [ ] --> var of term-meta ❓ do i need this?- use term meta field 
+		'site-option', 
+		// - [ ] reqrites option value when entering Post Meta Key. The correct meta value is showing, but it need to appear alongside the option value
 		'staff-member', // temp un-deprecated 
-		// 'svg-icon', ❌ just use icon block OR custom html to animate
+		// - [ ] 'svg-icon', ❌ just use icon block OR custom html to animate
 
 
 
-		'table-advanced', // Style all items on one level?
-		// toggle table-layout-fixed, default to table-layout:auto;
+		'table-advanced', 
+		// - [ ] Style all items on one level?
+		// - [ ] toggle table-layout-fixed, default to table-layout:auto;
 		'table-advanced/table-caption',
 		'table-advanced/table-header',
-		'table-advanced/table-body', // only 1 per table, but can have multiple rows
+		'table-advanced/table-body', 
+		// - [ ] only 1 per table, but can have multiple rows
 		'table-advanced/table-footer',
 		'table-advanced/table-row',
-		'table-advanced/table-heading-cell', // not responding to background & text color settings
-		'table-advanced/table-cell', // not responding to background & text color settings
-		// add toggle for empty
-		// allow buttons & button.
+		'table-advanced/table-heading-cell', 
+		// not responding to background & text color settings
+		'table-advanced/table-cell', 
+		// not responding to background & text color settings
+		// - [ ] add toggle for empty
+		// - [ ] allow buttons & button.
 
-		// make flex & allow vertical & horizontal alignment, default center middle
+		// - [ ] make flex & allow vertical & horizontal alignment, default center middle
 
-		'table-of-contents', // 🔍 auto-generate based on headings in conten
+		'table-of-contents', 
+		// - [ ] auto-generate based on headings in conten
 
 		'tabs',
 		'tabs/tab-heading',
@@ -141,17 +161,14 @@ function theatrum_register_blocks()
 
 		'term-meta', // ⭐ 
 		'thumbnail-list',
-		// - editor shows static builder UI; 3D flip is frontend-only
-		// - doesn't save or display image on FE or BE
-		// - text overlaps on FE ![screenshot](image.png)
+		// - [ ] editor shows static builder UI; 3D flip is frontend-only
+		// - [ ] doesn't save or display image on FE or BE
+		// - [ ] text overlaps on FE ![screenshot](image.png)
 		'title-subtitle', 
-		// Add post title to allowed blocks
-		// child of heading 
+		// - [ ] Add post title to allowed blocks
+		// - [ ] child of heading 
 	);
 
-	// foreach ($example_blocks as $block) {
-	// 	register_block_type(__DIR__ . '/build/blocks/_examples/' . $block);
-	// }
 	foreach ($custom_blocks as $block) {
 		register_block_type(__DIR__ . '/build/blocks/' . $block);
 	}
