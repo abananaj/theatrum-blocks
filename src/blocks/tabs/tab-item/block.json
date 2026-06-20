@@ -1,12 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "core/accordion-item",
+	"name": "theatrum/tab-item",
 	"title": "Accordion Item",
 	"category": "design",
 	"description": "Wraps the heading and panel in one unit.",
-	"parent": [ "core/accordion" ],
-	"allowedBlocks": [ "core/accordion-heading", "core/accordion-panel" ],
+	"parent": ["theatrum/tab"],
+	"allowedBlocks": ["theatrum/tab-heading", "theatrum/tab-panel"],
 	"supports": {
 		"html": false,
 		"color": {
@@ -15,7 +15,7 @@
 		},
 		"interactivity": true,
 		"spacing": {
-			"margin": [ "top", "bottom" ],
+			"margin": ["top", "bottom"],
 			"padding": true,
 			"blockGap": true
 		},
@@ -57,7 +57,7 @@
 		}
 	},
 	"providesContext": {
-		"core/accordion-open-by-default": "openByDefault"
+		"theatrum/tab-open-by-default": "openByDefault"
 	},
 	"textdomain": "default",
 	"style": "wp-block-accordion-item"

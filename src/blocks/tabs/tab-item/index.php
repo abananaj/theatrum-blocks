@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Server-side rendering of the `core/accordion-item` block.
+ * Server-side rendering of the `theatrum/tab-item` block.
  *
  * @package WordPress
  * @since 6.9.0
@@ -10,18 +10,19 @@
  * @param string                        $content   The block content.
  * @return string Returns the updated markup.
  */
-function block_core_accordion_item_render( array $attributes, string $content ): string {
-	if ( '' === $content ) {
+function block_core_accordion_item_render(array $attributes, string $content): string
+{
+	if ('' === $content) {
 		return $content;
 	}
 
-	$p         = new WP_HTML_Tag_Processor( $content );
-	$unique_id = wp_unique_id( 'accordion-item-' );
+	$p         = new WP_HTML_Tag_Processor($content);
+	$unique_id = wp_unique_id('accordion-item-');
 
 	// Initialize the state of the item on the server using a closure,
 	// since we need to get derived state based on the current context.
 	wp_interactivity_state(
-		'core/accordion',
+		'theatrum/tab',
 		array(
 			'isOpen' => function () {
 				$context = wp_interactivity_get_context();
@@ -30,23 +31,23 @@ function block_core_accordion_item_render( array $attributes, string $content ):
 		)
 	);
 
-	if ( $p->next_tag( array( 'class_name' => 'wp-block-accordion-item' ) ) ) {
+	if ($p->next_tag(array('class_name' => 'wp-block-accordion-item'))) {
 		$open_by_default = $attributes['openByDefault'] ? 'true' : 'false';
-		$p->set_attribute( 'data-wp-context', '{ "id": "' . $unique_id . '", "openByDefault": ' . $open_by_default . ' }' );
-		$p->set_attribute( 'data-wp-class--is-open', 'state.isOpen' );
-		$p->set_attribute( 'data-wp-init', 'callbacks.initAccordionItems' );
-		$p->set_attribute( 'data-wp-on-window--hashchange', 'callbacks.hashChange' );
+		$p->set_attribute('data-wp-context', '{ "id": "' . $unique_id . '", "openByDefault": ' . $open_by_default . ' }');
+		$p->set_attribute('data-wp-class--is-open', 'state.isOpen');
+		$p->set_attribute('data-wp-init', 'callbacks.initAccordionItems');
+		$p->set_attribute('data-wp-on-window--hashchange', 'callbacks.hashChange');
 
-		if ( $p->next_tag( array( 'class_name' => 'wp-block-accordion-heading__toggle' ) ) ) {
-			$p->set_attribute( 'data-wp-on--click', 'actions.toggle' );
-			$p->set_attribute( 'id', $unique_id );
-			$p->set_attribute( 'aria-controls', $unique_id . '-panel' );
-			$p->set_attribute( 'data-wp-bind--aria-expanded', 'state.isOpen' );
+		if ($p->next_tag(array('class_name' => 'wp-block-accordion-heading__toggle'))) {
+			$p->set_attribute('data-wp-on--click', 'actions.toggle');
+			$p->set_attribute('id', $unique_id);
+			$p->set_attribute('aria-controls', $unique_id . '-panel');
+			$p->set_attribute('data-wp-bind--aria-expanded', 'state.isOpen');
 
-			if ( $p->next_tag( array( 'class_name' => 'wp-block-accordion-panel' ) ) ) {
-				$p->set_attribute( 'id', $unique_id . '-panel' );
-				$p->set_attribute( 'aria-labelledby', $unique_id );
-				$p->set_attribute( 'data-wp-bind--inert', '!state.isOpen' );
+			if ($p->next_tag(array('class_name' => 'wp-block-accordion-panel'))) {
+				$p->set_attribute('id', $unique_id . '-panel');
+				$p->set_attribute('aria-labelledby', $unique_id);
+				$p->set_attribute('data-wp-bind--inert', '!state.isOpen');
 
 				// Only modify content if all directives have been set.
 				$content = $p->get_updated_html();
@@ -59,10 +60,10 @@ function block_core_accordion_item_render( array $attributes, string $content ):
 	 * from contending with resources in the critical rendering path. In contrast, remove the loading attribute to
 	 * prevent the image from not being available when the item is expanded.
 	 */
-	if ( ! $attributes['openByDefault'] ) {
-		$processor = new WP_HTML_Tag_Processor( $content );
-		while ( $processor->next_tag( 'IMG' ) ) {
-			$processor->set_attribute( 'fetchpriority', 'low' );
+	if (! $attributes['openByDefault']) {
+		$processor = new WP_HTML_Tag_Processor($content);
+		while ($processor->next_tag('IMG')) {
+			$processor->set_attribute('fetchpriority', 'low');
 		}
 		$content = $processor->get_updated_html();
 	}
@@ -71,11 +72,12 @@ function block_core_accordion_item_render( array $attributes, string $content ):
 }
 
 /**
- * Registers the `core/accordion-item` block on server.
+ * Registers the `theatrum/tab-item` block on server.
  *
  * @since 6.9.0
  */
-function register_block_core_accordion_item() {
+function register_block_core_accordion_item()
+{
 	register_block_type_from_metadata(
 		__DIR__ . '/accordion-item',
 		array(
@@ -83,4 +85,4 @@ function register_block_core_accordion_item() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_accordion_item' );
+add_action('init', 'register_block_core_accordion_item');

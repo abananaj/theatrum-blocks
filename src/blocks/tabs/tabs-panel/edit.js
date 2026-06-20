@@ -8,12 +8,12 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-export default function Edit( { attributes, context, clientId, isSelected } ) {
+export default function Edit({ attributes, context, clientId, isSelected }) {
 	const { allowedBlocks, templateLock } = attributes;
-	const openByDefault = context[ 'core/accordion-open-by-default' ];
+	const openByDefault = context['theatrum/tab-open-by-default'];
 	const { hasSelection } = useSelect(
-		( select ) => {
-			if ( isSelected || openByDefault ) {
+		(select) => {
+			if (isSelected || openByDefault) {
 				return { hasSelection: true };
 			}
 
@@ -21,26 +21,26 @@ export default function Edit( { attributes, context, clientId, isSelected } ) {
 				getBlockRootClientId,
 				isBlockSelected,
 				hasSelectedInnerBlock,
-			} = select( blockEditorStore );
-			const rootClientId = getBlockRootClientId( clientId );
+			} = select(blockEditorStore);
+			const rootClientId = getBlockRootClientId(clientId);
 			return {
 				hasSelection:
-					isBlockSelected( rootClientId ) ||
-					hasSelectedInnerBlock( rootClientId, true ),
+					isBlockSelected(rootClientId) ||
+					hasSelectedInnerBlock(rootClientId, true),
 			};
 		},
-		[ clientId, isSelected, openByDefault ]
+		[clientId, isSelected, openByDefault]
 	);
-	const blockProps = useBlockProps( {
-		'aria-hidden': ! hasSelection,
+	const blockProps = useBlockProps({
+		'aria-hidden': !hasSelection,
 		role: 'region',
-	} );
+	});
 
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks,
-		template: [ [ 'core/paragraph', {} ] ],
+		template: [['core/paragraph', {}]],
 		templateLock,
-	} );
+	});
 
-	return <div { ...innerBlocksProps } />;
+	return <div {...innerBlocksProps} />;
 }

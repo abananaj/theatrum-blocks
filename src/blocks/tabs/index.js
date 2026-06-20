@@ -21,10 +21,10 @@ export const settings = {
 	example: {
 		innerBlocks: [
 			{
-				name: 'core/accordion-item',
+				name: 'theatrum/tab-item',
 				innerBlocks: [
 					{
-						name: 'core/accordion-heading',
+						name: 'theatrum/tab-heading',
 						attributes: {
 							title: __(
 								'Lorem ipsum dolor sit amet, consectetur.'
@@ -34,10 +34,10 @@ export const settings = {
 				],
 			},
 			{
-				name: 'core/accordion-item',
+				name: 'theatrum/tab-item',
 				innerBlocks: [
 					{
-						name: 'core/accordion-heading',
+						name: 'theatrum/tab-heading',
 						attributes: {
 							title: __(
 								'Suspendisse commodo lacus, interdum et.'
@@ -52,4 +52,4 @@ export const settings = {
 	save,
 };
 
-export const init = () => initBlock( { name, metadata, settings } );
+export const init = () => initBlock({ name, metadata, settings });

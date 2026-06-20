@@ -13,87 +13,87 @@ import {
 } from '@wordpress/block-editor';
 import { useDispatch } from '@wordpress/data';
 
-export default function Edit( { attributes, setAttributes, context } ) {
+export default function Edit({ attributes, setAttributes, context }) {
 	const { title } = attributes;
 	const {
-		'core/accordion-icon-position': iconPosition,
-		'core/accordion-show-icon': showIcon,
-		'core/accordion-heading-level': headingLevel,
+		'theatrum/tab-icon-position': iconPosition,
+		'theatrum/tab-show-icon': showIcon,
+		'theatrum/tab-heading-level': headingLevel,
 	} = context;
 	const TagName = 'h' + headingLevel;
 	const { __unstableMarkNextChangeAsNotPersistent } =
-		useDispatch( blockEditorStore );
+		useDispatch(blockEditorStore);
 
 	// Set icon attributes.
-	useEffect( () => {
-		if ( iconPosition !== undefined && showIcon !== undefined ) {
+	useEffect(() => {
+		if (iconPosition !== undefined && showIcon !== undefined) {
 			__unstableMarkNextChangeAsNotPersistent();
-			setAttributes( {
+			setAttributes({
 				iconPosition,
 				showIcon,
-			} );
+			});
 		}
 	}, [
 		iconPosition,
 		showIcon,
 		setAttributes,
 		__unstableMarkNextChangeAsNotPersistent,
-	] );
+	]);
 
-	const [ fluidTypographySettings, layout ] = useSettings(
+	const [fluidTypographySettings, layout] = useSettings(
 		'typography.fluid',
 		'layout'
 	);
-	const typographyProps = useTypographyProps( attributes, {
+	const typographyProps = useTypographyProps(attributes, {
 		typography: {
 			fluid: fluidTypographySettings,
 		},
 		layout: {
 			wideSize: layout?.wideSize,
 		},
-	} );
+	});
 
 	const blockProps = useBlockProps();
-	const spacingProps = useSpacingProps( attributes );
+	const spacingProps = useSpacingProps(attributes);
 
 	return (
-		<TagName { ...blockProps }>
+		<TagName {...blockProps}>
 			<button
 				className="wp-block-accordion-heading__toggle"
-				style={ spacingProps.style }
+				style={spacingProps.style}
 				tabIndex="-1"
 			>
-				{ showIcon && iconPosition === 'left' && (
+				{showIcon && iconPosition === 'left' && (
 					<span
 						className="wp-block-accordion-heading__toggle-icon"
 						aria-hidden="true"
 					>
 						+
 					</span>
-				) }
+				)}
 				<RichText
 					withoutInteractiveFormatting
 					disableLineBreaks
 					tagName="span"
-					value={ title }
-					onChange={ ( newTitle ) =>
-						setAttributes( { title: newTitle } )
+					value={title}
+					onChange={(newTitle) =>
+						setAttributes({ title: newTitle })
 					}
-					placeholder={ __( 'Accordion title' ) }
+					placeholder={__('Accordion title')}
 					className="wp-block-accordion-heading__toggle-title"
-					style={ {
+					style={{
 						letterSpacing: typographyProps.style.letterSpacing,
 						textDecoration: typographyProps.style.textDecoration,
-					} }
+					}}
 				/>
-				{ showIcon && iconPosition === 'right' && (
+				{showIcon && iconPosition === 'right' && (
 					<span
 						className="wp-block-accordion-heading__toggle-icon"
 						aria-hidden="true"
 					>
 						+
 					</span>
-				) }
+				)}
 			</button>
 		</TagName>
 	);

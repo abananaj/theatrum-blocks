@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "chance/cover-carousel",
-	"title": "Cover Carousel",
+	"title": "Cover Card Carousel",
 	"category": "theatrum",
 	"icon": "images-alt2",
 	"description": "A carousel block for displaying multiple images or videos with overlay content, similar to the Cover block but with carousel functionality",

@@ -28,13 +28,13 @@ import { createBlock } from '@wordpress/blocks';
  */
 import { useToolsPanelDropdownMenuProps } from '../utils/hooks';
 
-const ACCORDION_BLOCK_NAME = 'core/accordion-item';
-const ACCORDION_HEADING_BLOCK_NAME = 'core/accordion-heading';
+const ACCORDION_BLOCK_NAME = 'theatrum/tab-item';
+const ACCORDION_HEADING_BLOCK_NAME = 'theatrum/tab-heading';
 const ACCORDION_BLOCK = {
 	name: ACCORDION_BLOCK_NAME,
 };
 
-export default function Edit( {
+export default function Edit({
 	attributes: {
 		autoclose,
 		iconPosition,
@@ -45,34 +45,34 @@ export default function Edit( {
 	clientId,
 	setAttributes,
 	isSelected: isSingleSelected,
-} ) {
+}) {
 	const registry = useRegistry();
-	const { getBlockOrder } = useSelect( blockEditorStore );
-	const blockProps = useBlockProps( {
+	const { getBlockOrder } = useSelect(blockEditorStore);
+	const blockProps = useBlockProps({
 		role: 'group',
-	} );
+	});
 	const dropdownMenuProps = useToolsPanelDropdownMenuProps();
 	const { updateBlockAttributes, insertBlock } =
-		useDispatch( blockEditorStore );
+		useDispatch(blockEditorStore);
 	const blockEditingMode = useBlockEditingMode();
 	const isContentOnlyMode = blockEditingMode === 'contentOnly';
 
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
-		template: [ [ ACCORDION_BLOCK_NAME ] ],
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		template: [[ACCORDION_BLOCK_NAME]],
 		defaultBlock: ACCORDION_BLOCK,
 		directInsert: true,
 		templateInsertUpdatesSelection: true,
-	} );
+	});
 
 	const addAccordionItemBlock = () => {
 		// When adding, set the header's level to current headingLevel
-		const newAccordionItem = createBlock( ACCORDION_BLOCK_NAME, {}, [
-			createBlock( ACCORDION_HEADING_BLOCK_NAME, {
+		const newAccordionItem = createBlock(ACCORDION_BLOCK_NAME, {}, [
+			createBlock(ACCORDION_HEADING_BLOCK_NAME, {
 				level: headingLevel,
-			} ),
-			createBlock( 'core/accordion-panel', {} ),
-		] );
-		insertBlock( newAccordionItem, undefined, clientId );
+			}),
+			createBlock('theatrum/tab-panel', {}),
+		]);
+		insertBlock(newAccordionItem, undefined, clientId);
 	};
 
 	/**
@@ -80,132 +80,132 @@ export default function Edit( {
 	 * based on the accordion group setting.
 	 * @param {number} newHeadingLevel The new heading level to set
 	 */
-	const updateHeadingLevel = ( newHeadingLevel ) => {
-		const innerBlockClientIds = getBlockOrder( clientId );
+	const updateHeadingLevel = (newHeadingLevel) => {
+		const innerBlockClientIds = getBlockOrder(clientId);
 
 		// Get all accordion-header blocks from all accordion-content blocks.
 		const accordionHeaderClientIds = [];
-		innerBlockClientIds.forEach( ( contentClientId ) => {
-			const headerClientIds = getBlockOrder( contentClientId );
-			accordionHeaderClientIds.push( ...headerClientIds );
-		} );
+		innerBlockClientIds.forEach((contentClientId) => {
+			const headerClientIds = getBlockOrder(contentClientId);
+			accordionHeaderClientIds.push(...headerClientIds);
+		});
 
 		// Update own and child block heading levels.
-		registry.batch( () => {
-			setAttributes( { headingLevel: newHeadingLevel } );
-			updateBlockAttributes( accordionHeaderClientIds, {
+		registry.batch(() => {
+			setAttributes({ headingLevel: newHeadingLevel });
+			updateBlockAttributes(accordionHeaderClientIds, {
 				level: newHeadingLevel,
-			} );
-		} );
+			});
+		});
 	};
 
 	return (
 		<>
-			{ isSingleSelected && ! isContentOnlyMode && (
+			{isSingleSelected && !isContentOnlyMode && (
 				<>
 					<BlockControls>
 						<ToolbarGroup>
 							<HeadingLevelDropdown
-								value={ headingLevel }
-								options={ levelOptions }
-								onChange={ updateHeadingLevel }
+								value={headingLevel}
+								options={levelOptions}
+								onChange={updateHeadingLevel}
 							/>
 						</ToolbarGroup>
 					</BlockControls>
 					<BlockControls group="other">
-						<ToolbarButton onClick={ addAccordionItemBlock }>
-							{ __( 'Add item' ) }
+						<ToolbarButton onClick={addAccordionItemBlock}>
+							{__('Add item')}
 						</ToolbarButton>
 					</BlockControls>
 				</>
-			) }
+			)}
 			<InspectorControls key="setting">
 				<ToolsPanel
-					label={ __( 'Settings' ) }
-					resetAll={ () => {
-						setAttributes( {
+					label={__('Settings')}
+					resetAll={() => {
+						setAttributes({
 							autoclose: false,
 							showIcon: true,
 							iconPosition: 'right',
-						} );
-					} }
-					dropdownMenuProps={ dropdownMenuProps }
+						});
+					}}
+					dropdownMenuProps={dropdownMenuProps}
 				>
 					<ToolsPanelItem
-						label={ __( 'Auto-close' ) }
+						label={__('Auto-close')}
 						isShownByDefault
-						hasValue={ () => !! autoclose }
-						onDeselect={ () =>
-							setAttributes( { autoclose: false } )
+						hasValue={() => !!autoclose}
+						onDeselect={() =>
+							setAttributes({ autoclose: false })
 						}
 					>
 						<ToggleControl
-							label={ __( 'Auto-close' ) }
-							onChange={ ( value ) => {
-								setAttributes( {
+							label={__('Auto-close')}
+							onChange={(value) => {
+								setAttributes({
 									autoclose: value,
-								} );
-							} }
-							checked={ autoclose }
-							help={ __(
+								});
+							}}
+							checked={autoclose}
+							help={__(
 								'Automatically close accordions when a new one is opened.'
-							) }
+							)}
 						/>
 					</ToolsPanelItem>
 					<ToolsPanelItem
-						label={ __( 'Show icon' ) }
+						label={__('Show icon')}
 						isShownByDefault
-						hasValue={ () => ! showIcon }
-						onDeselect={ () => setAttributes( { showIcon: true } ) }
+						hasValue={() => !showIcon}
+						onDeselect={() => setAttributes({ showIcon: true })}
 					>
 						<ToggleControl
-							label={ __( 'Show icon' ) }
-							onChange={ ( value ) => {
-								setAttributes( {
+							label={__('Show icon')}
+							onChange={(value) => {
+								setAttributes({
 									showIcon: value,
 									iconPosition: value
 										? iconPosition
 										: 'right',
-								} );
-							} }
-							checked={ showIcon }
-							help={ __(
+								});
+							}}
+							checked={showIcon}
+							help={__(
 								'Display a plus icon next to the accordion header.'
-							) }
+							)}
 						/>
 					</ToolsPanelItem>
-					{ showIcon && (
+					{showIcon && (
 						<ToolsPanelItem
-							label={ __( 'Icon Position' ) }
+							label={__('Icon Position')}
 							isShownByDefault
-							hasValue={ () => iconPosition !== 'right' }
-							onDeselect={ () =>
-								setAttributes( { iconPosition: 'right' } )
+							hasValue={() => iconPosition !== 'right'}
+							onDeselect={() =>
+								setAttributes({ iconPosition: 'right' })
 							}
 						>
 							<ToggleGroupControl
 								__next40pxDefaultSize
 								isBlock
-								label={ __( 'Icon Position' ) }
-								value={ iconPosition }
-								onChange={ ( value ) => {
-									setAttributes( { iconPosition: value } );
-								} }
+								label={__('Icon Position')}
+								value={iconPosition}
+								onChange={(value) => {
+									setAttributes({ iconPosition: value });
+								}}
 							>
 								<ToggleGroupControlOption
-									label={ __( 'Left' ) }
+									label={__('Left')}
 									value="left"
 								/>
 								<ToggleGroupControlOption
-									label={ __( 'Right' ) }
+									label={__('Right')}
 									value="right"
 								/>
 							</ToggleGroupControl>
 						</ToolsPanelItem>
-					) }
+					)}
 				</ToolsPanel>
 			</InspectorControls>
-			<div { ...innerBlocksProps } />
+			<div {...innerBlocksProps} />
 		</>
 	);
 }

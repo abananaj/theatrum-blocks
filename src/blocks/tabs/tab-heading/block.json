@@ -1,15 +1,15 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "core/accordion-heading",
+	"name": "theatrum/tab-heading",
 	"title": "Accordion Heading",
 	"category": "design",
 	"description": "Displays a heading that toggles the accordion panel.",
-	"parent": [ "core/accordion-item" ],
+	"parent": ["theatrum/tab-item"],
 	"usesContext": [
-		"core/accordion-icon-position",
-		"core/accordion-show-icon",
-		"core/accordion-heading-level"
+		"theatrum/tab-icon-position",
+		"theatrum/tab-show-icon",
+		"theatrum/tab-heading-level"
 	],
 	"supports": {
 		"anchor": true,
@@ -40,10 +40,7 @@
 			}
 		},
 		"typography": {
-			"__experimentalSkipSerialization": [
-				"textDecoration",
-				"letterSpacing"
-			],
+			"__experimentalSkipSerialization": ["textDecoration", "letterSpacing"],
 			"fontSize": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
@@ -82,7 +79,7 @@
 		},
 		"iconPosition": {
 			"type": "string",
-			"enum": [ "left", "right" ],
+			"enum": ["left", "right"],
 			"default": "right"
 		},
 		"showIcon": {

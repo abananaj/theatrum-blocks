@@ -8,13 +8,13 @@ import { store, getContext } from '@wordpress/interactivity';
 let hashHandled = false;
 
 const { actions } = store(
-	'core/accordion',
+	'theatrum/tab',
 	{
 		state: {
 			get isOpen() {
 				const { id, accordionItems } = getContext();
 				const accordionItem = accordionItems.find(
-					( item ) => item.id === id
+					(item) => item.id === id
 				);
 				return accordionItem ? accordionItem.isOpen : false;
 			},
@@ -24,31 +24,31 @@ const { actions } = store(
 				const context = getContext();
 				const { id, autoclose, accordionItems } = context;
 				const accordionItem = accordionItems.find(
-					( item ) => item.id === id
+					(item) => item.id === id
 				);
 
-				if ( autoclose ) {
-					accordionItems.forEach( ( item ) => {
+				if (autoclose) {
+					accordionItems.forEach((item) => {
 						item.isOpen =
-							item.id === id ? ! accordionItem.isOpen : false;
-					} );
+							item.id === id ? !accordionItem.isOpen : false;
+					});
 				} else {
-					accordionItem.isOpen = ! accordionItem.isOpen;
+					accordionItem.isOpen = !accordionItem.isOpen;
 				}
 			},
 			openPanelByHash: () => {
-				if ( hashHandled || ! window.location?.hash?.length ) {
+				if (hashHandled || !window.location?.hash?.length) {
 					return;
 				}
 
 				const context = getContext();
 				const { id, accordionItems, autoclose } = context;
 				const hash = decodeURIComponent(
-					window.location.hash.slice( 1 )
+					window.location.hash.slice(1)
 				);
-				const targetElement = window.document.getElementById( hash );
+				const targetElement = window.document.getElementById(hash);
 
-				if ( ! targetElement ) {
+				if (!targetElement) {
 					return;
 				}
 
@@ -57,42 +57,42 @@ const { actions } = store(
 				);
 
 				if (
-					! panelElement ||
-					! panelElement.contains( targetElement )
+					!panelElement ||
+					!panelElement.contains(targetElement)
 				) {
 					return;
 				}
 
 				hashHandled = true;
 
-				if ( autoclose ) {
-					accordionItems.forEach( ( item ) => {
+				if (autoclose) {
+					accordionItems.forEach((item) => {
 						item.isOpen = item.id === id;
-					} );
+					});
 				} else {
 					const targetItem = accordionItems.find(
-						( item ) => item.id === id
+						(item) => item.id === id
 					);
 
-					if ( targetItem ) {
+					if (targetItem) {
 						targetItem.isOpen = true;
 					}
 				}
 
 				// Wait for the panel to be opened before scrolling to it.
-				window.setTimeout( () => {
+				window.setTimeout(() => {
 					targetElement.scrollIntoView();
-				}, 0 );
+				}, 0);
 			},
 		},
 		callbacks: {
 			initAccordionItems: () => {
 				const context = getContext();
 				const { id, openByDefault, accordionItems } = context;
-				accordionItems.push( {
+				accordionItems.push({
 					id,
 					isOpen: openByDefault,
-				} );
+				});
 				actions.openPanelByHash();
 			},
 			hashChange: () => {

@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "theatrum/card-static",
 	"version": "0.1.0",
-	"title": "Frankenstein Block",
+	"title": "Car",
 	"category": "widgets",
 	"icon": "smiley",
 	"description": "Example block combining dynamic rendering, inner blocks, block supports, and interactivity.",

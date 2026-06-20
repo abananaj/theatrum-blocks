@@ -1,15 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "core/accordion",
-	"title": "Accordion",
+	"name": "theatrum/tabs",
+	"title": "Theatrum Tabs",
 	"category": "design",
-	"description": "Displays a foldable layout that groups content in collapsible sections.",
 	"example": {},
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"align": [ "wide", "full" ],
+		"align": ["wide", "full"],
 		"background": {
 			"backgroundImage": true,
 			"backgroundSize": true,
@@ -35,7 +34,7 @@
 		},
 		"spacing": {
 			"padding": true,
-			"margin": [ "top", "bottom" ],
+			"margin": ["top", "bottom"],
 			"blockGap": true
 		},
 		"shadow": true,
@@ -80,11 +79,11 @@
 		}
 	},
 	"providesContext": {
-		"core/accordion-icon-position": "iconPosition",
-		"core/accordion-show-icon": "showIcon",
-		"core/accordion-heading-level": "headingLevel"
+		"theatrum/tab-icon-position": "iconPosition",
+		"theatrum/tab-show-icon": "showIcon",
+		"theatrum/tab-heading-level": "headingLevel"
 	},
-	"allowedBlocks": [ "core/accordion-item" ],
+	"allowedBlocks": ["theatrum/tab-item"],
 	"textdomain": "default",
 	"viewScriptModule": "@wordpress/block-library/accordion/view"
 }

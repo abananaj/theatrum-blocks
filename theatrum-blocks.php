@@ -56,7 +56,7 @@ function theatrum_register_blocks()
 		// - [ ] won’t save media selected in BE
 		// - [ ] squished on FE
 		// - [ ] nav arrows don’t work on FE, but the horizontal scroll works on the BE
-
+'card-static',
 		'copyright-date-block',
 		// - rename to theatrum/copyright-date
 
@@ -71,7 +71,6 @@ function theatrum_register_blocks()
 		// - [ ] nav doesn't work on FE, can't see other slides
 		// - [ ] should show slide as nested cover blocks
 
-		'frankenstein-block',
 
 		'list-icons',
 		// - looks nice, but need list item as a nested block, model after core/list and core/list-item blocks
@@ -117,11 +116,6 @@ function theatrum_register_blocks()
 		'staff-member', // temp un-deprecated 
 		// 'svg-icon', ❌ just use icon block OR custom html to animate
 
-		'title-subtitle', // child of heading 
-		'thumbnail-list',
-		// - editor shows static builder UI; 3D flip is frontend-only
-		// - doesn't save or display image on FE or BE
-		// - text overlaps on FE ![screenshot](image.png)
 
 
 		'table-advanced', // Style all items on one level?
@@ -147,7 +141,12 @@ function theatrum_register_blocks()
 
 		'term-meta', // ⭐ 
 		'thumbnail-list',
-		'title-subtitle',
+		// - editor shows static builder UI; 3D flip is frontend-only
+		// - doesn't save or display image on FE or BE
+		// - text overlaps on FE ![screenshot](image.png)
+		'title-subtitle', 
+		// Add post title to allowed blocks
+		// child of heading 
 	);
 
 	// foreach ($example_blocks as $block) {

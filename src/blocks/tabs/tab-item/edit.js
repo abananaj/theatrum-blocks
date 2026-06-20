@@ -24,79 +24,79 @@ import clsx from 'clsx';
  */
 import { useToolsPanelDropdownMenuProps } from '../utils/hooks';
 
-const TEMPLATE = [ [ 'core/accordion-heading' ], [ 'core/accordion-panel' ] ];
+const TEMPLATE = [['theatrum/tab-heading'], ['theatrum/tab-panel']];
 
-export default function Edit( {
+export default function Edit({
 	attributes,
 	clientId,
 	setAttributes,
 	isSelected: isSingleSelected,
-} ) {
+}) {
 	const { openByDefault } = attributes;
 	const dropdownMenuProps = useToolsPanelDropdownMenuProps();
 	const { isSelected } = useSelect(
-		( select ) => {
-			if ( isSingleSelected || openByDefault ) {
+		(select) => {
+			if (isSingleSelected || openByDefault) {
 				return { isSelected: true };
 			}
 
 			return {
-				isSelected: select( blockEditorStore ).hasSelectedInnerBlock(
+				isSelected: select(blockEditorStore).hasSelectedInnerBlock(
 					clientId,
 					true
 				),
 			};
 		},
-		[ clientId, isSingleSelected, openByDefault ]
+		[clientId, isSingleSelected, openByDefault]
 	);
 
-	const blockProps = useBlockProps( {
-		className: clsx( {
+	const blockProps = useBlockProps({
+		className: clsx({
 			'is-open': openByDefault || isSelected,
-		} ),
-	} );
+		}),
+	});
 
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		template: TEMPLATE,
 		templateLock: 'all',
 		directInsert: true,
 		templateInsertUpdatesSelection: true,
-	} );
+	});
 
 	return (
 		<>
 			<InspectorControls key="setting">
 				<ToolsPanel
-					label={ __( 'Settings' ) }
-					resetAll={ () => {
-						setAttributes( { openByDefault: false } );
-					} }
-					dropdownMenuProps={ dropdownMenuProps }
+					label={__('Settings')}
+					resetAll={() => {
+						setAttributes({ openByDefault: false });
+					}}
+					dropdownMenuProps={dropdownMenuProps}
 				>
 					<ToolsPanelItem
-						label={ __( 'Open by default' ) }
+						label={__('Open by default')}
 						isShownByDefault
-						hasValue={ () => !! openByDefault }
-						onDeselect={ () => {
-							setAttributes( { openByDefault: false } );
-						} }
+						hasValue={() => !!openByDefault}
+						onDeselect={() => {
+							setAttributes({ openByDefault: false });
+						}}
 					>
 						<ToggleControl
-							label={ __( 'Open by default' ) }
-							onChange={ ( value ) => {
-								setAttributes( {
+							label={__('Open by default')}
+							onChange={(value) => {
+								setAttributes({
 									openByDefault: value,
-								} );
-							} }
-							checked={ openByDefault }
-							help={ __(
+								});
+							}}
+							checked={openByDefault}
+							help={__(
 								'Accordion content will be displayed by default.'
-							) }
+							)}
 						/>
 					</ToolsPanelItem>
 				</ToolsPanel>
 			</InspectorControls>
-			<div { ...innerBlocksProps } />
+			<div {...innerBlocksProps} />
 		</>
 	);
 }

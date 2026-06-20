@@ -1,12 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "core/accordion-panel",
+	"name": "theatrum/tab-panel",
 	"title": "Accordion Panel",
 	"category": "design",
 	"description": "Contains the hidden or revealed content beneath the heading.",
-	"parent": [ "core/accordion-item" ],
-	"usesContext": [ "core/accordion-open-by-default" ],
+	"parent": ["theatrum/tab-item"],
+	"usesContext": ["theatrum/tab-open-by-default"],
 	"supports": {
 		"html": false,
 		"color": {
@@ -58,8 +58,8 @@
 	},
 	"attributes": {
 		"templateLock": {
-			"type": [ "string", "boolean" ],
-			"enum": [ "all", "insert", "contentOnly", false ],
+			"type": ["string", "boolean"],
+			"enum": ["all", "insert", "contentOnly", false],
 			"default": false
 		}
 	},
