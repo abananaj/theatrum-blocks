@@ -1,212 +1,181 @@
 # Theatrum Blocks
 
-A WordPress plugin providing 30+ custom Gutenberg blocks for Chance Theater's website. Includes production management, metadata displays, carousels, and filtering components.
+Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 35+ blocks for production management, metadata display, carousels, tables, tabs, and frontend filtering.
 
-**Version:** 0.1.1  
-**License:** GPL-2.0-or-later
+**Version:** 0.1.1 | **Requires:** WordPress 6.8+ / PHP 7.4+ | **License:** GPL-2.0-or-later
 
-## Quick Links
+📋 [CLAUDE.md](./CLAUDE.md) · [AGENTS.md](./AGENTS.md) · [CHANGELOG.md](./CHANGELOG.md)
 
-👉 **For development setup and commands:** See [CLAUDE.md](./CLAUDE.md)  
-👉 **For using Claude agents with this project:** See [AGENTS.md](./AGENTS.md)  
-👉 **For changelog and version history:** See [CHANGELOG.md](./CHANGELOG.md)
+---
 
-> **Note:** This plugin operates independently from the theme and main project, but coordinates with both. The documentation patterns are similar across [chance-ollie theme](../../themes/chance-ollie/) and [wp_root project docs](../../). Check [.build/blocks.md](../../../../.build/blocks.md) for comprehensive block development guidance and [.deploy/deploy.md](../../../../.deploy/deploy.md) for deployment workflows.
+## Block Inventory
 
-## Overview
+### 🎭 Production Blocks
+| Block | Status | Notes |
+|-------|--------|-------|
+| `production-details` | ⚠️ | Shows venue/room from `_venue` / `_venue_room` meta — confirm it's used |
+| `production-performances` | ✅ | Var of meta-repeater; filters to upcoming only, shows next 5 |
+| `production-quotes` | ✅ | Var of meta-repeater; responds to font-size |
+| `production-tabs` | ✅ | |
+| `production-trailer` | ⚠️ | Editor shows preview chip; real filter is frontend-only |
+| `season-producer` | ⚠️ | Candidate for removal — may be replaced by `term-meta` |
 
-Theatrum Blocks is a multi-block plugin that registers custom Gutenberg blocks under the "Custom Blocks" category. It provides:
+### 🔗 Meta Blocks (Block Bindings)
+Variation blocks backed by the `chance/post-meta` binding source (WP 6.5+). Existing instances migrate via "Transform to" in the block toolbar.
 
-- **Display Blocks** — Breadcrumbs, carousels, popups, icon lists, media popovers
-- **Meta Blocks** — Display and manage post meta fields (dates, images, galleries, files, etc.)
-- **Production Blocks** — Production details, performances, quotes, trailers, staff
-- **Query Blocks** — Frontend filtering and sorting for query loops
-- **Block Variations** — Extended variations of core WordPress blocks
+| Block | Status | Notes |
+|-------|--------|-------|
+| `meta-button` | ✅ | Var of `core/button` |
+| `meta-date` | ✅ | Var of `core/paragraph`; date format arg |
+| `meta-embed` | ✅ | Var of `core/embed` |
+| `meta-field` | ✅ | Var of `core/paragraph` |
+| `meta-file` | ✅ | Var of `core/file` |
+| `meta-image` | ✅ | Var of `core/image`; binds `id` attribute |
+| `meta-gallery` | ✅ | Kept as custom block (too many custom controls) |
+| `meta-repeater` | ✅ | Variations: bylines, awards, producers, performances, quotes, notes, events |
+| `meta-icon` | ⏭️ | Skip — target (icon block) is experimental |
+| `meta-related` | ⏭️ | Skip — no suitable core block target |
+| `meta-time` | ❌ | Remove — use core date block with dynamic data |
 
-All blocks are fully configurable in the editor with color, typography, spacing, and alignment controls via theme.json.
+### 📋 Table-Advanced
+Hierarchical table block system.
 
-## Block Categories
+| Block | Status |
+|-------|--------|
+| `table-advanced` | ⚠️ `table-layout: auto` default not yet configurable |
+| `table-advanced/table-caption` | ✅ |
+| `table-advanced/table-header` | ✅ |
+| `table-advanced/table-body` | ✅ |
+| `table-advanced/table-footer` | ✅ |
+| `table-advanced/table-row` | ✅ |
+| `table-advanced/table-heading-cell` | ✅ responds to color settings |
+| `table-advanced/table-cell` | ✅ responds to color settings |
 
-### Standard Display Blocks
+### 🗂️ Tabs
+| Block | Status |
+|-------|--------|
+| `tabs` | ✅ |
+| `tabs/tab-heading` | ✅ |
+| `tabs/tab-item` | ✅ |
+| `tabs/tab-panel` | ✅ |
 
-- `breadcrumbs` — Hierarchical breadcrumb navigation
-- `card-carousel` — Carousel of cards with swipe controls
-- `cover-carousel` — Full-width image carousel
-- `cover-card` — Large card with background image
-- `list-icons` — Formatted list with icons
-- `media-popover` — Click-to-expand media modal
-- `popup` — Modal dialog block
-- `svg-icon` — Reusable SVG icon display
-- `thumbnail-list` — Grid of thumbnail cards
+### 🖼️ Display Blocks
+| Block | Status | Notes |
+|-------|--------|-------|
+| `breadcrumbs` | ✅ | |
+| `card-carousel` | ⚠️ | Won't save media from editor; nav arrows broken on FE |
+| `card-static` | ✅ | |
+| `cover-card` | ⚠️ | Error fetching data in editor on blocks page; FE renders correctly |
+| `cover-carousel` | ⚠️ | Opacity won't save; nav broken on FE |
+| `list-icons` | ⚠️ | Needs list-item as nested block |
+| `list-icons/list-item-icon` | ✅ | Child of list-icons |
+| `media-popover` | ✅ | |
+| `popup` | ✅ | |
+| `thumbnail-list` | ⚠️ | Won't save/display image; text overlaps on FE |
+| `title-subtitle` | ⚠️ | Needs post title in allowed blocks |
 
-### Meta Blocks (Extract & Display Post Meta)
+### 🔍 Query & Data Blocks
+| Block | Status | Notes |
+|-------|--------|-------|
+| `query-filter` | ✅ | Frontend filter/sort for query loops via Interactivity API |
+| `query-loop` | ✅ | Variations by main post type |
+| `site-option` | ✅ | Shows option value + meta value in `.site-option-meta` span |
+| `term-meta` | ⭐ | |
+| `table-of-contents` | ⚠️ | Auto-generation from headings not yet wired |
 
-- `meta-button` — Render meta as button
-- `meta-date` — Parse and format dates
-- `meta-embed` — Embed media from meta URLs
-- `meta-field` — Generic meta field display
-- `meta-file` — File download link from meta
-- `meta-gallery` — Image gallery from meta
-- `meta-icon` — Icon from meta value
-- `meta-image` — Image from meta URL
-- `meta-related` — List related posts from meta
-- `meta-repeater` — Repeating meta fields (producers, quotes, etc.)
-- `meta-time` — Time field display
+### 👥 People Blocks (temp un-deprecated)
+| Block | Status |
+|-------|--------|
+| `board-member` | ⚠️ |
+| `staff-member` | ⚠️ |
+| `copyright-date-block` | ✅ |
 
-### Production-Specific Blocks (Chance Theater)
+---
 
-- `production-details` — Venue and performance details
-- `production-performances` — List performances using meta-repeater
-- `production-quotes` — Display quotes using meta-repeater
-- `production-trailer` — Video trailer embed
-- `term-meta` — Display taxonomy term metadata
-- `season-producer` — Producer list variant of term-meta
-- `staff-member` — Individual staff member card
-- `site-option` — Display site option values
-
-### Query & Interaction
-
-- `query-filter` — Frontend filter/sort for query loops
-
-### Block Variations
-
-- `title-subtitle` — Heading with subtitle variant
-- `heading-toggle` — Toggleable heading section
-
-## Getting Started
-
-### Installation
-
-1. Clone or place plugin in `wp-content/plugins/theatrum-blocks/`
-2. Activate in WordPress Admin
-3. Blocks appear under **Custom Blocks** category in editor
-
-### Development
-
-```bash
-# Start development server with hot reload
-npm run start
-
-# Build for production (one-time)
-npm run deploy
-
-# Format code to WordPress standards
-npm run format
-
-# Lint JavaScript
-npm run lint:js
-
-# Lint CSS
-npm run lint:css
-```
-
-See [CLAUDE.md](./CLAUDE.md) for detailed development guidance.
-
-## Directory Structure
+## Architecture
 
 ```
 theatrum-blocks/
-├── src/
-│   ├── blocks/                      # Individual block directories
-│   │   ├── [block-name]/
-│   │   │   ├── block.json           # Block metadata
-│   │   │   ├── edit.js              # Editor React component
-│   │   │   ├── render.php           # Server-side rendering
-│   │   │   └── index.js             # Optional registration/icons
-│   │   └── _variations/             # Block variation blocks
-│   ├── utils/                       # Shared JavaScript utilities
-│   └── style-book.js                # Style Book positioning
+├── src/blocks/[block-name]/
+│   ├── block.json        # metadata, attributes, supports, context
+│   ├── edit.js           # editor React component
+│   ├── render.php        # server-side render (dynamic blocks)
+│   └── index.js          # optional: icons, registration
 ├── inc/
-│   ├── helpers.php                  # PHP utilities (date parsing, etc.)
-│   └── rest-endpoints.php           # Custom REST API routes
-├── build/                           # Compiled output (gitignored)
-│   ├── blocks/                      # Compiled block bundles
-│   └── blocks-manifest.json         # Block registry
-├── theatrum-blocks.php              # Main plugin file
-├── package.json                     # Dependencies & scripts
-├── CLAUDE.md                        # Development guide
-├── AGENTS.md                        # Agent workflows
-├── CHANGELOG.md                     # Release history
-├── CHANGELOG-SETUP.md               # Changelog workflow
-└── README.md                        # This file
+│   ├── helpers.php       # date parsing, production queries, query-loop-by-term filter
+│   ├── rest-endpoints.php # /chance/v1/* routes for block editor data
+│   └── block-bindings.php # chance/post-meta binding source (WP 6.5+)
+├── build/                # compiled output (gitignored)
+├── theatrum-blocks.php   # plugin entry: block registration, category, devMode attr, style-book
+└── package.json
 ```
 
-## Key Concepts
+### Key Systems
 
-### Block Types
+- **Block Bindings** — `chance/post-meta` source in `inc/block-bindings.php` powers all meta-variation blocks. Reads ACF `get_field()` with raw `get_post_meta()` fallback. Handles date formatting, URL/href, and attachment ID attributes.
+- **REST API** — 15+ endpoints under `/wp-json/chance/v1/` serve block editor previews. All require `edit_posts` capability except `/cover-card` (see Issues).
+- **Date parsing** — `theatrum_parse_flexible_date()` handles Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates; results cached 1h in `ct_dates` group.
+- **Query loop by term** — `theatrum_filter_query_loop_by_term()` constrains nested query loops to their `term-template` context (supports WP 6.9+ `core/term-template`).
+- **devMode** — `theatrum_add_dev_mode_attribute` injects a `devMode` boolean attribute to every `theatrum/*` block via `block_type_metadata` filter.
 
-- **Static Blocks** — Markup saved in post content, rendered by JavaScript
-- **Dynamic Blocks** — Have `render.php`, markup generated server-side
+---
 
-### Block Context
-
-Blocks can access post context (postId, postType, etc.) via `block->context` in render.php or as useBlockProps context in edit.js.
-
-### REST Endpoints
-
-Custom endpoints registered in `inc/rest-endpoints.php` provide data for block editors. Endpoints prefixed with `/chance/v1/`.
-
-### Helpers
-
-`inc/helpers.php` provides utilities like `theatrum_parse_flexible_date()` which parses dates in multiple formats with caching for performance.
-
-## Dependencies
-
-- **WordPress 6.8+** (for block support)
-- **PHP 7.4+**
-- **@wordpress/scripts** — Build tooling
-- **@wordpress/block-editor** — Block editor components
-- **@wordpress/components** — UI controls
-- **@wordpress/element** — React utilities
-- **@wordpress/i18n** — Internationalization
-
-## Workflow
-
-### Adding a New Block
-
-1. Plan the block architecture (see [AGENTS.md](./AGENTS.md#plan-agent))
-2. Scaffold with `npx @wordpress/create-block@latest --variant=dynamic`
-3. Implement edit.js (editor UI) and render.php (frontend output)
-4. Register block in `theatrum-blocks.php`
-5. Review code with `/code-review` or `/wp-standards`
-
-### Making a Release
-
-1. Update version in `package.json`
-2. Create release commit with message like "Release v0.2.0"
-3. Tag commit: `git tag -a v0.2.0`
-4. Run `npm run deploy` to build for distribution
-5. Update [CHANGELOG.md](./CHANGELOG.md) with release notes
-
-## Code Review
-
-Before pushing changes:
+## Development
 
 ```bash
-# Quick quality check
-/code-review low
-
-# WordPress standards compliance
-/wp-standards
-
-# Security audit
-/security-review
+npm run start     # webpack watch + hot reload
+npm run deploy    # production build (minified)
+npm run format    # WordPress code standards
+npm run lint:js   # JS lint
+npm run lint:css  # CSS lint
 ```
 
-See [AGENTS.md](./AGENTS.md) for more code review options.
+---
 
-## Changelog
+## Next Steps (by severity)
 
-All changes are documented in [CHANGELOG.md](./CHANGELOG.md) following [Keep a Changelog](https://keepachangelog.com/) format with [Semantic Versioning](https://semver.org/).
+### 🔴 Security
+- **`/cover-card` endpoint is unauthenticated** (`inc/rest-endpoints.php:31`): `permission_callback => '__return_true'` exposes post titles, image URLs, opening/closing dates, and permalinks to anonymous users. Change to `theatrum_editor_permission_check` — or confirm public access is intentional (home page widget uses it).
 
-Update the changelog whenever you make a release using the format: `## [VERSION] - YYYY-MM-DD` with sections for Added, Changed, Fixed, Deprecated, Removed, and Security.
+### 🟠 Bugs / Correctness
+- **Wrong text domain** in `src/blocks/production-details/render.php:38`: uses `'chance-ollie'` instead of `'theatrum-blocks'`. Should be: `esc_html__('Venue:', 'theatrum-blocks')`.
+- **`date()` instead of `wp_date()`** in `cover-card/render.php:55,64` and `helpers.php:398` (`chance_format_production_date`): not timezone-aware; will show wrong dates on non-UTC servers.
+- **`cover-card` ignores block context `postId`**: reads `$attributes['postId']` only, so the block won't adapt inside a query loop. Should fall back to `$block->context['postId']`.
+
+### 🟡 Technical Debt
+- **Unprefixed REST callback functions**: `get_board_member_rest_callback`, `get_staff_member_rest_callback`, `get_meta_date_rest_callback`, `get_meta_time_rest_callback`, `get_meta_related_rest_callback`, `get_production_performances_rest_callback`, `get_site_option_rest_callback` — should use `theatrum_` prefix to avoid collisions.
+- **`board-member` / `staff-member` REST callbacks are ~90% duplicate code** — extract shared person-list logic into a helper.
+- **`chance_get_next_production()` calls `chance_get_current_production()` internally** — two pages showing both blocks run 3 DB queries; neither result is object-cached.
+- **`package.json` still has scaffolding defaults**: `description` = "Example block scaffolded with Create Block tool." and `author` = "The WordPress Contributors".
+
+### 🗑️ Cleanup / Removal
+- Remove `meta-time` block (❌ in `theatrum-blocks.php`) and its REST endpoint — use core date block instead.
+- Remove or fold `meta-icon` and `meta-related` into `term-meta` (both marked Skip).
+- Evaluate `season-producer` — likely replaced by `term-meta`.
+- Evaluate `production-details` — may not be used anywhere.
+- Decide fate of `board-member` and `staff-member` ("temp un-deprecated").
+
+### 🔧 Improvements
+- `table-advanced`: add `table-layout-fixed` toggle.
+- `list-icons`: refactor to use nested `list-item-icon` block (model after `core/list` + `core/list-item`).
+- `title-subtitle`: add `core/post-title` to allowed inner blocks.
+- `card-carousel` / `cover-carousel`: resolve save-media and nav issues.
+- `thumbnail-list`: fix image save and text overlap.
+
+---
+
+## Security Posture
+
+Overall: **Good.** Input is consistently sanitized with `sanitize_text_field`, `sanitize_key`, `esc_html`, `esc_url`, `wp_kses_post`. Tag injection is blocked via allowlists in `meta-repeater` and `site-option`. Serialized data uses `unserialize(['allowed_classes' => false])`. One open issue: the `/cover-card` public endpoint (see above).
+
+---
 
 ## Resources
 
 - [WordPress Block Editor Handbook](https://developer.wordpress.org/block-editor/)
-- [WordPress Plugin Handbook](https://developer.wordpress.org/plugins/)
-- [block.json Reference](https://developer.wordpress.org/blocks/block.json/)
+- [Block Bindings API](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-bindings/)
 - [Block Supports API](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/)
-- [Inspector Controls](https://developer.wordpress.org/block-editor/reference-guides/components/inspector-controls/)
+- [Interactivity API](https://developer.wordpress.org/block-editor/reference-guides/interactivity-api/)
 - [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)
-- [Multi-block Plugin Guide](https://developer.wordpress.org/news/2024/09/how-to-build-a-multi-block-plugin/)
+- [.build/blocks.md](../../../../.build/blocks.md) — comprehensive block development guidance
+- [.deploy/deploy.md](../../../../.deploy/deploy.md) — deployment workflow
