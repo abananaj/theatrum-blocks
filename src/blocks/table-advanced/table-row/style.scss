@@ -1,8 +1,5 @@
-.tm-table-row {margin-top:0;
-	border-top: 2px solid var(--wp--preset--color--black);
-	border-bottom: 2px solid var(--wp--preset--color--black);
-	background-color: rgb(200 220 230);
-	> .tm-table-cell:nth-of-type(even) {
-		background-color: rgb(237 238 242);
-	}
+.tm-table-row {
+	margin-top: 0;
+	border-top: 1px solid var(--wp--preset--color--lightest-grey);
+	border-bottom: 1px solid var(--wp--preset--color--lightest-grey);
 }

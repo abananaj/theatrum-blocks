@@ -402,3 +402,52 @@ function chance_format_production_date($date, $format = 'M j')
 
 	return '';
 }
+
+/**
+ * Constrain a nested query loop to the current taxonomy term.
+ *
+ * core/term-template (WP 6.9+) injects `termId` and `taxonomy` into the block
+ * context of each term it iterates. core/query only reads `templateSlug`, so a
+ * Supporter Loop nested inside a Terms Query → Term Template has no idea which
+ * term it is rendering under and shows every supporter under every level.
+ *
+ * This bridges that gap: when a query loop is rendered inside a term-template,
+ * add a tax_query limiting its posts to the current term. The termId/taxonomy
+ * guard means this is inert for every other query loop on the site — it only
+ * fires when genuinely nested in a term-template.
+ *
+ * @link https://developer.wordpress.org/reference/hooks/query_loop_block_query_vars/
+ *
+ * @param array    $query The query vars for the query loop.
+ * @param WP_Block $block The query loop block instance.
+ *
+ * @return array Modified query vars.
+ */
+function theatrum_filter_query_loop_by_term($query, $block)
+{
+	if (empty($block->context['termId']) || empty($block->context['taxonomy'])) {
+		return $query;
+	}
+
+	$taxonomy  = $block->context['taxonomy'];
+	$post_type = $query['post_type'] ?? 'post';
+
+	// Only constrain when the taxonomy actually applies to this post type, so a
+	// loop nested in an unrelated term-template is left untouched.
+	if (! is_object_in_taxonomy($post_type, $taxonomy)) {
+		return $query;
+	}
+
+	if (empty($query['tax_query']) || ! is_array($query['tax_query'])) {
+		$query['tax_query'] = array();
+	}
+
+	$query['tax_query'][] = array(
+		'taxonomy' => $taxonomy,
+		'field'    => 'term_id',
+		'terms'    => (int) $block->context['termId'],
+	);
+
+	return $query;
+}
+add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_term', 10, 2);

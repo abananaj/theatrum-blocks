@@ -1,17 +1,15 @@
 .tm-table-heading-cell {
-	border: 1px solid var(--wp--preset--color--black);
+	border: 1px solid var(--wp--preset--color--light-grey);
 	// padding: 0 var(--wp--preset--spacing--20);
 	font-family: var(--wp--preset--font-family--heading);
-	align-items: flex-end;
-	display: flex;
+	// Keep native table-cell display so the frontend <th> aligns in columns.
+	// (Do NOT use display:flex here — it breaks the browser table layout.)
+	vertical-align: middle;
 	.wp-block-paragraph {
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
 		width:100%;
-		font-size: 1.15rem;
-		margin-top:0;
+		// font-size: 1.15rem;
+		margin:0;
 		text-align:right;
-		font-weight: 500;
 		line-height: 1;
 		text-wrap: balance;
 	}

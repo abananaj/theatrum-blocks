@@ -102,8 +102,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 									<div>j=Day # (no leading zero)</div>
 									<div>l=Day of week (full)</div>
 									<div>D=Day of week (short)</div>
-									<div>a=am/pm</div>
-									<div>A=AM/PM</div>
+									<div>H=24-hour format of an hour (00 to 23)</div>
+									<div>h=12-hour format of an hour with leading zeros (01 to 12)</div>
+									<div>i=Minutes with leading zeros (00 to 59)</div>
+									<div>s=Seconds with leading zeros (00 to 59)</div>
+									<div>a=Lowercase am/pm</div>
+									<div>A=Uppercase AM/PM</div>
 									<div>S=Ordinal suffix (eg. st, nd, rd, th)</div>
 								</Fragment>
 							}

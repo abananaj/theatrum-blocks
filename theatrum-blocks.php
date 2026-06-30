@@ -20,33 +20,13 @@ if (! defined('ABSPATH')) {
 
 require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/rest-endpoints.php';
+require_once __DIR__ . '/inc/block-bindings.php';
 
 /**
  * Registers the blocks using block.json files.
  */
 function theatrum_register_blocks()
 {
-
-	$example_blocks = array(
-		// 'basic-block-translations',
-		// 'basic-esnext',
-		// 'block-dynamic-rendering',
-		// 'block-static-rendering',
-		'block-supports',
-		'block-toolbar',
-		'dynamic-block',
-		'inner-blocks',
-		'interactivity-api-countdown',
-		'interactivity-api-quiz',
-		'meta-block',
-		'minimal-block',
-		'my-first-interactive-block',
-		'post-meta-testimonial',
-		'quiz',
-		'quiz-progress',
-		// - [ ] 'server-side-render-block',
-		'recipe-card',
-	);
 
 	$custom_blocks = array(
 		'board-member', // temp un-deprecated
@@ -56,9 +36,8 @@ function theatrum_register_blocks()
 		// - [ ] won’t save media selected in BE
 		// - [ ] squished on FE
 		// - [ ] nav arrows don’t work on FE, but the horizontal scroll works on the BE
-'card-static',
+		'card-static',
 		'copyright-date-block',
-		// - rename to theatrum/copyright-date
 
 		'cover-card',
 		// - [ ] working on home page
@@ -81,28 +60,34 @@ function theatrum_register_blocks()
 		// - [ ] make child of element pargraph headings
 
 		// VARIATION SETS:
-		'meta-button', 
-		// - [ ] Convert to variation of core/button block that pulls URL and text from post meta
-		'meta-date', 
-		// - [ ] Convert to variation of post date block? Also Opening Date block? 
-		// - [ ] add Date-Time variation that pulls from post meta and displays in local timezone?
-		'meta-embed', 
-		// - [ ] Convert to variation of core/embed block that pulls video URL from post meta
-		'meta-field', 
-		// - [ ] Convert to generic block to pull any post meta value into a block — could be used for simple text, numbers, or even JSON for more complex blocks
-		'meta-file', 
-		// - [ ] Convert to variation of core/file block that pulls file URL from post meta
-		'meta-gallery', 
-		// - [ ] Convert to variation of core/gallery block that pulls image IDs from post meta
-		'meta-icon', 
-		// - [ ] Convert to variation of core/icon block that pulls icon name from post meta
-		'meta-image', 
-		// - [ ] Convert to variation of core/image block that pulls image ID from post meta
-		'meta-related', 
-		// - [ ] Convert to variation of core/related block that pulls related posts from post meta
-		'meta-repeater', 
-		// - [ ] Convert to variations: bylines, awards, producers, performances, quotes, notes, events, notes.
-		// - [ ] Error on block-editor when clicked "This block has encountered an error and cannot be previewed."
+		'meta-button',
+		// - [x] Variation of core/button (chance/meta-button) via Block Bindings — see src/meta-variations.js
+		// - [ ] Migrate existing chance/meta-button blocks: use Transform to in block toolbar
+		'meta-date',
+		// - [x] Variation of core/paragraph (chance/meta-date) via Block Bindings with date format arg
+		// - [ ] Migrate existing chance/meta-date blocks: use Transform to in block toolbar
+		'meta-embed',
+		// - [x] Variation of core/embed (chance/meta-embed) via Block Bindings
+		// - [ ] Migrate existing chance/meta-embed blocks: use Transform to in block toolbar
+		'meta-field',
+		// - [x] Variation of core/paragraph (chance/meta-field) via Block Bindings
+		// - [ ] Migrate existing chance/meta-field blocks: use Transform to in block toolbar
+		'meta-file',
+		// - [x] Variation of core/file (chance/meta-file) via Block Bindings
+		// - [ ] Migrate existing chance/meta-file blocks: use Transform to in block toolbar
+		'meta-gallery',
+		// - [ ] Keeping as custom block — too many custom controls (aspect ratio, random order, nav buttons)
+		// - [x] Already mirrors core gallery CSS classes; ToolsPanel panelId fixed
+		'meta-icon',
+		// - [ ] Skip — target (Gutenberg icon block) is still experimental
+		'meta-image',
+		// - [x] Variation of core/image (chance/meta-image) via Block Bindings — binds id attribute
+		// - [ ] Migrate existing chance/meta-image blocks: use Transform to in block toolbar
+		'meta-related',
+		// - [ ] Skip per decision — no suitable core block target
+		'meta-repeater',
+		// - [x] Variations: bylines, awards, producers, performances, quotes, notes, events defined in block.json
+		// - [x] Error on block-editor fixed (ToolsPanel panelId)
 		'meta-time', // ❌ just use core date block with dynamic data pulled from post meta
 		'popup',
 		// - [ ] sync button, border, border-radius, and shadow??
@@ -112,10 +97,10 @@ function theatrum_register_blocks()
 		// - [ ] green "Production Details - Server rendered"
 
 		'production-performances', // 🎭 var of repeater
-		// - [ ] doesn't respond to block-spacing setting
+		// - [x] responds to block-spacing (blockGap) setting
 
 		'production-quotes', // 🎭 var of repeater
-		// - [ ] doesn't respond to font-size setting
+		// - [x] responds to font-size setting
 		'production-tabs', // 🎭
 		'production-trailer', // 🎭
 		// - [ ] editor shows the dashed preview chip; real filter is frontend-only
@@ -126,8 +111,8 @@ function theatrum_register_blocks()
 		// - [ ] variations by main post type ✅
 		'season-producer', 
 		// - [ ] --> var of term-meta ❓ do i need this?- use term meta field 
-		'site-option', 
-		// - [ ] reqrites option value when entering Post Meta Key. The correct meta value is showing, but it need to appear alongside the option value
+		'site-option',
+		// - [x] meta value now shows alongside the option value (in a .site-option-meta span) instead of replacing it
 		'staff-member', // temp un-deprecated 
 		// - [ ] 'svg-icon', ❌ just use icon block OR custom html to animate
 
@@ -142,10 +127,10 @@ function theatrum_register_blocks()
 		// - [ ] only 1 per table, but can have multiple rows
 		'table-advanced/table-footer',
 		'table-advanced/table-row',
-		'table-advanced/table-heading-cell', 
-		// not responding to background & text color settings
-		'table-advanced/table-cell', 
-		// not responding to background & text color settings
+		'table-advanced/table-heading-cell',
+		// - [x] responds to background & text color settings
+		'table-advanced/table-cell',
+		// - [x] responds to background & text color settings
 		// - [ ] add toggle for empty
 		// - [ ] allow buttons & button.
 
@@ -257,3 +242,27 @@ function theatrum_enqueue_style_book_script()
 	);
 }
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_style_book_script');
+
+/**
+ * Enqueues the meta-variations script that registers core block variations
+ * backed by the chance/post-meta Block Bindings source.
+ */
+function theatrum_enqueue_meta_variations_script()
+{
+	$asset_file = __DIR__ . '/build/meta-variations.asset.php';
+
+	if (! file_exists($asset_file)) {
+		return;
+	}
+
+	$asset = require $asset_file;
+
+	wp_enqueue_script(
+		'theatrum-meta-variations',
+		plugins_url('build/meta-variations.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_meta_variations_script');

@@ -202,19 +202,18 @@ if (is_array($option_value)) {
         $post_title = 'Untitled';
       }
 
-      $display_text = $post_title;
-      if (!empty($meta_key)) {
-        $meta_value = get_post_meta($post_id, $meta_key, true);
-        if (!empty($meta_value)) {
-          $display_text = $meta_value;
-        }
-      }
+      // Show the meta value alongside the option value (post title),
+      // not in place of it.
+      $meta_value = !empty($meta_key) ? get_post_meta($post_id, $meta_key, true) : '';
 
       $html .= '<p>';
       if ($post_url) {
-        $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($display_text) . '</strong></a>';
+        $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
       } else {
-        $html .= '<strong>' . esc_html($display_text) . '</strong>';
+        $html .= '<strong>' . esc_html($post_title) . '</strong>';
+      }
+      if (!empty($meta_value)) {
+        $html .= ' <span class="site-option-meta">' . esc_html($meta_value) . '</span>';
       }
       $html .= '</p>';
     }
@@ -234,13 +233,8 @@ if (is_array($option_value)) {
     $post_title = 'Untitled';
   }
 
-  $display_text = $post_title;
-  if (!empty($meta_key)) {
-    $meta_value = get_post_meta($post_id, $meta_key, true);
-    if (!empty($meta_value)) {
-      $display_text = $meta_value;
-    }
-  }
+  // Show the meta value alongside the option value (post title), not instead of it.
+  $meta_value = !empty($meta_key) ? get_post_meta($post_id, $meta_key, true) : '';
 
   $classes = array('wp-block-chance-site-option');
   if (isset($attributes['className'])) {
@@ -250,9 +244,12 @@ if (is_array($option_value)) {
 
   $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend) . '<p>';
   if ($post_url) {
-    $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($display_text) . '</strong></a>';
+    $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
   } else {
-    $html .= '<strong>' . esc_html($display_text) . '</strong>';
+    $html .= '<strong>' . esc_html($post_title) . '</strong>';
+  }
+  if (!empty($meta_value)) {
+    $html .= ' <span class="site-option-meta">' . esc_html($meta_value) . '</span>';
   }
   $html .= '</p></div>' . esc_html($append);
   echo $html;

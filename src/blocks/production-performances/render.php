@@ -106,8 +106,19 @@ usort($upcoming, fn($a, $b) => $a['ts'] - $b['ts']);
 // Take the next 5.
 $upcoming = array_slice($upcoming, 0, 5);
 
+// Map the editor "Block spacing" (blockGap) value onto the CSS custom property
+// the stylesheet consumes. blockGap isn't auto-rendered for non-layout blocks.
+$wrapper_args = array();
+$block_gap    = $attributes['style']['spacing']['blockGap'] ?? '';
+if ($block_gap) {
+  if (0 === strpos($block_gap, 'var:')) {
+    $block_gap = 'var(--wp--' . str_replace('|', '--', substr($block_gap, 4)) . ')';
+  }
+  $wrapper_args['style'] = '--wp--style--block-gap:' . $block_gap . ';';
+}
+
 ?>
-<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
+<div <?php echo wp_kses_data( get_block_wrapper_attributes( $wrapper_args ) ); ?>>
 
   <?php foreach ($upcoming as $perf) : ?>
 

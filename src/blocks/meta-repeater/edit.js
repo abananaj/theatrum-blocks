@@ -124,6 +124,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			<InspectorControls>
 				<ToolsPanel
 					label="Post Source"
+					panelId="chance/meta-repeater"
 					resetAll={() => {
 						setAttributes({ overridePostId: 0 });
 						setPostSearchInput('');
@@ -133,6 +134,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => !!attributes.overridePostId}
 						label="Override Post"
+						panelId="chance/meta-repeater"
 						onDeselect={() => {
 							setAttributes({ overridePostId: 0 });
 							setPostSearchInput('');

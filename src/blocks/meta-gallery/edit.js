@@ -135,6 +135,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			<InspectorControls>
 				<ToolsPanel
 					label={__('Gallery settings')}
+					panelId="chance/meta-gallery"
 					resetAll={() => {
 						setAttributes({
 							metaKey: '',
@@ -153,6 +154,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => metaKey !== ''}
 						label={__('Meta Key')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ metaKey: '' })}
 					>
 						<TextControl
@@ -168,6 +170,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => columns !== undefined}
 						label={__('Columns')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ columns: undefined })}
 					>
 						<RangeControl
@@ -183,6 +186,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => sizeSlug !== 'large'}
 						label={__('Image Size')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ sizeSlug: 'large' })}
 					>
 						<SelectControl
@@ -197,6 +201,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => linkTo !== 'none'}
 						label={__('Link To')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ linkTo: 'none' })}
 					>
 						<SelectControl
@@ -211,6 +216,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => imageCrop !== true}
 						label={__('Image Crop')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ imageCrop: true })}
 					>
 						<ToggleControl
@@ -224,6 +230,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => fixedHeight !== true}
 						label={__('Fixed Height')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ fixedHeight: true })}
 					>
 						<ToggleControl
@@ -237,6 +244,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => randomOrder !== false}
 						label={__('Random Order')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ randomOrder: false })}
 					>
 						<ToggleControl
@@ -250,6 +258,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => navigationButtonType !== 'icon'}
 						label={__('Navigation Buttons')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ navigationButtonType: 'icon' })}
 					>
 						<ToggleGroupControl
@@ -279,6 +288,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => aspectRatio !== 'auto'}
 						label={__('Aspect Ratio')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ aspectRatio: 'auto' })}
 					>
 						<SelectControl
@@ -300,6 +310,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => allowResize !== false}
 						label={__('Allow Resize')}
+						panelId="chance/meta-gallery"
 						onDeselect={() => setAttributes({ allowResize: false })}
 					>
 						<ToggleControl

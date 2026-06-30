@@ -88,7 +88,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 				</div>
 			</InspectorControls>
-			<div {...blockProps} className={shouldHideIfEmpty ? 'meta-field-empty' : ''}>
+			<div {...blockProps} className={`${blockProps.className}${shouldHideIfEmpty ? ' meta-field-empty' : ''}`}>
 				{isLoading ? (
 					<Spinner />
 				) : attributes.keyInput ? (

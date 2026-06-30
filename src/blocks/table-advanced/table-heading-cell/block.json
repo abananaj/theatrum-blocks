@@ -30,11 +30,12 @@
 		"anchor": true,
 		"allowedBlocks": true,
 		"className": true,
+		"shadow": true,
 		"color": {
 			"background": true,
 			"text": true,
 			"enableContrastChecker": true,
-			"gradients": false,
+			"gradients": true,
 			"link": true,
 			"heading": false,
 			"button": true,
@@ -77,10 +78,12 @@
 		"__experimentalBorder": {
 			"__experimentalSkipSerialization": true,
 			"color": true,
+			"radius": true,
 			"style": true,
 			"width": true,
 			"__experimentalDefaultControls": {
 				"color": true,
+				"radius": true,
 				"style": true,
 				"width": true
 			}

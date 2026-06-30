@@ -1,5 +1,12 @@
+import './style.scss';
 import { registerBlockType, createBlock } from '@wordpress/blocks';
-import { InnerBlocks, useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import {
+	InnerBlocks,
+	useBlockProps,
+	InspectorControls,
+	__experimentalGetColorClassesAndStyles as getColorClassesAndStyles,
+	__experimentalGetBorderClassesAndStyles as getBorderClassesAndStyles,
+} from '@wordpress/block-editor';
 import { PanelBody, RangeControl, TextControl } from '@wordpress/components';
 import metadata from './block.json';
 const tdIcon = (
@@ -69,7 +76,16 @@ const Edit = ( { attributes, setAttributes } ) => {
 
 const save = ( { attributes } ) => {
 	const { colspan, rowspan, headers } = attributes;
-	const blockProps = useBlockProps.save( { className: 'tm-table-cell' } );
+	// Color and border supports use __experimentalSkipSerialization, so apply
+	// their classes/styles manually here — otherwise they never reach the markup.
+	const colorProps = getColorClassesAndStyles( attributes );
+	const borderProps = getBorderClassesAndStyles( attributes );
+	const blockProps = useBlockProps.save( {
+		className: [ 'tm-table-cell', colorProps.className, borderProps.className ]
+			.filter( Boolean )
+			.join( ' ' ),
+		style: { ...colorProps.style, ...borderProps.style },
+	} );
 	const extraProps = {};
 	if ( colspan > 1 ) extraProps.colSpan = colspan;
 	if ( rowspan > 1 ) extraProps.rowSpan = rowspan;
@@ -82,10 +98,32 @@ const save = ( { attributes } ) => {
 	);
 };
 
+// v1: original save without serialized color/border. Lets existing cells
+// (saved before color serialization was added) validate and auto-migrate.
+const v1 = {
+	attributes: metadata.attributes,
+	supports: metadata.supports,
+	save: ( { attributes } ) => {
+		const { colspan, rowspan, headers } = attributes;
+		const blockProps = useBlockProps.save( { className: 'tm-table-cell' } );
+		const extraProps = {};
+		if ( colspan > 1 ) extraProps.colSpan = colspan;
+		if ( rowspan > 1 ) extraProps.rowSpan = rowspan;
+		if ( headers ) extraProps.headers = headers;
+
+		return (
+			<td { ...blockProps } { ...extraProps }>
+				<InnerBlocks.Content />
+			</td>
+		);
+	},
+};
+
 registerBlockType( metadata.name, {
 	icon: tdIcon,
 	edit: Edit,
 	save,
+	deprecated: [ v1 ],
 	transforms: {
 		to: [
 			{
