@@ -98,6 +98,46 @@
 	}
 }
 
+/* --- Nomenclature color integration ----------------------------
+ * The wrapper (.wp-block-chance-cover-card) receives an
+ * `is-nomenclature-{slug}` class from the post it represents. That
+ * exposes --nom-color / --nom-contrast and (from the theme) a left
+ * accent bar kept here as a visibility indicator.
+ *
+ * The card's own chrome stays as designed at rest; on hover the black
+ * bottom bar and its top border adopt the term color.
+ */
+.wp-block-chance-cover-card {
+	.cover-card .bottom-bar {
+		transition: background-color 0.3s ease, border-color 0.3s ease,
+			color 0.3s ease;
+
+		// Hold the bar's text/buttons to their design so the theme's
+		// generic accent treatment doesn't recolor them at rest.
+		.dates,
+		.title {
+			color: var(--wp--preset--color--white);
+		}
+
+		.button {
+			background-color: var(--wp--preset--color--light-yellow);
+			color: var(--wp--preset--color--black);
+			border-color: var(--wp--preset--color--black);
+		}
+	}
+
+	// Hover: the black bar + its top border take the term color.
+	&:hover .cover-card .bottom-bar {
+		background-color: var(--nom-color, var(--wp--preset--color--black));
+		border-top-color: var(--nom-color, var(--wp--preset--color--black));
+
+		.dates,
+		.title {
+			color: var(--nom-contrast, var(--wp--preset--color--white));
+		}
+	}
+}
+
 .cover-card-error {
 	color: var(--wp--preset--color--redorange);
 	font-style: italic;
