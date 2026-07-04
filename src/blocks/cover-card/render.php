@@ -38,8 +38,21 @@ if ($featured_image_url) {
   $bg_style = 'background-image: url(' . esc_url($featured_image_url) . ');';
 }
 $target = $open_in_new_window ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+// Nomenclature color: inherit the color of the post this card represents.
+// The theme owns the term→class logic (guarded so the plugin stays usable
+// without it); the filter lets other code adjust the card's wrapper classes.
+$wrapper_classes = array();
+if (function_exists('ct_nomenclature_post_class')) {
+  $nom_class = ct_nomenclature_post_class($post->ID);
+  if ('' !== $nom_class) {
+    $wrapper_classes[] = $nom_class;
+  }
+}
+$wrapper_classes = apply_filters('theatrum_cover_card_classes', $wrapper_classes, $post->ID, $attributes);
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', array_map('sanitize_html_class', $wrapper_classes))));
 ?>
-<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
+<div <?php echo wp_kses_data( $wrapper_attributes ); ?>>
   <div class="cover-card" style="<?php echo esc_attr($bg_style); ?>">
     <a class="cover-card__link" href="<?php echo esc_url($post_permalink); ?>" <?php echo $target; ?> aria-label="<?php echo esc_attr($post_title); ?>"></a>
     <div class="user-content"><?php echo do_blocks($content); ?></div>
