@@ -69,7 +69,7 @@
 	},
 	"example": {},
 	"keywords": ["staff", "team", "person", "bio"],
-	"textdomain": "staff-member",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

@@ -63,6 +63,6 @@
 			"default": false
 		}
 	},
-	"textdomain": "default",
+	"textdomain": "theatrum-blocks",
 	"style": "wp-block-accordion-panel"
 }

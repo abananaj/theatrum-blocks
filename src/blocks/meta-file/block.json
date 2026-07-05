@@ -50,7 +50,7 @@
 	},
 	"example": {},
 	"keywords": ["file", "download", "attachment", "meta"],
-	"textdomain": "meta-file",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

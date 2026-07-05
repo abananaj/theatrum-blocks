@@ -48,7 +48,7 @@
 	"usesContext": ["postId", "postType"],
 	"example": {},
 	"keywords": ["production", "show", "theater", "performance"],
-	"textdomain": "production-details",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

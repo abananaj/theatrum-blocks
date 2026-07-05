@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/video-trailer",
+  "title": "Production Trailer",
+  "category": "production",
+  "description": "Embed a YouTube video trailer from a URL stored in post metadata",
+  "icon": "video-alt3",
+  "example": {},
+  "keywords": [
+    "youtube",
+    "video",
+    "trailer",
+    "embed",
+    "meta"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "left",
+      "center",
+      "right",
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "className": true,
+    "customClassName": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "attributes": {
+    "metaKey": {
+      "type": "string",
+      "default": "video-trailer-url"
+    },
+    "allowResponsive": {
+      "type": "boolean",
+      "default": true
+    },
+    "aspectRatio": {
+      "type": "string",
+      "default": "16-9"
+    },
+    "caption": {
+      "type": "string",
+      "default": ""
+    },
+    "type": {
+      "type": "string",
+      "default": "video"
+    },
+    "providerNameSlug": {
+      "type": "string",
+      "default": "youtube"
+    },
+    "responsive": {
+      "type": "boolean",
+      "default": true
+    },
+    "previewable": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "textdomain": "theatrum-blocks",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

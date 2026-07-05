@@ -35,7 +35,7 @@ Variation blocks backed by the `chance/post-meta` binding source (WP 6.5+). Exis
 | `meta-repeater` | ✅ | Variations: bylines, awards, producers, performances, quotes, notes, events |
 | `meta-icon` | ⏭️ | Skip — target (icon block) is experimental |
 | `meta-related` | ⏭️ | Skip — no suitable core block target |
-| `meta-time` | ❌ | Remove — use core date block with dynamic data |
+| `meta-time` | ⚠️ | Actively used in existing content — kept for now, revisit with a migration later |
 
 ### 📋 Table-Advanced
 Hierarchical table block system.
@@ -81,7 +81,7 @@ Hierarchical table block system.
 | `query-loop` | ✅ | Variations by main post type |
 | `site-option` | ✅ | Shows option value + meta value in `.site-option-meta` span |
 | `term-meta` | ⭐ | |
-| `table-of-contents` | ⚠️ | Auto-generation from headings not yet wired |
+| `table-of-contents` | ⚠️ | Renamed from `core/table-of-contents` to `theatrum/table-of-contents` (was squatting on core's namespace); auto-generation from headings not yet wired |
 
 ### 👥 People Blocks (temp un-deprecated)
 | Block | Status |
@@ -116,18 +116,22 @@ theatrum-blocks/
 - **REST API** — 15+ endpoints under `/wp-json/chance/v1/` serve block editor previews. All require `edit_posts` capability except `/cover-card` (see Issues).
 - **Date parsing** — `theatrum_parse_flexible_date()` handles Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates; results cached 1h in `ct_dates` group.
 - **Query loop by term** — `theatrum_filter_query_loop_by_term()` constrains nested query loops to their `term-template` context (supports WP 6.9+ `core/term-template`).
-- **devMode** — `theatrum_add_dev_mode_attribute` injects a `devMode` boolean attribute to every `theatrum/*` block via `block_type_metadata` filter.
+- **devMode** — `theatrum_add_dev_mode_attribute` injects a `devMode` boolean attribute to every `chance/*` and `theatrum/*` block via `block_type_metadata` filter. Only `breadcrumbs` currently wires up the inspector toggle/indicator (see `DEV_MODE.md`).
 
 ---
 
 ## Development
 
 ```bash
-npm run start     # webpack watch + hot reload
-npm run deploy    # production build (minified)
-npm run format    # WordPress code standards
-npm run lint:js   # JS lint
-npm run lint:css  # CSS lint
+npm run start           # webpack watch + hot reload
+npm run build           # production build (minified), one-time
+npm run build:watch     # production build, watch mode
+npm run deploy          # same as build
+npm run format          # WordPress code standards
+npm run lint:js         # JS lint
+npm run lint:css        # CSS lint
+npm run packages-update # update @wordpress/* dependencies
+npm run plugin-zip      # create a distributable plugin zip
 ```
 
 ---
@@ -135,21 +139,23 @@ npm run lint:css  # CSS lint
 ## Next Steps (by severity)
 
 ### 🔴 Security
-- **`/cover-card` endpoint is unauthenticated** (`inc/rest-endpoints.php:31`): `permission_callback => '__return_true'` exposes post titles, image URLs, opening/closing dates, and permalinks to anonymous users. Change to `theatrum_editor_permission_check` — or confirm public access is intentional (home page widget uses it).
+- ~~`/cover-card` endpoint is unauthenticated~~ — fixed. It's still public (the home page widget needs anonymous access), but now checks `is_post_publicly_viewable()` so drafts/private/pending posts of any type can no longer be enumerated.
+- ~~board-member/staff-member/site-option allow reading arbitrary `wp_options`~~ — fixed. Option names are now gated to `options_`/`option_`-prefixed ACF-options-page values via `theatrum_is_allowed_settings_option()`.
 
 ### 🟠 Bugs / Correctness
-- **Wrong text domain** in `src/blocks/production-details/render.php:38`: uses `'chance-ollie'` instead of `'theatrum-blocks'`. Should be: `esc_html__('Venue:', 'theatrum-blocks')`.
-- **`date()` instead of `wp_date()`** in `cover-card/render.php:55,64` and `helpers.php:398` (`chance_format_production_date`): not timezone-aware; will show wrong dates on non-UTC servers.
-- **`cover-card` ignores block context `postId`**: reads `$attributes['postId']` only, so the block won't adapt inside a query loop. Should fall back to `$block->context['postId']`.
+- ~~Wrong text domain in `production-details/render.php`~~ — fixed (`theatrum-blocks`).
+- ~~`date()` instead of `wp_date()`~~ — fixed in cover-card, copyright-date-block, and `chance_format_production_date()`.
+- ~~`cover-card` ignores block context `postId`~~ — fixed, now falls back to `$block->context['postId']`.
+- ~~Mixed `opening`/`closing` meta_query formats~~ — fixed; production queries now parse via `theatrum_parse_flexible_date()` rather than SQL DATE/DATETIME casts, since stored values are a genuine mix of `Ymd` and `Y-m-d H:i:s`.
 
 ### 🟡 Technical Debt
 - **Unprefixed REST callback functions**: `get_board_member_rest_callback`, `get_staff_member_rest_callback`, `get_meta_date_rest_callback`, `get_meta_time_rest_callback`, `get_meta_related_rest_callback`, `get_production_performances_rest_callback`, `get_site_option_rest_callback` — should use `theatrum_` prefix to avoid collisions.
 - **`board-member` / `staff-member` REST callbacks are ~90% duplicate code** — extract shared person-list logic into a helper.
-- **`chance_get_next_production()` calls `chance_get_current_production()` internally** — two pages showing both blocks run 3 DB queries; neither result is object-cached.
+- **`chance_get_next_production()` calls `chance_get_current_production()` internally** — two pages showing both blocks run multiple uncached DB queries; consider `wp_cache_get/set`.
 - **`package.json` still has scaffolding defaults**: `description` = "Example block scaffolded with Create Block tool." and `author` = "The WordPress Contributors".
 
 ### 🗑️ Cleanup / Removal
-- Remove `meta-time` block (❌ in `theatrum-blocks.php`) and its REST endpoint — use core date block instead.
+- `meta-time` is actively used in existing content — keeping it for now; revisit removal alongside a content migration.
 - Remove or fold `meta-icon` and `meta-related` into `term-meta` (both marked Skip).
 - Evaluate `season-producer` — likely replaced by `term-meta`.
 - Evaluate `production-details` — may not be used anywhere.
@@ -166,7 +172,7 @@ npm run lint:css  # CSS lint
 
 ## Security Posture
 
-Overall: **Good.** Input is consistently sanitized with `sanitize_text_field`, `sanitize_key`, `esc_html`, `esc_url`, `wp_kses_post`. Tag injection is blocked via allowlists in `meta-repeater` and `site-option`. Serialized data uses `unserialize(['allowed_classes' => false])`. One open issue: the `/cover-card` public endpoint (see above).
+Overall: **Good.** Input is consistently sanitized with `sanitize_text_field`, `sanitize_key`, `esc_html`, `esc_url`, `wp_kses_post`. Tag injection is blocked via allowlists in `meta-repeater` and `site-option`. Serialized data uses `unserialize(['allowed_classes' => false])`. The `/cover-card` public endpoint and the board/staff/site-option `wp_options` exposure (see Next Steps) have both been addressed.
 
 ---
 

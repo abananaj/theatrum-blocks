@@ -6,7 +6,7 @@
 	"category": "theatrum",
 	"icon": "images-alt2",
 	"description": "A carousel block for displaying multiple images or videos with overlay content, similar to the Cover block but with carousel functionality",
-	"textdomain": "cover-carousel",
+	"textdomain": "theatrum-blocks",
 	"supports": {
 		"html": false,
 		"align": ["full", "wide"],

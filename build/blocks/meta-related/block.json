@@ -1,0 +1,86 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/meta-related",
+  "title": "Meta Related",
+  "category": "metablock",
+  "description": "Display a related post's title by entering a meta key that contains a post ID or Post Object",
+  "example": {},
+  "keywords": [
+    "related",
+    "posts",
+    "meta",
+    "custom field"
+  ],
+  "textdomain": "theatrum-blocks",
+  "icon": "admin-links",
+  "supports": {
+    "html": false,
+    "align": true,
+    "reusable": true,
+    "anchor": true,
+    "className": true,
+    "customClassName": true,
+    "typography": {
+      "fontSize": true,
+      "fontFamily": true,
+      "fontStyle": true,
+      "fontWeight": true,
+      "letterSpacing": true,
+      "lineHeight": true,
+      "textDecoration": true,
+      "textTransform": true
+    },
+    "color": {
+      "text": true,
+      "background": true,
+      "gradient": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": true
+    },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "shadow": true,
+    "opacity": true,
+    "filters": {
+      "duotone": true
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "attributes": {
+    "keyInput": {
+      "type": "string",
+      "default": ""
+    },
+    "tagName": {
+      "type": "string",
+      "default": "p"
+    },
+    "linkToPost": {
+      "type": "boolean",
+      "default": false
+    },
+    "prepend": {
+      "type": "string",
+      "default": ""
+    },
+    "append": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

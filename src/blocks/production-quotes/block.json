@@ -49,7 +49,7 @@
 	"usesContext": ["postId", "postType"],
 	"example": {},
 	"keywords": ["quotes", "reviews", "press", "testimonials"],
-	"textdomain": "production-quotes",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

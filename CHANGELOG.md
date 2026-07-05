@@ -9,15 +9,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Post-meta block bindings source (`inc/block-bindings.php`) for `chance/post-meta`
+- `theatrum_is_allowed_settings_option()` allowlist guard for board-member/staff-member/site-option option lookups
+
 ### Changed
 
+- cover-card adopts the post's nomenclature color on hover, with auto-contrasted text/buttons and a guarded fallback when no term color is assigned
+- Overhauled README with a complete plugin overview and workflows
+- Misc block improvements across meta-date, meta-gallery, meta-repeater, production-performances, site-option, and table-advanced
+- `chance_get_current_production()` / `chance_get_next_production()` now parse `opening`/`closing` meta with the existing flexible date parser instead of relying on SQL `DATE`/`DATETIME` meta_query casts, which were inconsistent against the mixed `Ymd` / `Y-m-d H:i:s` storage formats actually present in production data
+- Renamed the `core/table-of-contents` block to `theatrum/table-of-contents` — it was squatting on WordPress core's reserved namespace
+- Standardized all block.json `textdomain` fields on `theatrum-blocks`
+- query-filter's `orderby` mode (`date-asc`, `title-desc`, etc.) now maps to real `orderby`/`order` query vars via a `query_loop_block_query_vars` filter — previously the URL params it emitted had no consumer
+- cover-card now falls back to the block context `postId` when the attribute isn't set, so it adapts correctly inside a query loop
+- `build/` is now committed (previously gitignored), matching the git-pull deploy workflow which expects it present after `git pull`
+
 ### Fixed
+
+- `/chance/v1/cover-card/{meta_key}` no longer discloses draft/private/pending post data to anonymous users; results are restricted to publicly viewable posts
+- board-member, staff-member, and site-option REST endpoints/render.php no longer allow reading arbitrary `wp_options` values (e.g. secrets from other plugins) via `edit_posts`-gated requests — only `options_`/`option_`-prefixed option names are resolved
+- Meta-embed iframe fallback now escapes the URL with `esc_url()` instead of `esc_attr()`, and drops the obsolete `frameborder` attribute
+- production-cast REST endpoint no longer runs an unbounded (`posts_per_page => -1`) query
+- Replaced remaining server-timezone `date()` calls with `wp_date()` in cover-card, copyright-date-block, and `chance_format_production_date()`
+- Fixed a timezone-mixing bug in the production-performances "today" cutoff (`mktime()` combined with site-timezone `wp_date()` components)
+- `get_meta_date_rest_callback` no longer silently renders today's date when a meta value can't be parsed
+- Negative-cache results in `theatrum_parse_flexible_date()` now use a sentinel value instead of `null`, so the cache actually holds on persistent object-cache backends
+- Fixed `chance-ollie` textdomain typo in production-details (should be `theatrum-blocks`)
+- devMode attribute now applies to `chance/*` blocks too, not only `theatrum/*` — previously ~30 of the ~45 blocks never got the attribute
+- `chance_post_meta_binding_callback` no longer lowercases the meta key via `sanitize_key()`, which silently broke binding to any ACF/meta key containing uppercase letters
+- query-filter's preserved-GET-params loop no longer chokes on array-valued params (e.g. `?foo[]=1`), which produced a PHP warning and a literal `"Array"` in a hidden input
+- board-member's list-of-people markup now places `$append` inside the wrapper `<div>`, matching the single-value branch
 
 ### Deprecated
 
 ### Removed
 
+- Deleted ~10 vendored Gutenberg tutorial/demo directories from `inc/` and the vendored `menu-thumbnail-flip-animation` demo from `thumbnail-list/` — none were wired into the plugin
+- Removed unused `image.png` from the plugin root and dead commented-out code in cover-card and card-carousel `render.php`
+
 ### Security
+
+- See Fixed — REST endpoint disclosure and privilege-escalation issues above
+
+### Known Issues
+
+- cover-card height still isn't fully resolved on the frontend (see `src/blocks/cover-card/style.scss`)
 
 ## [0.1.1] - 2026-06-10
 

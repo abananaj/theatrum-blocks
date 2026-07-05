@@ -203,8 +203,9 @@ add_filter('block_categories_all', 'theatrum_register_block_category');
  */
 function theatrum_add_dev_mode_attribute($metadata)
 {
-	// Only add to Theatrum blocks
-	if (isset($metadata['name']) && strpos($metadata['name'], 'theatrum/') === 0) {
+	// Only add to this plugin's own blocks (chance/* and theatrum/* namespaces)
+	$name = $metadata['name'] ?? '';
+	if (strpos($name, 'theatrum/') === 0 || strpos($name, 'chance/') === 0) {
 		if (!isset($metadata['attributes'])) {
 			$metadata['attributes'] = array();
 		}

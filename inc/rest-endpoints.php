@@ -69,6 +69,7 @@ function theatrum_get_cover_card_rest_callback($request)
 		} else {
 			$args  = array(
 				'post_type'      => 'any',
+				'post_status'    => 'publish',
 				'posts_per_page' => 1,
 				'meta_query'     => array(
 					array('key' => $meta_key, 'compare' => 'EXISTS'),
@@ -86,7 +87,7 @@ function theatrum_get_cover_card_rest_callback($request)
 	}
 
 	$post = get_post($post_id);
-	if (! $post) {
+	if (! $post || ! is_post_publicly_viewable($post)) {
 		return new WP_REST_Response(array('message' => 'Post not found'), 404);
 	}
 
@@ -169,6 +170,10 @@ function get_meta_date_rest_callback($request)
 	$timestamp = theatrum_parse_flexible_date($date_only_value);
 	if (!$timestamp) {
 		$timestamp = strtotime($date_only_value);
+	}
+
+	if (!$timestamp) {
+		return new WP_REST_Response(array('value' => esc_html($value)), 200);
 	}
 
 	$display_value = wp_date($format, $timestamp);
@@ -557,6 +562,11 @@ add_action('rest_api_init', 'register_board_member_rest_endpoint');
 function get_board_member_rest_callback($request)
 {
 	$option_name = sanitize_text_field($request['option_name']);
+
+	if (! theatrum_is_allowed_settings_option($option_name)) {
+		return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
+	}
+
 	$value       = get_option($option_name);
 
 	if ($value === false) {
@@ -664,6 +674,11 @@ function get_site_option_rest_callback($request)
 {
 	$option_name = sanitize_text_field($request['option_name']);
 	$meta_key    = sanitize_text_field($request->get_param('meta_key') ?? '');
+
+	if (! theatrum_is_allowed_settings_option($option_name)) {
+		return new WP_REST_Response(array('value' => ''), 200);
+	}
+
 	$value       = get_option($option_name);
 
 	if ($value === false) {
@@ -750,6 +765,11 @@ add_action('rest_api_init', 'register_staff_member_rest_endpoint');
 function get_staff_member_rest_callback($request)
 {
 	$option_name = sanitize_text_field($request['option_name']);
+
+	if (! theatrum_is_allowed_settings_option($option_name)) {
+		return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
+	}
+
 	$value       = get_option($option_name);
 
 	if ($value === false) {
@@ -896,7 +916,7 @@ function theatrum_get_production_cast_rest_callback($request)
 
 	$args = array(
 		'post_type'      => 'credit',
-		'posts_per_page' => -1,
+		'posts_per_page' => 200,
 		'meta_query'     => array(
 			'relation' => 'AND',
 			array('key' => 'production', 'value' => $post_id, 'compare' => '='),
@@ -986,8 +1006,8 @@ function theatrum_get_meta_embed_rest_callback($request)
 
 	// Fallback to iframe embed for direct URLs
 	$iframe_html = sprintf(
-		'<iframe src="%s" width="100%%" height="400" frameborder="0" allowfullscreen></iframe>',
-		esc_attr($url)
+		'<iframe src="%s" width="100%%" height="400" style="border:0" allowfullscreen></iframe>',
+		esc_url($url)
 	);
 
 	return new WP_REST_Response(['html' => $iframe_html], 200);
@@ -1300,7 +1320,7 @@ function get_production_performances_rest_callback($request)
 	}
 
 	// Today at midnight (start of day) in the site timezone.
-	$today_ts = mktime(0, 0, 0, (int) wp_date('n'), (int) wp_date('j'), (int) wp_date('Y'));
+	$today_ts = (new DateTimeImmutable('today', wp_timezone()))->getTimestamp();
 
 	/**
 	 * Parse a raw ACF date value to a Unix timestamp.

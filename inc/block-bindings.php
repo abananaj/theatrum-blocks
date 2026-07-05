@@ -26,7 +26,10 @@ function chance_post_meta_binding_callback($source_args, $block_instance, $attri
 		? (int) $block_instance->context['postId']
 		: (int) get_the_ID();
 
-	$key = isset($source_args['key']) ? sanitize_key($source_args['key']) : '';
+	// sanitize_key() lowercases, which silently breaks binding to any ACF/meta
+	// key containing uppercase letters. Strip to the same allowed charset
+	// without forcing case.
+	$key = isset($source_args['key']) ? preg_replace('/[^a-zA-Z0-9_\-]/', '', $source_args['key']) : '';
 
 	if (! $post_id || ! $key) {
 		return null;

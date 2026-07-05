@@ -54,7 +54,7 @@
 			"default": true
 		}
 	},
-	"textdomain": "video-trailer",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

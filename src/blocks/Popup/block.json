@@ -60,7 +60,7 @@
 	},
 	"example": {},
 	"keywords": ["modal", "dialog", "overlay", "lightbox"],
-	"textdomain": "popup",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

@@ -1,0 +1,11 @@
+{
+  "apiVersion": 3,
+  "name": "theatrum/query-loop",
+  "title": "Theatrum Query Loop",
+  "category": "theatrum",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.scss",
+  "supports": {
+    "inserter": false
+  }
+}

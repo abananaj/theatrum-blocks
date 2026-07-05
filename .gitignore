@@ -30,13 +30,12 @@ node_modules/
 .env
 
 # build
-# build/
 *drafts
 
 node_modules/
 # dist/
 *.sql
-build/
+# build/ is committed — the git-pull deploy workflow (.deploy/) needs it present after `git pull`
 
 # Claude Code worktrees
 .claude/worktrees/

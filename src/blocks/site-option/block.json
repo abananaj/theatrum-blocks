@@ -78,7 +78,7 @@
 	},
 	"example": {},
 	"keywords": ["options", "settings", "site", "global"],
-	"textdomain": "site-option",
+	"textdomain": "theatrum-blocks",
 	"variations": [
 		{
 			"name": "staff",

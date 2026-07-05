@@ -5,7 +5,7 @@
 	"title": "Board Member",
 	"category": "deprecated",
 	"description": "Display board member information from WordPress options",
-	"textdomain": "board-member",
+	"textdomain": "theatrum-blocks",
 	"icon": "admin-settings",
 	"supports": {
 		"html": false,

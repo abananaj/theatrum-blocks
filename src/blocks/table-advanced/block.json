@@ -5,7 +5,7 @@
 	"title": "Advanced Table",
 	"category": "text",
 	"description": "Version of core table block that allows nesting of table elements as nested blocks.",
-	"textdomain": "table-advanced",
+	"textdomain": "theatrum-blocks",
 	"attributes": {
 		"hasThead": {
 			"type": "boolean",

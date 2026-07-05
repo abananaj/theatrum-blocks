@@ -1,0 +1,147 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/thumbnail-list",
+  "title": "Thumbnail List",
+  "category": "theatrum",
+  "icon": "format-gallery",
+  "description": "An interactive list with thumbnail images that display when hovering over items. Each item can have a title, description, and thumbnail image.",
+  "textdomain": "theatrum-blocks",
+  "supports": {
+    "html": false,
+    "align": true,
+    "anchor": true,
+    "className": true,
+    "customClassName": true,
+    "typography": {
+      "fontSize": true,
+      "fontFamily": true,
+      "fontStyle": true,
+      "fontWeight": true,
+      "letterSpacing": true,
+      "lineHeight": true,
+      "textDecoration": true,
+      "textTransform": true
+    },
+    "color": {
+      "text": true,
+      "background": true,
+      "gradient": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": true
+    },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "shadow": true,
+    "opacity": true,
+    "filters": {
+      "duotone": true
+    }
+  },
+  "attributes": {
+    "items": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the list item"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title text for the list item"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description text for the list item"
+          },
+          "thumbnailId": {
+            "type": "number",
+            "description": "Media library attachment ID for thumbnail"
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "description": "URL of the thumbnail image"
+          },
+          "thumbnailAlt": {
+            "type": "string",
+            "description": "Alt text for the thumbnail image"
+          }
+        }
+      }
+    },
+    "thumbnailWidth": {
+      "type": "string",
+      "default": "400"
+    },
+    "thumbnailWidthUnit": {
+      "type": "string",
+      "default": "px",
+      "enum": [
+        "px",
+        "%",
+        "em",
+        "rem"
+      ]
+    },
+    "thumbnailHeight": {
+      "type": "string",
+      "default": "300"
+    },
+    "thumbnailHeightUnit": {
+      "type": "string",
+      "default": "px",
+      "enum": [
+        "px",
+        "%",
+        "em",
+        "rem"
+      ]
+    },
+    "itemHeight": {
+      "type": "string",
+      "default": "80"
+    },
+    "itemHeightUnit": {
+      "type": "string",
+      "default": "px"
+    },
+    "thumbnailPosition": {
+      "type": "string",
+      "default": "right",
+      "enum": [
+        "left",
+        "right"
+      ]
+    },
+    "animationSpeed": {
+      "type": "string",
+      "default": "0.3",
+      "enum": [
+        "0.2",
+        "0.3",
+        "0.5",
+        "1"
+      ]
+    }
+  },
+  "example": {},
+  "keywords": [
+    "thumbnails",
+    "gallery",
+    "images",
+    "list"
+  ],
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

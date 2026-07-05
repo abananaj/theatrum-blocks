@@ -87,7 +87,7 @@
 	"usesContext": ["postId", "postType"],
 	"example": {},
 	"keywords": ["taxonomy", "term", "category", "meta"],
-	"textdomain": "term-meta",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

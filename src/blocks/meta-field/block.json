@@ -74,7 +74,7 @@
 	"usesContext": ["postId", "postType"],
 	"example": {},
 	"keywords": ["meta", "custom field", "acf", "field"],
-	"textdomain": "meta-date",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

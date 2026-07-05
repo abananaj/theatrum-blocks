@@ -25,7 +25,7 @@
 		"interactivity": true
 	},
 	"keywords": ["example", "frankenstein"],
-	"textdomain": "theatrum",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./editor.css",
 	"style": "file:./style.css",

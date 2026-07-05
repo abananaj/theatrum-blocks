@@ -7,7 +7,7 @@
 	"description": "Display a related post's title by entering a meta key that contains a post ID or Post Object",
 	"example": {},
 	"keywords": ["related", "posts", "meta", "custom field"],
-	"textdomain": "meta-related",
+	"textdomain": "theatrum-blocks",
 	"icon": "admin-links",
 	"supports": {
 		"html": false,

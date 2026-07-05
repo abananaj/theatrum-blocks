@@ -11,6 +11,26 @@ if (! defined('ABSPATH')) {
  */
 
 /**
+ * Whether an option name is safe to expose through the board-member,
+ * staff-member, and site-option blocks/endpoints.
+ *
+ * These blocks are designed to surface ACF Options Page fields, which are
+ * always stored with an `options_`/`option_` prefix. Requiring that prefix
+ * keeps the blocks working for their intended purpose while blocking access
+ * to arbitrary wp_options rows (e.g. `mailserver_pass`, other plugins'
+ * API keys) that Contributors/Authors could otherwise read via these
+ * `edit_posts`-gated endpoints.
+ *
+ * @param string $option_name Option name requested by the block/endpoint.
+ *
+ * @return bool True if the option name is allowed.
+ */
+function theatrum_is_allowed_settings_option($option_name)
+{
+	return (bool) preg_match('/^options?_/', (string) $option_name);
+}
+
+/**
  * Parse dates in multiple formats and return timestamp
  * Caches results to avoid redundant parsing
  * Handles: Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates, etc.
@@ -25,6 +45,13 @@ function theatrum_parse_flexible_date($date_str)
 	$cache_key = 'ct_date_' . md5($date_str);
 	$cached = wp_cache_get($cache_key, 'ct_dates');
 
+	// A sentinel ('none') marks a cached negative result. Storing PHP `null`
+	// directly doesn't survive round-tripping through every persistent
+	// object-cache backend distinguishably from a cache miss (both can read
+	// back as `false`), which made the negative cache a no-op.
+	if ($cached === 'none') {
+		return null;
+	}
 	if ($cached !== false) {
 		return $cached;
 	}
@@ -33,21 +60,21 @@ function theatrum_parse_flexible_date($date_str)
 
 	// Bail early on obviously invalid input
 	if ($len < 4 || $len > 50) {
-		wp_cache_set($cache_key, null, 'ct_dates', HOUR_IN_SECONDS);
+		wp_cache_set($cache_key, 'none', 'ct_dates', HOUR_IN_SECONDS);
 		return null;
 	}
 
 	// Unix timestamp (10-13 digits)
 	if ($len >= 10 && $len <= 13 && ctype_digit($date_str)) {
 		$timestamp = (int) $date_str;
-		$year = (int) date('Y', $timestamp);
+		$year = (int) wp_date('Y', $timestamp);
 
 		// Validate year is reasonable
 		if ($year >= 1900 && $year <= 2100) {
 			wp_cache_set($cache_key, $timestamp, 'ct_dates', HOUR_IN_SECONDS);
 			return $timestamp;
 		}
-		wp_cache_set($cache_key, null, 'ct_dates', HOUR_IN_SECONDS);
+		wp_cache_set($cache_key, 'none', 'ct_dates', HOUR_IN_SECONDS);
 		return null;
 	}
 
@@ -69,7 +96,7 @@ function theatrum_parse_flexible_date($date_str)
 				return $result;
 			}
 		}
-		wp_cache_set($cache_key, null, 'ct_dates', HOUR_IN_SECONDS);
+		wp_cache_set($cache_key, 'none', 'ct_dates', HOUR_IN_SECONDS);
 		return null;
 	}
 
@@ -110,7 +137,7 @@ function theatrum_parse_flexible_date($date_str)
 		}
 	}
 
-	wp_cache_set($cache_key, null, 'ct_dates', HOUR_IN_SECONDS);
+	wp_cache_set($cache_key, 'none', 'ct_dates', HOUR_IN_SECONDS);
 	return null;
 }
 
@@ -195,93 +222,84 @@ function chance_get_current_production()
 		return null;
 	}
 
-	$today_time = time();
+	$productions = chance_query_season_productions($current_season);
 
-	// First, try to find a production that is currently running
-	$args = array(
-		'post_type'      => 'production',
-		'posts_per_page' => 1,
-		'tax_query'      => array(
-			array(
-				'taxonomy' => 'series',
-				'terms'    => array('main', 'holiday'),
-				'operator' => 'IN',
-				'field'    => 'slug',
-			),
-			array(
-				'taxonomy' => 'season',
-				'terms'    => array($current_season),
-				'operator' => 'IN',
-				'field'    => 'term_id',
-			),
-		),
-		'meta_query'     => array(
-			array(
-				'key'     => 'opening',
-				'value'   => $today_time,
-				'compare' => '<=',
-				'type'    => 'DATETIME',
-			),
-			array(
-				'key'     => 'closing',
-				'value'   => $today_time,
-				'compare' => '>=',
-				'type'    => 'DATETIME',
-			),
-		),
-	);
-
-	$query = new WP_Query($args);
-
-	if ($query->have_posts()) {
-		$post = $query->posts[0];
-		wp_reset_postdata();
-
-		return chance_build_production_data($post);
+	if (empty($productions)) {
+		return null;
 	}
 
-	// If nothing is currently running, get the closest upcoming production
-	$args = array(
-		'post_type'      => 'production',
-		'posts_per_page' => 1,
-		'orderby'        => 'meta_value',
-		'meta_key'       => 'opening',
-		'order'          => 'ASC',
-		'tax_query'      => array(
-			array(
-				'taxonomy' => 'series',
-				'terms'    => array('main', 'holiday'),
-				'operator' => 'IN',
-				'field'    => 'slug',
-			),
-			array(
-				'taxonomy' => 'season',
-				'terms'    => array($current_season),
-				'operator' => 'IN',
-				'field'    => 'term_id',
-			),
-		),
-		'meta_query'     => array(
-			array(
-				'key'     => 'opening',
-				'value'   => date('Y-m-d', $today_time),
-				'compare' => '>',
-				'type'    => 'DATE',
-			),
-		),
-	);
+	$now = time();
 
-	$query = new WP_Query($args);
-
-	if ($query->have_posts()) {
-		$post = $query->posts[0];
-		wp_reset_postdata();
-
-		return chance_build_production_data($post);
+	// First, try to find a production that is currently running.
+	foreach ($productions as $production) {
+		if ($production['opening_ts'] && $production['closing_ts']
+			&& $production['opening_ts'] <= $now && $production['closing_ts'] >= $now
+		) {
+			return chance_build_production_data($production['post']);
+		}
 	}
 
-	wp_reset_postdata();
+	// Otherwise, the closest upcoming production (already sorted by opening ASC).
+	foreach ($productions as $production) {
+		if ($production['opening_ts'] && $production['opening_ts'] > $now) {
+			return chance_build_production_data($production['post']);
+		}
+	}
+
 	return null;
+}
+
+/**
+ * Query productions in a season/series, parsing opening/closing meta with
+ * theatrum_parse_flexible_date() rather than relying on SQL meta_query type
+ * casting — the stored opening/closing values are a genuine mix of `Ymd`
+ * and `Y-m-d H:i:s` formats, so no single SQL DATE/DATETIME cast is correct
+ * for every row.
+ *
+ * @param int|string $season Season term ID or slug.
+ *
+ * @return array List of ['post' => WP_Post, 'opening_ts' => int|false, 'closing_ts' => int|false],
+ *               sorted by opening_ts ascending.
+ */
+function chance_query_season_productions($season)
+{
+	$args = array(
+		'post_type'      => 'production',
+		'posts_per_page' => -1,
+		'tax_query'      => array(
+			array(
+				'taxonomy' => 'series',
+				'terms'    => array('main', 'holiday'),
+				'operator' => 'IN',
+				'field'    => 'slug',
+			),
+			array(
+				'taxonomy' => 'season',
+				'terms'    => array($season),
+				'operator' => 'IN',
+				'field'    => 'term_id',
+			),
+		),
+	);
+
+	$query = new WP_Query($args);
+	$posts = $query->posts;
+	wp_reset_postdata();
+
+	$productions = array();
+	foreach ($posts as $post) {
+		$productions[] = array(
+			'post'       => $post,
+			'opening_ts' => theatrum_parse_flexible_date(get_post_meta($post->ID, 'opening', true)),
+			'closing_ts' => theatrum_parse_flexible_date(get_post_meta($post->ID, 'closing', true)),
+		);
+	}
+
+	usort($productions, function ($a, $b) {
+		return ($a['opening_ts'] ?: 0) <=> ($b['opening_ts'] ?: 0);
+	});
+
+	return $productions;
 }
 
 /**
@@ -301,56 +319,25 @@ function chance_get_next_production()
 		return null;
 	}
 
-	$today_time = time();
 	$current_prod = chance_get_current_production();
 
 	if (!$current_prod) {
 		return null;
 	}
 
-	// Get the opening date of current production to find the next one after it
-	$current_opening = strtotime($current_prod['opening']);
+	// Get the opening date of current production to find the next one after it.
+	$current_opening = theatrum_parse_flexible_date($current_prod['opening']);
+	$productions      = chance_query_season_productions($current_season);
 
-	$args = array(
-		'post_type'      => 'production',
-		'posts_per_page' => 1,
-		'orderby'        => 'meta_value',
-		'meta_key'       => 'opening',
-		'order'          => 'ASC',
-		'tax_query'      => array(
-			array(
-				'taxonomy' => 'series',
-				'terms'    => array('main', 'holiday'),
-				'operator' => 'IN',
-				'field'    => 'slug',
-			),
-			array(
-				'taxonomy' => 'season',
-				'terms'    => array($current_season),
-				'operator' => 'IN',
-				'field'    => 'term_id',
-			),
-		),
-		'meta_query'     => array(
-			array(
-				'key'     => 'opening',
-				'value'   => date('Y-m-d H:i:s', $current_opening),
-				'compare' => '>',
-				'type'    => 'DATETIME',
-			),
-		),
-	);
-
-	$query = new WP_Query($args);
-
-	if ($query->have_posts()) {
-		$post = $query->posts[0];
-		wp_reset_postdata();
-
-		return chance_build_production_data($post);
+	foreach ($productions as $production) {
+		if ((int) $production['post']->ID === (int) $current_prod['ID']) {
+			continue;
+		}
+		if ($production['opening_ts'] && $production['opening_ts'] > $current_opening) {
+			return chance_build_production_data($production['post']);
+		}
 	}
 
-	wp_reset_postdata();
 	return null;
 }
 
@@ -385,7 +372,7 @@ function chance_build_production_data($post)
  * Format production date from datetime string to readable string
  *
  * @param string $date Date string in Y-m-d H:i:s format
- * @param string $format PHP date format string (default: 'F j, Y')
+ * @param string $format PHP date format string (default: 'M j')
  *
  * @return string Formatted date or empty string if invalid
  */
@@ -397,7 +384,7 @@ function chance_format_production_date($date, $format = 'M j')
 
 	$timestamp = strtotime($date);
 	if ($timestamp !== false) {
-		return date($format, $timestamp);
+		return wp_date($format, $timestamp);
 	}
 
 	return '';
@@ -451,3 +438,45 @@ function theatrum_filter_query_loop_by_term($query, $block)
 	return $query;
 }
 add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_term', 10, 2);
+
+/**
+ * Apply the chance/query-filter block's "Sort Order" mode to query loops.
+ *
+ * The query-filter block's orderby mode writes an `?orderby=` GET param with
+ * values like `date-asc` / `title-desc`, but those aren't real WP query vars
+ * and nothing previously read them — the control changed the URL but had no
+ * effect on results. This maps the sanitized GET value to real orderby/order
+ * query vars for any query loop that inherits the main query, matching the
+ * same "inheriting query loop" limitation the taxonomy filter mode already has.
+ *
+ * @link https://developer.wordpress.org/reference/hooks/query_loop_block_query_vars/
+ *
+ * @param array $query The query vars for the query loop.
+ *
+ * @return array Modified query vars.
+ */
+function theatrum_filter_query_loop_by_orderby($query)
+{
+	if (empty($_GET['orderby'])) {
+		return $query;
+	}
+
+	$value = sanitize_text_field(wp_unslash($_GET['orderby']));
+
+	$map = array(
+		'date'       => array('orderby' => 'date', 'order' => 'DESC'),
+		'date-asc'   => array('orderby' => 'date', 'order' => 'ASC'),
+		'title'      => array('orderby' => 'title', 'order' => 'ASC'),
+		'title-desc' => array('orderby' => 'title', 'order' => 'DESC'),
+	);
+
+	if (! isset($map[$value])) {
+		return $query;
+	}
+
+	$query['orderby'] = $map[$value]['orderby'];
+	$query['order']   = $map[$value]['order'];
+
+	return $query;
+}
+add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_orderby');

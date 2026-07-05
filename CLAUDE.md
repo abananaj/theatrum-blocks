@@ -16,13 +16,12 @@ All commands use `wp-scripts` (WordPress development CLI):
 - Starts webpack in watch mode with hot reload for block changes
 - Use this while editing blocks
 
-**Building for production:** `npm run deploy`
-- One-time build without watch mode
-- Generates minified assets in `/build` directory
+**Building for production:** `npm run build` or `npm run deploy`
+- One-time build without watch mode, generates minified assets in `/build` directory with the blocks manifest
+- `deploy` and `build` currently run the same command
 
-**Building with watch:** `npm run build`
-- Equivalent to `npm run start`
-- Creates bundles in `/build` with manifest file
+**Building with watch:** `npm run build:watch`
+- One-time-build's watch-mode equivalent — same output as `build`, but rebuilds on file change
 
 **Code formatting:** `npm run format`
 - Formats JavaScript/PHP files to WordPress standards
@@ -104,12 +103,13 @@ Block variations (in `_variations/` directory) extend existing WordPress blocks 
 
 **theatrum-blocks.php** (Main plugin file)
 - Registers all blocks via `theatrum_register_blocks()`
-- Registers block variations via `theatrum_register_block_variations()`
 - Registers custom "Custom Blocks" category via `theatrum_register_block_category()`
 - Enqueues Style Book editor script
+- Block variations (in `_variations/` directories) are registered client-side via the enqueued `build/meta-variations.js`, not a PHP function
 
 **inc/helpers.php**
 - `theatrum_parse_flexible_date()` — Parse dates in multiple formats with caching
+- `theatrum_is_allowed_settings_option()` — Allowlist gate for the board-member/staff-member/site-option option-name lookups
 - Utility functions for date/time and production data queries
 - Cached operations to avoid redundant processing
 
@@ -118,11 +118,11 @@ Block variations (in `_variations/` directory) extend existing WordPress blocks 
 - Provides data endpoints that blocks use (e.g., `/chance/v1/cover-card/{meta_key}`)
 - Includes permission callbacks for security
 
-**inc/index.js**
-- Node script loaded by webpack for any JavaScript utilities
-
 **inc/empty-meta.js**
 - JavaScript utility for handling empty meta fields
+
+**src/blocks/block.jsonc**
+- Authoring template/reference for new block.json files (JSON with Comments) — not a real block config and not loaded by the build
 
 ## Common Development Tasks
 

@@ -127,7 +127,7 @@
 	"styles": [],
 	"example": {},
 	"keywords": ["card", "post", "preview", "featured"],
-	"textdomain": "cover-card",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

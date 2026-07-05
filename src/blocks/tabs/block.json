@@ -84,6 +84,6 @@
 		"theatrum/tab-heading-level": "headingLevel"
 	},
 	"allowedBlocks": ["theatrum/tab-item"],
-	"textdomain": "default",
+	"textdomain": "theatrum-blocks",
 	"viewScriptModule": "@wordpress/block-library/accordion/view"
 }

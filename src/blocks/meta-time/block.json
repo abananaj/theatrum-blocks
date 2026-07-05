@@ -74,7 +74,7 @@
 	},
 	"example": {},
 	"keywords": ["time", "duration", "meta", "custom field"],
-	"textdomain": "meta-time",
+	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

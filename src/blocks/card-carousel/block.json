@@ -6,7 +6,7 @@
 	"category": "theatrum",
 	"icon": "images-alt2",
 	"description": "A responsive carousel display for cards with images, titles, and subtitles",
-	"textdomain": "card-carousel",
+	"textdomain": "theatrum-blocks",
 	"supports": {
 		"html": false,
 		"align": true,

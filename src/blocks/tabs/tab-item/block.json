@@ -59,6 +59,6 @@
 	"providesContext": {
 		"theatrum/tab-open-by-default": "openByDefault"
 	},
-	"textdomain": "default",
+	"textdomain": "theatrum-blocks",
 	"style": "wp-block-accordion-item"
 }
