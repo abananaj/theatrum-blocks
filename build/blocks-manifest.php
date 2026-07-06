@@ -177,7 +177,9 @@ return array(
 				'clientNavigation' => true
 			)
 		),
-		'style' => 'wp-block-breadcrumbs'
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
 	),
 	'card-carousel' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
