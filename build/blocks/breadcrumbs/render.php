@@ -1,5 +1,16 @@
 <?php
 /**
+ * Server-side render template for the Breadcrumbs block.
+ *
+ * $attributes, $content, and $block are injected by WordPress.
+ * The trail-building functions are wrapped in a function_exists() guard so
+ * that multiple Breadcrumbs blocks on one page don't redeclare them.
+ *
+ * @package Theatrum_Blocks
+ */
+
+if ( ! function_exists( 'render_block_core_breadcrumbs' ) ) {
+/**
  * Server-side rendering of the `core/breadcrumbs` block.
  *
  * @package WordPress
@@ -594,18 +605,6 @@ function block_core_breadcrumbs_get_terms_breadcrumbs( $post_id, $post_type ) {
 	}
 	return $breadcrumb_items;
 }
-
-/**
- * Registers the `core/breadcrumbs` block on the server.
- *
- * @since 7.0.0
- */
-function register_block_core_breadcrumbs() {
-	register_block_type_from_metadata(
-		__DIR__ . '/breadcrumbs',
-		array(
-			'render_callback' => 'render_block_core_breadcrumbs',
-		)
-	);
 }
-add_action( 'init', 'register_block_core_breadcrumbs' );
+
+echo render_block_core_breadcrumbs( $attributes, $content, $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
