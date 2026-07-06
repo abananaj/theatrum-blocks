@@ -152,6 +152,89 @@ function theatrum_repeater_resolve_value($value)
 }
 
 /**
+ * Resolve a meta value into a list of displayable items.
+ *
+ * Accepts a single value or an array of values (post IDs, WP_Post objects,
+ * ACF post-object arrays, term IDs, WP_Term objects, or plain strings) and
+ * returns a normalized list of items. Post/term references resolve to a title
+ * + permalink so callers can render them as links; non-reference scalars pass
+ * through as plain text (empty url).
+ *
+ * A bare numeric ID is resolved as a post first; if it is not a valid post it
+ * falls back to a term lookup. Explicit WP_Term objects / term arrays always
+ * resolve as terms.
+ *
+ * @param mixed $value Raw meta value.
+ * @return array<int, array{id:int, title:string, url:string, type:string}>
+ */
+function theatrum_resolve_post_links($value)
+{
+	if (is_null($value) || $value === false || $value === '') {
+		return array();
+	}
+
+	// A single reference array (ACF post-object with 'ID', or a term array with
+	// 'term_id') should be treated as one item, not iterated as a list.
+	$is_single_ref_array = is_array($value) && (isset($value['ID']) || isset($value['term_id']));
+
+	$items = (is_array($value) && ! $is_single_ref_array) ? $value : array($value);
+	$resolved = array();
+
+	foreach ($items as $item) {
+		$post_id = 0;
+		$term    = null;
+
+		if ($item instanceof WP_Post) {
+			$post_id = $item->ID;
+		} elseif ($item instanceof WP_Term) {
+			$term = $item;
+		} elseif (is_array($item) && isset($item['ID'])) {
+			$post_id = intval($item['ID']);
+		} elseif (is_array($item) && isset($item['term_id'])) {
+			$term = get_term(intval($item['term_id']));
+		} elseif (is_numeric($item) && intval($item) > 0) {
+			$post_id = intval($item);
+		}
+
+		// Explicit term reference, or a post-object that no longer exists.
+		if (is_null($term) && $post_id > 0 && ! get_post_status($post_id)) {
+			// Numeric fallback: the ID isn't a valid post — try a term.
+			$maybe_term = get_term($post_id);
+			if ($maybe_term instanceof WP_Term) {
+				$term    = $maybe_term;
+				$post_id = 0;
+			}
+		}
+
+		if ($post_id > 0 && get_post_status($post_id)) {
+			$resolved[] = array(
+				'id'    => $post_id,
+				'title' => html_entity_decode(get_the_title($post_id), ENT_QUOTES, 'UTF-8'),
+				'url'   => (string) get_permalink($post_id),
+				'type'  => 'post',
+			);
+		} elseif ($term instanceof WP_Term) {
+			$term_link = get_term_link($term);
+			$resolved[] = array(
+				'id'    => $term->term_id,
+				'title' => html_entity_decode($term->name, ENT_QUOTES, 'UTF-8'),
+				'url'   => is_wp_error($term_link) ? '' : (string) $term_link,
+				'type'  => 'term',
+			);
+		} elseif (is_scalar($item) && (string) $item !== '') {
+			$resolved[] = array(
+				'id'    => 0,
+				'title' => html_entity_decode((string) $item, ENT_QUOTES, 'UTF-8'),
+				'url'   => '',
+				'type'  => 'scalar',
+			);
+		}
+	}
+
+	return $resolved;
+}
+
+/**
  * Parse dates in multiple formats and return timestamp
  * Caches results to avoid redundant parsing
  * Handles: Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates, etc.

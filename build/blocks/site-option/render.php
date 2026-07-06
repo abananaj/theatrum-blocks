@@ -179,81 +179,63 @@ if ($is_member_type) {
 }
 
 // Handle generic option display
-// If value is an array of post IDs, resolve to linked titles or meta values
-if (is_array($option_value)) {
-  $post_ids = array_filter($option_value, function ($id) {
-    return is_numeric($id) && !empty($id);
-  });
+// Resolve post/term references (single ID, array of IDs, WP_Post/WP_Term
+// objects, or ACF post-object / term arrays) to linked titles — same
+// resolution the meta blocks use. Bare numeric IDs resolve as posts first,
+// then fall back to terms linked to their archive page.
+$links = theatrum_resolve_post_links($option_value);
 
-  if (!empty($post_ids)) {
-    $classes = array('wp-block-chance-site-option');
-    if (isset($attributes['className'])) {
-      $classes[] = $attributes['className'];
-    }
-    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
-
-    $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
-
-    foreach ($post_ids as $post_id) {
-      $post_id    = (int) $post_id;
-      $post_url   = get_permalink($post_id);
-      $post_title = get_the_title($post_id);
-      if (empty($post_title)) {
-        $post_title = 'Untitled';
-      }
-
-      // Show the meta value alongside the option value (post title),
-      // not in place of it.
-      $meta_value = !empty($meta_key) ? get_post_meta($post_id, $meta_key, true) : '';
-
-      $html .= '<p>';
-      if ($post_url) {
-        $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
-      } else {
-        $html .= '<strong>' . esc_html($post_title) . '</strong>';
-      }
-      if (!empty($meta_value)) {
-        $html .= ' <span class="site-option-meta">' . esc_html($meta_value) . '</span>';
-      }
-      $html .= '</p>';
-    }
-
-    $html .= '</div>' . esc_html($append);
-    echo $html;
-    return;
-  } else {
-    $display_value = json_encode($option_value);
+$has_ref_links = false;
+foreach ($links as $link) {
+  if ($link['id'] > 0) {
+    $has_ref_links = true;
+    break;
   }
-} elseif (is_numeric($option_value) && (int) $option_value > 0 && get_post((int) $option_value)) {
-  // Single post ID — render as a linked title
-  $post_id    = (int) $option_value;
-  $post_url   = get_permalink($post_id);
-  $post_title = get_the_title($post_id);
-  if (empty($post_title)) {
-    $post_title = 'Untitled';
-  }
+}
 
-  // Show the meta value alongside the option value (post title), not instead of it.
-  $meta_value = !empty($meta_key) ? get_post_meta($post_id, $meta_key, true) : '';
-
+if ($has_ref_links) {
   $classes = array('wp-block-chance-site-option');
   if (isset($attributes['className'])) {
     $classes[] = $attributes['className'];
   }
-  $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+  $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
 
-  $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend) . '<p>';
-  if ($post_url) {
-    $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
-  } else {
-    $html .= '<strong>' . esc_html($post_title) . '</strong>';
+  $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
+
+  foreach ($links as $link) {
+    // Skip any non-reference scalars mixed into the value.
+    if ($link['id'] <= 0) {
+      continue;
+    }
+
+    $post_title = $link['title'] !== '' ? $link['title'] : 'Untitled';
+
+    // Show the meta value alongside the option value (title), not in place of
+    // it. Meta only applies to posts — terms don't carry post meta.
+    $meta_value = (!empty($meta_key) && $link['type'] === 'post')
+      ? get_post_meta($link['id'], $meta_key, true)
+      : '';
+
+    $html .= '<p>';
+    if ($link['url'] !== '') {
+      $html .= '<a href="' . esc_url($link['url']) . '"><strong>' . esc_html($post_title) . '</strong></a>';
+    } else {
+      $html .= '<strong>' . esc_html($post_title) . '</strong>';
+    }
+    if (!empty($meta_value) && is_scalar($meta_value)) {
+      $html .= ' <span class="site-option-meta">' . esc_html($meta_value) . '</span>';
+    }
+    $html .= '</p>';
   }
-  if (!empty($meta_value)) {
-    $html .= ' <span class="site-option-meta">' . esc_html($meta_value) . '</span>';
-  }
-  $html .= '</p></div>' . esc_html($append);
+
+  $html .= '</div>' . esc_html($append);
   echo $html;
   return;
+}
+
+// Not a post reference — fall through to plain value handling.
+if (is_array($option_value) || is_object($option_value)) {
+  $display_value = json_encode($option_value);
 } else {
   $display_value = (string) $option_value;
 }
