@@ -6,8 +6,6 @@
  */
 
 $repeater_key   = isset($attributes['repeaterKey']) ? sanitize_text_field($attributes['repeaterKey']) : '';
-$heading_text   = isset($attributes['headingText']) ? sanitize_text_field($attributes['headingText']) : '';
-$heading_level  = isset($attributes['headingLevel']) ? sanitize_text_field($attributes['headingLevel']) : 'h2';
 $subfield_a   = isset($attributes['subfieldA']) ? sanitize_text_field($attributes['subfieldA']) : '';
 $subfield_b   = isset($attributes['subfieldB']) ? sanitize_text_field($attributes['subfieldB']) : '';
 $tag_a        = isset($attributes['tagA']) ? sanitize_text_field($attributes['tagA']) : 'span';
@@ -54,17 +52,7 @@ if (! in_array($tag_b, $allowed_tags, true)) {
   $tag_b = 'span';
 }
 
-// Validate heading level
-$allowed_headings = array('h2', 'h3', 'h4', 'h5', 'h6');
-if (! in_array($heading_level, $allowed_headings, true)) {
-  $heading_level = 'h2';
-}
-
 printf('<div %s>', wp_kses_data( get_block_wrapper_attributes() ));
-
-if ($heading_text !== '') {
-  printf('<%s class="repeater-heading">%s</%s>', $heading_level, esc_html($heading_text), $heading_level);
-}
 
 printf('<%s class="repeater-rows">', $tag_wrapper);
 

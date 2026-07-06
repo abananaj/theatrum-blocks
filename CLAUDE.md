@@ -94,7 +94,7 @@ The plugin organizes blocks into three groups in `theatrum-blocks.php`:
 
 1. **Standard display blocks** — UI components (breadcrumbs, carousels, popups, etc.)
 2. **Meta blocks** — Extract and display post meta fields (meta-field, meta-date, meta-image, etc.)
-3. **Production-specific blocks** — Domain-specific blocks for Chance Theater (production-details, season-producer, etc.)
+3. **Production-specific blocks** — Domain-specific blocks for Chance Theater (production-tabs, season-producer, etc.)
 4. **Query blocks** — Frontend filtering/sorting (query-filter)
 
 Block variations (in `_variations/` directory) extend existing WordPress blocks with presets.

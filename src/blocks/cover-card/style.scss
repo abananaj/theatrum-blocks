@@ -1,8 +1,9 @@
 /* Cover Card Block Styles */
 
 .wp-block-chance-cover-card {
+	display: flex;
+	flex-direction: column;
 	width: 100%;
-	height: 100%;
 	margin: 0;
 	padding: 0;
 	margin-block-start: 0 !important;
@@ -13,8 +14,7 @@
 	flex-direction: column;
 	justify-content: flex-end;
 	margin: 0;
-	height: 100%;
-	height: stretch;
+	flex: 1 1 auto;
 	min-height: 300px;
 	position: relative;
 	background-size: cover;

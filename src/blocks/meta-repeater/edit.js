@@ -84,21 +84,13 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const TagWrapper = attributes.tagName || 'ul';
 
 	const renderPreview = () => {
-		const HeadingTag = attributes.headingLevel || 'h2';
-		const headingEl = attributes.headingText
-			? createElement(HeadingTag, { className: 'repeater-heading' }, attributes.headingText)
-			: null;
-
 		if (!rows.length) {
 			return (
-				<Fragment>
-					{headingEl}
-					<p style={{ color: '#999', fontStyle: 'italic' }}>
-						{attributes.repeaterKey
-							? `No rows found for: "${attributes.repeaterKey}"`
-							: 'Enter a repeater key in the sidebar'}
-					</p>
-				</Fragment>
+				<p style={{ color: '#999', fontStyle: 'italic' }}>
+					{attributes.repeaterKey
+						? `No rows found for: "${attributes.repeaterKey}"`
+						: 'Enter a repeater key in the sidebar'}
+				</p>
 			);
 		}
 
@@ -116,7 +108,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			);
 		});
 
-		return createElement(Fragment, null, headingEl, createElement(TagWrapper, { className: 'wp-block-chance-meta-repeater-preview' }, ...items));
+		return createElement(TagWrapper, { className: 'wp-block-chance-meta-repeater-preview' }, ...items);
 	};
 
 	return (
@@ -204,29 +196,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 						value={attributes.tagA || 'span'}
 						onChange={(value) => setAttributes({ tagA: value })}
 						options={SUBFIELD_TAG_OPTIONS}
-					/>
-				</PanelBody>
-				<PanelBody title="Heading" initialOpen={false}>
-					<TextControl
-						label="Heading Text"
-						value={attributes.headingText || ''}
-						onChange={(value) => setAttributes({ headingText: value })}
-						placeholder="e.g., Credits, Cast"
-						help="Appears before the list. Hidden when there are no rows."
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-					/>
-					<SelectControl
-						label="Heading Level"
-						value={attributes.headingLevel || 'h2'}
-						onChange={(value) => setAttributes({ headingLevel: value })}
-						options={[
-							{ label: 'H2', value: 'h2' },
-							{ label: 'H3', value: 'h3' },
-							{ label: 'H4', value: 'h4' },
-							{ label: 'H5', value: 'h5' },
-							{ label: 'H6', value: 'h6' },
-						]}
 					/>
 				</PanelBody>
 				<PanelBody title="Subfield B" initialOpen={false}>

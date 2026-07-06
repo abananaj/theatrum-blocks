@@ -3,8 +3,9 @@
 /**
  * Meta Related Block - Server-side render callback
  *
- * Reads a meta field from the current post that contains a post ID or ACF Post Object,
- * then displays the related post's title.
+ * Reads a meta field from the current post that contains one or more post IDs
+ * (or ACF Post Objects), then displays each related post's title, optionally
+ * linked to its permalink.
  */
 
 $key_input   = isset($attributes['keyInput'])  ? sanitize_text_field($attributes['keyInput'])  : '';
@@ -12,6 +13,7 @@ $tag_name    = isset($attributes['tagName'])   ? sanitize_text_field($attributes
 $link_to_post = !empty($attributes['linkToPost']);
 $prepend     = isset($attributes['prepend'])   ? $attributes['prepend']                        : '';
 $append      = isset($attributes['append'])    ? $attributes['append']                         : '';
+$separator   = isset($attributes['separator']) ? $attributes['separator']                      : ', ';
 
 if (!$key_input) {
   return;
@@ -37,34 +39,34 @@ if (empty($meta_value)) {
   return;
 }
 
-// Resolve to a post ID from whatever was returned
-$related_post_id = 0;
+// Resolve to a flat list of post IDs (supports single value or an array of them)
+$related_post_ids = theatrum_meta_related_collect_ids($meta_value);
 
-if (is_a($meta_value, 'WP_Post')) {
-  // ACF Post Object return format = Post Object
-  $related_post_id = $meta_value->ID;
-} elseif (is_array($meta_value) && isset($meta_value['ID'])) {
-  // ACF Post Object return format = Array
-  $related_post_id = intval($meta_value['ID']);
-} elseif (is_numeric($meta_value)) {
-  // Raw post ID (integer or numeric string)
-  $related_post_id = intval($meta_value);
-}
-
-if (!$related_post_id) {
+if (empty($related_post_ids)) {
   return;
 }
 
-$related_post = get_post($related_post_id);
+// Build a link (or plain title) for each related post
+$items = array();
+foreach ($related_post_ids as $related_post_id) {
+  $related_post = get_post($related_post_id);
+  if (!$related_post) {
+    continue;
+  }
 
-if (!$related_post) {
-  return;
+  $post_title = get_the_title($related_post);
+  if (empty($post_title)) {
+    continue;
+  }
+
+  $post_url = get_permalink($related_post);
+
+  $items[] = $link_to_post && $post_url
+    ? sprintf('<a href="%s">%s</a>', esc_url($post_url), esc_html($post_title))
+    : esc_html($post_title);
 }
 
-$post_title = get_the_title($related_post);
-$post_url   = get_permalink($related_post);
-
-if (empty($post_title)) {
+if (empty($items)) {
   return;
 }
 
@@ -74,11 +76,7 @@ if (!in_array($tag_name, $allowed_tags, true)) {
   $tag_name = 'p';
 }
 
-$display_text = esc_html($prepend) . esc_html($post_title) . esc_html($append);
-
-$inner = $link_to_post && $post_url
-  ? sprintf('<a href="%s">%s</a>', esc_url($post_url), $display_text)
-  : $display_text;
+$inner = esc_html($prepend) . implode(esc_html($separator), $items) . esc_html($append);
 
 $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-related']) );
 

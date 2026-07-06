@@ -5,6 +5,7 @@ const path = require( 'path' );
 const extraEntries = {
 	'meta-variations': path.resolve( __dirname, 'src/meta-variations.js' ),
 	'style-book': path.resolve( __dirname, 'src/style-book.js' ),
+	'block-color': path.resolve( __dirname, 'src/block-color.js' ),
 };
 
 function withExtraEntries( config ) {

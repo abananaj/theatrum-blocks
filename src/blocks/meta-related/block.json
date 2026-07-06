@@ -69,6 +69,10 @@
 		"append": {
 			"type": "string",
 			"default": ""
+		},
+		"separator": {
+			"type": "string",
+			"default": ", "
 		}
 	},
 	"editorScript": "file:./index.js",

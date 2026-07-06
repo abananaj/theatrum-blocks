@@ -77,14 +77,6 @@
     "tagB": {
       "type": "string",
       "default": "span"
-    },
-    "headingText": {
-      "type": "string",
-      "default": ""
-    },
-    "headingLevel": {
-      "type": "string",
-      "default": "h2"
     }
   },
   "example": {},

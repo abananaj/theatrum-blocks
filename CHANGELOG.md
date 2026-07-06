@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- All `chance/*`/`theatrum/*` custom block icons are now tinted blue (`#448CCA`, the theme's "Blue" palette color) via a `blocks.registerBlockType` filter (`src/block-color.js`), so custom blocks read as a distinct visual group in the inserter/list view/toolbar — mirroring how `chance/bind-*` meta variations are tinted purple
 - Post-meta block bindings source (`inc/block-bindings.php`) for `chance/post-meta`
 - `theatrum_is_allowed_settings_option()` allowlist guard for board-member/staff-member/site-option option lookups
 
@@ -49,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Deleted ~10 vendored Gutenberg tutorial/demo directories from `inc/` and the vendored `menu-thumbnail-flip-animation` demo from `thumbnail-list/` — none were wired into the plugin
 - Removed unused `image.png` from the plugin root and dead commented-out code in cover-card and card-carousel `render.php`
+- Removed the `production-details` block — confirmed unused across all published content, templates, and patterns (only referenced in a docs/catalog page and a trashed test page)
 
 ### Security
 

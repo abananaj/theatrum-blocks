@@ -1584,6 +1584,10 @@ return array(
 			'append' => array(
 				'type' => 'string',
 				'default' => ''
+			),
+			'separator' => array(
+				'type' => 'string',
+				'default' => ', '
 			)
 		),
 		'editorScript' => 'file:./index.js',
@@ -1670,14 +1674,6 @@ return array(
 			'tagB' => array(
 				'type' => 'string',
 				'default' => 'span'
-			),
-			'headingText' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'headingLevel' => array(
-				'type' => 'string',
-				'default' => 'h2'
 			)
 		),
 		'example' => array(
@@ -1787,6 +1783,80 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
+	'page-nav' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/page-nav',
+		'title' => 'Page Nav',
+		'category' => 'theme',
+		'icon' => 'menu',
+		'description' => 'Automatically links to on-page sections. Set a Group\'s HTML element to <section> and give it an HTML Anchor; its first heading becomes a jump link here. Renders nothing when the page has no qualifying sections.',
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'navigation',
+			'nav',
+			'anchor',
+			'jump',
+			'section',
+			'on this page'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'attributes' => array(
+			'navLabel' => array(
+				'type' => 'string',
+				'default' => 'On this page'
+			),
+			'contentSelector' => array(
+				'type' => 'string',
+				'default' => 'main'
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'className' => true,
+			'customClassName' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'gradients' => true,
+				'link' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'interactivity' => array(
+				'clientNavigation' => true
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js',
+		'render' => 'file:./render.php'
+	),
 	'popup' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1862,74 +1932,6 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
 		'viewScript' => 'file:./view.js'
-	),
-	'production-details' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/production-details',
-		'title' => 'Production Details',
-		'category' => 'production',
-		'icon' => 'info',
-		'supports' => array(
-			'html' => false,
-			'align' => true,
-			'reusable' => false,
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'letterSpacing' => true,
-				'lineHeight' => true,
-				'textDecoration' => true,
-				'textTransform' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradient' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			),
-			'border' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true
-			),
-			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
-				'duotone' => true
-			)
-		),
-		'attributes' => array(
-			
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'production',
-			'show',
-			'theater',
-			'performance'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
 	),
 	'production-performances' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -2209,11 +2211,12 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/season-producer',
-		'title' => 'Season Producer',
+		'title' => 'Season Producer (Deprecated)',
 		'category' => 'metablock',
-		'description' => 'Display season producer titles from the current post\'s season taxonomy term.',
+		'description' => 'Deprecated — use the Term Meta block\'s "Season Producer" variation instead. Kept registered so existing content keeps rendering; hidden from the inserter so it can\'t be added again.',
 		'icon' => 'awards',
 		'supports' => array(
+			'inserter' => false,
 			'html' => false,
 			'align' => true,
 			'anchor' => true,

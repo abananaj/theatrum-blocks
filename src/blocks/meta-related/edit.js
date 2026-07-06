@@ -6,7 +6,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit({ attributes, setAttributes, context }) {
   const blockProps = useBlockProps({ style: { background: 'transparent', padding: 0 } });
-  const [relatedPost, setRelatedPost] = useState(null);
+  const [relatedPosts, setRelatedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   // Get post ID from Query Loop context or current editor post
@@ -16,7 +16,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
   useEffect(() => {
     if (!attributes.keyInput || !postId) {
-      setRelatedPost(null);
+      setRelatedPosts([]);
       return;
     }
 
@@ -24,29 +24,49 @@ export default function Edit({ attributes, setAttributes, context }) {
 
     apiFetch({ path: `/chance/v1/meta-related/${postId}/${attributes.keyInput}` })
       .then((data) => {
-        setRelatedPost(data.title ? data : null);
+        // Prefer the list; fall back to the single-post shape for older payloads.
+        const posts = Array.isArray(data.posts) && data.posts.length
+          ? data.posts
+          : (data.title ? [{ title: data.title, url: data.url }] : []);
+        setRelatedPosts(posts);
         setIsLoading(false);
       })
       .catch(() => {
-        setRelatedPost(null);
+        setRelatedPosts([]);
         setIsLoading(false);
       });
   }, [attributes.keyInput, postId]);
 
   const Tag = attributes.tagName || 'p';
+  const separator = attributes.separator ?? ', ';
+
+  const renderLink = (post, index) => {
+    const text = post.title;
+    if (attributes.linkToPost && post.url) {
+      return createElement('a', { key: index, href: post.url, target: '_blank', rel: 'noreferrer' }, text);
+    }
+    return text;
+  };
 
   const renderDisplay = () => {
-    const title = relatedPost
-      ? (attributes.prepend || '') + relatedPost.title + (attributes.append || '')
-      : (attributes.keyInput ? `[${attributes.keyInput}]` : 'Enter a meta key to display a related post');
-
-    const titleEl = createElement(Tag, { style: { margin: 0 } }, title);
-
-    if (relatedPost && attributes.linkToPost && relatedPost.url) {
-      return createElement('a', { href: relatedPost.url, target: '_blank', rel: 'noreferrer' }, titleEl);
+    if (!relatedPosts.length) {
+      const placeholder = attributes.keyInput
+        ? `[${attributes.keyInput}]`
+        : 'Enter a meta key to display a related post';
+      return createElement(Tag, { style: { margin: 0 } }, placeholder);
     }
 
-    return titleEl;
+    // Interleave links with the separator: prepend, link, sep, link, …, append.
+    const children = [attributes.prepend || ''];
+    relatedPosts.forEach((post, index) => {
+      if (index > 0) {
+        children.push(separator);
+      }
+      children.push(renderLink(post, index));
+    });
+    children.push(attributes.append || '');
+
+    return createElement(Tag, { style: { margin: 0 } }, children);
   };
 
   return (
@@ -97,6 +117,15 @@ export default function Edit({ attributes, setAttributes, context }) {
             value={attributes.append}
             onChange={(value) => setAttributes({ append: value })}
             placeholder="e.g., ."
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+          />
+          <TextControl
+            label="Separator"
+            value={attributes.separator}
+            onChange={(value) => setAttributes({ separator: value })}
+            placeholder="e.g., ', '"
+            help="Text placed between each linked post when the meta holds multiple IDs"
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
           />

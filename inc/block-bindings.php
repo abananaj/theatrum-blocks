@@ -87,7 +87,7 @@ function chance_post_meta_binding_callback($source_args, $block_instance, $attri
 		if (! $timestamp) {
 			$timestamp = strtotime($date_str);
 		}
-		return ($timestamp) ? esc_html(html_entity_decode(wp_date($actual_format, $timestamp), ENT_QUOTES, 'UTF-8')) : null;
+		return ($timestamp) ? theatrum_decode_entities(wp_date($actual_format, $timestamp)) : null;
 	}
 
 	// Plain string fallback.
@@ -95,7 +95,7 @@ function chance_post_meta_binding_callback($source_args, $block_instance, $attri
 		return null;
 	}
 
-	return esc_html(html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8'));
+	return theatrum_decode_entities((string) $value);
 }
 
 add_action('init', function () {

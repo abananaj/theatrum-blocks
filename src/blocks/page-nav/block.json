@@ -1,0 +1,62 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "theatrum/page-nav",
+	"title": "Page Nav",
+	"category": "theme",
+	"icon": "menu",
+	"description": "Automatically links to on-page sections. Set a Group's HTML element to <section> and give it an HTML Anchor; its first heading becomes a jump link here. Renders nothing when the page has no qualifying sections.",
+	"example": {},
+	"keywords": [ "navigation", "nav", "anchor", "jump", "section", "on this page" ],
+	"textdomain": "theatrum-blocks",
+	"attributes": {
+		"navLabel": {
+			"type": "string",
+			"default": "On this page"
+		},
+		"contentSelector": {
+			"type": "string",
+			"default": "main"
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [ "wide", "full" ],
+		"className": true,
+		"customClassName": true,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

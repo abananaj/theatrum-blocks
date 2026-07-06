@@ -74,7 +74,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 	// Fetch images from meta/ACF
 	useEffect(() => {
-		if (!metaKey || !postId) {
+		const trimmedKey = metaKey?.trim();
+
+		if (!trimmedKey || !postId) {
 			setImages([]);
 			return;
 		}
@@ -82,7 +84,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		setIsLoading(true);
 
 		apiFetch({
-			path: `/chance/v1/meta-gallery/${postId}/${metaKey}`,
+			path: `/chance/v1/meta-gallery/${postId}/${encodeURIComponent(trimmedKey)}`,
 		})
 			.then((data) => {
 				let imageList = Array.isArray(data.images) ? data.images : [];
@@ -160,7 +162,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						<TextControl
 							label={__('Meta Key')}
 							value={metaKey || ''}
-							onChange={(value) => setAttributes({ metaKey: value })}
+							onChange={(value) => setAttributes({ metaKey: value.trim() })}
 							placeholder="e.g., production_gallery"
 							help={__('ACF or post meta field key')}
 							__nextHasNoMarginBottom

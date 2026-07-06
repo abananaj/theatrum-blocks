@@ -29,8 +29,10 @@ function theatrum_register_blocks()
 {
 
 	$custom_blocks = array(
-		'board-member', // temp un-deprecated
+		'board-member', // deprecate in favor of Site Option block with "Board Member" variation
 		'breadcrumbs',
+		'page-nav', // auto in-page section nav; scans <section id> and links first heading. Currently gated to Pages in render.php.
+		// Using this codepen https://codepen.io/annabananajennings/pen/myOabZz as an example of how I want to be style this block except with the chance theme styles instead of the demo. Simplify thh css variables if needed and convert to scss . 
 		'card-carousel',
 		// - [ ] editor shows the simplified card builder on BE, FE show replicate because it looks better and works better on the FE
 		// - [ ] won’t save media selected in BE
@@ -40,9 +42,7 @@ function theatrum_register_blocks()
 		'copyright-date-block',
 
 		'cover-card',
-		// - [ ] working on home page
-		// - [ ] on blocks page "Error: Error fetching data" on BE
-		// - [ ] renders correctly on FE
+		// - [ ] how can i get this stuppid thing to fil the height of whatever container I put it in?
 
 		'cover-carousel',
 		// - [ ] too many options in inspector panel, can’t see more than 1 slide at a time.
@@ -53,20 +53,19 @@ function theatrum_register_blocks()
 
 		'list-icons',
 		'list-icons/list-item-icon', 
-		// - [ ] add ability to change icon color, by default the icon should use the inherited text color and allow user to override it with a color picker in the inspector panel.
+		// - [ ] add ability to change icon color if it is an svg, by default the icon should use the inherited text color and allow user to override it with a color picker in the inspector panel.
 
 		'media-popover',
-		// - [ ] make child of element pargraph headings
+		// - [ ] make child of element this block that will be hovered to trigger the popover rather than the item being a child of the popover as it is currently
 
-		// CUSTOM META BLOCKS — primary, supported way to bind post meta/ACF.
-		// Each also has an optional core-block variation (chance/bind-*, see
-		// src/meta-variations.js) for cases where the core block's own
-		// styling/features are worth using instead — not a migration path,
-		// both are kept.
-		'meta-button',
-		'meta-date',
-		'meta-embed',
+		// CUSTOM META BLOCKS — primary, supported way to bind post meta/ACF. Each also has an optional core-block variation (chance/bind-*, see src/meta-variations.js) for cases where the core block's own styling/features are worth using instead — not a migration path, both are kept.
+		'meta-button', // deprecate this? in favor of using block binding on core block button. Or make it nestable inside core/buttons?
+		'meta-date', 
+		'meta-time', // bring this back so they are seperate in the block editor and easier for user to use
+		'meta-embed', // there's gotta be a better way to get this to work
 		'meta-field',
+		// add ability to update post meta values as binding allows with core blocks?
+		// Add options for displaying boolean values, user should be able to input text to show if the value is 0 and if the value is 1, for example, if the user inputs "True" for 1 and "False" for 0, the meta field block will render "True" if the value is 1 and "False" if the value is 0.
 		'meta-file',
 		'meta-gallery',
 		// - [ ] too many custom controls (aspect ratio, random order, nav buttons)
@@ -75,14 +74,13 @@ function theatrum_register_blocks()
 		'meta-related',
 		// - [ ] Display arrays of post IDs
 		'meta-repeater',
+		// - [x] Variations: bylines, awards, producers, performances, quotes, notes, events defined in block.json
 		// - [x] Error on block-editor fixed (ToolsPanel panelId)
-		'meta-time', // ❌ just use core date block with dynamic data pulled from post meta
-		'popup',
-		// - [ ] sync button, border, border-radius, and shadow??
 
-		'production-details', 
-		// - [ ] 🎭❓ is this used anywhere
-		// - [ ] green "Production Details - Server rendered"
+		'popup',
+		// - [ ] sync button
+		// - [ ] make it nestable inside core/buttons?
+		// - [ ] ability to link to production page with this popup open from other pages by appending a query of some sort to the url
 
 		'production-performances', // 🎭 var of repeater
 		// - [x] responds to block-spacing (blockGap) setting
@@ -97,8 +95,10 @@ function theatrum_register_blocks()
 		// - [ ] 🔍 frontend filter/sort for query loops - CONVERT? to variation of query filter
 		'query-loop', 
 		// - [ ] variations by main post type ✅
-		'season-producer', 
-		// - [ ] --> var of term-meta ❓ do i need this?- use term meta field 
+		'season-producer',
+		// - [x] Deprecated 2026-07-06 in favor of term-meta's "Season Producer" variation.
+		// Still registered (existing content keeps rendering) but hidden from
+		// the inserter via supports.inserter: false — do not use for new content.
 		'site-option',
 		// - [x] meta value now shows alongside the option value (in a .site-option-meta span) instead of replacing it
 		'staff-member', // temp un-deprecated 
@@ -139,7 +139,6 @@ function theatrum_register_blocks()
 		// - [ ] text overlaps on FE ![screenshot](image.png)
 		'title-subtitle', 
 		// - [ ] Add post title to allowed blocks
-		// - [ ] child of heading 
 	);
 
 	foreach ($custom_blocks as $block) {
@@ -255,3 +254,29 @@ function theatrum_enqueue_meta_variations_script()
 	);
 }
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_meta_variations_script');
+
+/**
+ * Enqueues the block-color script that colors all Theatrum/Chance custom
+ * block icons blue, so they're visually distinguishable in the inserter,
+ * list view, and block toolbar (mirroring how meta-bound block variations
+ * show purple).
+ */
+function theatrum_enqueue_block_color_script()
+{
+	$asset_file = __DIR__ . '/build/block-color.asset.php';
+
+	if (! file_exists($asset_file)) {
+		return;
+	}
+
+	$asset = require $asset_file;
+
+	wp_enqueue_script(
+		'theatrum-block-color',
+		plugins_url('build/block-color.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_block_color_script');

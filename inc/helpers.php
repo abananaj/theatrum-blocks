@@ -31,6 +31,69 @@ function theatrum_is_allowed_settings_option($option_name)
 }
 
 /**
+ * Decode HTML entities in a meta value for display in the block editor
+ * (REST previews, block bindings) and on the frontend.
+ *
+ * esc_html() is the wrong tool here: it re-encodes straight quotes/ampersands
+ * right back into entities (&#039;, &amp;), so esc_html(html_entity_decode($v))
+ * is a no-op round-trip for anything but curly-quote-style entities. These
+ * values are consumed either as plain text (React preview strings, which
+ * escape on render) or dropped into an HTML text node (frontend), so only
+ * &, <, > need re-escaping — quotes are safe as literal characters in both.
+ *
+ * @param mixed $value Raw value (string or castable to string).
+ *
+ * @return string
+ */
+function theatrum_decode_entities($value)
+{
+	$decoded = html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
+	return htmlspecialchars($decoded, ENT_NOQUOTES, 'UTF-8');
+}
+
+/**
+ * Normalize a related-post meta value into a flat list of post IDs.
+ *
+ * Handles the same value shapes the meta-related block already supported for a
+ * single value — raw post ID, WP_Post, ACF Post Object array — and extends them
+ * to arrays of any of those (ACF relationship / multiple post object fields).
+ *
+ * Shared by meta-related's render.php (frontend) and the REST endpoint (editor
+ * preview) so both resolve the same posts for a given field value.
+ *
+ * @param mixed $meta_value Raw meta/ACF field value.
+ *
+ * @return int[] Ordered list of post IDs (may be empty).
+ */
+function theatrum_meta_related_collect_ids($meta_value)
+{
+	if (empty($meta_value)) {
+		return array();
+	}
+
+	// A single ACF Post Object array is associative with an 'ID' key — treat as one.
+	if (is_array($meta_value) && isset($meta_value['ID'])) {
+		$meta_value = array($meta_value);
+	} elseif (!is_array($meta_value)) {
+		// Wrap single scalar / WP_Post so we can iterate uniformly.
+		$meta_value = array($meta_value);
+	}
+
+	$ids = array();
+	foreach ($meta_value as $item) {
+		if (is_a($item, 'WP_Post')) {
+			$ids[] = $item->ID;
+		} elseif (is_array($item) && isset($item['ID'])) {
+			$ids[] = intval($item['ID']);
+		} elseif (is_numeric($item)) {
+			$ids[] = intval($item);
+		}
+	}
+
+	return array_values(array_filter($ids));
+}
+
+/**
  * Resolve an ACF repeater subfield value to a display string.
  * Handles: string, int (post ID), WP_Post, ACF link array, array of IDs/Posts.
  *
@@ -55,7 +118,7 @@ function theatrum_repeater_resolve_value($value)
 	// ACF link array: { url, title, target }
 	if (is_array($value) && isset($value['url'])) {
 		return isset($value['title']) && $value['title'] !== ''
-			? (string) $value['title']
+			? html_entity_decode((string) $value['title'], ENT_QUOTES, 'UTF-8')
 			: esc_url_raw($value['url']);
 	}
 
@@ -85,7 +148,7 @@ function theatrum_repeater_resolve_value($value)
 		}
 	}
 
-	return (string) $value;
+	return html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
 /**

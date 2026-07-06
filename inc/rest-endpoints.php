@@ -173,11 +173,11 @@ function get_meta_date_rest_callback($request)
 	}
 
 	if (!$timestamp) {
-		return new WP_REST_Response(array('value' => esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'))), 200);
+		return new WP_REST_Response(array('value' => theatrum_decode_entities($value)), 200);
 	}
 
 	$display_value = wp_date($format, $timestamp);
-	return new WP_REST_Response(array('value' => esc_html(html_entity_decode($display_value, ENT_QUOTES, 'UTF-8'))), 200);
+	return new WP_REST_Response(array('value' => theatrum_decode_entities($display_value)), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -208,11 +208,11 @@ function get_meta_time_rest_callback($request)
 
 	$timestamp = theatrum_parse_flexible_time($value);
 	if (!$timestamp) {
-		return new WP_REST_Response(array('value' => esc_html(html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8'))), 200);
+		return new WP_REST_Response(array('value' => theatrum_decode_entities($value)), 200);
 	}
 
 	$display_value = wp_date($format, $timestamp);
-	return new WP_REST_Response(array('value' => esc_html(html_entity_decode($display_value, ENT_QUOTES, 'UTF-8'))), 200);
+	return new WP_REST_Response(array('value' => theatrum_decode_entities($display_value)), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -244,7 +244,7 @@ function get_post_meta_field_rest_callback($request)
 		$value = json_encode($value);
 	}
 
-	return new WP_REST_Response(array('value' => esc_html(html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8'))), 200);
+	return new WP_REST_Response(array('value' => theatrum_decode_entities($value)), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -606,9 +606,9 @@ function get_board_member_rest_callback($request)
 
 				if (!empty($post_title)) {
 					$items[] = array(
-						'title'      => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
+						'title'      => theatrum_decode_entities($post_title),
 						'url'        => $post_url,
-						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
+						'meta_title' => theatrum_decode_entities($post_meta_title),
 						'position'   => $pretty_option_name,
 					);
 				}
@@ -633,15 +633,15 @@ function get_board_member_rest_callback($request)
 				return new WP_REST_Response(array(
 					'value' => '',
 					'items' => array(array(
-						'title' => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
+						'title' => theatrum_decode_entities($post_title),
 						'url' => $post_url,
-						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
+						'meta_title' => theatrum_decode_entities($post_meta_title),
 						'position' => $pretty_option_name,
 					))
 				), 200);
 			}
 		}
-		$value = esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
+		$value = theatrum_decode_entities($value);
 	}
 
 	return new WP_REST_Response(array('value' => $value, 'items' => array()), 200);
@@ -731,7 +731,7 @@ function get_site_option_rest_callback($request)
 		$value = (string) $value;
 	}
 
-	$value = esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
+	$value = theatrum_decode_entities($value);
 	return new WP_REST_Response(array('value' => $value), 200);
 }
 
@@ -809,9 +809,9 @@ function get_staff_member_rest_callback($request)
 
 				if (!empty($post_title)) {
 					$items[] = array(
-						'title'      => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
+						'title'      => theatrum_decode_entities($post_title),
 						'url'        => $post_url,
-						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
+						'meta_title' => theatrum_decode_entities($post_meta_title),
 						'position'   => $pretty_option_name,
 					);
 				}
@@ -836,15 +836,15 @@ function get_staff_member_rest_callback($request)
 				return new WP_REST_Response(array(
 					'value' => '',
 					'items' => array(array(
-						'title' => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
+						'title' => theatrum_decode_entities($post_title),
 						'url' => $post_url,
-						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
+						'meta_title' => theatrum_decode_entities($post_meta_title),
 						'position' => $pretty_option_name,
 					))
 				), 200);
 			}
 		}
-		$value = esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
+		$value = theatrum_decode_entities($value);
 	}
 
 	return new WP_REST_Response(array('value' => $value, 'items' => array()), 200);
@@ -879,7 +879,7 @@ function get_term_meta_field_rest_callback($request)
 		return new WP_REST_Response(array('value' => ''), 200);
 	}
 
-	return new WP_REST_Response(array('value' => esc_html(html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8'))), 200);
+	return new WP_REST_Response(array('value' => theatrum_decode_entities($value)), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -1019,8 +1019,11 @@ function get_meta_related_rest_callback($request)
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
 
+	// Empty payload keeps the single-post shape ('title'/'url') plus an empty list.
+	$empty = array('title' => '', 'url' => '', 'posts' => array());
+
 	if (!$post_id || !$key) {
-		return new WP_REST_Response(array('title' => '', 'url' => ''), 200);
+		return new WP_REST_Response($empty, 200);
 	}
 
 	// Get meta value — supports ACF get_field returning Post Object, array, or raw ID
@@ -1032,32 +1035,38 @@ function get_meta_related_rest_callback($request)
 		$meta_value = get_post_meta($post_id, $key, true);
 	}
 
-	if (empty($meta_value)) {
-		return new WP_REST_Response(array('title' => '', 'url' => ''), 200);
+	// Resolve to a flat list of post IDs (single value or an array of them)
+	$related_post_ids = theatrum_meta_related_collect_ids($meta_value);
+
+	if (empty($related_post_ids)) {
+		return new WP_REST_Response($empty, 200);
 	}
 
-	// Resolve to a post ID
-	$related_post_id = 0;
-	if (is_a($meta_value, 'WP_Post')) {
-		$related_post_id = $meta_value->ID;
-	} elseif (is_array($meta_value) && isset($meta_value['ID'])) {
-		$related_post_id = intval($meta_value['ID']);
-	} elseif (is_numeric($meta_value)) {
-		$related_post_id = intval($meta_value);
+	$posts = array();
+	foreach ($related_post_ids as $related_post_id) {
+		$related_post = get_post($related_post_id);
+		if (!$related_post) {
+			continue;
+		}
+		$title = get_the_title($related_post);
+		if (empty($title)) {
+			continue;
+		}
+		$posts[] = array(
+			'title' => theatrum_decode_entities($title),
+			'url'   => get_permalink($related_post),
+		);
 	}
 
-	if (!$related_post_id) {
-		return new WP_REST_Response(array('title' => '', 'url' => ''), 200);
+	if (empty($posts)) {
+		return new WP_REST_Response($empty, 200);
 	}
 
-	$related_post = get_post($related_post_id);
-	if (!$related_post) {
-		return new WP_REST_Response(array('title' => '', 'url' => ''), 200);
-	}
-
+	// Include the first post at the top level for backward compatibility.
 	return new WP_REST_Response(array(
-		'title' => esc_html(html_entity_decode(get_the_title($related_post), ENT_QUOTES, 'UTF-8')),
-		'url'   => get_permalink($related_post),
+		'title' => $posts[0]['title'],
+		'url'   => $posts[0]['url'],
+		'posts' => $posts,
 	), 200);
 }
 
@@ -1128,7 +1137,7 @@ function theatrum_get_season_producer_rest_callback($request)
 		if ($producer_post) {
 			$producers[] = array(
 				'id'    => $producer_post->ID,
-				'title' => esc_html(html_entity_decode(get_the_title($producer_post), ENT_QUOTES, 'UTF-8')),
+				'title' => theatrum_decode_entities(get_the_title($producer_post)),
 			);
 		}
 	}

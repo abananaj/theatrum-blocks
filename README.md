@@ -13,7 +13,6 @@ Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 3
 ### 🎭 Production Blocks
 | Block | Status | Notes |
 |-------|--------|-------|
-| `production-details` | ⚠️ | Shows venue/room from `_venue` / `_venue_room` meta — confirm it's used |
 | `production-performances` | ✅ | Var of meta-repeater; filters to upcoming only, shows next 5 |
 | `production-quotes` | ✅ | Var of meta-repeater; responds to font-size |
 | `production-tabs` | ✅ | |
@@ -158,7 +157,7 @@ npm run plugin-zip      # create a distributable plugin zip
 - `meta-time` is actively used in existing content — keeping it for now; revisit removal alongside a content migration.
 - Remove or fold `meta-icon` and `meta-related` into `term-meta` (both marked Skip).
 - Evaluate `season-producer` — likely replaced by `term-meta`.
-- Evaluate `production-details` — may not be used anywhere.
+- ~~Evaluate `production-details`~~ — removed 2026-07-06; confirmed unused in any published content (only referenced in a docs/catalog page and a trashed test page).
 - Decide fate of `board-member` and `staff-member` ("temp un-deprecated").
 
 ### 🔧 Improvements
