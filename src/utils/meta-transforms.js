@@ -8,7 +8,7 @@ const TRANSFORMS = {
 			fromBlock: 'chance/meta-image',
 			transform: (attrs) => ({
 				metadata: {
-					name: 'chance/meta-image',
+					name: 'chance/bind-image',
 					bindings: {
 						id: { source: 'chance/post-meta', args: { key: attrs.keyInput || '' } },
 					},
@@ -22,7 +22,7 @@ const TRANSFORMS = {
 			transform: (attrs) => ({
 				text: attrs.buttonText || 'Learn More',
 				metadata: {
-					name: 'chance/meta-button',
+					name: 'chance/bind-button',
 					bindings: {
 						url: { source: 'chance/post-meta', args: { key: attrs.keyInput || '' } },
 					},
@@ -35,7 +35,7 @@ const TRANSFORMS = {
 			fromBlock: 'chance/meta-field',
 			transform: (attrs) => ({
 				metadata: {
-					name: 'chance/meta-field',
+					name: 'chance/bind-field',
 					bindings: {
 						content: { source: 'chance/post-meta', args: { key: attrs.keyInput || '' } },
 					},
@@ -50,7 +50,7 @@ const TRANSFORMS = {
 					: (attrs.dateFormat || 'M jS');
 				return {
 					metadata: {
-						name: 'chance/meta-date',
+						name: 'chance/bind-date',
 						bindings: {
 							content: {
 								source: 'chance/post-meta',
@@ -67,7 +67,7 @@ const TRANSFORMS = {
 			fromBlock: 'chance/meta-embed',
 			transform: (attrs) => ({
 				metadata: {
-					name: 'chance/meta-embed',
+					name: 'chance/bind-embed',
 					bindings: {
 						url: { source: 'chance/post-meta', args: { key: attrs.keyInput || '' } },
 					},
@@ -81,7 +81,7 @@ const TRANSFORMS = {
 			transform: (attrs) => ({
 				downloadButtonText: attrs.linkText || 'Download File',
 				metadata: {
-					name: 'chance/meta-file',
+					name: 'chance/bind-file',
 					bindings: {
 						href: { source: 'chance/post-meta', args: { key: attrs.keyInput || '' } },
 					},

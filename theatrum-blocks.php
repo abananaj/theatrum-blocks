@@ -52,41 +52,29 @@ function theatrum_register_blocks()
 
 
 		'list-icons',
-		// - [ ] looks nice, but need list item as a nested block, model after core/list and core/list-item blocks
 		'list-icons/list-item-icon', 
-		// - [ ] child of list-icons
+		// - [ ] add ability to change icon color, by default the icon should use the inherited text color and allow user to override it with a color picker in the inspector panel.
 
 		'media-popover',
 		// - [ ] make child of element pargraph headings
 
-		// VARIATION SETS:
+		// CUSTOM META BLOCKS — primary, supported way to bind post meta/ACF.
+		// Each also has an optional core-block variation (chance/bind-*, see
+		// src/meta-variations.js) for cases where the core block's own
+		// styling/features are worth using instead — not a migration path,
+		// both are kept.
 		'meta-button',
-		// - [x] Variation of core/button (chance/meta-button) via Block Bindings — see src/meta-variations.js
-		// - [ ] Migrate existing chance/meta-button blocks: use Transform to in block toolbar
 		'meta-date',
-		// - [x] Variation of core/paragraph (chance/meta-date) via Block Bindings with date format arg
-		// - [ ] Migrate existing chance/meta-date blocks: use Transform to in block toolbar
 		'meta-embed',
-		// - [x] Variation of core/embed (chance/meta-embed) via Block Bindings
-		// - [ ] Migrate existing chance/meta-embed blocks: use Transform to in block toolbar
 		'meta-field',
-		// - [x] Variation of core/paragraph (chance/meta-field) via Block Bindings
-		// - [ ] Migrate existing chance/meta-field blocks: use Transform to in block toolbar
 		'meta-file',
-		// - [x] Variation of core/file (chance/meta-file) via Block Bindings
-		// - [ ] Migrate existing chance/meta-file blocks: use Transform to in block toolbar
 		'meta-gallery',
-		// - [ ] Keeping as custom block — too many custom controls (aspect ratio, random order, nav buttons)
-		// - [x] Already mirrors core gallery CSS classes; ToolsPanel panelId fixed
-		'meta-icon',
-		// - [ ] Skip — target (Gutenberg icon block) is still experimental
+		// - [ ] too many custom controls (aspect ratio, random order, nav buttons)
+		'meta-icon', // ❌ just use core icon block
 		'meta-image',
-		// - [x] Variation of core/image (chance/meta-image) via Block Bindings — binds id attribute
-		// - [ ] Migrate existing chance/meta-image blocks: use Transform to in block toolbar
 		'meta-related',
-		// - [ ] Skip per decision — no suitable core block target
+		// - [ ] Display arrays of post IDs
 		'meta-repeater',
-		// - [x] Variations: bylines, awards, producers, performances, quotes, notes, events defined in block.json
 		// - [x] Error on block-editor fixed (ToolsPanel panelId)
 		'meta-time', // ❌ just use core date block with dynamic data pulled from post meta
 		'popup',

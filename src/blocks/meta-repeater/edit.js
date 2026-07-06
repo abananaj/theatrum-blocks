@@ -6,8 +6,8 @@ import {
 	Spinner,
 	PanelBody,
 	ComboboxControl,
-	ToolsPanel,
-	ToolsPanelItem,
+	__experimentalToolsPanel as ToolsPanel,
+	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';

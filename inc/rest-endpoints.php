@@ -173,11 +173,11 @@ function get_meta_date_rest_callback($request)
 	}
 
 	if (!$timestamp) {
-		return new WP_REST_Response(array('value' => esc_html($value)), 200);
+		return new WP_REST_Response(array('value' => esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'))), 200);
 	}
 
 	$display_value = wp_date($format, $timestamp);
-	return new WP_REST_Response(array('value' => esc_html($display_value)), 200);
+	return new WP_REST_Response(array('value' => esc_html(html_entity_decode($display_value, ENT_QUOTES, 'UTF-8'))), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -208,11 +208,11 @@ function get_meta_time_rest_callback($request)
 
 	$timestamp = theatrum_parse_flexible_time($value);
 	if (!$timestamp) {
-		return new WP_REST_Response(array('value' => esc_html((string) $value)), 200);
+		return new WP_REST_Response(array('value' => esc_html(html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8'))), 200);
 	}
 
 	$display_value = wp_date($format, $timestamp);
-	return new WP_REST_Response(array('value' => esc_html($display_value)), 200);
+	return new WP_REST_Response(array('value' => esc_html(html_entity_decode($display_value, ENT_QUOTES, 'UTF-8'))), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -244,7 +244,7 @@ function get_post_meta_field_rest_callback($request)
 		$value = json_encode($value);
 	}
 
-	return new WP_REST_Response(array('value' => esc_html((string) $value)), 200);
+	return new WP_REST_Response(array('value' => esc_html(html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8'))), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -280,7 +280,8 @@ function get_meta_repeater_rest_callback($request)
 		return new WP_REST_Response(array('rows' => []), 200);
 	}
 
-	// Sanitize each row — cast all values to strings so JSON is safe
+	// Sanitize each row — resolve values with the same logic the frontend
+	// render.php uses, so the editor preview matches actual output.
 	$sanitized = array();
 	foreach ($rows as $row) {
 		if (! is_array($row)) {
@@ -288,21 +289,7 @@ function get_meta_repeater_rest_callback($request)
 		}
 		$clean = array();
 		foreach ($row as $sub_key => $sub_val) {
-			if (is_array($sub_val) || is_object($sub_val)) {
-				// For link/relationship subfields, extract useful string
-				if (is_array($sub_val) && isset($sub_val['url'])) {
-					$clean[sanitize_key($sub_key)] = esc_url_raw($sub_val['url']);
-				} elseif (is_a($sub_val, 'WP_Post')) {
-					$clean[sanitize_key($sub_key)] = html_entity_decode(get_the_title($sub_val), ENT_QUOTES, 'UTF-8');
-				} else {
-					$clean[sanitize_key($sub_key)] = '';
-				}
-			} elseif (is_numeric($sub_val) && intval($sub_val) > 0 && get_post(intval($sub_val))) {
-				// Numeric post ID — resolve to title
-				$clean[sanitize_key($sub_key)] = html_entity_decode(get_the_title(intval($sub_val)), ENT_QUOTES, 'UTF-8');
-			} else {
-				$clean[sanitize_key($sub_key)] = html_entity_decode((string) $sub_val, ENT_QUOTES, 'UTF-8');
-			}
+			$clean[sanitize_key($sub_key)] = theatrum_repeater_resolve_value($sub_val);
 		}
 		$sanitized[] = $clean;
 	}
@@ -619,9 +606,9 @@ function get_board_member_rest_callback($request)
 
 				if (!empty($post_title)) {
 					$items[] = array(
-						'title'      => html_entity_decode($post_title, ENT_QUOTES, 'UTF-8'),
+						'title'      => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
 						'url'        => $post_url,
-						'meta_title' => html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8'),
+						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
 						'position'   => $pretty_option_name,
 					);
 				}
@@ -646,15 +633,15 @@ function get_board_member_rest_callback($request)
 				return new WP_REST_Response(array(
 					'value' => '',
 					'items' => array(array(
-						'title' => html_entity_decode($post_title, ENT_QUOTES, 'UTF-8'),
+						'title' => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
 						'url' => $post_url,
-						'meta_title' => html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8'),
+						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
 						'position' => $pretty_option_name,
 					))
 				), 200);
 			}
 		}
-		$value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+		$value = esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
 	}
 
 	return new WP_REST_Response(array('value' => $value, 'items' => array()), 200);
@@ -744,7 +731,7 @@ function get_site_option_rest_callback($request)
 		$value = (string) $value;
 	}
 
-	$value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+	$value = esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
 	return new WP_REST_Response(array('value' => $value), 200);
 }
 
@@ -822,9 +809,9 @@ function get_staff_member_rest_callback($request)
 
 				if (!empty($post_title)) {
 					$items[] = array(
-						'title'      => html_entity_decode($post_title, ENT_QUOTES, 'UTF-8'),
+						'title'      => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
 						'url'        => $post_url,
-						'meta_title' => html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8'),
+						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
 						'position'   => $pretty_option_name,
 					);
 				}
@@ -849,15 +836,15 @@ function get_staff_member_rest_callback($request)
 				return new WP_REST_Response(array(
 					'value' => '',
 					'items' => array(array(
-						'title' => html_entity_decode($post_title, ENT_QUOTES, 'UTF-8'),
+						'title' => esc_html(html_entity_decode($post_title, ENT_QUOTES, 'UTF-8')),
 						'url' => $post_url,
-						'meta_title' => html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8'),
+						'meta_title' => esc_html(html_entity_decode($post_meta_title, ENT_QUOTES, 'UTF-8')),
 						'position' => $pretty_option_name,
 					))
 				), 200);
 			}
 		}
-		$value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+		$value = esc_html(html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
 	}
 
 	return new WP_REST_Response(array('value' => $value, 'items' => array()), 200);
@@ -892,7 +879,7 @@ function get_term_meta_field_rest_callback($request)
 		return new WP_REST_Response(array('value' => ''), 200);
 	}
 
-	return new WP_REST_Response(array('value' => esc_html((string) $value)), 200);
+	return new WP_REST_Response(array('value' => esc_html(html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8'))), 200);
 }
 
 /* -----------------------------------------------------------------------
@@ -1069,7 +1056,7 @@ function get_meta_related_rest_callback($request)
 	}
 
 	return new WP_REST_Response(array(
-		'title' => html_entity_decode(get_the_title($related_post), ENT_QUOTES, 'UTF-8'),
+		'title' => esc_html(html_entity_decode(get_the_title($related_post), ENT_QUOTES, 'UTF-8')),
 		'url'   => get_permalink($related_post),
 	), 200);
 }
@@ -1141,7 +1128,7 @@ function theatrum_get_season_producer_rest_callback($request)
 		if ($producer_post) {
 			$producers[] = array(
 				'id'    => $producer_post->ID,
-				'title' => html_entity_decode(get_the_title($producer_post), ENT_QUOTES, 'UTF-8'),
+				'title' => esc_html(html_entity_decode(get_the_title($producer_post), ENT_QUOTES, 'UTF-8')),
 			);
 		}
 	}

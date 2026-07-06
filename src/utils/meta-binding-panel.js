@@ -54,7 +54,7 @@ const withMetaBindingPanel = createHigherOrderComponent((BlockEdit) => {
 		const currentKey    = binding?.args?.key          ?? '';
 		const currentFormat = binding?.args?.format       ?? 'M jS';
 		const customFormat  = binding?.args?.customFormat ?? '';
-		const isDate        = attributes?.metadata?.name === 'chance/meta-date';
+		const isDate        = attributes?.metadata?.name === 'chance/bind-date';
 		const isCustom      = currentFormat === 'custom';
 
 		return (

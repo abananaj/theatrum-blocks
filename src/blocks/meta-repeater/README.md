@@ -65,3 +65,8 @@ This creates:
 	</li>
 </ul>
 ```
+
+## Known Issues
+
+- **Producers Repeater variation is deprecated.** It points to `repeaterKey: "producers"`, but no ACF field by that name exists anywhere in the codebase, so it always renders nothing. Left in place (title marked "Deprecated") pending a decision on the correct field to wire it up to.
+- **Events Repeater variation cannot work as-is.** It points to `repeaterKey: "events"`, but that ACF field is a `post_object` (relationship) field, not a repeater — `get_field()` returns an array of `WP_Post` objects rather than row-arrays, so every row fails the `is_array($row)` check in `render.php` and nothing displays. The meta-repeater block architecture doesn't support relationship fields; this would need a different block or field type.

@@ -31,6 +31,64 @@ function theatrum_is_allowed_settings_option($option_name)
 }
 
 /**
+ * Resolve an ACF repeater subfield value to a display string.
+ * Handles: string, int (post ID), WP_Post, ACF link array, array of IDs/Posts.
+ *
+ * Shared by meta-repeater's render.php (frontend) and the REST endpoint
+ * (editor preview) so both produce the same output for a given field value.
+ *
+ * @param mixed $value Raw ACF subfield value.
+ *
+ * @return string
+ */
+function theatrum_repeater_resolve_value($value)
+{
+	if (is_null($value) || $value === false || $value === '') {
+		return '';
+	}
+
+	// WP_Post object — return title
+	if ($value instanceof WP_Post) {
+		return html_entity_decode(get_the_title($value), ENT_QUOTES, 'UTF-8');
+	}
+
+	// ACF link array: { url, title, target }
+	if (is_array($value) && isset($value['url'])) {
+		return isset($value['title']) && $value['title'] !== ''
+			? (string) $value['title']
+			: esc_url_raw($value['url']);
+	}
+
+	// Array of items (IDs, WP_Posts, or strings) — join them
+	if (is_array($value)) {
+		$parts = array();
+		foreach ($value as $item) {
+			if ($item instanceof WP_Post) {
+				$parts[] = html_entity_decode(get_the_title($item), ENT_QUOTES, 'UTF-8');
+			} elseif (is_numeric($item) && intval($item) > 0) {
+				$title = get_the_title(intval($item));
+				if ($title) {
+					$parts[] = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
+				}
+			} elseif (is_string($item)) {
+				$parts[] = $item;
+			}
+		}
+		return implode(', ', $parts);
+	}
+
+	// Numeric string that looks like a post ID — fetch title
+	if (is_numeric($value) && intval($value) > 0) {
+		$title = get_the_title(intval($value));
+		if ($title) {
+			return html_entity_decode($title, ENT_QUOTES, 'UTF-8');
+		}
+	}
+
+	return (string) $value;
+}
+
+/**
  * Parse dates in multiple formats and return timestamp
  * Caches results to avoid redundant parsing
  * Handles: Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates, etc.

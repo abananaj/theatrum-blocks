@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Renamed the core-block meta-binding variations from `chance/meta-*` to `chance/bind-*` (e.g. `chance/bind-image`, `chance/bind-button`) so they no longer collide with the real `chance/meta-*` custom block names/titles in the inserter; variation icons now use the matching core block icon tinted purple to signal "bound" at a glance
+- The `chance/meta-*` custom blocks are the primary, supported way to bind post meta/ACF — the `chance/bind-*` core-block variations are kept as optional alternates (e.g. for core/button's styling), not a migration path
 - cover-card adopts the post's nomenclature color on hover, with auto-contrasted text/buttons and a guarded fallback when no term color is assigned
 - Overhauled README with a complete plugin overview and workflows
 - Misc block improvements across meta-date, meta-gallery, meta-repeater, production-performances, site-option, and table-advanced
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- REST endpoints (meta-date, meta-time, post-meta, term-meta, board-member, staff-member, meta-related, season-producer) now re-escape with `esc_html()` after `html_entity_decode()` before returning values — decoding without re-escaping left raw HTML in the JSON response, which is currently harmless (all current consumers render the value as a React text child) but was one `dangerouslySetInnerHTML` away from stored XSS
 - `/chance/v1/cover-card/{meta_key}` no longer discloses draft/private/pending post data to anonymous users; results are restricted to publicly viewable posts
 - board-member, staff-member, and site-option REST endpoints/render.php no longer allow reading arbitrary `wp_options` values (e.g. secrets from other plugins) via `edit_posts`-gated requests — only `options_`/`option_`-prefixed option names are resolved
 - Meta-embed iframe fallback now escapes the URL with `esc_url()` instead of `esc_attr()`, and drops the obsolete `frameborder` attribute
