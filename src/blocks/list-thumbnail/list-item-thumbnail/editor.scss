@@ -1,0 +1,14 @@
+/**
+ * Thumbnail List Item - Editor-only styles
+ *
+ * Layout comes from style.scss (shared with the frontend). Block selection
+ * highlighting is handled by the block editor's own chrome, so no custom
+ * selected/hover state is needed here.
+ */
+
+.list-item {
+	.item-title,
+	.item-description {
+		outline: none;
+	}
+}

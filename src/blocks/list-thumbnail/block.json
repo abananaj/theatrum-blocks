@@ -1,15 +1,17 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/thumbnail-list",
+	"name": "chance/list-thumbnail",
 	"title": "Thumbnail List",
 	"category": "theatrum",
 	"icon": "format-gallery",
-	"description": "An interactive list with thumbnail images that display when hovering over items. Each item can have a title, description, and thumbnail image.",
+	"description": "An interactive list with thumbnail images that display when hovering over items. Each item is a nested block with a title, description, and thumbnail image.",
 	"textdomain": "theatrum-blocks",
+	"allowedBlocks": ["chance/list-item-thumbnail"],
 	"supports": {
 		"html": false,
 		"align": true,
+		"reusable": true,
 		"anchor": true,
 		"className": true,
 		"customClassName": true,
@@ -46,39 +48,6 @@
 		}
 	},
 	"attributes": {
-		"items": {
-			"type": "array",
-			"default": [],
-			"items": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string",
-						"description": "Unique identifier for the list item"
-					},
-					"title": {
-						"type": "string",
-						"description": "Title text for the list item"
-					},
-					"description": {
-						"type": "string",
-						"description": "Description text for the list item"
-					},
-					"thumbnailId": {
-						"type": "number",
-						"description": "Media library attachment ID for thumbnail"
-					},
-					"thumbnailUrl": {
-						"type": "string",
-						"description": "URL of the thumbnail image"
-					},
-					"thumbnailAlt": {
-						"type": "string",
-						"description": "Alt text for the thumbnail image"
-					}
-				}
-			}
-		},
 		"thumbnailWidth": {
 			"type": "string",
 			"default": "400"
@@ -120,5 +89,6 @@
 	"keywords": ["thumbnails", "gallery", "images", "list"],
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
 }

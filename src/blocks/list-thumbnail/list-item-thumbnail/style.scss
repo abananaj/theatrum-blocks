@@ -1,0 +1,37 @@
+/**
+ * Thumbnail List Item - Frontend Styles (shared with editor via block.json `style`)
+ *
+ * Item-level layout. Height, and the hover transition speed, are read from
+ * CSS custom properties set on the parent `.wp-block-chance-list-thumbnail`
+ * wrapper, so this item inherits list-wide settings without needing block
+ * context. Loading via the `style` field (not `editorStyle`) means these
+ * rules apply in the editor canvas too, so backend and frontend spacing
+ * always match.
+ */
+
+.list-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: var(--item-height, 80px);
+	padding: 0 1.5rem;
+	border-bottom: 1px solid currentColor;
+	cursor: pointer;
+	transition: color var(--animation-speed, 0.3s) ease;
+
+	&:hover .item-title {
+		transform: translateX(1rem);
+	}
+}
+
+.item-title {
+	font-weight: bold;
+	font-size: 1.1em;
+	transition: transform var(--animation-speed, 0.3s) ease;
+}
+
+.item-description {
+	font-size: 0.9em;
+	opacity: 0.7;
+	margin-top: 0.25em;
+}

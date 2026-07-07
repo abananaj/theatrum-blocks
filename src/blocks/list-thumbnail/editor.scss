@@ -1,0 +1,13 @@
+/**
+ * Thumbnail List Block Editor Styles (parent)
+ *
+ * Layout/geometry is shared with the frontend via style.scss (loaded through
+ * block.json `style`), so nothing needs to be duplicated here. This file only
+ * covers editor-only affordances.
+ */
+
+.wp-block-chance-list-thumbnail {
+	.list-items .block-list-appender {
+		margin-top: 0.5rem;
+	}
+}
