@@ -18,6 +18,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const [taxonomies, setTaxonomies] = useState([]);
 	const [terms, setTerms] = useState([]);
 	const [metaValue, setMetaValue] = useState('');
+	const [metaItems, setMetaItems] = useState([]);
 	const [producers, setProducers] = useState([]);
 	const [isLoadingTaxonomies, setIsLoadingTaxonomies] = useState(true);
 	const [isLoadingTerms, setIsLoadingTerms] = useState(false);
@@ -73,6 +74,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 	useEffect(() => {
 		if (isSeasonProducer || !termId || !metaKey) {
 			setMetaValue('');
+			setMetaItems([]);
 			return;
 		}
 
@@ -81,10 +83,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 		apiFetch({ path: `/chance/v1/term-meta-field/${termId}/${metaKey}` })
 			.then((data) => {
 				setMetaValue(data.value || '');
+				setMetaItems(data.items || []);
 				setIsLoadingMeta(false);
 			})
 			.catch(() => {
 				setMetaValue('');
+				setMetaItems([]);
 				setIsLoadingMeta(false);
 			});
 	}, [isSeasonProducer, termId, metaKey]);
@@ -258,8 +262,23 @@ export default function Edit({ attributes, setAttributes, context }) {
 			<div {...blockProps}>
 				{isLoadingMeta ? (
 					<Spinner />
+				) : metaItems.length > 0 ? (
+					<p style={{ margin: 0, padding: '8px 0' }}>
+						{prepend}
+						{metaItems.map((item, i) => (
+							<Fragment key={item.id || `${item.title}-${i}`}>
+								{i > 0 && ', '}
+								{item.url ? (
+									<a href={item.url}>{decodeHtmlEntities(item.title)}</a>
+								) : (
+									decodeHtmlEntities(item.title)
+								)}
+							</Fragment>
+						))}
+						{append}
+					</p>
 				) : metaValue ? (
-					<p style={{ margin: 0, padding: '8px 0' }}>{metaValue}</p>
+					<p style={{ margin: 0, padding: '8px 0' }}>{`${prepend || ''}${metaValue}${append || ''}`}</p>
 				) : (
 					<p style={{ color: '#999', fontStyle: 'italic', margin: 0 }}>
 						{termId && metaKey

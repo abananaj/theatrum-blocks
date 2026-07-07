@@ -679,53 +679,42 @@ function get_site_option_rest_callback($request)
 		}
 	}
 
-	if (is_array($value)) {
-		$post_ids = array_filter($value, function ($id) {
-			return is_numeric($id) && !empty($id);
-		});
+	// Resolve post references (single ID, array of IDs, WP_Post objects, or ACF
+	// post-object arrays) to linked titles — same resolution the frontend uses.
+	$links = theatrum_resolve_post_links($value);
 
-		if (!empty($post_ids)) {
-			$items = array();
-			foreach ($post_ids as $post_id) {
-				$post_id    = (int) $post_id;
-				$post_title = get_the_title($post_id);
-				$post_url   = get_permalink($post_id);
+	$has_post_links = false;
+	foreach ($links as $link) {
+		if ($link['id'] > 0) {
+			$has_post_links = true;
+			break;
+		}
+	}
 
-				$display_text = $post_title;
-				if (!empty($meta_key)) {
-					$meta_value = get_post_meta($post_id, $meta_key, true);
-					if (!empty($meta_value)) {
-						$display_text = $meta_value;
-					}
-				}
+	if ($has_post_links) {
+		$items = array();
+		foreach ($links as $link) {
+			if ($link['id'] <= 0) {
+				continue;
+			}
 
-				if (!empty($display_text)) {
-					$items[] = array(
-						'title' => $display_text,
-						'url'   => $post_url ?: '',
-					);
+			$display_text = $link['title'];
+			if (!empty($meta_key)) {
+				$meta_value = get_post_meta($link['id'], $meta_key, true);
+				if (!empty($meta_value) && is_scalar($meta_value)) {
+					$display_text = (string) $meta_value;
 				}
 			}
-			return new WP_REST_Response(array('value' => '', 'items' => $items), 200);
-		} else {
-			$value = json_encode($value);
-		}
-	} elseif (is_numeric($value) && (int) $value > 0 && get_post((int) $value)) {
-		$post_id    = (int) $value;
-		$post_title = get_the_title($post_id);
-		$post_url   = get_permalink($post_id);
 
-		$display_text = $post_title;
-		if (!empty($meta_key)) {
-			$meta_value = get_post_meta($post_id, $meta_key, true);
-			if (!empty($meta_value)) {
-				$display_text = $meta_value;
-			}
+			$items[] = array(
+				'title' => $display_text !== '' ? $display_text : 'Untitled',
+				'url'   => $link['url'],
+			);
 		}
+		return new WP_REST_Response(array('value' => '', 'items' => $items), 200);
+	}
 
-		$item = array('title' => $display_text ?: 'Untitled', 'url' => $post_url ?: '');
-		return new WP_REST_Response(array('value' => '', 'items' => array($item)), 200);
-	} elseif (is_object($value)) {
+	if (is_array($value) || is_object($value)) {
 		$value = json_encode($value);
 	} else {
 		$value = (string) $value;
@@ -876,10 +865,27 @@ function get_term_meta_field_rest_callback($request)
 	$value = get_term_meta($term_id, $meta_key, true);
 
 	if (empty($value)) {
-		return new WP_REST_Response(array('value' => ''), 200);
+		return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
 	}
 
-	return new WP_REST_Response(array('value' => theatrum_decode_entities($value)), 200);
+	// Resolve post IDs / post objects (single or array) to linked titles so the
+	// editor preview matches the frontend render.php output.
+	$links = theatrum_resolve_post_links($value);
+
+	if (! empty($links)) {
+		$titles = wp_list_pluck($links, 'title');
+		return new WP_REST_Response(array(
+			'value' => implode(', ', $titles),
+			'items' => $links,
+		), 200);
+	}
+
+	$plain = is_scalar($value) ? (string) $value : wp_json_encode($value);
+
+	return new WP_REST_Response(array(
+		'value' => theatrum_decode_entities($plain),
+		'items' => array(),
+	), 200);
 }
 
 /* -----------------------------------------------------------------------

@@ -105,21 +105,29 @@ if (empty($value)) {
   return;
 }
 
-// Resolve post ID or post object to post title
-$resolved = null;
+// Resolve post IDs / post objects (single or array) to linked titles.
+$links = theatrum_resolve_post_links($value);
 
-if (is_numeric($value)) {
-  $post = get_post(intval($value));
-  if ($post instanceof WP_Post) {
-    $resolved = get_the_title($post);
+if (!empty($links)) {
+  $parts = array();
+  foreach ($links as $link) {
+    if ($link['url'] !== '') {
+      $parts[] = sprintf(
+        '<a href="%s">%s</a>',
+        esc_url($link['url']),
+        esc_html($link['title'])
+      );
+    } else {
+      $parts[] = esc_html($link['title']);
+    }
   }
-} elseif ($value instanceof WP_Post) {
-  $resolved = get_the_title($value);
-} elseif (is_array($value) && isset($value['ID'])) {
-  $resolved = get_the_title(intval($value['ID']));
+  $inner = implode(', ', $parts);
+} else {
+  // Non-post scalar meta — display as-is.
+  $inner = esc_html(is_scalar($value) ? (string) $value : wp_json_encode($value));
 }
 
-$display_value = $prepend . esc_html($resolved ?? $value) . $append;
+$display_value = esc_html($prepend) . $inner . esc_html($append);
 
 printf(
   '<%1$s %2$s>%3$s</%1$s>',
