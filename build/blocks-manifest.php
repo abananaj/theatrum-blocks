@@ -742,6 +742,127 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
+	'list-thumbnail' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/list-thumbnail',
+		'title' => 'Thumbnail List',
+		'category' => 'theatrum',
+		'icon' => 'format-gallery',
+		'description' => 'An interactive list with thumbnail images that display when hovering over items. Each item is a nested block with a title, description, and thumbnail image.',
+		'textdomain' => 'theatrum-blocks',
+		'allowedBlocks' => array(
+			'chance/list-item-thumbnail'
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'reusable' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'opacity' => true,
+			'filters' => array(
+				'duotone' => true
+			)
+		),
+		'attributes' => array(
+			'thumbnailWidth' => array(
+				'type' => 'string',
+				'default' => '400'
+			),
+			'thumbnailWidthUnit' => array(
+				'type' => 'string',
+				'default' => 'px',
+				'enum' => array(
+					'px',
+					'%',
+					'em',
+					'rem'
+				)
+			),
+			'thumbnailHeight' => array(
+				'type' => 'string',
+				'default' => '300'
+			),
+			'thumbnailHeightUnit' => array(
+				'type' => 'string',
+				'default' => 'px',
+				'enum' => array(
+					'px',
+					'%',
+					'em',
+					'rem'
+				)
+			),
+			'itemHeight' => array(
+				'type' => 'string',
+				'default' => '80'
+			),
+			'itemHeightUnit' => array(
+				'type' => 'string',
+				'default' => 'px'
+			),
+			'thumbnailPosition' => array(
+				'type' => 'string',
+				'default' => 'right',
+				'enum' => array(
+					'left',
+					'right'
+				)
+			),
+			'animationSpeed' => array(
+				'type' => 'string',
+				'default' => '0.3',
+				'enum' => array(
+					'0.2',
+					'0.3',
+					'0.5',
+					'1'
+				)
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'thumbnails',
+			'gallery',
+			'images',
+			'list'
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js'
+	),
 	'media-popover' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1863,7 +1984,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/popup',
-		'title' => 'Popup',
+		'title' => 'popup',
 		'category' => 'theatrum',
 		'icon' => 'visibility',
 		'description' => 'A simple popup block with a button to reveal hidden content',
@@ -2048,6 +2169,88 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
+	),
+	'production-tabs' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/production-tabs',
+		'title' => 'Production Tabs',
+		'category' => 'theatrum',
+		'icon' => 'index-card',
+		'description' => 'Horizontal tabs that collapse into a vertical accordion on mobile. Add a tab for each section and give it a heading.',
+		'textdomain' => 'theatrum-blocks',
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradients' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textTransform' => true
+			)
+		),
+		'allowedBlocks' => array(
+			'chance/tab'
+		),
+		'example' => array(
+			'innerBlocks' => array(
+				array(
+					'name' => 'chance/tab',
+					'attributes' => array(
+						'title' => 'Synopsis'
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'What the show is about.'
+							)
+						)
+					)
+				),
+				array(
+					'name' => 'chance/tab',
+					'attributes' => array(
+						'title' => 'Cast'
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'Who is in it.'
+							)
+						)
+					)
+				)
+			)
+		),
+		'keywords' => array(
+			'tabs',
+			'accordion',
+			'tabbed',
+			'sections'
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js'
 	),
 	'production-trailer' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -2717,105 +2920,6 @@ return array(
 		),
 		'style' => 'wp-block-table-of-contents'
 	),
-	'tabs' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/tabs',
-		'title' => 'Theatrum Tabs',
-		'category' => 'design',
-		'example' => array(
-			
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'align' => array(
-				'wide',
-				'full'
-			),
-			'background' => array(
-				'backgroundImage' => true,
-				'backgroundSize' => true,
-				'__experimentalDefaultControls' => array(
-					'backgroundImage' => true
-				)
-			),
-			'color' => array(
-				'background' => true,
-				'gradients' => true
-			),
-			'__experimentalBorder' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true,
-				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => true,
-					'style' => true,
-					'width' => true
-				)
-			),
-			'spacing' => array(
-				'padding' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'blockGap' => true
-			),
-			'shadow' => true,
-			'layout' => true,
-			'ariaLabel' => true,
-			'interactivity' => true,
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true
-				)
-			),
-			'contentRole' => true,
-			'listView' => true
-		),
-		'attributes' => array(
-			'iconPosition' => array(
-				'type' => 'string',
-				'default' => 'right'
-			),
-			'showIcon' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'autoclose' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'headingLevel' => array(
-				'type' => 'number',
-				'default' => 3
-			),
-			'levelOptions' => array(
-				'type' => 'array'
-			)
-		),
-		'providesContext' => array(
-			'theatrum/tab-icon-position' => 'iconPosition',
-			'theatrum/tab-show-icon' => 'showIcon',
-			'theatrum/tab-heading-level' => 'headingLevel'
-		),
-		'allowedBlocks' => array(
-			'theatrum/tab-item'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'viewScriptModule' => '@wordpress/block-library/accordion/view'
-	),
 	'term-meta' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -2944,170 +3048,21 @@ return array(
 			)
 		)
 	),
-	'thumbnail-list' => array(
+	'title-advanced' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/thumbnail-list',
-		'title' => 'Thumbnail List',
-		'category' => 'theatrum',
-		'icon' => 'format-gallery',
-		'description' => 'An interactive list with thumbnail images that display when hovering over items. Each item can have a title, description, and thumbnail image.',
-		'textdomain' => 'theatrum-blocks',
-		'supports' => array(
-			'html' => false,
-			'align' => true,
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'letterSpacing' => true,
-				'lineHeight' => true,
-				'textDecoration' => true,
-				'textTransform' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradient' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			),
-			'border' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true
-			),
-			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
-				'duotone' => true
-			)
-		),
-		'attributes' => array(
-			'items' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				),
-				'items' => array(
-					'type' => 'object',
-					'properties' => array(
-						'id' => array(
-							'type' => 'string',
-							'description' => 'Unique identifier for the list item'
-						),
-						'title' => array(
-							'type' => 'string',
-							'description' => 'Title text for the list item'
-						),
-						'description' => array(
-							'type' => 'string',
-							'description' => 'Description text for the list item'
-						),
-						'thumbnailId' => array(
-							'type' => 'number',
-							'description' => 'Media library attachment ID for thumbnail'
-						),
-						'thumbnailUrl' => array(
-							'type' => 'string',
-							'description' => 'URL of the thumbnail image'
-						),
-						'thumbnailAlt' => array(
-							'type' => 'string',
-							'description' => 'Alt text for the thumbnail image'
-						)
-					)
-				)
-			),
-			'thumbnailWidth' => array(
-				'type' => 'string',
-				'default' => '400'
-			),
-			'thumbnailWidthUnit' => array(
-				'type' => 'string',
-				'default' => 'px',
-				'enum' => array(
-					'px',
-					'%',
-					'em',
-					'rem'
-				)
-			),
-			'thumbnailHeight' => array(
-				'type' => 'string',
-				'default' => '300'
-			),
-			'thumbnailHeightUnit' => array(
-				'type' => 'string',
-				'default' => 'px',
-				'enum' => array(
-					'px',
-					'%',
-					'em',
-					'rem'
-				)
-			),
-			'itemHeight' => array(
-				'type' => 'string',
-				'default' => '80'
-			),
-			'itemHeightUnit' => array(
-				'type' => 'string',
-				'default' => 'px'
-			),
-			'thumbnailPosition' => array(
-				'type' => 'string',
-				'default' => 'right',
-				'enum' => array(
-					'left',
-					'right'
-				)
-			),
-			'animationSpeed' => array(
-				'type' => 'string',
-				'default' => '0.3',
-				'enum' => array(
-					'0.2',
-					'0.3',
-					'0.5',
-					'1'
-				)
-			)
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'thumbnails',
-			'gallery',
-			'images',
-			'list'
-		),
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
-	),
-	'title-subtitle' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/title-subtitle',
-		'title' => 'Title + Subtitle',
+		'name' => 'chance/title-advanced',
+		'title' => 'Title (Advanced)',
 		'category' => 'text',
 		'icon' => 'heading',
-		'description' => 'A heading group with a title and subtitle, each independently editable.',
+		'description' => 'A heading group: the post title as an H1, plus meta-bound subtitle and pre-title lines.',
 		'keywords' => array(
 			'title',
 			'subtitle',
+			'pre-title',
 			'heading',
-			'heading group'
+			'heading group',
+			'meta'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3209,6 +3164,117 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
+	),
+	'list-item-thumbnail' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/list-item-thumbnail',
+		'title' => 'Thumbnail List Item',
+		'category' => 'theatrum',
+		'description' => 'A single item in a thumbnail list, with a title, optional description, and a thumbnail image.',
+		'icon' => 'format-image',
+		'keywords' => array(
+			'thumbnail',
+			'list',
+			'item'
+		),
+		'parent' => array(
+			'chance/list-thumbnail'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'className' => true,
+			'customClassName' => true,
+			'anchor' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
+			)
+		),
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => '.item-title',
+				'default' => ''
+			),
+			'description' => array(
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => '.item-description',
+				'default' => ''
+			),
+			'thumbnailId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'thumbnailUrl' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'thumbnailAlt' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
+	),
+	'tab' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/tab',
+		'title' => 'Tab',
+		'category' => 'theatrum',
+		'icon' => 'index-card',
+		'description' => 'A single tab: a heading plus its content. Used inside Production Tabs.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'chance/production-tabs'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'lineHeight' => true
+			)
+		),
+		'attributes' => array(
+			'title' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'editorScript' => 'file:./index.js'
 	),
 	'table-body' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3946,256 +4012,5 @@ return array(
 		),
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css'
-	),
-	'tab-heading' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/tab-heading',
-		'title' => 'Accordion Heading',
-		'category' => 'design',
-		'description' => 'Displays a heading that toggles the accordion panel.',
-		'parent' => array(
-			'theatrum/tab-item'
-		),
-		'usesContext' => array(
-			'theatrum/tab-icon-position',
-			'theatrum/tab-show-icon',
-			'theatrum/tab-heading-level'
-		),
-		'supports' => array(
-			'anchor' => true,
-			'color' => array(
-				'background' => true,
-				'gradients' => true
-			),
-			'align' => false,
-			'interactivity' => true,
-			'spacing' => array(
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true
-				),
-				'__experimentalSkipSerialization' => true,
-				'__experimentalSelector' => '.wp-block-accordion-heading__toggle'
-			),
-			'__experimentalBorder' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true,
-				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => true,
-					'style' => true,
-					'width' => true
-				)
-			),
-			'typography' => array(
-				'__experimentalSkipSerialization' => array(
-					'textDecoration',
-					'letterSpacing'
-				),
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'fontFamily' => true
-				)
-			),
-			'shadow' => true,
-			'visibility' => false,
-			'lock' => false
-		),
-		'selectors' => array(
-			'typography' => array(
-				'letterSpacing' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title',
-				'textDecoration' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title'
-			)
-		),
-		'attributes' => array(
-			'openByDefault' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'title' => array(
-				'type' => 'rich-text',
-				'source' => 'rich-text',
-				'selector' => '.wp-block-accordion-heading__toggle-title',
-				'role' => 'content'
-			),
-			'level' => array(
-				'type' => 'number'
-			),
-			'iconPosition' => array(
-				'type' => 'string',
-				'enum' => array(
-					'left',
-					'right'
-				),
-				'default' => 'right'
-			),
-			'showIcon' => array(
-				'type' => 'boolean',
-				'default' => true
-			)
-		),
-		'textdomain' => 'theatrum-blocks'
-	),
-	'tab-item' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/tab-item',
-		'title' => 'Accordion Item',
-		'category' => 'design',
-		'description' => 'Wraps the heading and panel in one unit.',
-		'parent' => array(
-			'theatrum/tab'
-		),
-		'allowedBlocks' => array(
-			'theatrum/tab-heading',
-			'theatrum/tab-panel'
-		),
-		'supports' => array(
-			'html' => false,
-			'color' => array(
-				'background' => true,
-				'gradients' => true
-			),
-			'interactivity' => true,
-			'spacing' => array(
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true,
-				'blockGap' => true
-			),
-			'__experimentalBorder' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true,
-				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => true,
-					'style' => true,
-					'width' => true
-				)
-			),
-			'shadow' => true,
-			'layout' => array(
-				'allowEditing' => false
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true
-				)
-			),
-			'contentRole' => true
-		),
-		'attributes' => array(
-			'openByDefault' => array(
-				'type' => 'boolean',
-				'default' => false
-			)
-		),
-		'providesContext' => array(
-			'theatrum/tab-open-by-default' => 'openByDefault'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'style' => 'wp-block-accordion-item'
-	),
-	'tabs-panel' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/tab-panel',
-		'title' => 'Accordion Panel',
-		'category' => 'design',
-		'description' => 'Contains the hidden or revealed content beneath the heading.',
-		'parent' => array(
-			'theatrum/tab-item'
-		),
-		'usesContext' => array(
-			'theatrum/tab-open-by-default'
-		),
-		'supports' => array(
-			'html' => false,
-			'color' => array(
-				'background' => true,
-				'gradients' => true
-			),
-			'interactivity' => true,
-			'spacing' => array(
-				'padding' => true,
-				'blockGap' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true,
-					'blockGap' => true
-				)
-			),
-			'__experimentalBorder' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true,
-				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => true,
-					'style' => true,
-					'width' => true
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true
-				)
-			),
-			'shadow' => true,
-			'layout' => array(
-				'allowEditing' => false
-			),
-			'visibility' => false,
-			'contentRole' => true,
-			'allowedBlocks' => true,
-			'lock' => false
-		),
-		'attributes' => array(
-			'templateLock' => array(
-				'type' => array(
-					'string',
-					'boolean'
-				),
-				'enum' => array(
-					'all',
-					'insert',
-					'contentOnly',
-					false
-				),
-				'default' => false
-			)
-		),
-		'textdomain' => 'theatrum-blocks',
-		'style' => 'wp-block-accordion-panel'
 	)
 );

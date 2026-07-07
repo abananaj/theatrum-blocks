@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/production-tabs",
+	"title": "Production Tabs",
+	"category": "theatrum",
+	"icon": "index-card",
+	"description": "Horizontal tabs that collapse into a vertical accordion on mobile. Add a tab for each section and give it a heading.",
+	"textdomain": "theatrum-blocks",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textTransform": true
+		}
+	},
+	"allowedBlocks": ["chance/tab"],
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "chance/tab",
+				"attributes": { "title": "Synopsis" },
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": { "content": "What the show is about." }
+					}
+				]
+			},
+			{
+				"name": "chance/tab",
+				"attributes": { "title": "Cast" },
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": { "content": "Who is in it." }
+					}
+				]
+			}
+		]
+	},
+	"keywords": ["tabs", "accordion", "tabbed", "sections"],
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}

@@ -25,6 +25,10 @@ function theatrum_editor_permission_check()
 
 function register_cover_card_rest_endpoint()
 {
+	// Public by design — only returns already-public post data (title,
+	// permalink, featured image, dates). If this callback is ever extended,
+	// keep it that way; add a capability check before returning anything
+	// non-public.
 	register_rest_route(
 		'chance/v1',
 		'/cover-card/(?P<meta_key>[a-zA-Z0-9_-]+)',
