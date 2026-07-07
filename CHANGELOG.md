@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Renamed the `chance/title-subtitle` block to `chance/title-advanced` and reworked its inner-block template: the title is now a `core/post-title` (H1), the subtitle is a meta-bound `core/heading` (H2) bound to the `subtitle` field, and a new meta-bound `core/paragraph` above the title is bound to the `pre_title` field — both via the `chance/post-meta` bindings source
 - Renamed the core-block meta-binding variations from `chance/meta-*` to `chance/bind-*` (e.g. `chance/bind-image`, `chance/bind-button`) so they no longer collide with the real `chance/meta-*` custom block names/titles in the inserter; variation icons now use the matching core block icon tinted purple to signal "bound" at a glance
 - The `chance/meta-*` custom blocks are the primary, supported way to bind post meta/ACF — the `chance/bind-*` core-block variations are kept as optional alternates (e.g. for core/button's styling), not a migration path
 - cover-card adopts the post's nomenclature color on hover, with auto-contrasted text/buttons and a guarded fallback when no term color is assigned
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - query-filter's `orderby` mode (`date-asc`, `title-desc`, etc.) now maps to real `orderby`/`order` query vars via a `query_loop_block_query_vars` filter — previously the URL params it emitted had no consumer
 - cover-card now falls back to the block context `postId` when the attribute isn't set, so it adapts correctly inside a query loop
 - `build/` is now committed (previously gitignored), matching the git-pull deploy workflow which expects it present after `git pull`
+- Renamed `chance/thumbnail-list` to `chance/list-thumbnail` and refactored it to a nested-block pattern (model after `list-icons`/`list-item-icon`): items are now individual `chance/list-item-thumbnail` child blocks with inline title/description and a per-item thumbnail, giving native reordering/drag-and-drop instead of a custom item-management UI. Fixed the flip-card hover animation (was using a `translateY` meant for an absolutely-positioned overlay, plus `overflow: hidden` that silently killed the 3D `preserve-3d` transform) and added the missing `viewScript` registration, so the animation now runs on the frontend at all. Editor and frontend now share layout/dimensions via CSS custom properties instead of duplicated inline styles, so backend and frontend no longer diverge.
 
 ### Fixed
 

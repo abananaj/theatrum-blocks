@@ -55,7 +55,7 @@ theatrum-blocks/
 ├── inc/
 │   ├── helpers.php          # Shared PHP utilities (date parsing, queries)
 │   └── rest-endpoints.php   # Custom REST API endpoints for blocks
-├── build/                   # Output directory (gitignored)
+├── build/                   # Compiled output — COMMITTED (served by the deploy branch)
 │   ├── blocks/              # Compiled block bundles
 │   ├── blocks-manifest.json # Manifest of all registered blocks
 │   └── style-book.js        # Compiled style book script

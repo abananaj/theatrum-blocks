@@ -68,9 +68,10 @@ Hierarchical table block system.
 | `cover-carousel` | ⚠️ | Opacity won't save; nav broken on FE |
 | `list-icons` | ⚠️ | Needs list-item as nested block |
 | `list-icons/list-item-icon` | ✅ | Child of list-icons |
+| `list-thumbnail` | ✅ | Refactored to nested `list-item-thumbnail` blocks (model after list-icons); flip-card hover animation fixed |
+| `list-thumbnail/list-item-thumbnail` | ✅ | Child of list-thumbnail |
 | `media-popover` | ✅ | |
 | `popup` | ✅ | |
-| `thumbnail-list` | ⚠️ | Won't save/display image; text overlaps on FE |
 | `title-subtitle` | ⚠️ | Needs post title in allowed blocks |
 
 ### 🔍 Query & Data Blocks
@@ -165,7 +166,6 @@ npm run plugin-zip      # create a distributable plugin zip
 - `list-icons`: refactor to use nested `list-item-icon` block (model after `core/list` + `core/list-item`).
 - `title-subtitle`: add `core/post-title` to allowed inner blocks.
 - `card-carousel` / `cover-carousel`: resolve save-media and nav issues.
-- `thumbnail-list`: fix image save and text overlap.
 
 ---
 

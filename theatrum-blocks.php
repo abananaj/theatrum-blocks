@@ -87,7 +87,8 @@ function theatrum_register_blocks()
 
 		'production-quotes', // 🎭 var of repeater
 		// - [x] responds to font-size setting
-		'production-tabs', // 🎭
+		'production-tabs', // 🎭 responsive tabs (desktop) / accordion (mobile); InnerBlocks of chance/tab
+		'production-tabs/tab', // 🎭 single tab: heading + content
 		'production-trailer', // 🎭
 		// - [ ] editor shows the dashed preview chip; real filter is frontend-only
 
@@ -127,18 +128,10 @@ function theatrum_register_blocks()
 		'table-of-contents', 
 		// - [ ] auto-generate based on headings in conten
 
-		'tabs',
-		'tabs/tab-heading',
-		'tabs/tab-item',
-		'tabs/tab-panel',
-
-		'term-meta', // ⭐ 
-		'thumbnail-list',
-		// - [ ] editor shows static builder UI; 3D flip is frontend-only
-		// - [ ] doesn't save or display image on FE or BE
-		// - [ ] text overlaps on FE ![screenshot](image.png)
-		'title-subtitle', 
-		// - [ ] Add post title to allowed blocks
+		'term-meta', // ⭐
+		'list-thumbnail', // 🎭 InnerBlocks of chance/list-item-thumbnail; hover flip-card animation
+		'list-thumbnail/list-item-thumbnail',
+		'title-advanced',
 	);
 
 	foreach ($custom_blocks as $block) {
