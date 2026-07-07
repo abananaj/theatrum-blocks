@@ -8,6 +8,9 @@
 	"description": "An interactive list with thumbnail images that display when hovering over items. Each item is a nested block with a title, description, and thumbnail image.",
 	"textdomain": "theatrum-blocks",
 	"allowedBlocks": ["chance/list-item-thumbnail"],
+	"providesContext": {
+		"chance/imageSizeSlug": "imageSizeSlug"
+	},
 	"supports": {
 		"html": false,
 		"align": true,
@@ -83,6 +86,21 @@
 			"type": "string",
 			"default": "0.3",
 			"enum": ["0.2", "0.3", "0.5", "1"]
+		},
+		"imageSizeSlug": {
+			"type": "string",
+			"default": "full",
+			"description": "WP registered image size used to resolve each item's thumbnail URL"
+		},
+		"thumbnailAspectRatio": {
+			"type": "string",
+			"default": "auto",
+			"enum": ["auto", "1", "4/3", "3/4", "16/9", "9/16"]
+		},
+		"thumbnailObjectFit": {
+			"type": "string",
+			"default": "cover",
+			"enum": ["cover", "contain", "fill"]
 		}
 	},
 	"example": {},

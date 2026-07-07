@@ -1,44 +1,74 @@
 /**
  * Thumbnail List Item Block Editor (child of chance/list-thumbnail)
  *
- * Renders a single `.list-item` with editable title/description (inline
- * RichText) and a thumbnail image managed from the Inspector. Pressing Enter
- * splits the item into a new sibling (like core/list-item); backspacing an
- * empty item merges/removes it. Layout (height, spacing, hover transition)
- * comes from the parent's CSS custom properties via style.scss, so this
- * component only needs to render structure — it stays identical between the
- * editor and the frontend.
+ * Renders a single `.list-item` containing nested heading/paragraph content
+ * (a real InnerBlocks area, not fixed RichText fields — lets each item hold
+ * whatever mix of headings/paragraphs is needed) plus a thumbnail image
+ * managed from the Inspector.
+ *
+ * The parent's "Resolution" setting (`imageSizeSlug`) flows down as block
+ * context. Because this is a static block, the resolved image URL for that
+ * size must be baked into `thumbnailUrl` at edit-time — there is no
+ * render.php to resolve it later — so an effect re-resolves the URL whenever
+ * the context value changes, using the canonical media entity (`core.getMedia`)
+ * rather than trusting whatever URL the media picker returned at selection time.
  */
 
 import {
 	useBlockProps,
-	RichText,
+	useInnerBlocksProps,
 	MediaUpload,
 	MediaUploadCheck,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { createBlock } from '@wordpress/blocks';
-import { Fragment } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import { Fragment, useEffect } from '@wordpress/element';
 import { Button, PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
-export default function Edit({
-	attributes,
-	setAttributes,
-	onReplace,
-	mergeBlocks,
-	onRemove,
-	clientId,
-}) {
-	const { title, description, thumbnailId, thumbnailUrl, thumbnailAlt } = attributes;
+const TEMPLATE = [
+	['core/heading', { level: 3, placeholder: __('List item', 'theatrum-blocks') }],
+	['core/paragraph', { placeholder: __('Add a description (optional)', 'theatrum-blocks') }],
+];
+
+export default function Edit({ attributes, setAttributes, context }) {
+	const { thumbnailId, thumbnailUrl, thumbnailAlt } = attributes;
+	const imageSizeSlug = context['chance/imageSizeSlug'] || 'full';
 	const blockProps = useBlockProps({ className: 'list-item' });
 
-	const setThumbnail = (media) => {
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ['core/heading', 'core/paragraph'],
+		template: TEMPLATE,
+		templateLock: false,
+	});
+
+	// Re-resolve the saved thumbnailUrl whenever the list-wide Resolution
+	// setting changes, so existing items pick up the new size without needing
+	// to re-select their image.
+	const media = useSelect(
+		(select) => (thumbnailId ? select('core').getMedia(thumbnailId) : null),
+		[thumbnailId]
+	);
+
+	useEffect(() => {
+		if (!media) {
+			return;
+		}
+		const sizes = media.media_details?.sizes || {};
+		const resolvedUrl = sizes[imageSizeSlug]?.source_url || media.source_url || thumbnailUrl;
+		if (resolvedUrl && resolvedUrl !== thumbnailUrl) {
+			setAttributes({ thumbnailUrl: resolvedUrl });
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [media, imageSizeSlug]);
+
+	const setThumbnail = (selectedMedia) => {
+		const sizeData = selectedMedia.sizes?.[imageSizeSlug] || selectedMedia.sizes?.full;
 		setAttributes({
-			thumbnailId: media.id,
-			thumbnailUrl: media.url,
-			thumbnailAlt: media.alt || '',
+			thumbnailId: selectedMedia.id,
+			thumbnailUrl: sizeData?.url || selectedMedia.url,
+			thumbnailAlt: selectedMedia.alt || '',
 		});
 	};
 
@@ -93,42 +123,7 @@ export default function Edit({
 				</PanelBody>
 			</InspectorControls>
 
-			<div {...blockProps}>
-				<RichText
-					identifier="title"
-					tagName="div"
-					className="item-title"
-					value={title}
-					onChange={(value) => setAttributes({ title: value })}
-					placeholder={__('List item', 'theatrum-blocks')}
-					onSplit={(value, isOriginal) => {
-						// Keep the thumbnail with the original item; a freshly
-						// split item starts without one.
-						const newAttributes = isOriginal
-							? { ...attributes, title: value }
-							: { title: value };
-
-						const block = createBlock('chance/list-item-thumbnail', newAttributes);
-
-						if (isOriginal) {
-							block.clientId = clientId;
-						}
-
-						return block;
-					}}
-					onReplace={onReplace}
-					onMerge={mergeBlocks}
-					onRemove={onRemove}
-				/>
-				<RichText
-					identifier="description"
-					tagName="div"
-					className="item-description"
-					value={description}
-					onChange={(value) => setAttributes({ description: value })}
-					placeholder={__('Add a description (optional)', 'theatrum-blocks')}
-				/>
-			</div>
+			<div {...innerBlocksProps} />
 		</Fragment>
 	);
 }

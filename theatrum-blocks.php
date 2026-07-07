@@ -117,20 +117,19 @@ function theatrum_register_blocks()
 		'table-advanced/table-footer',
 		'table-advanced/table-row',
 		'table-advanced/table-heading-cell',
-		// - [x] responds to background & text color settings
 		'table-advanced/table-cell',
-		// - [x] responds to background & text color settings
 		// - [ ] add toggle for empty
-		// - [ ] allow buttons & button.
-
 		// - [ ] make flex & allow vertical & horizontal alignment, default center middle
 
 		'table-of-contents', 
 		// - [ ] auto-generate based on headings in conten
 
-		'term-meta', // ⭐
+		'term-meta',
 		'list-thumbnail', // 🎭 InnerBlocks of chance/list-item-thumbnail; hover flip-card animation
 		'list-thumbnail/list-item-thumbnail',
+		// - [x] nests core/heading + core/paragraph inside each item
+		// - [x] list-wide image resolution/aspect-ratio/object-fit controls
+
 		'title-advanced',
 	);
 

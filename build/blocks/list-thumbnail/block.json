@@ -10,6 +10,9 @@
   "allowedBlocks": [
     "chance/list-item-thumbnail"
   ],
+  "providesContext": {
+    "chance/imageSizeSlug": "imageSizeSlug"
+  },
   "supports": {
     "html": false,
     "align": true,
@@ -102,6 +105,32 @@
         "0.3",
         "0.5",
         "1"
+      ]
+    },
+    "imageSizeSlug": {
+      "type": "string",
+      "default": "full",
+      "description": "WP registered image size used to resolve each item's thumbnail URL"
+    },
+    "thumbnailAspectRatio": {
+      "type": "string",
+      "default": "auto",
+      "enum": [
+        "auto",
+        "1",
+        "4/3",
+        "3/4",
+        "16/9",
+        "9/16"
+      ]
+    },
+    "thumbnailObjectFit": {
+      "type": "string",
+      "default": "cover",
+      "enum": [
+        "cover",
+        "contain",
+        "fill"
       ]
     }
   },

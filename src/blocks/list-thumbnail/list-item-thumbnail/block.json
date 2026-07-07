@@ -4,10 +4,12 @@
 	"name": "chance/list-item-thumbnail",
 	"title": "Thumbnail List Item",
 	"category": "theatrum",
-	"description": "A single item in a thumbnail list, with a title, optional description, and a thumbnail image.",
+	"description": "A single item in a thumbnail list: nested heading/paragraph content plus a thumbnail image.",
 	"icon": "format-image",
 	"keywords": ["thumbnail", "list", "item"],
 	"parent": ["chance/list-thumbnail"],
+	"allowedBlocks": ["core/heading", "core/paragraph"],
+	"usesContext": ["chance/imageSizeSlug"],
 	"supports": {
 		"html": false,
 		"reusable": false,
@@ -34,18 +36,6 @@
 		}
 	},
 	"attributes": {
-		"title": {
-			"type": "string",
-			"source": "html",
-			"selector": ".item-title",
-			"default": ""
-		},
-		"description": {
-			"type": "string",
-			"source": "html",
-			"selector": ".item-description",
-			"default": ""
-		},
 		"thumbnailId": {
 			"type": "number",
 			"default": 0

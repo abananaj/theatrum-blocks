@@ -754,6 +754,9 @@ return array(
 		'allowedBlocks' => array(
 			'chance/list-item-thumbnail'
 		),
+		'providesContext' => array(
+			'chance/imageSizeSlug' => 'imageSizeSlug'
+		),
 		'supports' => array(
 			'html' => false,
 			'align' => true,
@@ -846,6 +849,32 @@ return array(
 					'0.3',
 					'0.5',
 					'1'
+				)
+			),
+			'imageSizeSlug' => array(
+				'type' => 'string',
+				'default' => 'full',
+				'description' => 'WP registered image size used to resolve each item\'s thumbnail URL'
+			),
+			'thumbnailAspectRatio' => array(
+				'type' => 'string',
+				'default' => 'auto',
+				'enum' => array(
+					'auto',
+					'1',
+					'4/3',
+					'3/4',
+					'16/9',
+					'9/16'
+				)
+			),
+			'thumbnailObjectFit' => array(
+				'type' => 'string',
+				'default' => 'cover',
+				'enum' => array(
+					'cover',
+					'contain',
+					'fill'
 				)
 			)
 		),
@@ -3171,7 +3200,7 @@ return array(
 		'name' => 'chance/list-item-thumbnail',
 		'title' => 'Thumbnail List Item',
 		'category' => 'theatrum',
-		'description' => 'A single item in a thumbnail list, with a title, optional description, and a thumbnail image.',
+		'description' => 'A single item in a thumbnail list: nested heading/paragraph content plus a thumbnail image.',
 		'icon' => 'format-image',
 		'keywords' => array(
 			'thumbnail',
@@ -3180,6 +3209,13 @@ return array(
 		),
 		'parent' => array(
 			'chance/list-thumbnail'
+		),
+		'allowedBlocks' => array(
+			'core/heading',
+			'core/paragraph'
+		),
+		'usesContext' => array(
+			'chance/imageSizeSlug'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3207,18 +3243,6 @@ return array(
 			)
 		),
 		'attributes' => array(
-			'title' => array(
-				'type' => 'string',
-				'source' => 'html',
-				'selector' => '.item-title',
-				'default' => ''
-			),
-			'description' => array(
-				'type' => 'string',
-				'source' => 'html',
-				'selector' => '.item-description',
-				'default' => ''
-			),
 			'thumbnailId' => array(
 				'type' => 'number',
 				'default' => 0

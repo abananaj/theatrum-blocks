@@ -18,15 +18,26 @@ export function getThumbnailListProps(attributes) {
 		thumbnailWidthUnit,
 		thumbnailHeight,
 		thumbnailHeightUnit,
+		thumbnailAspectRatio,
+		thumbnailObjectFit,
 	} = attributes;
 
-	const className = `thumbnail-position-${thumbnailPosition}`;
+	const hasAspectRatio = thumbnailAspectRatio && thumbnailAspectRatio !== 'auto';
+
+	const className = [
+		`thumbnail-position-${thumbnailPosition}`,
+		hasAspectRatio ? 'has-aspect-ratio' : '',
+	]
+		.filter(Boolean)
+		.join(' ');
 
 	const style = {
 		'--animation-speed': `${animationSpeed}s`,
 		'--item-height': `${itemHeight}${itemHeightUnit}`,
 		'--thumb-width': `${thumbnailWidth}${thumbnailWidthUnit}`,
 		'--thumb-height': `${thumbnailHeight}${thumbnailHeightUnit}`,
+		'--thumb-object-fit': thumbnailObjectFit || 'cover',
+		...(hasAspectRatio ? { '--thumb-aspect-ratio': thumbnailAspectRatio } : {}),
 	};
 
 	return { className, style };

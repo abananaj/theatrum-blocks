@@ -1,11 +1,14 @@
 # Thumbnail List Block
 
-An interactive block that displays a list of items with corresponding thumbnail images. When users hover over list items, a flip-card panel updates with a smooth 3D flip animation. Each item is a nested `chance/list-item-thumbnail` block (title, description, thumbnail image) — modeled after the `list-icons` / `list-item-icon` pattern.
+An interactive block that displays a list of items with corresponding thumbnail images. When users hover over list items, a flip-card panel updates with a smooth 3D flip animation. Each item is a nested `chance/list-item-thumbnail` block (nested heading/paragraph content, plus a thumbnail image) — modeled after the `list-icons` / `list-item-icon` pattern.
 
 ## Features
 
 - **Nested List Items**: Each item is its own block — native WP reordering, drag-and-drop, and per-item Inspector settings
+- **Nested Content**: Each item's content is real `core/heading` + `core/paragraph` InnerBlocks, not fixed text fields — add, remove, or reorder them like any other block content
 - **Thumbnail Images**: Each item's thumbnail is selected from the media library
+- **Image Resolution Control**: List-wide setting for which registered WP image size (Thumbnail/Medium/Large/Full/custom) is actually served
+- **Aspect Ratio & Object Fit**: List-wide controls for the flip-card panel's aspect ratio (auto/1:1/4:3/3:4/16:9/9:16) and how the image fills it (cover/contain/fill)
 - **3D Flip Animation**: Two-face flip card (front/back), same mechanism as the source CodePen
 - **Customizable Layout**: Choose thumbnail position (left or right)
 - **Configurable Sizing**: Control item height, thumbnail width/height with flexible units
@@ -19,24 +22,26 @@ List-wide settings, applied as CSS custom properties consumed by the child items
 
 - `thumbnailPosition` (string): Position of the flip-card panel - "left" or "right" (default: "right")
 - `thumbnailWidth` / `thumbnailWidthUnit` (string): Flip-card panel width (default: "400px")
-- `thumbnailHeight` / `thumbnailHeightUnit` (string): Flip-card panel height (default: "300px")
+- `thumbnailHeight` / `thumbnailHeightUnit` (string): Flip-card panel height (default: "300px") — ignored when `thumbnailAspectRatio` is not "auto"
 - `itemHeight` / `itemHeightUnit` (string): Height of each list item (default: "80px")
 - `animationSpeed` (string): Duration of the flip/hover transitions - "0.2", "0.3", "0.5", or "1" (default: "0.3")
+- `imageSizeSlug` (string): WP registered image size used to resolve every item's thumbnail URL (default: "full"); passed down to children as block context (`chance/imageSizeSlug`)
+- `thumbnailAspectRatio` (string): "auto" (use `thumbnailHeight`), "1", "4/3", "3/4", "16/9", or "9/16" — when set, height is derived from width via CSS `aspect-ratio` instead
+- `thumbnailObjectFit` (string): "cover", "contain", or "fill" (default: "cover")
 
 ## Child Block: `chance/list-item-thumbnail`
 
-- `title` (string, RichText): Item title, edited inline
-- `description` (string, RichText): Optional item description, edited inline
+- Nested content: `core/heading` + `core/paragraph` InnerBlocks (default template), restricted to those two block types
 - `thumbnailId` (number): Media library attachment ID
-- `thumbnailUrl` (string): URL of the thumbnail image
+- `thumbnailUrl` (string): Resolved URL of the thumbnail image at the parent's chosen `imageSizeSlug`
 - `thumbnailAlt` (string): Alt text for accessibility
 
-The thumbnail image is selected via the Inspector panel while the child block is selected.
+The thumbnail image is selected via the Inspector panel while the child block is selected. Because this is a static block, `thumbnailUrl` is re-resolved from the source media (`core.getMedia`) whenever the parent's Resolution setting changes, so existing items pick up the new size automatically — re-save the post for it to take effect on the frontend.
 
 ## Editor Features
 
 - **Add Items**: Use the InnerBlocks appender to add new `list-item-thumbnail` blocks
-- **Edit Items**: Click into any item's title/description to edit inline; select the item to manage its thumbnail in the Inspector
+- **Edit Content**: Edit each item's heading/paragraph content directly like any nested block; select the item to manage its thumbnail in the Inspector
 - **Reorder Items**: Native drag-and-drop / block-mover controls
 - **Delete Items**: Remove a child block like any other block
 
@@ -54,9 +59,9 @@ The block supports all standard WordPress block styling options:
 
 1. Add a new Thumbnail List block to your page
 2. Use the appender to add list items (two are added by default)
-3. Click into an item to edit its title/description; select it to add a thumbnail image via the Inspector
+3. Edit each item's heading/paragraph content; select the item to add a thumbnail image via the Inspector
 4. Repeat for additional items
-5. Customize the layout and animation settings in the parent block's Inspector panel
+5. Customize the layout, image resolution/aspect ratio, and animation settings in the parent block's Inspector panel
 
 ## Responsive Behavior
 

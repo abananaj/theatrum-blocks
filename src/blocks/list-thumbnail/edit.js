@@ -20,6 +20,7 @@ import {
 	useInnerBlocksProps,
 	InnerBlocks,
 	InspectorControls,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { Fragment, useState, useEffect } from '@wordpress/element';
@@ -37,8 +38,8 @@ import { getThumbnailListProps } from './shared';
 import './editor.scss';
 
 const TEMPLATE = [
-	['chance/list-item-thumbnail', { title: __('List item', 'theatrum-blocks') }],
-	['chance/list-item-thumbnail', { title: __('List item', 'theatrum-blocks') }],
+	['chance/list-item-thumbnail'],
+	['chance/list-item-thumbnail'],
 ];
 
 export default function Edit({ attributes, setAttributes, clientId }) {
@@ -51,6 +52,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		itemHeightUnit,
 		thumbnailPosition,
 		animationSpeed,
+		imageSizeSlug,
+		thumbnailAspectRatio,
+		thumbnailObjectFit,
 	} = attributes;
 
 	const { className, style } = getThumbnailListProps(attributes);
@@ -64,6 +68,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		(select) => select('core/block-editor').getBlocks(clientId),
 		[clientId]
 	);
+
+	// Registered WP image sizes (Thumbnail/Medium/Large/Full + any custom
+	// sizes), same source core/image uses for its own size dropdown.
+	const imageSizeOptions = useSelect((select) => {
+		const sizes = select(blockEditorStore).getSettings().imageSizes || [];
+		return sizes.map(({ slug, name }) => ({ label: name, value: slug }));
+	}, []);
 
 	const [hoverIndex, setHoverIndex] = useState(0);
 	const [faces, setFaces] = useState({ front: null, back: null });
@@ -209,32 +220,34 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</div>
 					</ToolsPanelItem>
 
-					<ToolsPanelItem
-						hasValue={() => thumbnailHeight !== '300'}
-						label={__('Thumbnail Height', 'theatrum-blocks')}
-						onDeselect={() => setAttributes({ thumbnailHeight: '300', thumbnailHeightUnit: 'px' })}
-						isShownByDefault={false}
-					>
-						<div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-							<TextControl
-								label={__('Height', 'theatrum-blocks')}
-								value={thumbnailHeight}
-								onChange={(value) => setAttributes({ thumbnailHeight: value })}
-								type="number"
-								style={{ flex: 1 }}
-							/>
-							<SelectControl
-								value={thumbnailHeightUnit}
-								options={[
-									{ label: 'px', value: 'px' },
-									{ label: 'em', value: 'em' },
-									{ label: 'rem', value: 'rem' },
-								]}
-								onChange={(value) => setAttributes({ thumbnailHeightUnit: value })}
-								style={{ width: '80px' }}
-							/>
-						</div>
-					</ToolsPanelItem>
+					{thumbnailAspectRatio === 'auto' && (
+						<ToolsPanelItem
+							hasValue={() => thumbnailHeight !== '300'}
+							label={__('Thumbnail Height', 'theatrum-blocks')}
+							onDeselect={() => setAttributes({ thumbnailHeight: '300', thumbnailHeightUnit: 'px' })}
+							isShownByDefault={false}
+						>
+							<div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+								<TextControl
+									label={__('Height', 'theatrum-blocks')}
+									value={thumbnailHeight}
+									onChange={(value) => setAttributes({ thumbnailHeight: value })}
+									type="number"
+									style={{ flex: 1 }}
+								/>
+								<SelectControl
+									value={thumbnailHeightUnit}
+									options={[
+										{ label: 'px', value: 'px' },
+										{ label: 'em', value: 'em' },
+										{ label: 'rem', value: 'rem' },
+									]}
+									onChange={(value) => setAttributes({ thumbnailHeightUnit: value })}
+									style={{ width: '80px' }}
+								/>
+							</div>
+						</ToolsPanelItem>
+					)}
 
 					<ToolsPanelItem
 						hasValue={() => animationSpeed !== '0.3'}
@@ -252,6 +265,72 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								{ label: __('Very Slow (1s)', 'theatrum-blocks'), value: '1' },
 							]}
 							onChange={(value) => setAttributes({ animationSpeed: value })}
+						/>
+					</ToolsPanelItem>
+				</ToolsPanel>
+
+				<ToolsPanel
+					label={__('Image Settings', 'theatrum-blocks')}
+					resetAll={() => {
+						setAttributes({
+							imageSizeSlug: 'full',
+							thumbnailAspectRatio: 'auto',
+							thumbnailObjectFit: 'cover',
+						});
+					}}
+				>
+					<ToolsPanelItem
+						hasValue={() => imageSizeSlug !== 'full'}
+						label={__('Resolution', 'theatrum-blocks')}
+						onDeselect={() => setAttributes({ imageSizeSlug: 'full' })}
+						isShownByDefault={true}
+					>
+						<SelectControl
+							label={__('Resolution', 'theatrum-blocks')}
+							help={__('The size of image to load for every item — smaller sizes load faster.', 'theatrum-blocks')}
+							value={imageSizeSlug}
+							options={imageSizeOptions}
+							onChange={(value) => setAttributes({ imageSizeSlug: value })}
+						/>
+					</ToolsPanelItem>
+
+					<ToolsPanelItem
+						hasValue={() => thumbnailAspectRatio !== 'auto'}
+						label={__('Aspect Ratio', 'theatrum-blocks')}
+						onDeselect={() => setAttributes({ thumbnailAspectRatio: 'auto' })}
+						isShownByDefault={true}
+					>
+						<SelectControl
+							label={__('Aspect Ratio', 'theatrum-blocks')}
+							help={__('"Auto" uses the Thumbnail Height above; any other ratio derives height from width instead.', 'theatrum-blocks')}
+							value={thumbnailAspectRatio}
+							options={[
+								{ label: __('Auto (use Thumbnail Height)', 'theatrum-blocks'), value: 'auto' },
+								{ label: __('Square (1:1)', 'theatrum-blocks'), value: '1' },
+								{ label: __('Standard (4:3)', 'theatrum-blocks'), value: '4/3' },
+								{ label: __('Portrait (3:4)', 'theatrum-blocks'), value: '3/4' },
+								{ label: __('Widescreen (16:9)', 'theatrum-blocks'), value: '16/9' },
+								{ label: __('Vertical (9:16)', 'theatrum-blocks'), value: '9/16' },
+							]}
+							onChange={(value) => setAttributes({ thumbnailAspectRatio: value })}
+						/>
+					</ToolsPanelItem>
+
+					<ToolsPanelItem
+						hasValue={() => thumbnailObjectFit !== 'cover'}
+						label={__('Object Fit', 'theatrum-blocks')}
+						onDeselect={() => setAttributes({ thumbnailObjectFit: 'cover' })}
+						isShownByDefault={true}
+					>
+						<SelectControl
+							label={__('Object Fit', 'theatrum-blocks')}
+							value={thumbnailObjectFit}
+							options={[
+								{ label: __('Cover (crop to fill)', 'theatrum-blocks'), value: 'cover' },
+								{ label: __('Contain (fit within, may letterbox)', 'theatrum-blocks'), value: 'contain' },
+								{ label: __('Fill (stretch to fill)', 'theatrum-blocks'), value: 'fill' },
+							]}
+							onChange={(value) => setAttributes({ thumbnailObjectFit: value })}
 						/>
 					</ToolsPanelItem>
 				</ToolsPanel>
