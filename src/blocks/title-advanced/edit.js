@@ -1,11 +1,39 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 const TEMPLATE = [
-	[ 'core/heading', { level: 1, placeholder: 'Title' } ],
-	[ 'core/heading', { level: 2, placeholder: 'Subtitle' } ],
+	[
+		'core/paragraph',
+		{
+			placeholder: 'Pre-title',
+			metadata: {
+				bindings: {
+					content: {
+						source: 'chance/post-meta',
+						args: { key: 'pre_title' },
+					},
+				},
+			},
+		},
+	],
+	[ 'core/post-title', { level: 1 } ],
+	[
+		'core/heading',
+		{
+			level: 2,
+			placeholder: 'Subtitle',
+			metadata: {
+				bindings: {
+					content: {
+						source: 'chance/post-meta',
+						args: { key: 'subtitle' },
+					},
+				},
+			},
+		},
+	],
 ];
 
-const ALLOWED_BLOCKS = [ 'core/heading', 'core/post-title' ];
+const ALLOWED_BLOCKS = [ 'core/post-title', 'core/heading', 'core/paragraph' ];
 
 export default function Edit() {
 	const blockProps = useBlockProps();
