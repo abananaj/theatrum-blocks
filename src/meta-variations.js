@@ -22,12 +22,12 @@ import './utils/meta-transforms';
 
 const BIND_COLOR = '#8B5CF6';
 
-registerBlockVariation('core/image', {
+registerBlockVariation( 'core/image', {
 	name: 'chance/bind-image',
 	title: 'Image (Meta Bound)',
 	description: 'Display an image from post meta or ACF',
 	icon: { src: image, foreground: BIND_COLOR },
-	keywords: ['meta', 'image', 'acf', 'photo', 'bind'],
+	keywords: [ 'meta', 'image', 'acf', 'photo', 'bind' ],
 	attributes: {
 		metadata: {
 			name: 'chance/bind-image',
@@ -36,15 +36,15 @@ registerBlockVariation('core/image', {
 			},
 		},
 	},
-	isActive: (attrs) => attrs?.metadata?.name === 'chance/bind-image',
-});
+	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-image',
+} );
 
-registerBlockVariation('core/button', {
+registerBlockVariation( 'core/button', {
 	name: 'chance/bind-button',
 	title: 'Button (Meta Bound)',
 	description: 'Button whose URL is pulled from post meta',
 	icon: { src: button, foreground: BIND_COLOR },
-	keywords: ['meta', 'button', 'link', 'acf', 'bind'],
+	keywords: [ 'meta', 'button', 'link', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
 			name: 'chance/bind-button',
@@ -53,15 +53,15 @@ registerBlockVariation('core/button', {
 			},
 		},
 	},
-	isActive: (attrs) => attrs?.metadata?.name === 'chance/bind-button',
-});
+	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-button',
+} );
 
-registerBlockVariation('core/paragraph', {
+registerBlockVariation( 'core/paragraph', {
 	name: 'chance/bind-field',
 	title: 'Paragraph (Meta Bound)',
 	description: 'Display any text value from post meta',
 	icon: { src: paragraph, foreground: BIND_COLOR },
-	keywords: ['meta', 'field', 'text', 'acf', 'bind'],
+	keywords: [ 'meta', 'field', 'text', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
 			name: 'chance/bind-field',
@@ -70,32 +70,35 @@ registerBlockVariation('core/paragraph', {
 			},
 		},
 	},
-	isActive: (attrs) => attrs?.metadata?.name === 'chance/bind-field',
-});
+	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-field',
+} );
 
-registerBlockVariation('core/paragraph', {
+registerBlockVariation( 'core/paragraph', {
 	name: 'chance/bind-date',
 	title: 'Date (Meta Bound)',
 	description: 'Display a formatted date from post meta',
 	icon: { src: paragraph, foreground: BIND_COLOR },
-	keywords: ['meta', 'date', 'acf', 'bind'],
+	keywords: [ 'meta', 'date', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
 			name: 'chance/bind-date',
 			bindings: {
-				content: { source: 'chance/post-meta', args: { key: '', format: 'M jS' } },
+				content: {
+					source: 'chance/post-meta',
+					args: { key: '', format: 'M jS' },
+				},
 			},
 		},
 	},
-	isActive: (attrs) => attrs?.metadata?.name === 'chance/bind-date',
-});
+	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-date',
+} );
 
-registerBlockVariation('core/embed', {
+registerBlockVariation( 'core/embed', {
 	name: 'chance/bind-embed',
 	title: 'Embed (Meta Bound)',
 	description: 'Embed a video from a URL stored in post meta',
 	icon: { src: 'embed-generic', foreground: BIND_COLOR },
-	keywords: ['meta', 'embed', 'video', 'acf', 'bind'],
+	keywords: [ 'meta', 'embed', 'video', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
 			name: 'chance/bind-embed',
@@ -104,15 +107,15 @@ registerBlockVariation('core/embed', {
 			},
 		},
 	},
-	isActive: (attrs) => attrs?.metadata?.name === 'chance/bind-embed',
-});
+	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-embed',
+} );
 
-registerBlockVariation('core/file', {
+registerBlockVariation( 'core/file', {
 	name: 'chance/bind-file',
 	title: 'File (Meta Bound)',
 	description: 'File download link from post meta or ACF',
 	icon: { src: file, foreground: BIND_COLOR },
-	keywords: ['meta', 'file', 'download', 'acf', 'bind'],
+	keywords: [ 'meta', 'file', 'download', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
 			name: 'chance/bind-file',
@@ -121,5 +124,5 @@ registerBlockVariation('core/file', {
 			},
 		},
 	},
-	isActive: (attrs) => attrs?.metadata?.name === 'chance/bind-file',
-});
+	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-file',
+} );

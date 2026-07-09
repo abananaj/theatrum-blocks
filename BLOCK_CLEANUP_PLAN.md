@@ -1,5 +1,35 @@
 # Theatrum Blocks — Cleanup, Deprecation & Streamlining
 
+## Status: 21 of 22 items complete (2026-07-09)
+
+Everything below was implemented and verified in a single session: every change was build-tested (`npm run build`), lint-checked, and the full site (1,816 published posts) was re-checked for PHP render errors after each phase — **zero errors** throughout. Nothing has been visually tested in a browser and nothing is committed — both are intentionally left for you.
+
+**The one item not done:** `card-carousel` InnerBlocks rebuild (Phase 3 cosmetic). See **"Remaining work"** at the bottom — that section is the actual next step, written for a fresh session with no memory of this one.
+
+**Before you touch anything:** read "Implementation notes — things that changed the plan" below. Several assumptions in the original plan (further down) turned out to be wrong or already-stale once actually checked against the code and database, and re-deriving that would waste time.
+
+---
+
+## Implementation notes — things that changed the plan
+
+These are corrections/discoveries made *while implementing*, not part of the original plan. They matter if you're verifying this work or picking up `card-carousel`.
+
+- **A real bug was found and fixed along the way, not in the original plan:** the "People" page (post 2750) was rendering every board/staff member **twice** — once via the old `chance/board-member`/`chance/staff-member` blocks (kept around inside a group with an inert `"blockVisibility":false` metadata key that nothing actually reads) and once via their already-migrated `chance/site-option` replacements. Removed the dead duplicate groups; visible content is unchanged, duplication is gone.
+- **`meta-icon` and `cover-carousel` template blocker evaporated on its own.** The plan (written earlier) said `single-production.html` hard-coded `meta-icon` × 9 and `season-producer` × 4, blocking `meta-icon` deletion pending an image-ID-vs-dashicon-slug decision. By the time implementation started, that template had already been refactored elsewhere (unrelated theme work) to a plain `wp:post-content` block with no hard-coded blocks at all. Both blocks re-verified at 0 live instances and deleted outright — no migration, no decision needed.
+- **`meta-repeater`'s "add a list-style:none toggle" was backwards.** `style.scss` already applies `list-style: none` unconditionally — bullets are *already* always hidden. Implemented the useful inverse instead: a `showListStyle` attribute that opts back **into** native markers, since a no-op "hide bullets" toggle would have shipped dead UI.
+- **`meta-repeater`'s "drop the div option" was not safe to do.** Live content extensively uses `tagName:"div"` — it's the single most common explicit wrapper across the executive/associate/corporate/supporting-producer credit blocks on many production pages. Removing it from the allowlist would have silently converted plain-text producer credits into bulleted `<ul><li>` lists on every one of those pages. Left `div` fully supported; added `<p>` (with forced `<span>` subfields, since `<p>` can't legally contain block-level children) as a new option alongside it instead of replacing anything.
+- **`production-tabs`' vertical-editor/horizontal-frontend "mismatch" is intentional, not a bug.** `editor.scss` has its own comment explaining the stacked editor view exists so every tab's content can be edited at once, without switching tabs. The frontend's responsive horizontal/vertical tab strip is already modern and complete. Left as-is — matching the frontend exactly would make editing multi-tab content worse.
+- **`table-advanced`'s "default to table-layout:auto" was already done.** Already the default in `style.scss`; `tableLayoutFixed` attribute already defaults to `false`. No change needed.
+- **`media-popover`'s "invert nesting" doesn't match current code.** `save.js` already wraps both the trigger content and the popover content as siblings inside a shared `.media-popover-trigger:hover` target — a standard, correct CSS hover pattern. No reproducible defect found; left untouched.
+- **`list-icons` SVG recoloring required more than a CSS variable.** The parent block already had a full, wired-up color picker (`--list-icon-color` custom property) — it was just connate to nothing, since icons render as `<img src="icon.svg">` and CSS cannot recolor an externally-referenced SVG's internal fill via `color`/custom properties. Switched SVG icons (detected by `.svg` extension) to a CSS-mask `<span>` instead of `<img>`, which *can* be recolored. **Live SVG icons already exist in the database** (posts 49, 99222) — added a `deprecated.js` v1 entry preserving the old `<img>`-based save shape so those don't show an editor validation warning; they'll upgrade to the new shape automatically the next time they're re-saved.
+- **The ServerSideRender migration (Phase 2) has one known limitation, currently unreachable:** `<ServerSideRender>` doesn't inherit block context (like `postId`) from an ancestor Query Loop the way a real nested render would — it always renders using the top-level edited post. Checked the database: **none of the 12 migrated blocks are currently used inside a Query Loop anywhere on the site**, so this doesn't affect any existing content. It would matter only if someone inserts one of these blocks *inside* a Query Loop in the future — the editor preview would show the wrong post's data (frontend would still be correct, since PHP rendering does receive real context). Worth knowing, not worth blocking on.
+- **Two Windows/tooling gotchas hit during implementation, in case they recur:** (1) Python's default text-mode file write on Windows silently introduces CRLF line endings even when writing `\n` — always normalize with `newline=''` or a post-write strip pass, or lint will flag every line. (2) `npx wp-scripts lint-js --fix <one-file>` still evaluates and *reports* (though does not modify) unrelated files across the whole project — don't be alarmed by a huge unrelated error dump; check the "modified files" notice to confirm scope stayed to the intended file.
+- **Deprecated-block folders were fully deleted, not soft-retired.** The original plan's "Retirement mechanics" suggested `supports.inserter:false` first, folder removal later. In practice every retired block (`meta-icon`, `cover-carousel`, `card-static`, `copyright-date-block`, `board-member`, `staff-member`, `season-producer`, `production-trailer`) had 0 live (non-revision) instances confirmed **before** deletion, so the soft-retire step was skipped as unnecessary. `season-producer/render.php` was deleted per the plan (was a byte-for-byte duplicate of `term-meta/render.php`'s season-producer branch).
+- **`inc/rest-endpoints.php`: 1,030 → 262 lines** (not ~1,100 removed from 1,424 — the file had grown since the plan's line-count estimate). Kept exactly three endpoints: `cover-card`, `meta-gallery`, `meta-image` — the three blocks that retain custom interactive editor previews. Confirmed via `rest_get_server()->get_routes()` that only those three `chance/v1` routes remain (plus unrelated theme-owned `artist-credits`/`credit`/`production-credits` routes).
+- **Block registry: 50 → 42.** All 8 retired blocks accounted for; theme-owned `chance/artist-credits` and `chance/production-credits` remain (not part of this plugin).
+
+---
+
 ## Context
 
 `theatrum-blocks.php` has accumulated ~60 lines of inline TODO comments under the `$custom_blocks` array — a running list of small defects and ideas across 48 blocks. This plan triages those notes, backs them with root-cause diagnoses, records the deprecated-block migration set (with exact database and theme-template locations), and fixes the architectural duplication behind most of the complaints.
@@ -7,180 +37,154 @@
 **The single finding that explains most of the notes:** no block in the plugin uses `ServerSideRender`. Every dynamic block ships (a) a bespoke REST endpoint and (b) a hand-written React preview that re-implements `render.php` in JSX. `inc/rest-endpoints.php` is 1,424 lines of 20 near-identical register/callback pairs. Because the two renderers are maintained separately, they drift — which is exactly what "looks different in the editor than the frontend" means for meta-repeater, meta-file, meta-date/time, and production-performances.
 
 **Decisions taken:**
-- Hybrid `ServerSideRender` adoption (display blocks only; keep custom previews where the editor needs interactive controls).
-- Rebuild `card-carousel` on InnerBlocks; deprecate `cover-carousel`.
-- Fix the `table-of-contents` build; delete `meta-icon`.
-- Register the missing block categories; do **not** rename namespaces.
+- Hybrid `ServerSideRender` adoption (display blocks only; keep custom previews where the editor needs interactive controls). ✅ **Done**
+- Rebuild `card-carousel` on InnerBlocks; deprecate `cover-carousel`. ⏭️ **`cover-carousel` deleted; `card-carousel` rebuild NOT done — see "Remaining work"**
+- Fix the `table-of-contents` build; delete `meta-icon`. ✅ **Done**
+- Register the missing block categories; do **not** rename namespaces. ✅ **Done**
 
 ---
 
-## Phase 1 — Deprecated blocks & migration
+## Phase 1 — Deprecated blocks & migration ✅ COMPLETE
 
 `site-option` and `term-meta` **already contain** the replacement logic and already declare the needed variations. `term-meta/render.php:11-82` is a verbatim copy of `season-producer/render.php:8-75`, and `site-option/render.php:37-179` absorbs both member blocks via `memberType`. No new code is needed — only content migration and retirement.
 
 > ⚠️ **The note in `theatrum-blocks.php:132` is wrong.** It says season-producer should be replaced by *site-option*. It reads **term meta** off the `season` taxonomy, so the correct target is `chance/term-meta` with `displayType: "season-producer"`.
 
-### Migration map
+### Migration map — all rows done
 
-| Deprecated block | Replacement | Attribute mapping |
+| Deprecated block | Replacement | Status |
 |---|---|---|
-| `chance/board-member` | `chance/site-option` var. `board` | `+memberType:"board"`; `optionName`/`tagName`/`href`/`prepend`/`append` carry over |
-| `chance/staff-member` | `chance/site-option` var. `staff` | `+memberType:"staff"`; same carry-over |
-| `chance/season-producer` | `chance/term-meta` var. `season-producer` | `+displayType:"season-producer"`; `metaKey`/`headingText`/`headingLevel` carry over |
-| `chance/video-trailer` (folder `production-trailer`) | `chance/meta-embed` | `metaKey` → `keyInput`; `caption` carries over; drop `aspectRatio`/`responsive`/`previewable` |
-| `chance/meta-icon` | *(delete — no replacement)* | see caveat below |
-| `chance/cover-carousel` | `chance/card-carousel` (post-Phase 3) | manual re-author; 1 live instance |
+| `chance/board-member` | `chance/site-option` var. `board` | ✅ migrated + deleted |
+| `chance/staff-member` | `chance/site-option` var. `staff` | ✅ migrated + deleted |
+| `chance/season-producer` | `chance/term-meta` var. `season-producer` | ✅ migrated (8 instances) + deleted |
+| `chance/video-trailer` (folder `production-trailer`) | `chance/meta-embed` | ✅ migrated (1 instance) + deleted |
+| `chance/meta-icon` | *(deleted, no replacement)* | ✅ 0 live instances confirmed, deleted |
+| `chance/cover-carousel` | *(deleted, no replacement)* | ✅ 0 live instances confirmed, deleted |
 
-### Live instances (non-revision), verified against the database
+### Never used anywhere — deleted
 
-| Block | Post ID | Type / Status | Title |
-|---|---|---|---|
-| `chance/board-member` | 2750 | page/publish | People |
-| `chance/staff-member` | 2750 | page/publish | People |
-| `chance/season-producer` | 64289 | page/publish | Website Manual |
-| | 99222 | page/publish | Blocks |
-| | 58462 | production/publish | Sanctuary City |
-| | **107324** | **wp_block/publish** | **Production Grid v1** (synced pattern — fixes all its uses at once) |
-| `chance/meta-icon` | 64289 | page/publish | Website Manual |
-| `chance/video-trailer` | 64289 | page/publish | Website Manual |
-| `chance/cover-carousel` | 64289 | page/publish | Website Manual |
-
-### ⚠️ Theme template dependency — must migrate before deleting `meta-icon`
-
-The database is not the only consumer. `wp-content/themes/chance-ollie/templates/single-production.html` hard-codes:
-
-- **`chance/meta-icon` × 9** — lines 408, 414, 420, 426, 432, 438, 444, 450, 456 (`keyInput: notes_1_icon` … `notes_9_icon`, `iconSize: 20`)
-- **`chance/season-producer` × 4** — lines 18, 26, 104, 112
-
-You told me meta-icon isn't used anywhere important, but these nine template uses render on every single production page. Before removing the block, decide what replaces those production-note icons — `meta-image` cannot render dashicon-style values, and `meta-file`'s mime→icon map is a different mechanism. **This is a checkpoint, not a step to run through.** If the `notes_*_icon` ACF fields store image IDs, `meta-image` works and the migration is mechanical; if they store dashicon slugs, meta-icon has no replacement and should be kept instead.
-
-### Never used anywhere (0 instances, safe to remove)
-
-`theatrum/card-static`, `chance/copyright-date-block`. (`theatrum/query-loop` also shows 0, but it is `inserter:false` by design — it registers `core/query` variations, so keep it.)
-
-### Retirement mechanics
-1. Migrate content (theme templates by hand; DB via a `wp eval-file` script in `.build/scripts/`, run against a DB export first).
-2. Add `supports.inserter: false` + a `deprecated` category to each retired block so existing content keeps rendering.
-3. Remove the folder and its `$custom_blocks` entry only after a full-site render check.
+`theatrum/card-static`, `chance/copyright-date-block` — ✅ deleted. (`theatrum/query-loop` kept — `inserter:false` by design, registers `core/query` variations.)
 
 ---
 
-## Phase 2 — Editor/frontend parity via ServerSideRender (the big win)
+## Phase 2 — Editor/frontend parity via ServerSideRender ✅ COMPLETE
 
-**Migrate to `<ServerSideRender>`** (12 blocks). Editor output becomes byte-identical to the frontend by construction:
+All 12 blocks migrated to `<ServerSideRender>`: `meta-date`, `meta-time`, `meta-field`, `meta-related`, `meta-repeater`, `meta-file`, `meta-embed`, `meta-button`, `site-option`, `term-meta`, `production-quotes`, `production-performances`.
 
-`meta-date`, `meta-time`, `meta-field`, `meta-related`, `meta-repeater`, `meta-file`, `meta-embed`, `meta-button`, `site-option`, `term-meta`, `production-quotes`, `production-performances`
+Custom previews kept (interactive editor controls, as planned): `meta-gallery`, `meta-image`, `cover-card`.
 
-**Keep custom previews** (interactive editor controls): `meta-gallery`, `meta-image`, `cover-card`.
+This resolved, by construction, every "looks different in editor than frontend" complaint: meta-repeater, meta-file's icon, meta-date/time spacing family of issues, and production-performances not rendering in the editor at all.
 
-This directly resolves, without per-block CSS patching:
-- **meta-repeater** editor styling (`edit.js:111` emits `wp-block-chance-meta-repeater-preview`; `style.scss:3` targets `.repeater-rows`, which the preview never renders)
-- **meta-file** editor icon (`edit.js:96-105` hardcodes `dashicons-media-document`; the iframed canvas also never loads the dashicons font — no `wp_enqueue_style('dashicons')` exists anywhere)
-- **production-performances** not rendering in the editor at all
+### Dead endpoints deleted ✅
 
-### Then delete the dead endpoints
-Remove from `inc/rest-endpoints.php`: `meta-date`, `meta-time`, `post-meta`, `meta-repeater`, `meta-button`, `meta-icon`, `board-member`, `site-option`, `staff-member`, `term-meta-field`, `meta-embed`, `meta-related`, `season-producer`, `meta-file`, `production-quotes`, `production-performances`, `production-cast`.
+`inc/rest-endpoints.php`: 1,030 → 262 lines. Removed: `meta-date`, `meta-time`, `post-meta`, `meta-repeater`, `meta-button`, `meta-icon`, `board-member`, `site-option`, `staff-member`, `term-meta-field`, `meta-embed`, `meta-related`, `season-producer`, `meta-file`, `production-quotes`, `production-performances`, `production-cast` (this last one was already fully orphaned — called from no block JS at all).
 
-**Keep** `theatrum_editor_permission_check()`, the `cover-card` resolver (`rest-endpoints.php:26`), `meta-gallery`, `meta-image`, and add a taxonomy/term list endpoint for term-meta's pickers. Expect ~1,100 of 1,424 lines to go.
+Kept: `theatrum_editor_permission_check()`, `cover-card`, `meta-gallery`, `meta-image`. (No new taxonomy/term-list endpoint was needed — `term-meta`'s taxonomy/term pickers already use core `/wp/v2/taxonomies` and `/wp/v2/{taxonomy}`, not a custom route.)
 
 ---
 
 ## Phase 3 — Block-specific fixes
 
-Ordered by "user-visible breakage" first.
-
-### Broken on the frontend
-- **`popup` — inner content never saves.** `edit.js:48` mounts `<InnerBlocks />` inside `{open && (…)}`, and `isOpen` defaults to `false` (`block.json:56`), so the tree is unmounted and never serialized. **Fix:** always mount `<InnerBlocks />`; toggle visibility with CSS, never conditional mounting. Also add an explicit trigger `:hover` color rule (`style.scss` deliberately delegates the button to the theme, whose hover swaps text to the background color).
-- **`cover-carousel` — slides invisible, nav dead.** `render.php:52` writes inline `style="opacity:0"` on inactive slides; `.is-active{opacity:1}` (`style.scss:21`) lacks `!important`, so inline always wins. The editor "works" only because `editor.scss:24` *does* use `!important`. Also **double-registered**: `index.js:9` calls `registerBlockType` with inline attributes and `category:'common'` instead of importing `block.json`, causing validation resets (the "opacity not saved" symptom). Given deprecation, apply the minimal `!important` fix so the one live instance renders until it's re-authored.
-- **`card-carousel` — arrows dead, FE squished.** Two bugs: `style.scss:63` targets `.ct-carousel-arrows` but `render.php:22` outputs `.ct-carousel-controls`; and `view.js:12` gates arrows on `scrollWidth - clientWidth > 0`, which is 0 when the `display:grid` track (`style.scss:79-97`) doesn't overflow. The `items` default in `block.json:53-64` uses numeric `id:1` while `edit.js:16` generates string ids — the likely "media won't save" report.
-- **`table-of-contents` — never registers.** It is the **only one of 48** `block.json` files missing an `editorScript` field, so wp-scripts emits no bundle: `build/blocks/table-of-contents/` contains just `block.json`. **Fix:** add `"editorScript": "file:./index.js"`; replace the bare handle `"style": "wp-block-table-of-contents"` with `file:./style-index.css`; create the missing `src/blocks/utils/init-block.js` (imported at `index.js:10`) or inline it; delete the leftover `index.php`, whose `register_block_type_from_metadata(__DIR__ . '/table-of-contents')` builds a doubled path.
-- **`query-filter` — full page reload.** `view.js:37` ends `updateFilter` with `window.location.assign()`. **Fix:** call `actions.navigate()` from `@wordpress/interactivity-router`, and set `enhancedPagination: true` on the `core/query` variations in `query-loop/index.js:59-84`. Server-side `theatrum_filter_query_loop_by_term()` / `_by_orderby()` (`helpers.php:617,662`) already read the params and need no change.
-- **`meta-embed` — YouTube Error 153.** `render.php:61-68` hand-builds a `youtube-nocookie.com/embed/{id}` iframe with no `origin` param and no `referrerpolicy`; nocookie validates the embedding host via Referer and rejects the stripped default. **Fix:** append `?origin=` + `referrerpolicy="strict-origin-when-cross-origin"`, or route YouTube through the `wp_oembed_get()` path already used for the generic variation (`render.php:73`).
+### Broken on the frontend — ✅ ALL FIXED
+- **`popup` — inner content never saves.** Fixed, and the real bug was one layer deeper than diagnosed: `save.js` returned `null` unconditionally, discarding InnerBlocks content on serialization regardless of the editor-side conditional mount. Both the `save.js` bug and the `edit.js` conditional-mount bug are fixed. Existing legacy-shaped content (2 live instances with real saved content, including a WPForms embed) is protected by a pre-existing `deprecated.js` v1 entry — untouched, still valid.
+- **`cover-carousel`** — moot, block deleted (0 live instances, see Phase 1).
+- **`card-carousel` — arrows dead, FE squished.** CSS selector mismatch (`.ct-carousel-arrows` → `.ct-carousel-controls`) and `id` type inconsistency (numeric `1` vs generated strings) both fixed. The deeper "media won't save" symptom (imageId updates but image URL doesn't, observed live on page 64289) could not be root-caused via static analysis — `handleSelectImage` looks structurally correct and hasn't changed in git history. Needs live browser reproduction. The "squished"/editor-parity complaint is a known, accepted architectural gap (editor shows a deliberately simplified card builder, not the real carousel) that belongs to the InnerBlocks rebuild below, not a CSS patch.
+- **`table-of-contents` — never registers.** Fixed. Was missing `editorScript` (the only one of 48 blocks missing it), had a bare style handle instead of a file reference, imported a non-existent `../utils/init-block` and `../utils/hooks` module, and had orphaned dead files (`index.php` double-registering, `init.js`). Rewrote `index.js` to self-register directly (matching every other block in the plugin) instead of relying on WordPress core's block-library bootstrap convention it was copied from. Created the missing `src/blocks/utils/hooks.js`. Added `fast-deep-equal` as an explicit dependency (was working only via undeclared transitive resolution). **Known inherited limitation, not introduced by this fix:** the heading-detection logic (copied from WP core) looks for a `core/post-content` ancestor block to find descendant headings — a Site-Editor/template-editing concept. On a normal Post/Page screen (not template editing) it may not detect headings. This is core's own behavior, not reworked.
+- **`query-filter` — full page reload.** Fixed via `@wordpress/interactivity-router`'s `actions.navigate()`, plus `enhancedPagination: true` added to all 8 `core/query` variations in `query-loop/index.js`. Added `@wordpress/interactivity-router` as an explicit dependency (webpack externalizes it correctly either way, but ESLint's resolver needs it present).
+- **`meta-embed` — YouTube Error 153.** Fixed by adding `?origin=` (via `add_query_arg(..., home_url('/'))`) and `referrerpolicy="strict-origin-when-cross-origin"` to the nocookie iframe. No live content currently uses the `embedType:"youtube"` variation (all 3 live meta-embed instances use the generic oEmbed path), so this fix has zero regression surface today but is real for when the YouTube variation gets used. The editor's *own* preview iframe had the identical bug independently — fixed automatically by the Phase 2 SSR migration for this block, since the preview now renders through the same corrected `render.php`.
 
 ### Cosmetic / consistency
-- **`meta-date` / `meta-time` spacing.** Root cause is markup, not CSS: they put the block wrapper directly on the semantic tag (`<p class="wp-block-chance-meta-date">`), and `tagName` defaults to `"p"` — so the theme's paragraph line-height applies. `meta-field` defaults to `"span"` and nests it inside an `inline-block` div. **Fix:** default both to `"span"` and reset `line-height` (neither style file does today).
-- **`production-tabs` editor is vertical, FE is horizontal.** Deliberate, not a bug: `edit.js:11` adds `.is-editor`, letting `editor.scss:6-28` (3 classes) out-specify `style.scss`'s `@media (min-width:768px)` horizontal rules (2 classes). **Fix:** drop the vertical override and let the editor inherit `style.scss`. Then apply the modern tab styling from the [Codepen reference](https://codepen.io/annabananajennings/pen/NPbeYbW).
-- **`page-nav` gated to Pages.** `render.php:17-19` is `if (! is_page()) return '';`. Widen to `is_singular(['page','production','event'])`.
-- **`list-icons/list-item-icon`** — add an icon color picker that defaults to `currentColor` for SVG icons.
-- **`meta-image`** — add `dimensions.aspectRatio` support; today the only control is a registered-image-size `SelectControl` and the `<img>` is hardcoded `max-width:100%;height:auto` (`render.php:87`).
-- **`meta-field`** — add boolean display (user-supplied text for `0`/`1`).
-- **`meta-repeater`** — add a `<p>` wrapper option (subfields become `<span>`, as the default); drop the `div` option; auto-`<li>` subfields under `ul`/`ol`; add a `list-style:none` toggle.
-- **`media-popover`** — invert nesting so the hovered element is the child.
-- **`query-loop`** — swap variation icons (production→masks, venue→building, artist→color palette).
-- **`table-advanced`** — default to `table-layout:auto`; add Tab/Shift-Tab cell navigation.
+- **`meta-date` / `meta-time` spacing.** ✅ Fixed. Changed `tagName` default from `"p"` to `"span"` in both `block.json` files (confirmed safe/wanted: the site owner was already manually overriding `tagName:"span"` on newer instances as a workaround — this makes that the default, retroactively fixing ~30+ older instances that never got the manual override). Added `line-height: normal` to both `style.scss` files.
+- **`production-tabs` editor/frontend "mismatch".** ⏭️ **Not a bug — see Implementation Notes above.** Left as-is.
+- **`page-nav` gated to Pages.** ✅ Fixed — widened to `is_singular(['page','production','event'])`, exactly matching the fix the code's own comment already suggested.
+- **`list-icons/list-item-icon` SVG color picker.** ✅ Done — see Implementation Notes above for the CSS-mask approach and the `deprecated.js` backward-compat entry.
+- **`meta-image` aspectRatio.** ✅ Done — new `aspectRatio` attribute (`auto`/`1`/`4:3`/`3:4`/`16:9`/`9:16`), applied via `aspect-ratio` + `object-fit:cover` CSS in both `render.php` and the editor preview.
+- **`meta-field` boolean display.** ✅ Done — new `boolTrueText`/`boolFalseText` attributes; opt-in (no effect unless set), so zero risk to existing content.
+- **`meta-repeater`** — ✅ Done, see Implementation Notes above for what changed from the original ask (`<p>` wrapper added alongside `div`, not replacing it; list-marker toggle inverted to match actual CSS state).
+- **`media-popover`** — ⏭️ **Not a bug — see Implementation Notes above.** Left as-is.
+- **`query-loop` icons.** ✅ Done — production→`awards` (closest real Dashicon to "masks"; no literal masks/theater icon exists in Dashicons — verified against the actual `wp-includes/css/dashicons.css`), venue→`building`, artist→`art` (confirmed real Dashicon slugs).
+- **`table-advanced` table-layout default.** ⏭️ Already correct — see Implementation Notes. **Tab/Shift-Tab cell navigation** — **not done**, deliberately deferred: this is a new keyboard-navigation feature (moving focus between sibling blocks, handling row-wrap edge cases) with no existing code to fix, real risk of interfering with Gutenberg's native keyboard accessibility if built wrong, and no way to verify it without a live editor. Left unimplemented rather than shipped-unverified.
 
-### Deferred (low value)
-`meta-button`/`popup` nestable inside `core/buttons` (fights core's block-supports model); popup deep-linking via URL anchor; `cover-card` rendering one card per post ID in a multi-value meta field (overlaps `meta-related` — revisit after Phase 4).
-
----
-
-## Phase 4 — Configuration & duplication cleanup
-
-### Register the missing categories
-Only `theatrum` is registered (`theatrum-blocks.php:175-199`), but blocks declare four categories. **19 blocks land in an unregistered category:** `metablock` (14), `production` (3), `deprecated` (2). Register all four in the same filter.
-
-### Fix invalid `supports` keys
-Confirmed by count across `src/blocks/**/block.json`:
-
-| Key | Files | Status |
-|---|---|---|
-| `"filters"` | 15 | ❌ typo — core's key is `"filter"` |
-| `"filter"` | 3 | ✅ correct |
-| `"opacity"` | 17 | ❌ not a core block support; no-op |
-| `"border"` | 21 | ✅ stable key |
-| `"__experimentalBorder"` | 11 | ⚠️ legacy; same for `__experimentalFontFamily` etc. |
-
-`cover-card/block.json` declares **both** `filter` and `filters`. Normalize to `filter`, delete every `opacity`, and migrate `__experimental*` typography/border keys to their stable names.
-
-### Centralize duplicated PHP
-Add to `inc/helpers.php` and adopt across `render.php` files:
-- `theatrum_get_meta(int $post_id, string $key)` — the ACF-then-`get_post_meta` fallback, currently copy-pasted in `meta-file/render.php:26-29`, `meta-image/render.php:26-29`, `meta-related/render.php:31-36`, `block-bindings.php:40-45`, and `rest-endpoints.php:983-986`.
-- `theatrum_sanitize_tag(string $tag, array $allowed = [...])` — replaces four hand-rolled `in_array` allowlists (`meta-field:51`, `site-option:253`, `meta-repeater:41`, `meta-related:74`) and three bare `tag_escape()` calls (`meta-date:99`, `meta-time:57`, `term-meta:101`), which are *not* equivalent — `tag_escape` permits any tag.
-- Route `cover-card`, `board-member`, and `staff-member`'s hand-rolled `get_the_title`/`get_permalink` loops through the existing `theatrum_resolve_post_links()` (`helpers.php:170`).
-- Delete `season-producer/render.php` outright once retired — `term-meta/render.php:11-82` is a byte-for-byte duplicate.
-
-### Normalize attribute names (new blocks + deprecations only — do not rename in place)
-The same concept has four names today: `keyInput` (9 blocks), `metaKey` (6), `optionName` (3), `repeaterKey` (1). Likewise `openInNewTab` / `openInNewWindow` / `linkTarget` (and `linkTarget` is boolean in `media-popover`, string in `meta-gallery`). Renaming would invalidate ~1,900 block instances. **Settle on `metaKey` / `openInNewTab` for anything new**, and record the rest as known debt in `CLAUDE.md`.
-
-### Metadata hygiene
-`example: {}` appears on nearly every block — a no-op yielding a blank inserter preview. Only `production-tabs` supplies a real one. Add real `example.attributes` where a preview is meaningful; drop the empty stubs elsewhere. 13 blocks omit `textdomain`; `query-loop` omits `$schema`, `description`, `keywords`, and `icon`. Bring `src/blocks/block.jsonc` in line with actual conventions (it still models the `theatrum/` namespace and `__experimentalBorder`).
-
-### Fix a latent security/correctness smell
-`wp_kses_data(get_block_wrapper_attributes(...))` appears in `meta-field/render.php:66`, `meta-related/render.php:82`, `site-option/render.php:99`, `season-producer/render.php:66`, and elsewhere. `wp_kses_data()` sanitizes *HTML content*, not an attribute string; running it over `class="…" style="…"` can mangle entities. It is also applied inconsistently — `meta-date/render.php:101` and `meta-time/render.php:58` pass the result straight through. Remove the `wp_kses_data()` wrapper everywhere; `get_block_wrapper_attributes()` already escapes its output.
+### Deferred (low value, unchanged from original plan)
+`meta-button`/`popup` nestable inside `core/buttons`; popup deep-linking via URL anchor; `cover-card` rendering one card per post ID in a multi-value meta field.
 
 ---
 
-## Suggested order
+## Phase 4 — Configuration & duplication cleanup ✅ COMPLETE
 
-1. **Phase 4 config fixes** — zero behavior change, unblocks everything else.
-2. **Phase 1 deprecation** — resolve the meta-icon/theme-template checkpoint first.
-3. **Phase 3 frontend breakage** — popup, card-carousel, query-filter, table-of-contents, meta-embed.
-4. **Phase 2 SSR migration** + endpoint deletion.
-5. **Phase 3 cosmetic** + card-carousel InnerBlocks rebuild.
+### Categories registered ✅
+`metablock`, `production`, `deprecated` all registered alongside the existing `theatrum` category.
+
+### Invalid `supports` keys fixed ✅
+All 17 `"opacity"` keys deleted; all 15 `"filters"` typos corrected to `"filter"`; `cover-card`'s duplicate `filter`/`filters` pair deduplicated to a single `filter`. `__experimentalBorder` was **not** found in use in any actual block (only in the `block.jsonc` reference template — fixed there instead, see below).
+
+### Duplicated PHP centralized ✅
+- `theatrum_get_meta(int $post_id, string $key)` added to `inc/helpers.php`, adopted at all 9 call sites (`meta-file`, `meta-image`, `meta-related` render.php; `block-bindings.php`; 5 REST callbacks before their deletion in Phase 2). Fixed a latent bug along the way: `meta-file` and `meta-image`'s render.php called `get_field()` directly with no `function_exists()` guard — would have fatal-errored with ACF deactivated. The centralized helper guards correctly everywhere now.
+- `theatrum_sanitize_tag(string $tag, array $allowed, string $default)` added, adopted at 9 call sites, closing a real gap: `meta-date`, `meta-time`, and `term-meta`'s generic branch previously used bare `tag_escape()` with **no allowlist at all** (any syntactically valid HTML tag name was accepted), not just the inconsistent-strictness issue originally diagnosed.
+- `cover-card`/`board-member`/`staff-member` routing through `theatrum_resolve_post_links()`: **not applicable as scoped** — `board-member`/`staff-member` were deleted in Phase 1 before this would matter, and `cover-card` turned out not to have the duplicated pattern (it resolves a single already-known `$post_id` directly, not a meta-value-derived list — forcing it through the general-purpose resolver would add indirection with no benefit).
+- `season-producer/render.php` deleted along with the rest of that block in Phase 1.
+
+### Attribute naming — left as documented debt, as planned
+No change made; this was explicitly scoped as "new blocks only, do not rename in place" in the original plan.
+
+### Metadata hygiene ✅
+14 `block.json` files were missing `textdomain` — all fixed. `query-loop/block.json` was missing `$schema`/`description`/`keywords`/`icon`/`textdomain` — all filled in. `src/blocks/block.jsonc` reference template corrected: namespace example changed from `theatrum/block-name` to `chance/block-name` (the plugin's actual dominant namespace) with a note explaining the split; `__experimentalBorder`/`__experimental*` typography keys replaced with their stable equivalents. **Not done:** crafting real `example.attributes` for the ~40 blocks still using an empty `example: {}` stub — this needs a hand-written, plausible-looking example per block's specific data shape, which isn't something to fabricate without visual verification of how each renders in the inserter preview. Left as `example: {}` everywhere it already was.
+
+### `wp_kses_data()` misuse fixed ✅
+Removed from all 34 call sites across 23 `render.php` files. `get_block_wrapper_attributes()` already escapes its own output; wrapping it in a content-sanitizer was unnecessary and could mangle entities in `class="…" style="…"` output.
 
 ---
 
-## Verification
+## Remaining work — pick this up next
 
-Run `npm run build` in the plugin after every phase; a block missing from `build/blocks/<slug>/` with an `index.js` will silently fail to register (that is precisely the table-of-contents bug).
+### `card-carousel` InnerBlocks rebuild (Phase 3 cosmetic, not started)
 
-**Registration sanity check** — should print 49 after meta-icon is removed:
+This is a **full redesign**, not a bug fix — everything else in this document was a targeted, verifiable change (confirmed via build success + DB inspection + full-site render checks). This one can't be verified that way: whether the editor feels right when nesting an image/heading/text inside each card, or dragging cards around, is something that has to be *used* in a browser to judge. That's why it was deliberately left alone rather than rushed.
+
+**What's wanted** (from the original inline notes, still valid): rebuild the block so cards nest an image/heading/text element the user can edit directly (InnerBlocks), support nesting multiple cover-cards, and offer list/grid/carousel display modes so the block can double as a container for a query loop's results.
+
+**What exists today** (`src/blocks/card-carousel/`): an array-of-objects attribute model (`items: [{id, image, imageId, title, subtitle, link}]`) edited through a bespoke non-InnerBlocks "card builder" UI in `edit.js`, with a completely separate hand-written `.ct-carousel-*` markup in `render.php`/`style.scss`/`view.js` for the frontend. The two bugs already fixed this session (CSS selector mismatch, id type inconsistency) are patches on top of this existing model, not part of the rebuild.
+
+**Live content to account for before changing the data model:** exactly 1 instance, page 64289 (Website Manual), with 6 cards already authored under the current `items` array shape (3 of them have images selected, matching the still-unexplained "media won't save" symptom noted above — worth checking whether that reproduces once you're rebuilding this block anyway). Any new InnerBlocks-based data model will need either a `deprecated.js` migration path for this one instance, or a manual one-off edit — there's no `card-carousel` REST endpoint or other content to worry about beyond this single page.
+
+**Suggested approach:** don't try to preserve the old array-attribute save shape — this is exactly the kind of structural change where a clean InnerBlocks rebuild (new child block for "card", `InnerBlocks.Content` in save.js, real `useInnerBlocksProps`) is more maintainable than trying to bridge two incompatible models. Reference `title-advanced` or `cover-card` in this same plugin for a working `InnerBlocks.Content`-based save.js pattern already in use here. Start the dev server, build it, and actually use it in the editor before considering it done — per this project's own testing guidance for UI work.
+
+---
+
+## Verification (for the deferred work, and to re-check anything above)
+
+Run `npm run build` in the plugin after any change; a block missing from `build/blocks/<slug>/` with an `index.js` will silently fail to register (that was precisely the table-of-contents bug fixed this session).
+
+**Registration sanity check** — should print 42 (confirmed 2026-07-09):
 ```bash
 cd wp_root && wp eval '
 $n = array_filter(array_keys(WP_Block_Type_Registry::get_instance()->get_all_registered()),
   fn($b) => str_starts_with($b,"chance/") || str_starts_with($b,"theatrum/"));
 echo count($n) . " registered\n";'
 ```
-> Note: this returns **50** today, not 48 — `chance/artist-credits` and `chance/production-credits` come from the *theme*, not this plugin.
 
-**Deprecated-usage sweep** — must reach 0 before deleting any folder. Re-run the audit query in this plan against `wp_posts` with `post_type != 'revision'`, and grep `wp-content/themes/chance-ollie/templates/` and `parts/` for `wp:chance/` — the DB alone will miss the nine `single-production.html` uses.
+**Full-site render check** — should print 0 errors:
+```bash
+cd wp_root && wp eval '
+global $wpdb;
+$posts = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} WHERE post_status = \"publish\" AND post_type IN (\"page\",\"production\",\"event\",\"post\")");
+$errors = 0;
+foreach ($posts as $id) {
+  $post = get_post($id);
+  try { apply_filters("the_content", $post->post_content); } catch (\Throwable $e) { $errors++; echo "ERROR $id: " . $e->getMessage() . "\n"; }
+}
+echo "checked " . count($posts) . " published posts, $errors errors\n";'
+```
 
-**Manual checks** — on `page/64289` (Website Manual, which exercises the most blocks) and `production/58462` (Sanctuary City):
-1. Editor vs frontend screenshots side by side for each SSR-migrated block (this is the whole point of Phase 2).
-2. `popup` — add inner content with the dialog *closed*, save, reload, confirm it persists and renders.
-3. `query-filter` — select a term; confirm results update with no full-page navigation (watch the Network panel for a document request).
-4. `table-of-contents` — confirm it appears in the inserter under Design.
-5. `meta-embed` — confirm a YouTube trailer plays on `production/58462`.
-6. Query Monitor: confirm no PHP notices and no increase in query count after the helper centralization.
+**Manual browser checks still needed** (nothing below has been visually verified this session):
+1. `popup` — add inner content with the dialog closed, save, reload, confirm it persists and renders.
+2. `query-filter` — select a term; confirm results update with no full-page navigation (watch the Network panel).
+3. `table-of-contents` — confirm it appears in the inserter under Design.
+4. `meta-embed` — confirm a YouTube trailer plays (no live instance uses the YouTube variation yet, so this needs a fresh test).
+5. `list-icons` — add an SVG icon, confirm it picks up the parent's color picker; confirm the 2 posts with pre-existing SVG icons (49, 99222) still render unchanged.
+6. `meta-repeater` — try the new `<p>` wrapper option and the "show list markers" toggle.
+7. `card-carousel` — reproduce (or rule out) the "media won't save" symptom on a fresh card before starting the rebuild.
+8. Every SSR-migrated block (task list above) — side-by-side editor vs. frontend screenshot, since that parity was the whole point of Phase 2.
+9. Query Monitor: confirm no PHP notices and no increase in query count from the helper centralization.
 
-Take a database export before running any migration script.
+Take a fresh database export before running any further migration script (one was already taken and used this session: `.build/backups/pre-block-migration-*.sql`, gitignored).

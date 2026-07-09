@@ -47,7 +47,7 @@ const IMAGE_SIZE_OPTIONS = [
 	{ label: 'Full', value: 'full' },
 ];
 
-export default function Edit({ attributes, setAttributes, context }) {
+export default function Edit( { attributes, setAttributes, context } ) {
 	const {
 		metaKey,
 		sizeSlug,
@@ -63,49 +63,56 @@ export default function Edit({ attributes, setAttributes, context }) {
 	} = attributes;
 
 	const blockProps = useBlockProps();
-	const [images, setImages] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [ images, setImages ] = useState( [] );
+	const [ isLoading, setIsLoading ] = useState( false );
 
-	const editorPostId = useSelect((select) =>
-		select('core/editor').getCurrentPostId()
+	const editorPostId = useSelect( ( select ) =>
+		select( 'core/editor' ).getCurrentPostId()
 	);
 	const contextPostId = context?.postId;
 	const postId = contextPostId || editorPostId;
 
 	// Fetch images from meta/ACF
-	useEffect(() => {
+	useEffect( () => {
 		const trimmedKey = metaKey?.trim();
 
-		if (!trimmedKey || !postId) {
-			setImages([]);
+		if ( ! trimmedKey || ! postId ) {
+			setImages( [] );
 			return;
 		}
 
-		setIsLoading(true);
+		setIsLoading( true );
 
-		apiFetch({
-			path: `/chance/v1/meta-gallery/${postId}/${encodeURIComponent(trimmedKey)}`,
-		})
-			.then((data) => {
-				let imageList = Array.isArray(data.images) ? data.images : [];
-				if (randomOrder) {
-					imageList = [...imageList].sort(() => Math.random() - 0.5);
+		apiFetch( {
+			path: `/chance/v1/meta-gallery/${ postId }/${ encodeURIComponent(
+				trimmedKey
+			) }`,
+		} )
+			.then( ( data ) => {
+				let imageList = Array.isArray( data.images ) ? data.images : [];
+				if ( randomOrder ) {
+					imageList = [ ...imageList ].sort(
+						() => Math.random() - 0.5
+					);
 				}
-				setImages(imageList);
-				setIsLoading(false);
-			})
-			.catch(() => {
-				setImages([]);
-				setIsLoading(false);
-			});
-	}, [metaKey, postId, randomOrder]);
+				setImages( imageList );
+				setIsLoading( false );
+			} )
+			.catch( () => {
+				setImages( [] );
+				setIsLoading( false );
+			} );
+	}, [ metaKey, postId, randomOrder ] );
 
 	// Calculate gallery layout
 	const numColumns = columns || 3;
 	const gap = 16;
 	const flexBasis =
 		numColumns > 1
-			? `calc(${(100 / numColumns).toFixed(2)}% - ${(gap * (numColumns - 1) / numColumns).toFixed(2)}px)`
+			? `calc(${ ( 100 / numColumns ).toFixed( 2 ) }% - ${ (
+					( gap * ( numColumns - 1 ) ) /
+					numColumns
+			  ).toFixed( 2 ) }px)`
 			: '100%';
 
 	const galleryClasses = clsx(
@@ -113,7 +120,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		'has-nested-images',
 		'blocks-gallery-grid',
 		{
-			[`columns-${numColumns}`]: numColumns !== undefined,
+			[ `columns-${ numColumns }` ]: numColumns !== undefined,
 			'is-cropped': imageCrop,
 		}
 	);
@@ -121,25 +128,25 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const gridStyle = {
 		display: 'flex',
 		flexWrap: 'wrap',
-		gap: `${gap}px`,
+		gap: `${ gap }px`,
 		listStyle: 'none',
 		margin: 0,
 		padding: 0,
-		'--wp--style--unstable-gallery-gap': `${gap}px`,
+		'--wp--style--unstable-gallery-gap': `${ gap }px`,
 	};
 
 	return (
 		<Fragment>
 			<BlockControls>
-				{/* Block toolbar controls could go here */}
+				{ /* Block toolbar controls could go here */ }
 			</BlockControls>
 
 			<InspectorControls>
 				<ToolsPanel
-					label={__('Gallery settings')}
+					label={ __( 'Gallery settings' ) }
 					panelId="chance/meta-gallery"
-					resetAll={() => {
-						setAttributes({
+					resetAll={ () => {
+						setAttributes( {
 							metaKey: '',
 							sizeSlug: 'large',
 							columns: undefined,
@@ -150,219 +157,259 @@ export default function Edit({ attributes, setAttributes, context }) {
 							navigationButtonType: 'icon',
 							allowResize: false,
 							aspectRatio: 'auto',
-						});
-					}}
+						} );
+					} }
 				>
 					<ToolsPanelItem
-						hasValue={() => metaKey !== ''}
-						label={__('Meta Key')}
+						hasValue={ () => metaKey !== '' }
+						label={ __( 'Meta Key' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ metaKey: '' })}
+						onDeselect={ () => setAttributes( { metaKey: '' } ) }
 					>
 						<TextControl
-							label={__('Meta Key')}
-							value={metaKey || ''}
-							onChange={(value) => setAttributes({ metaKey: value.trim() })}
+							label={ __( 'Meta Key' ) }
+							value={ metaKey || '' }
+							onChange={ ( value ) =>
+								setAttributes( { metaKey: value.trim() } )
+							}
 							placeholder="e.g., production_gallery"
-							help={__('ACF or post meta field key')}
+							help={ __( 'ACF or post meta field key' ) }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => columns !== undefined}
-						label={__('Columns')}
+						hasValue={ () => columns !== undefined }
+						label={ __( 'Columns' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ columns: undefined })}
+						onDeselect={ () =>
+							setAttributes( { columns: undefined } )
+						}
 					>
 						<RangeControl
-							label={__('Columns')}
-							value={columns || 3}
-							onChange={(value) => setAttributes({ columns: value })}
-							min={1}
-							max={8}
+							label={ __( 'Columns' ) }
+							value={ columns || 3 }
+							onChange={ ( value ) =>
+								setAttributes( { columns: value } )
+							}
+							min={ 1 }
+							max={ 8 }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => sizeSlug !== 'large'}
-						label={__('Image Size')}
+						hasValue={ () => sizeSlug !== 'large' }
+						label={ __( 'Image Size' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ sizeSlug: 'large' })}
+						onDeselect={ () =>
+							setAttributes( { sizeSlug: 'large' } )
+						}
 					>
 						<SelectControl
-							label={__('Image Size')}
-							value={sizeSlug || 'large'}
-							onChange={(value) => setAttributes({ sizeSlug: value })}
-							options={IMAGE_SIZE_OPTIONS}
+							label={ __( 'Image Size' ) }
+							value={ sizeSlug || 'large' }
+							onChange={ ( value ) =>
+								setAttributes( { sizeSlug: value } )
+							}
+							options={ IMAGE_SIZE_OPTIONS }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => linkTo !== 'none'}
-						label={__('Link To')}
+						hasValue={ () => linkTo !== 'none' }
+						label={ __( 'Link To' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ linkTo: 'none' })}
+						onDeselect={ () => setAttributes( { linkTo: 'none' } ) }
 					>
 						<SelectControl
-							label={__('Link Images To')}
-							value={linkTo || 'none'}
-							onChange={(value) => setAttributes({ linkTo: value })}
-							options={LINK_OPTIONS}
+							label={ __( 'Link Images To' ) }
+							value={ linkTo || 'none' }
+							onChange={ ( value ) =>
+								setAttributes( { linkTo: value } )
+							}
+							options={ LINK_OPTIONS }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => imageCrop !== true}
-						label={__('Image Crop')}
+						hasValue={ () => imageCrop !== true }
+						label={ __( 'Image Crop' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ imageCrop: true })}
+						onDeselect={ () =>
+							setAttributes( { imageCrop: true } )
+						}
 					>
 						<ToggleControl
-							label={__('Crop images to same height')}
-							checked={imageCrop}
-							onChange={(value) => setAttributes({ imageCrop: value })}
+							label={ __( 'Crop images to same height' ) }
+							checked={ imageCrop }
+							onChange={ ( value ) =>
+								setAttributes( { imageCrop: value } )
+							}
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => fixedHeight !== true}
-						label={__('Fixed Height')}
+						hasValue={ () => fixedHeight !== true }
+						label={ __( 'Fixed Height' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ fixedHeight: true })}
+						onDeselect={ () =>
+							setAttributes( { fixedHeight: true } )
+						}
 					>
 						<ToggleControl
-							label={__('Fixed height')}
-							checked={fixedHeight}
-							onChange={(value) => setAttributes({ fixedHeight: value })}
+							label={ __( 'Fixed height' ) }
+							checked={ fixedHeight }
+							onChange={ ( value ) =>
+								setAttributes( { fixedHeight: value } )
+							}
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => randomOrder !== false}
-						label={__('Random Order')}
+						hasValue={ () => randomOrder !== false }
+						label={ __( 'Random Order' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ randomOrder: false })}
+						onDeselect={ () =>
+							setAttributes( { randomOrder: false } )
+						}
 					>
 						<ToggleControl
-							label={__('Random order')}
-							checked={randomOrder}
-							onChange={(value) => setAttributes({ randomOrder: value })}
+							label={ __( 'Random order' ) }
+							checked={ randomOrder }
+							onChange={ ( value ) =>
+								setAttributes( { randomOrder: value } )
+							}
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => navigationButtonType !== 'icon'}
-						label={__('Navigation Buttons')}
+						hasValue={ () => navigationButtonType !== 'icon' }
+						label={ __( 'Navigation Buttons' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ navigationButtonType: 'icon' })}
+						onDeselect={ () =>
+							setAttributes( { navigationButtonType: 'icon' } )
+						}
 					>
 						<ToggleGroupControl
-							label={__('Navigation buttons')}
-							value={navigationButtonType}
-							onChange={(value) =>
-								setAttributes({ navigationButtonType: value })
+							label={ __( 'Navigation buttons' ) }
+							value={ navigationButtonType }
+							onChange={ ( value ) =>
+								setAttributes( { navigationButtonType: value } )
 							}
 							isBlock
 							__nextHasNoMarginBottom
 						>
 							<ToggleGroupControlOption
 								value="icon"
-								label={__('Icon')}
+								label={ __( 'Icon' ) }
 							/>
 							<ToggleGroupControlOption
 								value="text"
-								label={__('Text')}
+								label={ __( 'Text' ) }
 							/>
 							<ToggleGroupControlOption
 								value="both"
-								label={__('Both')}
+								label={ __( 'Both' ) }
 							/>
 						</ToggleGroupControl>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => aspectRatio !== 'auto'}
-						label={__('Aspect Ratio')}
+						hasValue={ () => aspectRatio !== 'auto' }
+						label={ __( 'Aspect Ratio' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ aspectRatio: 'auto' })}
+						onDeselect={ () =>
+							setAttributes( { aspectRatio: 'auto' } )
+						}
 					>
 						<SelectControl
-							label={__('Aspect Ratio')}
-							value={aspectRatio || 'auto'}
-							onChange={(value) => setAttributes({ aspectRatio: value })}
-							options={[
-								{ label: __('Original'), value: 'auto' },
+							label={ __( 'Aspect Ratio' ) }
+							value={ aspectRatio || 'auto' }
+							onChange={ ( value ) =>
+								setAttributes( { aspectRatio: value } )
+							}
+							options={ [
+								{ label: __( 'Original' ), value: 'auto' },
 								{ label: '1:1', value: '1' },
 								{ label: '3:2', value: '1.5' },
 								{ label: '4:3', value: '1.333' },
 								{ label: '16:9', value: '1.777' },
 								{ label: '9:16', value: '0.5625' },
-							]}
+							] }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={() => allowResize !== false}
-						label={__('Allow Resize')}
+						hasValue={ () => allowResize !== false }
+						label={ __( 'Allow Resize' ) }
 						panelId="chance/meta-gallery"
-						onDeselect={() => setAttributes({ allowResize: false })}
+						onDeselect={ () =>
+							setAttributes( { allowResize: false } )
+						}
 					>
 						<ToggleControl
-							label={__('Allow resize')}
-							checked={allowResize}
-							onChange={(value) => setAttributes({ allowResize: value })}
+							label={ __( 'Allow resize' ) }
+							checked={ allowResize }
+							onChange={ ( value ) =>
+								setAttributes( { allowResize: value } )
+							}
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 				</ToolsPanel>
 
-				<PanelBody title={__('Fallback')} initialOpen={false}>
+				<PanelBody title={ __( 'Fallback' ) } initialOpen={ false }>
 					<TextControl
-						label={__('Fallback Text')}
-						value={fallbackText || ''}
-						onChange={(value) => setAttributes({ fallbackText: value })}
-						placeholder={__('Optional text if no images are found')}
-						help={__('Leave empty to hide the block when no images are found')}
+						label={ __( 'Fallback Text' ) }
+						value={ fallbackText || '' }
+						onChange={ ( value ) =>
+							setAttributes( { fallbackText: value } )
+						}
+						placeholder={ __(
+							'Optional text if no images are found'
+						) }
+						help={ __(
+							'Leave empty to hide the block when no images are found'
+						) }
 						__nextHasNoMarginBottom
 					/>
 				</PanelBody>
 			</InspectorControls>
 
-			<figure {...blockProps}>
-				{isLoading && (
+			<figure { ...blockProps }>
+				{ isLoading && (
 					<div
-						style={{
+						style={ {
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',
 							minHeight: '200px',
-						}}
+						} }
 					>
 						<Spinner />
 					</div>
-				)}
+				) }
 
-				{!isLoading && images.length > 0 && (
-					<ul className={galleryClasses} style={gridStyle}>
-						{images.map((img, idx) => (
+				{ ! isLoading && images.length > 0 && (
+					<ul className={ galleryClasses } style={ gridStyle }>
+						{ images.map( ( img, idx ) => (
 							<li
-								key={idx}
+								key={ idx }
 								className="blocks-gallery-item"
-								style={{
-									flex: `1 1 ${flexBasis}`,
+								style={ {
+									flex: `1 1 ${ flexBasis }`,
 									minWidth: 0,
-								}}
+								} }
 							>
 								<figure
-									style={{
+									style={ {
 										margin: 0,
 										display: 'flex',
 										flexDirection: 'column',
@@ -372,18 +419,19 @@ export default function Edit({ attributes, setAttributes, context }) {
 										overflow: 'hidden',
 										backgroundColor: '#f0f0f0',
 										aspectRatio:
-											aspectRatio && aspectRatio !== 'auto'
+											aspectRatio &&
+											aspectRatio !== 'auto'
 												? aspectRatio
 												: undefined,
-									}}
+									} }
 								>
 									<img
-										src={img.url}
-										alt={img.alt || ''}
-										data-id={img.id}
-										data-full-url={img.fullUrl || img.url}
-										data-link={img.link || ''}
-										style={{
+										src={ img.url }
+										alt={ img.alt || '' }
+										data-id={ img.id }
+										data-full-url={ img.fullUrl || img.url }
+										data-link={ img.link || '' }
+										style={ {
 											display: 'block',
 											width: '100%',
 											height: 'auto',
@@ -391,13 +439,15 @@ export default function Edit({ attributes, setAttributes, context }) {
 											objectFit: imageCrop
 												? 'cover'
 												: 'contain',
-											flex: imageCrop ? '1 0 0%' : 'initial',
-										}}
+											flex: imageCrop
+												? '1 0 0%'
+												: 'initial',
+										} }
 									/>
-									{img.caption && (
+									{ img.caption && (
 										<figcaption
 											className="blocks-gallery-item__caption"
-											style={{
+											style={ {
 												position: 'absolute',
 												bottom: 0,
 												left: 0,
@@ -411,43 +461,43 @@ export default function Edit({ attributes, setAttributes, context }) {
 												background:
 													'linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%)',
 												textShadow: '0 0 1.5px #000',
-											}}
+											} }
 										>
-											{img.caption}
+											{ img.caption }
 										</figcaption>
-									)}
+									) }
 								</figure>
 							</li>
-						))}
+						) ) }
 					</ul>
-				)}
+				) }
 
-				{!isLoading && images.length === 0 && fallbackText && (
+				{ ! isLoading && images.length === 0 && fallbackText && (
 					<div
-						style={{
+						style={ {
 							textAlign: 'center',
 							color: '#666',
 							padding: '20px',
-						}}
+						} }
 					>
-						{fallbackText}
+						{ fallbackText }
 					</div>
-				)}
+				) }
 
-				{!isLoading && images.length === 0 && !fallbackText && (
+				{ ! isLoading && images.length === 0 && ! fallbackText && (
 					<div
-						style={{
+						style={ {
 							textAlign: 'center',
 							color: '#ccc',
 							padding: '40px 20px',
 							fontSize: '14px',
-						}}
+						} }
 					>
-						{metaKey
-							? __('No images found')
-							: __('Enter a meta key to display images')}
+						{ metaKey
+							? __( 'No images found' )
+							: __( 'Enter a meta key to display images' ) }
 					</div>
-				)}
+				) }
 			</figure>
 		</Fragment>
 	);

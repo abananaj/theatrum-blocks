@@ -23,16 +23,13 @@ if (! $key_input || ! $link_text) {
 }
 
 // Get the raw meta/ACF value
-$value = get_field($key_input, $post_id);
-if ($value === null || $value === false || $value === '') {
-  $value = get_post_meta($post_id, $key_input, true);
-}
+$value = theatrum_get_meta($post_id, $key_input);
 
 if (empty($value)) {
   if ($fallback_text) {
     printf(
       '<div %s>%s</div>',
-      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
+      get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')),
       esc_html($fallback_text)
     );
   }
@@ -69,7 +66,7 @@ if (! $file_url) {
   if ($fallback_text) {
     printf(
       '<div %s>%s</div>',
-      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
+      get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')),
       esc_html($fallback_text)
     );
   }
@@ -140,6 +137,6 @@ $link_html = sprintf(
 
 printf(
   '<div %s>%s</div>',
-  wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
+  get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')),
   $link_html
 );

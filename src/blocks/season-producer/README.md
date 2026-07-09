@@ -1,1 +1,0 @@
-This block will get the current post's season term and then get that term's meta field for season_producer which will be an array of ID or post objects. It will then get and display the post Title for the post correlating to each id.

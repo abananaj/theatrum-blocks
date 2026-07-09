@@ -37,7 +37,7 @@ if (empty($value) || !is_array($value)) {
   if ($fallback_text) {
     printf(
       '<figure %s><div style="text-align:center;color:#666;padding:20px;">%s</div></figure>',
-      wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']) ),
+      get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']),
       esc_html($fallback_text)
     );
   }
@@ -143,7 +143,7 @@ if (!$items_html) {
   if ($fallback_text) {
     printf(
       '<figure %s><div style="text-align:center;color:#666;padding:20px;">%s</div></figure>',
-      wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']) ),
+      get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']),
       esc_html($fallback_text)
     );
   }
@@ -197,7 +197,7 @@ if (is_array($gap)) {
 // Output gallery
 printf(
   '<figure %s%s><ul class="wp-block-gallery blocks-gallery-grid"%s>%s</ul>%s</figure>',
-  wp_kses_data( get_block_wrapper_attributes(['class' => $wrapper_classes]) ),
+  get_block_wrapper_attributes(['class' => $wrapper_classes]),
   $gap_style ? sprintf(' style="%s"', $gap_style) : '',
   $gap_style ? sprintf(' style="%s"', $gap_style) : '',
   $items_html,

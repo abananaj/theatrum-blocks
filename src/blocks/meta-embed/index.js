@@ -27,11 +27,11 @@ import variations from './variations';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-registerBlockType(metadata.name, {
-  /**
-   * @see ./edit.js
-   */
-  edit: Edit,
-  save: () => null,
-  variations,
-});
+registerBlockType( metadata.name, {
+	/**
+	 * @see ./edit.js
+	 */
+	edit: Edit,
+	save: () => null,
+	variations,
+} );

@@ -9,14 +9,14 @@
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { getListProps } from './shared';
 
-export default function Save({ attributes }) {
+export default function Save( { attributes } ) {
 	const { listType } = attributes;
 
-	const { className, style } = getListProps(attributes);
-	const blockProps = useBlockProps.save({ className, style });
-	const innerBlocksProps = useInnerBlocksProps.save(blockProps);
+	const { className, style } = getListProps( attributes );
+	const blockProps = useBlockProps.save( { className, style } );
+	const innerBlocksProps = useInnerBlocksProps.save( blockProps );
 
 	const ListTag = listType === 'ol' ? 'ol' : 'ul';
 
-	return <ListTag {...innerBlocksProps} />;
+	return <ListTag { ...innerBlocksProps } />;
 }

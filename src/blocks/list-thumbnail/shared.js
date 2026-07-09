@@ -8,7 +8,7 @@
  * `--item-height` from the cascade.
  */
 
-export function getThumbnailListProps(attributes) {
+export function getThumbnailListProps( attributes ) {
 	const {
 		thumbnailPosition,
 		animationSpeed,
@@ -22,22 +22,25 @@ export function getThumbnailListProps(attributes) {
 		thumbnailObjectFit,
 	} = attributes;
 
-	const hasAspectRatio = thumbnailAspectRatio && thumbnailAspectRatio !== 'auto';
+	const hasAspectRatio =
+		thumbnailAspectRatio && thumbnailAspectRatio !== 'auto';
 
 	const className = [
-		`thumbnail-position-${thumbnailPosition}`,
+		`thumbnail-position-${ thumbnailPosition }`,
 		hasAspectRatio ? 'has-aspect-ratio' : '',
 	]
-		.filter(Boolean)
-		.join(' ');
+		.filter( Boolean )
+		.join( ' ' );
 
 	const style = {
-		'--animation-speed': `${animationSpeed}s`,
-		'--item-height': `${itemHeight}${itemHeightUnit}`,
-		'--thumb-width': `${thumbnailWidth}${thumbnailWidthUnit}`,
-		'--thumb-height': `${thumbnailHeight}${thumbnailHeightUnit}`,
+		'--animation-speed': `${ animationSpeed }s`,
+		'--item-height': `${ itemHeight }${ itemHeightUnit }`,
+		'--thumb-width': `${ thumbnailWidth }${ thumbnailWidthUnit }`,
+		'--thumb-height': `${ thumbnailHeight }${ thumbnailHeightUnit }`,
 		'--thumb-object-fit': thumbnailObjectFit || 'cover',
-		...(hasAspectRatio ? { '--thumb-aspect-ratio': thumbnailAspectRatio } : {}),
+		...( hasAspectRatio
+			? { '--thumb-aspect-ratio': thumbnailAspectRatio }
+			: {} ),
 	};
 
 	return { className, style };

@@ -2,6 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "chance/list-icons",
+  "textdomain": "theatrum-blocks",
   "title": "Icon List",
   "category": "theatrum",
   "description": "A list block with optional icons for each item. Supports ordered and unordered lists with customizable icon styling.",
@@ -56,8 +57,7 @@
       "style": true,
       "width": true
     },
-    "shadow": true,
-    "opacity": true
+    "shadow": true
   },
   "attributes": {
     "listType": {

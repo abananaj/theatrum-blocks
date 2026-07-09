@@ -13,27 +13,30 @@ const DATE_FORMAT_OPTIONS = [
 	{ label: 'Custom', value: 'custom' },
 ];
 
-function getMetaBinding(attributes) {
+function getMetaBinding( attributes ) {
 	const bindings = attributes?.metadata?.bindings ?? {};
-	const entries = Object.entries(bindings).filter(
-		([, b]) => b?.source === 'chance/post-meta'
+	const entries = Object.entries( bindings ).filter(
+		( [ , b ] ) => b?.source === 'chance/post-meta'
 	);
-	if (! entries.length) return null;
-	const [attr, binding] = entries[0];
+	if ( ! entries.length ) {
+		return null;
+	}
+	const [ attr, binding ] = entries[ 0 ];
 	return { attr, binding };
 }
 
-function setBindingArg(attributes, attr, argName, argValue) {
+function setBindingArg( attributes, attr, argName, argValue ) {
 	return {
 		metadata: {
-			...(attributes.metadata ?? {}),
+			...( attributes.metadata ?? {} ),
 			bindings: {
-				...(attributes.metadata?.bindings ?? {}),
-				[attr]: {
+				...( attributes.metadata?.bindings ?? {} ),
+				[ attr ]: {
 					source: 'chance/post-meta',
 					args: {
-						...((attributes.metadata?.bindings?.[attr] ?? {}).args ?? {}),
-						[argName]: argValue,
+						...( ( attributes.metadata?.bindings?.[ attr ] ?? {} )
+							.args ?? {} ),
+						[ argName ]: argValue,
 					},
 				},
 			},
@@ -41,68 +44,93 @@ function setBindingArg(attributes, attr, argName, argValue) {
 	};
 }
 
-const withMetaBindingPanel = createHigherOrderComponent((BlockEdit) => {
-	return function WithMetaBindingPanel(props) {
+const withMetaBindingPanel = createHigherOrderComponent( ( BlockEdit ) => {
+	return function WithMetaBindingPanel( props ) {
 		const { attributes, setAttributes, isSelected } = props;
-		const meta = getMetaBinding(attributes);
+		const meta = getMetaBinding( attributes );
 
-		if (! meta || ! isSelected) {
-			return <BlockEdit {...props} />;
+		if ( ! meta || ! isSelected ) {
+			return <BlockEdit { ...props } />;
 		}
 
 		const { attr, binding } = meta;
-		const currentKey    = binding?.args?.key          ?? '';
-		const currentFormat = binding?.args?.format       ?? 'M jS';
-		const customFormat  = binding?.args?.customFormat ?? '';
-		const isDate        = attributes?.metadata?.name === 'chance/bind-date';
-		const isCustom      = currentFormat === 'custom';
+		const currentKey = binding?.args?.key ?? '';
+		const currentFormat = binding?.args?.format ?? 'M jS';
+		const customFormat = binding?.args?.customFormat ?? '';
+		const isDate = attributes?.metadata?.name === 'chance/bind-date';
+		const isCustom = currentFormat === 'custom';
 
 		return (
 			<Fragment>
-				<BlockEdit {...props} />
+				<BlockEdit { ...props } />
 				<InspectorControls>
 					<PanelBody title="Meta Source" initialOpen>
 						<TextControl
 							label="Meta Key"
-							value={currentKey}
-							onChange={(val) =>
-								setAttributes(setBindingArg(attributes, attr, 'key', val))
+							value={ currentKey }
+							onChange={ ( val ) =>
+								setAttributes(
+									setBindingArg(
+										attributes,
+										attr,
+										'key',
+										val
+									)
+								)
 							}
 							placeholder="e.g., opening, hero_image"
 							help="ACF field key or post meta key"
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 						/>
-						{isDate && (
+						{ isDate && (
 							<SelectControl
 								label="Date Format"
-								value={currentFormat}
-								options={DATE_FORMAT_OPTIONS}
-								onChange={(val) =>
-									setAttributes(setBindingArg(attributes, attr, 'format', val))
+								value={ currentFormat }
+								options={ DATE_FORMAT_OPTIONS }
+								onChange={ ( val ) =>
+									setAttributes(
+										setBindingArg(
+											attributes,
+											attr,
+											'format',
+											val
+										)
+									)
 								}
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
 							/>
-						)}
-						{isDate && isCustom && (
+						) }
+						{ isDate && isCustom && (
 							<TextControl
 								label="Custom Format"
-								value={customFormat}
-								onChange={(val) =>
-									setAttributes(setBindingArg(attributes, attr, 'customFormat', val))
+								value={ customFormat }
+								onChange={ ( val ) =>
+									setAttributes(
+										setBindingArg(
+											attributes,
+											attr,
+											'customFormat',
+											val
+										)
+									)
 								}
 								placeholder="e.g., M j, Y"
 								help="PHP date format string (Y=year, M=month, j=day, etc.)"
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
 							/>
-						)}
+						) }
 					</PanelBody>
 				</InspectorControls>
 			</Fragment>
 		);
 	};
-}, 'withMetaBindingPanel');
+}, 'withMetaBindingPanel' );
 
-addFilter('editor.BlockEdit', 'chance/meta-binding-panel', withMetaBindingPanel);
+addFilter(
+	'editor.BlockEdit',
+	'chance/meta-binding-panel',
+	withMetaBindingPanel
+);

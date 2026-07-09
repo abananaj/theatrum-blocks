@@ -1,90 +1,6 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
-	'board-member' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/board-member',
-		'title' => 'Board Member',
-		'category' => 'deprecated',
-		'description' => 'Display board member information from WordPress options',
-		'textdomain' => 'theatrum-blocks',
-		'icon' => 'admin-settings',
-		'supports' => array(
-			'html' => false,
-			'align' => true,
-			'reusable' => true,
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'letterSpacing' => true,
-				'lineHeight' => true,
-				'textDecoration' => true,
-				'textTransform' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradient' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			),
-			'border' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true
-			),
-			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
-				'duotone' => true
-			)
-		),
-		'attributes' => array(
-			'optionName' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'tagName' => array(
-				'type' => 'string',
-				'default' => 'p'
-			),
-			'href' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'prepend' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'append' => array(
-				'type' => 'string',
-				'default' => ''
-			)
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'team',
-			'staff',
-			'person',
-			'bio'
-		),
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
-	),
 	'breadcrumbs' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -223,8 +139,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -237,7 +152,7 @@ return array(
 				'type' => 'array',
 				'default' => array(
 					array(
-						'id' => 1,
+						'id' => 'item-default',
 						'image' => 'https://picsum.photos/id/21/300/300',
 						'title' => 'Card Title',
 						'subtitle' => 'Subtitle text',
@@ -260,96 +175,6 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
 		'viewScript' => 'file:./view.js'
-	),
-	'card-static' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/card-static',
-		'version' => '0.1.0',
-		'title' => 'Car',
-		'category' => 'widgets',
-		'icon' => 'smiley',
-		'description' => 'Example block combining dynamic rendering, inner blocks, block supports, and interactivity.',
-		'example' => array(
-			
-		),
-		'attributes' => array(
-			'content' => array(
-				'type' => 'string',
-				'source' => 'html',
-				'selector' => 'p'
-			)
-		),
-		'allowedBlocks' => array(
-			'core/paragraph',
-			'core/image',
-			'core/heading'
-		),
-		'supports' => array(
-			'html' => false,
-			'color' => array(
-				'text' => true,
-				'background' => true
-			),
-			'interactivity' => true
-		),
-		'keywords' => array(
-			'example',
-			'frankenstein'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./editor.css',
-		'style' => 'file:./style.css',
-		'render' => 'file:./render.php',
-		'viewScriptModule' => 'file:./view.js'
-	),
-	'copyright-date-block' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/copyright-date-block',
-		'version' => '0.1.0',
-		'title' => 'Copyright Date Block',
-		'category' => 'theatrum',
-		'icon' => 'admin-settings',
-		'description' => 'Example block scaffolded with Create Block tool.',
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'copyright',
-			'year',
-			'date',
-			'footer'
-		),
-		'attributes' => array(
-			'fallbackCurrentYear' => array(
-				'type' => 'string'
-			),
-			'showStartingYear' => array(
-				'type' => 'boolean'
-			),
-			'startingYear' => array(
-				'type' => 'string'
-			)
-		),
-		'supports' => array(
-			'color' => array(
-				'background' => true,
-				'text' => true
-			),
-			'html' => false,
-			'typography' => array(
-				'fontSize' => true,
-				'textAlign' => true,
-				'lineHeight' => true
-			)
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
 	),
 	'cover-card' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -432,11 +257,7 @@ return array(
 				'style' => true,
 				'width' => true
 			),
-			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
-				'duotone' => true
-			)
+			'shadow' => true
 		),
 		'usesContext' => array(
 			'postId',
@@ -498,141 +319,11 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
-	'cover-carousel' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/cover-carousel',
-		'title' => 'Cover Card Carousel',
-		'category' => 'theatrum',
-		'icon' => 'images-alt2',
-		'description' => 'A carousel block for displaying multiple images or videos with overlay content, similar to the Cover block but with carousel functionality',
-		'textdomain' => 'theatrum-blocks',
-		'supports' => array(
-			'html' => false,
-			'align' => array(
-				'full',
-				'wide'
-			),
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true
-			)
-		),
-		'attributes' => array(
-			'items' => array(
-				'type' => 'array',
-				'default' => array(
-					array(
-						'id' => 1,
-						'url' => '',
-						'type' => 'image',
-						'dimRatio' => 50,
-						'overlayColor' => '',
-						'customOverlayColor' => '#000000',
-						'focalPoint' => array(
-							'x' => 0.5,
-							'y' => 0.5
-						)
-					)
-				)
-			),
-			'currentSlide' => array(
-				'type' => 'number',
-				'default' => 0
-			),
-			'minHeight' => array(
-				'type' => 'number',
-				'default' => 300
-			),
-			'minHeightUnit' => array(
-				'type' => 'string',
-				'default' => 'px'
-			),
-			'contentPosition' => array(
-				'type' => 'string',
-				'enum' => array(
-					'center',
-					'top-center',
-					'top-left',
-					'top-right',
-					'bottom-center',
-					'bottom-left',
-					'bottom-right'
-				),
-				'default' => 'center'
-			),
-			'showIndicators' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'indicatorStyle' => array(
-				'type' => 'string',
-				'enum' => array(
-					'dots',
-					'lines',
-					'numbers'
-				),
-				'default' => 'dots'
-			),
-			'showArrows' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'arrowStyle' => array(
-				'type' => 'string',
-				'enum' => array(
-					'light',
-					'dark'
-				),
-				'default' => 'light'
-			),
-			'autoplay' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'autoplaySpeed' => array(
-				'type' => 'number',
-				'default' => 5000
-			),
-			'transitionType' => array(
-				'type' => 'string',
-				'enum' => array(
-					'fade',
-					'slide'
-				),
-				'default' => 'fade'
-			),
-			'transitionSpeed' => array(
-				'type' => 'number',
-				'default' => 500
-			)
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'carousel',
-			'slider',
-			'slideshow',
-			'cards'
-		),
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./editor.scss',
-		'style' => 'file:./style.scss',
-		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
-	),
 	'list-icons' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/list-icons',
+		'textdomain' => 'theatrum-blocks',
 		'title' => 'Icon List',
 		'category' => 'theatrum',
 		'description' => 'A list block with optional icons for each item. Supports ordered and unordered lists with customizable icon styling.',
@@ -689,8 +380,7 @@ return array(
 				'style' => true,
 				'width' => true
 			),
-			'shadow' => true,
-			'opacity' => true
+			'shadow' => true
 		),
 		'attributes' => array(
 			'listType' => array(
@@ -791,8 +481,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -896,6 +585,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/media-popover',
+		'textdomain' => 'theatrum-blocks',
 		'title' => 'Media Popover',
 		'category' => 'theatrum',
 		'description' => 'Display media (image or video) in a tooltip-style popover that appears on hover. Link the popover to a URL or page.',
@@ -1023,8 +713,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -1100,8 +789,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -1124,7 +812,7 @@ return array(
 			),
 			'tagName' => array(
 				'type' => 'string',
-				'default' => 'p'
+				'default' => 'span'
 			),
 			'prepend' => array(
 				'type' => 'string',
@@ -1154,6 +842,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/meta-embed',
+		'textdomain' => 'theatrum-blocks',
 		'title' => 'Meta Embed',
 		'category' => 'metablock',
 		'description' => 'Embed a resource from a URL stored in post metadata',
@@ -1253,8 +942,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -1282,6 +970,14 @@ return array(
 			'hideIfEmpty' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'boolTrueText' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'boolFalseText' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		),
 		'usesContext' => array(
@@ -1506,71 +1202,6 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
-	'meta-icon' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/meta-icon',
-		'title' => 'Meta Icon',
-		'category' => 'metablock',
-		'description' => 'Display an icon from an ACF icon picker field by entering a key. Handles dashicon names, URLs, and attachment IDs.',
-		'icon' => 'star-filled',
-		'supports' => array(
-			'html' => false,
-			'align' => array(
-				'left',
-				'center',
-				'right'
-			),
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradient' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => false
-			),
-			'border' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true
-			),
-			'shadow' => true
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'attributes' => array(
-			'keyInput' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'iconSize' => array(
-				'type' => 'number',
-				'default' => 48
-			)
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'icon',
-			'meta',
-			'svg',
-			'custom field'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
-	),
 	'meta-image' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1637,6 +1268,18 @@ return array(
 			'showCaption' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'aspectRatio' => array(
+				'type' => 'string',
+				'default' => 'auto',
+				'enum' => array(
+					'auto',
+					'1',
+					'4/3',
+					'3/4',
+					'16/9',
+					'9/16'
+				)
 			)
 		),
 		'example' => array(
@@ -1707,8 +1350,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -1789,8 +1431,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -1826,6 +1467,10 @@ return array(
 			'tagB' => array(
 				'type' => 'string',
 				'default' => 'span'
+			),
+			'showListStyle' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'example' => array(
@@ -1885,8 +1530,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -1909,7 +1553,7 @@ return array(
 			),
 			'tagName' => array(
 				'type' => 'string',
-				'default' => 'p'
+				'default' => 'span'
 			),
 			'prepend' => array(
 				'type' => 'string',
@@ -2050,8 +1694,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -2172,8 +1815,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -2309,89 +1951,11 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),
-	'production-trailer' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/video-trailer',
-		'title' => 'Production Trailer',
-		'category' => 'production',
-		'description' => 'Embed a YouTube video trailer from a URL stored in post metadata',
-		'icon' => 'video-alt3',
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'youtube',
-			'video',
-			'trailer',
-			'embed',
-			'meta'
-		),
-		'supports' => array(
-			'html' => false,
-			'align' => array(
-				'left',
-				'center',
-				'right',
-				'wide',
-				'full'
-			),
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true
-			)
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'attributes' => array(
-			'metaKey' => array(
-				'type' => 'string',
-				'default' => 'video-trailer-url'
-			),
-			'allowResponsive' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'aspectRatio' => array(
-				'type' => 'string',
-				'default' => '16-9'
-			),
-			'caption' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'type' => array(
-				'type' => 'string',
-				'default' => 'video'
-			),
-			'providerNameSlug' => array(
-				'type' => 'string',
-				'default' => 'youtube'
-			),
-			'responsive' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'previewable' => array(
-				'type' => 'boolean',
-				'default' => true
-			)
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
-	),
 	'query-filter' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/query-filter',
+		'textdomain' => 'theatrum-blocks',
 		'title' => 'Query Filter',
 		'category' => 'theatrum',
 		'description' => 'Frontend filter and sort controls for a Query Loop block.',
@@ -2459,96 +2023,26 @@ return array(
 		'editorStyle' => 'file:./editor.scss'
 	),
 	'query-loop' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'theatrum/query-loop',
 		'title' => 'Theatrum Query Loop',
 		'category' => 'theatrum',
+		'description' => 'Registers Theatrum\'s post-type-specific core/query variations (production, event, class, blog, artist, supporter, credit, venue loops). Not directly insertable — pick a variation from the core Query Loop block instead.',
+		'icon' => 'list-view',
+		'keywords' => array(
+			'query',
+			'loop',
+			'production',
+			'event',
+			'artist'
+		),
+		'textdomain' => 'theatrum-blocks',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./editor.scss',
 		'supports' => array(
 			'inserter' => false
 		)
-	),
-	'season-producer' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/season-producer',
-		'title' => 'Season Producer (Deprecated)',
-		'category' => 'metablock',
-		'description' => 'Deprecated — use the Term Meta block\'s "Season Producer" variation instead. Kept registered so existing content keeps rendering; hidden from the inserter so it can\'t be added again.',
-		'icon' => 'awards',
-		'supports' => array(
-			'inserter' => false,
-			'html' => false,
-			'align' => true,
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'letterSpacing' => true,
-				'lineHeight' => true,
-				'textDecoration' => true,
-				'textTransform' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradient' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			),
-			'border' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true
-			),
-			'shadow' => true,
-			'opacity' => true
-		),
-		'attributes' => array(
-			'metaKey' => array(
-				'type' => 'string',
-				'default' => 'season_producers'
-			),
-			'tagName' => array(
-				'type' => 'string',
-				'default' => 'ul'
-			),
-			'headingText' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'headingLevel' => array(
-				'type' => 'string',
-				'default' => 'h2'
-			)
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'producer',
-			'season',
-			'staff',
-			'theater'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
 	),
 	'site-option' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -2592,8 +2086,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -2672,91 +2165,6 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
-	),
-	'staff-member' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'chance/staff-member',
-		'title' => 'Staff Member',
-		'category' => 'deprecated',
-		'description' => 'Display staff member information from WordPress options',
-		'icon' => 'admin-settings',
-		'supports' => array(
-			'html' => false,
-			'align' => true,
-			'reusable' => true,
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'letterSpacing' => true,
-				'lineHeight' => true,
-				'textDecoration' => true,
-				'textTransform' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradient' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			),
-			'border' => array(
-				'color' => true,
-				'radius' => true,
-				'style' => true,
-				'width' => true
-			),
-			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
-				'duotone' => true
-			)
-		),
-		'attributes' => array(
-			'optionName' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'tagName' => array(
-				'type' => 'string',
-				'default' => 'p'
-			),
-			'href' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'prepend' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'append' => array(
-				'type' => 'string',
-				'default' => ''
-			)
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'staff',
-			'team',
-			'person',
-			'bio'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
 	),
 	'table-advanced' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -2975,7 +2383,8 @@ return array(
 				)
 			)
 		),
-		'style' => 'wp-block-table-of-contents'
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css'
 	),
 	'term-meta' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3019,8 +2428,7 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'opacity' => true,
-			'filters' => array(
+			'filter' => array(
 				'duotone' => true
 			)
 		),
@@ -3109,6 +2517,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/title-advanced',
+		'textdomain' => 'theatrum-blocks',
 		'title' => 'Title (Advanced)',
 		'category' => 'text',
 		'icon' => 'heading',
@@ -3153,6 +2562,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/list-item-icon',
+		'textdomain' => 'theatrum-blocks',
 		'title' => 'Icon List Item',
 		'category' => 'theatrum',
 		'description' => 'A single item in an icon list, with an optional icon and text.',
@@ -3226,6 +2636,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/list-item-thumbnail',
+		'textdomain' => 'theatrum-blocks',
 		'title' => 'Thumbnail List Item',
 		'category' => 'theatrum',
 		'description' => 'A single item in a thumbnail list: nested heading/paragraph content plus a thumbnail image.',
@@ -3421,6 +2832,7 @@ return array(
 		'apiVersion' => 3,
 		'title' => 'Table Body',
 		'name' => 'theatrum/table-body',
+		'textdomain' => 'theatrum-blocks',
 		'category' => 'text',
 		'keywords' => array(
 			'table'
@@ -3532,6 +2944,7 @@ return array(
 		'apiVersion' => 3,
 		'title' => 'Table Title',
 		'name' => 'theatrum/table-caption',
+		'textdomain' => 'theatrum-blocks',
 		'category' => 'text',
 		'keywords' => array(
 			'table'
@@ -3625,6 +3038,7 @@ return array(
 		'apiVersion' => 3,
 		'title' => 'Table Cell',
 		'name' => 'theatrum/table-cell',
+		'textdomain' => 'theatrum-blocks',
 		'category' => 'text',
 		'keywords' => array(
 			'table'
@@ -3735,6 +3149,7 @@ return array(
 		'apiVersion' => 3,
 		'title' => 'Table Footer',
 		'name' => 'theatrum/table-footer',
+		'textdomain' => 'theatrum-blocks',
 		'category' => 'text',
 		'keywords' => array(
 			'table'
@@ -3843,6 +3258,7 @@ return array(
 		'apiVersion' => 3,
 		'title' => 'Table Header',
 		'name' => 'theatrum/table-header',
+		'textdomain' => 'theatrum-blocks',
 		'category' => 'text',
 		'keywords' => array(
 			'table'
@@ -3926,6 +3342,7 @@ return array(
 		'apiVersion' => 3,
 		'title' => 'Table Heading Cell',
 		'name' => 'theatrum/table-heading-cell',
+		'textdomain' => 'theatrum-blocks',
 		'category' => 'text',
 		'keywords' => array(
 			'table'
@@ -4042,6 +3459,7 @@ return array(
 		'apiVersion' => 3,
 		'title' => 'Table Row',
 		'name' => 'theatrum/table-row',
+		'textdomain' => 'theatrum-blocks',
 		'category' => 'text',
 		'keywords' => array(
 			'table'

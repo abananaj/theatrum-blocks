@@ -15,10 +15,7 @@ if ($display_type === 'season-producer') {
   $heading_level = isset($attributes['headingLevel']) ? sanitize_text_field($attributes['headingLevel']) : 'h2';
 
   // Validate heading level
-  $allowed_headings = array('h2', 'h3', 'h4', 'h5', 'h6');
-  if (!in_array($heading_level, $allowed_headings, true)) {
-    $heading_level = 'h2';
-  }
+  $heading_level = theatrum_sanitize_tag($heading_level, array('h2', 'h3', 'h4', 'h5', 'h6'), 'h2');
 
   if (!$post_id) {
     return;
@@ -67,7 +64,7 @@ if ($display_type === 'season-producer') {
   }
 
 ?>
-  <div <?php echo wp_kses_data( get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']) ); ?>>
+  <div <?php echo get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']); ?>>
     <?php if ($heading_text !== '') : ?>
       <<?php echo $heading_level; ?> class="season-producer-heading"><?php echo esc_html($heading_text); ?></<?php echo $heading_level; ?>>
     <?php endif; ?>
@@ -85,6 +82,7 @@ if ($display_type === 'season-producer') {
 $term_id = isset($attributes['termId']) ? intval($attributes['termId']) : 0;
 $meta_key = isset($attributes['metaKey']) ? sanitize_text_field($attributes['metaKey']) : '';
 $tag = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
+$tag = theatrum_sanitize_tag($tag, array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'), 'p');
 $prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
 $append = isset($attributes['append']) ? $attributes['append'] : '';
 
@@ -98,8 +96,8 @@ $value = get_term_meta($term_id, $meta_key, true);
 if (empty($value)) {
   printf(
     '<%1$s %2$s>[%3$s]</%1$s>',
-    tag_escape($tag),
-    wp_kses_data( get_block_wrapper_attributes() ),
+    $tag,
+    get_block_wrapper_attributes(),
     esc_html($meta_key)
   );
   return;
@@ -131,7 +129,7 @@ $display_value = esc_html($prepend) . $inner . esc_html($append);
 
 printf(
   '<%1$s %2$s>%3$s</%1$s>',
-  tag_escape($tag),
+  $tag,
   get_block_wrapper_attributes(),
   $display_value
 );

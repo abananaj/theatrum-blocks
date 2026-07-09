@@ -3,6 +3,7 @@
 	"apiVersion": 3,
 	"title": "Table Footer",
 	"name": "theatrum/table-footer",
+	"textdomain": "theatrum-blocks",
 	"category": "text",
 	"keywords": ["table"],
 	"attributes": {

@@ -96,7 +96,7 @@ if ($is_member_type) {
       $classes[] = $attributes['className'];
     }
     $class_string = implode(' ', $classes);
-    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $class_string)) );
+    $wrapper_attrs = get_block_wrapper_attributes(array('class' => $class_string));
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
     $html .= '<ul>';
@@ -144,7 +144,7 @@ if ($is_member_type) {
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
     }
-    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
+    $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
     $html .= '<p>';
@@ -166,7 +166,7 @@ if ($is_member_type) {
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
     }
-    $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
+    $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
 
     $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
     if ($option_value) {
@@ -198,7 +198,7 @@ if ($has_ref_links) {
   if (isset($attributes['className'])) {
     $classes[] = $attributes['className'];
   }
-  $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
+  $wrapper_attrs = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
 
   $html = '<div ' . $wrapper_attrs . '>' . esc_html($prepend);
 
@@ -250,10 +250,7 @@ $tag = isset($attributes['tagName']) ? $attributes['tagName'] : 'p';
 $href = isset($attributes['href']) ? $attributes['href'] : '';
 
 // Validate tag name to prevent injection
-$allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a');
-if (!in_array($tag, $allowed_tags)) {
-  $tag = 'p';
-}
+$tag = theatrum_sanitize_tag($tag, array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'), 'p');
 
 // Build class array for typography, spacing, and color support
 $classes = array('wp-block-chance-site-option');

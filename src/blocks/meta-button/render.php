@@ -22,7 +22,7 @@ if (empty($url)) {
 
 printf(
   '<div %1$s><a href="%2$s" class="wp-block-button__link wp-element-button">%3$s</a></div>',
-  wp_kses_data( get_block_wrapper_attributes( array( 'class' => 'wp-block-button' ) ) ),
+  get_block_wrapper_attributes( array( 'class' => 'wp-block-button' ) ),
   $url,
   esc_html($button_text)
 );

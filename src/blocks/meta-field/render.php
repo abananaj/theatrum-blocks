@@ -23,6 +23,8 @@ $href      = $attributes['href'] ?? '';
 $prepend   = $attributes['prepend'] ?? '';
 $append    = $attributes['append'] ?? '';
 $hide_if_empty = $attributes['hideIfEmpty'] ?? false;
+$bool_true_text  = $attributes['boolTrueText'] ?? '';
+$bool_false_text = $attributes['boolFalseText'] ?? '';
 
 if (!$key_input) {
   return;
@@ -43,17 +45,23 @@ if ($value === '' || $value === false) {
 // Handle arrays/objects
 if (is_array($value) || is_object($value)) {
   $value = json_encode($value);
+} elseif (($bool_true_text !== '' || $bool_false_text !== '') && is_scalar($value)) {
+  // Optional boolean display: map a 0/1-valued meta field to custom text
+  // (e.g. "Yes"/"No"). Opt-in — only applies when at least one label is set.
+  $value_str = (string) $value;
+  if ($value_str === '1' && $bool_true_text !== '') {
+    $value = $bool_true_text;
+  } elseif ($value_str === '0' && $bool_false_text !== '') {
+    $value = $bool_false_text;
+  }
 }
 
 $value = $prepend . (string) $value . $append;
 
 // Validate tag name
-$allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a');
-if (!in_array($tag_name, $allowed_tags)) {
-  $tag_name = 'p';
-}
+$tag_name = theatrum_sanitize_tag($tag_name, array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'), 'p');
 
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-post-meta-field')) );
+$wrapper_attrs = get_block_wrapper_attributes(array('class' => 'wp-block-chance-post-meta-field'));
 
 if ($tag_name === 'a') {
   printf(

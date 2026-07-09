@@ -1,123 +1,86 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { TextControl, ToggleControl, Spinner } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import apiFetch from '@wordpress/api-fetch';
+import { Fragment } from '@wordpress/element';
+import { TextControl, ToggleControl } from '@wordpress/components';
+import ServerSideRender from '@wordpress/server-side-render';
 import './editor.scss';
 
-export default function Edit({ attributes, setAttributes, context }) {
-  const blockProps = useBlockProps();
-  const [fileData, setFileData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export default function Edit( { attributes, setAttributes } ) {
+	const blockProps = useBlockProps();
 
-  const editorPostId = useSelect((select) => select('core/editor').getCurrentPostId());
-  const contextPostId = context?.postId;
-  const postId = contextPostId || editorPostId;
-
-  useEffect(() => {
-    if (!attributes.keyInput || !postId) {
-      setFileData(null);
-      return;
-    }
-
-    setIsLoading(true);
-
-    apiFetch({ path: `/chance/v1/meta-file/${postId}/${attributes.keyInput}` })
-      .then((data) => {
-        setFileData(data.url ? data : null);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setFileData(null);
-        setIsLoading(false);
-      });
-  }, [attributes.keyInput, postId]);
-
-  return (
-    <Fragment>
-      <InspectorControls>
-        <div style={{ padding: '16px' }}>
-          <TextControl
-            label="Meta Key"
-            value={attributes.keyInput || ''}
-            onChange={(value) => setAttributes({ keyInput: value })}
-            placeholder="e.g., document, pdf_file"
-            help="Enter the ACF/meta key for the file field"
-            __nextHasNoMarginBottom
-            __next40pxDefaultSize
-          />
-          <TextControl
-            label="Link Text"
-            value={attributes.linkText || 'Open File'}
-            onChange={(value) => setAttributes({ linkText: value })}
-            placeholder="Open File"
-            help="The text to display for the link"
-            __nextHasNoMarginBottom
-            __next40pxDefaultSize
-          />
-          <TextControl
-            label="Fallback Text"
-            value={attributes.fallbackText || ''}
-            onChange={(value) => setAttributes({ fallbackText: value })}
-            placeholder="Optional text if no file is found"
-            help="Leave empty to hide the block when no file is found"
-            __nextHasNoMarginBottom
-            __next40pxDefaultSize
-          />
-          <ToggleControl
-            label="Open in new tab"
-            checked={attributes.openInNewTab !== false}
-            onChange={(value) => setAttributes({ openInNewTab: value })}
-            __nextHasNoMarginBottom
-          />
-          <ToggleControl
-            label="Show file icon"
-            checked={attributes.showIcon !== false}
-            onChange={(value) => setAttributes({ showIcon: value })}
-            __nextHasNoMarginBottom
-          />
-        </div>
-      </InspectorControls>
-      <div {...blockProps}>
-        {isLoading && <Spinner />}
-        {!isLoading && fileData && (
-          <a
-            href={fileData.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="wp-block-chance-meta-file-link"
-            style={{
-              color: 'var(--wp--preset--color--primary, #0073aa)',
-              textDecoration: 'underline',
-              cursor: 'pointer'
-            }}
-          >
-            {attributes.showIcon && (
-              <span
-                className="dashicons dashicons-media-document"
-                style={{
-                  marginRight: '0.5em',
-                  verticalAlign: 'middle',
-                  fontSize: '1em',
-                  width: '1em',
-                  height: '1em'
-                }}
-              />
-            )}
-            {attributes.linkText || 'Open File'}
-          </a>
-        )}
-        {!isLoading && !fileData && attributes.fallbackText && (
-          <div style={{ textAlign: 'center', color: '#666', padding: '20px' }}>
-            {attributes.fallbackText}
-          </div>
-        )}
-        {!isLoading && !fileData && !attributes.fallbackText && (
-          <div style={{ textAlign: 'center', color: '#ccc', padding: '20px', fontSize: '14px' }}>
-            No value found.
-          </div>
-        )}
-      </div>
-    </Fragment>
-  );
+	return (
+		<Fragment>
+			<InspectorControls>
+				<div style={ { padding: '16px' } }>
+					<TextControl
+						label="Meta Key"
+						value={ attributes.keyInput || '' }
+						onChange={ ( value ) =>
+							setAttributes( { keyInput: value } )
+						}
+						placeholder="e.g., document, pdf_file"
+						help="Enter the ACF/meta key for the file field"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<TextControl
+						label="Link Text"
+						value={ attributes.linkText || 'Open File' }
+						onChange={ ( value ) =>
+							setAttributes( { linkText: value } )
+						}
+						placeholder="Open File"
+						help="The text to display for the link"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<TextControl
+						label="Fallback Text"
+						value={ attributes.fallbackText || '' }
+						onChange={ ( value ) =>
+							setAttributes( { fallbackText: value } )
+						}
+						placeholder="Optional text if no file is found"
+						help="Leave empty to hide the block when no file is found"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<ToggleControl
+						label="Open in new tab"
+						checked={ attributes.openInNewTab !== false }
+						onChange={ ( value ) =>
+							setAttributes( { openInNewTab: value } )
+						}
+						__nextHasNoMarginBottom
+					/>
+					<ToggleControl
+						label="Show file icon"
+						checked={ attributes.showIcon !== false }
+						onChange={ ( value ) =>
+							setAttributes( { showIcon: value } )
+						}
+						__nextHasNoMarginBottom
+					/>
+				</div>
+			</InspectorControls>
+			<div { ...blockProps }>
+				{ attributes.keyInput ? (
+					<ServerSideRender
+						block="chance/meta-file"
+						attributes={ attributes }
+					/>
+				) : (
+					<div
+						style={ {
+							textAlign: 'center',
+							color: '#ccc',
+							padding: '20px',
+							fontSize: '14px',
+						} }
+					>
+						Enter a meta key in the sidebar
+					</div>
+				) }
+			</div>
+		</Fragment>
+	);
 }

@@ -4,59 +4,24 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { TextControl, Spinner, ToggleControl } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import apiFetch from '@wordpress/api-fetch';
+import { Fragment } from '@wordpress/element';
+import { TextControl, ToggleControl } from '@wordpress/components';
+import ServerSideRender from '@wordpress/server-side-render';
 import './editor.scss';
 
-export default function Edit({ attributes, setAttributes, context }) {
+export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps();
-	const [displayValue, setDisplayValue] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
-
-	// Get current post ID from context (Query Loop) or editor
-	const editorPostId = useSelect((select) => select('core/editor').getCurrentPostId());
-	const contextPostId = context?.postId;
-	const postId = contextPostId || editorPostId;
-
-	// Fetch the post meta value when key or postId changes
-	useEffect(() => {
-		if (!attributes.keyInput || !postId) {
-			setDisplayValue('');
-			return;
-		}
-
-		setIsLoading(true);
-
-		const url = `/chance/v1/post-meta/${postId}/${attributes.keyInput}`;
-
-		apiFetch({ path: url })
-			.then((data) => {
-				setDisplayValue(data.value || '');
-				setIsLoading(false);
-			})
-			.catch(() => {
-				setDisplayValue('');
-				setIsLoading(false);
-			});
-	}, [attributes.keyInput, postId]);
-
-	const displayText = displayValue || `[${attributes.keyInput}]`;
-	const prependText = attributes.prepend || '';
-	const appendText = attributes.append || '';
-	const finalText = `${prependText}${displayText}${appendText}`;
-	const isEmpty = !displayValue && attributes.keyInput;
-	const shouldHideIfEmpty = attributes.hideIfEmpty && isEmpty;
 
 	return (
 		<Fragment>
 			<InspectorControls>
-				<div style={{ padding: '16px' }}>
+				<div style={ { padding: '16px' } }>
 					<TextControl
 						label="Key"
-						value={attributes.keyInput || ''}
-						onChange={(value) => setAttributes({ keyInput: value })}
+						value={ attributes.keyInput || '' }
+						onChange={ ( value ) =>
+							setAttributes( { keyInput: value } )
+						}
 						placeholder="e.g., page_title, description, custom_field"
 						help="Enter the key to retrieve the corresponding value"
 						__nextHasNoMarginBottom
@@ -64,8 +29,10 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					<TextControl
 						label="Prepend"
-						value={attributes.prepend || ''}
-						onChange={(value) => setAttributes({ prepend: value })}
+						value={ attributes.prepend || '' }
+						onChange={ ( value ) =>
+							setAttributes( { prepend: value } )
+						}
 						placeholder="Text to prepend"
 						help="Optional plain text to add before the value"
 						__nextHasNoMarginBottom
@@ -73,31 +40,58 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					<TextControl
 						label="Append"
-						value={attributes.append || ''}
-						onChange={(value) => setAttributes({ append: value })}
+						value={ attributes.append || '' }
+						onChange={ ( value ) =>
+							setAttributes( { append: value } )
+						}
 						placeholder="Text to append"
 						help="Optional plain text to add after the value"
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
+					<TextControl
+						label="Display text for value 1"
+						value={ attributes.boolTrueText || '' }
+						onChange={ ( value ) =>
+							setAttributes( { boolTrueText: value } )
+						}
+						placeholder="e.g., Yes"
+						help="If the field's value is 1, show this text instead. Leave blank to show the raw value."
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<TextControl
+						label="Display text for value 0"
+						value={ attributes.boolFalseText || '' }
+						onChange={ ( value ) =>
+							setAttributes( { boolFalseText: value } )
+						}
+						placeholder="e.g., No"
+						help="If the field's value is 0, show this text instead. Leave blank to show the raw value."
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
 					<ToggleControl
 						label="Hide if empty"
-						checked={attributes.hideIfEmpty || false}
-						onChange={(value) => setAttributes({ hideIfEmpty: value })}
+						checked={ attributes.hideIfEmpty || false }
+						onChange={ ( value ) =>
+							setAttributes( { hideIfEmpty: value } )
+						}
 						help="Hide the parent container when this field has no value"
 					/>
 				</div>
 			</InspectorControls>
-			<div {...blockProps} className={`${blockProps.className}${shouldHideIfEmpty ? ' meta-field-empty' : ''}`}>
-				{isLoading ? (
-					<Spinner />
-				) : attributes.keyInput ? (
-					<span className="wp-block-chance-post-meta-field" style={{ wordBreak: 'break-word' }}>
-						{finalText}
-					</span>
+			<div { ...blockProps }>
+				{ attributes.keyInput ? (
+					<ServerSideRender
+						block="chance/meta-field"
+						attributes={ attributes }
+					/>
 				) : (
-					<em style={{ color: '#999' }}>Enter a key to display its value</em>
-				)}
+					<em style={ { color: '#999' } }>
+						Enter a key to display its value
+					</em>
+				) }
 			</div>
 		</Fragment>
 	);

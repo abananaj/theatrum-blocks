@@ -71,5 +71,6 @@
 			}
 		}
 	},
-	"style": "wp-block-table-of-contents"
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
 }

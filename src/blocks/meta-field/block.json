@@ -40,8 +40,7 @@
 			"width": true
 		},
 		"shadow": true,
-		"opacity": true,
-		"filters": {
+		"filter": {
 			"duotone": true
 		}
 	},
@@ -69,6 +68,14 @@
 		"hideIfEmpty": {
 			"type": "boolean",
 			"default": false
+		},
+		"boolTrueText": {
+			"type": "string",
+			"default": ""
+		},
+		"boolFalseText": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"usesContext": ["postId", "postType"],

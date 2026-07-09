@@ -3,6 +3,7 @@
   "apiVersion": 3,
   "title": "Table Header",
   "name": "theatrum/table-header",
+  "textdomain": "theatrum-blocks",
   "category": "text",
   "keywords": [
     "table"

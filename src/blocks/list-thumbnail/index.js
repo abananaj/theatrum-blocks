@@ -19,8 +19,8 @@ import metadata from './block.json';
 /**
  * Register the block
  */
-registerBlockType(metadata.name, {
-  ...metadata,
-  edit: Edit,
-  save: Save,
-});
+registerBlockType( metadata.name, {
+	...metadata,
+	edit: Edit,
+	save: Save,
+} );

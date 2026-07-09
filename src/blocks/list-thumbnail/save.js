@@ -10,10 +10,12 @@
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { getThumbnailListProps } from './shared';
 
-export default function Save({ attributes }) {
-	const { className, style } = getThumbnailListProps(attributes);
-	const blockProps = useBlockProps.save({ className, style });
-	const innerBlocksProps = useInnerBlocksProps.save({ className: 'list-items' });
+export default function Save( { attributes } ) {
+	const { className, style } = getThumbnailListProps( attributes );
+	const blockProps = useBlockProps.save( { className, style } );
+	const innerBlocksProps = useInnerBlocksProps.save( {
+		className: 'list-items',
+	} );
 
 	return (
 		<div { ...blockProps }>
@@ -22,8 +24,16 @@ export default function Save({ attributes }) {
 
 				<div className="thumbnail-container">
 					<div className="thumbnail-flipper">
-						<img className="thumbnail thumbnail-front" src="" alt="" />
-						<img className="thumbnail thumbnail-back" src="" alt="" />
+						<img
+							className="thumbnail thumbnail-front"
+							src=""
+							alt=""
+						/>
+						<img
+							className="thumbnail thumbnail-back"
+							src=""
+							alt=""
+						/>
 					</div>
 				</div>
 			</div>

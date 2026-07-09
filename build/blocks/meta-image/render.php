@@ -17,16 +17,15 @@ $link_to    = isset($attributes['linkTo']) ? sanitize_text_field($attributes['li
 $custom_link = isset($attributes['customLink']) ? esc_url($attributes['customLink']) : '';
 $open_new   = !empty($attributes['openInNewTab']);
 $show_caption = !empty($attributes['showCaption']);
+$aspect_ratio = isset($attributes['aspectRatio']) ? sanitize_text_field($attributes['aspectRatio']) : 'auto';
+$aspect_ratio = theatrum_sanitize_tag($aspect_ratio, array('auto', '1', '4/3', '3/4', '16/9', '9/16'), 'auto');
 
 if (!$key_input) {
   return;
 }
 
 // Get the raw meta/ACF value
-$value = get_field($key_input, $post_id);
-if ($value === null || $value === false || $value === '') {
-  $value = get_post_meta($post_id, $key_input, true);
-}
+$value = theatrum_get_meta($post_id, $key_input);
 
 if (empty($value)) {
   return;
@@ -83,11 +82,16 @@ if ($link_to === 'media') {
 }
 
 // Build img tag
+$img_style = $aspect_ratio !== 'auto'
+  ? sprintf('aspect-ratio:%s;width:100%%;object-fit:cover;', $aspect_ratio)
+  : 'max-width:100%;height:auto;';
+
 $img_tag = sprintf(
-  '<img src="%s" alt="%s" class="wp-image-%s" style="max-width:100%%;height:auto;" />',
+  '<img src="%s" alt="%s" class="wp-image-%s" style="%s" />',
   $img_url,
   $img_alt,
-  $attach_id ? esc_attr($attach_id) : ''
+  $attach_id ? esc_attr($attach_id) : '',
+  esc_attr($img_style)
 );
 
 // Wrap in link if needed
@@ -103,7 +107,7 @@ if ($show_caption && $img_caption) {
 
 printf(
   '<figure %s>%s%s</figure>',
-  wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-image']) ),
+  get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-image']),
   $img_content,
   $caption_html
 );

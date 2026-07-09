@@ -48,8 +48,7 @@
       "width": true
     },
     "shadow": true,
-    "opacity": true,
-    "filters": {
+    "filter": {
       "duotone": true
     }
   },

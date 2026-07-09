@@ -58,11 +58,19 @@ if ('youtube' === $embed_type) {
     return;
   }
 
-  $embed_src = 'https://www.youtube-nocookie.com/embed/' . esc_attr($video_id);
+  // youtube-nocookie.com validates the embedding origin (via the `origin`
+  // param and/or Referer header) and rejects the request with Error 153 if
+  // it doesn't recognize the host — pass this site's origin explicitly and
+  // send a Referer via referrerpolicy so the check passes.
+  $embed_src = add_query_arg(
+    'origin',
+    rawurlencode(home_url('/')),
+    'https://www.youtube-nocookie.com/embed/' . esc_attr($video_id)
+  );
 
   printf(
-    '<div %s><div class="meta-embed-youtube" style="position:relative;aspect-ratio:16/9"><iframe style="width:100%%;height:100%%;border:0" src="%s" title="%s" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>',
-    wp_kses_data( get_block_wrapper_attributes() ),
+    '<div %s><div class="meta-embed-youtube" style="position:relative;aspect-ratio:16/9"><iframe style="width:100%%;height:100%%;border:0" src="%s" title="%s" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div></div>',
+    get_block_wrapper_attributes(),
     esc_url($embed_src),
     esc_attr__('YouTube video', 'theatrum-blocks')
   );
@@ -75,14 +83,14 @@ $embed_html = wp_oembed_get($url);
 if ($embed_html) {
   printf(
     '<div %s>%s</div>',
-    wp_kses_data( get_block_wrapper_attributes() ),
+    get_block_wrapper_attributes(),
     wp_kses_post($embed_html)
   );
 } else {
   // Fallback to iframe embed for direct URLs
   printf(
     '<div %s><iframe src="%s" width="100%%" height="400" frameborder="0" allowfullscreen></iframe></div>',
-    wp_kses_data( get_block_wrapper_attributes() ),
+    get_block_wrapper_attributes(),
     esc_attr($url)
   );
 }

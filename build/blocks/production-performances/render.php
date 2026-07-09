@@ -118,7 +118,7 @@ if ($block_gap) {
 }
 
 ?>
-<div <?php echo wp_kses_data( get_block_wrapper_attributes( $wrapper_args ) ); ?>>
+<div <?php echo get_block_wrapper_attributes( $wrapper_args ); ?>>
 
   <?php foreach ($upcoming as $perf) : ?>
 

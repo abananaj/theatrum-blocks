@@ -7,6 +7,12 @@
     font-size: 1em;
   }
 
+  // Opt-in: restore native ul/ol markers (list-style: none above is the default).
+  .repeater-rows--show-markers {
+    list-style: revert;
+    padding-left: 1.5em;
+  }
+
 }
 
 /* 

@@ -6,15 +6,24 @@
  * sync. The `list-item-icon` children read these CSS variables from the cascade.
  */
 
-export function getListProps(attributes) {
-	const { iconPosition, iconSize, iconSizeUnit, iconSpacing, iconColor, hoverOnly } = attributes;
+export function getListProps( attributes ) {
+	const {
+		iconPosition,
+		iconSize,
+		iconSizeUnit,
+		iconSpacing,
+		iconColor,
+		hoverOnly,
+	} = attributes;
 
-	const className = `icon-position-${iconPosition}${hoverOnly ? ' icon-hover-only' : ''}`;
+	const className = `icon-position-${ iconPosition }${
+		hoverOnly ? ' icon-hover-only' : ''
+	}`;
 
 	const style = {
-		'--list-icon-size': `${iconSize}${iconSizeUnit}`,
-		'--list-icon-spacing': `${iconSpacing}px`,
-		...(iconColor ? { '--list-icon-color': iconColor } : {}),
+		'--list-icon-size': `${ iconSize }${ iconSizeUnit }`,
+		'--list-icon-spacing': `${ iconSpacing }px`,
+		...( iconColor ? { '--list-icon-color': iconColor } : {} ),
 	};
 
 	return { className, style };

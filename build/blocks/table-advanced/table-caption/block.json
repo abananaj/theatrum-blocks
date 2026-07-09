@@ -3,6 +3,7 @@
   "apiVersion": 3,
   "title": "Table Title",
   "name": "theatrum/table-caption",
+  "textdomain": "theatrum-blocks",
   "category": "text",
   "keywords": [
     "table"

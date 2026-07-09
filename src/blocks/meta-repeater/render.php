@@ -38,25 +38,38 @@ if (empty($subfield_a) && empty($subfield_b)) {
 }
 
 // Validate wrapper tag
-$allowed_wrappers = array('ul', 'ol', 'div');
-if (! in_array($tag_wrapper, $allowed_wrappers, true)) {
-  $tag_wrapper = 'ul';
-}
+$tag_wrapper = theatrum_sanitize_tag($tag_wrapper, array('ul', 'ol', 'div', 'p'), 'ul');
 
-// Validate subfield tags
-$allowed_tags = array('span', 'div', 'p', 'em', 'strong', 'h3', 'h4', 'h5', 'h6');
-if (! in_array($tag_a, $allowed_tags, true)) {
+// Validate subfield tags. A <p> wrapper can only legally contain inline
+// content, so its subfields are always forced to <span> regardless of the
+// tagA/tagB attributes.
+$allowed_subfield_tags = array('span', 'div', 'p', 'em', 'strong', 'h3', 'h4', 'h5', 'h6');
+if ($tag_wrapper === 'p') {
   $tag_a = 'span';
-}
-if (! in_array($tag_b, $allowed_tags, true)) {
   $tag_b = 'span';
+} else {
+  $tag_a = theatrum_sanitize_tag($tag_a, $allowed_subfield_tags, 'span');
+  $tag_b = theatrum_sanitize_tag($tag_b, $allowed_subfield_tags, 'span');
 }
 
-printf('<div %s>', wp_kses_data( get_block_wrapper_attributes() ));
+// .repeater-rows suppresses list markers by default (see style.scss); this
+// attribute opts back into the browser's native bullets/numbers.
+$show_list_style = ! empty($attributes['showListStyle']) && in_array($tag_wrapper, array('ul', 'ol'), true);
+$wrapper_class    = 'repeater-rows' . ($show_list_style ? ' repeater-rows--show-markers' : '');
 
-printf('<%s class="repeater-rows">', $tag_wrapper);
+printf('<div %s>', get_block_wrapper_attributes());
 
-$item_tag = in_array($tag_wrapper, array('ul', 'ol')) ? 'li' : 'div';
+printf('<%s class="%s">', $tag_wrapper, esc_attr($wrapper_class));
+
+// A <p> wrapper can only contain inline content, so each row is a <span>
+// rather than the block-level <div> used for a plain div wrapper.
+if (in_array($tag_wrapper, array('ul', 'ol'), true)) {
+  $item_tag = 'li';
+} elseif ($tag_wrapper === 'p') {
+  $item_tag = 'span';
+} else {
+  $item_tag = 'div';
+}
 
 foreach ($rows as $row) {
   if (! is_array($row)) {

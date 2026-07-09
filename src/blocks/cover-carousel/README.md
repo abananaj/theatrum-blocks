@@ -1,3 +1,0 @@
-This will behave like the Cover core block, except the user will be able to select multiple photos or videos to display in a carousel format. The user should have the options to customized the appearanc eof the arrows, indicator, time between slides, and transition type (fade, slide, etc.). The block should also support both images and videos in the same carousel.
-
-Refer to the example files to start with. They are using bootstrap, which would be fine but if there is a native wordpress way to do it without bootstrap, that'd be great. 

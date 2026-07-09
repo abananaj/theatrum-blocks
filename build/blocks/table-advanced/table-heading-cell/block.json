@@ -3,6 +3,7 @@
   "apiVersion": 3,
   "title": "Table Heading Cell",
   "name": "theatrum/table-heading-cell",
+  "textdomain": "theatrum-blocks",
   "category": "text",
   "keywords": [
     "table"
