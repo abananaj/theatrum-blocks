@@ -11,17 +11,44 @@ $ct-tabs-breakpoint: 768px;
 
 .ct-production-tabs {
 	// Reset the header <button> so it reads as plain text until styled.
+	//
+	// Colors come from chance/tab-heading's inline custom properties (see
+	// color-style.js) so each tab can have its own normal/hover/active
+	// colors. An unset state falls back to the next: hover → normal →
+	// inherit/transparent.
 	.ct-tab__header {
 		display: block;
 		width: 100%;
 		margin: 0;
 		padding: 0.75rem 1rem;
 		border: 0;
-		background: none;
 		font: inherit;
-		color: inherit;
 		text-align: left;
 		cursor: pointer;
+		color: var(--ct-tab-header-color, inherit);
+		background-color: var(--ct-tab-header-bg, transparent);
+
+		&:hover {
+			color: var(
+				--ct-tab-header-hover-color,
+				var(--ct-tab-header-color, inherit)
+			);
+			background-color: var(
+				--ct-tab-header-hover-bg,
+				var(--ct-tab-header-bg, transparent)
+			);
+		}
+
+		&.is-active {
+			color: var(
+				--ct-tab-header-active-color,
+				var(--ct-tab-header-color, inherit)
+			);
+			background-color: var(
+				--ct-tab-header-active-bg,
+				var(--ct-tab-header-bg, transparent)
+			);
+		}
 	}
 
 	.ct-tab__panel {

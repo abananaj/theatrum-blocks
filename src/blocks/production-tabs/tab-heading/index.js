@@ -1,10 +1,7 @@
 /**
- * Registers the Production Tabs (parent) block.
+ * Registers the Tab Heading (child of Tab) block.
  */
 import { registerBlockType } from '@wordpress/blocks';
-
-import './style.scss';
-import './editor.scss';
 
 import Edit from './edit';
 import Save from './save';

@@ -63,6 +63,7 @@ function theatrum_register_blocks()
 		'meta-date', 
 		'meta-time', // bring this back so they are seperate in the block editor and easier for user to use
 		'meta-embed', // there's gotta be a better way to get this to work
+		// not responding?
 		'meta-field',
 		// add ability to update post meta values as binding allows with core blocks?
 		// Add options for displaying boolean values, user should be able to input text to show if the value is 0 and if the value is 1, for example, if the user inputs "True" for 1 and "False" for 0, the meta field block will render "True" if the value is 1 and "False" if the value is 0.
@@ -88,7 +89,9 @@ function theatrum_register_blocks()
 		'production-quotes', // 🎭 var of repeater
 		// - [x] responds to font-size setting
 		'production-tabs', // 🎭 responsive tabs (desktop) / accordion (mobile); InnerBlocks of chance/tab
-		'production-tabs/tab', // 🎭 single tab: heading + content
+		'production-tabs/tab', // 🎭 single tab: holds chance/tab-heading + chance/tab-content
+		'production-tabs/tab-heading', // 🎭 tab label; only accepts core/paragraph, core/heading
+		'production-tabs/tab-content', // 🎭 tab panel; freeform, like a Group
 		'production-trailer', // 🎭
 		// - [ ] editor shows the dashed preview chip; real filter is frontend-only
 
@@ -96,12 +99,10 @@ function theatrum_register_blocks()
 		// - [ ] 🔍 frontend filter/sort for query loops - CONVERT? to variation of query filter
 		'query-loop', 
 		// - [ ] variations by main post type ✅
-		'season-producer',
-		// - [x] Deprecated 2026-07-06 in favor of term-meta's "Season Producer" variation.
+		'season-producer', // ❌
 		// Still registered (existing content keeps rendering) but hidden from
 		// the inserter via supports.inserter: false — do not use for new content.
 		'site-option',
-		// - [x] meta value now shows alongside the option value (in a .site-option-meta span) instead of replacing it
 		'staff-member', // temp un-deprecated 
 		// - [ ] 'svg-icon', ❌ just use icon block OR custom html to animate
 
@@ -125,11 +126,8 @@ function theatrum_register_blocks()
 		// - [ ] auto-generate based on headings in conten
 
 		'term-meta',
-		'list-thumbnail', // 🎭 InnerBlocks of chance/list-item-thumbnail; hover flip-card animation
+		'list-thumbnail',
 		'list-thumbnail/list-item-thumbnail',
-		// - [x] nests core/heading + core/paragraph inside each item
-		// - [x] list-wide image resolution/aspect-ratio/object-fit controls
-
 		'title-advanced',
 	);
 

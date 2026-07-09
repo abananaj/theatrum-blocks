@@ -36,21 +36,55 @@
 		"innerBlocks": [
 			{
 				"name": "chance/tab",
-				"attributes": { "title": "Synopsis" },
 				"innerBlocks": [
 					{
-						"name": "core/paragraph",
-						"attributes": { "content": "What the show is about." }
+						"name": "chance/tab-heading",
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Synopsis"
+								}
+							}
+						]
+					},
+					{
+						"name": "chance/tab-content",
+						"innerBlocks": [
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"content": "What the show is about."
+								}
+							}
+						]
 					}
 				]
 			},
 			{
 				"name": "chance/tab",
-				"attributes": { "title": "Cast" },
 				"innerBlocks": [
 					{
-						"name": "core/paragraph",
-						"attributes": { "content": "Who is in it." }
+						"name": "chance/tab-heading",
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Cast"
+								}
+							}
+						]
+					},
+					{
+						"name": "chance/tab-content",
+						"innerBlocks": [
+							{
+								"name": "core/paragraph",
+								"attributes": { "content": "Who is in it." }
+							}
+						]
 					}
 				]
 			}

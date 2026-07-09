@@ -8,45 +8,55 @@
  * The active state is identical in both layouts — only one tab/panel is active
  * at a time — so a single click handler drives both.
  */
-window.addEventListener('load', () => {
-	const groups = document.querySelectorAll('.ct-production-tabs');
+window.addEventListener( 'load', () => {
+	const groups = document.querySelectorAll( '.ct-production-tabs' );
 
-	for (const group of groups) {
+	for ( const group of groups ) {
 		const items = Array.from(
-			group.querySelectorAll(':scope > .ct-tab')
+			group.querySelectorAll( ':scope > .ct-tab' )
 		);
 
 		const parts = items
-			.map((item) => ({
-				header: item.querySelector('.ct-tab__header'),
-				panel: item.querySelector('.ct-tab__panel'),
-			}))
-			.filter((part) => part.header && part.panel);
+			.map( ( item ) => ( {
+				header: item.querySelector( '.ct-tab__header' ),
+				panel: item.querySelector( '.ct-tab__panel' ),
+			} ) )
+			.filter( ( part ) => part.header && part.panel );
 
-		if (!parts.length) {
+		if ( ! parts.length ) {
 			continue;
 		}
 
-		const activate = (index) => {
-			parts.forEach((part, i) => {
+		const activate = ( index ) => {
+			parts.forEach( ( part, i ) => {
 				const isActive = i === index;
-				part.header.classList.toggle('is-active', isActive);
+				part.header.classList.toggle( 'is-active', isActive );
 				part.header.setAttribute(
 					'aria-expanded',
 					isActive ? 'true' : 'false'
 				);
-				part.panel.classList.toggle('is-active', isActive);
-			});
+				part.panel.classList.toggle( 'is-active', isActive );
+			} );
 		};
 
-		parts.forEach((part, i) => {
-			part.header.setAttribute('aria-expanded', 'false');
-			part.header.addEventListener('click', () => activate(i));
-		});
+		parts.forEach( ( part, i ) => {
+			part.header.setAttribute( 'aria-expanded', 'false' );
+			part.header.addEventListener( 'click', () => activate( i ) );
+
+			// The header is a `div[role="button"]` (a native <button> can't
+			// contain heading elements), so Enter/Space activation has to be
+			// wired up manually — it isn't automatic like it is for <button>.
+			part.header.addEventListener( 'keydown', ( event ) => {
+				if ( event.key === 'Enter' || event.key === ' ' ) {
+					event.preventDefault();
+					activate( i );
+				}
+			} );
+		} );
 
 		// Hand control to JS: the CSS "first panel open" fallback stops
 		// applying once this class is present, avoiding a flash of two panels.
-		group.classList.add('is-ready');
-		activate(0);
+		group.classList.add( 'is-ready' );
+		activate( 0 );
 	}
-});
+} );

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/tab-heading",
+  "title": "Tab Heading",
+  "category": "theatrum",
+  "icon": "editor-textcolor",
+  "description": "The clickable label for a tab. Holds a paragraph or heading only.",
+  "textdomain": "theatrum-blocks",
+  "parent": [
+    "chance/tab"
+  ],
+  "allowedBlocks": [
+    "core/paragraph",
+    "core/heading"
+  ],
+  "supports": {
+    "html": false,
+    "reusable": false,
+    "anchor": true,
+    "spacing": {
+      "padding": true,
+      "blockGap": true
+    },
+    "typography": {
+      "fontSize": true,
+      "fontFamily": true,
+      "fontStyle": true,
+      "fontWeight": true,
+      "lineHeight": true
+    }
+  },
+  "attributes": {
+    "normalTextColor": {
+      "type": "string"
+    },
+    "normalBackgroundColor": {
+      "type": "string"
+    },
+    "hoverTextColor": {
+      "type": "string"
+    },
+    "hoverBackgroundColor": {
+      "type": "string"
+    },
+    "activeTextColor": {
+      "type": "string"
+    },
+    "activeBackgroundColor": {
+      "type": "string"
+    }
+  },
+  "editorScript": "file:./index.js"
+}

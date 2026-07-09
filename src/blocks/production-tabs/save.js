@@ -4,12 +4,12 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 export default function save() {
-	const blockProps = useBlockProps.save({
+	const blockProps = useBlockProps.save( {
 		className: 'ct-production-tabs',
-	});
+	} );
 
 	return (
-		<div {...blockProps}>
+		<div { ...blockProps }>
 			<InnerBlocks.Content />
 		</div>
 	);

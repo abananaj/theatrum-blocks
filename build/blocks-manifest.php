@@ -2242,28 +2242,56 @@ return array(
 			'innerBlocks' => array(
 				array(
 					'name' => 'chance/tab',
-					'attributes' => array(
-						'title' => 'Synopsis'
-					),
 					'innerBlocks' => array(
 						array(
-							'name' => 'core/paragraph',
-							'attributes' => array(
-								'content' => 'What the show is about.'
+							'name' => 'chance/tab-heading',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/heading',
+									'attributes' => array(
+										'level' => 3,
+										'content' => 'Synopsis'
+									)
+								)
+							)
+						),
+						array(
+							'name' => 'chance/tab-content',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/paragraph',
+									'attributes' => array(
+										'content' => 'What the show is about.'
+									)
+								)
 							)
 						)
 					)
 				),
 				array(
 					'name' => 'chance/tab',
-					'attributes' => array(
-						'title' => 'Cast'
-					),
 					'innerBlocks' => array(
 						array(
-							'name' => 'core/paragraph',
-							'attributes' => array(
-								'content' => 'Who is in it.'
+							'name' => 'chance/tab-heading',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/heading',
+									'attributes' => array(
+										'level' => 3,
+										'content' => 'Cast'
+									)
+								)
+							)
+						),
+						array(
+							'name' => 'chance/tab-content',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/paragraph',
+									'attributes' => array(
+										'content' => 'Who is in it.'
+									)
+								)
 							)
 						)
 					)
@@ -3267,10 +3295,14 @@ return array(
 		'title' => 'Tab',
 		'category' => 'theatrum',
 		'icon' => 'index-card',
-		'description' => 'A single tab: a heading plus its content. Used inside Production Tabs.',
+		'description' => 'A single tab: holds a Tab Heading and a Tab Content block. Used inside Production Tabs.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
 			'chance/production-tabs'
+		),
+		'allowedBlocks' => array(
+			'chance/tab-heading',
+			'chance/tab-content'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3292,10 +3324,94 @@ return array(
 				'lineHeight' => true
 			)
 		),
+		'editorScript' => 'file:./index.js'
+	),
+	'tab-content' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/tab-content',
+		'title' => 'Tab Content',
+		'category' => 'theatrum',
+		'icon' => 'index-card',
+		'description' => 'The panel content for a tab. Accepts any blocks, like a Group.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'chance/tab'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradients' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'lineHeight' => true
+			)
+		),
+		'editorScript' => 'file:./index.js'
+	),
+	'tab-heading' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/tab-heading',
+		'title' => 'Tab Heading',
+		'category' => 'theatrum',
+		'icon' => 'editor-textcolor',
+		'description' => 'The clickable label for a tab. Holds a paragraph or heading only.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'chance/tab'
+		),
+		'allowedBlocks' => array(
+			'core/paragraph',
+			'core/heading'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'lineHeight' => true
+			)
+		),
 		'attributes' => array(
-			'title' => array(
-				'type' => 'string',
-				'default' => ''
+			'normalTextColor' => array(
+				'type' => 'string'
+			),
+			'normalBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'hoverTextColor' => array(
+				'type' => 'string'
+			),
+			'hoverBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'activeTextColor' => array(
+				'type' => 'string'
+			),
+			'activeBackgroundColor' => array(
+				'type' => 'string'
 			)
 		),
 		'editorScript' => 'file:./index.js'

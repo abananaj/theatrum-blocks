@@ -3,13 +3,15 @@
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
-const TEMPLATE = [ [ 'chance/tab-heading' ], [ 'chance/tab-content' ] ];
+const TEMPLATE = [ [ 'core/paragraph' ] ];
 
 export default function Edit() {
-	const blockProps = useBlockProps( { className: 'ct-tab' } );
+	const blockProps = useBlockProps( { className: 'ct-tab__panel' } );
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		template: TEMPLATE,
-		templateLock: 'all',
+		// Explicitly override chance/tab's templateLock: 'all' — otherwise
+		// it inherits down and blocks inserting/splitting blocks in here.
+		templateLock: false,
 	} );
 
 	return <div { ...innerBlocksProps } />;
