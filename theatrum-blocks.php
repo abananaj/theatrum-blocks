@@ -31,101 +31,127 @@ function theatrum_register_blocks()
 	$custom_blocks = array(
 		'board-member', // deprecate in favor of Site Option block with "Board Member" variation
 		'breadcrumbs',
-		'page-nav', // auto in-page section nav; scans <section id> and links first heading. Currently gated to Pages in render.php.
-		// Using this codepen https://codepen.io/annabananajennings/pen/myOabZz as an example of how I want to be style this block except with the chance theme styles instead of the demo. Simplify thh css variables if needed and convert to scss . 
+		'page-nav', 
+		// auto in-page section nav; scans <section id> and links first heading. Currently gated to Pages in render.php.
+		// allow on productions, events, and other post types with sections.
 		'card-carousel',
-		// - [ ] editor shows the simplified card builder on BE, FE show replicate because it looks better and works better on the FE
-		// - [ ] won’t save media selected in BE
-		// - [ ] squished on FE
-		// - [ ] nav arrows don’t work on FE, but the horizontal scroll works on the BE
+		// editor shows the simplified card builder on BE, FE show replicate because it looks better and works better on the FE
+		// won’t save media selected in BE
+		// squished on FE
+		// nav arrows don’t work on FE, but the horizontal scroll works on the BE
+		// Codepen reference: https://codepen.io/annabananajennings/pen/YPGdGbb
+		// i want this to be able to have nested blocks that inside them have an image, heading, and text element the user can edit. 
+		// i also want the option to nest multiple cover cards inside this carousel
+		// I'd like to use this as a container for a query loop, so the user can choose between "list" "grid"  and "carousel" for the display of the query loop results.
 		'card-static',
+		// do I use this anywhere?
 		'copyright-date-block',
-
 		'cover-card',
-		// - [ ] how can i get this stuppid thing to fil the height of whatever container I put it in?
+		// how can i get this stuppid thing to fill the height of whatever container I put it in?
+		// could there be an option to set the post to the value of the current posts meta key input by user like if the user inputs production on a post that has a connection via meta, it displays that. For example, on a production page, I'd like to be able to set the cover card to display the production's meta value for "venue" , which is stored as a meta value returning the post ID. 
+		// if there are multiple post ids in a meta value, a cover card for each of those will render. For example, on a production page, I want to be able to input "events" inrto the cover card and have it rendeer a card for each of the three events connected. This might be the cover card carousel I am not using much. It also probably works similarly to the meta related core
 
 		'cover-carousel',
-		// - [ ] too many options in inspector panel, can’t see more than 1 slide at a time.
-		// - [ ] won’t save opacity set in BE
-		// - [ ] nav doesn't work on FE, can't see other slides
-		// - [ ] should show slide as nested cover blocks
-
+		// too many options in inspector panel, can’t see more than 1 slide at a time.
+		// won’t save opacity set in BE
+		// nav doesn't work on FE, can't see other slides
+		// should show slide as nested cover blocks
+		// MAYBE JUST ABANDON THIS ONE AND FOCUS ON THE CARD CAROUSEL BLOCK, WHICH IS MORE FLEXIBLE AND IS WORKING BETTER.
 
 		'list-icons',
-		'list-icons/list-item-icon', 
-		// - [ ] add ability to change icon color if it is an svg, by default the icon should use the inherited text color and allow user to override it with a color picker in the inspector panel.
+		'list-icons/list-item-icon',
+		// add ability to change icon color if it is an svg, by default the icon should use the inherited text color and allow user to override it with a color picker in the inspector panel.
 
 		'media-popover',
-		// - [ ] make child of element this block that will be hovered to trigger the popover rather than the item being a child of the popover as it is currently
+		// make child of element this block that will be hovered to trigger the popover rather than the item being a child of the popover as it is currently
 
 		// CUSTOM META BLOCKS — primary, supported way to bind post meta/ACF. Each also has an optional core-block variation (chance/bind-*, see src/meta-variations.js) for cases where the core block's own styling/features are worth using instead — not a migration path, both are kept.
-		'meta-button', // deprecate this? in favor of using block binding on core block button. Or make it nestable inside core/buttons?
-		'meta-date', 
-		'meta-time', // bring this back so they are seperate in the block editor and easier for user to use
-		'meta-embed', // there's gotta be a better way to get this to work
-		// not responding?
+		'meta-button',
+		// sync button styles with core/buttons block
+		// make this button nestable inside core/buttons?
+
+		'meta-date',
+		// unecessary padding/margin/line-height that make these look diff than the regular text. should render without extra spacing, refer to meta field and mta related which does this nicely
+		'meta-time',
+		// unecessary padding/margin/line-height that make these look diff than the regular text. should render without extra spacing, refer to meta field and mta related which does this nicely
+		'meta-embed',
+		// not responding when i put in a meta key that I am sure is valid, says: Watch video on YouTube, 		Error 153,		Video player configuration error
 		'meta-field',
+		// compare to term-meta and site-option, make them all work similarly as possible to this meta field 
 		// add ability to update post meta values as binding allows with core blocks?
 		// Add options for displaying boolean values, user should be able to input text to show if the value is 0 and if the value is 1, for example, if the user inputs "True" for 1 and "False" for 0, the meta field block will render "True" if the value is 1 and "False" if the value is 0.
 		'meta-file',
+		// icon not showing on backend, but is showing on frontend. I want the icon to show on both.
+		// option to style as a button?
 		'meta-gallery',
-		// - [ ] too many custom controls (aspect ratio, random order, nav buttons)
-		'meta-icon', // ❌ just use core icon block
+		// should have identical control in inspectorPanel that the core gallery block has, including list view, settings, and style. 
+		'meta-icon',
+		// DEPRECATED 
 		'meta-image',
+		// needs controls for aspect ratio, etc. 
 		'meta-related',
-		// - [ ] Display arrays of post IDs
+		// option to display as cover cards?
 		'meta-repeater',
-		// - [x] Variations: bylines, awards, producers, performances, quotes, notes, events defined in block.json
-		// - [x] Error on block-editor fixed (ToolsPanel panelId)
+		// styling for accolades meta repeater on post 58462 not rendering in block editor but is rendering on frontend correctly
+		// if user select ul or ol as the wrapper tag, the subfields should automatically be <li> 
+		// remove div option
+		// needs a Wrapper Tag option for <p>, which should automatically make the subfields spans. This should be the default option. 
+		// wrapper tag ul and ol should have an option to apply list-style:none;
 
 		'popup',
-		// - [ ] sync button
-		// - [ ] make it nestable inside core/buttons?
-		// - [ ] ability to link to production page with this popup open from other pages by appending a query of some sort to the url
+		// sync button styles with core/buttons block
+		// text color on hover same as background thus invisible
+		// edit button text and dialog title in UI rather than inspectorpanel boxes. 
+		// popup content is not rendering on the frontend AND not saving in the backend
+		// make this button nestable inside core/buttons?
+		// ability to link to production page with this popup open from other pages by appending a query of some sort to the url? #anchor tag?
 
-		'production-performances', // 🎭 var of repeater
-		// - [x] responds to block-spacing (blockGap) setting
+		'production-performances',
+		// should render on block editor as well as frontend, so user can see what it will look like on the frontend.
 
-		'production-quotes', // 🎭 var of repeater
-		// - [x] responds to font-size setting
-		'production-tabs', // 🎭 responsive tabs (desktop) / accordion (mobile); InnerBlocks of chance/tab
-		'production-tabs/tab', // 🎭 single tab: holds chance/tab-heading + chance/tab-content
-		'production-tabs/tab-heading', // 🎭 tab label; only accepts core/paragraph, core/heading
-		'production-tabs/tab-content', // 🎭 tab panel; freeform, like a Group
-		'production-trailer', // 🎭
-		// - [ ] editor shows the dashed preview chip; real filter is frontend-only
+		'production-quotes',
 
-		'query-filter', 
-		// - [ ] 🔍 frontend filter/sort for query loops - CONVERT? to variation of query filter
-		'query-loop', 
-		// - [ ] variations by main post type ✅
-		'season-producer', // ❌
-		// Still registered (existing content keeps rendering) but hidden from
-		// the inserter via supports.inserter: false — do not use for new content.
+		'production-tabs',
+		// these look different on the frontend than in the block editor. On the frontend the tab labels are horizontal then go vertical on mobile, but in the block editor they are vertical always. I want the block editor to match the frontend.
+		// styling is clunky in general, addd some basic styles to make them look like modern tabs
+		// Example Codepen: https://codepen.io/annabananajennings/pen/NPbeYbW 
+		'production-tabs/tab',
+		'production-tabs/tab-heading',
+		'production-tabs/tab-content',
+		'production-trailer',
+		// DEPRECATED, use meta-embed
+
+		'query-filter',
+		// renders correctly, but when i click on a term from the dropdown in the frontend, the page reloads and the filter is not applied. I want the filter to be applied without a page reload, and the query loop results to update accordingly, without a full page re-load
+		'query-loop',
+		// change production icon to masks
+		// change venue icon to building
+		// change artist icon to color palette
+
+		'season-producer',
+		// DEPRECATE, use site-option block with "Season Producer" variation instead
 		'site-option',
-		'staff-member', // temp un-deprecated 
-		// - [ ] 'svg-icon', ❌ just use icon block OR custom html to animate
+		// compare to meta-field, but for site options instead of post meta. Can be used to build a "Board Member" block variation, for example, that pulls from a repeater field in ACF.
+		'staff-member', // DEPRECATE, use site-option block with "Staff Member" variation instead
 
-
-
-		'table-advanced', 
-		// - [ ] Style all items on one level?
-		// - [ ] toggle table-layout-fixed, default to table-layout:auto;
+		'table-advanced',
+		// Style all items on one level?
+		// toggle table-layout-fixed, default to table-layout:auto;
+		// add ability to tab to next cell with tab key, and shift-tab to previous cell in block editor?
 		'table-advanced/table-caption',
 		'table-advanced/table-header',
-		'table-advanced/table-body', 
-		// - [ ] only 1 per table, but can have multiple rows
+		'table-advanced/table-body',
+		// only 1 per table, but can have multiple rows
 		'table-advanced/table-footer',
 		'table-advanced/table-row',
 		'table-advanced/table-heading-cell',
 		'table-advanced/table-cell',
-		// - [ ] add toggle for empty
-		// - [ ] make flex & allow vertical & horizontal alignment, default center middle
 
-		'table-of-contents', 
-		// - [ ] auto-generate based on headings in conten
+		'table-of-contents',
+		// not appearing in the block inserter
 
 		'term-meta',
+		//compare to meta-field, but for term meta instead of post meta
 		'list-thumbnail',
 		'list-thumbnail/list-item-thumbnail',
 		'title-advanced',
