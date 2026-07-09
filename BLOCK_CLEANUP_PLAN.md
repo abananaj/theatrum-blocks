@@ -41,7 +41,7 @@
 | | 99222 | page/publish | Blocks |
 | | 58462 | production/publish | Sanctuary City |
 | | **107324** | **wp_block/publish** | **Production Grid v1** (synced pattern — fixes all its uses at once) |
-| `chance/meta-icon` | 64289 | page/publish | Website Manual |
+| `chance/meta-icon` | 64289 | page/publish | Website Manual | - USER REMOVED MANUALLY, 0 LIVE USES FOUND. - |
 | `chance/video-trailer` | 64289 | page/publish | Website Manual |
 | `chance/cover-carousel` | 64289 | page/publish | Website Manual |
 
@@ -56,7 +56,8 @@ You told me meta-icon isn't used anywhere important, but these nine template use
 
 ### Never used anywhere (0 instances, safe to remove)
 
-`theatrum/card-static`, `chance/copyright-date-block`. (`theatrum/query-loop` also shows 0, but it is `inserter:false` by design — it registers `core/query` variations, so keep it.)
+`theatrum/card-static`, . (`theatrum/query-loop` also shows 0, but it is `inserter:false` by design — it registers `core/query` variations, so keep it.)
+NOTE: KEEP `chance/copyright-date-block`
 
 ### Retirement mechanics
 1. Migrate content (theme templates by hand; DB via a `wp eval-file` script in `.build/scripts/`, run against a DB export first).

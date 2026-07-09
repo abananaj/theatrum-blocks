@@ -3,6 +3,7 @@ import { Fragment, useState, useEffect } from '@wordpress/element';
 import { TextControl, SelectControl, ToggleControl, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
+import { IMAGE_SIZE_OPTIONS } from '../../utils/image-size-options';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes, context }) {
@@ -22,7 +23,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		setIsLoading(true);
 
-		apiFetch({ path: `/chance/v1/meta-image/${postId}/${attributes.keyInput}` })
+		const size = attributes.imageSize || 'medium';
+		apiFetch({ path: `/chance/v1/meta-image/${postId}/${attributes.keyInput}?size=${size}` })
 			.then((data) => {
 				setImageData(data.url ? data : null);
 				setIsLoading(false);
@@ -31,7 +33,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 				setImageData(null);
 				setIsLoading(false);
 			});
-	}, [attributes.keyInput, postId]);
+	}, [attributes.keyInput, attributes.imageSize, postId]);
 
 	return (
 		<Fragment>
@@ -50,13 +52,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						label="Image Size"
 						value={attributes.imageSize || 'medium'}
 						onChange={(value) => setAttributes({ imageSize: value })}
-						options={[
-							{ label: 'Thumbnail', value: 'thumbnail' },
-							{ label: 'Medium', value: 'medium' },
-							{ label: 'Medium Large', value: 'medium_large' },
-							{ label: 'Large', value: 'large' },
-							{ label: 'Full', value: 'full' }
-						]}
+						options={IMAGE_SIZE_OPTIONS}
 					/>
 					<SelectControl
 						label="Link To"

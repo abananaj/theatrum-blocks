@@ -31,20 +31,13 @@ import apiFetch from '@wordpress/api-fetch';
 /**
  * Internal dependencies
  */
+import { IMAGE_SIZE_OPTIONS } from '../../utils/image-size-options';
 import './editor.scss';
 
 const LINK_OPTIONS = [
 	{ label: 'None', value: 'none' },
 	{ label: 'Media Files', value: 'media' },
 	{ label: 'Attachment Pages', value: 'attachment' },
-];
-
-const IMAGE_SIZE_OPTIONS = [
-	{ label: 'Thumbnail', value: 'thumbnail' },
-	{ label: 'Medium', value: 'medium' },
-	{ label: 'Medium Large', value: 'medium_large' },
-	{ label: 'Large', value: 'large' },
-	{ label: 'Full', value: 'full' },
 ];
 
 export default function Edit({ attributes, setAttributes, context }) {
@@ -83,8 +76,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		setIsLoading(true);
 
+		const size = sizeSlug || 'large';
 		apiFetch({
-			path: `/chance/v1/meta-gallery/${postId}/${encodeURIComponent(trimmedKey)}`,
+			path: `/chance/v1/meta-gallery/${postId}/${encodeURIComponent(trimmedKey)}?size=${size}`,
 		})
 			.then((data) => {
 				let imageList = Array.isArray(data.images) ? data.images : [];
@@ -98,7 +92,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 				setImages([]);
 				setIsLoading(false);
 			});
-	}, [metaKey, postId, randomOrder]);
+	}, [metaKey, postId, randomOrder, sizeSlug]);
 
 	// Calculate gallery layout
 	const numColumns = columns || 3;
@@ -377,22 +371,16 @@ export default function Edit({ attributes, setAttributes, context }) {
 												: undefined,
 									}}
 								>
+									{/* No inline sizing/crop styles here — driven entirely by the shared
+									.wp-block-gallery/.is-cropped CSS (style.scss), matching render.php's
+									output exactly. Inline styles would silently override the CSS in the
+									editor since they beat stylesheet rules regardless of specificity. */}
 									<img
 										src={img.url}
 										alt={img.alt || ''}
 										data-id={img.id}
 										data-full-url={img.fullUrl || img.url}
 										data-link={img.link || ''}
-										style={{
-											display: 'block',
-											width: '100%',
-											height: 'auto',
-											maxWidth: '100%',
-											objectFit: imageCrop
-												? 'cover'
-												: 'contain',
-											flex: imageCrop ? '1 0 0%' : 'initial',
-										}}
 									/>
 									{img.caption && (
 										<figcaption

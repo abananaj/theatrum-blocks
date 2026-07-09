@@ -24,9 +24,12 @@ if (! $post) {
   return;
 }
 
-// Get featured image
+// Get featured image, falling back to the theme's per-post-type Site
+// Options default when the post has no featured image of its own.
 $featured_image_url = '';
-if (has_post_thumbnail($post->ID)) {
+if (function_exists('chance_get_featured_image_with_fallback')) {
+  $featured_image_url = chance_get_featured_image_with_fallback($post->ID, 'full', $post->post_type);
+} elseif (has_post_thumbnail($post->ID)) {
   $featured_image_url = get_the_post_thumbnail_url($post->ID, 'full');
 }
 

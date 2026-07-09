@@ -353,6 +353,7 @@ function register_meta_gallery_rest_endpoint()
 				return is_numeric($param);
 			}],
 			'key'     => ['sanitize_callback' => 'sanitize_key'],
+			'size'    => ['sanitize_callback' => 'sanitize_key', 'default' => 'full'],
 		],
 	]);
 }
@@ -362,6 +363,7 @@ function theatrum_get_meta_gallery_rest_callback($request)
 {
 	$post_id = intval($request->get_param('post_id'));
 	$key     = sanitize_key($request->get_param('key'));
+	$size    = sanitize_key($request->get_param('size')) ?: 'full';
 
 	if (!$post_id || !$key) {
 		return new WP_REST_Response(['images' => []], 200);
@@ -380,15 +382,19 @@ function theatrum_get_meta_gallery_rest_callback($request)
 
 	foreach ($value as $image) {
 		if (is_array($image)) {
+			$image_url = $image['url'] ?? '';
+			if ('full' !== $size && isset($image['sizes'][$size])) {
+				$image_url = $image['sizes'][$size];
+			}
 			$images[] = [
-				'url'     => $image['url'] ?? '',
+				'url'     => $image_url,
 				'alt'     => $image['alt'] ?? '',
 				'caption' => $image['caption'] ?? '',
 				'id'      => $image['ID'] ?? 0,
 			];
 		} elseif (is_numeric($image)) {
 			$attach_id = intval($image);
-			$src = wp_get_attachment_image_src($attach_id, 'full');
+			$src = wp_get_attachment_image_src($attach_id, $size);
 			if ($src) {
 				$images[] = [
 					'url'     => $src[0],
@@ -420,6 +426,7 @@ function register_meta_image_rest_endpoint()
 				return is_numeric($param);
 			}],
 			'key'     => ['sanitize_callback' => 'sanitize_key'],
+			'size'    => ['sanitize_callback' => 'sanitize_key', 'default' => 'full'],
 		],
 	]);
 }
@@ -429,6 +436,7 @@ function theatrum_get_meta_image_rest_callback($request)
 {
 	$post_id = intval($request->get_param('post_id'));
 	$key     = sanitize_key($request->get_param('key'));
+	$size    = sanitize_key($request->get_param('size')) ?: 'full';
 
 	if (!$post_id || !$key) {
 		return new WP_REST_Response(['url' => ''], 200);
@@ -444,8 +452,12 @@ function theatrum_get_meta_image_rest_callback($request)
 	}
 
 	if (is_array($value)) {
+		$image_url = $value['url'] ?? '';
+		if ('full' !== $size && isset($value['sizes'][$size])) {
+			$image_url = $value['sizes'][$size];
+		}
 		return new WP_REST_Response([
-			'url'     => $value['url'] ?? '',
+			'url'     => $image_url,
 			'alt'     => $value['alt'] ?? '',
 			'caption' => $value['caption'] ?? '',
 			'id'      => $value['ID'] ?? 0,
@@ -453,7 +465,7 @@ function theatrum_get_meta_image_rest_callback($request)
 	}
 
 	if (is_numeric($value)) {
-		$src = wp_get_attachment_image_src(intval($value), 'full');
+		$src = wp_get_attachment_image_src(intval($value), $size);
 		return new WP_REST_Response([
 			'url'     => $src ? $src[0] : '',
 			'alt'     => get_post_meta(intval($value), '_wp_attachment_image_alt', true),
