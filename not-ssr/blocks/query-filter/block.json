@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/query-filter",
+	"title": "Query Filter",
+	"category": "theatrum",
+	"description": "Frontend filter and sort controls for a Query Loop block.",
+	"icon": "filter",
+	"example": {},
+	"keywords": ["filter", "search", "sort", "query"],
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"interactivity": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"filterType": {
+			"type": "string",
+			"default": "taxonomy",
+			"enum": ["taxonomy", "orderby"]
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": "season"
+		},
+		"paramName": {
+			"type": "string",
+			"default": "season"
+		},
+		"label": {
+			"type": "string",
+			"default": "Season"
+		},
+		"showLabel": {
+			"type": "boolean",
+			"default": true
+		},
+		"allLabel": {
+			"type": "string",
+			"default": "All"
+		},
+		"layout": {
+			"type": "string",
+			"default": "horizontal",
+			"enum": ["horizontal", "vertical"]
+		}
+	},
+	"render": "file:./render.php",
+	"viewScriptModule": "file:./view.js",
+	"editorScript": "file:./index.js",
+	"style": "file:./style.scss",
+	"editorStyle": "file:./editor.scss"
+}

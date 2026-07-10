@@ -1,0 +1,91 @@
+// Production Tabs — front-end + shared styles.
+//
+// Mobile-first: the block reads as a vertical accordion (each header stacked
+// above its own panel, only the active panel shown). At the tablet breakpoint
+// it becomes a horizontal tab strip: every header lines up in a row and the
+// single active panel spans the full width below them.
+//
+// This is intentionally minimal — refine the look later.
+
+$ct-tabs-breakpoint: 768px;
+
+.ct-production-tabs {
+	// Reset the header <button> so it reads as plain text until styled.
+	//
+	// Colors come from chance/tab-heading's inline custom properties (see
+	// color-style.js) so each tab can have its own normal/hover/active
+	// colors. An unset state falls back to the next: hover → normal →
+	// inherit/transparent.
+	.ct-tab__header {
+		display: block;
+		width: 100%;
+		margin: 0;
+		padding: 0.75rem 1rem;
+		border: 0;
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
+		color: var(--ct-tab-header-color, inherit);
+		background-color: var(--ct-tab-header-bg, transparent);
+
+		&:hover {
+			color: var(
+				--ct-tab-header-hover-color,
+				var(--ct-tab-header-color, inherit)
+			);
+			background-color: var(
+				--ct-tab-header-hover-bg,
+				var(--ct-tab-header-bg, transparent)
+			);
+		}
+
+		&.is-active {
+			color: var(
+				--ct-tab-header-active-color,
+				var(--ct-tab-header-color, inherit)
+			);
+			background-color: var(
+				--ct-tab-header-active-bg,
+				var(--ct-tab-header-bg, transparent)
+			);
+		}
+	}
+
+	.ct-tab__panel {
+		display: none;
+		padding: 1rem;
+
+		&.is-active {
+			display: block;
+		}
+	}
+
+	// No-JS / pre-hydration fallback: keep the first tab's panel open until
+	// view.js takes over (it adds `.is-ready`).
+	&:not(.is-ready) .ct-tab:first-child .ct-tab__panel {
+		display: block;
+	}
+}
+
+@media (min-width: $ct-tabs-breakpoint) {
+	.ct-production-tabs {
+		display: flex;
+		flex-wrap: wrap;
+
+		// Let each tab's header + panel participate directly in the flex row
+		// so headers can group into a strip and the panel can span full width.
+		.ct-tab {
+			display: contents;
+		}
+
+		.ct-tab__header {
+			width: auto;
+			order: 0; // all headers first -> horizontal strip
+		}
+
+		.ct-tab__panel {
+			order: 1; // active panel drops below the header strip
+			width: 100%;
+		}
+	}
+}

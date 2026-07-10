@@ -1,0 +1,100 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"title": "Table Heading Cell",
+	"name": "theatrum/table-heading-cell",
+	"category": "text",
+	"keywords": ["table"],
+	"attributes": {
+		"abbr": {
+			"type": "string"
+		},
+		"colspan": {
+			"type": "number"
+		},
+		"headers": {
+			"type": "string"
+		},
+		"rowspan": {
+			"type": "number"
+		},
+		"scope": {
+			"type": "string",
+			"enum": ["row", "col", "rowgroup", "colgroup"]
+		}
+	},
+	"parent": ["theatrum/table-row"],
+	"ancestor": ["theatrum/table-advanced"],
+	"allowedBlocks": ["core/paragraph", "core/list", "core/image", "core/icon"],
+	"supports": {
+		"anchor": true,
+		"allowedBlocks": true,
+		"className": true,
+		"shadow": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"enableContrastChecker": true,
+			"gradients": true,
+			"link": true,
+			"heading": false,
+			"button": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"dimensions": {
+			"height": true,
+			"minHeight": true,
+			"minWidth": true,
+			"width": true
+		},
+		"typography": {
+			"fitText": true,
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true,
+			"textIndent": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"__experimentalBorder": {
+			"__experimentalSkipSerialization": true,
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"selectors": {
+		"root": ".tm-table-advanced .tm-table-heading-cell"
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}

@@ -1,0 +1,36 @@
+.wp-block-chance-performances-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--style--block-gap, 0.75rem);
+
+	.performance-row {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: baseline;
+	}
+
+	.show {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: baseline;
+    margin: 0 0.5rem 0 0  ;
+	}
+
+	.date {
+    font-family: var(--wp--preset--font-family--gabarito);
+		font-style: normal;
+		font-weight: 600;
+    margin: 0 0.5rem 0 0  ;
+	}
+.time {
+  font-size: .95em;
+  margin: 0 0.5rem 0 0  ;
+}
+	.note {
+    font-family: var(--wp--preset--font-family--gabarito);
+    font-size: .85em;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+    margin: 0 0.5rem 0 0  ;
+	}
+}

@@ -1,0 +1,17 @@
+.tm-table-cell {
+	border: 1px solid var(--wp--preset--color--lightest-grey);
+	padding: 0 5px;
+	// Keep native table-cell display so the frontend <td> aligns in columns.
+	// (Do NOT use display:flex here — it breaks the browser table layout.)
+	vertical-align: middle;
+	.wp-block-paragraph {
+		width:100%;
+		// font-size: 1rem;
+		margin-top:0;
+		text-align:center;
+		font-weight: 300;
+		line-height: 1;
+		text-wrap: balance;
+	}
+}
+	

@@ -1,0 +1,60 @@
+// Cover Carousel Block - Editor Styles
+
+.wp-block-chance-cover-carousel {
+	position: relative;
+	overflow: hidden;
+	border: 2px solid #ccc;
+	background-color: #f5f5f5;
+
+	// Editor preview
+	&[data-block] {
+		min-height: 300px;
+	}
+
+	// Overlay for editor
+	.wp-block-chance-cover-carousel__slides {
+		position: absolute;
+		inset: 0;
+	}
+
+	.wp-block-chance-cover-carousel__slide {
+		position: absolute;
+		inset: 0;
+
+		&.is-active {
+			opacity: 1 !important;
+		}
+	}
+
+	.wp-block-chance-cover-carousel__background {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.wp-block-chance-cover-carousel__overlay {
+		position: absolute;
+		inset: 0;
+	}
+
+	// Content placeholder
+	.wp-block-chance-cover-carousel__content {
+		position: absolute;
+		inset: 0;
+		z-index: 5;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #666;
+		font-size: 14px;
+	}
+
+	// Slide info display
+	> div {
+		&:last-child {
+			position: relative;
+			z-index: 10;
+		}
+	}
+}

@@ -1,0 +1,12 @@
+/**
+ * Icon List Item - Editor Styles
+ *
+ * Keep empty items selectable so an item with no text/icon still has a
+ * clickable target in the editor.
+ */
+
+.list-icons-item {
+	.list-icons-text {
+		min-width: 1em;
+	}
+}

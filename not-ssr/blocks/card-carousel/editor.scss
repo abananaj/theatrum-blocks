@@ -1,0 +1,9 @@
+/**
+ * Editor-only styles for Card Carousel.
+ *
+ * The editor intentionally renders a simplified card *builder* UI (see
+ * edit.js), not the live `.ct-carousel-*` markup, so the frontend carousel
+ * styles in style.scss do not apply to the editor preview by design. Add
+ * editor-builder tweaks here if needed. (Removed leftover create-block
+ * scaffold boilerplate targeting a non-existent block class.)
+ */

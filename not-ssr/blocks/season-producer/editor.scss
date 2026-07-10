@@ -1,0 +1,10 @@
+// @use "./style.scss"; // Tutorial rec: re-import style.scss so editor styles match frontend (causes double-load via block.json)
+
+/**
+ * Editor-only styles for the Season Producer block.
+ */
+
+.wp-block-chance-season-producer {
+	border: 1px dotted #aaa;
+	min-height: 2rem;
+}

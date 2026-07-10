@@ -1,0 +1,9 @@
+.wp-block-chance-title-subtitle {
+	> .wp-block-heading:first-child {
+		margin-block-start: 0;
+	}
+
+	> .wp-block-heading:last-child {
+		margin-block-end: 0;
+	}
+}

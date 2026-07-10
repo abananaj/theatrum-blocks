@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/tab",
+	"title": "Tab",
+	"category": "theatrum",
+	"icon": "index-card",
+	"description": "A single tab: holds a Tab Heading and a Tab Content block. Used inside Production Tabs.",
+	"textdomain": "theatrum-blocks",
+	"parent": ["chance/production-tabs"],
+	"allowedBlocks": ["chance/tab-heading", "chance/tab-content"],
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"anchor": true,
+		"spacing": {
+			"padding": true,
+			"blockGap": true
+		},
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"lineHeight": true
+		}
+	},
+	"editorScript": "file:./index.js"
+}

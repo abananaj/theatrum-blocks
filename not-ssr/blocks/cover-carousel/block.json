@@ -1,0 +1,111 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/cover-carousel",
+	"title": "Cover Card Carousel",
+	"category": "theatrum",
+	"icon": "images-alt2",
+	"description": "A carousel block for displaying multiple images or videos with overlay content, similar to the Cover block but with carousel functionality",
+	"textdomain": "theatrum-blocks",
+	"supports": {
+		"html": false,
+		"align": ["full", "wide"],
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"text": true,
+			"background": true
+		}
+	},
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"id": 1,
+					"url": "",
+					"type": "image",
+					"dimRatio": 50,
+					"overlayColor": "",
+					"customOverlayColor": "#000000",
+					"focalPoint": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				}
+			]
+		},
+		"currentSlide": {
+			"type": "number",
+			"default": 0
+		},
+		"minHeight": {
+			"type": "number",
+			"default": 300
+		},
+		"minHeightUnit": {
+			"type": "string",
+			"default": "px"
+		},
+		"contentPosition": {
+			"type": "string",
+			"enum": [
+				"center",
+				"top-center",
+				"top-left",
+				"top-right",
+				"bottom-center",
+				"bottom-left",
+				"bottom-right"
+			],
+			"default": "center"
+		},
+		"showIndicators": {
+			"type": "boolean",
+			"default": true
+		},
+		"indicatorStyle": {
+			"type": "string",
+			"enum": ["dots", "lines", "numbers"],
+			"default": "dots"
+		},
+		"showArrows": {
+			"type": "boolean",
+			"default": true
+		},
+		"arrowStyle": {
+			"type": "string",
+			"enum": ["light", "dark"],
+			"default": "light"
+		},
+		"autoplay": {
+			"type": "boolean",
+			"default": false
+		},
+		"autoplaySpeed": {
+			"type": "number",
+			"default": 5000
+		},
+		"transitionType": {
+			"type": "string",
+			"enum": ["fade", "slide"],
+			"default": "fade"
+		},
+		"transitionSpeed": {
+			"type": "number",
+			"default": 500
+		}
+	},
+	"example": {},
+	"keywords": ["carousel", "slider", "slideshow", "cards"],
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.scss",
+	"style": "file:./style.scss",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

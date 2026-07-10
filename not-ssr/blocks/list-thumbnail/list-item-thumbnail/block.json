@@ -1,0 +1,55 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/list-item-thumbnail",
+	"title": "Thumbnail List Item",
+	"category": "theatrum",
+	"description": "A single item in a thumbnail list: nested heading/paragraph content plus a thumbnail image.",
+	"icon": "format-image",
+	"keywords": ["thumbnail", "list", "item"],
+	"parent": ["chance/list-thumbnail"],
+	"allowedBlocks": ["core/heading", "core/paragraph"],
+	"usesContext": ["chance/imageSizeSlug"],
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"className": true,
+		"customClassName": true,
+		"anchor": true,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true
+		}
+	},
+	"attributes": {
+		"thumbnailId": {
+			"type": "number",
+			"default": 0
+		},
+		"thumbnailUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"thumbnailAlt": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}
