@@ -1,0 +1,120 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/site-option",
+  "title": "Site Option",
+  "category": "metablock",
+  "description": "Display values from WordPress options table, including staff/board members",
+  "icon": "admin-settings",
+  "supports": {
+    "html": false,
+    "align": true,
+    "reusable": true,
+    "anchor": true,
+    "className": true,
+    "customClassName": true,
+    "typography": {
+      "fontSize": true,
+      "fontFamily": true,
+      "fontStyle": true,
+      "fontWeight": true,
+      "letterSpacing": true,
+      "lineHeight": true,
+      "textDecoration": true,
+      "textTransform": true
+    },
+    "color": {
+      "text": true,
+      "background": true,
+      "gradient": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": true
+    },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "shadow": true,
+    "filter": {
+      "duotone": true
+    }
+  },
+  "attributes": {
+    "memberType": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "",
+        "staff",
+        "board"
+      ]
+    },
+    "optionName": {
+      "type": "string",
+      "default": ""
+    },
+    "tagName": {
+      "type": "string",
+      "default": "p"
+    },
+    "href": {
+      "type": "string",
+      "default": ""
+    },
+    "prepend": {
+      "type": "string",
+      "default": ""
+    },
+    "append": {
+      "type": "string",
+      "default": ""
+    },
+    "metaKey": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "example": {},
+  "keywords": [
+    "options",
+    "settings",
+    "site",
+    "global"
+  ],
+  "textdomain": "theatrum-blocks",
+  "variations": [
+    {
+      "name": "staff",
+      "title": "Staff Member",
+      "description": "Display staff member information from WordPress options",
+      "icon": "admin-users",
+      "attributes": {
+        "memberType": "staff"
+      },
+      "isActive": [
+        "memberType"
+      ]
+    },
+    {
+      "name": "board",
+      "title": "Board Member",
+      "description": "Display board member information from WordPress options",
+      "icon": "groups",
+      "attributes": {
+        "memberType": "board"
+      },
+      "isActive": [
+        "memberType"
+      ]
+    }
+  ],
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

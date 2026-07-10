@@ -2559,6 +2559,1164 @@ return array(
 		'style' => 'file:./style.scss',
 		'editorStyle' => 'file:./editor.scss'
 	),
+	'_meta-button' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-button',
+		'title' => 'Meta Button',
+		'category' => 'metablock',
+		'icon' => 'button',
+		'description' => 'Display a button/link from a URL meta field',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontWeight' => true,
+				'fontStyle' => true,
+				'lineHeight' => true,
+				'letterSpacing' => true,
+				'textDecoration' => true,
+				'textTransform' => true,
+				'textColumns' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'filter' => array(
+				'duotone' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => 'Learn More'
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'button',
+			'link',
+			'meta',
+			'custom field',
+			'acf'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_meta-date' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-date',
+		'title' => 'Meta Date',
+		'icon' => 'calendar-alt',
+		'category' => 'metablock',
+		'description' => 'Display date meta fields with configurable formatting',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontWeight' => true,
+				'fontStyle' => true,
+				'lineHeight' => true,
+				'letterSpacing' => true,
+				'textDecoration' => true,
+				'textTransform' => true,
+				'textColumns' => false
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'filter' => array(
+				'duotone' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'dateFormat' => array(
+				'type' => 'string',
+				'default' => 'Y-m-d'
+			),
+			'customFormat' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => 'span'
+			),
+			'prepend' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'append' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'date',
+			'meta',
+			'custom field',
+			'acf'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_meta-embed' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-embed',
+		'textdomain' => 'theatrum-blocks',
+		'title' => 'Meta Embed',
+		'category' => 'metablock',
+		'description' => 'Embed a resource from a URL stored in post metadata',
+		'icon' => 'embed-generic',
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'left',
+				'center',
+				'right',
+				'wide',
+				'full'
+			),
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'embedType' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'embed',
+			'video',
+			'iframe',
+			'meta'
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
+	),
+	'_meta-field' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-field',
+		'title' => 'Meta Field',
+		'category' => 'metablock',
+		'description' => 'Display a value from post metadata by entering a key',
+		'icon' => 'admin-generic',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'reusable' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'filter' => array(
+				'duotone' => true
+			)
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => 'span'
+			),
+			'href' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'prepend' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'append' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'hideIfEmpty' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'boolTrueText' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'boolFalseText' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'meta',
+			'custom field',
+			'acf',
+			'field'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_meta-file' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-file',
+		'title' => 'Meta File Link',
+		'category' => 'metablock',
+		'description' => 'Display a link to a file from a post meta or ACF file field by entering a key',
+		'icon' => 'media-document',
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'link' => true,
+				'text' => true,
+				'background' => false
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'linkText' => array(
+				'type' => 'string',
+				'default' => 'Download File'
+			),
+			'fallbackText' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'openInNewTab' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'showIcon' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'file',
+			'download',
+			'attachment',
+			'meta'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'viewScript' => 'file:./view.js'
+	),
+	'_meta-gallery' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-gallery',
+		'title' => 'Meta Gallery',
+		'category' => 'metablock',
+		'description' => 'Display a gallery of images from a post meta or ACF gallery field with core gallery styling and features',
+		'icon' => 'format-gallery',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'gradients' => true,
+				'link' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => array(
+					'horizontal',
+					'vertical'
+				),
+				'__experimentalDefaultControls' => array(
+					'blockGap' => true,
+					'margin' => false,
+					'padding' => false
+				)
+			),
+			'__experimentalBorder' => array(
+				'radius' => true,
+				'color' => true,
+				'width' => true,
+				'style' => true
+			),
+			'units' => array(
+				'px',
+				'em',
+				'rem',
+				'vh',
+				'vw'
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'providesContext' => array(
+			'imageCrop' => 'imageCrop',
+			'fixedHeight' => 'fixedHeight',
+			'navigationButtonType' => 'navigationButtonType'
+		),
+		'attributes' => array(
+			'metaKey' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'sizeSlug' => array(
+				'type' => 'string',
+				'default' => 'large'
+			),
+			'columns' => array(
+				'type' => 'number',
+				'minimum' => 1,
+				'maximum' => 8
+			),
+			'linkTo' => array(
+				'type' => 'string',
+				'default' => 'none'
+			),
+			'imageCrop' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'fixedHeight' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'randomOrder' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'caption' => array(
+				'type' => 'string',
+				'source' => 'rich-text',
+				'selector' => '.blocks-gallery-caption',
+				'role' => 'content'
+			),
+			'navigationButtonType' => array(
+				'type' => 'string',
+				'default' => 'icon',
+				'enum' => array(
+					'icon',
+					'text',
+					'both'
+				)
+			),
+			'allowResize' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'aspectRatio' => array(
+				'type' => 'string',
+				'default' => 'auto'
+			),
+			'linkTarget' => array(
+				'type' => 'string'
+			),
+			'fallbackText' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'gallery',
+			'images',
+			'photos',
+			'meta'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_meta-image' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-image',
+		'title' => 'Meta Image',
+		'category' => 'metablock',
+		'description' => 'Display an image from a post meta or ACF image field by entering a key',
+		'icon' => 'format-image',
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'left',
+				'center',
+				'right',
+				'wide',
+				'full'
+			),
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'duotone' => true
+			),
+			'filter' => array(
+				'duotone' => true
+			),
+			'shadow' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'imageSize' => array(
+				'type' => 'string',
+				'default' => 'full'
+			),
+			'linkTo' => array(
+				'type' => 'string',
+				'default' => 'none'
+			),
+			'customLink' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'openInNewTab' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'showCaption' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'aspectRatio' => array(
+				'type' => 'string',
+				'default' => 'auto',
+				'enum' => array(
+					'auto',
+					'1',
+					'4/3',
+					'3/4',
+					'16/9',
+					'9/16'
+				)
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'image',
+			'photo',
+			'meta',
+			'custom field',
+			'acf'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_meta-related' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-related',
+		'title' => 'Meta Related',
+		'category' => 'metablock',
+		'description' => 'Display a related post\'s title by entering a meta key that contains a post ID or Post Object',
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'related',
+			'posts',
+			'meta',
+			'custom field'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'icon' => 'admin-links',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'reusable' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'opacity' => true,
+			'filters' => array(
+				'duotone' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => 'p'
+			),
+			'linkToPost' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'prepend' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'append' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'separator' => array(
+				'type' => 'string',
+				'default' => ', '
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_meta-repeater' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-repeater',
+		'title' => 'Meta Repeater',
+		'category' => 'metablock',
+		'icon' => 'update',
+		'description' => 'Display ACF repeater field rows with configurable subfield display',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontWeight' => true,
+				'fontStyle' => true,
+				'lineHeight' => true,
+				'letterSpacing' => true,
+				'textDecoration' => true,
+				'textTransform' => true,
+				'textColumns' => false
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'filter' => array(
+				'duotone' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'overridePostId' => array(
+				'type' => 'integer',
+				'default' => 0
+			),
+			'repeaterKey' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => 'ul'
+			),
+			'subfieldA' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'subfieldB' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagA' => array(
+				'type' => 'string',
+				'default' => 'span'
+			),
+			'tagB' => array(
+				'type' => 'string',
+				'default' => 'span'
+			),
+			'showListStyle' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'repeater',
+			'list',
+			'meta',
+			'acf'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_meta-time' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/meta-time',
+		'title' => 'Meta Time',
+		'category' => 'metablock',
+		'icon' => 'clock',
+		'description' => 'Display time meta fields with configurable formatting',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontWeight' => true,
+				'fontStyle' => true,
+				'lineHeight' => true,
+				'letterSpacing' => true,
+				'textDecoration' => true,
+				'textTransform' => true,
+				'textColumns' => false
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'filter' => array(
+				'duotone' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'keyInput' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'timeFormat' => array(
+				'type' => 'string',
+				'default' => 'h:i A'
+			),
+			'customFormat' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => 'span'
+			),
+			'prepend' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'append' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'time',
+			'duration',
+			'meta',
+			'custom field'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_site-option' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/site-option',
+		'title' => 'Site Option',
+		'category' => 'metablock',
+		'description' => 'Display values from WordPress options table, including staff/board members',
+		'icon' => 'admin-settings',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'reusable' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'filter' => array(
+				'duotone' => true
+			)
+		),
+		'attributes' => array(
+			'memberType' => array(
+				'type' => 'string',
+				'default' => '',
+				'enum' => array(
+					'',
+					'staff',
+					'board'
+				)
+			),
+			'optionName' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => 'p'
+			),
+			'href' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'prepend' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'append' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'metaKey' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'options',
+			'settings',
+			'site',
+			'global'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'variations' => array(
+			array(
+				'name' => 'staff',
+				'title' => 'Staff Member',
+				'description' => 'Display staff member information from WordPress options',
+				'icon' => 'admin-users',
+				'attributes' => array(
+					'memberType' => 'staff'
+				),
+				'isActive' => array(
+					'memberType'
+				)
+			),
+			array(
+				'name' => 'board',
+				'title' => 'Board Member',
+				'description' => 'Display board member information from WordPress options',
+				'icon' => 'groups',
+				'attributes' => array(
+					'memberType' => 'board'
+				),
+				'isActive' => array(
+					'memberType'
+				)
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'_term-meta' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/term-meta',
+		'title' => 'Term Meta',
+		'category' => 'metablock',
+		'icon' => 'tag',
+		'description' => 'Display metadata for a selected taxonomy term',
+		'supports' => array(
+			'html' => false,
+			'align' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontWeight' => true,
+				'fontStyle' => true,
+				'lineHeight' => true,
+				'letterSpacing' => true,
+				'textDecoration' => true,
+				'textTransform' => true,
+				'textColumns' => false
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true,
+			'filter' => array(
+				'duotone' => true
+			)
+		),
+		'attributes' => array(
+			'displayType' => array(
+				'type' => 'string',
+				'default' => 'generic',
+				'enum' => array(
+					'generic',
+					'season-producer'
+				)
+			),
+			'taxonomy' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'termId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'metaKey' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'default' => 'p'
+			),
+			'prepend' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'append' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'headingText' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'headingLevel' => array(
+				'type' => 'string',
+				'default' => 'h2'
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'taxonomy',
+			'term',
+			'category',
+			'meta'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php',
+		'variations' => array(
+			array(
+				'name' => 'generic',
+				'title' => 'Term Meta',
+				'description' => 'Display metadata for a selected taxonomy term',
+				'attributes' => array(
+					'displayType' => 'generic'
+				),
+				'isDefault' => true
+			),
+			array(
+				'name' => 'season-producer',
+				'title' => 'Season Producer',
+				'description' => 'Display season producer titles from the current post\'s season taxonomy term',
+				'attributes' => array(
+					'displayType' => 'season-producer',
+					'metaKey' => 'season_producers'
+				)
+			)
+		)
+	),
 	'list-item-icon' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/meta-button",
+  "title": "Meta Button",
+  "category": "metablock",
+  "icon": "button",
+  "description": "Display a button/link from a URL meta field",
+  "supports": {
+    "html": false,
+    "align": true,
+    "anchor": true,
+    "className": true,
+    "customClassName": true,
+    "color": {
+      "text": true,
+      "background": true,
+      "gradient": true
+    },
+    "typography": {
+      "fontSize": true,
+      "fontFamily": true,
+      "fontWeight": true,
+      "fontStyle": true,
+      "lineHeight": true,
+      "letterSpacing": true,
+      "textDecoration": true,
+      "textTransform": true,
+      "textColumns": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": true
+    },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "shadow": true,
+    "filter": {
+      "duotone": true
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "attributes": {
+    "keyInput": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "Learn More"
+    }
+  },
+  "example": {},
+  "keywords": [
+    "button",
+    "link",
+    "meta",
+    "custom field",
+    "acf"
+  ],
+  "textdomain": "theatrum-blocks",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}
