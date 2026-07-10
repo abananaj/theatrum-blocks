@@ -94,6 +94,29 @@ function theatrum_meta_related_collect_ids($meta_value)
 }
 
 /**
+ * Get a meta/ACF field value for a post, preferring ACF's get_field() when
+ * active and falling back to get_post_meta().
+ *
+ * Centralizes a pattern that was duplicated (with two call sites missing the
+ * function_exists() guard, which would fatal on a site without ACF active)
+ * across meta-file, meta-image, meta-related, block-bindings, and several
+ * REST endpoint callbacks.
+ *
+ * @param int    $post_id Post ID.
+ * @param string $key     Meta/ACF field key.
+ *
+ * @return mixed Field value (ACF-shaped array, scalar, etc.), or '' if unset.
+ */
+function theatrum_get_meta($post_id, $key)
+{
+	$value = function_exists('get_field') ? get_field($key, $post_id) : null;
+	if ($value === null || $value === false || $value === '') {
+		$value = get_post_meta($post_id, $key, true);
+	}
+	return $value;
+}
+
+/**
  * Resolve an ACF repeater subfield value to a display string.
  * Handles: string, int (post ID), WP_Post, ACF link array, array of IDs/Posts.
  *
@@ -232,6 +255,28 @@ function theatrum_resolve_post_links($value)
 	}
 
 	return $resolved;
+}
+
+/**
+ * Validate a user-supplied tag/level name against an allowlist, falling back
+ * to a default when it isn't allowed.
+ *
+ * Centralizes a validation block duplicated (with an inconsistent mix of
+ * strict/loose in_array() comparisons, and three call sites that used bare
+ * tag_escape() instead of an allowlist at all — which only guarantees a
+ * syntactically valid tag name, not one from a specific safe set) across
+ * meta-field, site-option, meta-repeater, meta-related, meta-date, meta-time,
+ * and term-meta.
+ *
+ * @param string   $tag     Requested tag/value.
+ * @param string[] $allowed Allowed values.
+ * @param string   $default Fallback when $tag isn't in $allowed.
+ *
+ * @return string
+ */
+function theatrum_sanitize_tag($tag, array $allowed, $default)
+{
+	return in_array($tag, $allowed, true) ? $tag : $default;
 }
 
 /**

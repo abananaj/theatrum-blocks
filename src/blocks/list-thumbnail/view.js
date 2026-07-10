@@ -14,43 +14,47 @@
  * set in save.js (applied to the flipper transition in style.scss).
  */
 
-document.addEventListener('DOMContentLoaded', function () {
-  const blocks = document.querySelectorAll('.wp-block-chance-list-thumbnail');
+document.addEventListener( 'DOMContentLoaded', function () {
+	const blocks = document.querySelectorAll(
+		'.wp-block-chance-list-thumbnail'
+	);
 
-  blocks.forEach((block) => {
-    const listItems = block.querySelectorAll('.list-item');
-    const flipper = block.querySelector('.thumbnail-flipper');
-    const front = block.querySelector('.thumbnail-front');
-    const back = block.querySelector('.thumbnail-back');
+	blocks.forEach( ( block ) => {
+		const listItems = block.querySelectorAll( '.list-item' );
+		const flipper = block.querySelector( '.thumbnail-flipper' );
+		const front = block.querySelector( '.thumbnail-front' );
+		const back = block.querySelector( '.thumbnail-back' );
 
-    if (!flipper || !front || !back || listItems.length === 0) {
-      return;
-    }
+		if ( ! flipper || ! front || ! back || listItems.length === 0 ) {
+			return;
+		}
 
-    const updateThumbnail = (index) => {
-      const item = listItems[index];
-      if (!item) {
-        return;
-      }
+		const updateThumbnail = ( index ) => {
+			const item = listItems[ index ];
+			if ( ! item ) {
+				return;
+			}
 
-      const url = item.getAttribute('data-thumb-url') || '';
-      const alt = item.getAttribute('data-thumb-alt') || '';
+			const url = item.getAttribute( 'data-thumb-url' ) || '';
+			const alt = item.getAttribute( 'data-thumb-alt' ) || '';
 
-      // Even indices land on the front face, odd on the back.
-      const face = index % 2 ? back : front;
-      if (url) {
-        face.src = url;
-        face.alt = alt;
-      }
+			// Even indices land on the front face, odd on the back.
+			const face = index % 2 ? back : front;
+			if ( url ) {
+				face.src = url;
+				face.alt = alt;
+			}
 
-      flipper.style.transform = `rotateX(${ index * -180 }deg)`;
-    };
+			flipper.style.transform = `rotateX(${ index * -180 }deg)`;
+		};
 
-    listItems.forEach((item, index) => {
-      item.addEventListener('mouseenter', () => updateThumbnail(index));
-    });
+		listItems.forEach( ( item, index ) => {
+			item.addEventListener( 'mouseenter', () =>
+				updateThumbnail( index )
+			);
+		} );
 
-    // Show the first item on load.
-    updateThumbnail(0);
-  });
-});
+		// Show the first item on load.
+		updateThumbnail( 0 );
+	} );
+} );

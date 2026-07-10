@@ -29,7 +29,6 @@ function theatrum_register_blocks()
 {
 
 	$custom_blocks = array(
-		'board-member', // deprecate in favor of Site Option block with "Board Member" variation
 		'breadcrumbs',
 		'page-nav', 
 		// auto in-page section nav; scans <section id> and links first heading. Currently gated to Pages in render.php.
@@ -43,20 +42,10 @@ function theatrum_register_blocks()
 		// i want this to be able to have nested blocks that inside them have an image, heading, and text element the user can edit. 
 		// i also want the option to nest multiple cover cards inside this carousel
 		// I'd like to use this as a container for a query loop, so the user can choose between "list" "grid"  and "carousel" for the display of the query loop results.
-		'card-static',
-		// do I use this anywhere?
-		'copyright-date-block',
 		'cover-card',
 		// how can i get this stuppid thing to fill the height of whatever container I put it in?
 		// could there be an option to set the post to the value of the current posts meta key input by user like if the user inputs production on a post that has a connection via meta, it displays that. For example, on a production page, I'd like to be able to set the cover card to display the production's meta value for "venue" , which is stored as a meta value returning the post ID. 
 		// if there are multiple post ids in a meta value, a cover card for each of those will render. For example, on a production page, I want to be able to input "events" inrto the cover card and have it rendeer a card for each of the three events connected. This might be the cover card carousel I am not using much. It also probably works similarly to the meta related core
-
-		'cover-carousel',
-		// too many options in inspector panel, can’t see more than 1 slide at a time.
-		// won’t save opacity set in BE
-		// nav doesn't work on FE, can't see other slides
-		// should show slide as nested cover blocks
-		// MAYBE JUST ABANDON THIS ONE AND FOCUS ON THE CARD CAROUSEL BLOCK, WHICH IS MORE FLEXIBLE AND IS WORKING BETTER.
 
 		'list-icons',
 		'list-icons/list-item-icon',
@@ -85,8 +74,6 @@ function theatrum_register_blocks()
 		// option to style as a button?
 		'meta-gallery',
 		// should have identical control in inspectorPanel that the core gallery block has, including list view, settings, and style. 
-		'meta-icon',
-		// DEPRECATED 
 		'meta-image',
 		// needs controls for aspect ratio, etc. 
 		'meta-related',
@@ -118,8 +105,6 @@ function theatrum_register_blocks()
 		'production-tabs/tab',
 		'production-tabs/tab-heading',
 		'production-tabs/tab-content',
-		'production-trailer',
-		// DEPRECATED, use meta-embed
 
 		'query-filter',
 		// renders correctly, but when i click on a term from the dropdown in the frontend, the page reloads and the filter is not applied. I want the filter to be applied without a page reload, and the query loop results to update accordingly, without a full page re-load
@@ -128,11 +113,8 @@ function theatrum_register_blocks()
 		// change venue icon to building
 		// change artist icon to color palette
 
-		'season-producer',
-		// DEPRECATE, use site-option block with "Season Producer" variation instead
 		'site-option',
 		// compare to meta-field, but for site options instead of post meta. Can be used to build a "Board Member" block variation, for example, that pulls from a repeater field in ACF.
-		'staff-member', // DEPRECATE, use site-option block with "Staff Member" variation instead
 
 		'table-advanced',
 		// Style all items on one level?
@@ -174,10 +156,27 @@ add_action('init', 'theatrum_register_blocks');
  */
 function theatrum_register_block_category($categories)
 {
-	$theatrum_category = array(
-		'slug'  => 'theatrum',
-		'title' => __('Custom Blocks', 'theatrum-blocks'),
-		'icon'  => null,
+	$theatrum_categories = array(
+		array(
+			'slug'  => 'theatrum',
+			'title' => __('Custom Blocks', 'theatrum-blocks'),
+			'icon'  => null,
+		),
+		array(
+			'slug'  => 'metablock',
+			'title' => __('Meta Blocks', 'theatrum-blocks'),
+			'icon'  => null,
+		),
+		array(
+			'slug'  => 'production',
+			'title' => __('Production', 'theatrum-blocks'),
+			'icon'  => null,
+		),
+		array(
+			'slug'  => 'deprecated',
+			'title' => __('Deprecated', 'theatrum-blocks'),
+			'icon'  => null,
+		),
 	);
 
 	// Find the position of the 'widgets' category and insert before it.
@@ -188,10 +187,10 @@ function theatrum_register_block_category($categories)
 	);
 
 	if (false !== $widgets_index) {
-		array_splice($categories, $widgets_index, 0, array($theatrum_category));
+		array_splice($categories, $widgets_index, 0, $theatrum_categories);
 	} else {
 		// Fallback: append if 'widgets' category is not found.
-		$categories[] = $theatrum_category;
+		$categories = array_merge($categories, $theatrum_categories);
 	}
 
 	return $categories;

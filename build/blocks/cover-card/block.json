@@ -79,11 +79,7 @@
       "style": true,
       "width": true
     },
-    "shadow": true,
-    "opacity": true,
-    "filters": {
-      "duotone": true
-    }
+    "shadow": true
   },
   "usesContext": [
     "postId",

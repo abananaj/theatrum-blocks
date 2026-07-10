@@ -40,8 +40,7 @@
       "width": true
     },
     "shadow": true,
-    "opacity": true,
-    "filters": {
+    "filter": {
       "duotone": true
     }
   },
@@ -54,7 +53,7 @@
       "type": "array",
       "default": [
         {
-          "id": 1,
+          "id": "item-default",
           "image": "https://picsum.photos/id/21/300/300",
           "title": "Card Title",
           "subtitle": "Subtitle text",

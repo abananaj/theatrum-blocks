@@ -2,6 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "chance/media-popover",
+  "textdomain": "theatrum-blocks",
   "title": "Media Popover",
   "category": "theatrum",
   "description": "Display media (image or video) in a tooltip-style popover that appears on hover. Link the popover to a URL or page.",

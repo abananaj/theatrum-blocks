@@ -7,7 +7,7 @@ const VARIATIONS = [
 	{
 		name: 'theatrum/production-loop',
 		title: 'Production Loop',
-		icon: 'tickets-alt',
+		icon: 'awards',
 		postType: 'production',
 	},
 	{
@@ -31,7 +31,7 @@ const VARIATIONS = [
 	{
 		name: 'theatrum/artist-loop',
 		title: 'Artist Loop',
-		icon: 'admin-users',
+		icon: 'art',
 		postType: 'artist',
 	},
 	{
@@ -49,7 +49,7 @@ const VARIATIONS = [
 	{
 		name: 'theatrum/venue-loop',
 		title: 'Venue Loop',
-		icon: 'location',
+		icon: 'building',
 		postType: 'venue',
 	},
 ];
@@ -63,6 +63,7 @@ VARIATIONS.forEach( ( { name, title, icon, postType } ) => {
 		icon,
 		attributes: {
 			namespace: name,
+			enhancedPagination: true,
 			query: {
 				postType,
 				perPage: 10,
@@ -94,7 +95,9 @@ addFilter(
 			function TheatrumQueryEdit( props ) {
 				if (
 					props.name !== 'core/query' ||
-					! THEATRUM_NAMESPACES.includes( props.attributes?.namespace )
+					! THEATRUM_NAMESPACES.includes(
+						props.attributes?.namespace
+					)
 				) {
 					return <BlockEdit { ...props } />;
 				}
@@ -104,7 +107,9 @@ addFilter(
 						<InspectorControls>
 							{ /* Hide the Post Type dropdown — postType is locked by this variation. */ }
 							<style>{ `
-								.block-editor-block-inspector .components-select-control:has(option[value="${ props.attributes.query?.postType ?? '' }"]:checked) {
+								.block-editor-block-inspector .components-select-control:has(option[value="${
+									props.attributes.query?.postType ?? ''
+								}"]:checked) {
 									display: none;
 								}
 							` }</style>

@@ -3,6 +3,7 @@
 	"apiVersion": 3,
 	"title": "Table Row",
 	"name": "theatrum/table-row",
+	"textdomain": "theatrum-blocks",
 	"category": "text",
 	"keywords": ["table"],
 	"attributes": {

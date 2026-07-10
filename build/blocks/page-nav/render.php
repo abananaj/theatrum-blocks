@@ -8,13 +8,13 @@
  * and turns the first heading in each into a jump link. If no qualifying
  * sections exist, view.js removes the container so nothing is shown.
  *
- * Scope: currently limited to the "page" post type. To extend to other post
- * types later, widen the conditional below (e.g. is_singular( array( 'page', 'production' ) )).
+ * Scope: pages, productions, and events — the post types with long-form
+ * content likely to contain jump-linkable sections.
  *
  * $attributes, $content, $block are injected by WordPress.
  */
 
-if (! is_page()) {
+if (! is_singular(array('page', 'production', 'event'))) {
 	return '';
 }
 

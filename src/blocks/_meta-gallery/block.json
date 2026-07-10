@@ -1,0 +1,111 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/meta-gallery",
+	"title": "Meta Gallery",
+	"category": "metablock",
+	"description": "Display a gallery of images from a post meta or ACF gallery field with core gallery styling and features",
+	"icon": "format-gallery",
+	"supports": {
+		"html": false,
+		"align": true,
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": ["horizontal", "vertical"],
+			"__experimentalDefaultControls": {
+				"blockGap": true,
+				"margin": false,
+				"padding": false
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
+		},
+		"units": ["px", "em", "rem", "vh", "vw"],
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"usesContext": ["postId", "postType"],
+	"providesContext": {
+		"imageCrop": "imageCrop",
+		"fixedHeight": "fixedHeight",
+		"navigationButtonType": "navigationButtonType"
+	},
+	"attributes": {
+		"metaKey": {
+			"type": "string",
+			"default": ""
+		},
+		"sizeSlug": {
+			"type": "string",
+			"default": "large"
+		},
+		"columns": {
+			"type": "number",
+			"minimum": 1,
+			"maximum": 8
+		},
+		"linkTo": {
+			"type": "string",
+			"default": "none"
+		},
+		"imageCrop": {
+			"type": "boolean",
+			"default": true
+		},
+		"fixedHeight": {
+			"type": "boolean",
+			"default": true
+		},
+		"randomOrder": {
+			"type": "boolean",
+			"default": false
+		},
+		"caption": {
+			"type": "string",
+			"source": "rich-text",
+			"selector": ".blocks-gallery-caption",
+			"role": "content"
+		},
+		"navigationButtonType": {
+			"type": "string",
+			"default": "icon",
+			"enum": ["icon", "text", "both"]
+		},
+		"allowResize": {
+			"type": "boolean",
+			"default": false
+		},
+		"aspectRatio": {
+			"type": "string",
+			"default": "auto"
+		},
+		"linkTarget": {
+			"type": "string"
+		},
+		"fallbackText": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"example": {},
+	"keywords": ["gallery", "images", "photos", "meta"],
+	"textdomain": "theatrum-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

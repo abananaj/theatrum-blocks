@@ -21,7 +21,23 @@
 		width: var(--list-icon-size, 24px);
 		height: var(--list-icon-size, 24px);
 		object-fit: contain;
-		color: var(--list-icon-color);
+	}
+
+	// SVG icons render as a masked <span> (see save.js) rather than an <img>,
+	// so a CSS mask is the only way to recolor them — an <img>'s SVG source is
+	// opaque to `color`/CSS variables. Falls back to the inherited text color
+	// when no override is set on the parent list.
+	.list-icons-icon--svg {
+		display: inline-block;
+		background-color: var(--list-icon-color, currentColor);
+		-webkit-mask-image: var(--list-icon-svg-url);
+		mask-image: var(--list-icon-svg-url);
+		-webkit-mask-size: contain;
+		mask-size: contain;
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-position: center;
+		mask-position: center;
 	}
 
 	.list-icons-text {

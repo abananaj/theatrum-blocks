@@ -1,8 +1,19 @@
 {
+  "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "theatrum/query-loop",
   "title": "Theatrum Query Loop",
   "category": "theatrum",
+  "description": "Registers Theatrum's post-type-specific core/query variations (production, event, class, blog, artist, supporter, credit, venue loops). Not directly insertable — pick a variation from the core Query Loop block instead.",
+  "icon": "list-view",
+  "keywords": [
+    "query",
+    "loop",
+    "production",
+    "event",
+    "artist"
+  ],
+  "textdomain": "theatrum-blocks",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./editor.scss",
   "supports": {

@@ -3,6 +3,7 @@
   "apiVersion": 3,
   "title": "Table Cell",
   "name": "theatrum/table-cell",
+  "textdomain": "theatrum-blocks",
   "category": "text",
   "keywords": [
     "table"

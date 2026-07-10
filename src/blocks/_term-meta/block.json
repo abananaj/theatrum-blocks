@@ -1,0 +1,114 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/term-meta",
+	"title": "Term Meta",
+	"category": "metablock",
+	"icon": "tag",
+	"description": "Display metadata for a selected taxonomy term",
+	"supports": {
+		"html": false,
+		"align": true,
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontWeight": true,
+			"fontStyle": true,
+			"lineHeight": true,
+			"letterSpacing": true,
+			"textDecoration": true,
+			"textTransform": true,
+			"textColumns": false
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true,
+		"filter": {
+			"duotone": true
+		}
+	},
+	"attributes": {
+		"displayType": {
+			"type": "string",
+			"default": "generic",
+			"enum": ["generic", "season-producer"]
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": ""
+		},
+		"termId": {
+			"type": "number",
+			"default": 0
+		},
+		"metaKey": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "p"
+		},
+		"prepend": {
+			"type": "string",
+			"default": ""
+		},
+		"append": {
+			"type": "string",
+			"default": ""
+		},
+		"headingText": {
+			"type": "string",
+			"default": ""
+		},
+		"headingLevel": {
+			"type": "string",
+			"default": "h2"
+		}
+	},
+	"usesContext": ["postId", "postType"],
+	"example": {},
+	"keywords": ["taxonomy", "term", "category", "meta"],
+	"textdomain": "theatrum-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"variations": [
+		{
+			"name": "generic",
+			"title": "Term Meta",
+			"description": "Display metadata for a selected taxonomy term",
+			"attributes": {
+				"displayType": "generic"
+			},
+			"isDefault": true
+		},
+		{
+			"name": "season-producer",
+			"title": "Season Producer",
+			"description": "Display season producer titles from the current post's season taxonomy term",
+			"attributes": {
+				"displayType": "season-producer",
+				"metaKey": "season_producers"
+			}
+		}
+	]
+}

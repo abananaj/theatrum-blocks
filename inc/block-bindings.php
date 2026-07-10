@@ -36,13 +36,7 @@ function chance_post_meta_binding_callback($source_args, $block_instance, $attri
 	}
 
 	// Try ACF first, fall back to raw post meta.
-	$value = null;
-	if (function_exists('get_field')) {
-		$value = get_field($key, $post_id);
-	}
-	if ($value === null || $value === false || $value === '') {
-		$value = get_post_meta($post_id, $key, true);
-	}
+	$value = theatrum_get_meta($post_id, $key);
 	if ($value === null || $value === false || $value === '') {
 		return null;
 	}

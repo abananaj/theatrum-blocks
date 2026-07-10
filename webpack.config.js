@@ -23,7 +23,10 @@ function withExtraEntries( config ) {
 // With --experimental-modules, defaultConfig is [scriptConfig, moduleConfig].
 // We only add the extras to scriptConfig (index 0); moduleConfig handles ES modules.
 if ( Array.isArray( defaultConfig ) ) {
-	module.exports = [ withExtraEntries( defaultConfig[ 0 ] ), defaultConfig[ 1 ] ];
+	module.exports = [
+		withExtraEntries( defaultConfig[ 0 ] ),
+		defaultConfig[ 1 ],
+	];
 } else {
 	module.exports = withExtraEntries( defaultConfig );
 }

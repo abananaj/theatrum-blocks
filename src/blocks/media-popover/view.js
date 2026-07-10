@@ -3,7 +3,7 @@
  * Handles hover interactions and touch support for mobile.
  */
 
-document.addEventListener( 'DOMContentLoaded', function() {
+document.addEventListener( 'DOMContentLoaded', function () {
 	const triggers = document.querySelectorAll( '.media-popover-trigger' );
 
 	triggers.forEach( ( trigger ) => {
@@ -14,7 +14,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		}
 
 		// Handle touch events on mobile
-		trigger.addEventListener( 'click', function( e ) {
+		trigger.addEventListener( 'click', function ( e ) {
 			if ( e.target.tagName === 'A' ) {
 				return; // Allow links to work normally
 			}
@@ -32,7 +32,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		} );
 
 		// Close when clicking outside
-		document.addEventListener( 'click', function( e ) {
+		document.addEventListener( 'click', function ( e ) {
 			if ( ! trigger.contains( e.target ) ) {
 				content.style.opacity = '0';
 				content.style.visibility = 'hidden';
