@@ -27,7 +27,13 @@ if (!$source_post_id) {
 }
 
 // Get the meta value (supports ACF get_field returning Post Object or raw ID)
-$meta_value = theatrum_get_meta($source_post_id, $key_input);
+$meta_value = false;
+if (function_exists('get_field')) {
+  $meta_value = get_field($key_input, $source_post_id);
+}
+if ($meta_value === false || $meta_value === null || $meta_value === '') {
+  $meta_value = get_post_meta($source_post_id, $key_input, true);
+}
 
 if (empty($meta_value)) {
   return;
@@ -65,10 +71,13 @@ if (empty($items)) {
 }
 
 // Validate tag name
-$tag_name = theatrum_sanitize_tag($tag_name, array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'), 'p');
+$allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+if (!in_array($tag_name, $allowed_tags, true)) {
+  $tag_name = 'p';
+}
 
 $inner = esc_html($prepend) . implode(esc_html($separator), $items) . esc_html($append);
 
-$wrapper_attrs = get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-related']);
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-related']) );
 
 printf('<%1$s %2$s>%3$s</%1$s>', $tag_name, $wrapper_attrs, $inner);

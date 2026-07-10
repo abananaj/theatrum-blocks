@@ -1157,7 +1157,7 @@ return array(
 				'default' => false
 			),
 			'caption' => array(
-				'type' => 'rich-text',
+				'type' => 'string',
 				'source' => 'rich-text',
 				'selector' => '.blocks-gallery-caption',
 				'role' => 'content'
@@ -1350,7 +1350,8 @@ return array(
 				'width' => true
 			),
 			'shadow' => true,
-			'filter' => array(
+			'opacity' => true,
+			'filters' => array(
 				'duotone' => true
 			)
 		),
