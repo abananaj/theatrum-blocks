@@ -31,14 +31,9 @@ function theatrum_register_blocks()
 	$custom_blocks = array(
 		'breadcrumbs',
 		'page-nav', 
-		// auto in-page section nav; scans <section id> and links first heading. Currently gated to Pages in render.php.
-		// allow on productions, events, and other post types with sections.
 		'carousel',
 		'carousel/carousel-item',
 		// Codepen reference: https://codepen.io/annabananajennings/pen/YPGdGbb
-		// cards are now chance/carousel-item inner blocks (image/heading/text, or anything, like a Group).
-		// still want the option to nest cover cards inside this carousel
-		// I'd like to use this as a container for a query loop, so the user can choose between "list" "grid"  and "carousel" for the display of the query loop results.
 		'cover-card',
 		// how can i get this stuppid thing to fill the height of whatever container I put it in?
 		// could there be an option to set the post to the value of the current posts meta key input by user like if the user inputs production on a post that has a connection via meta, it displays that. For example, on a production page, I'd like to be able to set the cover card to display the production's meta value for "venue" , which is stored as a meta value returning the post ID. 
@@ -46,13 +41,11 @@ function theatrum_register_blocks()
 
 		'list-icons',
 		'list-icons/list-item-icon',
-		// add ability to change icon color if it is an svg, by default the icon should use the inherited text color and allow user to override it with a color picker in the inspector panel.
-
+		// add ability to change icon color if it is an svg
 		'popover',
 		'popover/popover-trigger',
 		'popover/popover-content',
 
-		// CUSTOM META BLOCKS — primary, supported way to bind post meta/ACF. Each also has an optional core-block variation (chance/bind-*, see src/meta-variations.js) for cases where the core block's own styling/features are worth using instead — not a migration path, both are kept.
 		'meta-button',
 		// sync button styles with core/buttons block
 		// make this button nestable inside core/buttons?
