@@ -286,3 +286,122 @@ function theatrum_enqueue_block_color_script()
 	);
 }
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_block_color_script');
+
+/**
+ * Registers the Carousel/Slider block styles on core/query and core/gallery
+ * (the "formats" — see src/formats/). Names are prefixed (ct-carousel,
+ * ct-slider) since a bare "carousel"/"slider" slug is a plausible collision
+ * with other plugins.
+ */
+function theatrum_register_format_styles()
+{
+	$blocks = array('core/query', 'core/gallery');
+	$styles = array(
+		array('name' => 'ct-carousel', 'label' => __('Carousel', 'theatrum-blocks')),
+		array('name' => 'ct-slider', 'label' => __('Slider', 'theatrum-blocks')),
+	);
+
+	foreach ($blocks as $block) {
+		foreach ($styles as $style) {
+			register_block_style($block, $style);
+		}
+	}
+}
+add_action('init', 'theatrum_register_format_styles');
+
+/**
+ * Blocks eligible for the Carousel/Slider formats, and the style slugs
+ * (without the is-style- prefix) that trigger them. Shared by the editor
+ * and frontend enqueue functions below.
+ */
+function theatrum_format_blocks()
+{
+	return array('core/query', 'core/gallery');
+}
+
+function theatrum_format_style_slugs()
+{
+	return array('ct-carousel', 'ct-slider');
+}
+
+/**
+ * Registers (without enqueuing) the shared formats.js/formats.css handles
+ * so both the editor and frontend enqueue functions below can reference
+ * them by handle.
+ */
+function theatrum_register_format_assets()
+{
+	$script_asset_file = __DIR__ . '/build/formats.asset.php';
+	if (! file_exists($script_asset_file)) {
+		return;
+	}
+	$script_asset = require $script_asset_file;
+
+	wp_register_script(
+		'theatrum-formats',
+		plugins_url('build/formats.js', __FILE__),
+		$script_asset['dependencies'],
+		$script_asset['version'],
+		true
+	);
+
+	$style_path = __DIR__ . '/build/style-formats.css';
+	if (file_exists($style_path)) {
+		wp_register_style(
+			'theatrum-formats',
+			plugins_url('build/style-formats.css', __FILE__),
+			array(),
+			(string) filemtime($style_path)
+		);
+
+		if (file_exists(__DIR__ . '/build/style-formats-rtl.css')) {
+			wp_style_add_data('theatrum-formats', 'rtl', 'replace');
+		}
+	}
+}
+add_action('init', 'theatrum_register_format_assets');
+
+/**
+ * Editor: enqueue the formats stylesheet so the Carousel/Slider style
+ * previews render correctly in the Styles panel and canvas. No script here
+ * — the runtime is frontend-only, matching how chance/carousel and
+ * chance/slider's own viewScript only ever runs on the frontend.
+ */
+function theatrum_enqueue_format_editor_assets()
+{
+	if (! is_admin()) {
+		return;
+	}
+	wp_enqueue_style('theatrum-formats');
+}
+add_action('enqueue_block_assets', 'theatrum_enqueue_format_editor_assets');
+
+/**
+ * Frontend: enqueue the formats script/style only on pages that actually
+ * render a Carousel/Slider-styled core/query or core/gallery block. This is
+ * an enqueue sniff, not a markup filter — $block_content is returned
+ * untouched, so it can't affect alignment or wrapper attributes.
+ */
+function theatrum_enqueue_format_frontend_assets($block_content, $block)
+{
+	if (is_admin() || empty($block['blockName'])) {
+		return $block_content;
+	}
+
+	if (! in_array($block['blockName'], theatrum_format_blocks(), true)) {
+		return $block_content;
+	}
+
+	$class_name = (string) ($block['attrs']['className'] ?? '');
+
+	foreach (theatrum_format_style_slugs() as $slug) {
+		if (false !== strpos($class_name, 'is-style-' . $slug)) {
+			wp_enqueue_style('theatrum-formats');
+			wp_enqueue_script('theatrum-formats');
+			break;
+		}
+	}
+
+	return $block_content;
+}
+add_filter('render_block', 'theatrum_enqueue_format_frontend_assets', 10, 2);

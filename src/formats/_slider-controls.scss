@@ -1,0 +1,79 @@
+// Slider arrow/dot chrome — shared by chance/slider (native block) and any
+// core block styled `is-style-ct-slider`. Extracted from
+// blocks/slider/style.scss so it also applies to arrows/dots built by
+// formats/slider.js on core/query and core/gallery, which don't nest under
+// `.ct-slider`.
+
+.ct-slider-arrow {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	z-index: 1;
+	width: auto;
+	padding: 16px;
+	margin-top: -22px;
+	color: #fff;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 1;
+	// Unlike the example (where the slide photo behind the arrow gives it
+	// contrast), our slides can be any content, including a blank/light
+	// one — so the arrow needs its own always-visible dark backing rather
+	// than relying on a hover-only background.
+	background-color: rgba(0, 0, 0, 0.5);
+	border: 0;
+	border-radius: 3px;
+	transition: 0.3s ease;
+	user-select: none;
+
+	&.ct-slider-prev {
+		left: 8px;
+	}
+
+	&.ct-slider-next {
+		right: 8px;
+	}
+
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.8);
+	}
+}
+
+.ct-slider-dots {
+	text-align: center;
+	margin-top: 8px;
+}
+
+.ct-slider-dot {
+	cursor: pointer;
+	height: 15px;
+	width: 15px;
+	margin: 0 2px;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
+	transition: background-color 0.6s ease;
+
+	&.is-active,
+	&:hover {
+		background-color: #717171;
+	}
+}
+
+@keyframes ct-slider-fade {
+
+	from {
+		opacity: 0.4;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@media only screen and (max-width: 300px) {
+
+	.ct-slider-arrow {
+		font-size: 11px;
+	}
+}

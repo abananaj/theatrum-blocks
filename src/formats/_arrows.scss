@@ -1,0 +1,54 @@
+// Carousel arrow visuals — shared by chance/carousel (native block) and any
+// core block styled `is-style-ct-carousel`. Extracted from
+// blocks/carousel/style.scss so it also applies to arrows built by
+// formats/carousel.js on core/query and core/gallery, which don't nest
+// under `.wp-block-chance-carousel`.
+
+.ct-carousel-arrow {
+	position: absolute;
+	top: 50%;
+	z-index: 2;
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	background: transparent;
+	box-shadow: none;
+	border: 0;
+	cursor: pointer;
+
+	&.ct-arrow-prev {
+		left: -48px;
+
+		&::before {
+			transform: rotate(90deg);
+		}
+	}
+
+	&.ct-arrow-next {
+		right: -48px;
+
+		&::before {
+			transform: rotate(-90deg);
+		}
+	}
+
+	&::before {
+		content: "";
+		background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgMTUgOSI+Cgk8cGF0aCBmaWxsPSIjMzMzMzMzIiBkPSJNNy44NjcgOC41NzRsLTcuMjItNy4yMi43MDctLjcwOEw3Ljg2NyA3LjE2IDE0LjA1Ljk4bC43MDYuNzA3Ii8+Cjwvc3ZnPgo=);
+		background-size: contain;
+		display: block;
+		width: 18px;
+		height: 12px;
+	}
+}
+
+.ct-carousel-arrow.disabled {
+
+	&::before {
+		opacity: 0.3;
+	}
+}
