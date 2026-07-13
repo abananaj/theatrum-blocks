@@ -6,8 +6,8 @@
 	"title": "Title (Advanced)",
 	"category": "text",
 	"icon": "heading",
-	"description": "A heading group: the post title as an H1, plus meta-bound subtitle and pre-title lines.",
-	"keywords": ["title", "subtitle", "pre-title", "heading", "heading group", "meta"],
+	"description": "A heading group: the post title as an H1, plus meta-bound subtitle and pretitle lines.",
+	"keywords": ["title", "subtitle", "pretitle", "heading", "heading group", "meta"],
 	"supports": {
 		"html": false,
 		"align": true,

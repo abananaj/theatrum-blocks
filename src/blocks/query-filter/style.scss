@@ -46,6 +46,7 @@
 		&:hover,
 		&:focus-visible {
 			background-color: currentColor;
+			color: var(--wp--preset--color--white);
 		}
 	}
 

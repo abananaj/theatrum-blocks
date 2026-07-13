@@ -2631,11 +2631,11 @@ return array(
 		'title' => 'Title (Advanced)',
 		'category' => 'text',
 		'icon' => 'heading',
-		'description' => 'A heading group: the post title as an H1, plus meta-bound subtitle and pre-title lines.',
+		'description' => 'A heading group: the post title as an H1, plus meta-bound subtitle and pretitle lines.',
 		'keywords' => array(
 			'title',
 			'subtitle',
-			'pre-title',
+			'pretitle',
 			'heading',
 			'heading group',
 			'meta'

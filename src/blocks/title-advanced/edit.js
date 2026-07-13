@@ -4,12 +4,12 @@ const TEMPLATE = [
 	[
 		'core/paragraph',
 		{
-			placeholder: 'Pre-title',
+			placeholder: 'Pretitle',
 			metadata: {
 				bindings: {
 					content: {
 						source: 'chance/post-meta',
-						args: { key: 'pre_title' },
+						args: { key: 'pretitle' },
 					},
 				},
 			},

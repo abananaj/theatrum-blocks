@@ -94,7 +94,8 @@
 		border-top: 2px solid var(--wp--preset--color--black);
 		border-left: 2px solid var(--wp--preset--color--black);
 		&:hover {
-			background-color: var(--wp--preset--color--light-yellow);
+			background-color: var(--wp--preset--color--black);
+			color: var(--wp--preset--color--light-yellow);
 		}
 	}
 }
