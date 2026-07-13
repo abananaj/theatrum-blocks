@@ -40,7 +40,8 @@
       "width": true
     },
     "shadow": true,
-    "filter": {
+    "opacity": true,
+    "filters": {
       "duotone": true
     }
   },
@@ -70,13 +71,37 @@
       "type": "string",
       "default": ""
     },
+    "prependTag": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "",
+        "em",
+        "strong",
+        "small"
+      ]
+    },
     "append": {
       "type": "string",
       "default": ""
     },
+    "appendTag": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "",
+        "em",
+        "strong",
+        "small"
+      ]
+    },
     "metaKey": {
       "type": "string",
       "default": ""
+    },
+    "linkPostTitle": {
+      "type": "boolean",
+      "default": true
     }
   },
   "example": {},

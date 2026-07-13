@@ -47,14 +47,6 @@
     "buttonText": {
       "type": "string",
       "default": "Open Dialog"
-    },
-    "popupTitle": {
-      "type": "string",
-      "default": ""
-    },
-    "isOpen": {
-      "type": "boolean",
-      "default": false
     }
   },
   "example": {},

@@ -264,20 +264,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							<div className="buttons">
 								{ attributes.buttonText && (
 									<a
-										href={
-											attributes.buttonUrl ||
-											postData?.permalink ||
-											'#'
-										}
-										target={
-											attributes.openInNewWindow
-												? '_blank'
-												: '_self'
-										}
-										rel={
-											attributes.openInNewWindow
-												? 'noopener noreferrer'
-												: ''
+										onClick={ ( event ) =>
+											event.preventDefault()
 										}
 										className="button"
 									>
@@ -286,20 +274,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								) }
 								{ attributes.button2Text && (
 									<a
-										href={
-											attributes.button2Url ||
-											postData?.permalink ||
-											'#'
-										}
-										target={
-											attributes.openInNewWindow
-												? '_blank'
-												: '_self'
-										}
-										rel={
-											attributes.openInNewWindow
-												? 'noopener noreferrer'
-												: ''
+										onClick={ ( event ) =>
+											event.preventDefault()
 										}
 										className="button"
 									>
@@ -308,20 +284,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								) }
 								{ attributes.button3Text && (
 									<a
-										href={
-											attributes.button3Url ||
-											postData?.permalink ||
-											'#'
-										}
-										target={
-											attributes.openInNewWindow
-												? '_blank'
-												: '_self'
-										}
-										rel={
-											attributes.openInNewWindow
-												? 'noopener noreferrer'
-												: ''
+										onClick={ ( event ) =>
+											event.preventDefault()
 										}
 										className="button"
 									>

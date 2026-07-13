@@ -40,7 +40,8 @@
       "width": true
     },
     "shadow": true,
-    "filter": {
+    "opacity": true,
+    "filters": {
       "duotone": true
     }
   },
@@ -76,10 +77,6 @@
     "tagB": {
       "type": "string",
       "default": "span"
-    },
-    "showListStyle": {
-      "type": "boolean",
-      "default": false
     }
   },
   "example": {},

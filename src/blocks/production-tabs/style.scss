@@ -5,28 +5,31 @@
 // it becomes a horizontal tab strip: every header lines up in a row and the
 // single active panel spans the full width below them.
 //
-// This is intentionally minimal — refine the look later.
+// Shared between the frontend and the editor (block.json's "style" key loads
+// this in both places) — the editor derives `.is-active` from block
+// selection instead of clicks (see tab/edit.js + editor.scss), but reuses
+// this same layout and the mixin below so both contexts look identical.
+
+@use 'mixins';
 
 $ct-tabs-breakpoint: 768px;
 
 .ct-production-tabs {
 	// Reset the header <button> so it reads as plain text until styled.
-	//
-	// Colors come from chance/tab-heading's inline custom properties (see
-	// color-style.js) so each tab can have its own normal/hover/active
-	// colors. An unset state falls back to the next: hover → normal →
-	// inherit/transparent.
 	.ct-tab__header {
 		display: block;
 		width: 100%;
 		margin: 0;
 		padding: 0.75rem 1rem;
 		border: 0;
+		border-bottom: 3px solid transparent;
 		font: inherit;
 		text-align: left;
 		cursor: pointer;
 		color: var(--ct-tab-header-color, inherit);
 		background-color: var(--ct-tab-header-bg, transparent);
+		transition: color 150ms ease, background-color 150ms ease,
+			border-color 150ms ease;
 
 		&:hover {
 			color: var(
@@ -40,14 +43,11 @@ $ct-tabs-breakpoint: 768px;
 		}
 
 		&.is-active {
-			color: var(
-				--ct-tab-header-active-color,
-				var(--ct-tab-header-color, inherit)
-			);
-			background-color: var(
-				--ct-tab-header-active-bg,
-				var(--ct-tab-header-bg, transparent)
-			);
+			@include mixins.tab-header-active-colors;
+			// Accent underline — defaults to the active header's own text
+			// color so it looks intentional without extra setup, but stays
+			// overridable per-tab via --ct-tab-header-accent.
+			border-bottom-color: var(--ct-tab-header-accent, currentColor);
 		}
 	}
 
@@ -69,23 +69,10 @@ $ct-tabs-breakpoint: 768px;
 
 @media (min-width: $ct-tabs-breakpoint) {
 	.ct-production-tabs {
-		display: flex;
-		flex-wrap: wrap;
+		@include mixins.tab-strip-layout;
 
-		// Let each tab's header + panel participate directly in the flex row
-		// so headers can group into a strip and the panel can span full width.
-		.ct-tab {
-			display: contents;
-		}
-
-		.ct-tab__header {
-			width: auto;
-			order: 0; // all headers first -> horizontal strip
-		}
-
-		.ct-tab__panel {
-			order: 1; // active panel drops below the header strip
-			width: 100%;
+		&.is-equal-width .ct-tab__header {
+			flex: 1 1 0;
 		}
 	}
 }

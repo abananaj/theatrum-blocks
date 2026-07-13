@@ -152,10 +152,3 @@
 
 	font-style: italic;
 }
-
-// WP core's Dimensions support adds `has-aspect-ratio` to the wrapper
-// identically in editor and frontend. When present, let the wrapper's
-// aspect-ratio-derived height win over the inner card's fixed floor.
-.wp-block-chance-cover-card.has-aspect-ratio .cover-card {
-	min-height: 0;
-}

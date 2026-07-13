@@ -1,0 +1,43 @@
+// Popover — editor-only styles.
+//
+// The editor canvas is iframed and loads this block's front-end style.scss,
+// so the popover already looks and behaves identically to the front end:
+// hidden until you hover (or tab to) the trigger. The only thing that needs
+// to be different here is keeping the content panel open while something
+// inside it is selected — otherwise, the instant your mouse leaves the
+// trigger while typing, the block you're editing would disappear.
+//
+// To select the content block without hovering first (e.g. to start from
+// empty), use List View — it selects by name regardless of current CSS
+// visibility.
+
+.wp-block-chance-popover-content.is-selected,
+.wp-block-chance-popover-content.has-child-selected {
+	opacity: 1 !important;
+	visibility: visible !important;
+	pointer-events: auto !important;
+}
+
+// Gutenberg's InnerBlocks list always applies a default "flow" layout to
+// child blocks in the editor (this is purely an editor/JS default — the
+// front end's static InnerBlocks.Content HTML never gets it), which injects
+// `margin-block-start` block-gap spacing onto every non-first child. Since
+// the content panel is position: absolute, that margin still pushes it away
+// from `bottom: 100%` instead of sitting flush above the trigger — visible
+// as a gap, with the panel appearing below the trigger instead of overlapping
+// it. Cancel it out so editor positioning matches the front end exactly.
+.wp-block-chance-popover .wp-block-chance-popover-content {
+	margin-block-start: 0 !important;
+}
+
+// The content panel has its own nested InnerBlocks (for whatever's placed
+// inside it), so it also gets Gutenberg's `.block-editor-block-list__layout`
+// class — which core editor CSS hard-codes to `position: relative`. That ties
+// in specificity with our own `.ct-popover__content { position: absolute }`
+// (style.scss), so which one wins depends on stylesheet load order. When the
+// core rule wins, the panel stops floating entirely and renders as a normal
+// in-flow block below the trigger — the exact "gap, appears underneath"
+// symptom. Force absolute positioning to always win in the editor.
+.wp-block-chance-popover-content {
+	position: absolute !important;
+}

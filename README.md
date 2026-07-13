@@ -70,7 +70,7 @@ Hierarchical table block system.
 | `list-icons/list-item-icon` | ✅ | Child of list-icons |
 | `list-thumbnail` | ✅ | Refactored to nested `list-item-thumbnail` blocks (model after list-icons); flip-card hover animation fixed |
 | `list-thumbnail/list-item-thumbnail` | ✅ | Child of list-thumbnail |
-| `media-popover` | ✅ | |
+| `popover` | ✅ | Trigger and content are separate nested blocks (`popover/popover-trigger`, `popover/popover-content`), each accepting any blocks |
 | `popup` | ✅ | |
 | `title-subtitle` | ⚠️ | Needs post title in allowed blocks |
 

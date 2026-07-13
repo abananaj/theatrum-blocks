@@ -33,14 +33,11 @@ function theatrum_register_blocks()
 		'page-nav', 
 		// auto in-page section nav; scans <section id> and links first heading. Currently gated to Pages in render.php.
 		// allow on productions, events, and other post types with sections.
-		'card-carousel',
-		// editor shows the simplified card builder on BE, FE show replicate because it looks better and works better on the FE
-		// won’t save media selected in BE
-		// squished on FE
-		// nav arrows don’t work on FE, but the horizontal scroll works on the BE
+		'carousel',
+		'carousel/carousel-item',
 		// Codepen reference: https://codepen.io/annabananajennings/pen/YPGdGbb
-		// i want this to be able to have nested blocks that inside them have an image, heading, and text element the user can edit. 
-		// i also want the option to nest multiple cover cards inside this carousel
+		// cards are now chance/carousel-item inner blocks (image/heading/text, or anything, like a Group).
+		// still want the option to nest cover cards inside this carousel
 		// I'd like to use this as a container for a query loop, so the user can choose between "list" "grid"  and "carousel" for the display of the query loop results.
 		'cover-card',
 		// how can i get this stuppid thing to fill the height of whatever container I put it in?
@@ -51,13 +48,15 @@ function theatrum_register_blocks()
 		'list-icons/list-item-icon',
 		// add ability to change icon color if it is an svg, by default the icon should use the inherited text color and allow user to override it with a color picker in the inspector panel.
 
-		'media-popover',
-		// make child of element this block that will be hovered to trigger the popover rather than the item being a child of the popover as it is currently
+		'popover',
+		'popover/popover-trigger',
+		'popover/popover-content',
 
 		// CUSTOM META BLOCKS — primary, supported way to bind post meta/ACF. Each also has an optional core-block variation (chance/bind-*, see src/meta-variations.js) for cases where the core block's own styling/features are worth using instead — not a migration path, both are kept.
 		'meta-button',
 		// sync button styles with core/buttons block
 		// make this button nestable inside core/buttons?
+		// enter text inside the button in the block editor rather than in the inspector panel
 
 		'meta-date',
 		// unecessary padding/margin/line-height that make these look diff than the regular text. should render without extra spacing, refer to meta field and mta related which does this nicely
@@ -66,6 +65,7 @@ function theatrum_register_blocks()
 		'meta-embed',
 		// not responding when i put in a meta key that I am sure is valid, says: Watch video on YouTube, 		Error 153,		Video player configuration error
 		'meta-field',
+		// need options for wrapper tag
 		// compare to term-meta and site-option, make them all work similarly as possible to this meta field 
 		// add ability to update post meta values as binding allows with core blocks?
 		// Add options for displaying boolean values, user should be able to input text to show if the value is 0 and if the value is 1, for example, if the user inputs "True" for 1 and "False" for 0, the meta field block will render "True" if the value is 1 and "False" if the value is 0.
@@ -107,14 +107,16 @@ function theatrum_register_blocks()
 		'production-tabs/tab-content',
 
 		'query-filter',
-		// renders correctly, but when i click on a term from the dropdown in the frontend, the page reloads and the filter is not applied. I want the filter to be applied without a page reload, and the query loop results to update accordingly, without a full page re-load
+		// fuck this for now, i want it to work tlike the elementor block does of the same name does, but later
 		'query-loop',
 		// change production icon to masks
 		// change venue icon to building
 		// change artist icon to color palette
 
 		'site-option',
-		// compare to meta-field, but for site options instead of post meta. Can be used to build a "Board Member" block variation, for example, that pulls from a repeater field in ACF.
+
+		'slider',
+		'slider/slider-item',
 
 		'table-advanced',
 		// Style all items on one level?
@@ -128,12 +130,8 @@ function theatrum_register_blocks()
 		'table-advanced/table-row',
 		'table-advanced/table-heading-cell',
 		'table-advanced/table-cell',
-
 		'table-of-contents',
-		// not appearing in the block inserter
-
 		'term-meta',
-		//compare to meta-field, but for term meta instead of post meta
 		'list-thumbnail',
 		'list-thumbnail/list-item-thumbnail',
 		'title-advanced',

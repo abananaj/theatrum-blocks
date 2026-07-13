@@ -100,6 +100,6 @@ add_action('init', function () {
 	register_block_bindings_source('chance/post-meta', [
 		'label'              => __('Post Meta', 'theatrum-blocks'),
 		'get_value_callback' => 'chance_post_meta_binding_callback',
-		'uses_context'       => ['postId'],
+		'uses_context'       => ['postId', 'postType'],
 	]);
 });

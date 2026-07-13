@@ -1,0 +1,14 @@
+.wp-block-chance-meta-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	.meta-icon-img {
+		display: block;
+		object-fit: contain;
+	}
+
+	.dashicons {
+		display: block;
+	}
+}

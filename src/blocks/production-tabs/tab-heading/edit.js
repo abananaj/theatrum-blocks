@@ -42,7 +42,12 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<InspectorControls>
+			{ /* group="filter" is a plain slot (same bare rendering as the
+			old default group — no two-column grid wrapper the way
+			group="color" applies) that happens to sit right before
+			Typography in the Styles tab's slot order, which is what puts
+			this panel above Typography. */ }
+			<InspectorControls group="filter">
 				<PanelColorSettings
 					title={ __( 'Normal Colors', 'theatrum-blocks' ) }
 					initialOpen={ false }

@@ -7,6 +7,12 @@
   "icon": "index-card",
   "description": "Horizontal tabs that collapse into a vertical accordion on mobile. Add a tab for each section and give it a heading.",
   "textdomain": "theatrum-blocks",
+  "attributes": {
+    "equalWidthTabs": {
+      "type": "boolean",
+      "default": false
+    }
+  },
   "supports": {
     "html": false,
     "anchor": true,

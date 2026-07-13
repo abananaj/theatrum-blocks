@@ -1,23 +1,56 @@
 /**
+ * External dependencies
+ */
+import clsx from 'clsx';
+
+/**
  * WordPress dependencies
  */
-import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	InnerBlocks,
+	InspectorControls,
+} from '@wordpress/block-editor';
+import { PanelBody, ToggleControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 const ALLOWED_BLOCKS = [ 'chance/tab' ];
 const TEMPLATE = [ [ 'chance/tab' ], [ 'chance/tab' ] ];
 
-export default function Edit() {
+export default function Edit( { attributes, setAttributes } ) {
+	const { equalWidthTabs } = attributes;
+
 	const blockProps = useBlockProps( {
-		className: 'ct-production-tabs is-editor',
+		className: clsx( 'ct-production-tabs is-editor', {
+			'is-equal-width': equalWidthTabs,
+		} ),
+	} );
+	// useInnerBlocksProps (not the legacy <InnerBlocks> element) so the tab
+	// blocks render as direct children of this div instead of being nested
+	// two wrapper divs deep (<InnerBlocks> injects its own
+	// .block-editor-inner-blocks wrapper) — the flex/tab-strip CSS in
+	// _mixins.scss relies on .ct-tab being a direct child of .is-editor.
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		template: TEMPLATE,
+		renderAppender: InnerBlocks.ButtonBlockAppender,
 	} );
 
 	return (
-		<div { ...blockProps }>
-			<InnerBlocks
-				allowedBlocks={ ALLOWED_BLOCKS }
-				template={ TEMPLATE }
-				renderAppender={ InnerBlocks.ButtonBlockAppender }
-			/>
-		</div>
+		<>
+			<InspectorControls>
+				<PanelBody title={ __( 'Settings', 'theatrum-blocks' ) }>
+					<ToggleControl
+						label={ __( 'Equal width tabs', 'theatrum-blocks' ) }
+						checked={ !! equalWidthTabs }
+						onChange={ ( value ) =>
+							setAttributes( { equalWidthTabs: value } )
+						}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div { ...innerBlocksProps } />
+		</>
 	);
 }

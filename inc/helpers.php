@@ -117,6 +117,49 @@ function theatrum_get_meta($post_id, $key)
 }
 
 /**
+ * Mirrors core/embed's aspect-ratio classname logic (getClassNames() in
+ * @wordpress/block-library) so chance/meta-embed's "Resize for smaller
+ * devices" toggle behaves exactly like the core Embed block's.
+ *
+ * @param int  $width           Embed width in px (from the oEmbed markup).
+ * @param int  $height          Embed height in px (from the oEmbed markup).
+ * @param bool $allow_responsive Whether responsive wrapping is enabled.
+ *
+ * @return string Space-separated "wp-embed-aspect-*  wp-has-aspect-ratio"
+ *                classnames, or '' if not applicable.
+ */
+function theatrum_embed_aspect_ratio_classnames($width, $height, $allow_responsive = true)
+{
+	if (! $allow_responsive || ! $width || ! $height) {
+		return '';
+	}
+
+	$ratios = array(
+		array('ratio' => 2.33, 'class' => 'wp-embed-aspect-21-9'),
+		array('ratio' => 2, 'class' => 'wp-embed-aspect-18-9'),
+		array('ratio' => 1.78, 'class' => 'wp-embed-aspect-16-9'),
+		array('ratio' => 1.33, 'class' => 'wp-embed-aspect-4-3'),
+		array('ratio' => 1, 'class' => 'wp-embed-aspect-1-1'),
+		array('ratio' => 0.56, 'class' => 'wp-embed-aspect-9-16'),
+		array('ratio' => 0.5, 'class' => 'wp-embed-aspect-1-2'),
+	);
+
+	$target       = $width / $height;
+	$closest      = null;
+	$closest_diff = null;
+
+	foreach ($ratios as $candidate) {
+		$diff = abs($candidate['ratio'] - $target);
+		if (null === $closest_diff || $diff < $closest_diff) {
+			$closest_diff = $diff;
+			$closest      = $candidate;
+		}
+	}
+
+	return $closest ? $closest['class'] . ' wp-has-aspect-ratio' : '';
+}
+
+/**
  * Resolve an ACF repeater subfield value to a display string.
  * Handles: string, int (post ID), WP_Post, ACF link array, array of IDs/Posts.
  *

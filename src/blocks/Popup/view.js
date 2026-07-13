@@ -20,6 +20,18 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			return;
 		}
 
+		// Move the dialog/backdrop to a direct child of <body>. Left in place,
+		// they'd inherit whatever containing block their ancestors create — any
+		// ancestor with transform/filter/will-change/contain turns their
+		// position: fixed into "fixed relative to that ancestor" instead of the
+		// viewport, so the dialog scrolls with the page instead of staying
+		// centered. Escaping to <body> makes that impossible regardless of what
+		// wraps the block on a given page.
+		const portal = document.createElement( 'div' );
+		portal.className = 'popup-portal';
+		portal.append( backdrop, popupDialog );
+		document.body.append( portal );
+
 		// Trigger open
 		button.addEventListener( 'click', function ( e ) {
 			e.preventDefault();
@@ -93,9 +105,9 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	 * @param backdrop
 	 */
 	function openPopup( popupDialog, button, backdrop ) {
-		// Show elements (remove hidden attr)
-		popupDialog.removeAttribute( 'hidden' );
-		backdrop.removeAttribute( 'hidden' );
+		// Show elements (remove inert)
+		popupDialog.removeAttribute( 'inert' );
+		backdrop.removeAttribute( 'inert' );
 		button.setAttribute( 'aria-expanded', 'true' );
 
 		// Lock scroll
@@ -139,8 +151,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		button.setAttribute( 'aria-expanded', 'false' );
 
 		const hide = () => {
-			popupDialog.setAttribute( 'hidden', '' );
-			backdrop.setAttribute( 'hidden', '' );
+			popupDialog.setAttribute( 'inert', '' );
+			backdrop.setAttribute( 'inert', '' );
 			document.body.style.overflow = '';
 		};
 

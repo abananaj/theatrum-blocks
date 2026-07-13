@@ -72,39 +72,6 @@ const TRANSFORMS = {
 			},
 		},
 	],
-	'core/embed': [
-		{
-			fromBlock: 'chance/meta-embed',
-			transform: ( attrs ) => ( {
-				metadata: {
-					name: 'chance/bind-embed',
-					bindings: {
-						url: {
-							source: 'chance/post-meta',
-							args: { key: attrs.keyInput || '' },
-						},
-					},
-				},
-			} ),
-		},
-	],
-	'core/file': [
-		{
-			fromBlock: 'chance/meta-file',
-			transform: ( attrs ) => ( {
-				downloadButtonText: attrs.linkText || 'Download File',
-				metadata: {
-					name: 'chance/bind-file',
-					bindings: {
-						href: {
-							source: 'chance/post-meta',
-							args: { key: attrs.keyInput || '' },
-						},
-					},
-				},
-			} ),
-		},
-	],
 };
 
 addFilter(

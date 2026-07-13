@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/slider-item",
+	"title": "Slider Item",
+	"category": "theatrum",
+	"icon": "index-card",
+	"description": "A single slide in the slider. Accepts any blocks, like a Group — commonly an image and a caption.",
+	"textdomain": "theatrum-blocks",
+	"parent": ["chance/slider"],
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
+	},
+	"editorScript": "file:./index.js"
+}

@@ -9,7 +9,6 @@
  */
 
 $button_text = $attributes['buttonText'] ?? 'Open Dialog';
-$popup_title = ! empty($attributes['popupTitle']) ? $attributes['popupTitle'] : $button_text;
 
 $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-popup']);
 ?>
@@ -27,17 +26,16 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-
     class="popup-backdrop"
     data-popup-backdrop="true"
     aria-hidden="true"
-    hidden></div>
+    inert></div>
 
   <div
     class="popup-dialog"
     data-popup-content="true"
     role="dialog"
     aria-modal="true"
-    aria-label="<?php echo esc_attr($popup_title); ?>"
-    hidden>
+    aria-label="<?php echo esc_attr($button_text); ?>"
+    inert>
     <div class="popup-dialog-header">
-      <h2 class="popup-dialog-title"><?php echo esc_html($popup_title); ?></h2>
       <button
         class="popup-close-button"
         data-close-popup="true"
@@ -49,7 +47,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-
       </button>
     </div>
     <div class="popup-dialog-content">
-      <?php echo wp_kses_post( $content ); ?>
+      <?php echo $content; ?>
     </div>
   </div>
 </div>

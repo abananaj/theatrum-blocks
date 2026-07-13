@@ -1,7 +1,14 @@
 /* Popup Block Styles — modelled on the Gutenberg Dialog component */
 
-.wp-block-chance-popup {
-	// Design tokens (fallbacks match Gutenberg Dialog defaults)
+// Design tokens (fallbacks match Gutenberg Dialog defaults)
+//
+// Shared with .popup-portal: at runtime, view.js moves the dialog/backdrop
+// out to a direct child of <body> so position: fixed can't be broken by an
+// ancestor that sets transform/filter/will-change/contain (which would turn
+// "fixed" into "absolute relative to that ancestor"). These custom properties
+// have to resolve on the portal too since it's no longer a descendant of
+// .wp-block-chance-popup.
+:where(.wp-block-chance-popup, .popup-portal) {
 	--popup-padding: 24px;
 	--popup-gap: 16px;
 	--popup-gap-sm: 8px;
@@ -10,13 +17,14 @@
 	--popup-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06),
 		0 0 0 1px rgba(0, 0, 0, 0.04);
 	--popup-bg: #fff;
-	--popup-title-color: #1e1e1e;
 	--popup-content-color: #1e1e1e;
 	--popup-close-size: 32px;
-	--popup-max-width: 640px; // medium — matches Dialog is-medium
+	--popup-max-width: 1140px; // medium — matches Dialog is-medium
 	--popup-backdrop-color: rgba(0, 0, 0, 0.35);
 	--popup-z-index: 9999;
+}
 
+.wp-block-chance-popup {
 	margin-bottom: 1em;
 }
 
@@ -31,18 +39,17 @@
 	z-index: calc(var(--popup-z-index) - 1);
 	background-color: var(--popup-backdrop-color);
 	opacity: 0;
+	pointer-events: none;
 	transition: opacity 0.2s ease-out;
 
 	&[data-state="open"] {
 		opacity: 1;
+		pointer-events: auto;
 	}
 
 	&[data-state="closed"] {
 		opacity: 0;
-	}
-
-	&[hidden] {
-		display: none !important;
+		pointer-events: none;
 	}
 }
 
@@ -59,6 +66,7 @@
 	z-index: var(--popup-z-index);
 	transform: translate(-50%, -50%) scale(0.9);
 	opacity: 0;
+	pointer-events: none;
 
 	display: flex;
 	flex-direction: column;
@@ -67,7 +75,7 @@
 	// Sizing — matches Dialog is-medium (max-width: surface-width-lg ≈ 640px)
 	width: calc(100vw - 2 * var(--popup-padding));
 	max-width: var(--popup-max-width);
-	max-height: calc(100dvh - 2 * var(--popup-padding));
+	max-height: calc(90dvh - 2 * var(--popup-padding));
 
 	background-color: var(--popup-bg);
 	border-radius: var(--popup-border-radius);
@@ -92,16 +100,14 @@
 
 	&[data-state="open"] {
 		opacity: 1;
+		pointer-events: auto;
 		transform: translate(-50%, -50%) scale(1);
 	}
 
 	&[data-state="closed"] {
 		opacity: 0;
+		pointer-events: none;
 		transform: translate(-50%, -50%) scale(0.9);
-	}
-
-	&[hidden] {
-		display: none !important;
 	}
 }
 
@@ -122,16 +128,6 @@
 
 	// Reserve 1px border slot; colorized by scroll-state (optional enhancement)
 	border-block-end: 1px solid transparent;
-}
-
-// ── Dialog title ─────────────────────────────────────────────────────────────
-
-.popup-dialog-title {
-	color: var(--popup-title-color);
-	margin: 0 auto 0 0; // push close button to the inline end
-	font-size: 1rem;
-	font-weight: 600;
-	line-height: 1.5;
 }
 
 // ── Dialog content (scrollable body) ─────────────────────────────────────────

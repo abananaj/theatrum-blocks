@@ -9,14 +9,12 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { buttonText, popupTitle, isOpen } = attributes;
+	const { buttonText } = attributes;
 	const blockProps = useBlockProps( { className: 'wp-block-chance-popup' } );
-	const [ open, setOpen ] = useState( isOpen );
-	const title = popupTitle || buttonText;
+	const [ open, setOpen ] = useState( false );
 
 	const togglePopup = () => {
 		setOpen( ! open );
-		setAttributes( { isOpen: ! open } );
 	};
 
 	return (
@@ -28,19 +26,6 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ buttonText || '' }
 						onChange={ ( value ) =>
 							setAttributes( { buttonText: value } )
-						}
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-					/>
-					<TextControl
-						label={ __( 'Dialog Title', 'theatrum-blocks' ) }
-						help={ __(
-							'Heading shown inside the dialog. Defaults to button text if empty.',
-							'theatrum-blocks'
-						) }
-						value={ popupTitle || '' }
-						onChange={ ( value ) =>
-							setAttributes( { popupTitle: value } )
 						}
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
@@ -62,17 +47,18 @@ export default function Edit( { attributes, setAttributes } ) {
 					aria-hidden="true"
 					data-state={ open ? 'open' : 'closed' }
 					hidden={ ! open }
+					style={ { pointerEvents: open ? 'auto' : 'none' } }
 				/>
 				<div
 					className="popup-dialog"
 					role="dialog"
 					aria-modal="true"
-					aria-label={ title }
+					aria-label={ buttonText }
 					data-state={ open ? 'open' : 'closed' }
 					hidden={ ! open }
+					style={ { pointerEvents: open ? 'auto' : 'none' } }
 				>
 					<div className="popup-dialog-header">
-						<h2 className="popup-dialog-title">{ title }</h2>
 						<button
 							className="popup-close-button"
 							onClick={ togglePopup }

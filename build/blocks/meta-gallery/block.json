@@ -87,7 +87,7 @@
       "default": false
     },
     "caption": {
-      "type": "string",
+      "type": "rich-text",
       "source": "rich-text",
       "selector": ".blocks-gallery-caption",
       "role": "content"

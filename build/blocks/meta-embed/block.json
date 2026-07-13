@@ -2,7 +2,6 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "chance/meta-embed",
-  "textdomain": "theatrum-blocks",
   "title": "Meta Embed",
   "category": "metablock",
   "description": "Embed a resource from a URL stored in post metadata",
@@ -43,6 +42,10 @@
     "embedType": {
       "type": "string",
       "default": ""
+    },
+    "allowResponsive": {
+      "type": "boolean",
+      "default": true
     }
   },
   "example": {},

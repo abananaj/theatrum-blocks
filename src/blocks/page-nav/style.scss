@@ -7,15 +7,16 @@
  */
 
 .theatrum-page-nav {
+	margin-block-start: 0;
 	&__list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var( --wp--style--block-gap, 0.5rem );
-		align-items: center;
+		gap: 0;
+		align-items: stretch;
+		justify-content: center;
 		margin: 0;
 	}
 }
-
 // Offset anchored sections so a sticky header doesn't cover the heading when
 // a jump link is followed. Override with --theatrum-page-nav-offset as needed.
 section[id] {
