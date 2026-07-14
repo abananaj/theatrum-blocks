@@ -129,16 +129,16 @@
 	}
 
 	// Hover: the black bar + its top border take the term color.
-	// --ct-accent/-on-accent default to the theme's palette and are
-	// re-pointed to the nomenclature term's ramp when in scope — see the
-	// theme's src/scss/_tokens.scss and _nomenclature.scss.
+	// --ct-primary/-on-primary default to the theme's palette and are
+	// re-pointed to the nomenclature term's derived tokens when in scope —
+	// see the theme's src/scss/_tokens.scss and _nomenclature.scss.
 	&:hover .cover-card .bottom-bar {
-		background-color: var(--ct-accent, var(--wp--preset--color--black));
-		border-top-color: var(--ct-accent, var(--wp--preset--color--black));
+		background-color: var(--ct-primary, var(--wp--preset--color--black));
+		border-top-color: var(--ct-primary, var(--wp--preset--color--black));
 
 		.dates,
 		.title {
-			color: var(--ct-on-accent, var(--wp--preset--color--white));
+			color: var(--ct-on-primary, var(--wp--preset--color--white));
 		}
 	}
 }
