@@ -33,11 +33,20 @@ function theatrum_register_blocks()
 		'page-nav', 
 		'carousel',
 		'carousel/carousel-item',
+
+		// Deprecated in favor of 'chance-card' below — kept registered so
+		// existing post content keeps rendering. Do not use for new content;
+		// existing instances are being migrated to chance-card manually.
 		// Codepen reference: https://codepen.io/annabananajennings/pen/YPGdGbb
 		'cover-card',
 		// how can i get this stuppid thing to fill the height of whatever container I put it in?
 		// could there be an option to set the post to the value of the current posts meta key input by user like if the user inputs production on a post that has a connection via meta, it displays that. For example, on a production page, I'd like to be able to set the cover card to display the production's meta value for "venue" , which is stored as a meta value returning the post ID. 
 		// if there are multiple post ids in a meta value, a cover card for each of those will render. For example, on a production page, I want to be able to input "events" inrto the cover card and have it rendeer a card for each of the three events connected. This might be the cover card carousel I am not using much. It also probably works similarly to the meta related core
+
+		// Successor to cover-card: background image lives on .user-content
+		// instead of the outer wrapper, and the bottom-bar/buttons are no
+		// longer position:absolute.
+		'chance-card',
 
 		'list-icons',
 		'list-icons/list-item-icon',

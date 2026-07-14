@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `chance/chance-card` block, the successor to `chance/cover-card`: same post-card behavior, but the featured-image background now applies to the inner `.user-content` div instead of the card's outer wrapper, and the bottom bar/buttons are no longer `position: absolute` (they flow as normal flex children). `chance/cover-card` is deprecated — kept registered so existing content keeps rendering, but existing instances need to be migrated to `chance/chance-card` manually
 - All `chance/*`/`theatrum/*` custom block icons are now tinted blue (`#448CCA`, the theme's "Blue" palette color) via a `blocks.registerBlockType` filter (`src/block-color.js`), so custom blocks read as a distinct visual group in the inserter/list view/toolbar — mirroring how `chance/bind-*` meta variations are tinted purple
 - Post-meta block bindings source (`inc/block-bindings.php`) for `chance/post-meta`
 - `theatrum_is_allowed_settings_option()` allowlist guard for board-member/staff-member/site-option option lookups

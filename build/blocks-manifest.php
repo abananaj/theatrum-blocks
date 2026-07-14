@@ -177,6 +177,149 @@ return array(
 		'render' => 'file:./render.php',
 		'viewScript' => 'file:./view.js'
 	),
+	'chance-card' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/chance-card',
+		'title' => 'Chance Card',
+		'category' => 'theatrum',
+		'description' => 'Display a featured production or event as a card with featured image background and overlaid title',
+		'icon' => 'cover-image',
+		'supports' => array(
+			'customCSS' => true,
+			'ariaLabel' => true,
+			'alignWide' => true,
+			'allowedBlocks' => true,
+			'background' => array(
+				'backgroundImage' => true,
+				'backgroundSize' => true,
+				'gradient' => true
+			),
+			'contentRole' => true,
+			'dimensions' => array(
+				'aspectRatio' => true,
+				'minHeight' => true,
+				'height' => true,
+				'minWidth' => true,
+				'width' => true
+			),
+			'filter' => array(
+				'duotone' => true
+			),
+			'inserter' => true,
+			'interactivity' => true,
+			'layout' => true,
+			'listView' => true,
+			'lock' => true,
+			'multiple' => true,
+			'position' => array(
+				'sticky' => true
+			),
+			'renaming' => true,
+			'splitting' => true,
+			'visibility' => true,
+			'html' => true,
+			'align' => true,
+			'reusable' => true,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'typography' => array(
+				'fitText' => true,
+				'textAlign' => true,
+				'textIndent' => true,
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true,
+				'button' => true,
+				'enableContrastChecker' => true,
+				'gradients' => true,
+				'heading' => true,
+				'link' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'border' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true
+			),
+			'shadow' => true
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			'metaKey' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'postId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'buttonText' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'buttonUrl' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'button2Text' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'button2Url' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'button3Text' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'button3Url' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'openInNewWindow' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'styles' => array(
+			
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'card',
+			'post',
+			'preview',
+			'featured'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
 	'cover-card' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

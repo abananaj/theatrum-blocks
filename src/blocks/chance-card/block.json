@@ -1,0 +1,131 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/chance-card",
+	"title": "Chance Card",
+	"category": "theatrum",
+	"description": "Display a featured production or event as a card with featured image background and overlaid title",
+	"icon": "cover-image",
+	"supports": {
+		"customCSS": true,
+		"ariaLabel": true,
+		"alignWide": true,
+		"allowedBlocks": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"gradient": true
+		},
+		"contentRole": true,
+		"dimensions": {
+			"aspectRatio": true,
+			"minHeight": true,
+			"height": true,
+			"minWidth": true,
+			"width": true
+		},
+		"filter": {
+			"duotone": true
+		},
+		"inserter": true,
+		"interactivity": true,
+		"layout": true,
+		"listView": true,
+		"lock": true,
+		"multiple": true,
+		"position": {
+			"sticky": true
+		},
+		"renaming": true,
+		"splitting": true,
+		"visibility": true,
+		"html": true,
+		"align": true,
+		"reusable": true,
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"typography": {
+			"fitText": true,
+			"textAlign": true,
+			"textIndent": true,
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true,
+			"button": true,
+			"enableContrastChecker": true,
+			"gradients": true,
+			"heading": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true
+	},
+	"usesContext": ["postId", "postType"],
+	"attributes": {
+		"metaKey": {
+			"type": "string",
+			"default": ""
+		},
+		"postId": {
+			"type": "number",
+			"default": 0
+		},
+		"buttonText": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"button2Text": {
+			"type": "string",
+			"default": ""
+		},
+		"button2Url": {
+			"type": "string",
+			"default": ""
+		},
+		"button3Text": {
+			"type": "string",
+			"default": ""
+		},
+		"button3Url": {
+			"type": "string",
+			"default": ""
+		},
+		"openInNewWindow": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"styles": [],
+	"example": {},
+	"keywords": ["card", "post", "preview", "featured"],
+	"textdomain": "theatrum-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
