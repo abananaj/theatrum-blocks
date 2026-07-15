@@ -1,0 +1,16 @@
+/* Blockquote Advanced — light styling, matches the core/quote treatment
+   (see chance-ollie/src/scss/wp-blocks.scss's .wp-block-quote rules). */
+
+.theatrum-blockquote-advanced {
+	margin: 1rem 0;
+}
+
+.theatrum-blockquote-text {
+	max-width: 45ch;
+	text-wrap: balance;
+	margin: 0;
+}
+
+.theatrum-blockquote-source {
+	margin: 0.5rem 0 0;
+}

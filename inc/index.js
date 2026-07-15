@@ -17,11 +17,11 @@ import { Fragment } from '@wordpress/element';
 addFilter(
 	'editor.BlockEdit',
 	'theatrum-blocks/add-meta-query-filter',
-	( BlockEdit ) => {
-		return ( props ) => {
+	(BlockEdit) => {
+		return (props) => {
 			// Only apply to the core/query block
-			if ( props.name !== 'core/query' ) {
-				return <BlockEdit { ...props } />;
+			if (props.name !== 'core/query') {
+				return <BlockEdit {...props} />;
 			}
 			wha;
 			const {
@@ -58,14 +58,14 @@ addFilter(
 
 			return (
 				<Fragment>
-					<BlockEdit { ...props } />
+					<BlockEdit {...props} />
 					<InspectorControls group="advanced">
 						<PanelBody title="Meta Query Filter">
 							<ToggleControl
 								label="Enable Meta Query Filter"
-								checked={ enableMetaQuery }
-								onChange={ ( value ) =>
-									setAttributes( { enableMetaQuery: value } )
+								checked={enableMetaQuery}
+								onChange={(value) =>
+									setAttributes({ enableMetaQuery: value })
 								}
 								help={
 									enableMetaQuery
@@ -73,57 +73,59 @@ addFilter(
 										: 'Click to enable meta query filtering'
 								}
 							/>
-							{ enableMetaQuery && (
+							{enableMetaQuery && (
 								<Fragment>
 									<TextControl
 										label="Meta Key"
-										value={ metaKey }
-										onChange={ ( value ) =>
-											setAttributes( { metaKey: value } )
+										value={metaKey}
+										onChange={(value) =>
+											setAttributes({ metaKey: value })
 										}
 										placeholder="Enter the meta key to filter by"
 										help="The post meta key to use for filtering"
 									/>
 									<SelectControl
 										label="Comparison"
-										value={ metaCompare }
-										options={ comparisonOperators }
-										onChange={ ( value ) =>
-											setAttributes( {
+										value={metaCompare}
+										options={comparisonOperators}
+										onChange={(value) =>
+											setAttributes({
 												metaCompare: value,
-											} )
+											})
 										}
 										help="How to compare the meta value"
 									/>
-									{ metaCompare !== 'empty' &&
+									{metaCompare !== 'empty' &&
 										metaCompare !== 'not_empty' && (
 											<Fragment>
 												<TextControl
 													label="Meta Value"
-													value={ metaValue }
-													onChange={ ( value ) =>
-														setAttributes( {
+													value={metaValue}
+													onChange={(value) =>
+														setAttributes({
 															metaValue: value,
-														} )
-													}
+														})
+													}	
+													__next40pxDefaultSize={true}
 													placeholder="Enter the value to compare against"
 													help="The value to compare with the meta key"
 												/>
 												<SelectControl
 													label="Meta Type"
-													value={ metaType }
-													options={ metaTypes }
-													onChange={ ( value ) =>
-														setAttributes( {
+													value={metaType}
+													options={metaTypes}
+													onChange={(value) =>
+														setAttributes({
 															metaType: value,
-														} )
+														})
 													}
+												__next40pxDefaultSize={true}
 													help="The data type of the meta value for comparison"
 												/>
 											</Fragment>
-										) }
+										)}
 								</Fragment>
-							) }
+							)}
 						</PanelBody>
 					</InspectorControls>
 				</Fragment>

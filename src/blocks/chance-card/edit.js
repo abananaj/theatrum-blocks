@@ -86,7 +86,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		<Fragment>
 			<InspectorControls>
 				<div
-					className="cover-card-inspector"
+					className="chance-card-inspector"
 					style={ { padding: '16px' } }
 				>
 					<ToggleControl
@@ -239,10 +239,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 			<div { ...blockProps }>
 				{ isLoading && <Spinner /> }
 				{ error && (
-					<p className="cover-card-error">Error: { error }</p>
+					<p className="chance-card-error">Error: { error }</p>
 				) }
 				{ ! isLoading && ! error && postData && (
-					<div className="cover-card">
+					<div className="chance-card">
 						<div
 							className="user-content"
 							style={ {
@@ -297,7 +297,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</div>
 				) }
 				{ ! isLoading && ! error && ! postData && (
-					<p className="cover-card-placeholder">
+					<p className="chance-card-placeholder">
 						{ useMetaKey
 							? 'Enter a meta key or post ID in the sidebar to display a post'
 							: 'Search and select a post in the sidebar' }

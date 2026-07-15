@@ -30,9 +30,13 @@ function theatrum_register_blocks()
 
 	$custom_blocks = array(
 		'breadcrumbs',
-		'page-nav', 
+		'page-nav',
 		'carousel',
 		'carousel/carousel-item',
+
+		'blockquote-advanced',
+		'blockquote-advanced/blockquote-text',
+		'blockquote-advanced/blockquote-source',
 
 		// Deprecated in favor of 'chance-card' below — kept registered so
 		// existing post content keeps rendering. Do not use for new content;

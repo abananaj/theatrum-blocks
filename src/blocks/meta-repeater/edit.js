@@ -5,6 +5,7 @@ import {
 	SelectControl,
 	Spinner,
 	PanelBody,
+	BaseControl,
 	ComboboxControl,
 	__experimentalToolsPanel as ToolsPanel,
 	__experimentalToolsPanelItem as ToolsPanelItem,
@@ -29,13 +30,13 @@ const SUBFIELD_TAG_OPTIONS = [
 // the two are structurally paired (li only makes sense inside ul/ol; p
 // rows need a plain div around them, not another list).
 const ROW_STYLE_OPTIONS = [
+	{ label: 'Paragraph text', value: 'p' },
 	{ label: 'Unordered List', value: 'ul' },
 	{ label: 'Ordered List', value: 'ol' },
-	{ label: 'Paragraph text', value: 'p' },
 ];
 
 function resolveRowStyle(tagName) {
-	const rowStyle = ['ul', 'ol', 'p'].includes(tagName) ? tagName : 'ul';
+	const rowStyle = ['ul', 'ol', 'p'].includes(tagName) ? tagName : 'p';
 	const isParagraphRows = rowStyle === 'p';
 	return {
 		rowStyle,
@@ -203,10 +204,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 						options={ROW_STYLE_OPTIONS}
 						help="Sets the outer block tag and each row's tag together."
 					/>
-				</PanelBody>
-				<PanelBody title="Subfield A (inside each row)" initialOpen={true}>
+
+					<BaseControl.VisualLabel style={{ display: 'block', marginTop: '24px' }}>
+						Subfield A
+					</BaseControl.VisualLabel>
 					<TextControl
-						label="Subfield A Key"
+						label="Key"
 						value={attributes.subfieldA || ''}
 						onChange={(value) => setAttributes({ subfieldA: value })}
 						placeholder="e.g., text, name"
@@ -215,17 +218,19 @@ export default function Edit({ attributes, setAttributes, context }) {
 						__next40pxDefaultSize
 					/>
 					<SelectControl
-						label="Subfield A Tag"
+						label="Tag"
 						value={TagA}
 						onChange={(value) => setAttributes({ tagA: value })}
 						options={SUBFIELD_TAG_OPTIONS}
 						disabled={isParagraphRows}
 						help={isParagraphRows ? 'Locked to <span> while rows are <p> tags.' : undefined}
 					/>
-				</PanelBody>
-				<PanelBody title="Subfield B (inside each row)" initialOpen={false}>
+
+					<BaseControl.VisualLabel style={{ display: 'block', marginTop: '24px' }}>
+						Subfield B
+					</BaseControl.VisualLabel>
 					<TextControl
-						label="Subfield B Key"
+						label="Key"
 						value={attributes.subfieldB || ''}
 						onChange={(value) => setAttributes({ subfieldB: value })}
 						placeholder="e.g., url, title"
@@ -234,7 +239,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						__next40pxDefaultSize
 					/>
 					<SelectControl
-						label="Subfield B Tag"
+						label="Tag"
 						value={TagB}
 						onChange={(value) => setAttributes({ tagB: value })}
 						options={SUBFIELD_TAG_OPTIONS}

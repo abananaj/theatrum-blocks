@@ -10,7 +10,7 @@ $subfield_a   = isset($attributes['subfieldA']) ? sanitize_text_field($attribute
 $subfield_b   = isset($attributes['subfieldB']) ? sanitize_text_field($attributes['subfieldB']) : '';
 $tag_a        = isset($attributes['tagA']) ? sanitize_text_field($attributes['tagA']) : 'span';
 $tag_b        = isset($attributes['tagB']) ? sanitize_text_field($attributes['tagB']) : 'span';
-$row_style    = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'ul';
+$row_style    = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
 
 // Get post ID: explicit override > block context > current post
 $override_post_id = ! empty($attributes['overridePostId']) ? absint($attributes['overridePostId']) : 0;
@@ -41,7 +41,7 @@ if (empty($subfield_a) && empty($subfield_b)) {
 // together, since they're structurally paired: <li> only makes sense
 // inside <ul>/<ol>, and <p> rows need a plain <div> around them.
 if (! in_array($row_style, array('ul', 'ol', 'p'), true)) {
-  $row_style = 'ul';
+  $row_style = 'p';
 }
 
 $is_paragraph_rows = ($row_style === 'p');

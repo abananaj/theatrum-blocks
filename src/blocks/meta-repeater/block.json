@@ -57,7 +57,7 @@
 		},
 		"tagName": {
 			"type": "string",
-			"default": "ul"
+			"default": "p"
 		},
 		"subfieldA": {
 			"type": "string",

@@ -11,7 +11,7 @@
 	// Neutralize theme global button shadow/transform that bleed into the editor
 	// (the frontend button in style.scss has neither). Margin is intentionally
 	// left to style.scss so the 10px gap matches the frontend.
-	.cover-card .button {
+	.chance-card .button {
 		line-height: 1;
 		box-shadow: none;
 		transform: none !important;

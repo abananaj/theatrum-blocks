@@ -1,6 +1,70 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
+	'blockquote-advanced' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/blockquote-advanced',
+		'title' => 'Blockquote',
+		'category' => 'theatrum',
+		'icon' => 'format-quote',
+		'description' => 'A customizable blockquote with an optional cited source line.',
+		'textdomain' => 'theatrum-blocks',
+		'keywords' => array(
+			'quote',
+			'blockquote',
+			'citation',
+			'cite'
+		),
+		'attributes' => array(
+			'addCitation' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		),
+		'allowedBlocks' => array(
+			'chance/blockquote-text',
+			'chance/blockquote-source'
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true
+			)
+		),
+		'example' => array(
+			'innerBlocks' => array(
+				array(
+					'name' => 'chance/blockquote-text',
+					'attributes' => array(
+						'quoteText' => '<p>Words can be like X-rays, if you use them properly—they\'ll go through anything. You read and you\'re pierced.</p>'
+					)
+				),
+				array(
+					'name' => 'chance/blockquote-source',
+					'attributes' => array(
+						'sourceText' => '— Aldous Huxley, <cite class="theatrum-blockquote-cite">Brave New World</cite>'
+					)
+				)
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
+	),
 	'breadcrumbs' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1557,7 +1621,7 @@ return array(
 			),
 			'tagName' => array(
 				'type' => 'string',
-				'default' => 'ul'
+				'default' => 'p'
 			),
 			'subfieldA' => array(
 				'type' => 'string',
@@ -1823,7 +1887,7 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),
-	'popup' => array(
+	'Popup' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'chance/popup',
@@ -2810,6 +2874,79 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style.scss',
 		'editorStyle' => 'file:./editor.scss'
+	),
+	'blockquote-source' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/blockquote-source',
+		'title' => 'Source',
+		'category' => 'theatrum',
+		'icon' => 'admin-users',
+		'description' => 'The attributed source line for the quote, e.g. —Author, Work Title.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'chance/blockquote-advanced'
+		),
+		'attributes' => array(
+			'sourceText' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => 'p',
+				'default' => '— Author, <cite class="theatrum-blockquote-cite">Work Title</cite>',
+				'role' => 'content'
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'typography' => array(
+				'fontSize' => true
+			),
+			'color' => array(
+				'text' => true
+			)
+		),
+		'editorScript' => 'file:./index.js'
+	),
+	'blockquote-text' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'chance/blockquote-text',
+		'title' => 'Text',
+		'category' => 'theatrum',
+		'icon' => 'editor-quote',
+		'description' => 'The quoted text, with an optional source URL.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'chance/blockquote-advanced'
+		),
+		'attributes' => array(
+			'quoteText' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => 'blockquote',
+				'multiline' => 'p',
+				'role' => 'content'
+			),
+			'citeUrl' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true
+			),
+			'color' => array(
+				'text' => true
+			)
+		),
+		'editorScript' => 'file:./index.js'
 	),
 	'carousel-item' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

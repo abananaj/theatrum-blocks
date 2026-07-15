@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "chance/blockquote-source",
+  "title": "Source",
+  "category": "theatrum",
+  "icon": "admin-users",
+  "description": "The attributed source line for the quote, e.g. —Author, Work Title.",
+  "textdomain": "theatrum-blocks",
+  "parent": [
+    "chance/blockquote-advanced"
+  ],
+  "attributes": {
+    "sourceText": {
+      "type": "rich-text",
+      "source": "rich-text",
+      "selector": "p",
+      "default": "— Author, <cite class=\"theatrum-blockquote-cite\">Work Title</cite>",
+      "role": "content"
+    }
+  },
+  "supports": {
+    "html": false,
+    "reusable": false,
+    "anchor": true,
+    "typography": {
+      "fontSize": true
+    },
+    "color": {
+      "text": true
+    }
+  },
+  "editorScript": "file:./index.js"
+}

@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "chance/blockquote-advanced",
+	"title": "Blockquote",
+	"category": "theatrum",
+	"icon": "format-quote",
+	"description": "A customizable blockquote with an optional cited source line.",
+	"textdomain": "theatrum-blocks",
+	"keywords": ["quote", "blockquote", "citation", "cite"],
+	"attributes": {
+		"addCitation": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"allowedBlocks": ["chance/blockquote-text", "chance/blockquote-source"],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"anchor": true,
+		"className": true,
+		"customClassName": true,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
+		"color": {
+			"text": true,
+			"background": true
+		}
+	},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "chance/blockquote-text",
+				"attributes": {
+					"quoteText": "<p>Words can be like X-rays, if you use them properly—they'll go through anything. You read and you're pierced.</p>"
+				}
+			},
+			{
+				"name": "chance/blockquote-source",
+				"attributes": {
+					"sourceText": "— Aldous Huxley, <cite class=\"theatrum-blockquote-cite\">Brave New World</cite>"
+				}
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

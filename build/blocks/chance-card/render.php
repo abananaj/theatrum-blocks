@@ -58,8 +58,8 @@ $wrapper_classes = apply_filters('theatrum_chance_card_classes', $wrapper_classe
 $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', array_map('sanitize_html_class', $wrapper_classes))));
 ?>
 <div <?php echo wp_kses_data( $wrapper_attributes ); ?>>
-  <div class="cover-card">
-    <a class="cover-card__link" href="<?php echo esc_url($post_permalink); ?>" <?php echo $target; ?> aria-label="<?php echo esc_attr($post_title); ?>"></a>
+  <div class="chance-card">
+    <a class="chance-card__link" href="<?php echo esc_url($post_permalink); ?>" <?php echo $target; ?> aria-label="<?php echo esc_attr($post_title); ?>"></a>
     <div class="user-content" style="<?php echo esc_attr($bg_style); ?>"><?php echo do_blocks($content); ?></div>
     <div class="bottom-bar">
       <h4 class="dates"><?php
