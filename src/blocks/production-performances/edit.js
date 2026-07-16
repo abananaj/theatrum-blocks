@@ -10,7 +10,7 @@ export default function Edit( { attributes } ) {
 	return (
 		<div { ...blockProps }>
 			<ServerSideRender
-				block="chance/production-performances"
+				block="chance/performances-list"
 				attributes={ attributes }
 			/>
 		</div>

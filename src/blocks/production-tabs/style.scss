@@ -26,28 +26,26 @@ $ct-tabs-breakpoint: 768px;
 		font: inherit;
 		text-align: left;
 		cursor: pointer;
-		color: var(--ct-tab-header-color, inherit);
-		background-color: var(--ct-tab-header-bg, transparent);
+		// color: var(--ct-tab-header-color, inherit);
+		// background-color: var(--ct-tab-header-bg, transparent);
+		color: var(--ct-light, inherit);
+		background-color: var(--ct-dark, transparent);
 		transition: color 150ms ease, background-color 150ms ease,
 			border-color 150ms ease;
 
 		&:hover {
-			color: var(
-				--ct-tab-header-hover-color,
-				var(--ct-tab-header-color, inherit)
-			);
-			background-color: var(
-				--ct-tab-header-hover-bg,
-				var(--ct-tab-header-bg, transparent)
-			);
+			color: var(--ct-on-secondary, inherit);
+			background-color: var(--ct-secondary, inherit);
 		}
 
 		&.is-active {
-			@include mixins.tab-header-active-colors;
+			// @include mixins.tab-header-active-colors;
+			color: var(--ct-on-primary, inherit);
+			background-color: var(--ct-primary, inherit);
 			// Accent underline — defaults to the active header's own text
 			// color so it looks intentional without extra setup, but stays
 			// overridable per-tab via --ct-tab-header-accent.
-			border-bottom-color: var(--ct-tab-header-accent, currentColor);
+			// border-bottom-color: var(--ct-tab-header-accent, currentColor);
 		}
 	}
 
