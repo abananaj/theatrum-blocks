@@ -48,7 +48,11 @@ const TEMPLATE = [ [ 'core/paragraph', { placeholder: 'Header content' } ] ];
 
 const Edit = ( { attributes, setAttributes } ) => {
 	const { colspan, rowspan, scope, abbr, headers } = attributes;
-	const blockProps = useBlockProps( { className: 'tm-edit-th' } );
+	const columnWidth = attributes.style?.dimensions?.width;
+	const blockProps = useBlockProps( {
+		className: 'tm-edit-th',
+		'data-has-column-width': columnWidth ? '' : undefined,
+	} );
 
 	return (
 		<>

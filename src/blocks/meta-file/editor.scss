@@ -19,5 +19,15 @@
 			margin-right: 0.5em;
 			vertical-align: middle;
 		}
+
+		&.is-placeholder {
+			opacity: 0.55;
+			border: 1px dashed currentColor;
+			cursor: default;
+
+			&:hover {
+				background-color: transparent;
+			}
+		}
 	}
 }

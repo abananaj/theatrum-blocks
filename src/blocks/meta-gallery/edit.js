@@ -410,7 +410,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					</ul>
 				)}
 
-				{!isLoading && images.length === 0 && fallbackText && (
+				{!isLoading && images.length === 0 && metaKey && fallbackText && (
 					<div
 						style={{
 							textAlign: 'center',
@@ -422,7 +422,46 @@ export default function Edit({ attributes, setAttributes, context }) {
 					</div>
 				)}
 
-				{!isLoading && images.length === 0 && !fallbackText && (
+				{!isLoading && images.length === 0 && metaKey && !fallbackText && (
+					<ul className={galleryClasses} style={gridStyle}>
+						{Array.from({ length: numColumns }).map((_, idx) => (
+							<li
+								key={idx}
+								className="blocks-gallery-item is-placeholder"
+								style={{
+									flex: `1 1 ${flexBasis}`,
+									minWidth: 0,
+								}}
+							>
+								<figure
+									style={{
+										margin: 0,
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										position: 'relative',
+										maxWidth: '100%',
+										boxSizing: 'border-box',
+										overflow: 'hidden',
+										backgroundColor: '#f0f0f0',
+										border: '1px dashed #ccc',
+										aspectRatio:
+											aspectRatio && aspectRatio !== 'auto'
+												? aspectRatio
+												: '1',
+									}}
+								>
+									<span
+										className="dashicons dashicons-format-image"
+										style={{ color: '#ccc', fontSize: '2em', width: '1em', height: '1em' }}
+									/>
+								</figure>
+							</li>
+						))}
+					</ul>
+				)}
+
+				{!isLoading && images.length === 0 && !metaKey && (
 					<div
 						style={{
 							textAlign: 'center',
@@ -431,9 +470,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 							fontSize: '14px',
 						}}
 					>
-						{metaKey
-							? __('No images found')
-							: __('Enter a meta key to display images')}
+						{__('Enter a meta key to display images')}
 					</div>
 				)}
 			</figure>

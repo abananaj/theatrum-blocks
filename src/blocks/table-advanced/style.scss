@@ -1,7 +1,6 @@
 // ===== TABLE
 .editor-styles-wrapper .tm-edit-table, // editor
 .tm-table-advanced {
-	border-collapse: collapse;
 	table-layout: auto;
 	width: 100%;
 	&.table-layout-fixed {
@@ -13,7 +12,7 @@
 .tm-table-adv-title {
 	overflow: hidden;
 	caption-side: top;
-	padding: 0.5rem 1rem;
+	padding: 0.25rem 0.5rem;
 	text-align: center;
 	font-style: italic;
 }
@@ -45,22 +44,21 @@
 		> .block-editor-block-list__block {
 		flex: 1;
 		min-width: 0; // prevent text overflow breaking flex
+		// A header cell with an explicit width (set via its Dimensions
+		// panel) sizes to that width instead of sharing space equally, so
+		// the editor preview reflects the column width the same way
+		// table-layout: fixed does on the frontend.
+		&:has( > [data-has-column-width] ) {
+			flex: 0 0 auto;
+			min-width: auto;
+		}
 	}
 }
-// ===== TABLE ROW STYLE: Subsection Heading
-.editor-styles-wrapper .tm-edit-tr.is-style-subsection-heading, // editor
-.tm-table-row.is-style-subsection-heading {
-	background-color: var(--ct-dark, transparent);
-	color: var(--ct-light, inherit);
-}
-
 // ===== TABLE HEADING CELLS
 .tm-edit-th,
 .tm-table-heading-cell {
 	font-size:1em;
 	width: 100%;
-	padding: var(--wp--preset--spacing--20);
-	font-family: var(--wp--preset--font-family--heading);
 	// Keep native table-cell display so the frontend <th> aligns in columns.
 	// (Do NOT use display:flex here — it breaks the browser table layout.)
 	vertical-align: middle;
@@ -73,31 +71,21 @@
 }
 //===== TABLE BODY CELLS
 .tm-edit-td,
-.tm-table-cell { 
-	
+.tm-table-cell {
+
 	font-size:1em;
-	border: 1px solid var(--wp--preset--color--lightest-grey);
-	padding: var(--wp--preset--spacing--20);
 	// Keep native table-cell display so the frontend <td> aligns in columns.
 	// (Do NOT use display:flex here — it breaks the browser table layout.)
 	vertical-align: middle;
 	.wp-block-paragraph {
 		width: 100%;
-		// font-size: 1rem;
+		font-size: 1em;
 		margin-top: 0;
 		text-align: center;
-		font-weight: 300;
-		line-height: 1;
+		line-height: 1.3;
 		text-wrap: balance;
 	}
 }
-// ===== TABLE BODY
-.tm-table-body {
-	> .tm-table-row:nth-of-type(even) {
-		background-color: var(--wp--preset--color--lightest-grey);
-	}
-}
-
 .horizontal-scroll {
 	overflow-x: auto;
 	overflow-y: hidden;
@@ -110,13 +98,4 @@
 	overflow-y: auto;
 	white-space: nowrap;
 	-webkit-overflow-scrolling: touch;
-}
-.tm-table-footer {
-	background-color: var(--wp--preset--color--lightest-grey);
-	.tm-table-heading-cell {
-		text-align: right;
-	}
-	.tm-table-cell {
-		font-weight: bold;
-	}
 }

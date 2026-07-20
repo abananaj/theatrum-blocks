@@ -108,7 +108,7 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 						label="Fixed column widths"
 						help={
 							tableLayoutFixed
-								? 'Columns use fixed widths (table-layout: fixed).'
+								? 'Columns use fixed widths (table-layout: fixed). Set a Width on each header cell (Dimensions panel) to size its column.'
 								: 'Columns size to content (table-layout: auto).'
 						}
 						checked={ tableLayoutFixed }

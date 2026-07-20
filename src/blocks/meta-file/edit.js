@@ -86,11 +86,6 @@ export default function Edit({ attributes, setAttributes, context }) {
             target="_blank"
             rel="noopener noreferrer"
             className="wp-block-chance-meta-file-link"
-            style={{
-              color: 'var(--wp--preset--color--primary, #0073aa)',
-              textDecoration: 'underline',
-              cursor: 'pointer'
-            }}
           >
             {attributes.showIcon && (
               <span
@@ -107,14 +102,35 @@ export default function Edit({ attributes, setAttributes, context }) {
             {attributes.linkText || 'Open File'}
           </a>
         )}
-        {!isLoading && !fileData && attributes.fallbackText && (
+        {!isLoading && !fileData && attributes.keyInput && attributes.fallbackText && (
           <div style={{ textAlign: 'center', color: '#666', padding: '20px' }}>
             {attributes.fallbackText}
           </div>
         )}
-        {!isLoading && !fileData && !attributes.fallbackText && (
+        {!isLoading && !fileData && attributes.keyInput && !attributes.fallbackText && (
+          <a
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            className="wp-block-chance-meta-file-link is-placeholder"
+          >
+            {attributes.showIcon && (
+              <span
+                className="dashicons dashicons-media-document"
+                style={{
+                  marginRight: '0.5em',
+                  verticalAlign: 'middle',
+                  fontSize: '1em',
+                  width: '1em',
+                  height: '1em'
+                }}
+              />
+            )}
+            {attributes.linkText || 'Open File'}
+          </a>
+        )}
+        {!isLoading && !fileData && !attributes.keyInput && (
           <div style={{ textAlign: 'center', color: '#ccc', padding: '20px', fontSize: '14px' }}>
-            No value found.
+            Enter a meta key to display a file link
           </div>
         )}
       </div>
