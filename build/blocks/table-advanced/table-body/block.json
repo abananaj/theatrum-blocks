@@ -107,6 +107,5 @@
   "selectors": {
     "root": ".tm-table-advanced .tm-table-body"
   },
-  "editorScript": "file:./index.js",
-  "style": "file:./style-index.css"
+  "editorScript": "file:./index.js"
 }

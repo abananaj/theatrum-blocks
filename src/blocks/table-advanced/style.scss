@@ -1,8 +1,122 @@
+// ===== TABLE
+.editor-styles-wrapper .tm-edit-table, // editor
 .tm-table-advanced {
 	border-collapse: collapse;
 	table-layout: auto;
 	width: 100%;
 	&.table-layout-fixed {
 		table-layout: fixed;
+	}
+}
+// ===== TABLE CAPTION (Title)
+.editor-styles-wrapper .tm-edit-caption, // editor
+.tm-table-adv-title {
+	overflow: hidden;
+	caption-side: top;
+	padding: 0.5rem 1rem;
+	text-align: center;
+	font-style: italic;
+}
+
+// ===== TABLE ROWS
+.tm-table-row {
+	margin-top: 0;
+}
+.editor-styles-wrapper .tm-edit-tr, // editor
+.editor-styles-wrapper .tm-edit-tr > .block-editor-inner-blocks, // editor
+.editor-styles-wrapper .tm-edit-tr > .block-editor-inner-blocks	> .block-editor-block-list__layout {
+	display: flex;
+	width: 100%;
+}
+.editor-styles-wrapper .tm-edit-tr {
+	// Remove default InnerBlocks padding so cells butt up against borders
+	> .block-editor-inner-blocks {
+		padding: 0;
+	}
+	// Keep the block appender (+ button) from acting like a cell column
+	> .block-editor-inner-blocks
+		> .block-editor-block-list__layout
+		> .block-list-appender {
+		flex: 0 0 auto;
+	}
+	// Each per-block wrapper around a cell becomes an equal-width flex column
+	> .block-editor-inner-blocks
+		> .block-editor-block-list__layout
+		> .block-editor-block-list__block {
+		flex: 1;
+		min-width: 0; // prevent text overflow breaking flex
+	}
+}
+// ===== TABLE ROW STYLE: Subsection Heading
+.editor-styles-wrapper .tm-edit-tr.is-style-subsection-heading, // editor
+.tm-table-row.is-style-subsection-heading {
+	background-color: var(--ct-dark, transparent);
+	color: var(--ct-light, inherit);
+}
+
+// ===== TABLE HEADING CELLS
+.tm-edit-th,
+.tm-table-heading-cell {
+	font-size:1em;
+	width: 100%;
+	padding: var(--wp--preset--spacing--20);
+	font-family: var(--wp--preset--font-family--heading);
+	// Keep native table-cell display so the frontend <th> aligns in columns.
+	// (Do NOT use display:flex here — it breaks the browser table layout.)
+	vertical-align: middle;
+	.wp-block-paragraph {
+		width: 100%;
+		margin: 0.5rem 0;
+		line-height: 1.2;
+		text-wrap: balance;
+	}
+}
+//===== TABLE BODY CELLS
+.tm-edit-td,
+.tm-table-cell { 
+	
+	font-size:1em;
+	border: 1px solid var(--wp--preset--color--lightest-grey);
+	padding: var(--wp--preset--spacing--20);
+	// Keep native table-cell display so the frontend <td> aligns in columns.
+	// (Do NOT use display:flex here — it breaks the browser table layout.)
+	vertical-align: middle;
+	.wp-block-paragraph {
+		width: 100%;
+		// font-size: 1rem;
+		margin-top: 0;
+		text-align: center;
+		font-weight: 300;
+		line-height: 1;
+		text-wrap: balance;
+	}
+}
+// ===== TABLE BODY
+.tm-table-body {
+	> .tm-table-row:nth-of-type(even) {
+		background-color: var(--wp--preset--color--lightest-grey);
+	}
+}
+
+.horizontal-scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	-webkit-overflow-scrolling: touch;
+}
+
+.vertical-scroll {
+	overflow-x: hidden;
+	overflow-y: auto;
+	white-space: nowrap;
+	-webkit-overflow-scrolling: touch;
+}
+.tm-table-footer {
+	background-color: var(--wp--preset--color--lightest-grey);
+	.tm-table-heading-cell {
+		text-align: right;
+	}
+	.tm-table-cell {
+		font-weight: bold;
 	}
 }

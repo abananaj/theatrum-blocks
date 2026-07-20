@@ -2616,7 +2616,6 @@ return array(
 			'columns'
 		),
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
 	'table-of-contents' => array(
@@ -3508,8 +3507,7 @@ return array(
 		'selectors' => array(
 			'root' => '.tm-table-advanced .tm-table-body'
 		),
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'editorScript' => 'file:./index.js'
 	),
 	'table-caption' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3602,8 +3600,7 @@ return array(
 		'selectors' => array(
 			'root' => '.tm-table-advanced .tm-table-adv-title'
 		),
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'editorScript' => 'file:./index.js'
 	),
 	'table-cell' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3713,8 +3710,7 @@ return array(
 		'selectors' => array(
 			'root' => '.tm-table-advanced .tm-table-cell'
 		),
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'editorScript' => 'file:./index.js'
 	),
 	'table-footer' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3822,8 +3818,7 @@ return array(
 		'selectors' => array(
 			'root' => '.tm-table-advanced .tm-table-footer'
 		),
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'editorScript' => 'file:./index.js'
 	),
 	'table-header' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3906,8 +3901,7 @@ return array(
 		'selectors' => array(
 			'root' => '.tm-table-advanced .tm-table-header'
 		),
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'editorScript' => 'file:./index.js'
 	),
 	'table-heading-cell' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4023,8 +4017,7 @@ return array(
 		'selectors' => array(
 			'root' => '.tm-table-advanced .tm-table-heading-cell'
 		),
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'editorScript' => 'file:./index.js'
 	),
 	'table-row' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4140,7 +4133,17 @@ return array(
 		'selectors' => array(
 			'root' => '.tm-table-advanced .tm-table-row'
 		),
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'styles' => array(
+			array(
+				'name' => 'default',
+				'label' => 'Default',
+				'isDefault' => true
+			),
+			array(
+				'name' => 'subsection-heading',
+				'label' => 'Subsection Heading'
+			)
+		),
+		'editorScript' => 'file:./index.js'
 	)
 );
