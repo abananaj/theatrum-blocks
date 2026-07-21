@@ -28,3 +28,7 @@ section[id] {
 		scroll-behavior: smooth;
 	}
 }
+.wp-block-button__link .wp-element-button,
+.wp-block-button .theatrum-page-nav__item {
+	background: var( --ct-primary );
+}
