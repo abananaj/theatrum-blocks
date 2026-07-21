@@ -19,7 +19,11 @@ if ($time_format === 'custom') {
   $format = $time_format;
 }
 
-$tag = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
+$tag = theatrum_sanitize_tag(
+  $attributes['tagName'] ?? 'p',
+  array('p', 'span', 'time', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
+  'p'
+);
 
 // Get post ID from context or current post
 $post_id = isset($block->context['postId']) ? $block->context['postId'] : get_the_ID();
@@ -34,7 +38,7 @@ $value = get_post_meta($post_id, $key, true);
 if (empty($value)) {
   printf(
     '<%1$s %2$s>[%3$s]</%1$s>',
-    tag_escape($tag),
+    $tag,
     wp_kses_data( get_block_wrapper_attributes() ),
     esc_html($key)
   );
@@ -54,7 +58,7 @@ $display_value = $prepend . $display_value . $append;
 
 printf(
   '<%1$s %2$s>%3$s</%1$s>',
-  tag_escape($tag),
+  $tag,
   get_block_wrapper_attributes(),
   esc_html($display_value)
 );

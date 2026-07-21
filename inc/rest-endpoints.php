@@ -560,24 +560,19 @@ function theatrum_get_meta_icon_rest_callback($request)
 	return new WP_REST_Response(['type' => '', 'value' => '', 'url' => ''], 200);
 }
 
-/* -----------------------------------------------------------------------
- * Board Member
- * -------------------------------------------------------------------- */
-
-function register_board_member_rest_endpoint()
+/**
+ * Shared resolver for the board-member/staff-member option-name REST
+ * endpoints. Both look up an allowlisted wp_options value and resolve it to
+ * either a single display value or a list of linked posts; they differ only
+ * in which "options_<group>_"/"option_<group>_" prefix gets stripped when
+ * deriving a human-readable label from the raw option name.
+ *
+ * @param string $option_name
+ * @param string $group 'board' or 'staff'
+ * @return WP_REST_Response
+ */
+function theatrum_get_person_option_rest_response($option_name, $group)
 {
-	register_rest_route('chance/v1', '/board-member/(?P<option_name>[a-zA-Z0-9_-]+)', array(
-		'methods'             => 'GET',
-		'callback'            => 'get_board_member_rest_callback',
-		'permission_callback' => 'theatrum_editor_permission_check',
-	));
-}
-add_action('rest_api_init', 'register_board_member_rest_endpoint');
-
-function get_board_member_rest_callback($request)
-{
-	$option_name = sanitize_text_field($request['option_name']);
-
 	if (! theatrum_is_allowed_settings_option($option_name)) {
 		return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
 	}
@@ -606,11 +601,13 @@ function get_board_member_rest_callback($request)
 	}
 
 	if (empty($pretty_option_name)) {
-		$pretty_option_name = $option_name;
-		if (strpos($pretty_option_name, 'options_board_') === 0) {
-			$pretty_option_name = substr($pretty_option_name, 14);
-		} elseif (strpos($pretty_option_name, 'option_board_') === 0) {
-			$pretty_option_name = substr($pretty_option_name, 13);
+		$pretty_option_name   = $option_name;
+		$group_options_prefix = 'options_' . $group . '_';
+		$group_option_prefix  = 'option_' . $group . '_';
+		if (strpos($pretty_option_name, $group_options_prefix) === 0) {
+			$pretty_option_name = substr($pretty_option_name, strlen($group_options_prefix));
+		} elseif (strpos($pretty_option_name, $group_option_prefix) === 0) {
+			$pretty_option_name = substr($pretty_option_name, strlen($group_option_prefix));
 		} elseif (strpos($pretty_option_name, 'options_') === 0) {
 			$pretty_option_name = substr($pretty_option_name, 8);
 		} elseif (strpos($pretty_option_name, 'option_') === 0) {
@@ -673,6 +670,25 @@ function get_board_member_rest_callback($request)
 	}
 
 	return new WP_REST_Response(array('value' => $value, 'items' => array()), 200);
+}
+
+/* -----------------------------------------------------------------------
+ * Board Member
+ * -------------------------------------------------------------------- */
+
+function register_board_member_rest_endpoint()
+{
+	register_rest_route('chance/v1', '/board-member/(?P<option_name>[a-zA-Z0-9_-]+)', array(
+		'methods'             => 'GET',
+		'callback'            => 'get_board_member_rest_callback',
+		'permission_callback' => 'theatrum_editor_permission_check',
+	));
+}
+add_action('rest_api_init', 'register_board_member_rest_endpoint');
+
+function get_board_member_rest_callback($request)
+{
+	return theatrum_get_person_option_rest_response(sanitize_text_field($request['option_name']), 'board');
 }
 
 /* -----------------------------------------------------------------------
@@ -773,103 +789,7 @@ add_action('rest_api_init', 'register_staff_member_rest_endpoint');
 
 function get_staff_member_rest_callback($request)
 {
-	$option_name = sanitize_text_field($request['option_name']);
-
-	if (! theatrum_is_allowed_settings_option($option_name)) {
-		return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
-	}
-
-	$value       = get_option($option_name);
-
-	if ($value === false) {
-		return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
-	}
-
-	if (is_string($value) && is_serialized($value)) {
-		$unserialized = unserialize($value, ['allowed_classes' => false]);
-		if ($unserialized !== false) {
-			$value = $unserialized;
-		}
-	}
-
-	$pretty_option_name = '';
-	$field_key          = get_option('_' . $option_name);
-
-	if ($field_key && function_exists('acf_get_field')) {
-		$field = acf_get_field($field_key);
-		if ($field && isset($field['label'])) {
-			$pretty_option_name = $field['label'];
-		}
-	}
-
-	if (empty($pretty_option_name)) {
-		$pretty_option_name = $option_name;
-		if (strpos($pretty_option_name, 'options_staff_') === 0) {
-			$pretty_option_name = substr($pretty_option_name, 14);
-		} elseif (strpos($pretty_option_name, 'option_staff_') === 0) {
-			$pretty_option_name = substr($pretty_option_name, 13);
-		} elseif (strpos($pretty_option_name, 'options_') === 0) {
-			$pretty_option_name = substr($pretty_option_name, 8);
-		} elseif (strpos($pretty_option_name, 'option_') === 0) {
-			$pretty_option_name = substr($pretty_option_name, 7);
-		}
-		$pretty_option_name = ucwords(str_replace('_', ' ', $pretty_option_name));
-	}
-
-	if (is_array($value)) {
-		$post_ids = array_filter($value, function ($id) {
-			return is_numeric($id) && !empty($id);
-		});
-
-		if (!empty($post_ids) && count($post_ids) === count($value)) {
-			$items = array();
-			foreach ($post_ids as $post_id) {
-				$post_id         = (int) $post_id;
-				$post_title      = get_the_title($post_id);
-				$post_url        = get_permalink($post_id);
-				$post_meta_title = get_post_meta($post_id, 'title', true);
-
-				if (!empty($post_title)) {
-					$items[] = array(
-						'title'      => theatrum_decode_entities($post_title),
-						'url'        => $post_url,
-						'meta_title' => theatrum_decode_entities($post_meta_title),
-						'position'   => $pretty_option_name,
-					);
-				}
-			}
-			return new WP_REST_Response(array('value' => '', 'items' => $items), 200);
-		} else {
-			$value = json_encode($value);
-		}
-	} elseif (is_object($value)) {
-		$value = json_encode($value);
-	}
-
-	if (is_string($value)) {
-		// Check if it's a single numeric post ID
-		if (is_numeric($value) && !empty($value)) {
-			$post_id = (int) $value;
-			$post_title = get_the_title($post_id);
-			$post_url = get_permalink($post_id);
-			$post_meta_title = get_post_meta($post_id, 'title', true);
-
-			if (!empty($post_title)) {
-				return new WP_REST_Response(array(
-					'value' => '',
-					'items' => array(array(
-						'title' => theatrum_decode_entities($post_title),
-						'url' => $post_url,
-						'meta_title' => theatrum_decode_entities($post_meta_title),
-						'position' => $pretty_option_name,
-					))
-				), 200);
-			}
-		}
-		$value = theatrum_decode_entities($value);
-	}
-
-	return new WP_REST_Response(array('value' => $value, 'items' => array()), 200);
+	return theatrum_get_person_option_rest_response(sanitize_text_field($request['option_name']), 'staff');
 }
 
 /* -----------------------------------------------------------------------

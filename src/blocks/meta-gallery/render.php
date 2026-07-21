@@ -28,7 +28,7 @@ if (!$meta_key) {
 }
 
 // Get the raw ACF/meta value
-$value = get_field($meta_key, $post_id);
+$value = function_exists('get_field') ? get_field($meta_key, $post_id) : null;
 if ($value === null || $value === false || $value === '') {
   $value = get_post_meta($post_id, $meta_key, true);
 }
