@@ -40,6 +40,10 @@
 		order: 1; // active panel drops below the header strip
 		width: 100%;
 		// Baseline rule separating the header strip from the content below it.
-		border-top: 1px solid var(--wp--preset--color--lightest-grey, #ccc);
+		// `lightest-grey` is not a palette slug in the active theme, so this
+		// always resolved to the #ccc fallback. Kept as a literal: a hairline
+		// separator is block chrome, not a brand colour, and the theme has no
+		// mid-grey token to point at.
+		border-top: 1px solid #ccc;
 	}
 }

@@ -148,13 +148,15 @@
 	}
 }
 
+// See chance-card/style.scss — `redorange` / `gray` are not palette slugs, so
+// both declarations were dropped. Same treatment applied here.
 .cover-card-error {
-	color: var(--wp--preset--color--redorange);
+	color: var(--wp--preset--color--red-orange, #db4d00);
 	font-style: italic;
 }
 
 .cover-card-placeholder {
-	color: var(--wp--preset--color--gray);
+	color: #767676;
 
 	font-style: italic;
 }

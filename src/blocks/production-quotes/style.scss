@@ -13,7 +13,11 @@
 }
 
 .wp-block-chance-production-quotes .wp-block-quote {
-	border-left: 2px solid var(--wp--preset--color--main, #000);
+	// `main` was a parent-theme (Ollie) palette slug; our palette fully
+	// replaces the parent's, so this always resolved to the #000 fallback
+	// instead of a brand colour. --ct-primary is the equivalent token and
+	// re-points inside a nomenclature context.
+	border-left: 2px solid var(--ct-primary, #000);
   padding: 0 var(--wp--preset--spacing--40);
   margin: 0.5rem 0;
   max-width: 45ch;

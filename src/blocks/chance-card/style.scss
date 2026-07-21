@@ -133,13 +133,19 @@
 	}
 }
 
+// `redorange` and `gray` are not palette slugs in the active theme (the slug
+// is `red-orange`, and there is no grey entry at all), so both declarations
+// were dropped and these states rendered in the inherited body colour.
+// Fallbacks added so the block still reads correctly outside this theme.
 .chance-card-error {
-	color: var(--wp--preset--color--redorange);
+	color: var(--wp--preset--color--red-orange, #db4d00);
 	font-style: italic;
 }
 
 .chance-card-placeholder {
-	color: var(--wp--preset--color--gray);
+	// Editor affordance rather than a brand colour — a neutral grey that
+	// clears WCAG AA on white is more appropriate than a palette entry.
+	color: #767676;
 
 	font-style: italic;
 }
