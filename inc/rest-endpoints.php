@@ -12,11 +12,32 @@ if (! defined('ABSPATH')) {
 /**
  * Permission callback for editor-level REST endpoints.
  *
- * @return bool True if current user can edit posts.
+ * Baseline requires edit_posts. Routes that carry a post_id or term_id URL
+ * param are further scoped to that specific object, so a Contributor can't
+ * pull meta for posts/terms they don't have access to by changing the ID.
+ *
+ * @param WP_REST_Request|null $request
+ * @return bool True if the current user can access this specific request.
  */
-function theatrum_editor_permission_check()
+function theatrum_editor_permission_check($request = null)
 {
-	return current_user_can('edit_posts');
+	if (! current_user_can('edit_posts')) {
+		return false;
+	}
+
+	if ($request instanceof WP_REST_Request) {
+		$post_id = $request->get_param('post_id');
+		if ($post_id !== null) {
+			return current_user_can('edit_post', intval($post_id));
+		}
+
+		$term_id = $request->get_param('term_id');
+		if ($term_id !== null) {
+			return current_user_can('edit_term', intval($term_id));
+		}
+	}
+
+	return true;
 }
 
 /* -----------------------------------------------------------------------
