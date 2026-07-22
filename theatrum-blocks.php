@@ -21,6 +21,7 @@ if (! defined('ABSPATH')) {
 require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/rest-endpoints.php';
 require_once __DIR__ . '/inc/block-bindings.php';
+require_once __DIR__ . '/inc/query-filter.php';
 
 /**
  * Registers the blocks using block.json files.
@@ -113,7 +114,6 @@ function theatrum_register_blocks()
 		'production-tabs/tab-content',
 
 		'query-filter',
-		// fuck this for now, i want it to work tlike the elementor block does of the same name does, but later
 		'query-loop',
 		// change production icon to masks
 		// change venue icon to building

@@ -1,14 +1,41 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 import {
 	PanelBody,
 	SelectControl,
 	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 
 import metadata from './block.json';
+
+/**
+ * Recursively collects every core/query block in the editor's block tree,
+ * along with the queryId WordPress assigned it and its post type (for a
+ * human-readable label). Query Loop blocks don't expose their queryId
+ * anywhere in the UI, so this is the only way an editor can tell them apart
+ * when a page has more than one.
+ *
+ * @param {Array} blocks Block list from getBlocks()/innerBlocks.
+ * @return {Array<{queryId: number, postType: string}>}
+ */
+function findQueryLoops( blocks ) {
+	let found = [];
+	for ( const block of blocks ) {
+		if ( block.name === 'core/query' ) {
+			found.push( {
+				queryId: block.attributes?.queryId ?? 0,
+				postType: block.attributes?.query?.postType ?? 'post',
+			} );
+		}
+		if ( block.innerBlocks?.length ) {
+			found = found.concat( findQueryLoops( block.innerBlocks ) );
+		}
+	}
+	return found;
+}
 
 const TAXONOMY_OPTIONS = [
 	{ label: __( 'Season', 'theatrum-blocks' ), value: 'season' },
@@ -30,6 +57,7 @@ const TAXONOMY_LABEL_MAP = {
 
 function Edit( { attributes, setAttributes } ) {
 	const {
+		queryId,
 		filterType,
 		taxonomy,
 		paramName,
@@ -42,6 +70,12 @@ function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
 		className: `query-filter query-filter--${ layout }`,
 	} );
+
+	const queryLoops = useSelect(
+		( select ) =>
+			findQueryLoops( select( 'core/block-editor' ).getBlocks() ),
+		[]
+	);
 
 	function handleFilterTypeChange( value ) {
 		setAttributes( { filterType: value } );
@@ -59,6 +93,46 @@ function Edit( { attributes, setAttributes } ) {
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Filter Settings', 'theatrum-blocks' ) }>
+					<SelectControl
+						label={ __( 'Target Query Loop', 'theatrum-blocks' ) }
+						value={ String( queryId ) }
+						options={ [
+							{
+								label: __(
+									'None selected',
+									'theatrum-blocks'
+								),
+								value: '0',
+							},
+							...queryLoops.map( ( q ) => ( {
+								label: sprintf(
+									/* translators: 1: post type, 2: query ID */
+									__(
+										'%1$s — Query ID %2$d',
+										'theatrum-blocks'
+									),
+									q.postType,
+									q.queryId
+								),
+								value: String( q.queryId ),
+							} ) ),
+						] }
+						onChange={ ( value ) =>
+							setAttributes( { queryId: Number( value ) } )
+						}
+						help={
+							queryLoops.length === 0
+								? __(
+										'No Query Loop blocks found on this page yet.',
+										'theatrum-blocks'
+								  )
+								: __(
+										'Which Query Loop this filter controls. Required when a page has more than one Query Loop.',
+										'theatrum-blocks'
+								  )
+						}
+					/>
+
 					<SelectControl
 						label={ __( 'Filter Type', 'theatrum-blocks' ) }
 						value={ filterType }

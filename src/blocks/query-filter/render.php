@@ -8,6 +8,7 @@
  * @param WP_Block $block      Block instance.
  */
 
+$query_id     = absint($attributes['queryId'] ?? 0);
 $filter_type  = $attributes['filterType'] ?? 'taxonomy';
 $taxonomy     = $attributes['taxonomy'] ?? 'season';
 $param_name   = $attributes['paramName'] ?? 'season';
@@ -16,11 +17,20 @@ $show_label   = (bool) ($attributes['showLabel'] ?? true);
 $all_label    = $attributes['allLabel'] ?? 'All';
 $layout       = $attributes['layout'] ?? 'horizontal';
 
-// Read the current active value from URL params (sanitized). The orderby
-// mode always submits as `?orderby=`, independent of $param_name — see the
-// hardcoded select name below.
-$current_value_param = ('orderby' === $filter_type) ? 'orderby' : $param_name;
-$current_value = isset($_GET[$current_value_param]) ? sanitize_text_field(wp_unslash($_GET[$current_value_param])) : '';
+// GET params are namespaced by queryId (`season-q23`) so more than one
+// Query Loop + filter pair can coexist on the same page without their URL
+// params colliding. theatrum_apply_query_filter() in inc/query-filter.php
+// reads this same namespaced key to know which value to apply — the two
+// must stay in sync. Without a target Query Loop selected (queryId 0) the
+// field falls back to the bare param name, matching the old global behavior.
+// The orderby mode always submits under its own field, independent of
+// $param_name — see the hardcoded select name below.
+$field_name = $query_id
+  ? (('orderby' === $filter_type) ? "orderby-q{$query_id}" : "{$param_name}-q{$query_id}")
+  : (('orderby' === $filter_type) ? 'orderby' : $param_name);
+
+// Read the current active value from URL params (sanitized).
+$current_value = isset($_GET[$field_name]) ? sanitize_text_field(wp_unslash($_GET[$field_name])) : '';
 
 // Build the form action URL (path only, no query string).
 $action_url = strtok(isset($_SERVER['REQUEST_URI']) ? esc_url_raw($_SERVER['REQUEST_URI']) : '/', '?');
@@ -41,8 +51,10 @@ if ('taxonomy' === $filter_type) {
 }
 
 // Collect other active GET params to preserve when this form is submitted without JS.
+// Skips both the namespaced field name and its bare form, so switching a
+// block's Target Query Loop doesn't leave a stale duplicate param behind.
 $preserved_params = [];
-$skip_params      = ['paged', 'page', $param_name];
+$skip_params      = ['paged', 'page', $field_name, $param_name, 'orderby'];
 foreach ($_GET as $key => $value) {
   $key = sanitize_key($key);
   if (in_array($key, $skip_params, true) || !is_string($value)) {
@@ -51,8 +63,10 @@ foreach ($_GET as $key => $value) {
   $preserved_params[$key] = sanitize_text_field(wp_unslash($value));
 }
 
-// Interactivity API per-block context.
-$context = wp_interactivity_data_wp_context(['paramName' => $param_name]);
+// Interactivity API per-block context. view.js is queryId-agnostic — it just
+// writes whatever param name it's given — so handing it the already-namespaced
+// $field_name is all that's needed to scope client-side updates too.
+$context = wp_interactivity_data_wp_context(['paramName' => $field_name]);
 
 $wrapper_attributes = get_block_wrapper_attributes([
   'class'                => 'query-filter query-filter--' . esc_attr($layout),
@@ -72,7 +86,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
 
     <?php if ('taxonomy' === $filter_type) : ?>
       <select
-        name="<?php echo esc_attr($param_name); ?>"
+        name="<?php echo esc_attr($field_name); ?>"
         class="query-filter__select"
         data-wp-on--change="actions.updateFilter"
         aria-label="<?php echo esc_attr($label); ?>">
@@ -88,7 +102,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
 
     <?php elseif ('orderby' === $filter_type) : ?>
       <select
-        name="orderby"
+        name="<?php echo esc_attr($field_name); ?>"
         class="query-filter__select"
         data-wp-on--change="actions.updateFilter"
         aria-label="<?php echo esc_attr($label); ?>">

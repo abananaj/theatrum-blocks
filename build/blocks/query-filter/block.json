@@ -24,6 +24,10 @@
     }
   },
   "attributes": {
+    "queryId": {
+      "type": "number",
+      "default": 0
+    },
     "filterType": {
       "type": "string",
       "default": "taxonomy",

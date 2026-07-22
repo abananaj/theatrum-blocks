@@ -2211,6 +2211,10 @@ return array(
 			)
 		),
 		'attributes' => array(
+			'queryId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
 			'filterType' => array(
 				'type' => 'string',
 				'default' => 'taxonomy',

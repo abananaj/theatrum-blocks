@@ -1,0 +1,152 @@
+<?php
+
+/**
+ * Applies chance/query-filter blocks to the specific Query Loop they target.
+ *
+ * The filter block only stores which taxonomy/order to filter by and which
+ * Query Loop's queryId it targets — it doesn't touch WP_Query itself. This
+ * file is the other half: it reads the namespaced GET param (`{param}-q{id}`,
+ * see render.php) and, when a Query Loop with a matching queryId renders,
+ * folds the filter into its query args via `query_loop_block_query_vars`.
+ *
+ * Scoped to filter blocks living in the same post as the Query Loop being
+ * rendered — the common case (filter controls placed alongside their Query
+ * Loop on one page). A filter block targeting a Query Loop in a different
+ * template part/pattern won't be found by this lookup.
+ */
+
+/**
+ * Recursively collects every block of a given name from a parsed block tree.
+ *
+ * @param array  $blocks Parsed blocks (from parse_blocks()).
+ * @param string $name   Block name to match, e.g. 'chance/query-filter'.
+ * @return array Matching blocks, each with its 'attrs'.
+ */
+function theatrum_find_blocks_by_name(array $blocks, string $name): array {
+  $found = [];
+
+  foreach ($blocks as $block) {
+    if (($block['blockName'] ?? '') === $name) {
+      $found[] = $block;
+    }
+    if (!empty($block['innerBlocks'])) {
+      $found = array_merge($found, theatrum_find_blocks_by_name($block['innerBlocks'], $name));
+    }
+  }
+
+  return $found;
+}
+
+/**
+ * All chance/query-filter blocks in the post currently being rendered.
+ * Cached per-request since a page can render several Query Loops.
+ *
+ * @return array
+ */
+function theatrum_query_filter_blocks_in_current_post(): array {
+  static $cache = null;
+
+  if ($cache !== null) {
+    return $cache;
+  }
+
+  $post_id = get_queried_object_id() ?: get_the_ID();
+  $content = $post_id ? get_post_field('post_content', $post_id) : '';
+
+  $cache = $content ? theatrum_find_blocks_by_name(parse_blocks($content), 'chance/query-filter') : [];
+
+  return $cache;
+}
+
+/**
+ * Builds the namespaced GET field name a query-filter block submits under.
+ * Mirrors the same computation in render.php — the two must stay in sync.
+ *
+ * @param array $attrs    The chance/query-filter block's attrs.
+ * @param int   $query_id The Query Loop's queryId (already known non-zero by the caller).
+ * @return string
+ */
+function theatrum_query_filter_field_name(array $attrs, int $query_id): string {
+  $filter_type = $attrs['filterType'] ?? 'taxonomy';
+  $param_name  = $attrs['paramName'] ?? 'season';
+
+  return ('orderby' === $filter_type) ? "orderby-q{$query_id}" : "{$param_name}-q{$query_id}";
+}
+
+/**
+ * Folds one query-filter block's GET value into a Query Loop's args.
+ *
+ * @param array $query    WP_Query args being built for the Query Loop.
+ * @param array $attrs    The chance/query-filter block's attrs.
+ * @param int   $query_id The Query Loop's queryId.
+ * @return array
+ */
+function theatrum_apply_query_filter(array $query, array $attrs, int $query_id): array {
+  $field_name = theatrum_query_filter_field_name($attrs, $query_id);
+
+  if (!isset($_GET[$field_name])) {
+    return $query;
+  }
+
+  $value = sanitize_text_field(wp_unslash($_GET[$field_name]));
+  if ('' === $value) {
+    return $query;
+  }
+
+  $filter_type = $attrs['filterType'] ?? 'taxonomy';
+
+  if ('orderby' === $filter_type) {
+    switch ($value) {
+      case 'date-asc':
+        $query['orderby'] = 'date';
+        $query['order']   = 'ASC';
+        break;
+      case 'title':
+        $query['orderby'] = 'title';
+        $query['order']   = 'ASC';
+        break;
+      case 'title-desc':
+        $query['orderby'] = 'title';
+        $query['order']   = 'DESC';
+        break;
+      default: // 'date' — newest first.
+        $query['orderby'] = 'date';
+        $query['order']   = 'DESC';
+    }
+
+    return $query;
+  }
+
+  $taxonomy = $attrs['taxonomy'] ?? 'season';
+  if (!taxonomy_exists($taxonomy)) {
+    return $query;
+  }
+
+  $query['tax_query']   = $query['tax_query'] ?? [];
+  $query['tax_query'][] = [
+    'taxonomy' => $taxonomy,
+    'field'    => 'slug',
+    'terms'    => $value,
+  ];
+
+  return $query;
+}
+
+add_filter('query_loop_block_query_vars', function ($query, $block) {
+  $query_id = absint($block->context['queryId'] ?? 0);
+  if (!$query_id) {
+    return $query;
+  }
+
+  foreach (theatrum_query_filter_blocks_in_current_post() as $filter_block) {
+    $attrs = $filter_block['attrs'] ?? [];
+
+    if (absint($attrs['queryId'] ?? 0) !== $query_id) {
+      continue;
+    }
+
+    $query = theatrum_apply_query_filter($query, $attrs, $query_id);
+  }
+
+  return $query;
+}, 10, 2);
