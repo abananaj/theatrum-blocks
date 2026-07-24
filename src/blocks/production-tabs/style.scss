@@ -42,6 +42,7 @@ $ct-tabs-breakpoint: 768px;
 			// @include mixins.tab-header-active-colors;
 			color: var(--ct-on-primary, inherit);
 			background-color: var(--ct-primary, inherit);
+			border-radius: var(--wp--preset--border-radius--x-large);
 			// Accent underline — defaults to the active header's own text
 			// color so it looks intentional without extra setup, but stays
 			// overridable per-tab via --ct-tab-header-accent.
@@ -59,8 +60,12 @@ $ct-tabs-breakpoint: 768px;
 	}
 
 	// No-JS / pre-hydration fallback: keep the first tab's panel open until
-	// view.js takes over (it adds `.is-ready`).
-	&:not(.is-ready) .ct-tab:first-child .ct-tab__panel {
+	// view.js takes over (it adds `.is-ready`). Frontend-only: the editor
+	// canvas never gets `.is-ready` (view.js is a viewScript, not loaded in
+	// the editor), so without excluding `.is-editor` this permanently pins
+	// tab 1's panel open there, tying editor.scss's is-active rule on
+	// specificity and fighting it for whichever tab is actually selected.
+	&:not(.is-ready):not(.is-editor) .ct-tab:first-child .ct-tab__panel {
 		display: block;
 	}
 }
