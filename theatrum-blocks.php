@@ -275,6 +275,30 @@ function theatrum_enqueue_meta_variations_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_meta_variations_script');
 
 /**
+ * Enqueues the popup-trigger-variation script that registers the
+ * chance/popup-trigger core/button variation.
+ */
+function theatrum_enqueue_popup_trigger_variation_script()
+{
+	$asset_file = __DIR__ . '/build/popup-trigger-variation.asset.php';
+
+	if (! file_exists($asset_file)) {
+		return;
+	}
+
+	$asset = require $asset_file;
+
+	wp_enqueue_script(
+		'theatrum-popup-trigger-variation',
+		plugins_url('build/popup-trigger-variation.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_popup_trigger_variation_script');
+
+/**
  * Enqueues the block-color script that colors all Theatrum/Chance custom
  * block icons blue, so they're visually distinguishable in the inserter,
  * list view, and block toolbar (mirroring how meta-bound block variations

@@ -5,7 +5,7 @@
 	"title": "popup",
 	"category": "theatrum",
 	"icon": "visibility",
-	"description": "A simple popup block with a button to reveal hidden content",
+	"description": "A dialog/popup block. Opened by any Popup Trigger button (a core/button variation) linked to it via its HTML Anchor.",
 	"supports": {
 		"html": false,
 		"align": true,
@@ -44,13 +44,13 @@
 		}
 	},
 	"attributes": {
-		"buttonText": {
+		"dialogLabel": {
 			"type": "string",
-			"default": "Open Dialog"
+			"default": ""
 		}
 	},
 	"example": {},
-	"keywords": ["modal", "dialog", "overlay", "lightbox"],
+	"keywords": ["modal", "dialog", "overlay", "lightbox", "trigger", "anchor"],
 	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

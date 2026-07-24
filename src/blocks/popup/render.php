@@ -8,20 +8,14 @@
  * @param object $block      Block instance.
  */
 
-$button_text = $attributes['buttonText'] ?? 'Open Dialog';
+$dialog_label = $attributes['dialogLabel'] ?? '';
+if ($dialog_label === '') {
+    $dialog_label = $attributes['anchor'] ?? __('Dialog', 'theatrum-blocks');
+}
 
 $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-popup']);
 ?>
 <div <?php echo wp_kses_data( $wrapper_attributes ); ?>>
-  <button
-    class="popup-toggle-button wp-element-button wp-block-button__link"
-    data-popup-toggle="true"
-    aria-expanded="false"
-    aria-haspopup="dialog"
-    type="button">
-    <?php echo esc_html($button_text); ?>
-  </button>
-
   <div
     class="popup-backdrop"
     data-popup-backdrop="true"
@@ -33,7 +27,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-
     data-popup-content="true"
     role="dialog"
     aria-modal="true"
-    aria-label="<?php echo esc_attr($button_text); ?>"
+    aria-label="<?php echo esc_attr($dialog_label); ?>"
     inert>
     <div class="popup-dialog-header">
       <button

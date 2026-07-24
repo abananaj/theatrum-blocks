@@ -1,45 +1,68 @@
 import {
 	useBlockProps,
 	InspectorControls,
+	BlockControls,
 	InnerBlocks,
 } from '@wordpress/block-editor';
 import { Fragment, useState } from '@wordpress/element';
-import { TextControl, Button, PanelBody } from '@wordpress/components';
+import {
+	TextControl,
+	PanelBody,
+	ToolbarGroup,
+	ToolbarButton,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { seen, unseen } from '@wordpress/icons';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { buttonText } = attributes;
+	const { dialogLabel, anchor } = attributes;
 	const blockProps = useBlockProps( { className: 'wp-block-chance-popup' } );
 	const [ open, setOpen ] = useState( false );
 
-	const togglePopup = () => {
-		setOpen( ! open );
-	};
+	const togglePopup = () => setOpen( ! open );
+	const displayLabel =
+		dialogLabel || anchor || __( 'Popup', 'theatrum-blocks' );
 
 	return (
 		<Fragment>
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={ open ? unseen : seen }
+						label={
+							open
+								? __( 'Preview closed', 'theatrum-blocks' )
+								: __( 'Preview open', 'theatrum-blocks' )
+						}
+						onClick={ togglePopup }
+						isPressed={ open }
+					/>
+				</ToolbarGroup>
+			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Popup Settings', 'theatrum-blocks' ) }>
 					<TextControl
-						label={ __( 'Button Text', 'theatrum-blocks' ) }
-						value={ buttonText || '' }
+						label={ __( 'Dialog Label', 'theatrum-blocks' ) }
+						value={ dialogLabel || '' }
 						onChange={ ( value ) =>
-							setAttributes( { buttonText: value } )
+							setAttributes( { dialogLabel: value } )
 						}
+						help={ __(
+							'Read by screen readers when the dialog opens. Falls back to the HTML Anchor (set in Advanced) if left blank.',
+							'theatrum-blocks'
+						) }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
-				<Button
-					variant="primary"
-					onClick={ togglePopup }
-					className="popup-toggle-button wp-element-button wp-block-button__link"
-				>
-					{ buttonText }
-				</Button>
+				{ ! open && (
+					<div className="popup-editor-placeholder">
+						{ __( 'Popup:', 'theatrum-blocks' ) } { displayLabel }
+					</div>
+				) }
 
 				<div
 					className="popup-backdrop"
@@ -53,7 +76,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					className="popup-dialog"
 					role="dialog"
 					aria-modal="true"
-					aria-label={ buttonText }
+					aria-label={ displayLabel }
 					data-state={ open ? 'open' : 'closed' }
 					hidden={ ! open }
 					style={ { pointerEvents: open ? 'auto' : 'none' } }

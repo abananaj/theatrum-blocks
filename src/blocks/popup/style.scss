@@ -28,8 +28,13 @@
 	margin-bottom: 1em;
 }
 
-// ── Trigger button ────────────────────────────────────────────────────────── MOVED TO THEME
-// Uses WordPress core button classes: .wp-element-button and .wp-block-button__link
+// ── Trigger button ──────────────────────────────────────────────────────────
+// The trigger isn't part of this block — it's a separate core/button "Popup
+// Trigger" variation (see ../../popup-trigger-variation.js) linked to a popup
+// via `href="#<this popup's anchor>"`. Its class (`.popup-trigger-button`) is
+// what the frontend view.js and the theme's button styles
+// (chance-ollie/src/scss/buttons.scss) key off of — it lives wherever the
+// button was placed on the page, not inside .wp-block-chance-popup.
 
 // ── Backdrop ────────────────────────────────────────────────────────────────
 

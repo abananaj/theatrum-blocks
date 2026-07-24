@@ -22,3 +22,14 @@
 .popup-dialog[hidden] {
 	display: none !important;
 }
+
+// Editor-only stand-in shown while the dialog preview is closed, so an
+// inserted popup isn't just an empty box in the canvas (the button that used
+// to give it visible content by default now lives outside the block).
+.popup-editor-placeholder {
+	padding: 16px;
+	border: 1px dashed currentcolor;
+	border-radius: 4px;
+	opacity: 0.6;
+	font-style: italic;
+}

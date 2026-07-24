@@ -1894,7 +1894,7 @@ return array(
 		'title' => 'popup',
 		'category' => 'theatrum',
 		'icon' => 'visibility',
-		'description' => 'A simple popup block with a button to reveal hidden content',
+		'description' => 'A dialog/popup block. Opened by any Popup Trigger button (a core/button variation) linked to it via its HTML Anchor.',
 		'supports' => array(
 			'html' => false,
 			'align' => true,
@@ -1933,9 +1933,9 @@ return array(
 			)
 		),
 		'attributes' => array(
-			'buttonText' => array(
+			'dialogLabel' => array(
 				'type' => 'string',
-				'default' => 'Open Dialog'
+				'default' => ''
 			)
 		),
 		'example' => array(
@@ -1945,7 +1945,9 @@ return array(
 			'modal',
 			'dialog',
 			'overlay',
-			'lightbox'
+			'lightbox',
+			'trigger',
+			'anchor'
 		),
 		'textdomain' => 'theatrum-blocks',
 		'editorScript' => 'file:./index.js',
