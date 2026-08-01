@@ -1,7 +1,7 @@
 /**
  * Thumbnail List Block Editor (parent)
  *
- * A list wrapper whose items are individual `chance/list-item-thumbnail`
+ * A list wrapper whose items are individual `theatrum/list-item-thumbnail`
  * child blocks (title, description, thumbnail image — each editable inline
  * or via its own Inspector, with native WP reordering/drag-and-drop). The
  * parent owns the list-wide settings (thumbnail position/size, item height,
@@ -38,8 +38,8 @@ import { getThumbnailListProps } from './shared';
 import './editor.scss';
 
 const TEMPLATE = [
-	[ 'chance/list-item-thumbnail' ],
-	[ 'chance/list-item-thumbnail' ],
+	[ 'theatrum/list-item-thumbnail' ],
+	[ 'theatrum/list-item-thumbnail' ],
 ];
 
 export default function Edit( { attributes, setAttributes, clientId } ) {
@@ -125,7 +125,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'list-items', onMouseOver: handleMouseOver },
 		{
-			allowedBlocks: [ 'chance/list-item-thumbnail' ],
+			allowedBlocks: [ 'theatrum/list-item-thumbnail' ],
 			template: TEMPLATE,
 			templateLock: false,
 			orientation: 'vertical',

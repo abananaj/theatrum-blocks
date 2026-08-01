@@ -13,7 +13,7 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-const TEMPLATE = [ [ 'chance/tab-heading' ], [ 'chance/tab-content' ] ];
+const TEMPLATE = [ [ 'theatrum/tab-heading' ], [ 'theatrum/tab-content' ] ];
 
 // There's no click-to-switch JS running in the editor (view.js is a
 // viewScript, frontend-only), so "which tab is active" is derived from

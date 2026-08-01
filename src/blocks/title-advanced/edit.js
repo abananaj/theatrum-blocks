@@ -8,7 +8,7 @@ const TEMPLATE = [
 			metadata: {
 				bindings: {
 					content: {
-						source: 'chance/post-meta',
+						source: 'theatrum/post-meta',
 						args: { key: 'pretitle' },
 					},
 				},
@@ -24,7 +24,7 @@ const TEMPLATE = [
 			metadata: {
 				bindings: {
 					content: {
-						source: 'chance/post-meta',
+						source: 'theatrum/post-meta',
 						args: { key: 'subtitle' },
 					},
 				},

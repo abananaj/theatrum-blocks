@@ -13,11 +13,11 @@ import { __ } from '@wordpress/i18n';
 import metadata from './block.json';
 
 const TEMPLATE = [
-	[ 'chance/blockquote-text', {} ],
-	[ 'chance/blockquote-source', {} ],
+	[ 'theatrum/blockquote-text', {} ],
+	[ 'theatrum/blockquote-source', {} ],
 ];
 
-const ALLOWED_BLOCKS = [ 'chance/blockquote-text', 'chance/blockquote-source' ];
+const ALLOWED_BLOCKS = [ 'theatrum/blockquote-text', 'theatrum/blockquote-source' ];
 
 const Edit = ( { attributes, setAttributes, clientId } ) => {
 	const { addCitation } = attributes;
@@ -35,11 +35,11 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 	const onToggleCitation = ( value ) => {
 		setAttributes( { addCitation: value } );
 		const sourceBlock = innerBlocks.find(
-			( b ) => b.name === 'chance/blockquote-source'
+			( b ) => b.name === 'theatrum/blockquote-source'
 		);
 		if ( value && ! sourceBlock ) {
 			insertBlock(
-				createBlock( 'chance/blockquote-source' ),
+				createBlock( 'theatrum/blockquote-source' ),
 				innerBlocks.length,
 				clientId,
 				false

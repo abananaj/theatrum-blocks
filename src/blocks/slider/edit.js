@@ -2,13 +2,13 @@
  * Slider Block - Editor
  *
  * Renders the same wrapper/arrows markup as save.js so the editor is a real
- * WYSIWYG preview; the slides themselves are `chance/slider-item` child
+ * WYSIWYG preview; the slides themselves are `theatrum/slider-item` child
  * blocks edited directly in the canvas, like a Group.
  *
  * The dots aren't in save.js (no sibling-count access in a plain save()),
  * but the editor DOES have data-store access, so they're rendered for real
  * here — one per slide, reusing the same "active = selected descendant, else
- * first" rule as chance/slider-item's own edit.js.
+ * first" rule as theatrum/slider-item's own edit.js.
  */
 
 import clsx from 'clsx';
@@ -24,7 +24,7 @@ import { Fragment } from '@wordpress/element';
 import { PanelBody, ToggleControl, RangeControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-const TEMPLATE = [ [ 'chance/slider-item' ], [ 'chance/slider-item' ] ];
+const TEMPLATE = [ [ 'theatrum/slider-item' ], [ 'theatrum/slider-item' ] ];
 
 function useActiveDotIndex( clientId ) {
 	return useSelect(
@@ -68,7 +68,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'ct-slider-track' },
 		{
-			allowedBlocks: [ 'chance/slider-item' ],
+			allowedBlocks: [ 'theatrum/slider-item' ],
 			template: TEMPLATE,
 			templateLock: false,
 			renderAppender: InnerBlocks.ButtonBlockAppender,
@@ -131,7 +131,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					{ Array.from( { length: total } ).map( ( _, index ) => (
 						<span
 							key={ index }
-							className={ clsx( 'ct-slider-dot', {
+							className={ clsx( 'theatrum-slider-dot', {
 								'is-active': index === activeIndex,
 							} ) }
 						/>

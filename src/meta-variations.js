@@ -1,10 +1,10 @@
 /**
  * Meta block variations — registers core block variations backed by the
- * chance/post-meta Block Bindings source. Each variation appears in the
+ * theatrum/post-meta Block Bindings source. Each variation appears in the
  * block inserter under the parent core block and pulls its attribute value
  * from post meta or ACF at render time.
  *
- * These are optional alternates to the chance/meta-* custom blocks, useful
+ * These are optional alternates to the theatrum/meta-* custom blocks, useful
  * when a core block's own styling/features (e.g. core/button's width and
  * style controls) are worth trading the custom block's dedicated UI for.
  * They are not a replacement or migration path — the custom blocks remain
@@ -15,16 +15,16 @@
  * of block/attribute pairs (see get_block_bindings_supported_attributes()
  * in wp-includes/block-bindings.php), which does not include core/embed or
  * core/file. Bindings on those two are silently ignored everywhere (editor
- * and front end), so chance/bind-embed and chance/bind-file variations were
- * removed rather than shipped broken — use the chance/meta-embed and
- * chance/meta-file custom blocks instead, which don't have this limitation.
+ * and front end), so theatrum/bind-embed and theatrum/bind-file variations were
+ * removed rather than shipped broken — use the theatrum/meta-embed and
+ * theatrum/meta-file custom blocks instead, which don't have this limitation.
  *
  * Also loads:
- *  - meta-binding-source: registers the chance/post-meta source client-side
+ *  - meta-binding-source: registers the theatrum/post-meta source client-side
  *    (getValues) so WP core's native "Attributes" panel can resolve it
  *    instead of showing "Source not registered"
  *  - meta-binding-panel: adds the Meta Source inspector panel to bound blocks
- *  - meta-transforms: adds Transform to/from support for chance/meta-* blocks
+ *  - meta-transforms: adds Transform to/from support for theatrum/meta-* blocks
  */
 
 import { registerBlockVariation } from '@wordpress/blocks';
@@ -45,7 +45,7 @@ registerBlockVariation( 'core/image', {
 		metadata: {
 			name: 'theatrum/bind-image',
 			bindings: {
-				id: { source: 'chance/post-meta', args: { key: '' } },
+				id: { source: 'theatrum/post-meta', args: { key: '' } },
 			},
 		},
 	},
@@ -62,7 +62,7 @@ registerBlockVariation( 'core/button', {
 		metadata: {
 			name: 'theatrum/bind-button',
 			bindings: {
-				url: { source: 'chance/post-meta', args: { key: '' } },
+				url: { source: 'theatrum/post-meta', args: { key: '' } },
 			},
 		},
 	},
@@ -79,7 +79,7 @@ registerBlockVariation( 'core/paragraph', {
 		metadata: {
 			name: 'theatrum/bind-field',
 			bindings: {
-				content: { source: 'chance/post-meta', args: { key: '' } },
+				content: { source: 'theatrum/post-meta', args: { key: '' } },
 			},
 		},
 	},
@@ -97,7 +97,7 @@ registerBlockVariation( 'core/paragraph', {
 			name: 'theatrum/bind-date',
 			bindings: {
 				content: {
-					source: 'chance/post-meta',
+					source: 'theatrum/post-meta',
 					args: { key: '', format: 'M jS' },
 				},
 			},

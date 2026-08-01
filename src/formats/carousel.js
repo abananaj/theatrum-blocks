@@ -1,23 +1,23 @@
 /**
- * Carousel format — shared by chance/carousel (native block) and any core
+ * Carousel format — shared by theatrum/carousel (native block) and any core
  * block styled `is-style-ct-carousel` (core/query, core/gallery).
  *
  * The contract is deliberately small: a root element, a scrollable track
  * inside it, and two optional arrow buttons. Slides themselves need no
  * class or data attribute, which is what lets core block markup adopt this
  * unchanged. If arrows aren't present in the markup (true for every core
- * block, and for chance/carousel before render.php added them) this builds
+ * block, and for theatrum/carousel before render.php added them) this builds
  * them.
  */
 
 import { resolveTrack } from './resolve-track';
 
-const CONTENT_SELECTOR = '.ct-carousel-content';
+const CONTENT_SELECTOR = '.theatrum-carousel-content';
 
 function buildArrow( direction ) {
 	const button = document.createElement( 'button' );
 	button.type = 'button';
-	button.className = `ct-carousel-arrow ct-arrow-${ direction }`;
+	button.className = `theatrum-carousel-arrow ct-arrow-${ direction }`;
 	button.setAttribute(
 		'aria-label',
 		direction === 'prev' ? 'Previous' : 'Next'
@@ -40,8 +40,8 @@ export function initCarousel( component ) {
 		return;
 	}
 
-	let prevButton = component.querySelector( '.ct-arrow-prev' );
-	let nextButton = component.querySelector( '.ct-arrow-next' );
+	let prevButton = component.querySelector( '.theatrum-arrow-prev' );
+	let nextButton = component.querySelector( '.theatrum-arrow-next' );
 
 	if ( ! prevButton && ! nextButton ) {
 		prevButton = buildArrow( 'prev' );

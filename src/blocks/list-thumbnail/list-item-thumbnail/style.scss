@@ -2,7 +2,7 @@
  * Thumbnail List Item - Frontend Styles (shared with editor via block.json `style`)
  *
  * Item-level layout. Height, and the hover transition speed, are read from
- * CSS custom properties set on the parent `.wp-block-chance-list-thumbnail`
+ * CSS custom properties set on the parent `.wp-block-theatrum-list-thumbnail`
  * wrapper, so this item inherits list-wide settings without needing block
  * context. Loading via the `style` field (not `editorStyle`) means these
  * rules apply in the editor canvas too, so backend and frontend spacing

@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/chance-card",
+	"name": "theatrum/chance-card",
 	"title": "Chance Card",
 	"category": "theatrum",
 	"description": "Display a featured production or event as a card with featured image background and overlaid title",

@@ -1,5 +1,5 @@
 /**
- * Icon List Item Block Editor (child of chance/list-icons)
+ * Icon List Item Block Editor (child of theatrum/list-icons)
  *
  * Renders a single `<li>` with an optional icon and editable text. Pressing
  * Enter splits the item into a new sibling (like core/list-item); backspacing
@@ -145,7 +145,7 @@ export default function Edit( {
 							: { text: value };
 
 						const block = createBlock(
-							'chance/list-item-icon',
+							'theatrum/list-item-icon',
 							newAttributes
 						);
 

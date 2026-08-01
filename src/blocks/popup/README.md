@@ -12,7 +12,7 @@ A dialog/popup block that reveals nested content. It has no button of its own â€
 
 ## Usage
 
-1. Insert a `chance/popup` block and give it an HTML Anchor (Advanced panel).
+1. Insert a `theatrum/popup` block and give it an HTML Anchor (Advanced panel).
 2. Insert a `core/button` block, choose the **Popup Trigger** style variation, and set its URL to `#that-anchor`.
 
 The trigger and the popup don't need to be near each other in the layout â€” any page content can link to a popup this way.

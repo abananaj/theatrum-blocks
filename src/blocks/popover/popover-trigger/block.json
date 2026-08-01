@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/popover-trigger",
+	"name": "theatrum/popover-trigger",
 	"title": "Popover Trigger",
 	"category": "theatrum",
 	"icon": "index-card",
 	"description": "The content that reveals the popover on hover or tap. Accepts any blocks, like a Group.",
 	"textdomain": "theatrum-blocks",
-	"parent": ["chance/popover"],
+	"parent": ["theatrum/popover"],
 	"supports": {
 		"html": false,
 		"reusable": false,

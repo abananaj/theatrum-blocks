@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/meta-icon",
+	"name": "theatrum/meta-icon",
 	"title": "Meta Icon",
 	"category": "metablock",
 	"description": "Display an icon from an ACF icon picker field by entering a key. Handles dashicon names, URLs, and attachment IDs.",

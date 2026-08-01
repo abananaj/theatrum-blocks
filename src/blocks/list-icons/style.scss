@@ -6,7 +6,7 @@
  * modifier classes, and the hover-only behaviour.
  */
 
-.wp-block-chance-list-icons {
+.wp-block-theatrum-list-icons {
 	list-style: none;
 	padding-left: 0;
 	margin: 0;
@@ -44,7 +44,7 @@
 }
 
 /* Ordered-list numbering — the wrapper renders as a real <ol>. */
-ol.wp-block-chance-list-icons {
+ol.wp-block-theatrum-list-icons {
 	counter-reset: list-counter;
 
 	.list-icons-item::before {

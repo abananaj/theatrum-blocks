@@ -121,7 +121,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<Spinner />
 				) : attributes.keyInput ? (
 					<Tag
-						className="wp-block-chance-post-meta-field"
+						className="wp-block-theatrum-post-meta-field"
 						style={{ wordBreak: 'break-word' }}
 						{...(attributes.tagName === 'a' ? { href: attributes.href || undefined } : {})}
 					>

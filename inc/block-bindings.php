@@ -5,7 +5,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Binding source callback for chance/post-meta.
+ * Binding source callback for theatrum/post-meta.
  *
  * Reads a meta value (ACF get_field or get_post_meta) for the current post
  * and returns a typed value based on which block attribute is being bound.
@@ -97,7 +97,7 @@ add_action('init', function () {
 		return; // WP < 6.5 guard.
 	}
 
-	register_block_bindings_source('chance/post-meta', [
+	register_block_bindings_source('theatrum/post-meta', [
 		'label'              => __('Post Meta', 'theatrum-blocks'),
 		'get_value_callback' => 'theatrum_post_meta_binding_callback',
 		'uses_context'       => ['postId', 'postType'],

@@ -1,6 +1,6 @@
 # Carousel Block
 
-A responsive carousel block for displaying cards in a horizontally scrollable list. `chance/carousel` is the wrapper (headline + arrows + scroll track); each card is a `chance/carousel-item` child block, editable like a Group — it accepts any inner blocks (image, heading, paragraph, or anything else).
+A responsive carousel block for displaying cards in a horizontally scrollable list. `theatrum/carousel` is the wrapper (headline + arrows + scroll track); each card is a `theatrum/carousel-item` child block, editable like a Group — it accepts any inner blocks (image, heading, paragraph, or anything else).
 
 ## Features
 
@@ -13,7 +13,7 @@ A responsive carousel block for displaying cards in a horizontally scrollable li
 
 ## Block Attributes
 
-### `chance/carousel`
+### `theatrum/carousel`
 
 #### headline
 
@@ -21,22 +21,22 @@ A responsive carousel block for displaying cards in a horizontally scrollable li
 - **Default**: "Headline"
 - **Description**: The title displayed above the carousel
 
-### `chance/carousel-item`
+### `theatrum/carousel-item`
 
 No attributes — content is entirely InnerBlocks.
 
 ## Usage in PHP
 
 ```php
-echo do_blocks( '<!-- wp:chance/carousel {"headline":"Featured Items"} -->
-<!-- wp:chance/carousel-item -->...<!-- /wp:chance/carousel-item -->
-<!-- /wp:chance/carousel -->' );
+echo do_blocks( '<!-- wp:theatrum/carousel {"headline":"Featured Items"} -->
+<!-- wp:theatrum/carousel-item -->...<!-- /wp:theatrum/carousel-item -->
+<!-- /wp:theatrum/carousel -->' );
 ```
 
 ## Files
 
 - `block.json` / `carousel-item/block.json` — Block configuration and metadata
-- `render.php` — Server-side rendering of the wrapper/header/arrows; embeds the rendered `chance/carousel-item` cards inside `<ul class="ct-carousel-content">`
+- `render.php` — Server-side rendering of the wrapper/header/arrows; embeds the rendered `theatrum/carousel-item` cards inside `<ul class="ct-carousel-content">`
 - `edit.js` / `carousel-item/edit.js` — Editor components (edit.js mirrors render.php's markup for a WYSIWYG preview)
 - `save.js` — Returns bare `<InnerBlocks.Content />` for render.php to embed
 - `view.js` — Frontend drag-to-scroll + arrow navigation

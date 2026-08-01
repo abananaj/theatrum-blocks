@@ -57,7 +57,7 @@ A flexible list block that displays icons alongside list item text. Supports bot
 The block renders semantic HTML with appropriate aria labels and CSS classes:
 
 ```html
-<ul class="wp-block-chance-list-icons">
+<ul class="wp-block-theatrum-list-icons">
 	<li class="list-icons-item">
 		<img src="..." alt="..." class="list-icons-icon" />
 		<span class="list-icons-text">Item text</span>
@@ -67,7 +67,7 @@ The block renders semantic HTML with appropriate aria labels and CSS classes:
 
 ### CSS Classes
 
-- `.wp-block-chance-list-icons` - Main list wrapper
+- `.wp-block-theatrum-list-icons` - Main list wrapper
 - `.list-icons-item` - Individual list item
 - `.list-icons-icon` - Icon image
 - `.list-icons-text` - Item text

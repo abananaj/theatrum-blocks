@@ -16,7 +16,7 @@ const DATE_FORMAT_OPTIONS = [
 function getMetaBinding( attributes ) {
 	const bindings = attributes?.metadata?.bindings ?? {};
 	const entries = Object.entries( bindings ).filter(
-		( [ , b ] ) => b?.source === 'chance/post-meta'
+		( [ , b ] ) => b?.source === 'theatrum/post-meta'
 	);
 	if ( ! entries.length ) {
 		return null;
@@ -32,7 +32,7 @@ function setBindingArg( attributes, attr, argName, argValue ) {
 			bindings: {
 				...( attributes.metadata?.bindings ?? {} ),
 				[ attr ]: {
-					source: 'chance/post-meta',
+					source: 'theatrum/post-meta',
 					args: {
 						...( ( attributes.metadata?.bindings?.[ attr ] ?? {} )
 							.args ?? {} ),

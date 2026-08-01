@@ -124,7 +124,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 				{isLoading ? (
 					<Spinner />
 				) : attributes.keyInput ? (
-					<Tag className="wp-block-chance-meta-time" style={{ margin: 0, padding: '8px 0', wordBreak: 'break-word' }}>
+					<Tag className="wp-block-theatrum-meta-time" style={{ margin: 0, padding: '8px 0', wordBreak: 'break-word' }}>
 						{`${attributes.prepend || ''}${displayValue || `[${attributes.keyInput}]`}${attributes.append || ''}`}
 					</Tag>
 				) : (

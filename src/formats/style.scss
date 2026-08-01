@@ -74,7 +74,7 @@
 	}
 
 	// Pre-hydration guard: keep the first item visible until formats/slider.js
-	// adds `.is-ready` + `.is-active` (mirrors chance/slider's own guard).
+	// adds `.is-ready` + `.is-active` (mirrors theatrum/slider's own guard).
 	&:not(.is-ready) .wp-block-post-template > li:first-child {
 		display: block;
 	}

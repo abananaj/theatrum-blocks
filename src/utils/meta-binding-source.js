@@ -1,5 +1,5 @@
 /**
- * Registers the chance/post-meta block bindings source client-side.
+ * Registers the theatrum/post-meta block bindings source client-side.
  *
  * inc/block-bindings.php registers this same source name on the PHP side
  * (get_value_callback) so front-end rendering works, but WordPress core's
@@ -23,7 +23,7 @@
 import { registerBlockBindingsSource } from '@wordpress/blocks';
 import { store as coreStore } from '@wordpress/core-data';
 
-registerBlockBindingsSource( 'chance/post-meta', {
+registerBlockBindingsSource( 'theatrum/post-meta', {
 	label: 'Post Meta',
 	usesContext: [ 'postId', 'postType' ],
 	getValues( { select, context, bindings } ) {

@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/cover-card",
+	"name": "theatrum/cover-card",
 	"title": "Cover Card",
 	"category": "theatrum",
 	"description": "Display a featured production or event as a card with featured image background and overlaid title",

@@ -1,14 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/list-item-thumbnail",
+	"name": "theatrum/list-item-thumbnail",
 	"textdomain": "theatrum-blocks",
 	"title": "Thumbnail List Item",
 	"category": "theatrum",
 	"description": "A single item in a thumbnail list: nested heading/paragraph content plus a thumbnail image.",
 	"icon": "format-image",
 	"keywords": ["thumbnail", "list", "item"],
-	"parent": ["chance/list-thumbnail"],
+	"parent": ["theatrum/list-thumbnail"],
 	"allowedBlocks": ["core/heading", "core/paragraph"],
 	"usesContext": ["theatrum/imageSizeSlug"],
 	"supports": {

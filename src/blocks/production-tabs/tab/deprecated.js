@@ -10,8 +10,8 @@ import { createBlock } from '@wordpress/blocks';
 
 /**
  * v1: `title` attribute (RichText) + freeform InnerBlocks panel, flattened
- * directly inside `.ct-tab`. Superseded by the chance/tab-heading +
- * chance/tab-content child blocks. `migrate` rewraps old content into the
+ * directly inside `.ct-tab`. Superseded by the theatrum/tab-heading +
+ * theatrum/tab-content child blocks. `migrate` rewraps old content into the
  * new shape so existing posts (e.g. post 58462) keep working.
  */
 const v1 = {
@@ -61,11 +61,11 @@ const v1 = {
 	migrate( attributes, innerBlocks ) {
 		const { title } = attributes;
 
-		const headingBlock = createBlock( 'chance/tab-heading', {}, [
+		const headingBlock = createBlock( 'theatrum/tab-heading', {}, [
 			createBlock( 'core/heading', { level: 3, content: title } ),
 		] );
 		const contentBlock = createBlock(
-			'chance/tab-content',
+			'theatrum/tab-content',
 			{},
 			innerBlocks
 		);

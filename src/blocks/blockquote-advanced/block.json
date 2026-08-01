@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/blockquote-advanced",
+	"name": "theatrum/blockquote-advanced",
 	"title": "Blockquote",
 	"category": "theatrum",
 	"icon": "format-quote",
@@ -14,7 +14,7 @@
 			"default": true
 		}
 	},
-	"allowedBlocks": ["chance/blockquote-text", "chance/blockquote-source"],
+	"allowedBlocks": ["theatrum/blockquote-text", "theatrum/blockquote-source"],
 	"supports": {
 		"html": false,
 		"align": ["wide", "full"],
@@ -34,13 +34,13 @@
 	"example": {
 		"innerBlocks": [
 			{
-				"name": "chance/blockquote-text",
+				"name": "theatrum/blockquote-text",
 				"attributes": {
 					"quoteText": "<p>Words can be like X-rays, if you use them properly—they'll go through anything. You read and you're pierced.</p>"
 				}
 			},
 			{
-				"name": "chance/blockquote-source",
+				"name": "theatrum/blockquote-source",
 				"attributes": {
 					"sourceText": "— Aldous Huxley, <cite class=\"theatrum-blockquote-cite\">Brave New World</cite>"
 				}

@@ -1,5 +1,5 @@
 /**
- * Registers the Icon List Item block (child of chance/list-icons)
+ * Registers the Icon List Item block (child of theatrum/list-icons)
  */
 import { registerBlockType } from '@wordpress/blocks';
 

@@ -2,7 +2,7 @@
  * Carousel Block - Editor
  *
  * Renders the same wrapper/controls markup as render.php so the editor is a
- * real WYSIWYG preview; the cards themselves are `chance/carousel-item`
+ * real WYSIWYG preview; the cards themselves are `theatrum/carousel-item`
  * child blocks edited directly in the canvas, like a Group.
  */
 
@@ -18,9 +18,9 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 const TEMPLATE = [
-	[ 'chance/carousel-item' ],
-	[ 'chance/carousel-item' ],
-	[ 'chance/carousel-item' ],
+	[ 'theatrum/carousel-item' ],
+	[ 'theatrum/carousel-item' ],
+	[ 'theatrum/carousel-item' ],
 ];
 
 const UNIT_OPTIONS = [
@@ -39,9 +39,9 @@ export default function Edit( { attributes, setAttributes } ) {
 		: undefined;
 
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'ct-carousel-content', style: contentStyle },
+		{ className: 'theatrum-carousel-content', style: contentStyle },
 		{
-			allowedBlocks: [ 'chance/carousel-item' ],
+			allowedBlocks: [ 'theatrum/carousel-item' ],
 			template: TEMPLATE,
 			templateLock: false,
 			orientation: 'horizontal',
@@ -89,14 +89,14 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				<div className="ct-carousel-wrapper">
+				<div className="theatrum-carousel-wrapper">
 					<button
-						className="ct-carousel-arrow disabled ct-arrow-prev"
+						className="theatrum-carousel-arrow disabled theatrum-arrow-prev"
 						aria-label={ __( 'Previous', 'theatrum-blocks' ) }
 					/>
 					<ul { ...innerBlocksProps } />
 					<button
-						className="ct-carousel-arrow ct-arrow-next"
+						className="theatrum-carousel-arrow theatrum-arrow-next"
 						aria-label={ __( 'Next', 'theatrum-blocks' ) }
 					/>
 				</div>

@@ -37,7 +37,7 @@ Displays ACF repeater field rows with configurable subfields (A & B) and individ
 Each repeater row outputs as:
 
 ```html
-<ul class="wp-block-chance-meta-repeater">
+<ul class="wp-block-theatrum-meta-repeater">
 	<li>
 		<span class="repeater-subfield-a">Subfield A Value</span>
 		<span class="repeater-subfield-b">Subfield B Value</span>

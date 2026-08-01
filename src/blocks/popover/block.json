@@ -1,14 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/popover",
+	"name": "theatrum/popover",
 	"title": "Popover",
 	"category": "theatrum",
 	"icon": "info-outline",
 	"description": "A hover/tap popover. Add a Popover Trigger and a Popover Content block inside — each accepts any blocks you want, like a Group.",
 	"textdomain": "theatrum-blocks",
 	"keywords": ["popover", "tooltip", "hover", "trigger", "media"],
-	"allowedBlocks": ["chance/popover-trigger", "chance/popover-content"],
+	"allowedBlocks": ["theatrum/popover-trigger", "theatrum/popover-content"],
 	"supports": {
 		"html": false,
 		"align": ["left", "center", "right"],
@@ -23,7 +23,7 @@
 	"example": {
 		"innerBlocks": [
 			{
-				"name": "chance/popover-trigger",
+				"name": "theatrum/popover-trigger",
 				"innerBlocks": [
 					{
 						"name": "core/paragraph",
@@ -32,7 +32,7 @@
 				]
 			},
 			{
-				"name": "chance/popover-content",
+				"name": "theatrum/popover-content",
 				"innerBlocks": [
 					{
 						"name": "core/paragraph",

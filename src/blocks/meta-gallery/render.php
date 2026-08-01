@@ -37,7 +37,7 @@ if (empty($value) || !is_array($value)) {
   if ($fallback_text) {
     printf(
       '<figure %s><div style="text-align:center;color:#666;padding:20px;">%s</div></figure>',
-      wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']) ),
+      wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-gallery']) ),
       esc_html($fallback_text)
     );
   }
@@ -143,7 +143,7 @@ if (!$items_html) {
   if ($fallback_text) {
     printf(
       '<figure %s><div style="text-align:center;color:#666;padding:20px;">%s</div></figure>',
-      wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-gallery']) ),
+      wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-gallery']) ),
       esc_html($fallback_text)
     );
   }
@@ -152,7 +152,7 @@ if (!$items_html) {
 
 // Build gallery classes
 $gallery_classes = [
-  'wp-block-chance-meta-gallery',
+  'wp-block-theatrum-meta-gallery',
   'wp-block-gallery',
   'has-nested-images',
   'blocks-gallery-grid',

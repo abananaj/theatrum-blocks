@@ -1,5 +1,5 @@
 /**
- * Popup Trigger — registers a core/button variation that opens a chance/popup
+ * Popup Trigger — registers a core/button variation that opens a theatrum/popup
  * block elsewhere on the page, linked via the popup's HTML Anchor.
  *
  * Decouples the trigger from the popup: any number of these buttons, placed
@@ -7,7 +7,7 @@
  * attribute holds the ordinary `#anchor` link; the `popup-trigger-button`
  * class on the variation's default attributes is what the frontend view.js
  * (src/blocks/popup/view.js) and the theme's button styles key off of, since
- * the trigger no longer lives inside `.wp-block-chance-popup`.
+ * the trigger no longer lives inside `.wp-block-theatrum-popup`.
  *
  * Phase 1 only: the target anchor is set via core/button's normal URL field
  * (type `#anchor`, matching the popup's HTML Anchor in Advanced). A friendlier

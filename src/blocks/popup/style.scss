@@ -7,8 +7,8 @@
 // ancestor that sets transform/filter/will-change/contain (which would turn
 // "fixed" into "absolute relative to that ancestor"). These custom properties
 // have to resolve on the portal too since it's no longer a descendant of
-// .wp-block-chance-popup.
-:where(.wp-block-chance-popup, .popup-portal) {
+// .wp-block-theatrum-popup.
+:where(.wp-block-theatrum-popup, .popup-portal) {
 	--popup-padding: 24px;
 	--popup-gap: 16px;
 	--popup-gap-sm: 8px;
@@ -24,7 +24,7 @@
 	--popup-z-index: 9999;
 }
 
-.wp-block-chance-popup {
+.wp-block-theatrum-popup {
 	margin-bottom: 1em;
 }
 
@@ -34,7 +34,7 @@
 // via `href="#<this popup's anchor>"`. Its class (`.popup-trigger-button`) is
 // what the frontend view.js and the theme's button styles
 // (chance-ollie/src/scss/buttons.scss) key off of — it lives wherever the
-// button was placed on the page, not inside .wp-block-chance-popup.
+// button was placed on the page, not inside .wp-block-theatrum-popup.
 
 // ── Backdrop ────────────────────────────────────────────────────────────────
 

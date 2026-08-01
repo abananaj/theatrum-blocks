@@ -1,4 +1,4 @@
-**Deprecated** — superseded by `chance/chance-card` (`src/blocks/chance-card/`). Kept registered so existing post content keeps rendering; do not use for new content. Existing instances are being migrated to chance-card manually, post by post.
+**Deprecated** — superseded by `theatrum/chance-card` (`src/blocks/chance-card/`). Kept registered so existing post content keeps rendering; do not use for new content. Existing instances are being migrated to chance-card manually, post by post.
 
 This block will function similarly to the WordPress core Cover block. It will include a function that does the following:
 

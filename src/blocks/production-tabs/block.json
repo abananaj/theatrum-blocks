@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/production-tabs",
+	"name": "theatrum/production-tabs",
 	"title": "Production Tabs",
 	"category": "theatrum",
 	"icon": "index-card",
@@ -37,14 +37,14 @@
 			"textTransform": true
 		}
 	},
-	"allowedBlocks": ["chance/tab"],
+	"allowedBlocks": ["theatrum/tab"],
 	"example": {
 		"innerBlocks": [
 			{
-				"name": "chance/tab",
+				"name": "theatrum/tab",
 				"innerBlocks": [
 					{
-						"name": "chance/tab-heading",
+						"name": "theatrum/tab-heading",
 						"innerBlocks": [
 							{
 								"name": "core/heading",
@@ -56,7 +56,7 @@
 						]
 					},
 					{
-						"name": "chance/tab-content",
+						"name": "theatrum/tab-content",
 						"innerBlocks": [
 							{
 								"name": "core/paragraph",
@@ -69,10 +69,10 @@
 				]
 			},
 			{
-				"name": "chance/tab",
+				"name": "theatrum/tab",
 				"innerBlocks": [
 					{
-						"name": "chance/tab-heading",
+						"name": "theatrum/tab-heading",
 						"innerBlocks": [
 							{
 								"name": "core/heading",
@@ -84,7 +84,7 @@
 						]
 					},
 					{
-						"name": "chance/tab-content",
+						"name": "theatrum/tab-content",
 						"innerBlocks": [
 							{
 								"name": "core/paragraph",

@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/site-option",
+	"name": "theatrum/site-option",
 	"title": "Site Option",
 	"category": "metablock",
 	"description": "Display values from WordPress options table, including staff/board members",

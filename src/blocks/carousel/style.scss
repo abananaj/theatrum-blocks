@@ -1,8 +1,8 @@
-// Arrow visuals (.ct-carousel-arrow) are shared with the is-style-ct-carousel
+// Arrow visuals (.theatrum-carousel-arrow) are shared with the is-style-ct-carousel
 // format on core/query and core/gallery — see ../../formats/_arrows.scss.
 @use "../../formats/arrows";
 
-.wp-block-chance-carousel {
+.wp-block-theatrum-carousel {
 	max-width: 1140px;
 	margin: 0 auto;
 	padding: 1rem;
@@ -51,13 +51,13 @@
 		}
 	}
 
-	.ct-carousel-wrapper {
+	.theatrum-carousel-wrapper {
 		position: relative;
 		margin-bottom: 24px;
 
 		&.has-arrows {
 
-			.ct-carousel-content {
+			.theatrum-carousel-content {
 
 				@media only screen and (min-width: 1180px) {
 					justify-content: space-between;
@@ -66,7 +66,7 @@
 		}
 	}
 
-	.ct-carousel-content {
+	.theatrum-carousel-content {
 		overflow-y: hidden;
 		overflow-x: scroll;
 		scrollbar-width: none;

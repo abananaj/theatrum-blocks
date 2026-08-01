@@ -1,10 +1,10 @@
-// Carousel arrow visuals — shared by chance/carousel (native block) and any
+// Carousel arrow visuals — shared by theatrum/carousel (native block) and any
 // core block styled `is-style-ct-carousel`. Extracted from
 // blocks/carousel/style.scss so it also applies to arrows built by
 // formats/carousel.js on core/query and core/gallery, which don't nest
-// under `.wp-block-chance-carousel`.
+// under `.wp-block-theatrum-carousel`.
 
-.ct-carousel-arrow {
+.theatrum-carousel-arrow {
 	position: absolute;
 	top: 50%;
 	z-index: 2;
@@ -20,7 +20,7 @@
 	border: 0;
 	cursor: pointer;
 
-	&.ct-arrow-prev {
+	&.theatrum-arrow-prev {
 		left: -48px;
 
 		&::before {
@@ -28,7 +28,7 @@
 		}
 	}
 
-	&.ct-arrow-next {
+	&.theatrum-arrow-next {
 		right: -48px;
 
 		&::before {
@@ -46,7 +46,7 @@
 	}
 }
 
-.ct-carousel-arrow.disabled {
+.theatrum-carousel-arrow.disabled {
 
 	&::before {
 		opacity: 0.3;

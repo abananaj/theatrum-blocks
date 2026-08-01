@@ -1,7 +1,7 @@
 // Meta Embed block frontend styles
 //
 // Mirrors core/embed's responsive aspect-ratio behavior (the
-// "Resize for smaller devices" toggle) so chance/meta-embed scales
+// "Resize for smaller devices" toggle) so theatrum/meta-embed scales
 // exactly the same way.
 
 $aspect-ratios: (
@@ -14,7 +14,7 @@ $aspect-ratios: (
 	'1-2': 200%,
 );
 
-.wp-block-chance-meta-embed {
+.wp-block-theatrum-meta-embed {
 	.wp-block-embed__wrapper {
 		position: relative;
 	}

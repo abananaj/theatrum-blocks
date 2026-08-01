@@ -18,17 +18,17 @@ $content_style = $card_width !== '' ? 'style="--ct-carousel-card-width: ' . esc_
 // Let WordPress generate the wrapper class plus all supports-driven
 // classes/inline styles (align, spacing, color, border, etc.) so the
 // frontend wrapper matches what useBlockProps() renders in the editor.
-$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-carousel'));
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-carousel'));
 
 ob_start();
 ?>
 <div <?php echo $wrapper_attributes; ?>>
-  <div class="ct-carousel-wrapper">
-    <button class="ct-carousel-arrow disabled ct-arrow-prev" aria-label="Previous"></button>
-    <ul class="ct-carousel-content" <?php echo $content_style; ?>>
+  <div class="theatrum-carousel-wrapper">
+    <button class="theatrum-carousel-arrow disabled theatrum-arrow-prev" aria-label="Previous"></button>
+    <ul class="theatrum-carousel-content" <?php echo $content_style; ?>>
       <?php echo $content; ?>
     </ul>
-    <button class="ct-carousel-arrow ct-arrow-next" aria-label="Next"></button>
+    <button class="theatrum-carousel-arrow theatrum-arrow-next" aria-label="Next"></button>
   </div>
 </div>
 <?php

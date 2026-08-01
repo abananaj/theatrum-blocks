@@ -1,7 +1,7 @@
 /**
  * Icon List Block Editor (parent)
  *
- * A list wrapper whose items are individual `chance/list-item-icon` child
+ * A list wrapper whose items are individual `theatrum/list-item-icon` child
  * blocks. The parent owns the list-wide settings (list type plus icon size,
  * position, spacing, colour and hover behaviour) and passes them down to the
  * items as block context and CSS custom properties so the markup stays static.
@@ -26,8 +26,8 @@ import { getListProps } from './shared';
 import './editor.scss';
 
 const TEMPLATE = [
-	[ 'chance/list-item-icon', { text: __( 'List item', 'theatrum-blocks' ) } ],
-	[ 'chance/list-item-icon', { text: __( 'List item', 'theatrum-blocks' ) } ],
+	[ 'theatrum/list-item-icon', { text: __( 'List item', 'theatrum-blocks' ) } ],
+	[ 'theatrum/list-item-icon', { text: __( 'List item', 'theatrum-blocks' ) } ],
 ];
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -45,7 +45,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( { className, style } );
 
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
-		allowedBlocks: [ 'chance/list-item-icon' ],
+		allowedBlocks: [ 'theatrum/list-item-icon' ],
 		template: TEMPLATE,
 		templateLock: false,
 		orientation: 'vertical',

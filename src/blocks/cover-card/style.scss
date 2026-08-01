@@ -1,6 +1,6 @@
 /* Cover Card Block Styles */
 
-.wp-block-chance-cover-card {
+.wp-block-theatrum-cover-card {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -106,7 +106,7 @@
 }
 
 /* --- Nomenclature color integration ----------------------------
- * The wrapper (.wp-block-chance-cover-card) receives an
+ * The wrapper (.wp-block-theatrum-cover-card) receives an
  * `is-nomenclature-{slug}` class from the post it represents. That
  * exposes --nom-color / --nom-contrast and (from the theme) a left
  * accent bar kept here as a visibility indicator.
@@ -114,7 +114,7 @@
  * The card's own chrome stays as designed at rest; on hover the black
  * bottom bar and its top border adopt the term color.
  */
-.wp-block-chance-cover-card {
+.wp-block-theatrum-cover-card {
 	.cover-card .bottom-bar {
 		transition: background-color 0.3s ease, border-color 0.3s ease,
 			color 0.3s ease;

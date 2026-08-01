@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Applies chance/query-filter blocks to the specific Query Loop they target.
+ * Applies theatrum/query-filter blocks to the specific Query Loop they target.
  *
  * The filter block only stores which taxonomy/order to filter by and which
  * Query Loop's queryId it targets — it doesn't touch WP_Query itself. This
@@ -19,7 +19,7 @@
  * Recursively collects every block of a given name from a parsed block tree.
  *
  * @param array  $blocks Parsed blocks (from parse_blocks()).
- * @param string $name   Block name to match, e.g. 'chance/query-filter'.
+ * @param string $name   Block name to match, e.g. 'theatrum/query-filter'.
  * @return array Matching blocks, each with its 'attrs'.
  */
 function theatrum_find_blocks_by_name(array $blocks, string $name): array {
@@ -38,7 +38,7 @@ function theatrum_find_blocks_by_name(array $blocks, string $name): array {
 }
 
 /**
- * All chance/query-filter blocks in the post currently being rendered.
+ * All theatrum/query-filter blocks in the post currently being rendered.
  * Cached per-request since a page can render several Query Loops.
  *
  * @return array
@@ -53,7 +53,7 @@ function theatrum_query_filter_blocks_in_current_post(): array {
   $post_id = get_queried_object_id() ?: get_the_ID();
   $content = $post_id ? get_post_field('post_content', $post_id) : '';
 
-  $cache = $content ? theatrum_find_blocks_by_name(parse_blocks($content), 'chance/query-filter') : [];
+  $cache = $content ? theatrum_find_blocks_by_name(parse_blocks($content), 'theatrum/query-filter') : [];
 
   return $cache;
 }
@@ -62,7 +62,7 @@ function theatrum_query_filter_blocks_in_current_post(): array {
  * Builds the namespaced GET field name a query-filter block submits under.
  * Mirrors the same computation in render.php — the two must stay in sync.
  *
- * @param array $attrs    The chance/query-filter block's attrs.
+ * @param array $attrs    The theatrum/query-filter block's attrs.
  * @param int   $query_id The Query Loop's queryId (already known non-zero by the caller).
  * @return string
  */
@@ -77,7 +77,7 @@ function theatrum_query_filter_field_name(array $attrs, int $query_id): string {
  * Folds one query-filter block's GET value into a Query Loop's args.
  *
  * @param array $query    WP_Query args being built for the Query Loop.
- * @param array $attrs    The chance/query-filter block's attrs.
+ * @param array $attrs    The theatrum/query-filter block's attrs.
  * @param int   $query_id The Query Loop's queryId.
  * @return array
  */

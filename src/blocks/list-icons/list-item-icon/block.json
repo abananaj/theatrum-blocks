@@ -1,21 +1,21 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/list-item-icon",
+	"name": "theatrum/list-item-icon",
 	"textdomain": "theatrum-blocks",
 	"title": "Icon List Item",
 	"category": "theatrum",
 	"description": "A single item in an icon list, with an optional icon and text.",
 	"icon": "minus",
 	"keywords": ["list", "icon", "item"],
-	"parent": ["chance/list-icons"],
+	"parent": ["theatrum/list-icons"],
 	"usesContext": [
-		"chance/iconSize",
-		"chance/iconSizeUnit",
-		"chance/iconPosition",
-		"chance/iconSpacing",
-		"chance/iconColor",
-		"chance/hoverOnly"
+		"theatrum/iconSize",
+		"theatrum/iconSizeUnit",
+		"theatrum/iconPosition",
+		"theatrum/iconSpacing",
+		"theatrum/iconColor",
+		"theatrum/hoverOnly"
 	],
 	"supports": {
 		"html": false,

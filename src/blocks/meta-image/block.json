@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/meta-image",
+	"name": "theatrum/meta-image",
 	"title": "Meta Image",
 	"category": "metablock",
 	"description": "Display an image from a post meta or ACF image field by entering a key",

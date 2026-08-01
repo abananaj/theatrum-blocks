@@ -1,5 +1,5 @@
 /**
- * Thumbnail List Item - Frontend Rendering (child of chance/list-thumbnail)
+ * Thumbnail List Item - Frontend Rendering (child of theatrum/list-thumbnail)
  *
  * Saves a single `.list-item` containing its nested heading/paragraph content
  * and carries the thumbnail URL/alt as data attributes rather than an <img>.

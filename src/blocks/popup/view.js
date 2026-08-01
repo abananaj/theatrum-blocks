@@ -12,7 +12,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	// Pass A: find every popup, portal its dialog/backdrop to <body>, and
 	// register it by id.
 	document
-		.querySelectorAll( '.wp-block-chance-popup' )
+		.querySelectorAll( '.wp-block-theatrum-popup' )
 		.forEach( ( wrapper ) => {
 			const id = wrapper.id;
 			if ( ! id ) {

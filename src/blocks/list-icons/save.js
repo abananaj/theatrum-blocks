@@ -2,7 +2,7 @@
  * Icon List Block - Frontend Rendering (parent)
  *
  * Renders the `<ul>`/`<ol>` wrapper. The individual items are saved by the
- * `chance/list-item-icon` child block via InnerBlocks. Icon sizing, spacing and
+ * `theatrum/list-item-icon` child block via InnerBlocks. Icon sizing, spacing and
  * colour are passed down as CSS custom properties on the wrapper.
  */
 

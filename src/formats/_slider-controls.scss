@@ -1,4 +1,4 @@
-// Slider arrow/dot chrome — shared by chance/slider (native block) and any
+// Slider arrow/dot chrome — shared by theatrum/slider (native block) and any
 // core block styled `is-style-ct-slider`. Extracted from
 // blocks/slider/style.scss so it also applies to arrows/dots built by
 // formats/slider.js on core/query and core/gallery, which don't nest under
@@ -44,7 +44,7 @@
 	margin-top: 8px;
 }
 
-.ct-slider-dot {
+.theatrum-slider-dot {
 	cursor: pointer;
 	height: 15px;
 	width: 15px;

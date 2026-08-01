@@ -3,7 +3,7 @@
  *
  * The active-slide state and the "n / total" badge both depend on sibling
  * count/selection, which a plain save() can't access — so this mirrors the
- * same useSelect(core/block-editor) trick chance/tab's edit.js uses to
+ * same useSelect(core/block-editor) trick theatrum/tab's edit.js uses to
  * derive "am I the active one" from selection (defaulting to the first
  * child), extended to also report this slide's index/total for the badge.
  */
@@ -69,7 +69,7 @@ export default function Edit( { clientId, isSelected } ) {
 
 	return (
 		<li { ...blockProps }>
-			<div className="ct-slider-slide__number">
+			<div className="theatrum-slider-slide__number">
 				{ index + 1 } / { total }
 			</div>
 			<div { ...innerBlocksProps } />

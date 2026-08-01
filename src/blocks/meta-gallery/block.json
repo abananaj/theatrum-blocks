@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/meta-gallery",
+	"name": "theatrum/meta-gallery",
 	"title": "Meta Gallery",
 	"category": "metablock",
 	"description": "Display a gallery of images from a post meta or ACF gallery field with core gallery styling and features",

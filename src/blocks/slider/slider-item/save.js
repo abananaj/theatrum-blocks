@@ -1,5 +1,5 @@
 /**
- * Slider Item — Frontend Rendering (child of chance/slider)
+ * Slider Item — Frontend Rendering (child of theatrum/slider)
  *
  * No numbertext/active-state markup baked in here — save() has no access to
  * sibling count or selection state, so those are added client-side: as JSX

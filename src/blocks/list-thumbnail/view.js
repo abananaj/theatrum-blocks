@@ -7,7 +7,7 @@
  * hidden via `backface-visibility: hidden`, so we can safely update its src
  * before it comes back into view.
  *
- * List items are rendered by the `chance/list-item-thumbnail` child block —
+ * List items are rendered by the `theatrum/list-item-thumbnail` child block —
  * each carries its thumbnail URL/alt as data attributes for us to read here.
  *
  * Animation duration comes from the `--animation-speed` CSS custom property
@@ -16,7 +16,7 @@
 
 document.addEventListener( 'DOMContentLoaded', function () {
 	const blocks = document.querySelectorAll(
-		'.wp-block-chance-list-thumbnail'
+		'.wp-block-theatrum-list-thumbnail'
 	);
 
 	blocks.forEach( ( block ) => {

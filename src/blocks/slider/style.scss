@@ -6,7 +6,7 @@
 // `.is-active` from block selection instead of clicks/autoplay (see
 // slider-item/edit.js), but reuses this same layout so both contexts match.
 //
-// Arrow/dot chrome (.ct-slider-arrow, .ct-slider-dots, .ct-slider-dot) and
+// Arrow/dot chrome (.ct-slider-arrow, .ct-slider-dots, .theatrum-slider-dot) and
 // @keyframes ct-slider-fade are shared with the is-style-ct-slider format on
 // core/query and core/gallery — see ../../formats/_slider-controls.scss.
 @use "../../formats/slider-controls";
@@ -46,7 +46,7 @@
 		display: block;
 	}
 
-	.ct-slider-slide__number {
+	.theatrum-slider-slide__number {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -60,7 +60,7 @@
 
 	.ct-slider {
 
-		.ct-slider-slide__number {
+		.theatrum-slider-slide__number {
 			font-size: 11px;
 		}
 	}

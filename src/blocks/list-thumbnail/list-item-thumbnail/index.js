@@ -1,5 +1,5 @@
 /**
- * Registers the Thumbnail List Item block (child of chance/list-thumbnail)
+ * Registers the Thumbnail List Item block (child of theatrum/list-thumbnail)
  */
 import { registerBlockType } from '@wordpress/blocks';
 

@@ -1,9 +1,9 @@
 /**
- * Slider format — shared by chance/slider (native block) and any core block
+ * Slider format — shared by theatrum/slider (native block) and any core block
  * styled `is-style-ct-slider` (core/query, core/gallery).
  *
  * Ports example.html's showSlides/plusSlides/currentSlide (see the original
- * chance/slider view.js this was extracted from), but toggles a `.is-active`
+ * theatrum/slider view.js this was extracted from), but toggles a `.is-active`
  * class instead of inline `style.display`, and builds the numbertext badge,
  * dot navigation, and (for core blocks, which don't ship them in markup)
  * the arrow buttons and dots container from the live DOM.
@@ -60,11 +60,11 @@ export function initSlider( root ) {
 
 	if ( isNativeSlider ) {
 		slides.forEach( ( slide, index ) => {
-			if ( slide.querySelector( ':scope > .ct-slider-slide__number' ) ) {
+			if ( slide.querySelector( ':scope > .theatrum-slider-slide__number' ) ) {
 				return;
 			}
 			const badge = document.createElement( 'div' );
-			badge.className = 'ct-slider-slide__number';
+			badge.className = 'theatrum-slider-slide__number';
 			badge.textContent = `${ index + 1 } / ${ slides.length }`;
 			slide.prepend( badge );
 		} );
@@ -73,7 +73,7 @@ export function initSlider( root ) {
 	// Dot navigation, one per slide.
 	const dots = slides.map( ( slide, index ) => {
 		const dot = document.createElement( 'span' );
-		dot.className = 'ct-slider-dot';
+		dot.className = 'theatrum-slider-dot';
 		dot.setAttribute( 'role', 'button' );
 		dot.setAttribute( 'tabindex', '0' );
 		dot.setAttribute( 'aria-label', `${ index + 1 }` );

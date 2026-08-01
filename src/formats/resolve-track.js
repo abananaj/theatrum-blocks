@@ -1,7 +1,7 @@
 /**
  * Resolves the scrollable/track element for a format root.
  *
- * Native chance/carousel and chance/slider markup carry their own track
+ * Native theatrum/carousel and theatrum/slider markup carry their own track
  * class. Core blocks don't, so this falls through to the shapes those
  * blocks actually render:
  *   - core/query        -> .wp-block-post-template (the <ul> of post <li>s)
@@ -14,7 +14,7 @@
 export function resolveTrack( root ) {
 	return (
 		root.querySelector(
-			'.ct-carousel-content, .ct-slider-track, .wp-block-post-template'
+			'.theatrum-carousel-content, .ct-slider-track, .wp-block-post-template'
 		) ?? root
 	);
 }

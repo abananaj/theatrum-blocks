@@ -32,7 +32,7 @@ if (empty($value)) {
   if ($fallback_text) {
     printf(
       '<div %s>%s</div>',
-      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
+      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
       esc_html($fallback_text)
     );
   }
@@ -69,7 +69,7 @@ if (! $file_url) {
   if ($fallback_text) {
     printf(
       '<div %s>%s</div>',
-      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
+      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
       esc_html($fallback_text)
     );
   }
@@ -131,7 +131,7 @@ if ($show_icon) {
 }
 
 $link_html = sprintf(
-  '<a href="%s" class="wp-block-chance-meta-file-link"%s>%s%s</a>',
+  '<a href="%s" class="wp-block-theatrum-meta-file-link"%s>%s%s</a>',
   $file_url,
   $target_attr,
   $icon_html,
@@ -140,6 +140,6 @@ $link_html = sprintf(
 
 printf(
   '<div %s>%s</div>',
-  wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-file')) ),
+  wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
   $link_html
 );

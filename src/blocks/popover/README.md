@@ -2,13 +2,13 @@
 
 A composable hover/tap popover made of three blocks:
 
-- **Popover** (`chance/popover`) — the outer container. Always holds exactly
+- **Popover** (`theatrum/popover`) — the outer container. Always holds exactly
   one Popover Trigger and one Popover Content block.
-- **Popover Trigger** (`chance/popover-trigger`) — the content that reveals
+- **Popover Trigger** (`theatrum/popover-trigger`) — the content that reveals
   the popover on hover (or tap, on touch devices). Accepts any blocks, like a
   Group — text, a heading, a button, an image, whatever you want people to
   hover over.
-- **Popover Content** (`chance/popover-content`) — the content shown inside
+- **Popover Content** (`theatrum/popover-content`) — the content shown inside
   the popover. Also accepts any blocks — commonly a Core Image or Video
   block, but not limited to media.
 

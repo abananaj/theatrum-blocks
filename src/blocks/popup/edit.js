@@ -17,7 +17,7 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	const { dialogLabel, anchor } = attributes;
-	const blockProps = useBlockProps( { className: 'wp-block-chance-popup' } );
+	const blockProps = useBlockProps( { className: 'wp-block-theatrum-popup' } );
 	const [ open, setOpen ] = useState( false );
 
 	const togglePopup = () => setOpen( ! open );

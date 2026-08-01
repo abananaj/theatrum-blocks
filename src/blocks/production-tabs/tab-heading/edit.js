@@ -35,7 +35,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		allowedBlocks: ALLOWED_BLOCKS,
 		template: TEMPLATE,
 		templateInsertUpdatesSelection: false,
-		// Explicit (not just inherited from chance/tab) so this stays locked
+		// Explicit (not just inherited from theatrum/tab) so this stays locked
 		// to a single label even if the parent's lock ever changes.
 		templateLock: 'all',
 	} );

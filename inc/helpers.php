@@ -118,7 +118,7 @@ function theatrum_get_meta($post_id, $key)
 
 /**
  * Mirrors core/embed's aspect-ratio classname logic (getClassNames() in
- * @wordpress/block-library) so chance/meta-embed's "Resize for smaller
+ * @wordpress/block-library) so theatrum/meta-embed's "Resize for smaller
  * devices" toggle behaves exactly like the core Embed block's.
  *
  * @param int  $width           Embed width in px (from the oEmbed markup).
@@ -732,7 +732,7 @@ function theatrum_filter_query_loop_by_term($query, $block)
 add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_term', 10, 2);
 
 /**
- * Apply the chance/query-filter block's "Sort Order" mode to query loops.
+ * Apply the theatrum/query-filter block's "Sort Order" mode to query loops.
  *
  * The query-filter block's orderby mode writes an `?orderby=` GET param with
  * values like `date-asc` / `title-desc`, but those aren't real WP query vars

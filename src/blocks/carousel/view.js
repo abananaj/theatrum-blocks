@@ -8,7 +8,7 @@ import { initCarousel } from '../../formats/carousel';
 
 window.addEventListener( 'load', () => {
 	for ( const component of document.querySelectorAll(
-		'.ct-carousel-wrapper'
+		'.theatrum-carousel-wrapper'
 	) ) {
 		initCarousel( component );
 	}

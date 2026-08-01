@@ -1,17 +1,17 @@
 import { addFilter } from '@wordpress/hooks';
 import { createBlock } from '@wordpress/blocks';
 
-// Maps each core block to the old chance/* block(s) it can receive as transforms.
+// Maps each core block to the old theatrum/* block(s) it can receive as transforms.
 const TRANSFORMS = {
 	'core/image': [
 		{
-			fromBlock: 'chance/meta-image',
+			fromBlock: 'theatrum/meta-image',
 			transform: ( attrs ) => ( {
 				metadata: {
 					name: 'theatrum/bind-image',
 					bindings: {
 						id: {
-							source: 'chance/post-meta',
+							source: 'theatrum/post-meta',
 							args: { key: attrs.keyInput || '' },
 						},
 					},
@@ -21,14 +21,14 @@ const TRANSFORMS = {
 	],
 	'core/button': [
 		{
-			fromBlock: 'chance/meta-button',
+			fromBlock: 'theatrum/meta-button',
 			transform: ( attrs ) => ( {
 				text: attrs.buttonText || 'Learn More',
 				metadata: {
 					name: 'theatrum/bind-button',
 					bindings: {
 						url: {
-							source: 'chance/post-meta',
+							source: 'theatrum/post-meta',
 							args: { key: attrs.keyInput || '' },
 						},
 					},
@@ -38,13 +38,13 @@ const TRANSFORMS = {
 	],
 	'core/paragraph': [
 		{
-			fromBlock: 'chance/meta-field',
+			fromBlock: 'theatrum/meta-field',
 			transform: ( attrs ) => ( {
 				metadata: {
 					name: 'theatrum/bind-field',
 					bindings: {
 						content: {
-							source: 'chance/post-meta',
+							source: 'theatrum/post-meta',
 							args: { key: attrs.keyInput || '' },
 						},
 					},
@@ -52,7 +52,7 @@ const TRANSFORMS = {
 			} ),
 		},
 		{
-			fromBlock: 'chance/meta-date',
+			fromBlock: 'theatrum/meta-date',
 			transform: ( attrs ) => {
 				const format =
 					attrs.dateFormat === 'custom'
@@ -63,7 +63,7 @@ const TRANSFORMS = {
 						name: 'theatrum/bind-date',
 						bindings: {
 							content: {
-								source: 'chance/post-meta',
+								source: 'theatrum/post-meta',
 								args: { key: attrs.keyInput || '', format },
 							},
 						},

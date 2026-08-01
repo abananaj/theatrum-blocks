@@ -1,6 +1,6 @@
 # Thumbnail List Block
 
-An interactive block that displays a list of items with corresponding thumbnail images. When users hover over list items, a flip-card panel updates with a smooth 3D flip animation. Each item is a nested `chance/list-item-thumbnail` block (nested heading/paragraph content, plus a thumbnail image) — modeled after the `list-icons` / `list-item-icon` pattern.
+An interactive block that displays a list of items with corresponding thumbnail images. When users hover over list items, a flip-card panel updates with a smooth 3D flip animation. Each item is a nested `theatrum/list-item-thumbnail` block (nested heading/paragraph content, plus a thumbnail image) — modeled after the `list-icons` / `list-item-icon` pattern.
 
 ## Features
 
@@ -16,7 +16,7 @@ An interactive block that displays a list of items with corresponding thumbnail 
 - **Responsive Design**: Automatically adapts to mobile and tablet sizes
 - **Full Block Support**: Supports alignment, spacing, typography, colors, borders, shadows, and more
 
-## Parent Block: `chance/list-thumbnail`
+## Parent Block: `theatrum/list-thumbnail`
 
 List-wide settings, applied as CSS custom properties consumed by the child items and the flip-card panel:
 
@@ -29,7 +29,7 @@ List-wide settings, applied as CSS custom properties consumed by the child items
 - `thumbnailAspectRatio` (string): "auto" (use `thumbnailHeight`), "1", "4/3", "3/4", "16/9", or "9/16" — when set, height is derived from width via CSS `aspect-ratio` instead
 - `thumbnailObjectFit` (string): "cover", "contain", or "fill" (default: "cover")
 
-## Child Block: `chance/list-item-thumbnail`
+## Child Block: `theatrum/list-item-thumbnail`
 
 - Nested content: `core/heading` + `core/paragraph` InnerBlocks (default template), restricted to those two block types
 - `thumbnailId` (number): Media library attachment ID

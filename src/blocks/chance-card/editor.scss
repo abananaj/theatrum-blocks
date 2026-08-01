@@ -7,11 +7,11 @@
  * editor canvas — anything else just makes the editor diverge.
  */
 
-.wp-block-chance-chance-card {
+.wp-block-theatrum-chance-card {
 	// Neutralize theme global button shadow/transform that bleed into the editor
 	// (the frontend button in style.scss has neither). Margin is intentionally
 	// left to style.scss so the 10px gap matches the frontend.
-	.chance-card .button {
+	.theatrum-card .button {
 		line-height: 1;
 		box-shadow: none;
 		transform: none !important;

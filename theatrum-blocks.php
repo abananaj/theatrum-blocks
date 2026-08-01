@@ -209,9 +209,9 @@ add_filter('block_categories_all', 'theatrum_register_block_category');
  */
 function theatrum_add_dev_mode_attribute($metadata)
 {
-	// Only add to this plugin's own blocks (chance/* and theatrum/* namespaces)
+	// Only add to this plugin's own blocks (theatrum/* namespace)
 	$name = $metadata['name'] ?? '';
-	if (strpos($name, 'theatrum/') === 0 || strpos($name, 'chance/') === 0) {
+	if (strpos($name, 'theatrum/') === 0) {
 		if (!isset($metadata['attributes'])) {
 			$metadata['attributes'] = array();
 		}
@@ -252,7 +252,7 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_style_book_script');
 
 /**
  * Enqueues the meta-variations script that registers core block variations
- * backed by the chance/post-meta Block Bindings source.
+ * backed by the theatrum/post-meta Block Bindings source.
  */
 function theatrum_enqueue_meta_variations_script()
 {
@@ -276,7 +276,7 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_meta_variations_scri
 
 /**
  * Enqueues the popup-trigger-variation script that registers the
- * chance/popup-trigger core/button variation.
+ * theatrum/popup-trigger core/button variation.
  */
 function theatrum_enqueue_popup_trigger_variation_script()
 {
@@ -401,8 +401,8 @@ add_action('init', 'theatrum_register_format_assets');
 /**
  * Editor: enqueue the formats stylesheet so the Carousel/Slider style
  * previews render correctly in the Styles panel and canvas. No script here
- * — the runtime is frontend-only, matching how chance/carousel and
- * chance/slider's own viewScript only ever runs on the frontend.
+ * — the runtime is frontend-only, matching how theatrum/carousel and
+ * theatrum/slider's own viewScript only ever runs on the frontend.
  */
 function theatrum_enqueue_format_editor_assets()
 {

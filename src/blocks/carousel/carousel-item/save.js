@@ -1,5 +1,5 @@
 /**
- * Carousel Item — Frontend Rendering (child of chance/carousel)
+ * Carousel Item — Frontend Rendering (child of theatrum/carousel)
  */
 
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';

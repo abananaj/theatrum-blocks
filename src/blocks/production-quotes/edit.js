@@ -8,7 +8,7 @@ export default function Edit() {
 	return (
 		<div { ...blockProps }>
 			<ServerSideRender
-				block="chance/production-quotes"
+				block="theatrum/production-quotes"
 				attributes={ {} }
 			/>
 		</div>

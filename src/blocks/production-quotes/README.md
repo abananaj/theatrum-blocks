@@ -59,8 +59,8 @@ Add the "Production Quotes" block to any post template. The block will automatic
 ### Example Output
 
 ```html
-<div class="wp-block-chance-production-quotes">
-	<div class="wp-block-chance-production-quotes-item">
+<div class="wp-block-theatrum-production-quotes">
+	<div class="wp-block-theatrum-production-quotes-item">
 		<blockquote class="wp-block-quote">
 			<p>It was only in the theatre that I lived.</p>
 			<p>

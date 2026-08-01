@@ -1,5 +1,5 @@
 /**
- * Thumbnail List Item Block Editor (child of chance/list-thumbnail)
+ * Thumbnail List Item Block Editor (child of theatrum/list-thumbnail)
  *
  * Renders a single `.list-item` containing nested heading/paragraph content
  * (a real InnerBlocks area, not fixed RichText fields — lets each item hold

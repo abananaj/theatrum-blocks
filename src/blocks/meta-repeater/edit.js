@@ -129,7 +129,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			);
 		});
 
-		return createElement(WrapperTag, { className: 'wp-block-chance-meta-repeater-preview' }, ...items);
+		return createElement(WrapperTag, { className: 'wp-block-theatrum-meta-repeater-preview' }, ...items);
 	};
 
 	return (
@@ -137,7 +137,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			<InspectorControls>
 				<ToolsPanel
 					label="Post Source"
-					panelId="chance/meta-repeater"
+					panelId="theatrum/meta-repeater"
 					resetAll={() => {
 						setAttributes({ overridePostId: 0 });
 						setPostSearchInput('');
@@ -147,7 +147,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					<ToolsPanelItem
 						hasValue={() => !!attributes.overridePostId}
 						label="Override Post"
-						panelId="chance/meta-repeater"
+						panelId="theatrum/meta-repeater"
 						onDeselect={() => {
 							setAttributes({ overridePostId: 0 });
 							setPostSearchInput('');

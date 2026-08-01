@@ -15,8 +15,8 @@ import {
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-const ALLOWED_BLOCKS = [ 'chance/tab' ];
-const TEMPLATE = [ [ 'chance/tab' ], [ 'chance/tab' ] ];
+const ALLOWED_BLOCKS = [ 'theatrum/tab' ];
+const TEMPLATE = [ [ 'theatrum/tab' ], [ 'theatrum/tab' ] ];
 
 export default function Edit( { attributes, setAttributes } ) {
 	const { equalWidthTabs } = attributes;

@@ -1,7 +1,9 @@
 /**
  * Editor-only styles for Card Carousel.
  *
- * edit.js renders the same `.ct-carousel-*` markup as render.php, so the
+ * edit.js renders the same `.theatrum-carousel-*` markup as render.php (plus
+ * the still-`.ct-carousel-card` child markup from carousel-item's save.js —
+ * stored in post content, not renamed), so the
  * frontend styles in style.scss apply here too (block.json's "style" handle
  * is enqueued in both contexts). Add editor-only overrides here if needed.
  */

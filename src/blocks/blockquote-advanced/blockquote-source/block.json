@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/blockquote-source",
+	"name": "theatrum/blockquote-source",
 	"title": "Source",
 	"category": "theatrum",
 	"icon": "admin-users",
 	"description": "The attributed source line for the quote, e.g. —Author, Work Title.",
 	"textdomain": "theatrum-blocks",
-	"parent": ["chance/blockquote-advanced"],
+	"parent": ["theatrum/blockquote-advanced"],
 	"attributes": {
 		"sourceText": {
 			"type": "rich-text",

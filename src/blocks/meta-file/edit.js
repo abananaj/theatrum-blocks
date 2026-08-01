@@ -85,7 +85,7 @@ export default function Edit({ attributes, setAttributes, context }) {
             href={fileData.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="wp-block-chance-meta-file-link"
+            className="wp-block-theatrum-meta-file-link"
           >
             {attributes.showIcon && (
               <span
@@ -111,7 +111,7 @@ export default function Edit({ attributes, setAttributes, context }) {
           <a
             href="#"
             onClick={(e) => e.preventDefault()}
-            className="wp-block-chance-meta-file-link is-placeholder"
+            className="wp-block-theatrum-meta-file-link is-placeholder"
           >
             {attributes.showIcon && (
               <span

@@ -138,7 +138,7 @@ In Gutenberg editor, add the "Site Option" block to any post/page template:
 ### Example Output
 
 ```html
-<div class="wp-block-chance-site-option">
+<div class="wp-block-theatrum-site-option">
 	<p><span>https://chancetheater.dev</span></p>
 </div>
 ```

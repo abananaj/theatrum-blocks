@@ -3,7 +3,7 @@
 // top-level CSS output of its own, so @use-ing it from editor.scss doesn't
 // double-load style.scss's rules into the compiled editor bundle.
 
-// Colors come from chance/tab-heading's inline custom properties (see
+// Colors come from theatrum/tab-heading's inline custom properties (see
 // color-style.js) so each tab can have its own normal/hover/active colors.
 // An unset state falls back to the next: hover → normal → inherit/transparent.
 @mixin tab-header-active-colors {

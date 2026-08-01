@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/tab-content",
+	"name": "theatrum/tab-content",
 	"title": "Tab Content",
 	"category": "theatrum",
 	"icon": "index-card",
 	"description": "The panel content for a tab. Accepts any blocks, like a Group.",
 	"textdomain": "theatrum-blocks",
-	"parent": ["chance/tab"],
+	"parent": ["theatrum/tab"],
 	"supports": {
 		"html": false,
 		"reusable": false,

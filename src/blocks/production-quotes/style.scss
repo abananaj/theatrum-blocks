@@ -1,6 +1,6 @@
 /* Production Quotes Block */
 
-.wp-block-chance-production-quotes {
+.wp-block-theatrum-production-quotes {
 	display: flex;
 	flex-direction: column;
   margin: 1rem 0;
@@ -8,11 +8,11 @@
   // The visible quote text inherits this so the editor control takes effect.
 }
 
-.wp-block-chance-production-quotes-item {
+.wp-block-theatrum-production-quotes-item {
 	width: 100%;
 }
 
-.wp-block-chance-production-quotes .wp-block-quote {
+.wp-block-theatrum-production-quotes .wp-block-quote {
 	// `main` was a parent-theme (Ollie) palette slug; our palette fully
 	// replaces the parent's, so this always resolved to the #000 fallback
 	// instead of a brand colour. --ct-primary is the equivalent token and

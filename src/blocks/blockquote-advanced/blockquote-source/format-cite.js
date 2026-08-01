@@ -15,7 +15,7 @@ const CiteEdit = ( { isActive, value, onChange } ) => {
 		const clientId = getSelectedBlockClientId();
 		return (
 			!! clientId &&
-			getBlockName( clientId ) === 'chance/blockquote-source'
+			getBlockName( clientId ) === 'theatrum/blockquote-source'
 		);
 	}, [] );
 

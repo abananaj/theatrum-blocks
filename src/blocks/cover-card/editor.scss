@@ -10,7 +10,7 @@
  * `.button { margin: 0 }` that clobbered the intended `margin-left: 10px`.
  */
 
-.wp-block-chance-cover-card {
+.wp-block-theatrum-cover-card {
 	// Neutralize theme global button shadow/transform that bleed into the editor
 	// (the frontend button in style.scss has neither). Margin is intentionally
 	// left to style.scss so the 10px gap matches the frontend.

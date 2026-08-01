@@ -1,5 +1,5 @@
 /**
- * Icon List Item Block - Frontend Rendering (child of chance/list-icons)
+ * Icon List Item Block - Frontend Rendering (child of theatrum/list-icons)
  *
  * Saves a single `<li>` with its optional icon and text. Icon size, spacing,
  * colour, position and hover behaviour are inherited from the parent wrapper's

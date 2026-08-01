@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Server-side render for the chance/query-filter block.
+ * Server-side render for the theatrum/query-filter block.
  *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.

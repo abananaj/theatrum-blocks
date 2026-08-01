@@ -1,6 +1,6 @@
 # Slider Block
 
-A fading slideshow block, based on the classic prev/next/dots slideshow in `example.html`. `chance/slider` is the wrapper (track + arrows + dots); each slide is a `chance/slider-item` child block, editable like a Group — it accepts any inner blocks (image, heading, paragraph, or anything else).
+A fading slideshow block, based on the classic prev/next/dots slideshow in `example.html`. `theatrum/slider` is the wrapper (track + arrows + dots); each slide is a `theatrum/slider-item` child block, editable like a Group — it accepts any inner blocks (image, heading, paragraph, or anything else).
 
 ## Features
 
@@ -13,7 +13,7 @@ A fading slideshow block, based on the classic prev/next/dots slideshow in `exam
 
 ## Block Attributes
 
-### `chance/slider`
+### `theatrum/slider`
 
 #### autoplay
 
@@ -27,16 +27,16 @@ A fading slideshow block, based on the classic prev/next/dots slideshow in `exam
 - **Default**: `5000`
 - **Description**: Milliseconds between automatic slide advances (only used when autoplay is on)
 
-### `chance/slider-item`
+### `theatrum/slider-item`
 
 No attributes — content is entirely InnerBlocks.
 
 ## Usage in PHP
 
 ```php
-echo do_blocks( '<!-- wp:chance/slider {"autoplay":true,"autoplaySpeed":4000} -->
-<!-- wp:chance/slider-item -->...<!-- /wp:chance/slider-item -->
-<!-- /wp:chance/slider -->' );
+echo do_blocks( '<!-- wp:theatrum/slider {"autoplay":true,"autoplaySpeed":4000} -->
+<!-- wp:theatrum/slider-item -->...<!-- /wp:theatrum/slider-item -->
+<!-- /wp:theatrum/slider -->' );
 ```
 
 ## Files

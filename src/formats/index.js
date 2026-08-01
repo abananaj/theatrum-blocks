@@ -3,7 +3,7 @@
  * actually use `is-style-ct-carousel` / `is-style-ct-slider` (see the
  * `render_block` enqueue sniff in inc/block-styles.php), so this doesn't
  * need to guard against absence — but it does need to skip roots already
- * owned by the native chance/carousel and chance/slider blocks, since their
+ * owned by the native theatrum/carousel and theatrum/slider blocks, since their
  * own view.js already initializes them.
  */
 
@@ -14,7 +14,7 @@ import { initSlider } from './slider';
 
 window.addEventListener( 'load', () => {
 	for ( const root of document.querySelectorAll( '.is-style-ct-carousel' ) ) {
-		if ( root.classList.contains( 'wp-block-chance-carousel' ) ) {
+		if ( root.classList.contains( 'wp-block-theatrum-carousel' ) ) {
 			continue;
 		}
 		initCarousel( root );

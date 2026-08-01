@@ -11,8 +11,8 @@
 // empty), use List View — it selects by name regardless of current CSS
 // visibility.
 
-.wp-block-chance-popover-content.is-selected,
-.wp-block-chance-popover-content.has-child-selected {
+.wp-block-theatrum-popover-content.is-selected,
+.wp-block-theatrum-popover-content.has-child-selected {
 	opacity: 1 !important;
 	visibility: visible !important;
 	pointer-events: auto !important;
@@ -26,7 +26,7 @@
 // from `bottom: 100%` instead of sitting flush above the trigger — visible
 // as a gap, with the panel appearing below the trigger instead of overlapping
 // it. Cancel it out so editor positioning matches the front end exactly.
-.wp-block-chance-popover .wp-block-chance-popover-content {
+.wp-block-theatrum-popover .wp-block-theatrum-popover-content {
 	margin-block-start: 0 !important;
 }
 
@@ -38,6 +38,6 @@
 // core rule wins, the panel stops floating entirely and renders as a normal
 // in-flow block below the trigger — the exact "gap, appears underneath"
 // symptom. Force absolute positioning to always win in the editor.
-.wp-block-chance-popover-content {
+.wp-block-theatrum-popover-content {
 	position: absolute !important;
 }
