@@ -415,10 +415,10 @@ foreach ($rows as $row) {
 	));
 
 	if ($apply) {
-		$result = wp_update_post([
+		$result = wp_update_post(wp_slash([
 			'ID'           => $row->ID,
 			'post_content' => $updated,
-		], true);
+		]), true);
 
 		if (is_wp_error($result)) {
 			WP_CLI::warning(sprintf('  #%s failed to save: %s', $row->ID, $result->get_error_message()));
