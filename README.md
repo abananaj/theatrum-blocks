@@ -20,7 +20,7 @@ Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 3
 | `season-producer` | ⚠️ | Candidate for removal — may be replaced by `term-meta` |
 
 ### 🔗 Meta Blocks (Block Bindings)
-Variation blocks backed by the `chance/post-meta` binding source (WP 6.5+). Existing instances migrate via "Transform to" in the block toolbar.
+Variation blocks backed by the `theatrum/post-meta` binding source (WP 6.5+). Existing instances migrate via "Transform to" in the block toolbar.
 
 | Block | Status | Notes |
 |-------|--------|-------|
@@ -103,8 +103,8 @@ theatrum-blocks/
 │   └── index.js          # optional: icons, registration
 ├── inc/
 │   ├── helpers.php       # date parsing, production queries, query-loop-by-term filter
-│   ├── rest-endpoints.php # /chance/v1/* routes for block editor data
-│   └── block-bindings.php # chance/post-meta binding source (WP 6.5+)
+│   ├── rest-endpoints.php # /theatrum/v1/* routes for block editor data
+│   └── block-bindings.php # theatrum/post-meta binding source (WP 6.5+)
 ├── build/                # compiled output (gitignored)
 ├── theatrum-blocks.php   # plugin entry: block registration, category, devMode attr, style-book
 └── package.json
@@ -112,11 +112,11 @@ theatrum-blocks/
 
 ### Key Systems
 
-- **Block Bindings** — `chance/post-meta` source in `inc/block-bindings.php` powers all meta-variation blocks. Reads ACF `get_field()` with raw `get_post_meta()` fallback. Handles date formatting, URL/href, and attachment ID attributes.
-- **REST API** — 15+ endpoints under `/wp-json/chance/v1/` serve block editor previews. All require `edit_posts` capability except `/cover-card` (see Issues).
+- **Block Bindings** — `theatrum/post-meta` source in `inc/block-bindings.php` powers all meta-variation blocks. Reads ACF `get_field()` with raw `get_post_meta()` fallback. Handles date formatting, URL/href, and attachment ID attributes.
+- **REST API** — 15+ endpoints under `/wp-json/theatrum/v1/` serve block editor previews. All require `edit_posts` capability except `/cover-card` (see Issues).
 - **Date parsing** — `theatrum_parse_flexible_date()` handles Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates; results cached 1h in `ct_dates` group.
 - **Query loop by term** — `theatrum_filter_query_loop_by_term()` constrains nested query loops to their `term-template` context (supports WP 6.9+ `core/term-template`).
-- **devMode** — `theatrum_add_dev_mode_attribute` injects a `devMode` boolean attribute to every `chance/*` and `theatrum/*` block via `block_type_metadata` filter. Only `breadcrumbs` currently wires up the inspector toggle/indicator (see `DEV_MODE.md`).
+- **devMode** — `theatrum_add_dev_mode_attribute` injects a `devMode` boolean attribute to every `theatrum/*` block via `block_type_metadata` filter. Only `breadcrumbs` currently wires up the inspector toggle/indicator (see `DEV_MODE.md`).
 
 ---
 
@@ -144,14 +144,14 @@ npm run plugin-zip      # create a distributable plugin zip
 
 ### 🟠 Bugs / Correctness
 - ~~Wrong text domain in `production-details/render.php`~~ — fixed (`theatrum-blocks`).
-- ~~`date()` instead of `wp_date()`~~ — fixed in cover-card, copyright-date-block, and `chance_format_production_date()`.
+- ~~`date()` instead of `wp_date()`~~ — fixed in cover-card, copyright-date-block, and `theatrum_format_production_date()`.
 - ~~`cover-card` ignores block context `postId`~~ — fixed, now falls back to `$block->context['postId']`.
 - ~~Mixed `opening`/`closing` meta_query formats~~ — fixed; production queries now parse via `theatrum_parse_flexible_date()` rather than SQL DATE/DATETIME casts, since stored values are a genuine mix of `Ymd` and `Y-m-d H:i:s`.
 
 ### 🟡 Technical Debt
-- **Unprefixed REST callback functions**: `get_board_member_rest_callback`, `get_staff_member_rest_callback`, `get_meta_date_rest_callback`, `get_meta_time_rest_callback`, `get_meta_related_rest_callback`, `get_production_performances_rest_callback`, `get_site_option_rest_callback` — should use `theatrum_` prefix to avoid collisions.
+- ~~**Unprefixed REST callback functions**: `get_board_member_rest_callback`, `get_staff_member_rest_callback`, `get_meta_date_rest_callback`, `get_meta_time_rest_callback`, `get_meta_related_rest_callback`, `get_production_performances_rest_callback`, `get_site_option_rest_callback` — should use `theatrum_` prefix to avoid collisions.~~ — fixed; all REST endpoint functions in `inc/rest-endpoints.php` now use the `theatrum_` prefix (along with the whole plugin's `chance/` → `theatrum/` block-namespace unification).
 - **`board-member` / `staff-member` REST callbacks are ~90% duplicate code** — extract shared person-list logic into a helper.
-- **`chance_get_next_production()` calls `chance_get_current_production()` internally** — two pages showing both blocks run multiple uncached DB queries; consider `wp_cache_get/set`.
+- **`theatrum_get_next_production()` calls `theatrum_get_current_production()` internally** — two pages showing both blocks run multiple uncached DB queries; consider `wp_cache_get/set`.
 - **`package.json` still has scaffolding defaults**: `description` = "Example block scaffolded with Create Block tool." and `author` = "The WordPress Contributors".
 
 ### 🗑️ Cleanup / Removal

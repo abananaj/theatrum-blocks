@@ -4,7 +4,7 @@ The theatrum-blocks plugin includes a dev mode feature that displays block names
 
 ## How It Works
 
-- All blocks in this plugin's `chance/*` and `theatrum/*` namespaces automatically have a `devMode` boolean attribute (default: `false`), added via the `block_type_metadata` filter in `theatrum-blocks.php`
+- All blocks in this plugin's `theatrum/*` namespace automatically have a `devMode` boolean attribute (default: `false`), added via the `block_type_metadata` filter in `theatrum-blocks.php`
 - The attribute alone doesn't add any UI — only blocks that opt in with the steps below (currently just `breadcrumbs`) show the toggle and indicator
 - When enabled in the block inspector, a small indicator appears in the top-left corner showing:
   - **Block name** (e.g., `theatrum/breadcrumbs`)

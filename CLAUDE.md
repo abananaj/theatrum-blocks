@@ -115,7 +115,7 @@ Block variations (in `_variations/` directory) extend existing WordPress blocks 
 
 **inc/rest-endpoints.php**
 - Registers custom REST API routes for block editors
-- Provides data endpoints that blocks use (e.g., `/chance/v1/cover-card/{meta_key}`)
+- Provides data endpoints that blocks use (e.g., `/theatrum/v1/cover-card/{meta_key}`)
 - Includes permission callbacks for security
 
 **inc/empty-meta.js**
@@ -161,7 +161,7 @@ $meta_value = get_post_meta($post_id, 'my_meta_key', true);
 
 Add route registration to `inc/rest-endpoints.php`:
 ```php
-register_rest_route('chance/v1', '/my-endpoint', [
+register_rest_route('theatrum/v1', '/my-endpoint', [
     'methods' => 'GET',
     'callback' => 'my_callback_function',
     'permission_callback' => 'theatrum_editor_permission_check',
