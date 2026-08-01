@@ -10,7 +10,7 @@
 	"keywords": ["thumbnail", "list", "item"],
 	"parent": ["chance/list-thumbnail"],
 	"allowedBlocks": ["core/heading", "core/paragraph"],
-	"usesContext": ["chance/imageSizeSlug"],
+	"usesContext": ["theatrum/imageSizeSlug"],
 	"supports": {
 		"html": false,
 		"reusable": false,

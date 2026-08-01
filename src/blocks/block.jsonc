@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "chance/block-name", // Use "chance/" for post/term-meta and content blocks (the plugin's dominant namespace); "theatrum/" is reserved for a handful of layout/table/nav blocks (see theatrum-blocks.php's $custom_blocks list for the exact split).
+	"name": "theatrum/block-name", // All new blocks use the single "theatrum/" namespace. The plugin previously split blocks across "chance/" and "theatrum/" — that split has been consolidated; do not register new blocks under "chance/".
 	"title": "string", // Display title.
 	"category": "text", // text, media, design, widgets, theme, embed
 	"parent": ["namespace/block-name"], // Block available in these blocks as a child block.

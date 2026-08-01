@@ -70,7 +70,7 @@ $context = wp_interactivity_data_wp_context(['paramName' => $field_name]);
 
 $wrapper_attributes = get_block_wrapper_attributes([
   'class'                => 'query-filter query-filter--' . esc_attr($layout),
-  'data-wp-interactive' => 'chance/query-filter',
+  'data-wp-interactive' => 'theatrum/query-filter',
 ]);
 ?>
 

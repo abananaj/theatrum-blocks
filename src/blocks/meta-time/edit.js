@@ -26,7 +26,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			? (attributes.customFormat || 'h:i A')
 			: attributes.timeFormat;
 		const encodedFormat = encodeURIComponent(format);
-		const url = `/chance/v1/meta-time/${postId}/${attributes.keyInput}/${encodedFormat}`;
+		const url = `/theatrum/v1/meta-time/${postId}/${attributes.keyInput}/${encodedFormat}`;
 
 		apiFetch({ path: url })
 			.then((data) => {

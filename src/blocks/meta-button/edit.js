@@ -29,7 +29,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		setIsLoading(true);
 
-		const url = `/chance/v1/meta-button/${postId}/${attributes.keyInput}`;
+		const url = `/theatrum/v1/meta-button/${postId}/${attributes.keyInput}`;
 
 		apiFetch({ path: url })
 			.then((data) => {

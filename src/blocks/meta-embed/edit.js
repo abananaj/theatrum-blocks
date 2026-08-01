@@ -85,7 +85,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
     setIsLoading(true);
 
-    const url = `/chance/v1/meta-embed/${postId}/${keyInput}`;
+    const url = `/theatrum/v1/meta-embed/${postId}/${keyInput}`;
 
     apiFetch({ path: url })
       .then((data) => {

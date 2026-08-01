@@ -1,7 +1,7 @@
 import { store, getContext } from '@wordpress/interactivity';
 import { actions as routerActions } from '@wordpress/interactivity-router';
 
-const { state } = store( 'chance/query-filter', {
+const { state } = store( 'theatrum/query-filter', {
 	state: {
 		isOpen: false,
 	},

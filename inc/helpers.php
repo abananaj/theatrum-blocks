@@ -505,7 +505,7 @@ function theatrum_parse_flexible_time($time_str)
  * @return array|null Production object with: ID, title, featured_image, opening, closing
  *                    or null if none found
  */
-function chance_get_current_production()
+function theatrum_get_current_production()
 {
 	// Get current_season from wp_options
 	$current_season = get_option('options_current_season');
@@ -514,7 +514,7 @@ function chance_get_current_production()
 		return null;
 	}
 
-	$productions = chance_query_season_productions($current_season);
+	$productions = theatrum_query_season_productions($current_season);
 
 	if (empty($productions)) {
 		return null;
@@ -527,14 +527,14 @@ function chance_get_current_production()
 		if ($production['opening_ts'] && $production['closing_ts']
 			&& $production['opening_ts'] <= $now && $production['closing_ts'] >= $now
 		) {
-			return chance_build_production_data($production['post']);
+			return theatrum_build_production_data($production['post']);
 		}
 	}
 
 	// Otherwise, the closest upcoming production (already sorted by opening ASC).
 	foreach ($productions as $production) {
 		if ($production['opening_ts'] && $production['opening_ts'] > $now) {
-			return chance_build_production_data($production['post']);
+			return theatrum_build_production_data($production['post']);
 		}
 	}
 
@@ -553,7 +553,7 @@ function chance_get_current_production()
  * @return array List of ['post' => WP_Post, 'opening_ts' => int|false, 'closing_ts' => int|false],
  *               sorted by opening_ts ascending.
  */
-function chance_query_season_productions($season)
+function theatrum_query_season_productions($season)
 {
 	$args = array(
 		'post_type'      => 'production',
@@ -602,7 +602,7 @@ function chance_query_season_productions($season)
  * @return array|null Production object with: ID, title, featured_image, opening, closing
  *                    or null if none found
  */
-function chance_get_next_production()
+function theatrum_get_next_production()
 {
 	// Get current_season from wp_options
 	$current_season = get_option('options_current_season');
@@ -611,7 +611,7 @@ function chance_get_next_production()
 		return null;
 	}
 
-	$current_prod = chance_get_current_production();
+	$current_prod = theatrum_get_current_production();
 
 	if (!$current_prod) {
 		return null;
@@ -619,14 +619,14 @@ function chance_get_next_production()
 
 	// Get the opening date of current production to find the next one after it.
 	$current_opening = theatrum_parse_flexible_date($current_prod['opening']);
-	$productions      = chance_query_season_productions($current_season);
+	$productions      = theatrum_query_season_productions($current_season);
 
 	foreach ($productions as $production) {
 		if ((int) $production['post']->ID === (int) $current_prod['ID']) {
 			continue;
 		}
 		if ($production['opening_ts'] && $production['opening_ts'] > $current_opening) {
-			return chance_build_production_data($production['post']);
+			return theatrum_build_production_data($production['post']);
 		}
 	}
 
@@ -640,7 +640,7 @@ function chance_get_next_production()
  *
  * @return array Production data with: ID, title, featured_image, featured_image_id, opening, closing, slug
  */
-function chance_build_production_data($post)
+function theatrum_build_production_data($post)
 {
 	$opening_str = get_post_meta($post->ID, 'opening', true);
 	$closing_str = get_post_meta($post->ID, 'closing', true);
@@ -668,7 +668,7 @@ function chance_build_production_data($post)
  *
  * @return string Formatted date or empty string if invalid
  */
-function chance_format_production_date($date, $format = 'M j')
+function theatrum_format_production_date($date, $format = 'M j')
 {
 	if (empty($date)) {
 		return '';

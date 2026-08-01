@@ -45,7 +45,7 @@ const TEMPLATE = [
 
 export default function Edit( { attributes, setAttributes, context } ) {
 	const { thumbnailId, thumbnailUrl, thumbnailAlt } = attributes;
-	const imageSizeSlug = context[ 'chance/imageSizeSlug' ] || 'full';
+	const imageSizeSlug = context[ 'theatrum/imageSizeSlug' ] || 'full';
 	const blockProps = useBlockProps( { className: 'list-item' } );
 
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {

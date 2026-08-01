@@ -25,7 +25,7 @@ List-wide settings, applied as CSS custom properties consumed by the child items
 - `thumbnailHeight` / `thumbnailHeightUnit` (string): Flip-card panel height (default: "300px") — ignored when `thumbnailAspectRatio` is not "auto"
 - `itemHeight` / `itemHeightUnit` (string): Height of each list item (default: "80px")
 - `animationSpeed` (string): Duration of the flip/hover transitions - "0.2", "0.3", "0.5", or "1" (default: "0.3")
-- `imageSizeSlug` (string): WP registered image size used to resolve every item's thumbnail URL (default: "full"); passed down to children as block context (`chance/imageSizeSlug`)
+- `imageSizeSlug` (string): WP registered image size used to resolve every item's thumbnail URL (default: "full"); passed down to children as block context (`theatrum/imageSizeSlug`)
 - `thumbnailAspectRatio` (string): "auto" (use `thumbnailHeight`), "1", "4/3", "3/4", "16/9", or "9/16" — when set, height is derived from width via CSS `aspect-ratio` instead
 - `thumbnailObjectFit` (string): "cover", "contain", or "fill" (default: "cover")
 

@@ -8,7 +8,7 @@ const TRANSFORMS = {
 			fromBlock: 'chance/meta-image',
 			transform: ( attrs ) => ( {
 				metadata: {
-					name: 'chance/bind-image',
+					name: 'theatrum/bind-image',
 					bindings: {
 						id: {
 							source: 'chance/post-meta',
@@ -25,7 +25,7 @@ const TRANSFORMS = {
 			transform: ( attrs ) => ( {
 				text: attrs.buttonText || 'Learn More',
 				metadata: {
-					name: 'chance/bind-button',
+					name: 'theatrum/bind-button',
 					bindings: {
 						url: {
 							source: 'chance/post-meta',
@@ -41,7 +41,7 @@ const TRANSFORMS = {
 			fromBlock: 'chance/meta-field',
 			transform: ( attrs ) => ( {
 				metadata: {
-					name: 'chance/bind-field',
+					name: 'theatrum/bind-field',
 					bindings: {
 						content: {
 							source: 'chance/post-meta',
@@ -60,7 +60,7 @@ const TRANSFORMS = {
 						: attrs.dateFormat || 'M jS';
 				return {
 					metadata: {
-						name: 'chance/bind-date',
+						name: 'theatrum/bind-date',
 						bindings: {
 							content: {
 								source: 'chance/post-meta',
@@ -76,7 +76,7 @@ const TRANSFORMS = {
 
 addFilter(
 	'blocks.registerBlockType',
-	'chance/add-meta-transforms',
+	'theatrum/add-meta-transforms',
 	( settings, name ) => {
 		const entries = TRANSFORMS[ name ];
 		if ( ! entries ) {

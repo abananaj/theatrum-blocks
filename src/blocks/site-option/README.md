@@ -89,9 +89,9 @@ Title/Role Info
 
 The block uses these endpoints based on display type:
 
-- Generic: `/chance/v1/site-option/{option_name}`
-- Staff: `/chance/v1/staff-member/{option_name}`
-- Board: `/chance/v1/board-member/{option_name}`
+- Generic: `/theatrum/v1/site-option/{option_name}`
+- Staff: `/theatrum/v1/staff-member/{option_name}`
+- Board: `/theatrum/v1/board-member/{option_name}`
 
 ## Features
 

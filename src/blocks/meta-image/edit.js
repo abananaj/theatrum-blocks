@@ -24,7 +24,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		setIsLoading(true);
 
 		const size = attributes.imageSize || 'medium';
-		apiFetch({ path: `/chance/v1/meta-image/${postId}/${attributes.keyInput}?size=${size}` })
+		apiFetch({ path: `/theatrum/v1/meta-image/${postId}/${attributes.keyInput}?size=${size}` })
 			.then((data) => {
 				setImageData(data.url ? data : null);
 				setIsLoading(false);

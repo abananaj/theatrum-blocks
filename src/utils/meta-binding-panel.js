@@ -57,7 +57,7 @@ const withMetaBindingPanel = createHigherOrderComponent( ( BlockEdit ) => {
 		const currentKey = binding?.args?.key ?? '';
 		const currentFormat = binding?.args?.format ?? 'M jS';
 		const customFormat = binding?.args?.customFormat ?? '';
-		const isDate = attributes?.metadata?.name === 'chance/bind-date';
+		const isDate = attributes?.metadata?.name === 'theatrum/bind-date';
 		const isCustom = currentFormat === 'custom';
 
 		return (
@@ -131,6 +131,6 @@ const withMetaBindingPanel = createHigherOrderComponent( ( BlockEdit ) => {
 
 addFilter(
 	'editor.BlockEdit',
-	'chance/meta-binding-panel',
+	'theatrum/meta-binding-panel',
 	withMetaBindingPanel
 );

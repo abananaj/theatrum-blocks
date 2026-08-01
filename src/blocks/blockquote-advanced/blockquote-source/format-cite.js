@@ -6,7 +6,7 @@ import {
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
-const FORMAT_NAME = 'chance/cite-title';
+const FORMAT_NAME = 'theatrum/cite-title';
 
 const CiteEdit = ( { isActive, value, onChange } ) => {
 	const isBlockquoteSource = useSelect( ( select ) => {

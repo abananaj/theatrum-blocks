@@ -36,65 +36,65 @@ import './utils/meta-transforms';
 const BIND_COLOR = '#8B5CF6';
 
 registerBlockVariation( 'core/image', {
-	name: 'chance/bind-image',
+	name: 'theatrum/bind-image',
 	title: 'Image (Meta Bound)',
 	description: 'Display an image from post meta or ACF',
 	icon: { src: image, foreground: BIND_COLOR },
 	keywords: [ 'meta', 'image', 'acf', 'photo', 'bind' ],
 	attributes: {
 		metadata: {
-			name: 'chance/bind-image',
+			name: 'theatrum/bind-image',
 			bindings: {
 				id: { source: 'chance/post-meta', args: { key: '' } },
 			},
 		},
 	},
-	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-image',
+	isActive: ( attrs ) => attrs?.metadata?.name === 'theatrum/bind-image',
 } );
 
 registerBlockVariation( 'core/button', {
-	name: 'chance/bind-button',
+	name: 'theatrum/bind-button',
 	title: 'Button (Meta Bound)',
 	description: 'Button whose URL is pulled from post meta',
 	icon: { src: button, foreground: BIND_COLOR },
 	keywords: [ 'meta', 'button', 'link', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
-			name: 'chance/bind-button',
+			name: 'theatrum/bind-button',
 			bindings: {
 				url: { source: 'chance/post-meta', args: { key: '' } },
 			},
 		},
 	},
-	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-button',
+	isActive: ( attrs ) => attrs?.metadata?.name === 'theatrum/bind-button',
 } );
 
 registerBlockVariation( 'core/paragraph', {
-	name: 'chance/bind-field',
+	name: 'theatrum/bind-field',
 	title: 'Paragraph (Meta Bound)',
 	description: 'Display any text value from post meta',
 	icon: { src: paragraph, foreground: BIND_COLOR },
 	keywords: [ 'meta', 'field', 'text', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
-			name: 'chance/bind-field',
+			name: 'theatrum/bind-field',
 			bindings: {
 				content: { source: 'chance/post-meta', args: { key: '' } },
 			},
 		},
 	},
-	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-field',
+	isActive: ( attrs ) => attrs?.metadata?.name === 'theatrum/bind-field',
 } );
 
 registerBlockVariation( 'core/paragraph', {
-	name: 'chance/bind-date',
+	name: 'theatrum/bind-date',
 	title: 'Date (Meta Bound)',
 	description: 'Display a formatted date from post meta',
 	icon: { src: paragraph, foreground: BIND_COLOR },
 	keywords: [ 'meta', 'date', 'acf', 'bind' ],
 	attributes: {
 		metadata: {
-			name: 'chance/bind-date',
+			name: 'theatrum/bind-date',
 			bindings: {
 				content: {
 					source: 'chance/post-meta',
@@ -103,5 +103,5 @@ registerBlockVariation( 'core/paragraph', {
 			},
 		},
 	},
-	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/bind-date',
+	isActive: ( attrs ) => attrs?.metadata?.name === 'theatrum/bind-date',
 } );

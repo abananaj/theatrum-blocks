@@ -9,7 +9,7 @@
 	"textdomain": "theatrum-blocks",
 	"allowedBlocks": ["chance/list-item-thumbnail"],
 	"providesContext": {
-		"chance/imageSizeSlug": "imageSizeSlug"
+		"theatrum/imageSizeSlug": "imageSizeSlug"
 	},
 	"supports": {
 		"html": false,

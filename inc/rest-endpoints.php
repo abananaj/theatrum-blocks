@@ -44,14 +44,14 @@ function theatrum_editor_permission_check($request = null)
  * Cover Card
  * -------------------------------------------------------------------- */
 
-function register_cover_card_rest_endpoint()
+function theatrum_register_cover_card_rest_endpoint()
 {
 	// Public by design — only returns already-public post data (title,
 	// permalink, featured image, dates). If this callback is ever extended,
 	// keep it that way; add a capability check before returning anything
 	// non-public.
 	register_rest_route(
-		'chance/v1',
+		'theatrum/v1',
 		'/cover-card/(?P<meta_key>[a-zA-Z0-9_-]+)',
 		array(
 			'methods'             => 'GET',
@@ -67,7 +67,7 @@ function register_cover_card_rest_endpoint()
 		)
 	);
 }
-add_action('rest_api_init', 'register_cover_card_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_cover_card_rest_endpoint');
 
 function theatrum_get_cover_card_rest_callback($request)
 {
@@ -165,17 +165,17 @@ function theatrum_get_cover_card_rest_callback($request)
  * Meta Date
  * -------------------------------------------------------------------- */
 
-function register_meta_date_rest_endpoint()
+function theatrum_register_meta_date_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-date/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)/(?P<format>[^/]+)', array(
+	register_rest_route('theatrum/v1', '/meta-date/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)/(?P<format>[^/]+)', array(
 		'methods'             => 'GET',
-		'callback'            => 'get_meta_date_rest_callback',
+		'callback'            => 'theatrum_get_meta_date_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
 	));
 }
-add_action('rest_api_init', 'register_meta_date_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_date_rest_endpoint');
 
-function get_meta_date_rest_callback($request)
+function theatrum_get_meta_date_rest_callback($request)
 {
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
@@ -209,17 +209,17 @@ function get_meta_date_rest_callback($request)
  * Meta Time
  * -------------------------------------------------------------------- */
 
-function register_meta_time_rest_endpoint()
+function theatrum_register_meta_time_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-time/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)/(?P<format>[^/]+)', array(
+	register_rest_route('theatrum/v1', '/meta-time/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)/(?P<format>[^/]+)', array(
 		'methods'             => 'GET',
-		'callback'            => 'get_meta_time_rest_callback',
+		'callback'            => 'theatrum_get_meta_time_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
 	));
 }
-add_action('rest_api_init', 'register_meta_time_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_time_rest_endpoint');
 
-function get_meta_time_rest_callback($request)
+function theatrum_get_meta_time_rest_callback($request)
 {
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
@@ -244,17 +244,17 @@ function get_meta_time_rest_callback($request)
  * Meta Field (post-meta)
  * -------------------------------------------------------------------- */
 
-function register_post_meta_field_rest_endpoint()
+function theatrum_register_post_meta_field_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/post-meta/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', array(
+	register_rest_route('theatrum/v1', '/post-meta/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', array(
 		'methods'             => 'GET',
-		'callback'            => 'get_post_meta_field_rest_callback',
+		'callback'            => 'theatrum_get_post_meta_field_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
 	));
 }
-add_action('rest_api_init', 'register_post_meta_field_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_post_meta_field_rest_endpoint');
 
-function get_post_meta_field_rest_callback($request)
+function theatrum_get_post_meta_field_rest_callback($request)
 {
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
@@ -276,21 +276,21 @@ function get_post_meta_field_rest_callback($request)
  * Meta Repeater
  * -------------------------------------------------------------------- */
 
-function register_meta_repeater_rest_endpoint()
+function theatrum_register_meta_repeater_rest_endpoint()
 {
 	register_rest_route(
-		'chance/v1',
+		'theatrum/v1',
 		'/meta-repeater/(?P<post_id>\d+)/(?P<repeater_key>[a-zA-Z0-9_-]+)',
 		array(
 			'methods'             => 'GET',
-			'callback'            => 'get_meta_repeater_rest_callback',
+			'callback'            => 'theatrum_get_meta_repeater_rest_callback',
 			'permission_callback' => 'theatrum_editor_permission_check',
 		)
 	);
 }
-add_action('rest_api_init', 'register_meta_repeater_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_repeater_rest_endpoint');
 
-function get_meta_repeater_rest_callback($request)
+function theatrum_get_meta_repeater_rest_callback($request)
 {
 	$post_id      = intval($request['post_id']);
 	$repeater_key = sanitize_text_field($request['repeater_key']);
@@ -326,21 +326,21 @@ function get_meta_repeater_rest_callback($request)
  * Meta Button
  * -------------------------------------------------------------------- */
 
-function register_meta_button_rest_endpoint()
+function theatrum_register_meta_button_rest_endpoint()
 {
 	register_rest_route(
-		'chance/v1',
+		'theatrum/v1',
 		'/meta-button/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)',
 		array(
 			'methods'             => 'GET',
-			'callback'            => 'get_meta_button_rest_callback',
+			'callback'            => 'theatrum_get_meta_button_rest_callback',
 			'permission_callback' => 'theatrum_editor_permission_check',
 		)
 	);
 }
-add_action('rest_api_init', 'register_meta_button_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_button_rest_endpoint');
 
-function get_meta_button_rest_callback($request)
+function theatrum_get_meta_button_rest_callback($request)
 {
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
@@ -363,9 +363,9 @@ function get_meta_button_rest_callback($request)
  * Meta Gallery
  * -------------------------------------------------------------------- */
 
-function register_meta_gallery_rest_endpoint()
+function theatrum_register_meta_gallery_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-gallery/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
+	register_rest_route('theatrum/v1', '/meta-gallery/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_gallery_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
@@ -378,7 +378,7 @@ function register_meta_gallery_rest_endpoint()
 		],
 	]);
 }
-add_action('rest_api_init', 'register_meta_gallery_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_gallery_rest_endpoint');
 
 function theatrum_get_meta_gallery_rest_callback($request)
 {
@@ -433,9 +433,9 @@ function theatrum_get_meta_gallery_rest_callback($request)
  * Meta Image
  * -------------------------------------------------------------------- */
 
-function register_meta_image_rest_endpoint()
+function theatrum_register_meta_image_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-image/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
+	register_rest_route('theatrum/v1', '/meta-image/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_image_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
@@ -448,7 +448,7 @@ function register_meta_image_rest_endpoint()
 		],
 	]);
 }
-add_action('rest_api_init', 'register_meta_image_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_image_rest_endpoint');
 
 function theatrum_get_meta_image_rest_callback($request)
 {
@@ -496,9 +496,9 @@ function theatrum_get_meta_image_rest_callback($request)
  * Meta Icon
  * -------------------------------------------------------------------- */
 
-function register_meta_icon_rest_endpoint()
+function theatrum_register_meta_icon_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-icon/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
+	register_rest_route('theatrum/v1', '/meta-icon/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_icon_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
@@ -510,7 +510,7 @@ function register_meta_icon_rest_endpoint()
 		],
 	]);
 }
-add_action('rest_api_init', 'register_meta_icon_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_icon_rest_endpoint');
 
 function theatrum_get_meta_icon_rest_callback($request)
 {
@@ -676,17 +676,17 @@ function theatrum_get_person_option_rest_response($option_name, $group)
  * Board Member
  * -------------------------------------------------------------------- */
 
-function register_board_member_rest_endpoint()
+function theatrum_register_board_member_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/board-member/(?P<option_name>[a-zA-Z0-9_-]+)', array(
+	register_rest_route('theatrum/v1', '/board-member/(?P<option_name>[a-zA-Z0-9_-]+)', array(
 		'methods'             => 'GET',
-		'callback'            => 'get_board_member_rest_callback',
+		'callback'            => 'theatrum_get_board_member_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
 	));
 }
-add_action('rest_api_init', 'register_board_member_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_board_member_rest_endpoint');
 
-function get_board_member_rest_callback($request)
+function theatrum_get_board_member_rest_callback($request)
 {
 	return theatrum_get_person_option_rest_response(sanitize_text_field($request['option_name']), 'board');
 }
@@ -695,17 +695,17 @@ function get_board_member_rest_callback($request)
  * Site Option
  * -------------------------------------------------------------------- */
 
-function register_site_option_rest_endpoint()
+function theatrum_register_site_option_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/site-option/(?P<option_name>[a-zA-Z0-9_-]+)', array(
+	register_rest_route('theatrum/v1', '/site-option/(?P<option_name>[a-zA-Z0-9_-]+)', array(
 		'methods'             => 'GET',
-		'callback'            => 'get_site_option_rest_callback',
+		'callback'            => 'theatrum_get_site_option_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
 	));
 }
-add_action('rest_api_init', 'register_site_option_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_site_option_rest_endpoint');
 
-function get_site_option_rest_callback($request)
+function theatrum_get_site_option_rest_callback($request)
 {
 	$option_name = sanitize_text_field($request['option_name']);
 	$meta_key    = sanitize_text_field($request->get_param('meta_key') ?? '');
@@ -777,17 +777,17 @@ function get_site_option_rest_callback($request)
  * Staff Member
  * -------------------------------------------------------------------- */
 
-function register_staff_member_rest_endpoint()
+function theatrum_register_staff_member_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/staff-member/(?P<option_name>[a-zA-Z0-9_-]+)', array(
+	register_rest_route('theatrum/v1', '/staff-member/(?P<option_name>[a-zA-Z0-9_-]+)', array(
 		'methods'             => 'GET',
-		'callback'            => 'get_staff_member_rest_callback',
+		'callback'            => 'theatrum_get_staff_member_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
 	));
 }
-add_action('rest_api_init', 'register_staff_member_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_staff_member_rest_endpoint');
 
-function get_staff_member_rest_callback($request)
+function theatrum_get_staff_member_rest_callback($request)
 {
 	return theatrum_get_person_option_rest_response(sanitize_text_field($request['option_name']), 'staff');
 }
@@ -796,21 +796,21 @@ function get_staff_member_rest_callback($request)
  * Term Meta
  * -------------------------------------------------------------------- */
 
-function register_term_meta_field_rest_endpoint()
+function theatrum_register_term_meta_field_rest_endpoint()
 {
 	register_rest_route(
-		'chance/v1',
+		'theatrum/v1',
 		'/term-meta-field/(?P<term_id>\d+)/(?P<meta_key>[a-zA-Z0-9_-]+)',
 		array(
 			'methods'             => 'GET',
-			'callback'            => 'get_term_meta_field_rest_callback',
+			'callback'            => 'theatrum_get_term_meta_field_rest_callback',
 			'permission_callback' => 'theatrum_editor_permission_check',
 		)
 	);
 }
-add_action('rest_api_init', 'register_term_meta_field_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_term_meta_field_rest_endpoint');
 
-function get_term_meta_field_rest_callback($request)
+function theatrum_get_term_meta_field_rest_callback($request)
 {
 	$term_id  = intval($request['term_id']);
 	$meta_key = sanitize_text_field($request['meta_key']);
@@ -845,9 +845,9 @@ function get_term_meta_field_rest_callback($request)
  * Meta Embed
  * -------------------------------------------------------------------- */
 
-function register_meta_embed_rest_endpoint()
+function theatrum_register_meta_embed_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-embed/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
+	register_rest_route('theatrum/v1', '/meta-embed/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_embed_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
@@ -859,7 +859,7 @@ function register_meta_embed_rest_endpoint()
 		],
 	]);
 }
-add_action('rest_api_init', 'register_meta_embed_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_embed_rest_endpoint');
 
 function theatrum_get_meta_embed_rest_callback($request)
 {
@@ -901,17 +901,17 @@ function theatrum_get_meta_embed_rest_callback($request)
  * Meta Related
  * -------------------------------------------------------------------- */
 
-function register_meta_related_rest_endpoint()
+function theatrum_register_meta_related_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-related/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', array(
+	register_rest_route('theatrum/v1', '/meta-related/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', array(
 		'methods'             => 'GET',
-		'callback'            => 'get_meta_related_rest_callback',
+		'callback'            => 'theatrum_get_meta_related_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
 	));
 }
-add_action('rest_api_init', 'register_meta_related_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_related_rest_endpoint');
 
-function get_meta_related_rest_callback($request)
+function theatrum_get_meta_related_rest_callback($request)
 {
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
@@ -964,9 +964,9 @@ function get_meta_related_rest_callback($request)
  * Season Producer
  * -------------------------------------------------------------------- */
 
-function register_season_producer_rest_endpoint()
+function theatrum_register_season_producer_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/season-producer/(?P<post_id>\d+)/(?P<meta_key>[a-zA-Z0-9_-]+)', array(
+	register_rest_route('theatrum/v1', '/season-producer/(?P<post_id>\d+)/(?P<meta_key>[a-zA-Z0-9_-]+)', array(
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_season_producer_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
@@ -978,7 +978,7 @@ function register_season_producer_rest_endpoint()
 		),
 	));
 }
-add_action('rest_api_init', 'register_season_producer_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_season_producer_rest_endpoint');
 
 function theatrum_get_season_producer_rest_callback($request)
 {
@@ -1039,9 +1039,9 @@ function theatrum_get_season_producer_rest_callback($request)
  * Meta File
  * -------------------------------------------------------------------- */
 
-function register_meta_file_rest_endpoint()
+function theatrum_register_meta_file_rest_endpoint()
 {
-	register_rest_route('chance/v1', '/meta-file/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
+	register_rest_route('theatrum/v1', '/meta-file/(?P<post_id>\d+)/(?P<key>[a-zA-Z0-9_-]+)', [
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_file_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
@@ -1053,7 +1053,7 @@ function register_meta_file_rest_endpoint()
 		],
 	]);
 }
-add_action('rest_api_init', 'register_meta_file_rest_endpoint');
+add_action('rest_api_init', 'theatrum_register_meta_file_rest_endpoint');
 
 function theatrum_get_meta_file_rest_callback($request)
 {

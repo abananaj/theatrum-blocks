@@ -21,7 +21,7 @@ import { link } from '@wordpress/icons';
 const TRIGGER_COLOR = '#0B7285';
 
 registerBlockVariation( 'core/button', {
-	name: 'chance/popup-trigger',
+	name: 'theatrum/popup-trigger',
 	title: 'Popup Trigger',
 	description:
 		'A button that opens a Popup block elsewhere on the page, linked via its HTML Anchor.',
@@ -31,8 +31,8 @@ registerBlockVariation( 'core/button', {
 		className: 'popup-trigger-button',
 		url: '#',
 		metadata: {
-			name: 'chance/popup-trigger',
+			name: 'theatrum/popup-trigger',
 		},
 	},
-	isActive: ( attrs ) => attrs?.metadata?.name === 'chance/popup-trigger',
+	isActive: ( attrs ) => attrs?.metadata?.name === 'theatrum/popup-trigger',
 } );

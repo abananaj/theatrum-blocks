@@ -41,7 +41,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		setIsLoading( true );
 		setError( '' );
 
-		const url = `/chance/v1/cover-card/${
+		const url = `/theatrum/v1/cover-card/${
 			attributes.metaKey || attributes.postId
 		}?current_post_id=${ currentPostId }`;
 

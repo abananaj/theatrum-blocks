@@ -24,8 +24,8 @@ export default function Edit({ attributes, setAttributes }) {
 		// Use appropriate endpoint based on memberType
 		const metaKey = attributes.metaKey ? `?meta_key=${encodeURIComponent(attributes.metaKey)}` : '';
 		const endpoint = isMemberType
-			? `/chance/v1/${memberType}-member/${attributes.optionName}`
-			: `/chance/v1/site-option/${attributes.optionName}${metaKey}`;
+			? `/theatrum/v1/${memberType}-member/${attributes.optionName}`
+			: `/theatrum/v1/site-option/${attributes.optionName}${metaKey}`;
 
 		apiFetch({ path: endpoint })
 			.then((data) => {

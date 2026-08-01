@@ -22,7 +22,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
     setIsLoading(true);
 
-    apiFetch({ path: `/chance/v1/meta-related/${postId}/${attributes.keyInput}` })
+    apiFetch({ path: `/theatrum/v1/meta-related/${postId}/${attributes.keyInput}` })
       .then((data) => {
         // Prefer the list; fall back to the single-post shape for older payloads.
         const posts = Array.isArray(data.posts) && data.posts.length

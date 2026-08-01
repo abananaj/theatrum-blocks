@@ -44,7 +44,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			? (attributes.customFormat || 'Y-m-d')
 			: attributes.dateFormat;
 		const encodedFormat = encodeURIComponent(format);
-		const url = `/chance/v1/meta-date/${postId}/${attributes.keyInput}/${encodedFormat}`;
+		const url = `/theatrum/v1/meta-date/${postId}/${attributes.keyInput}/${encodedFormat}`;
 
 		apiFetch({ path: url })
 			.then((data) => {

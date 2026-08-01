@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
  * @param string   $attribute_name The block attribute being bound (id, url, href, content…).
  * @return mixed|null
  */
-function chance_post_meta_binding_callback($source_args, $block_instance, $attribute_name)
+function theatrum_post_meta_binding_callback($source_args, $block_instance, $attribute_name)
 {
 	$post_id = isset($block_instance->context['postId'])
 		? (int) $block_instance->context['postId']
@@ -99,7 +99,7 @@ add_action('init', function () {
 
 	register_block_bindings_source('chance/post-meta', [
 		'label'              => __('Post Meta', 'theatrum-blocks'),
-		'get_value_callback' => 'chance_post_meta_binding_callback',
+		'get_value_callback' => 'theatrum_post_meta_binding_callback',
 		'uses_context'       => ['postId', 'postType'],
 	]);
 });

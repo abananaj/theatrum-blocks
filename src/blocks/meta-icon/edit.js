@@ -25,7 +25,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
     setIsLoading(true);
 
-    apiFetch({ path: `/chance/v1/meta-icon/${postId}/${attributes.keyInput}` })
+    apiFetch({ path: `/theatrum/v1/meta-icon/${postId}/${attributes.keyInput}` })
       .then((data) => {
         setIconData(data.type ? data : null);
         setIsLoading(false);

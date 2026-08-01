@@ -70,8 +70,8 @@ Season Producers (optional heading)
 
 ## REST Endpoints
 
-- Generic: `/chance/v1/term-meta-field/{term_id}/{meta_key}`
-- Season Producer: `/chance/v1/season-producer/{post_id}/{meta_key}`
+- Generic: `/theatrum/v1/term-meta-field/{term_id}/{meta_key}`
+- Season Producer: `/theatrum/v1/season-producer/{post_id}/{meta_key}`
 
 ## Features
 

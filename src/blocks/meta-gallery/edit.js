@@ -78,7 +78,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		const size = sizeSlug || 'large';
 		apiFetch({
-			path: `/chance/v1/meta-gallery/${postId}/${encodeURIComponent(trimmedKey)}?size=${size}`,
+			path: `/theatrum/v1/meta-gallery/${postId}/${encodeURIComponent(trimmedKey)}?size=${size}`,
 		})
 			.then((data) => {
 				let imageList = Array.isArray(data.images) ? data.images : [];

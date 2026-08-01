@@ -89,7 +89,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		setIsLoadingMeta(true);
 
-		apiFetch({ path: `/chance/v1/term-meta-field/${termId}/${metaKey}` })
+		apiFetch({ path: `/theatrum/v1/term-meta-field/${termId}/${metaKey}` })
 			.then((data) => {
 				setMetaValue(data.value || '');
 				setMetaItems(data.items || []);
@@ -111,7 +111,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		setIsLoadingProducers(true);
 
-		apiFetch({ path: `/chance/v1/season-producer/${postId}/${metaKey}` })
+		apiFetch({ path: `/theatrum/v1/season-producer/${postId}/${metaKey}` })
 			.then((data) => {
 				setProducers(data.producers || []);
 				setIsLoadingProducers(false);

@@ -88,7 +88,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 		setIsLoading(true);
 
-		apiFetch({ path: `/chance/v1/meta-repeater/${postId}/${attributes.repeaterKey}` })
+		apiFetch({ path: `/theatrum/v1/meta-repeater/${postId}/${attributes.repeaterKey}` })
 			.then((data) => {
 				setRows(Array.isArray(data.rows) ? data.rows : []);
 				setIsLoading(false);
