@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/slider-item",
+  "name": "theatrum/slider-item",
   "title": "Slider Item",
   "category": "theatrum",
   "icon": "index-card",
   "description": "A single slide in the slider. Accepts any blocks, like a Group — commonly an image and a caption.",
   "textdomain": "theatrum-blocks",
   "parent": [
-    "chance/slider"
+    "theatrum/slider"
   ],
   "supports": {
     "html": false,

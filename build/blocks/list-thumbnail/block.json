@@ -1,17 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/list-thumbnail",
+  "name": "theatrum/list-thumbnail",
   "title": "Thumbnail List",
   "category": "theatrum",
   "icon": "format-gallery",
   "description": "An interactive list with thumbnail images that display when hovering over items. Each item is a nested block with a title, description, and thumbnail image.",
   "textdomain": "theatrum-blocks",
   "allowedBlocks": [
-    "chance/list-item-thumbnail"
+    "theatrum/list-item-thumbnail"
   ],
   "providesContext": {
-    "chance/imageSizeSlug": "imageSizeSlug"
+    "theatrum/imageSizeSlug": "imageSizeSlug"
   },
   "supports": {
     "html": false,

@@ -4,7 +4,7 @@ return array(
 	'blockquote-advanced' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/blockquote-advanced',
+		'name' => 'theatrum/blockquote-advanced',
 		'title' => 'Blockquote',
 		'category' => 'theatrum',
 		'icon' => 'format-quote',
@@ -23,8 +23,8 @@ return array(
 			)
 		),
 		'allowedBlocks' => array(
-			'chance/blockquote-text',
-			'chance/blockquote-source'
+			'theatrum/blockquote-text',
+			'theatrum/blockquote-source'
 		),
 		'supports' => array(
 			'html' => false,
@@ -48,13 +48,13 @@ return array(
 		'example' => array(
 			'innerBlocks' => array(
 				array(
-					'name' => 'chance/blockquote-text',
+					'name' => 'theatrum/blockquote-text',
 					'attributes' => array(
 						'quoteText' => '<p>Words can be like X-rays, if you use them properly—they\'ll go through anything. You read and you\'re pierced.</p>'
 					)
 				),
 				array(
-					'name' => 'chance/blockquote-source',
+					'name' => 'theatrum/blockquote-source',
 					'attributes' => array(
 						'sourceText' => '— Aldous Huxley, <cite class="theatrum-blockquote-cite">Brave New World</cite>'
 					)
@@ -164,7 +164,7 @@ return array(
 	'carousel' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/carousel',
+		'name' => 'theatrum/carousel',
 		'title' => 'Carousel',
 		'category' => 'theatrum',
 		'icon' => 'images-alt2',
@@ -224,7 +224,7 @@ return array(
 			)
 		),
 		'allowedBlocks' => array(
-			'chance/carousel-item'
+			'theatrum/carousel-item'
 		),
 		'example' => array(
 			
@@ -244,7 +244,7 @@ return array(
 	'chance-card' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/chance-card',
+		'name' => 'theatrum/chance-card',
 		'title' => 'Chance Card',
 		'category' => 'theatrum',
 		'description' => 'Display a featured production or event as a card with featured image background and overlaid title',
@@ -387,7 +387,7 @@ return array(
 	'cover-card' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/cover-card',
+		'name' => 'theatrum/cover-card',
 		'title' => 'Cover Card',
 		'category' => 'theatrum',
 		'description' => 'Display a featured production or event as a card with featured image background and overlaid title',
@@ -530,7 +530,7 @@ return array(
 	'list-icons' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/list-icons',
+		'name' => 'theatrum/list-icons',
 		'textdomain' => 'theatrum-blocks',
 		'title' => 'Icon List',
 		'category' => 'theatrum',
@@ -545,15 +545,15 @@ return array(
 			'item'
 		),
 		'allowedBlocks' => array(
-			'chance/list-item-icon'
+			'theatrum/list-item-icon'
 		),
 		'providesContext' => array(
-			'chance/iconSize' => 'iconSize',
-			'chance/iconSizeUnit' => 'iconSizeUnit',
-			'chance/iconPosition' => 'iconPosition',
-			'chance/iconSpacing' => 'iconSpacing',
-			'chance/iconColor' => 'iconColor',
-			'chance/hoverOnly' => 'hoverOnly'
+			'theatrum/iconSize' => 'iconSize',
+			'theatrum/iconSizeUnit' => 'iconSizeUnit',
+			'theatrum/iconPosition' => 'iconPosition',
+			'theatrum/iconSpacing' => 'iconSpacing',
+			'theatrum/iconColor' => 'iconColor',
+			'theatrum/hoverOnly' => 'hoverOnly'
 		),
 		'supports' => array(
 			'html' => false,
@@ -643,17 +643,17 @@ return array(
 	'list-thumbnail' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/list-thumbnail',
+		'name' => 'theatrum/list-thumbnail',
 		'title' => 'Thumbnail List',
 		'category' => 'theatrum',
 		'icon' => 'format-gallery',
 		'description' => 'An interactive list with thumbnail images that display when hovering over items. Each item is a nested block with a title, description, and thumbnail image.',
 		'textdomain' => 'theatrum-blocks',
 		'allowedBlocks' => array(
-			'chance/list-item-thumbnail'
+			'theatrum/list-item-thumbnail'
 		),
 		'providesContext' => array(
-			'chance/imageSizeSlug' => 'imageSizeSlug'
+			'theatrum/imageSizeSlug' => 'imageSizeSlug'
 		),
 		'supports' => array(
 			'html' => false,
@@ -792,7 +792,7 @@ return array(
 	'meta-button' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-button',
+		'name' => 'theatrum/meta-button',
 		'title' => 'Meta Button',
 		'category' => 'metablock',
 		'icon' => 'button',
@@ -869,7 +869,7 @@ return array(
 	'meta-date' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-date',
+		'name' => 'theatrum/meta-date',
 		'title' => 'Meta Date',
 		'icon' => 'calendar-alt',
 		'category' => 'metablock',
@@ -961,7 +961,7 @@ return array(
 	'meta-embed' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-embed',
+		'name' => 'theatrum/meta-embed',
 		'title' => 'Meta Embed',
 		'category' => 'metablock',
 		'description' => 'Embed a resource from a URL stored in post metadata',
@@ -1026,7 +1026,7 @@ return array(
 	'meta-field' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-field',
+		'name' => 'theatrum/meta-field',
 		'title' => 'Meta Field',
 		'category' => 'metablock',
 		'description' => 'Display a value from post metadata by entering a key',
@@ -1118,7 +1118,7 @@ return array(
 	'meta-file' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-file',
+		'name' => 'theatrum/meta-file',
 		'title' => 'Meta File Link',
 		'category' => 'metablock',
 		'description' => 'Display a link to a file from a post meta or ACF file field by entering a key',
@@ -1187,7 +1187,7 @@ return array(
 	'meta-gallery' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-gallery',
+		'name' => 'theatrum/meta-gallery',
 		'title' => 'Meta Gallery',
 		'category' => 'metablock',
 		'description' => 'Display a gallery of images from a post meta or ACF gallery field with core gallery styling and features',
@@ -1321,7 +1321,7 @@ return array(
 	'meta-icon' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-icon',
+		'name' => 'theatrum/meta-icon',
 		'title' => 'Meta Icon',
 		'category' => 'metablock',
 		'description' => 'Display an icon from an ACF icon picker field by entering a key. Handles dashicon names, URLs, and attachment IDs.',
@@ -1386,7 +1386,7 @@ return array(
 	'meta-image' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-image',
+		'name' => 'theatrum/meta-image',
 		'title' => 'Meta Image',
 		'category' => 'metablock',
 		'description' => 'Display an image from a post meta or ACF image field by entering a key',
@@ -1470,7 +1470,7 @@ return array(
 	'meta-related' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-related',
+		'name' => 'theatrum/meta-related',
 		'title' => 'Meta Related',
 		'category' => 'metablock',
 		'description' => 'Display a related post\'s title by entering a meta key that contains a post ID or Post Object',
@@ -1562,7 +1562,7 @@ return array(
 	'meta-repeater' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-repeater',
+		'name' => 'theatrum/meta-repeater',
 		'title' => 'Meta Repeater',
 		'category' => 'metablock',
 		'icon' => 'update',
@@ -1658,7 +1658,7 @@ return array(
 	'meta-time' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/meta-time',
+		'name' => 'theatrum/meta-time',
 		'title' => 'Meta Time',
 		'category' => 'metablock',
 		'icon' => 'clock',
@@ -1824,7 +1824,7 @@ return array(
 	'popover' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/popover',
+		'name' => 'theatrum/popover',
 		'title' => 'Popover',
 		'category' => 'theatrum',
 		'icon' => 'info-outline',
@@ -1838,8 +1838,8 @@ return array(
 			'media'
 		),
 		'allowedBlocks' => array(
-			'chance/popover-trigger',
-			'chance/popover-content'
+			'theatrum/popover-trigger',
+			'theatrum/popover-content'
 		),
 		'supports' => array(
 			'html' => false,
@@ -1859,7 +1859,7 @@ return array(
 		'example' => array(
 			'innerBlocks' => array(
 				array(
-					'name' => 'chance/popover-trigger',
+					'name' => 'theatrum/popover-trigger',
 					'innerBlocks' => array(
 						array(
 							'name' => 'core/paragraph',
@@ -1870,7 +1870,7 @@ return array(
 					)
 				),
 				array(
-					'name' => 'chance/popover-content',
+					'name' => 'theatrum/popover-content',
 					'innerBlocks' => array(
 						array(
 							'name' => 'core/paragraph',
@@ -1887,10 +1887,10 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),
-	'Popup' => array(
+	'popup' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/popup',
+		'name' => 'theatrum/popup',
 		'title' => 'popup',
 		'category' => 'theatrum',
 		'icon' => 'visibility',
@@ -1959,7 +1959,7 @@ return array(
 	'production-performances' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/performances-list',
+		'name' => 'theatrum/performances-list',
 		'title' => 'Production Performances',
 		'category' => 'production',
 		'description' => 'Display the next 5 upcoming performances from the ACF performances repeater field.',
@@ -2004,7 +2004,7 @@ return array(
 	'production-quotes' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/production-quotes',
+		'name' => 'theatrum/production-quotes',
 		'title' => 'Production Quotes',
 		'category' => 'production',
 		'description' => 'Display quotes from the production_quotes ACF repeater field',
@@ -2072,7 +2072,7 @@ return array(
 	'production-tabs' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/production-tabs',
+		'name' => 'theatrum/production-tabs',
 		'title' => 'Production Tabs',
 		'category' => 'theatrum',
 		'icon' => 'index-card',
@@ -2112,15 +2112,15 @@ return array(
 			)
 		),
 		'allowedBlocks' => array(
-			'chance/tab'
+			'theatrum/tab'
 		),
 		'example' => array(
 			'innerBlocks' => array(
 				array(
-					'name' => 'chance/tab',
+					'name' => 'theatrum/tab',
 					'innerBlocks' => array(
 						array(
-							'name' => 'chance/tab-heading',
+							'name' => 'theatrum/tab-heading',
 							'innerBlocks' => array(
 								array(
 									'name' => 'core/heading',
@@ -2132,7 +2132,7 @@ return array(
 							)
 						),
 						array(
-							'name' => 'chance/tab-content',
+							'name' => 'theatrum/tab-content',
 							'innerBlocks' => array(
 								array(
 									'name' => 'core/paragraph',
@@ -2145,10 +2145,10 @@ return array(
 					)
 				),
 				array(
-					'name' => 'chance/tab',
+					'name' => 'theatrum/tab',
 					'innerBlocks' => array(
 						array(
-							'name' => 'chance/tab-heading',
+							'name' => 'theatrum/tab-heading',
 							'innerBlocks' => array(
 								array(
 									'name' => 'core/heading',
@@ -2160,7 +2160,7 @@ return array(
 							)
 						),
 						array(
-							'name' => 'chance/tab-content',
+							'name' => 'theatrum/tab-content',
 							'innerBlocks' => array(
 								array(
 									'name' => 'core/paragraph',
@@ -2188,7 +2188,7 @@ return array(
 	'query-filter' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/query-filter',
+		'name' => 'theatrum/query-filter',
 		'textdomain' => 'theatrum-blocks',
 		'title' => 'Query Filter',
 		'category' => 'theatrum',
@@ -2285,7 +2285,7 @@ return array(
 	'site-option' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/site-option',
+		'name' => 'theatrum/site-option',
 		'title' => 'Site Option',
 		'category' => 'metablock',
 		'description' => 'Display values from WordPress options table, including staff/board members',
@@ -2432,7 +2432,7 @@ return array(
 	'slider' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/slider',
+		'name' => 'theatrum/slider',
 		'title' => 'Slider',
 		'category' => 'theatrum',
 		'icon' => 'images-alt2',
@@ -2472,7 +2472,7 @@ return array(
 			)
 		),
 		'allowedBlocks' => array(
-			'chance/slider-item'
+			'theatrum/slider-item'
 		),
 		'example' => array(
 			
@@ -2710,7 +2710,7 @@ return array(
 	'term-meta' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/term-meta',
+		'name' => 'theatrum/term-meta',
 		'title' => 'Term Meta',
 		'category' => 'metablock',
 		'icon' => 'tag',
@@ -2838,7 +2838,7 @@ return array(
 	'title-advanced' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/title-advanced',
+		'name' => 'theatrum/title-advanced',
 		'textdomain' => 'theatrum-blocks',
 		'title' => 'Title (Advanced)',
 		'category' => 'text',
@@ -2883,14 +2883,14 @@ return array(
 	'blockquote-source' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/blockquote-source',
+		'name' => 'theatrum/blockquote-source',
 		'title' => 'Source',
 		'category' => 'theatrum',
 		'icon' => 'admin-users',
 		'description' => 'The attributed source line for the quote, e.g. —Author, Work Title.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/blockquote-advanced'
+			'theatrum/blockquote-advanced'
 		),
 		'attributes' => array(
 			'sourceText' => array(
@@ -2917,14 +2917,14 @@ return array(
 	'blockquote-text' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/blockquote-text',
+		'name' => 'theatrum/blockquote-text',
 		'title' => 'Text',
 		'category' => 'theatrum',
 		'icon' => 'editor-quote',
 		'description' => 'The quoted text, with an optional source URL.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/blockquote-advanced'
+			'theatrum/blockquote-advanced'
 		),
 		'attributes' => array(
 			'quoteText' => array(
@@ -2956,14 +2956,14 @@ return array(
 	'carousel-item' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/carousel-item',
+		'name' => 'theatrum/carousel-item',
 		'title' => 'Carousel Item',
 		'category' => 'theatrum',
 		'icon' => 'index-card',
 		'description' => 'A single card in the carousel. Accepts any blocks, like a Group — commonly an image, heading, and text.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/carousel'
+			'theatrum/carousel'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3011,7 +3011,7 @@ return array(
 	'list-item-icon' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/list-item-icon',
+		'name' => 'theatrum/list-item-icon',
 		'textdomain' => 'theatrum-blocks',
 		'title' => 'Icon List Item',
 		'category' => 'theatrum',
@@ -3023,15 +3023,15 @@ return array(
 			'item'
 		),
 		'parent' => array(
-			'chance/list-icons'
+			'theatrum/list-icons'
 		),
 		'usesContext' => array(
-			'chance/iconSize',
-			'chance/iconSizeUnit',
-			'chance/iconPosition',
-			'chance/iconSpacing',
-			'chance/iconColor',
-			'chance/hoverOnly'
+			'theatrum/iconSize',
+			'theatrum/iconSizeUnit',
+			'theatrum/iconPosition',
+			'theatrum/iconSpacing',
+			'theatrum/iconColor',
+			'theatrum/hoverOnly'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3085,7 +3085,7 @@ return array(
 	'list-item-thumbnail' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/list-item-thumbnail',
+		'name' => 'theatrum/list-item-thumbnail',
 		'textdomain' => 'theatrum-blocks',
 		'title' => 'Thumbnail List Item',
 		'category' => 'theatrum',
@@ -3097,14 +3097,14 @@ return array(
 			'item'
 		),
 		'parent' => array(
-			'chance/list-thumbnail'
+			'theatrum/list-thumbnail'
 		),
 		'allowedBlocks' => array(
 			'core/heading',
 			'core/paragraph'
 		),
 		'usesContext' => array(
-			'chance/imageSizeSlug'
+			'theatrum/imageSizeSlug'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3152,14 +3152,14 @@ return array(
 	'popover-content' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/popover-content',
+		'name' => 'theatrum/popover-content',
 		'title' => 'Popover Content',
 		'category' => 'theatrum',
 		'icon' => 'visibility',
 		'description' => 'The content shown inside the popover. Accepts any blocks, like a Group — commonly an image or video.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/popover'
+			'theatrum/popover'
 		),
 		'attributes' => array(
 			'width' => array(
@@ -3198,14 +3198,14 @@ return array(
 	'popover-trigger' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/popover-trigger',
+		'name' => 'theatrum/popover-trigger',
 		'title' => 'Popover Trigger',
 		'category' => 'theatrum',
 		'icon' => 'index-card',
 		'description' => 'The content that reveals the popover on hover or tap. Accepts any blocks, like a Group.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/popover'
+			'theatrum/popover'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3232,18 +3232,18 @@ return array(
 	'tab' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/tab',
+		'name' => 'theatrum/tab',
 		'title' => 'Tab',
 		'category' => 'theatrum',
 		'icon' => 'index-card',
 		'description' => 'A single tab: holds a Tab Heading and a Tab Content block. Used inside Production Tabs.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/production-tabs'
+			'theatrum/production-tabs'
 		),
 		'allowedBlocks' => array(
-			'chance/tab-heading',
-			'chance/tab-content'
+			'theatrum/tab-heading',
+			'theatrum/tab-content'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3270,14 +3270,14 @@ return array(
 	'tab-content' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/tab-content',
+		'name' => 'theatrum/tab-content',
 		'title' => 'Tab Content',
 		'category' => 'theatrum',
 		'icon' => 'index-card',
 		'description' => 'The panel content for a tab. Accepts any blocks, like a Group.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/tab'
+			'theatrum/tab'
 		),
 		'supports' => array(
 			'html' => false,
@@ -3306,14 +3306,14 @@ return array(
 	'tab-heading' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/tab-heading',
+		'name' => 'theatrum/tab-heading',
 		'title' => 'Tab Heading',
 		'category' => 'theatrum',
 		'icon' => 'editor-textcolor',
 		'description' => 'The clickable label for a tab. Holds a paragraph or heading only.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/tab'
+			'theatrum/tab'
 		),
 		'allowedBlocks' => array(
 			'core/paragraph',
@@ -3360,14 +3360,14 @@ return array(
 	'slider-item' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'chance/slider-item',
+		'name' => 'theatrum/slider-item',
 		'title' => 'Slider Item',
 		'category' => 'theatrum',
 		'icon' => 'index-card',
 		'description' => 'A single slide in the slider. Accepts any blocks, like a Group — commonly an image and a caption.',
 		'textdomain' => 'theatrum-blocks',
 		'parent' => array(
-			'chance/slider'
+			'theatrum/slider'
 		),
 		'supports' => array(
 			'html' => false,

@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/blockquote-text",
+  "name": "theatrum/blockquote-text",
   "title": "Text",
   "category": "theatrum",
   "icon": "editor-quote",
   "description": "The quoted text, with an optional source URL.",
   "textdomain": "theatrum-blocks",
   "parent": [
-    "chance/blockquote-advanced"
+    "theatrum/blockquote-advanced"
   ],
   "attributes": {
     "quoteText": {

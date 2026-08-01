@@ -23,7 +23,7 @@ if (empty($quotes)) {
   return;
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-chance-production-quotes'));
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-production-quotes'));
 
 echo '<div ' . $wrapper_attributes . '>';
 
@@ -36,7 +36,7 @@ foreach ($quotes as $quote_row) {
     continue;
   }
 
-  echo '<div class="wp-block-chance-production-quotes-item">';
+  echo '<div class="wp-block-theatrum-production-quotes-item">';
   echo '<blockquote class="wp-block-quote">';
   echo '<p class="quote-text">' . wp_kses_post($quote_text) . '</p>';
 

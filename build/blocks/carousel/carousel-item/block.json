@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/carousel-item",
+  "name": "theatrum/carousel-item",
   "title": "Carousel Item",
   "category": "theatrum",
   "icon": "index-card",
   "description": "A single card in the carousel. Accepts any blocks, like a Group — commonly an image, heading, and text.",
   "textdomain": "theatrum-blocks",
   "parent": [
-    "chance/carousel"
+    "theatrum/carousel"
   ],
   "supports": {
     "html": false,

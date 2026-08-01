@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/popover-content",
+  "name": "theatrum/popover-content",
   "title": "Popover Content",
   "category": "theatrum",
   "icon": "visibility",
   "description": "The content shown inside the popover. Accepts any blocks, like a Group — commonly an image or video.",
   "textdomain": "theatrum-blocks",
   "parent": [
-    "chance/popover"
+    "theatrum/popover"
   ],
   "attributes": {
     "width": {

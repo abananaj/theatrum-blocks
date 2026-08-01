@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/carousel",
+  "name": "theatrum/carousel",
   "title": "Carousel",
   "category": "theatrum",
   "icon": "images-alt2",
@@ -61,7 +61,7 @@
     }
   },
   "allowedBlocks": [
-    "chance/carousel-item"
+    "theatrum/carousel-item"
   ],
   "example": {},
   "keywords": [

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/list-item-thumbnail",
+  "name": "theatrum/list-item-thumbnail",
   "textdomain": "theatrum-blocks",
   "title": "Thumbnail List Item",
   "category": "theatrum",
@@ -13,14 +13,14 @@
     "item"
   ],
   "parent": [
-    "chance/list-thumbnail"
+    "theatrum/list-thumbnail"
   ],
   "allowedBlocks": [
     "core/heading",
     "core/paragraph"
   ],
   "usesContext": [
-    "chance/imageSizeSlug"
+    "theatrum/imageSizeSlug"
   ],
   "supports": {
     "html": false,

@@ -94,7 +94,7 @@ if ($is_member_type) {
   }
 
   // Set CSS class based on member type
-  $css_class = $member_type === 'board' ? 'wp-block-chance-board-member' : 'wp-block-chance-staff-member';
+  $css_class = $member_type === 'board' ? 'wp-block-theatrum-board-member' : 'wp-block-theatrum-staff-member';
 
   // Check if the value is an array of post IDs
   if (is_array($option_value)) {
@@ -211,7 +211,7 @@ foreach ($links as $link) {
 }
 
 if ($has_ref_links) {
-  $classes = array('wp-block-chance-site-option');
+  $classes = array('wp-block-theatrum-site-option');
   if (isset($attributes['className'])) {
     $classes[] = $attributes['className'];
   }
@@ -267,7 +267,7 @@ if ($raw_value === '' && $prepend_html === '' && $append_html === '') {
 $href = isset($attributes['href']) ? $attributes['href'] : '';
 
 // Build class array for typography, spacing, and color support
-$classes = array('wp-block-chance-site-option');
+$classes = array('wp-block-theatrum-site-option');
 
 // Add generated classes from block supports
 if (isset($attributes['className'])) {

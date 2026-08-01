@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "chance/popover",
+  "name": "theatrum/popover",
   "title": "Popover",
   "category": "theatrum",
   "icon": "info-outline",
@@ -15,8 +15,8 @@
     "media"
   ],
   "allowedBlocks": [
-    "chance/popover-trigger",
-    "chance/popover-content"
+    "theatrum/popover-trigger",
+    "theatrum/popover-content"
   ],
   "supports": {
     "html": false,
@@ -36,7 +36,7 @@
   "example": {
     "innerBlocks": [
       {
-        "name": "chance/popover-trigger",
+        "name": "theatrum/popover-trigger",
         "innerBlocks": [
           {
             "name": "core/paragraph",
@@ -47,7 +47,7 @@
         ]
       },
       {
-        "name": "chance/popover-content",
+        "name": "theatrum/popover-content",
         "innerBlocks": [
           {
             "name": "core/paragraph",

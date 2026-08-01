@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Server-side render for the chance/query-filter block.
+ * Server-side render for the theatrum/query-filter block.
  *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.
@@ -70,7 +70,7 @@ $context = wp_interactivity_data_wp_context(['paramName' => $field_name]);
 
 $wrapper_attributes = get_block_wrapper_attributes([
   'class'                => 'query-filter query-filter--' . esc_attr($layout),
-  'data-wp-interactive' => 'chance/query-filter',
+  'data-wp-interactive' => 'theatrum/query-filter',
 ]);
 ?>
 

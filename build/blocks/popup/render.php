@@ -13,7 +13,7 @@ if ($dialog_label === '') {
     $dialog_label = $attributes['anchor'] ?? __('Dialog', 'theatrum-blocks');
 }
 
-$wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-chance-popup']);
+$wrapper_attributes = get_block_wrapper_attributes(['class' => 'wp-block-theatrum-popup']);
 ?>
 <div <?php echo wp_kses_data( $wrapper_attributes ); ?>>
   <div

@@ -91,6 +91,6 @@ if (!$icon_output) {
   return;
 }
 
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-meta-icon')) );
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-icon')) );
 
 printf('<span %s>%s</span>', $wrapper_attrs, $icon_output);

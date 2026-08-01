@@ -78,6 +78,6 @@ if (!in_array($tag_name, $allowed_tags, true)) {
 
 $inner = esc_html($prepend) . implode(esc_html($separator), $items) . esc_html($append);
 
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-chance-meta-related']) );
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-related']) );
 
 printf('<%1$s %2$s>%3$s</%1$s>', $tag_name, $wrapper_attrs, $inner);

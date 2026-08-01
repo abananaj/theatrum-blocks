@@ -51,7 +51,7 @@ if (is_array($value) || is_object($value)) {
 
 $value = $prepend . (string) $value . $append;
 
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-chance-post-meta-field')) );
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-post-meta-field')) );
 
 if ($tag_name === 'a') {
   printf(
