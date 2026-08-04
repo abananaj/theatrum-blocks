@@ -50,6 +50,35 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			};
 			popups.set( id, popup );
 
+			// Auto-open: render.php only emits this attribute when a delay
+			// is configured and (if restricted) we're on the front page.
+			const autoOpenDelay = parseFloat( wrapper.dataset.autoOpenDelay );
+			if ( autoOpenDelay > 0 ) {
+				const sessionKey = `theatrum-popup-autoopen-${ id }`;
+				let alreadyShown = false;
+				try {
+					alreadyShown = !! sessionStorage.getItem( sessionKey );
+				} catch {
+					// sessionStorage unavailable (e.g. some private browsing
+					// modes) — fall back to allowing the auto-open.
+				}
+
+				if ( ! alreadyShown ) {
+					setTimeout( () => {
+						try {
+							sessionStorage.setItem( sessionKey, '1' );
+						} catch {
+							// Ignore — worst case it can auto-open again.
+						}
+						if (
+							popupDialog.getAttribute( 'data-state' ) !== 'open'
+						) {
+							openPopup( popup, null );
+						}
+					}, autoOpenDelay * 1000 );
+				}
+			}
+
 			// Backdrop click closes the dialog
 			backdrop.addEventListener( 'click', function () {
 				closePopup( popup );

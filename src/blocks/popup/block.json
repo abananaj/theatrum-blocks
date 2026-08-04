@@ -47,6 +47,14 @@
 		"dialogLabel": {
 			"type": "string",
 			"default": ""
+		},
+		"autoOpenDelay": {
+			"type": "number",
+			"default": 0
+		},
+		"autoOpenHomeOnly": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {},

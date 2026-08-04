@@ -1936,6 +1936,14 @@ return array(
 			'dialogLabel' => array(
 				'type' => 'string',
 				'default' => ''
+			),
+			'autoOpenDelay' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'autoOpenHomeOnly' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'example' => array(

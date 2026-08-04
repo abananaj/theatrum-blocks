@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Theatrum Blocks is a WordPress plugin that provides custom Gutenberg blocks for the Chance Theater website. It's a multi-block plugin that registers 30+ blocks used for displaying production information, metadata, carousels, and other custom content types.
+Theatrum Blocks is a WordPress plugin that provides custom Gutenberg blocks for the Chance Theater website. It's a multi-block plugin that registers 31 top-level blocks (49 registered block types counting nested children) used for displaying production information, metadata, carousels, and other custom content types. See [README.md](README.md#block-inventory) for the full inventory.
 
 ## Development Commands
 
@@ -210,7 +210,6 @@ The plugin is designed to work with a local WordPress environment using `@wordpr
 **Plugin coordination:** This plugin operates independently but coordinates with the chance-ollie theme and wp_root project:
 - **Theme docs:** See `../../themes/chance-ollie/CLAUDE.md` and `AGENTS.md` for similar patterns
 - **wp_root docs:** See `../../CLAUDE.md` and `AGENTS.md` (the wp_root project documentation)
-- **Build reference:** See `../../../../.build/blocks.md` for comprehensive block development guidance
-- **Deployment:** See `../../../../.deploy/deploy.md` for the git push → SSH pull deployment workflow
+- **Deployment:** See `../../../../.deploy/DEV_DEPLOY.md` for the full deploy workflow
 
 When updating this CLAUDE.md, consider whether changes should be reflected in the theme or wp_root project docs to keep workflows in sync.

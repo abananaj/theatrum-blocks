@@ -1,6 +1,6 @@
 # Theatrum Blocks
 
-Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 35+ blocks for production management, metadata display, carousels, tables, tabs, and frontend filtering.
+Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 31 top-level blocks (49 registered block types counting nested children) for production management, metadata display, carousels, tables, tabs, and frontend filtering.
 
 **Version:** 0.1.1 | **Requires:** WordPress 6.8+ / PHP 7.4+ | **License:** GPL-2.0-or-later
 
@@ -10,14 +10,17 @@ Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 3
 
 ## Block Inventory
 
+Rebuilt 2026-08-04 directly against the `$custom_blocks` registration array in
+`theatrum-blocks.php` (31 top-level blocks, 49 total including nested children) — the
+previous version of this table had drifted significantly (documented blocks that were
+deleted per `BLOCK_CLEANUP_PLAN.md`, and was missing several that were added since).
+
 ### 🎭 Production Blocks
 | Block | Status | Notes |
 |-------|--------|-------|
 | `production-performances` | ✅ | Var of meta-repeater; filters to upcoming only, shows next 5 |
 | `production-quotes` | ✅ | Var of meta-repeater; responds to font-size |
-| `production-tabs` | ✅ | |
-| `production-trailer` | ⚠️ | Editor shows preview chip; real filter is frontend-only |
-| `season-producer` | ⚠️ | Candidate for removal — may be replaced by `term-meta` |
+| `production-tabs` | ✅ | Children: `tab`, `tab-heading`, `tab-content` |
 
 ### 🔗 Meta Blocks (Block Bindings)
 Variation blocks backed by the `theatrum/post-meta` binding source (WP 6.5+). Existing instances migrate via "Transform to" in the block toolbar.
@@ -32,9 +35,12 @@ Variation blocks backed by the `theatrum/post-meta` binding source (WP 6.5+). Ex
 | `meta-image` | ✅ | Var of `core/image`; binds `id` attribute |
 | `meta-gallery` | ✅ | Kept as custom block (too many custom controls) |
 | `meta-repeater` | ✅ | Variations: bylines, awards, producers, performances, quotes, notes, events |
-| `meta-icon` | ⏭️ | Skip — target (icon block) is experimental |
 | `meta-related` | ⏭️ | Skip — no suitable core block target |
 | `meta-time` | ⚠️ | Actively used in existing content — kept for now, revisit with a migration later |
+
+`meta-icon`'s folder still exists under `src/blocks/` but is **not** in the `$custom_blocks`
+array — unregistered, dead code with only an aspirational README. Not shipping; delete the
+folder or finish it, don't leave it silently unregistered.
 
 ### 📋 Table-Advanced
 Hierarchical table block system.
@@ -50,29 +56,23 @@ Hierarchical table block system.
 | `table-advanced/table-heading-cell` | ✅ responds to color settings |
 | `table-advanced/table-cell` | ✅ responds to color settings |
 
-### 🗂️ Tabs
-| Block | Status |
-|-------|--------|
-| `tabs` | ✅ |
-| `tabs/tab-heading` | ✅ |
-| `tabs/tab-item` | ✅ |
-| `tabs/tab-panel` | ✅ |
-
 ### 🖼️ Display Blocks
 | Block | Status | Notes |
 |-------|--------|-------|
 | `breadcrumbs` | ✅ | |
-| `card-carousel` | ⚠️ | Won't save media from editor; nav arrows broken on FE |
-| `card-static` | ✅ | |
-| `cover-card` | ⚠️ | Error fetching data in editor on blocks page; FE renders correctly |
-| `cover-carousel` | ⚠️ | Opacity won't save; nav broken on FE |
+| `carousel` | ✅ | Child: `carousel/carousel-item` |
+| `slider` | ✅ | Child: `slider/slider-item` |
+| `blockquote-advanced` | ✅ | Children: `blockquote-text`, `blockquote-source` |
+| `cover-card` | ⚠️ | Deprecated in favor of `chance-card` — kept registered so existing content keeps rendering; do not use for new content |
+| `chance-card` | ✅ | Successor to `cover-card`: background image lives on `.user-content` instead of the outer wrapper, bottom-bar/buttons no longer `position:absolute` |
 | `list-icons` | ⚠️ | Needs list-item as nested block |
 | `list-icons/list-item-icon` | ✅ | Child of list-icons |
 | `list-thumbnail` | ✅ | Refactored to nested `list-item-thumbnail` blocks (model after list-icons); flip-card hover animation fixed |
 | `list-thumbnail/list-item-thumbnail` | ✅ | Child of list-thumbnail |
 | `popover` | ✅ | Trigger and content are separate nested blocks (`popover/popover-trigger`, `popover/popover-content`), each accepting any blocks |
 | `popup` | ✅ | |
-| `title-subtitle` | ⚠️ | Needs post title in allowed blocks |
+| `page-nav` | ✅ | |
+| `title-advanced` | ✅ | |
 
 ### 🔍 Query & Data Blocks
 | Block | Status | Notes |
@@ -82,13 +82,6 @@ Hierarchical table block system.
 | `site-option` | ✅ | Shows option value + meta value in `.site-option-meta` span |
 | `term-meta` | ⭐ | |
 | `table-of-contents` | ⚠️ | Renamed from `core/table-of-contents` to `theatrum/table-of-contents` (was squatting on core's namespace); auto-generation from headings not yet wired |
-
-### 👥 People Blocks (temp un-deprecated)
-| Block | Status |
-|-------|--------|
-| `board-member` | ⚠️ |
-| `staff-member` | ⚠️ |
-| `copyright-date-block` | ✅ |
 
 ---
 
@@ -156,16 +149,17 @@ npm run plugin-zip      # create a distributable plugin zip
 
 ### 🗑️ Cleanup / Removal
 - `meta-time` is actively used in existing content — keeping it for now; revisit removal alongside a content migration.
-- Remove or fold `meta-icon` and `meta-related` into `term-meta` (both marked Skip).
-- Evaluate `season-producer` — likely replaced by `term-meta`.
+- `meta-icon`'s folder is unregistered dead code — delete it or finish and register it (see Meta Blocks table above).
+- Fold `meta-related` into `term-meta` (marked Skip).
+- ~~Evaluate `season-producer`~~ — no longer registered.
 - ~~Evaluate `production-details`~~ — removed 2026-07-06; confirmed unused in any published content (only referenced in a docs/catalog page and a trashed test page).
-- Decide fate of `board-member` and `staff-member` ("temp un-deprecated").
+- ~~Decide fate of `board-member` and `staff-member`~~ — no longer registered.
 
 ### 🔧 Improvements
 - `table-advanced`: add `table-layout-fixed` toggle.
 - `list-icons`: refactor to use nested `list-item-icon` block (model after `core/list` + `core/list-item`).
-- `title-subtitle`: add `core/post-title` to allowed inner blocks.
-- `card-carousel` / `cover-carousel`: resolve save-media and nav issues.
+- ~~`title-subtitle`: add `core/post-title` to allowed inner blocks.~~ — `title-subtitle` no longer exists; `title-advanced` is the current registered block.
+- ~~`card-carousel` / `cover-carousel`: resolve save-media and nav issues.~~ — neither is registered anymore; `carousel`/`slider` are the current blocks.
 
 ---
 
@@ -182,5 +176,4 @@ Overall: **Good.** Input is consistently sanitized with `sanitize_text_field`, `
 - [Block Supports API](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/)
 - [Interactivity API](https://developer.wordpress.org/block-editor/reference-guides/interactivity-api/)
 - [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)
-- [.build/blocks.md](../../../../.build/blocks.md) — comprehensive block development guidance
-- [.deploy/deploy.md](../../../../.deploy/deploy.md) — deployment workflow
+- [.deploy/DEV_DEPLOY.md](../../../../.deploy/DEV_DEPLOY.md) — deployment workflow

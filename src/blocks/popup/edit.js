@@ -7,6 +7,8 @@ import {
 import { Fragment, useState } from '@wordpress/element';
 import {
 	TextControl,
+	NumberControl,
+	ToggleControl,
 	PanelBody,
 	ToolbarGroup,
 	ToolbarButton,
@@ -16,7 +18,7 @@ import { seen, unseen } from '@wordpress/icons';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { dialogLabel, anchor } = attributes;
+	const { dialogLabel, anchor, autoOpenDelay, autoOpenHomeOnly } = attributes;
 	const blockProps = useBlockProps( { className: 'wp-block-theatrum-popup' } );
 	const [ open, setOpen ] = useState( false );
 
@@ -54,6 +56,41 @@ export default function Edit( { attributes, setAttributes } ) {
 						) }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
+					/>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Automatic Opening', 'theatrum-blocks' ) }
+					initialOpen={ false }
+				>
+					<NumberControl
+						label={ __(
+							'Auto-open after (seconds)',
+							'theatrum-blocks'
+						) }
+						value={ autoOpenDelay || 0 }
+						min={ 0 }
+						step={ 1 }
+						onChange={ ( value ) =>
+							setAttributes( {
+								autoOpenDelay: Number( value ) || 0,
+							} )
+						}
+						help={ __(
+							'0 disables auto-open. Otherwise the popup opens itself after this delay, once per browser session.',
+							'theatrum-blocks'
+						) }
+						__next40pxDefaultSize
+					/>
+					<ToggleControl
+						label={ __(
+							'Only auto-open on the front page',
+							'theatrum-blocks'
+						) }
+						checked={ !! autoOpenHomeOnly }
+						onChange={ ( value ) =>
+							setAttributes( { autoOpenHomeOnly: value } )
+						}
+						__nextHasNoMarginBottom
 					/>
 				</PanelBody>
 			</InspectorControls>
