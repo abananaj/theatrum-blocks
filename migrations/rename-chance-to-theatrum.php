@@ -55,11 +55,10 @@
  *    always derived from its own name, never another block's, so this is a
  *    safe way to scope it precisely. An earlier draft of this script did the
  *    substring rewrite unconditionally on every string found anywhere in the
- *    tree; a smoke test against a fixture containing an unmapped
- *    chance/artist-credits block (theme-owned, deliberately not in the map)
- *    caught that this also rewrote *that* block's wrapper class even though
- *    its blockName was correctly left alone — fixed before this ever ran
- *    against a real database.
+ *    tree; a smoke test against a fixture containing a chance/ block that was
+ *    deliberately absent from the map caught that this also rewrote *that*
+ *    block's wrapper class even though its blockName was correctly left alone
+ *    — fixed before this ever ran against a real database.
  *
  * What this script deliberately does NOT touch (and why):
  *
@@ -74,11 +73,10 @@
  * - The `is-style-ct-carousel` / `is-style-ct-slider` block style slugs
  *   (registered in theatrum-blocks.php) — same reasoning, left unrenamed
  *   in code.
- * - `chance/artist-credits` and `chance/production-credits` — owned by the
- *   chance-ollie THEME, not this plugin. Not in THEATRUM_BLOCK_NAME_MAP, so
- *   this script's block-name pass will not touch them. If you see either in
- *   scan output flagged as "unmapped chance/ blockName", that's expected —
- *   do not add them here.
+ * (`chance/artist-credits` and `chance/production-credits` used to be listed
+ * here as deliberately-excluded, theme-owned blocks. That is no longer true —
+ * they moved to the theatrum-credits mu-plugin and were renamed there. They
+ * are now in THEATRUM_BLOCK_NAME_MAP and this script does migrate them.)
  *
  * Covers:
  *   - post_content for every public post type + wp_block (reusable blocks)
@@ -152,8 +150,14 @@ const THEATRUM_BLOCK_NAME_MAP = [
 	'chance/slider-item'            => 'theatrum/slider-item',
 	'chance/term-meta'              => 'theatrum/term-meta',
 	'chance/title-advanced'         => 'theatrum/title-advanced',
-	// NOT included on purpose: chance/artist-credits, chance/production-credits
-	// — those are registered by the chance-ollie theme, not this plugin.
+	// Added 2026-08-04. These two were excluded when this script was first
+	// written, on the then-correct grounds that they belonged to the
+	// chance-ollie theme and had not been renamed. They have since moved to
+	// the theatrum-credits mu-plugin and were renamed there in a second pass.
+	// The mu-plugin registers no alias for the old names, so any stored
+	// chance/ instance is now a dead block — they are in scope.
+	'chance/artist-credits'         => 'theatrum/artist-credits',
+	'chance/production-credits'     => 'theatrum/production-credits',
 ];
 
 const THEATRUM_BINDING_SOURCE_MAP = [
@@ -257,10 +261,11 @@ function theatrum_migrate_attrs(array $attrs, array &$stats)
  * precise way to target it. Running the classname rewrite unconditionally
  * on every string in every block (an earlier version of this script did
  * that) would also corrupt classes on completely unrelated, never-renamed
- * blocks whose name merely happens to start with "chance/" — e.g. the
- * theme-owned chance/artist-credits and chance/production-credits, which
- * are intentionally NOT in THEATRUM_BLOCK_NAME_MAP and must be left
- * byte-for-byte untouched. Caught by this script's own smoke test before
+ * blocks whose name merely happens to start with "chance/" — anything not
+ * in THEATRUM_BLOCK_NAME_MAP must be left byte-for-byte untouched, since a
+ * name absent from the map is by definition one we are not renaming and
+ * whose wrapper class therefore still legitimately reads wp-block-chance-x.
+ * Caught by this script's own smoke test before
  * this ever ran against a database — see migrations/README.md if present,
  * or the project's final rename report, for the test that caught it.
  *
@@ -395,7 +400,7 @@ foreach ($rows as $row) {
 	$updated = theatrum_migrate_content($post->post_content, $stats);
 
 	if ($updated === null) {
-		continue; // LIKE-matched but nothing this script maps applied (e.g. artist-credits).
+		continue; // LIKE-matched but nothing this script maps applied (an unmapped chance/ name).
 	}
 
 	$touched_posts++;
