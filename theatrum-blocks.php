@@ -100,7 +100,7 @@ function theatrum_register_blocks()
 		// make this button nestable inside core/buttons?
 		// ability to link to production page with this popup open from other pages by appending a query of some sort to the url? #anchor tag?
 
-		'production-performances',
+		'performances-list',
 		// should render on block editor as well as frontend, so user can see what it will look like on the frontend.
 
 		'production-quotes',
