@@ -10,7 +10,7 @@
 // selection instead of clicks (see tab/edit.js + editor.scss), but reuses
 // this same layout and the mixin below so both contexts look identical.
 
-@use 'mixins';
+@use "mixins";
 
 $ct-tabs-breakpoint: 768px;
 
@@ -20,7 +20,6 @@ $ct-tabs-breakpoint: 768px;
 		display: block;
 		width: 100%;
 		margin: 0;
-		padding: 0.75rem 1rem;
 		border: 0;
 		border-bottom: 3px solid transparent;
 		font: inherit;
@@ -29,10 +28,18 @@ $ct-tabs-breakpoint: 768px;
 		// color: var(--ct-tab-header-color, inherit);
 		// background-color: var(--ct-tab-header-bg, transparent);
 		color: var(--ct-light, inherit);
-		background-color: var(--ct-dark, transparent);
-		transition: color 150ms ease, background-color 150ms ease,
+		// background-color: var(--ct-dark, transparent);
+		padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+		border-radius: var(--wp--preset--border-radius--large)
+			var(--wp--preset--border-radius--large) 0 0;
+		transition:
+			color 150ms ease,
+			background-color 150ms ease,
 			border-color 150ms ease;
-
+		h2,
+		h3 {
+			font-size: 1.25rem;
+		}
 		&:hover {
 			color: var(--ct-on-secondary, inherit);
 			background-color: var(--ct-secondary, inherit);
@@ -53,7 +60,7 @@ $ct-tabs-breakpoint: 768px;
 	.ct-tab__panel {
 		display: none;
 		padding: 1rem;
-
+		background: lightsteelblue;
 		&.is-active {
 			display: block;
 		}
