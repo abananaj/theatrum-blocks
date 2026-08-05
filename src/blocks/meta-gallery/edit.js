@@ -411,65 +411,19 @@ export default function Edit({ attributes, setAttributes, context }) {
 				)}
 
 				{!isLoading && images.length === 0 && metaKey && fallbackText && (
-					<div
-						style={{
-							textAlign: 'center',
-							color: '#666',
-							padding: '20px',
-						}}
-					>
+					<div style={{ color: '#666' }}>
 						{fallbackText}
 					</div>
 				)}
 
 				{!isLoading && images.length === 0 && metaKey && !fallbackText && (
-					<ul className={galleryClasses} style={gridStyle}>
-						{Array.from({ length: numColumns }).map((_, idx) => (
-							<li
-								key={idx}
-								className="blocks-gallery-item is-placeholder"
-								style={{
-									flex: `1 1 ${flexBasis}`,
-									minWidth: 0,
-								}}
-							>
-								<figure
-									style={{
-										margin: 0,
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-										position: 'relative',
-										maxWidth: '100%',
-										boxSizing: 'border-box',
-										overflow: 'hidden',
-										backgroundColor: '#f0f0f0',
-										border: '1px dashed #ccc',
-										aspectRatio:
-											aspectRatio && aspectRatio !== 'auto'
-												? aspectRatio
-												: '1',
-									}}
-								>
-									<span
-										className="dashicons dashicons-format-image"
-										style={{ color: '#ccc', fontSize: '2em', width: '1em', height: '1em' }}
-									/>
-								</figure>
-							</li>
-						))}
-					</ul>
+					<div>
+						{`[${metaKey}]`}
+					</div>
 				)}
 
 				{!isLoading && images.length === 0 && !metaKey && (
-					<div
-						style={{
-							textAlign: 'center',
-							color: '#ccc',
-							padding: '40px 20px',
-							fontSize: '14px',
-						}}
-					>
+					<div style={{ color: '#999', fontStyle: 'italic' }}>
 						{__('Enter a meta key to display images')}
 					</div>
 				)}

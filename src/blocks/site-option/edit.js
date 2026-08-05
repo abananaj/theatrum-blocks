@@ -66,7 +66,7 @@ export default function Edit({ attributes, setAttributes }) {
 				{displayItems.map((item, index) => (
 					<p key={index} style={{ margin: '4px 0 0 0' }}>
 						{item.url && linkTitle ? (
-							<a href={item.url} target="_blank" rel="noreferrer">
+							<a href={item.url} target="_blank" rel="noreferrer" onClick={(event) => event.preventDefault()}>
 								{item.title}
 							</a>
 						) : (
@@ -166,18 +166,24 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<div {...blockProps}>
 				{isLoading && <Spinner />}
-				{!isLoading && (isMemberType || displayItems.length > 0) && renderItems()}
-				{!isLoading && !isMemberType && displayItems.length === 0 && (
+				{!isLoading && displayItems.length > 0 && renderItems()}
+				{!isLoading && displayItems.length === 0 && !attributes.optionName && (
+					<p style={{ margin: 0, color: '#999', fontStyle: 'italic' }}>
+						Enter an option name to display its value
+					</p>
+				)}
+				{!isLoading && displayItems.length === 0 && attributes.optionName && isMemberType && (
+					<p style={{ margin: 0 }}>{`[${attributes.optionName}]`}</p>
+				)}
+				{!isLoading && displayItems.length === 0 && attributes.optionName && !isMemberType && (
 					<p style={{ margin: 0, wordBreak: 'break-word' }}>
 						{renderAffix(attributes.prepend, attributes.prependTag)}
 						{attributes.href ? (
-							<a href={attributes.href}>
-								{displayValue || (attributes.optionName ? '' : 'Enter an option name to display its value')}
+							<a href={attributes.href} onClick={(event) => event.preventDefault()}>
+								{displayValue || `[${attributes.optionName}]`}
 							</a>
 						) : (
-							<span>
-								{displayValue || (attributes.optionName ? '' : 'Enter an option name to display its value')}
-							</span>
+							<span>{displayValue || `[${attributes.optionName}]`}</span>
 						)}
 						{renderAffix(attributes.append, attributes.appendTag)}
 					</p>

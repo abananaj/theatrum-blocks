@@ -155,7 +155,7 @@ export default function Edit({ attributes, setAttributes, context }) {
       <div {...blockProps}>
         {isLoading && <Spinner />}
         {!isLoading && embedData?.placeholder && (
-          <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center' }}>
+          <div>
             {isYouTube
               ? '[Template: YouTube video will display on frontend]'
               : '[Template: Embedded resource will display on frontend]'}
@@ -176,17 +176,23 @@ export default function Edit({ attributes, setAttributes, context }) {
         )}
         {/* Generic variation: render oEmbed HTML */}
         {!isLoading && !isYouTube && embedData?.html && (
-          <div className="wp-block-embed__wrapper" dangerouslySetInnerHTML={{ __html: embedData.html }} />
+          <div
+            className="wp-block-embed__wrapper"
+            dangerouslySetInnerHTML={{ __html: embedData.html }}
+            onClick={(event) => {
+              if (event.target.closest('a')) {
+                event.preventDefault();
+              }
+            }}
+          />
         )}
         {!isLoading && !embedData && keyInput && (
-          <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center', color: '#666' }}>
-            {isYouTube
-              ? `No YouTube URL found for meta key: ${keyInput}`
-              : `No embed found for meta key: ${keyInput}`}
+          <div>
+            {`[${keyInput}]`}
           </div>
         )}
         {!keyInput && (
-          <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center', color: '#999' }}>
+          <div style={{ color: '#999', fontStyle: 'italic' }}>
             {isYouTube
               ? 'Enter the meta key that holds the YouTube URL'
               : 'Enter a meta key to display an embedded resource'}

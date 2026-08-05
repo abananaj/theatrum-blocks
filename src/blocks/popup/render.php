@@ -13,9 +13,8 @@ if ($dialog_label === '') {
     $dialog_label = $attributes['anchor'] ?? __('Dialog', 'theatrum-blocks');
 }
 
-$auto_open_delay     = (float) ($attributes['autoOpenDelay'] ?? 0);
-$auto_open_home_only = (bool) ($attributes['autoOpenHomeOnly'] ?? false);
-$should_auto_open     = $auto_open_delay > 0 && (! $auto_open_home_only || is_front_page());
+$auto_open_delay = (float) ($attributes['autoOpenDelay'] ?? 0);
+$should_auto_open = $auto_open_delay > 0;
 
 $wrapper_extra_attributes = ['class' => 'wp-block-theatrum-popup'];
 if ($should_auto_open) {

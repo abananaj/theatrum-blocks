@@ -105,19 +105,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 						)}
 					</>
 				)}
-				{!isLoading && !imageData && (
-					<div
-						style={{
-							background: '#f0f0f0',
-							border: '2px dashed #ccc',
-							padding: '40px',
-							textAlign: 'center',
-							color: '#999'
-						}}
-					>
-						{attributes.keyInput
-							? `No image found for key: "${attributes.keyInput}"`
-							: 'Enter a meta key in the sidebar to display an image'}
+				{!isLoading && !imageData && attributes.keyInput && (
+					<div>{`[${attributes.keyInput}]`}</div>
+				)}
+				{!isLoading && !imageData && !attributes.keyInput && (
+					<div style={{ color: '#999', fontStyle: 'italic' }}>
+						Enter a meta key in the sidebar to display an image
 					</div>
 				)}
 			</figure>

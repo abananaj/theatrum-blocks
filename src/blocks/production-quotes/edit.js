@@ -6,7 +6,14 @@ export default function Edit() {
 	const blockProps = useBlockProps();
 
 	return (
-		<div { ...blockProps }>
+		<div
+			{ ...blockProps }
+			onClick={ ( event ) => {
+				if ( event.target.closest( 'a' ) ) {
+					event.preventDefault();
+				}
+			} }
+		>
 			<ServerSideRender
 				block="theatrum/production-quotes"
 				attributes={ {} }

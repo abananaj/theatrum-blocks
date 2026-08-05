@@ -19,6 +19,7 @@ $open_new   = !empty($attributes['openInNewTab']);
 $show_caption = !empty($attributes['showCaption']);
 
 if (!$key_input) {
+  theatrum_render_meta_empty_marker('figure', '', array('class' => 'wp-block-theatrum-meta-image'));
   return;
 }
 
@@ -29,6 +30,7 @@ if ($value === null || $value === false || $value === '') {
 }
 
 if (empty($value)) {
+  theatrum_render_meta_empty_marker('figure', $key_input, array('class' => 'wp-block-theatrum-meta-image'));
   return;
 }
 
@@ -67,6 +69,7 @@ if (is_array($value)) {
 }
 
 if (!$img_url) {
+  theatrum_render_meta_empty_marker('figure', $key_input, array('class' => 'wp-block-theatrum-meta-image'));
   return;
 }
 

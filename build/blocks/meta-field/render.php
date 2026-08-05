@@ -26,9 +26,9 @@ $tag_name  = theatrum_sanitize_tag(
 $href      = $attributes['href'] ?? '';
 $prepend   = $attributes['prepend'] ?? '';
 $append    = $attributes['append'] ?? '';
-$hide_if_empty = $attributes['hideIfEmpty'] ?? false;
 
 if (!$key_input) {
+  theatrum_render_meta_empty_marker($tag_name, '', array('class' => 'wp-block-theatrum-post-meta-field'));
   return;
 }
 
@@ -36,11 +36,7 @@ if (!$key_input) {
 $value = get_post_meta($post->ID, $key_input, true);
 
 if ($value === '' || $value === false) {
-  // If hideIfEmpty is enabled, don't render parent container
-  if ($hide_if_empty) {
-    return;
-  }
-  // Otherwise, don't render anything (previous behavior)
+  theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => 'wp-block-theatrum-post-meta-field'));
   return;
 }
 

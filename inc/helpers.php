@@ -31,6 +31,55 @@ function theatrum_is_allowed_settings_option($option_name)
 }
 
 /**
+ * Whether the current render is happening inside the block editor's preview
+ * (the REST `block-renderer` endpoint Gutenberg uses for dynamic blocks),
+ * as opposed to a real frontend page load.
+ *
+ * @return bool
+ */
+function theatrum_is_editor_render_context()
+{
+	return defined('REST_REQUEST') && REST_REQUEST;
+}
+
+/**
+ * Render an empty, invisible marker in place of a meta-* block that has no
+ * value to display, instead of rendering nothing at all.
+ *
+ * Rendering truly nothing gives CSS no way to tell "this block was here but
+ * had no data" apart from "this block was never here" — so a sibling
+ * Heading can't be hidden automatically when grouped with an empty meta
+ * block. This marker carries the block's default wrapper class plus a
+ * shared `theatrum-meta-empty` class; `wp-blocks.scss` hides the marker
+ * itself and hides any `.wp-block-heading` grouped with one via `:has()`.
+ * No editor configuration is required — grouping a Heading with a meta-*
+ * block is the only thing an editor has to do.
+ *
+ * In the block editor's own preview (`theatrum_is_editor_render_context()`)
+ * the marker shows the requested meta key in brackets so authors can see
+ * what's unset; on the frontend it's always empty and hidden via CSS.
+ *
+ * @param string $tag                 Sanitized HTML tag name for the marker.
+ * @param string $key                 Meta key being requested, shown as an editor-only placeholder.
+ * @param array  $extra_wrapper_args  Extra args passed to get_block_wrapper_attributes(), e.g. ['class' => '...'].
+ */
+function theatrum_render_meta_empty_marker($tag, $key = '', $extra_wrapper_args = array())
+{
+	$extra_wrapper_args['class'] = trim('theatrum-meta-empty ' . ($extra_wrapper_args['class'] ?? ''));
+
+	$inner = ($key !== '' && theatrum_is_editor_render_context())
+		? '[' . esc_html($key) . ']'
+		: '';
+
+	printf(
+		'<%1$s %2$s>%3$s</%1$s>',
+		$tag,
+		wp_kses_data( get_block_wrapper_attributes($extra_wrapper_args) ),
+		$inner
+	);
+}
+
+/**
  * Decode HTML entities in a meta value for display in the block editor
  * (REST previews, block bindings) and on the frontend.
  *

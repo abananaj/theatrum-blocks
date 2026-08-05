@@ -10,13 +10,19 @@ $button_text = isset($attributes['buttonText']) ? sanitize_text_field($attribute
 
 $post_id = isset($block->context['postId']) ? $block->context['postId'] : get_the_ID();
 
-if (! $key || ! $post_id) {
+if (! $key) {
+  theatrum_render_meta_empty_marker('div', '', array('class' => 'wp-block-button'));
+  return;
+}
+
+if (! $post_id) {
   return;
 }
 
 $url = esc_url(get_post_meta($post_id, $key, true));
 
 if (empty($url)) {
+  theatrum_render_meta_empty_marker('div', $key, array('class' => 'wp-block-button'));
   return;
 }
 

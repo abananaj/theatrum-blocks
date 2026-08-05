@@ -128,7 +128,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 		return textarea.value;
 	};
 
-	const selectedTermLabel = terms.find((t) => t.value === termId)?.label;
 	const HeadingTag = headingLevel || 'h2';
 	const headingEl = headingText ? createElement(HeadingTag, { className: 'season-producer-heading' }, headingText) : null;
 
@@ -278,7 +277,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 							<Fragment key={item.id || `${item.title}-${i}`}>
 								{i > 0 && ', '}
 								{item.url ? (
-									<a href={item.url}>{decodeHtmlEntities(item.title)}</a>
+									<a href={item.url} onClick={(event) => event.preventDefault()}>{decodeHtmlEntities(item.title)}</a>
 								) : (
 									decodeHtmlEntities(item.title)
 								)}
@@ -288,12 +287,10 @@ export default function Edit({ attributes, setAttributes, context }) {
 					</p>
 				) : metaValue ? (
 					<p style={{ margin: 0, padding: '8px 0' }}>{`${prepend || ''}${metaValue}${append || ''}`}</p>
+				) : termId && metaKey ? (
+					<p style={{ margin: 0 }}>{`[${metaKey}]`}</p>
 				) : (
-					<p style={{ color: '#999', fontStyle: 'italic', margin: 0 }}>
-						{termId && metaKey
-							? `[${metaKey}] — term #${termId}${selectedTermLabel ? ` (${selectedTermLabel})` : ''}`
-							: 'Select a taxonomy, term, and meta key'}
-					</p>
+					<p style={{ margin: 0, color: '#999', fontStyle: 'italic' }}>Select a taxonomy, term, and meta key</p>
 				)}
 			</div>
 		</Fragment>

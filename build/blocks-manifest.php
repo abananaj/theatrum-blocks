@@ -1090,10 +1090,6 @@ return array(
 			'append' => array(
 				'type' => 'string',
 				'default' => ''
-			),
-			'hideIfEmpty' => array(
-				'type' => 'boolean',
-				'default' => false
 			)
 		),
 		'usesContext' => array(
@@ -1821,6 +1817,51 @@ return array(
 		'viewScript' => 'file:./view.js',
 		'render' => 'file:./render.php'
 	),
+	'performances-list' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/performances-list',
+		'title' => 'Performances List',
+		'category' => 'production',
+		'description' => 'Display the next 5 upcoming performances from the ACF performances repeater field.',
+		'icon' => 'calendar-alt',
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'className' => true,
+			'customClassName' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'attributes' => array(
+			
+		),
+		'example' => array(
+			
+		),
+		'keywords' => array(
+			'performances',
+			'schedule',
+			'shows',
+			'dates'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
 	'popover' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1894,7 +1935,7 @@ return array(
 		'title' => 'popup',
 		'category' => 'theatrum',
 		'icon' => 'visibility',
-		'description' => 'A dialog/popup block. Opened by any Popup Trigger button (a core/button variation) linked to it via its HTML Anchor.',
+		'description' => 'A dialog/popup block. Opened by any core/button linked to it via its HTML Anchor.',
 		'supports' => array(
 			'html' => false,
 			'align' => true,
@@ -1940,10 +1981,6 @@ return array(
 			'autoOpenDelay' => array(
 				'type' => 'number',
 				'default' => 0
-			),
-			'autoOpenHomeOnly' => array(
-				'type' => 'boolean',
-				'default' => false
 			)
 		),
 		'example' => array(
@@ -1963,51 +2000,6 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
 		'viewScript' => 'file:./view.js'
-	),
-	'production-performances' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/performances-list',
-		'title' => 'Production Performances',
-		'category' => 'production',
-		'description' => 'Display the next 5 upcoming performances from the ACF performances repeater field.',
-		'icon' => 'calendar-alt',
-		'supports' => array(
-			'html' => false,
-			'anchor' => true,
-			'className' => true,
-			'customClassName' => true,
-			'color' => array(
-				'text' => true,
-				'background' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			)
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'attributes' => array(
-			
-		),
-		'example' => array(
-			
-		),
-		'keywords' => array(
-			'performances',
-			'schedule',
-			'shows',
-			'dates'
-		),
-		'textdomain' => 'theatrum-blocks',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
 	),
 	'production-quotes' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

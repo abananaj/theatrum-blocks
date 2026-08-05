@@ -27,7 +27,12 @@ if (! $post_id) {
   }
 }
 
-if (! $key || ! $post_id) {
+if (! $key) {
+  theatrum_render_meta_empty_marker('div', '');
+  return;
+}
+
+if (! $post_id) {
   return;
 }
 
@@ -35,12 +40,14 @@ if (! $key || ! $post_id) {
 $url = get_post_meta($post_id, $key, true);
 
 if (empty($url) || ! is_string($url)) {
+  theatrum_render_meta_empty_marker('div', $key);
   return;
 }
 
 $url = esc_url_raw($url);
 
 if (empty($url)) {
+  theatrum_render_meta_empty_marker('div', $key);
   return;
 }
 
@@ -59,6 +66,7 @@ if ('youtube' === $embed_type) {
   $video_id = $matches[1] ?? '';
 
   if (empty($video_id)) {
+    theatrum_render_meta_empty_marker('div', $key);
     return;
   }
 

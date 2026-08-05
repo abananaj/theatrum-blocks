@@ -24,6 +24,7 @@ $fallback_text = isset($attributes['fallbackText']) ? sanitize_text_field($attri
 $caption      = isset($attributes['caption']) ? wp_kses_post($attributes['caption']) : '';
 
 if (!$meta_key) {
+  theatrum_render_meta_empty_marker('figure', '', ['class' => 'wp-block-theatrum-meta-gallery']);
   return;
 }
 
@@ -40,6 +41,8 @@ if (empty($value) || !is_array($value)) {
       wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-gallery']) ),
       esc_html($fallback_text)
     );
+  } else {
+    theatrum_render_meta_empty_marker('figure', $meta_key, ['class' => 'wp-block-theatrum-meta-gallery']);
   }
   return;
 }
@@ -146,6 +149,8 @@ if (!$items_html) {
       wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-gallery']) ),
       esc_html($fallback_text)
     );
+  } else {
+    theatrum_render_meta_empty_marker('figure', $meta_key, ['class' => 'wp-block-theatrum-meta-gallery']);
   }
   return;
 }

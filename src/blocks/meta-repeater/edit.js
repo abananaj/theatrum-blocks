@@ -105,12 +105,10 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 	const renderPreview = () => {
 		if (!rows.length) {
-			return (
-				<p style={{ color: '#999', fontStyle: 'italic' }}>
-					{attributes.repeaterKey
-						? `No rows found for: "${attributes.repeaterKey}"`
-						: 'Enter a repeater key in the sidebar'}
-				</p>
+			return attributes.repeaterKey ? (
+				<p>{`[${attributes.repeaterKey}]`}</p>
+			) : (
+				<p style={{ color: '#999', fontStyle: 'italic' }}>Enter a repeater key in the sidebar</p>
 			);
 		}
 

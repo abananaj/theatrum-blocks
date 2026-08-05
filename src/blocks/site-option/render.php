@@ -14,6 +14,13 @@ $append_tag = isset($attributes['appendTag']) ? $attributes['appendTag'] : '';
 $meta_key = isset($attributes['metaKey']) ? $attributes['metaKey'] : '';
 $link_post_title = isset($attributes['linkPostTitle']) ? (bool) $attributes['linkPostTitle'] : true;
 
+// Check if this is a staff or board member block — resolved up front so the
+// empty-marker calls below can use the right wrapper class.
+$is_member_type = $member_type === 'staff' || $member_type === 'board';
+$empty_marker_class = $is_member_type
+  ? ($member_type === 'board' ? 'wp-block-theatrum-board-member' : 'wp-block-theatrum-staff-member')
+  : 'wp-block-theatrum-site-option';
+
 // Wrap prepend/append text in an inline styling tag (em/strong/small) when set.
 $affix_allowed_tags = array('em', 'strong', 'small');
 $wrap_affix = function ($text, $tag) use ($affix_allowed_tags) {
@@ -28,17 +35,20 @@ $wrap_affix = function ($text, $tag) use ($affix_allowed_tags) {
 $prepend_html = $wrap_affix($prepend, $prepend_tag);
 $append_html = $wrap_affix($append, $append_tag);
 
-if (!$option_name || !theatrum_is_allowed_settings_option($option_name)) {
+if (!$option_name) {
+  theatrum_render_meta_empty_marker('div', '', array('class' => $empty_marker_class));
   return;
 }
 
-// Check if this is a staff or board member block
-$is_member_type = $member_type === 'staff' || $member_type === 'board';
+if (!theatrum_is_allowed_settings_option($option_name)) {
+  return;
+}
 
 // Get option value from wp_options table
 $option_value = get_option($option_name);
 
 if ($option_value === false) {
+  theatrum_render_meta_empty_marker('div', $option_name, array('class' => $empty_marker_class));
   return;
 }
 
@@ -104,6 +114,7 @@ if ($is_member_type) {
     });
 
     if (empty($post_ids)) {
+      theatrum_render_meta_empty_marker('div', $option_name, array('class' => $css_class));
       return;
     }
 
@@ -179,6 +190,11 @@ if ($is_member_type) {
     echo $html;
   } else {
     // Single string value
+    if (!$option_value) {
+      theatrum_render_meta_empty_marker('div', $option_name, array('class' => $css_class));
+      return;
+    }
+
     $classes = array($css_class);
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
@@ -186,9 +202,7 @@ if ($is_member_type) {
     $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
 
     $html = '<div ' . $wrapper_attrs . '>' . $prepend_html;
-    if ($option_value) {
-      $html .= '<p>' . esc_html($option_value) . '</p>';
-    }
+    $html .= '<p>' . esc_html($option_value) . '</p>';
     $html .= '</div>' . $append_html;
     echo $html;
   }
@@ -260,7 +274,8 @@ if (is_array($option_value) || is_object($option_value)) {
   $raw_value = (string) $option_value;
 }
 
-if ($raw_value === '' && $prepend_html === '' && $append_html === '') {
+if ($raw_value === '') {
+  theatrum_render_meta_empty_marker('div', $option_name, array('class' => $empty_marker_class));
   return;
 }
 

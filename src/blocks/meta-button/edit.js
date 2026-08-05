@@ -76,10 +76,11 @@ export default function Edit({ attributes, setAttributes, context }) {
 						{attributes.buttonText || 'Learn More'}
 					</a>
 				)}
-				{!isLoading && !urlValue && (
-					<p style={{ color: '#999', fontStyle: 'italic' }}>
-						No URL found for key: {attributes.keyInput || '[not set]'}
-					</p>
+				{!isLoading && !urlValue && attributes.keyInput && (
+					<p>{`[${attributes.keyInput}]`}</p>
+				)}
+				{!isLoading && !urlValue && !attributes.keyInput && (
+					<p style={{ color: '#999', fontStyle: 'italic' }}>Enter a URL field key</p>
 				)}
 			</div>
 		</Fragment>

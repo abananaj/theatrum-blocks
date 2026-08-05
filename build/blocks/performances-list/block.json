@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "theatrum/performances-list",
-  "title": "Production Performances",
+  "title": "Performances List",
   "category": "production",
   "description": "Display the next 5 upcoming performances from the ACF performances repeater field.",
   "icon": "calendar-alt",

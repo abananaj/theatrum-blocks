@@ -92,7 +92,12 @@ $tag = theatrum_sanitize_tag(
 $prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
 $append = isset($attributes['append']) ? $attributes['append'] : '';
 
-if (!$term_id || !$meta_key) {
+if (!$meta_key) {
+  theatrum_render_meta_empty_marker($tag, '');
+  return;
+}
+
+if (!$term_id) {
   return;
 }
 
@@ -100,12 +105,7 @@ if (!$term_id || !$meta_key) {
 $value = get_term_meta($term_id, $meta_key, true);
 
 if (empty($value)) {
-  printf(
-    '<%1$s %2$s>[%3$s]</%1$s>',
-    $tag,
-    wp_kses_data( get_block_wrapper_attributes() ),
-    esc_html($meta_key)
-  );
+  theatrum_render_meta_empty_marker($tag, $meta_key);
   return;
 }
 

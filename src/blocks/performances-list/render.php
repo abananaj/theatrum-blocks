@@ -24,6 +24,7 @@ if (! function_exists('get_field')) {
 $rows = get_field('performances', $post_id);
 
 if (empty($rows) || ! is_array($rows)) {
+  theatrum_render_meta_empty_marker('div', '');
   return;
 }
 
@@ -97,6 +98,7 @@ foreach ($rows as $row) {
 }
 
 if (empty($upcoming)) {
+  theatrum_render_meta_empty_marker('div', '');
   return;
 }
 

@@ -18,7 +18,12 @@ $fallback_text   = isset($attributes['fallbackText']) ? sanitize_text_field($att
 $open_in_new_tab = ! empty($attributes['openInNewTab']);
 $show_icon       = ! empty($attributes['showIcon']);
 
-if (! $key_input || ! $link_text) {
+if (! $key_input) {
+  theatrum_render_meta_empty_marker('div', '', array('class' => 'wp-block-theatrum-meta-file'));
+  return;
+}
+
+if (! $link_text) {
   return;
 }
 
@@ -35,6 +40,8 @@ if (empty($value)) {
       wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
       esc_html($fallback_text)
     );
+  } else {
+    theatrum_render_meta_empty_marker('div', $key_input, array('class' => 'wp-block-theatrum-meta-file'));
   }
   return;
 }
@@ -72,6 +79,8 @@ if (! $file_url) {
       wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
       esc_html($fallback_text)
     );
+  } else {
+    theatrum_render_meta_empty_marker('div', $key_input, array('class' => 'wp-block-theatrum-meta-file'));
   }
   return;
 }

@@ -5,7 +5,7 @@
   "title": "popup",
   "category": "theatrum",
   "icon": "visibility",
-  "description": "A dialog/popup block. Opened by any Popup Trigger button (a core/button variation) linked to it via its HTML Anchor.",
+  "description": "A dialog/popup block. Opened by any core/button linked to it via its HTML Anchor.",
   "supports": {
     "html": false,
     "align": true,
@@ -51,10 +51,6 @@
     "autoOpenDelay": {
       "type": "number",
       "default": 0
-    },
-    "autoOpenHomeOnly": {
-      "type": "boolean",
-      "default": false
     }
   },
   "example": {},

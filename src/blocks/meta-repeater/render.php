@@ -12,34 +12,10 @@ $tag_a        = isset($attributes['tagA']) ? sanitize_text_field($attributes['ta
 $tag_b        = isset($attributes['tagB']) ? sanitize_text_field($attributes['tagB']) : 'span';
 $row_style    = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
 
-// Get post ID: explicit override > block context > current post
-$override_post_id = ! empty($attributes['overridePostId']) ? absint($attributes['overridePostId']) : 0;
-$context_post_id  = isset($block->context['postId']) ? absint($block->context['postId']) : get_the_ID();
-$post_id          = $override_post_id ?: $context_post_id;
-
-if (! $repeater_key || ! $post_id) {
-  return;
-}
-
-// Get the repeater field (ACF)
-if (! function_exists('get_field')) {
-  return;
-}
-
-$rows = get_field($repeater_key, $post_id);
-
-if (empty($rows) || ! is_array($rows)) {
-  return;
-}
-
-// At least one subfield should be configured
-if (empty($subfield_a) && empty($subfield_b)) {
-  return;
-}
-
 // One attribute (tagName) drives both the block wrapper and the row tag
 // together, since they're structurally paired: <li> only makes sense
-// inside <ul>/<ol>, and <p> rows need a plain <div> around them.
+// inside <ul>/<ol>, and <p> rows need a plain <div> around them. Resolved
+// up front so the empty-marker calls below can use the right wrapper tag.
 if (! in_array($row_style, array('ul', 'ol', 'p'), true)) {
   $row_style = 'p';
 }
@@ -53,6 +29,38 @@ $item_tag          = $is_paragraph_rows ? 'p' : 'li';
 if ($is_paragraph_rows) {
   $tag_a = 'span';
   $tag_b = 'span';
+}
+
+// Get post ID: explicit override > block context > current post
+$override_post_id = ! empty($attributes['overridePostId']) ? absint($attributes['overridePostId']) : 0;
+$context_post_id  = isset($block->context['postId']) ? absint($block->context['postId']) : get_the_ID();
+$post_id          = $override_post_id ?: $context_post_id;
+
+if (! $repeater_key) {
+  theatrum_render_meta_empty_marker($wrapper_tag, '');
+  return;
+}
+
+if (! $post_id) {
+  return;
+}
+
+// Get the repeater field (ACF)
+if (! function_exists('get_field')) {
+  return;
+}
+
+$rows = get_field($repeater_key, $post_id);
+
+if (empty($rows) || ! is_array($rows)) {
+  theatrum_render_meta_empty_marker($wrapper_tag, $repeater_key);
+  return;
+}
+
+// At least one subfield should be configured
+if (empty($subfield_a) && empty($subfield_b)) {
+  theatrum_render_meta_empty_marker($wrapper_tag, $repeater_key);
+  return;
 }
 
 // Validate subfield tags

@@ -8,7 +8,14 @@ export default function Edit( { attributes } ) {
 	} );
 
 	return (
-		<div { ...blockProps }>
+		<div
+			{ ...blockProps }
+			onClick={ ( event ) => {
+				if ( event.target.closest( 'a' ) ) {
+					event.preventDefault();
+				}
+			} }
+		>
 			<ServerSideRender
 				block="theatrum/performances-list"
 				attributes={ attributes }

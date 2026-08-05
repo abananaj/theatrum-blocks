@@ -43,17 +43,21 @@ export default function Edit({ attributes, setAttributes, context }) {
   const renderLink = (post, index) => {
     const text = post.title;
     if (attributes.linkToPost && post.url) {
-      return createElement('a', { key: index, href: post.url, target: '_blank', rel: 'noreferrer' }, text);
+      return createElement('a', { key: index, href: post.url, target: '_blank', rel: 'noreferrer', onClick: (event) => event.preventDefault() }, text);
     }
     return text;
   };
 
   const renderDisplay = () => {
     if (!relatedPosts.length) {
-      const placeholder = attributes.keyInput
-        ? `[${attributes.keyInput}]`
-        : 'Enter a meta key to display a related post';
-      return createElement(Tag, { style: { margin: 0 } }, placeholder);
+      if (attributes.keyInput) {
+        return createElement(Tag, { style: { margin: 0 } }, `[${attributes.keyInput}]`);
+      }
+      return createElement(
+        Tag,
+        { style: { margin: 0, color: '#999', fontStyle: 'italic' } },
+        'Enter a meta key to display a related post'
+      );
     }
 
     // Interleave links with the separator: prepend, link, sep, link, …, append.

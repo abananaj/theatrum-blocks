@@ -51,7 +51,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			popups.set( id, popup );
 
 			// Auto-open: render.php only emits this attribute when a delay
-			// is configured and (if restricted) we're on the front page.
+			// is configured.
 			const autoOpenDelay = parseFloat( wrapper.dataset.autoOpenDelay );
 			if ( autoOpenDelay > 0 ) {
 				const sessionKey = `theatrum-popup-autoopen-${ id }`;
@@ -123,15 +123,18 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			} );
 		} );
 
-	// Pass B: wire up every trigger button. A trigger is any Popup Trigger
-	// variation link (`.popup-trigger-button > .wp-block-button__link` /
-	// `.popup-trigger-button > .wp-element-button`, depending on which class
-	// core's global styles land the button on) whose href hash matches a
-	// popup registered above.
+	// Pass B: wire up every trigger button. A trigger is ANY core/button link
+	// (`.wp-block-button__link` / `.wp-element-button`, depending on which
+	// class core's global styles land the button on) whose href hash matches
+	// a popup registered above — plain, default-styled buttons work exactly
+	// as well as ones wearing the `theatrum/popup-trigger` style variation.
+	// This is intentionally permissive: any button on the page that happens
+	// to link to `#<a popup's anchor>` becomes a trigger, even if that
+	// wasn't the author's intent. Accepted tradeoff — the alternative
+	// (requiring a special class) forced every trigger to wear the
+	// variation's distinct visual style, which the client didn't want.
 	document
-		.querySelectorAll(
-			'.popup-trigger-button > .wp-block-button__link, .popup-trigger-button > .wp-element-button'
-		)
+		.querySelectorAll( '.wp-block-button__link, .wp-element-button' )
 		.forEach( ( trigger ) => {
 			const href = trigger.getAttribute( 'href' ) || '';
 			if ( ! href.startsWith( '#' ) || href.length < 2 ) {

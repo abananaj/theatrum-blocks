@@ -3,12 +3,13 @@ import {
 	InspectorControls,
 	BlockControls,
 	InnerBlocks,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment, useState, useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import {
 	TextControl,
-	NumberControl,
-	ToggleControl,
+	__experimentalNumberControl as NumberControl,
 	PanelBody,
 	ToolbarGroup,
 	ToolbarButton,
@@ -17,12 +18,45 @@ import { __ } from '@wordpress/i18n';
 import { seen, unseen } from '@wordpress/icons';
 import './editor.scss';
 
-export default function Edit( { attributes, setAttributes } ) {
-	const { dialogLabel, anchor, autoOpenDelay, autoOpenHomeOnly } = attributes;
-	const blockProps = useBlockProps( { className: 'wp-block-theatrum-popup' } );
-	const [ open, setOpen ] = useState( false );
+export default function Edit( {
+	attributes,
+	setAttributes,
+	isSelected,
+	clientId,
+} ) {
+	const { dialogLabel, anchor, autoOpenDelay } = attributes;
+	const blockProps = useBlockProps( {
+		className: 'wp-block-theatrum-popup',
+	} );
 
-	const togglePopup = () => setOpen( ! open );
+	const hasSelectedInner = useSelect(
+		( select ) =>
+			select( blockEditorStore ).hasSelectedInnerBlock( clientId, true ),
+		[ clientId ]
+	);
+	const selected = isSelected || hasSelectedInner;
+
+	// Manual override, set by the toolbar eye icon, the dialog's own close
+	// button, or clicking the backdrop — lets an author force the preview
+	// open or closed regardless of selection (e.g. pin it open to screenshot
+	// it, or close it while still selected without deselecting the block).
+	// `null` means "no override, follow selection". Reset back to `null`
+	// whenever selection actually changes so the override doesn't get stuck:
+	// closing it while selected only hides it until you select elsewhere and
+	// come back, at which point it goes back to auto-following selection.
+	const [ forcedState, setForcedState ] = useState( null );
+	useEffect( () => {
+		setForcedState( null );
+	}, [ selected ] );
+
+	// Real dialog styling shown while the block (or something nested inside
+	// it, e.g. the WPForms embed) is selected, so the editor preview matches
+	// the frontend — but collapsed otherwise so it isn't a wall of open
+	// dialogs cluttering the canvas. Instances that are closed and not
+	// selected stay reachable via the List View/Outline sidebar.
+	const open = forcedState !== null ? forcedState : selected;
+
+	const togglePopup = () => setForcedState( open ? false : true );
 	const displayLabel =
 		dialogLabel || anchor || __( 'Popup', 'theatrum-blocks' );
 
@@ -31,14 +65,14 @@ export default function Edit( { attributes, setAttributes } ) {
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-						icon={ open ? unseen : seen }
+						icon={ open ? seen : unseen }
 						label={
 							open
-								? __( 'Preview closed', 'theatrum-blocks' )
-								: __( 'Preview open', 'theatrum-blocks' )
+								? __( 'Preview open', 'theatrum-blocks' )
+								: __( 'Preview closed', 'theatrum-blocks' )
 						}
 						onClick={ togglePopup }
-						isPressed={ open }
+						isPressed={ ! open }
 					/>
 				</ToolbarGroup>
 			</BlockControls>
@@ -81,26 +115,9 @@ export default function Edit( { attributes, setAttributes } ) {
 						) }
 						__next40pxDefaultSize
 					/>
-					<ToggleControl
-						label={ __(
-							'Only auto-open on the front page',
-							'theatrum-blocks'
-						) }
-						checked={ !! autoOpenHomeOnly }
-						onChange={ ( value ) =>
-							setAttributes( { autoOpenHomeOnly: value } )
-						}
-						__nextHasNoMarginBottom
-					/>
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
-				{ ! open && (
-					<div className="popup-editor-placeholder">
-						{ __( 'Popup:', 'theatrum-blocks' ) } { displayLabel }
-					</div>
-				) }
-
 				<div
 					className="popup-backdrop"
 					onClick={ togglePopup }

@@ -86,6 +86,7 @@ export default function Edit({ attributes, setAttributes, context }) {
             target="_blank"
             rel="noopener noreferrer"
             className="wp-block-theatrum-meta-file-link"
+            onClick={(event) => event.preventDefault()}
           >
             {attributes.showIcon && (
               <span
@@ -103,33 +104,17 @@ export default function Edit({ attributes, setAttributes, context }) {
           </a>
         )}
         {!isLoading && !fileData && attributes.keyInput && attributes.fallbackText && (
-          <div style={{ textAlign: 'center', color: '#666', padding: '20px' }}>
+          <div style={{ color: '#666' }}>
             {attributes.fallbackText}
           </div>
         )}
         {!isLoading && !fileData && attributes.keyInput && !attributes.fallbackText && (
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="wp-block-theatrum-meta-file-link is-placeholder"
-          >
-            {attributes.showIcon && (
-              <span
-                className="dashicons dashicons-media-document"
-                style={{
-                  marginRight: '0.5em',
-                  verticalAlign: 'middle',
-                  fontSize: '1em',
-                  width: '1em',
-                  height: '1em'
-                }}
-              />
-            )}
-            {attributes.linkText || 'Open File'}
-          </a>
+          <div>
+            {`[${attributes.keyInput}]`}
+          </div>
         )}
         {!isLoading && !fileData && !attributes.keyInput && (
-          <div style={{ textAlign: 'center', color: '#ccc', padding: '20px', fontSize: '14px' }}>
+          <div style={{ color: '#999', fontStyle: 'italic' }}>
             Enter a meta key to display a file link
           </div>
         )}

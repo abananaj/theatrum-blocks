@@ -65,10 +65,6 @@
     "append": {
       "type": "string",
       "default": ""
-    },
-    "hideIfEmpty": {
-      "type": "boolean",
-      "default": false
     }
   },
   "usesContext": [

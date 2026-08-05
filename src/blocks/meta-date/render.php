@@ -44,7 +44,12 @@ if (!$post_id) {
   }
 }
 
-if (! $key || ! $post_id) {
+if (! $key) {
+  theatrum_render_meta_empty_marker($tag, '');
+  return;
+}
+
+if (! $post_id) {
   return;
 }
 
@@ -52,12 +57,7 @@ if (! $key || ! $post_id) {
 $value = get_post_meta($post_id, $key, true);
 
 if (empty($value)) {
-  printf(
-    '<%1$s %2$s>[%3$s]</%1$s>',
-    $tag,
-    wp_kses_data( get_block_wrapper_attributes() ),
-    esc_html($key)
-  );
+  theatrum_render_meta_empty_marker($tag, $key);
   return;
 }
 
@@ -67,12 +67,7 @@ if (is_array($value)) {
 }
 
 if (empty($value)) {
-  printf(
-    '<%1$s %2$s>[%3$s]</%1$s>',
-    $tag,
-    wp_kses_data( get_block_wrapper_attributes() ),
-    esc_html($key)
-  );
+  theatrum_render_meta_empty_marker($tag, $key);
   return;
 }
 

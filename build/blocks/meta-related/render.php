@@ -15,7 +15,14 @@ $prepend     = isset($attributes['prepend'])   ? $attributes['prepend']         
 $append      = isset($attributes['append'])    ? $attributes['append']                         : '';
 $separator   = isset($attributes['separator']) ? $attributes['separator']                      : ', ';
 
+// Validate tag name up front so it's available to the empty-marker calls below too.
+$allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+if (!in_array($tag_name, $allowed_tags, true)) {
+  $tag_name = 'p';
+}
+
 if (!$key_input) {
+  theatrum_render_meta_empty_marker($tag_name, '', array('class' => 'wp-block-theatrum-meta-related'));
   return;
 }
 
@@ -36,6 +43,7 @@ if ($meta_value === false || $meta_value === null || $meta_value === '') {
 }
 
 if (empty($meta_value)) {
+  theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => 'wp-block-theatrum-meta-related'));
   return;
 }
 
@@ -43,6 +51,7 @@ if (empty($meta_value)) {
 $related_post_ids = theatrum_meta_related_collect_ids($meta_value);
 
 if (empty($related_post_ids)) {
+  theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => 'wp-block-theatrum-meta-related'));
   return;
 }
 
@@ -67,13 +76,8 @@ foreach ($related_post_ids as $related_post_id) {
 }
 
 if (empty($items)) {
+  theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => 'wp-block-theatrum-meta-related'));
   return;
-}
-
-// Validate tag name
-$allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6');
-if (!in_array($tag_name, $allowed_tags, true)) {
-  $tag_name = 'p';
 }
 
 $inner = esc_html($prepend) . implode(esc_html($separator), $items) . esc_html($append);
