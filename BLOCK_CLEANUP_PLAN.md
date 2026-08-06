@@ -1,5 +1,33 @@
 # Theatrum Blocks — Cleanup, Deprecation & Streamlining
 
+## ⚠️ Correction (2026-08-06)
+
+This document's claims below that `board-member`, `staff-member`, `season-producer`, and
+`meta-icon` were fully **deleted** do not match the code as it actually exists today —
+whatever happened between this doc being written and now, none of that was fully carried
+out:
+
+- `board-member`/`staff-member` were never separate blocks post-migration — they're
+  `theatrum/site-option`'s `staff`/`board` **variations** (`memberType` attribute), still
+  defined in `site-option/block.json` with live REST endpoints in `inc/rest-endpoints.php`.
+- `season-producer` is likewise `theatrum/term-meta`'s `season-producer` **variation**
+  (`displayType` attribute), not a deleted standalone block — also still defined with a
+  live REST endpoint.
+- `meta-icon`'s folder and REST-independent `render.php`/`edit.js` were never deleted —
+  it was just left out of the `$custom_blocks` array in `theatrum-blocks.php` (unregistered
+  dead code), contrary to the "deleted outright" claim below.
+
+As of 2026-08-06, all four of these (plus `theatrum/query-loop`'s `credit-loop` variation,
+`theatrum/cover-card`, and `theatrum/chance-card`) were formally **soft-deprecated**
+instead: hidden from the inserter (variation `scope` drops `inserter`; standalone blocks
+move to the `deprecated` category with `supports.inserter:false`) but kept registered/
+functional so existing content keeps rendering. `meta-icon` was re-registered under that
+same treatment rather than staying silently unregistered. See `CHANGELOG.md` under
+`[Unreleased] → Deprecated` for the authoritative record of that change. Treat every
+"✅ deleted" / "no longer registered" claim below about these four as inaccurate — the
+current README.md Block Inventory table is the source of truth for what's actually
+registered.
+
 ## Status: 21 of 22 items complete (2026-07-09)
 
 Everything below was implemented and verified in a single session: every change was build-tested (`npm run build`), lint-checked, and the full site (1,816 published posts) was re-checked for PHP render errors after each phase — **zero errors** throughout. Nothing has been visually tested in a browser and nothing is committed — both are intentionally left for you.

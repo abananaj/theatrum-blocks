@@ -17,7 +17,10 @@ const TEMPLATE = [
 	[ 'theatrum/blockquote-source', {} ],
 ];
 
-const ALLOWED_BLOCKS = [ 'theatrum/blockquote-text', 'theatrum/blockquote-source' ];
+const ALLOWED_BLOCKS = [
+	'theatrum/blockquote-text',
+	'theatrum/blockquote-source',
+];
 
 const Edit = ( { attributes, setAttributes, clientId } ) => {
 	const { addCitation } = attributes;

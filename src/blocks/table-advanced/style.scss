@@ -7,6 +7,62 @@
 		table-layout: fixed;
 	}
 }
+
+// ===== STICKY HEADER ROW / FIRST COLUMN
+.tm-table-advanced {
+	&.sticky-header {
+		thead th,
+		thead td {
+			position: sticky;
+			top: 0;
+			z-index: 2;
+			background-color: var( --wp--preset--color--white, #fff );
+		}
+	}
+	&.sticky-first-column {
+		tr > th:first-child,
+		tr > td:first-child {
+			position: sticky;
+			left: 0;
+			z-index: 1;
+			background-color: var( --wp--preset--color--white, #fff );
+		}
+	}
+	&.sticky-header.sticky-first-column {
+		thead th:first-child,
+		thead td:first-child {
+			z-index: 3;
+		}
+	}
+}
+// Editor preview: the div-based fake table (see "Known Editor Rendering
+// Issues" in README.md) needs its own selectors since .tm-edit-th/.tm-edit-td
+// sit inside block-editor wrapper divs rather than real <th>/<td> elements.
+.editor-styles-wrapper .tm-edit-table {
+	&.sticky-header {
+		.tm-edit-thead .tm-edit-th,
+		.tm-edit-thead .tm-edit-td {
+			position: sticky;
+			top: 0;
+			z-index: 2;
+			background-color: var( --wp--preset--color--white, #fff );
+		}
+	}
+	&.sticky-first-column {
+		.tm-edit-tr
+			> .block-editor-inner-blocks
+			> .block-editor-block-list__layout
+			> .block-editor-block-list__block:first-child {
+			.tm-edit-th,
+			.tm-edit-td {
+				position: sticky;
+				left: 0;
+				z-index: 1;
+				background-color: var( --wp--preset--color--white, #fff );
+			}
+		}
+	}
+}
 // ===== TABLE CAPTION (Title)
 .editor-styles-wrapper .tm-edit-caption, // editor
 .tm-table-adv-title {

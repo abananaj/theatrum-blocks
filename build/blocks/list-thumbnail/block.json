@@ -131,6 +131,10 @@
         "contain",
         "fill"
       ]
+    },
+    "hideDescriptionUntilHover": {
+      "type": "boolean",
+      "default": false
     }
   },
   "example": {},

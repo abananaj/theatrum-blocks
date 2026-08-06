@@ -49,8 +49,13 @@ return array(
 			'innerBlocks' => array(
 				array(
 					'name' => 'theatrum/blockquote-text',
-					'attributes' => array(
-						'quoteText' => '<p>Words can be like X-rays, if you use them properly—they\'ll go through anything. You read and you\'re pierced.</p>'
+					'innerBlocks' => array(
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'Words can be like X-rays, if you use them properly—they\'ll go through anything. You read and you\'re pierced.'
+							)
+						)
 					)
 				),
 				array(
@@ -69,7 +74,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'theatrum/breadcrumbs',
-		'title' => 'Breadcrumbs',
+		'title' => 'Fancy Breadcrumbs',
 		'category' => 'theme',
 		'description' => 'Display a breadcrumb trail showing the path to the current page.',
 		'example' => array(
@@ -193,8 +198,7 @@ return array(
 			),
 			'spacing' => array(
 				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
+				'padding' => true
 			),
 			'border' => array(
 				'color' => true,
@@ -221,6 +225,19 @@ return array(
 					'em',
 					'rem'
 				)
+			),
+			'arrowPosition' => array(
+				'type' => 'string',
+				'default' => 'outside',
+				'enum' => array(
+					'outside',
+					'inside',
+					'hidden'
+				)
+			),
+			'showScrollbar' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'allowedBlocks' => array(
@@ -245,9 +262,9 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'theatrum/chance-card',
-		'title' => 'Chance Card',
-		'category' => 'theatrum',
-		'description' => 'Display a featured production or event as a card with featured image background and overlaid title',
+		'title' => 'Chance Card (Deprecated)',
+		'category' => 'deprecated',
+		'description' => 'Deprecated — display a featured production or event as a card with featured image background and overlaid title. Hidden from the inserter; do not use for new content. No replacement card block currently exists in this plugin.',
 		'icon' => 'cover-image',
 		'supports' => array(
 			'customCSS' => true,
@@ -270,7 +287,7 @@ return array(
 			'filter' => array(
 				'duotone' => true
 			),
-			'inserter' => true,
+			'inserter' => false,
 			'interactivity' => true,
 			'layout' => true,
 			'listView' => true,
@@ -388,9 +405,9 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'theatrum/cover-card',
-		'title' => 'Cover Card',
-		'category' => 'theatrum',
-		'description' => 'Display a featured production or event as a card with featured image background and overlaid title',
+		'title' => 'Cover Card (Deprecated)',
+		'category' => 'deprecated',
+		'description' => 'Deprecated — display a featured production or event as a card with featured image background and overlaid title. Hidden from the inserter; do not use for new content.',
 		'icon' => 'cover-image',
 		'supports' => array(
 			'customCSS' => true,
@@ -413,7 +430,7 @@ return array(
 			'filter' => array(
 				'duotone' => true
 			),
-			'inserter' => true,
+			'inserter' => false,
 			'interactivity' => true,
 			'layout' => true,
 			'listView' => true,
@@ -534,7 +551,7 @@ return array(
 		'textdomain' => 'theatrum-blocks',
 		'title' => 'Icon List',
 		'category' => 'theatrum',
-		'description' => 'A list block with optional icons for each item. Supports ordered and unordered lists with customizable icon styling.',
+		'description' => 'An unordered list block with optional icons for each item and customizable icon styling.',
 		'icon' => 'list-view',
 		'example' => array(
 			
@@ -591,14 +608,6 @@ return array(
 			'shadow' => true
 		),
 		'attributes' => array(
-			'listType' => array(
-				'type' => 'string',
-				'default' => 'ul',
-				'enum' => array(
-					'ul',
-					'ol'
-				)
-			),
 			'iconSize' => array(
 				'type' => 'string',
 				'default' => '24'
@@ -626,6 +635,15 @@ return array(
 			'iconSpacing' => array(
 				'type' => 'string',
 				'default' => '8'
+			),
+			'iconAlign' => array(
+				'type' => 'string',
+				'default' => 'middle',
+				'enum' => array(
+					'top',
+					'middle',
+					'bottom'
+				)
 			),
 			'iconColor' => array(
 				'type' => 'string',
@@ -773,6 +791,10 @@ return array(
 					'contain',
 					'fill'
 				)
+			),
+			'hideDescriptionUntilHover' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'example' => array(
@@ -1318,11 +1340,12 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'theatrum/meta-icon',
-		'title' => 'Meta Icon',
-		'category' => 'metablock',
-		'description' => 'Display an icon from an ACF icon picker field by entering a key. Handles dashicon names, URLs, and attachment IDs.',
+		'title' => 'Meta Icon (Deprecated)',
+		'category' => 'deprecated',
+		'description' => 'Deprecated — display an icon from an ACF icon picker field by entering a key. Handles dashicon names, URLs, and attachment IDs. Hidden from the inserter; do not use for new content.',
 		'icon' => 'star-filled',
 		'supports' => array(
+			'inserter' => false,
 			'html' => false,
 			'align' => array(
 				'left',
@@ -1932,8 +1955,8 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'theatrum/popup',
-		'title' => 'popup',
-		'category' => 'theatrum',
+		'title' => 'Popup',
+		'category' => 'design',
 		'icon' => 'visibility',
 		'description' => 'A dialog/popup block. Opened by any core/button linked to it via its HTML Anchor.',
 		'supports' => array(
@@ -2069,122 +2092,6 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
-	'production-tabs' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/production-tabs',
-		'title' => 'Production Tabs',
-		'category' => 'production',
-		'icon' => 'index-card',
-		'description' => 'Horizontal tabs that collapse into a vertical accordion on mobile. Add a tab for each section and give it a heading.',
-		'textdomain' => 'theatrum-blocks',
-		'attributes' => array(
-			'equalWidthTabs' => array(
-				'type' => 'boolean',
-				'default' => false
-			)
-		),
-		'supports' => array(
-			'html' => false,
-			'anchor' => true,
-			'align' => array(
-				'wide',
-				'full'
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradients' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'letterSpacing' => true,
-				'lineHeight' => true,
-				'textTransform' => true
-			)
-		),
-		'allowedBlocks' => array(
-			'theatrum/tab'
-		),
-		'example' => array(
-			'innerBlocks' => array(
-				array(
-					'name' => 'theatrum/tab',
-					'innerBlocks' => array(
-						array(
-							'name' => 'theatrum/tab-heading',
-							'innerBlocks' => array(
-								array(
-									'name' => 'core/heading',
-									'attributes' => array(
-										'level' => 3,
-										'content' => 'Synopsis'
-									)
-								)
-							)
-						),
-						array(
-							'name' => 'theatrum/tab-content',
-							'innerBlocks' => array(
-								array(
-									'name' => 'core/paragraph',
-									'attributes' => array(
-										'content' => 'What the show is about.'
-									)
-								)
-							)
-						)
-					)
-				),
-				array(
-					'name' => 'theatrum/tab',
-					'innerBlocks' => array(
-						array(
-							'name' => 'theatrum/tab-heading',
-							'innerBlocks' => array(
-								array(
-									'name' => 'core/heading',
-									'attributes' => array(
-										'level' => 3,
-										'content' => 'Cast'
-									)
-								)
-							)
-						),
-						array(
-							'name' => 'theatrum/tab-content',
-							'innerBlocks' => array(
-								array(
-									'name' => 'core/paragraph',
-									'attributes' => array(
-										'content' => 'Who is in it.'
-									)
-								)
-							)
-						)
-					)
-				)
-			)
-		),
-		'keywords' => array(
-			'tabs',
-			'accordion',
-			'tabbed',
-			'sections'
-		),
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'viewScript' => 'file:./view.js'
-	),
 	'query-filter' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -2207,6 +2114,14 @@ return array(
 			'html' => false,
 			'anchor' => true,
 			'interactivity' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradient' => true
+			),
+			'typography' => array(
+				'fontSize' => true
+			),
 			'spacing' => array(
 				'margin' => true,
 				'padding' => true
@@ -2257,8 +2172,8 @@ return array(
 		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style.scss',
-		'editorStyle' => 'file:./editor.scss'
+		'style' => 'file:./style-index.css',
+		'editorStyle' => 'file:./index.css'
 	),
 	'query-loop' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -2266,7 +2181,7 @@ return array(
 		'name' => 'theatrum/query-loop',
 		'title' => 'Theatrum Query Loop',
 		'category' => 'theatrum',
-		'description' => 'Registers Theatrum\'s post-type-specific core/query variations (production, event, class, blog, artist, supporter, credit, venue loops). Not directly insertable — pick a variation from the core Query Loop block instead.',
+		'description' => 'Registers Theatrum\'s post-type-specific core/query variations (production, event, class, blog, artist, supporter, venue loops). Not directly insertable — pick a variation from the core Query Loop block instead. The Credit Loop variation is deprecated and hidden from the inserter.',
 		'icon' => 'list-view',
 		'keywords' => array(
 			'query',
@@ -2288,7 +2203,7 @@ return array(
 		'name' => 'theatrum/site-option',
 		'title' => 'Site Option',
 		'category' => 'metablock',
-		'description' => 'Display values from WordPress options table, including staff/board members',
+		'description' => 'Display values from WordPress options table. The Staff Member/Board Member variations are deprecated — use the generic block for new content.',
 		'icon' => 'admin-settings',
 		'supports' => array(
 			'html' => false,
@@ -2401,26 +2316,32 @@ return array(
 		'variations' => array(
 			array(
 				'name' => 'staff',
-				'title' => 'Staff Member',
-				'description' => 'Display staff member information from WordPress options',
+				'title' => 'Staff Member (Deprecated)',
+				'description' => 'Deprecated — display staff member information from WordPress options. Hidden from the inserter; do not use for new content.',
 				'icon' => 'admin-users',
 				'attributes' => array(
 					'memberType' => 'staff'
 				),
 				'isActive' => array(
 					'memberType'
+				),
+				'scope' => array(
+					
 				)
 			),
 			array(
 				'name' => 'board',
-				'title' => 'Board Member',
-				'description' => 'Display board member information from WordPress options',
+				'title' => 'Board Member (Deprecated)',
+				'description' => 'Deprecated — display board member information from WordPress options. Hidden from the inserter; do not use for new content.',
 				'icon' => 'groups',
 				'attributes' => array(
 					'memberType' => 'board'
 				),
 				'isActive' => array(
 					'memberType'
+				),
+				'scope' => array(
+					
 				)
 			)
 		),
@@ -2506,6 +2427,14 @@ return array(
 				'default' => false
 			),
 			'tableLayoutFixed' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'stickyHeader' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'stickyFirstColumn' => array(
 				'type' => 'boolean',
 				'default' => false
 			),
@@ -2707,6 +2636,122 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css'
 	),
+	'tabs' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/tabs',
+		'title' => 'Tabs',
+		'category' => 'design',
+		'icon' => 'index-card',
+		'description' => 'Horizontal tabs that collapse into a vertical accordion on mobile. Add a tab for each section and give it a heading.',
+		'textdomain' => 'theatrum-blocks',
+		'attributes' => array(
+			'equalWidthTabs' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradients' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textTransform' => true
+			)
+		),
+		'allowedBlocks' => array(
+			'theatrum/tab'
+		),
+		'example' => array(
+			'innerBlocks' => array(
+				array(
+					'name' => 'theatrum/tab',
+					'innerBlocks' => array(
+						array(
+							'name' => 'theatrum/tab-heading',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/heading',
+									'attributes' => array(
+										'level' => 3,
+										'content' => 'Synopsis'
+									)
+								)
+							)
+						),
+						array(
+							'name' => 'theatrum/tab-content',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/paragraph',
+									'attributes' => array(
+										'content' => 'What the show is about.'
+									)
+								)
+							)
+						)
+					)
+				),
+				array(
+					'name' => 'theatrum/tab',
+					'innerBlocks' => array(
+						array(
+							'name' => 'theatrum/tab-heading',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/heading',
+									'attributes' => array(
+										'level' => 3,
+										'content' => 'Cast'
+									)
+								)
+							)
+						),
+						array(
+							'name' => 'theatrum/tab-content',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/paragraph',
+									'attributes' => array(
+										'content' => 'Who is in it.'
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		),
+		'keywords' => array(
+			'tabs',
+			'accordion',
+			'tabbed',
+			'sections'
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js'
+	),
 	'term-meta' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -2714,7 +2759,7 @@ return array(
 		'title' => 'Term Meta',
 		'category' => 'metablock',
 		'icon' => 'tag',
-		'description' => 'Display metadata for a selected taxonomy term',
+		'description' => 'Display metadata for a selected taxonomy term. The Season Producer variation is deprecated — use the generic block for new content.',
 		'supports' => array(
 			'html' => false,
 			'align' => true,
@@ -2826,11 +2871,14 @@ return array(
 			),
 			array(
 				'name' => 'season-producer',
-				'title' => 'Season Producer',
-				'description' => 'Display season producer titles from the current post\'s season taxonomy term',
+				'title' => 'Season Producer (Deprecated)',
+				'description' => 'Deprecated — display season producer titles from the current post\'s season taxonomy term. Hidden from the inserter; do not use for new content.',
 				'attributes' => array(
 					'displayType' => 'season-producer',
 					'metaKey' => 'season_producers'
+				),
+				'scope' => array(
+					
 				)
 			)
 		)
@@ -2906,7 +2954,14 @@ return array(
 			'reusable' => false,
 			'anchor' => true,
 			'typography' => array(
-				'fontSize' => true
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
 			),
 			'color' => array(
 				'text' => true
@@ -2927,13 +2982,6 @@ return array(
 			'theatrum/blockquote-advanced'
 		),
 		'attributes' => array(
-			'quoteText' => array(
-				'type' => 'rich-text',
-				'source' => 'rich-text',
-				'selector' => 'blockquote',
-				'multiline' => 'p',
-				'role' => 'content'
-			),
 			'citeUrl' => array(
 				'type' => 'string',
 				'default' => ''
@@ -2945,7 +2993,13 @@ return array(
 			'anchor' => true,
 			'typography' => array(
 				'fontSize' => true,
-				'lineHeight' => true
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'letterSpacing' => true,
+				'lineHeight' => true,
+				'textDecoration' => true,
+				'textTransform' => true
 			),
 			'color' => array(
 				'text' => true
@@ -2971,18 +3025,9 @@ return array(
 			'anchor' => true,
 			'className' => true,
 			'customClassName' => true,
-			'layout' => array(
-				'allowSwitching' => true,
-				'allowInheriting' => false,
-				'default' => array(
-					'type' => 'flex',
-					'orientation' => 'vertical'
-				)
-			),
 			'spacing' => array(
 				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
+				'padding' => true
 			),
 			'color' => array(
 				'text' => true,
@@ -3004,7 +3049,8 @@ return array(
 				'radius' => true,
 				'style' => true,
 				'width' => true
-			)
+			),
+			'shadow' => true
 		),
 		'editorScript' => 'file:./index.js'
 	),
@@ -3225,134 +3271,6 @@ return array(
 				'fontStyle' => true,
 				'fontWeight' => true,
 				'lineHeight' => true
-			)
-		),
-		'editorScript' => 'file:./index.js'
-	),
-	'tab' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/tab',
-		'title' => 'Tab',
-		'category' => 'theatrum',
-		'icon' => 'index-card',
-		'description' => 'A single tab: holds a Tab Heading and a Tab Content block. Used inside Production Tabs.',
-		'textdomain' => 'theatrum-blocks',
-		'parent' => array(
-			'theatrum/production-tabs'
-		),
-		'allowedBlocks' => array(
-			'theatrum/tab-heading',
-			'theatrum/tab-content'
-		),
-		'supports' => array(
-			'html' => false,
-			'reusable' => false,
-			'anchor' => true,
-			'spacing' => array(
-				'padding' => true,
-				'blockGap' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'lineHeight' => true
-			)
-		),
-		'editorScript' => 'file:./index.js'
-	),
-	'tab-content' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/tab-content',
-		'title' => 'Tab Content',
-		'category' => 'theatrum',
-		'icon' => 'index-card',
-		'description' => 'The panel content for a tab. Accepts any blocks, like a Group.',
-		'textdomain' => 'theatrum-blocks',
-		'parent' => array(
-			'theatrum/tab'
-		),
-		'supports' => array(
-			'html' => false,
-			'reusable' => false,
-			'anchor' => true,
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => true
-			),
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'gradients' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'lineHeight' => true
-			)
-		),
-		'editorScript' => 'file:./index.js'
-	),
-	'tab-heading' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'theatrum/tab-heading',
-		'title' => 'Tab Heading',
-		'category' => 'theatrum',
-		'icon' => 'editor-textcolor',
-		'description' => 'The clickable label for a tab. Holds a paragraph or heading only.',
-		'textdomain' => 'theatrum-blocks',
-		'parent' => array(
-			'theatrum/tab'
-		),
-		'allowedBlocks' => array(
-			'core/paragraph',
-			'core/heading'
-		),
-		'supports' => array(
-			'html' => false,
-			'reusable' => false,
-			'anchor' => true,
-			'spacing' => array(
-				'padding' => true,
-				'blockGap' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'fontFamily' => true,
-				'fontStyle' => true,
-				'fontWeight' => true,
-				'lineHeight' => true
-			)
-		),
-		'attributes' => array(
-			'normalTextColor' => array(
-				'type' => 'string'
-			),
-			'normalBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'hoverTextColor' => array(
-				'type' => 'string'
-			),
-			'hoverBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'activeTextColor' => array(
-				'type' => 'string'
-			),
-			'activeBackgroundColor' => array(
-				'type' => 'string'
 			)
 		),
 		'editorScript' => 'file:./index.js'
@@ -4148,6 +4066,134 @@ return array(
 			array(
 				'name' => 'subsection-heading',
 				'label' => 'Subsection Heading'
+			)
+		),
+		'editorScript' => 'file:./index.js'
+	),
+	'tab' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/tab',
+		'title' => 'Tab',
+		'category' => 'theatrum',
+		'icon' => 'index-card',
+		'description' => 'A single tab: holds a Tab Heading and a Tab Content block. Used inside Tabs.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'theatrum/tabs'
+		),
+		'allowedBlocks' => array(
+			'theatrum/tab-heading',
+			'theatrum/tab-content'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'lineHeight' => true
+			)
+		),
+		'editorScript' => 'file:./index.js'
+	),
+	'tab-content' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/tab-content',
+		'title' => 'Tab Content',
+		'category' => 'theatrum',
+		'icon' => 'index-card',
+		'description' => 'The panel content for a tab. Accepts any blocks, like a Group.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'theatrum/tab'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradients' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'lineHeight' => true
+			)
+		),
+		'editorScript' => 'file:./index.js'
+	),
+	'tab-heading' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/tab-heading',
+		'title' => 'Tab Heading',
+		'category' => 'theatrum',
+		'icon' => 'editor-textcolor',
+		'description' => 'The clickable label for a tab. Holds a paragraph or heading only.',
+		'textdomain' => 'theatrum-blocks',
+		'parent' => array(
+			'theatrum/tab'
+		),
+		'allowedBlocks' => array(
+			'core/paragraph',
+			'core/heading'
+		),
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'fontFamily' => true,
+				'fontStyle' => true,
+				'fontWeight' => true,
+				'lineHeight' => true
+			)
+		),
+		'attributes' => array(
+			'normalTextColor' => array(
+				'type' => 'string'
+			),
+			'normalBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'hoverTextColor' => array(
+				'type' => 'string'
+			),
+			'hoverBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'activeTextColor' => array(
+				'type' => 'string'
+			),
+			'activeBackgroundColor' => array(
+				'type' => 'string'
 			)
 		),
 		'editorScript' => 'file:./index.js'

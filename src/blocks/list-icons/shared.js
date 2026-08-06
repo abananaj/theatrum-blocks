@@ -6,6 +6,14 @@
  * sync. The `list-item-icon` children read these CSS variables from the cascade.
  */
 
+// Maps the user-facing Top/Middle/Bottom labels to the align-items keyword
+// each applies to (cross-axis alignment of the icon relative to the text).
+const FLEX_POSITION_MAP = {
+	top: 'flex-start',
+	middle: 'center',
+	bottom: 'flex-end',
+};
+
 export function getListProps( attributes ) {
 	const {
 		iconPosition,
@@ -13,6 +21,7 @@ export function getListProps( attributes ) {
 		iconSizeUnit,
 		iconSpacing,
 		iconColor,
+		iconAlign,
 		hoverOnly,
 	} = attributes;
 
@@ -23,6 +32,7 @@ export function getListProps( attributes ) {
 	const style = {
 		'--list-icon-size': `${ iconSize }${ iconSizeUnit }`,
 		'--list-icon-spacing': `${ iconSpacing }px`,
+		'--list-icon-align': FLEX_POSITION_MAP[ iconAlign ] || 'center',
 		...( iconColor ? { '--list-icon-color': iconColor } : {} ),
 	};
 

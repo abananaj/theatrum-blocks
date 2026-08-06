@@ -1,25 +1,20 @@
 # Icon List Block
 
-A flexible list block that displays icons alongside list item text. Supports both ordered and unordered lists with extensive customization options.
+A flexible unordered list block that displays icons alongside list item text, with extensive customization options.
 
 ## Features
 
-- **List Type Options**: Support for both ordered (ol) and unordered (ul) lists
 - **Per-Item Icons**: Add icons from the media library to individual list items
 - **Customizable Icon Position**: Place icons left, right, top, or bottom relative to text
 - **Icon Size Control**: Adjust icon size with flexible units (px, em, rem, %)
 - **Icon Spacing**: Control gap between icon and text
 - **Icon Color**: Apply custom colors to icons (CSS colors supported)
+- **Icon Align**: Control cross-axis alignment of the icon and text (Top/Middle/Bottom)
 - **Hover Behavior**: Option to show icons only on hover for cleaner design
 - **Item Management**: Add, remove, delete, and reorder list items easily
 - **Accessibility**: Alt text support for all icons
 
 ## Editor Features
-
-### List Settings Panel
-
-- **List Type**: Choose between unordered and ordered lists
-- **Reset to Defaults**: Restore all settings to their default values
 
 ### Icon Settings Panel
 
@@ -27,6 +22,7 @@ A flexible list block that displays icons alongside list item text. Supports bot
 - **Icon Position**: Choose position relative to text
 - **Icon Spacing**: Set gap between icon and text (default: 8px)
 - **Icon Color**: Apply custom CSS color values
+- **Align**: Cross-axis alignment of icon + text (Top/Middle/Bottom, default: Middle)
 - **Hover Only**: Show/hide icons only on hover
 
 ### Item Settings
@@ -50,7 +46,6 @@ A flexible list block that displays icons alongside list item text. Supports bot
    - Icon size and spacing
    - Icon color
    - Hover-only visibility
-5. Choose between ordered or unordered list format
 
 ## Frontend Output
 
@@ -89,11 +84,11 @@ You can style this block using theme.json color and typography settings. The blo
 
 | Attribute      | Type    | Default | Description                                  |
 | -------------- | ------- | ------- | -------------------------------------------- |
-| `listType`     | string  | 'ul'    | List type: 'ul' or 'ol'                      |
 | `items`        | array   | []      | Array of list items with id, text, icon data |
 | `iconSize`     | string  | '24'    | Icon size value                              |
 | `iconSizeUnit` | string  | 'px'    | Icon size unit: px, em, rem, %               |
 | `iconPosition` | string  | 'left'  | Icon position: left, right, top, bottom      |
 | `iconSpacing`  | string  | '8'     | Spacing between icon and text (px)           |
 | `iconColor`    | string  | ''      | CSS color value for icons                    |
+| `iconAlign`    | string  | 'middle'| Cross-axis alignment: top, middle, bottom    |
 | `hoverOnly`    | boolean | false   | Show icons only on hover                     |

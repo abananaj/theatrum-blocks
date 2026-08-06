@@ -22,7 +22,14 @@
 		"reusable": false,
 		"anchor": true,
 		"typography": {
-			"fontSize": true
+			"fontSize": true,
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true
 		},
 		"color": {
 			"text": true

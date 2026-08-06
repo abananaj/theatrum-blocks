@@ -9,13 +9,6 @@
 	"textdomain": "theatrum-blocks",
 	"parent": ["theatrum/blockquote-advanced"],
 	"attributes": {
-		"quoteText": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": "blockquote",
-			"multiline": "p",
-			"role": "content"
-		},
 		"citeUrl": {
 			"type": "string",
 			"default": ""
@@ -27,7 +20,13 @@
 		"anchor": true,
 		"typography": {
 			"fontSize": true,
-			"lineHeight": true
+			"fontFamily": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true
 		},
 		"color": {
 			"text": true

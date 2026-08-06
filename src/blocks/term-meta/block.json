@@ -5,7 +5,7 @@
 	"title": "Term Meta",
 	"category": "metablock",
 	"icon": "tag",
-	"description": "Display metadata for a selected taxonomy term",
+	"description": "Display metadata for a selected taxonomy term. The Season Producer variation is deprecated — use the generic block for new content.",
 	"supports": {
 		"html": false,
 		"align": true,
@@ -104,12 +104,13 @@
 		},
 		{
 			"name": "season-producer",
-			"title": "Season Producer",
-			"description": "Display season producer titles from the current post's season taxonomy term",
+			"title": "Season Producer (Deprecated)",
+			"description": "Deprecated — display season producer titles from the current post's season taxonomy term. Hidden from the inserter; do not use for new content.",
 			"attributes": {
 				"displayType": "season-producer",
 				"metaKey": "season_producers"
-			}
+			},
+			"scope": []
 		}
 	]
 }

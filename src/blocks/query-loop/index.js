@@ -42,9 +42,12 @@ const VARIATIONS = [
 	},
 	{
 		name: 'theatrum/credit-loop',
-		title: 'Credit Loop',
+		title: 'Credit Loop (Deprecated)',
 		icon: 'list-view',
 		postType: 'credit',
+		// Deprecated (2026-08-06) — hidden from the inserter/transform menu
+		// below, but isActive matching still labels any existing content.
+		deprecated: true,
 	},
 	{
 		name: 'theatrum/venue-loop',
@@ -56,7 +59,7 @@ const VARIATIONS = [
 
 const THEATRUM_NAMESPACES = VARIATIONS.map( ( v ) => v.name );
 
-VARIATIONS.forEach( ( { name, title, icon, postType } ) => {
+VARIATIONS.forEach( ( { name, title, icon, postType, deprecated } ) => {
 	registerBlockVariation( 'core/query', {
 		name,
 		title,
@@ -80,7 +83,10 @@ VARIATIONS.forEach( ( { name, title, icon, postType } ) => {
 		},
 		// isActive array syntax (WP 6.6+): matches active variation by namespace attribute.
 		isActive: [ 'namespace' ],
-		scope: [ 'inserter', 'transform' ],
+		// Deprecated variations drop 'inserter'/'transform' so they can't be
+		// picked for new content, while isActive matching still labels any
+		// existing content that already uses them.
+		scope: deprecated ? [] : [ 'inserter', 'transform' ],
 	} );
 } );
 

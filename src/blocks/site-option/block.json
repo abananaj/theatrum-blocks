@@ -4,7 +4,7 @@
 	"name": "theatrum/site-option",
 	"title": "Site Option",
 	"category": "metablock",
-	"description": "Display values from WordPress options table, including staff/board members",
+	"description": "Display values from WordPress options table. The Staff Member/Board Member variations are deprecated — use the generic block for new content.",
 	"icon": "admin-settings",
 	"supports": {
 		"html": false,
@@ -96,23 +96,25 @@
 	"variations": [
 		{
 			"name": "staff",
-			"title": "Staff Member",
-			"description": "Display staff member information from WordPress options",
+			"title": "Staff Member (Deprecated)",
+			"description": "Deprecated — display staff member information from WordPress options. Hidden from the inserter; do not use for new content.",
 			"icon": "admin-users",
 			"attributes": {
 				"memberType": "staff"
 			},
-			"isActive": ["memberType"]
+			"isActive": ["memberType"],
+			"scope": []
 		},
 		{
 			"name": "board",
-			"title": "Board Member",
-			"description": "Display board member information from WordPress options",
+			"title": "Board Member (Deprecated)",
+			"description": "Deprecated — display board member information from WordPress options. Hidden from the inserter; do not use for new content.",
 			"icon": "groups",
 			"attributes": {
 				"memberType": "board"
 			},
-			"isActive": ["memberType"]
+			"isActive": ["memberType"],
+			"scope": []
 		}
 	],
 	"editorScript": "file:./index.js",

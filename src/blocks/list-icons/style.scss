@@ -11,24 +11,23 @@
 	padding-left: 0;
 	margin: 0;
 
+	// Cross-axis alignment (align-items) is user-controlled via
+	// --list-icon-align (see list-item-icon/style.scss) and applies the same
+	// regardless of direction.
 	&.icon-position-left .list-icons-item {
 		flex-direction: row;
-		align-items: center;
 	}
 
 	&.icon-position-right .list-icons-item {
 		flex-direction: row-reverse;
-		align-items: center;
 	}
 
 	&.icon-position-top .list-icons-item {
 		flex-direction: column;
-		align-items: flex-start;
 	}
 
 	&.icon-position-bottom .list-icons-item {
 		flex-direction: column-reverse;
-		align-items: flex-start;
 	}
 
 	&.icon-hover-only {
@@ -40,16 +39,5 @@
 		.list-icons-item:hover .list-icons-icon {
 			opacity: 1;
 		}
-	}
-}
-
-/* Ordered-list numbering — the wrapper renders as a real <ol>. */
-ol.wp-block-theatrum-list-icons {
-	counter-reset: list-counter;
-
-	.list-icons-item::before {
-		content: counter(list-counter) ". ";
-		counter-increment: list-counter;
-		margin-right: 0.5em;
 	}
 }

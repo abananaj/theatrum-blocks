@@ -1,9 +1,9 @@
 /**
  * Icon List Block Editor (parent)
  *
- * A list wrapper whose items are individual `theatrum/list-item-icon` child
- * blocks. The parent owns the list-wide settings (list type plus icon size,
- * position, spacing, colour and hover behaviour) and passes them down to the
+ * An unordered list wrapper whose items are individual `theatrum/list-item-icon`
+ * child blocks. The parent owns the list-wide icon settings (size, position,
+ * alignment, spacing, colour and hover behaviour) and passes them down to the
  * items as block context and CSS custom properties so the markup stays static.
  */
 
@@ -26,18 +26,24 @@ import { getListProps } from './shared';
 import './editor.scss';
 
 const TEMPLATE = [
-	[ 'theatrum/list-item-icon', { text: __( 'List item', 'theatrum-blocks' ) } ],
-	[ 'theatrum/list-item-icon', { text: __( 'List item', 'theatrum-blocks' ) } ],
+	[
+		'theatrum/list-item-icon',
+		{ text: __( 'List item', 'theatrum-blocks' ) },
+	],
+	[
+		'theatrum/list-item-icon',
+		{ text: __( 'List item', 'theatrum-blocks' ) },
+	],
 ];
 
 export default function Edit( { attributes, setAttributes } ) {
 	const {
-		listType,
 		iconSize,
 		iconSizeUnit,
 		iconPosition,
 		iconSpacing,
 		iconColor,
+		iconAlign,
 		hoverOnly,
 	} = attributes;
 
@@ -53,42 +59,9 @@ export default function Edit( { attributes, setAttributes } ) {
 		__experimentalAppenderTagName: 'li',
 	} );
 
-	const ListTag = listType === 'ol' ? 'ol' : 'ul';
-
 	return (
 		<Fragment>
 			<InspectorControls>
-				<ToolsPanel
-					label={ __( 'List Settings', 'theatrum-blocks' ) }
-					resetAll={ () => setAttributes( { listType: 'ul' } ) }
-				>
-					<ToolsPanelItem
-						hasValue={ () => listType !== 'ul' }
-						label={ __( 'List Type', 'theatrum-blocks' ) }
-						onDeselect={ () => setAttributes( { listType: 'ul' } ) }
-						isShownByDefault={ true }
-					>
-						<SelectControl
-							label={ __( 'List Type', 'theatrum-blocks' ) }
-							value={ listType }
-							options={ [
-								{
-									label: __( 'Unordered', 'theatrum-blocks' ),
-									value: 'ul',
-								},
-								{
-									label: __( 'Ordered', 'theatrum-blocks' ),
-									value: 'ol',
-								},
-							] }
-							onChange={ ( value ) =>
-								setAttributes( { listType: value } )
-							}
-							__nextHasNoMarginBottom
-						/>
-					</ToolsPanelItem>
-				</ToolsPanel>
-
 				<ToolsPanel
 					label={ __( 'Icon Settings', 'theatrum-blocks' ) }
 					resetAll={ () => {
@@ -98,6 +71,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							iconPosition: 'left',
 							iconSpacing: '8',
 							iconColor: '',
+							iconAlign: 'middle',
 							hoverOnly: false,
 						} );
 					} }
@@ -181,6 +155,38 @@ export default function Edit( { attributes, setAttributes } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						hasValue={ () => iconAlign !== 'middle' }
+						label={ __( 'Align', 'theatrum-blocks' ) }
+						onDeselect={ () =>
+							setAttributes( { iconAlign: 'middle' } )
+						}
+						isShownByDefault={ true }
+					>
+						<SelectControl
+							label={ __( 'Align', 'theatrum-blocks' ) }
+							value={ iconAlign }
+							options={ [
+								{
+									label: __( 'Top', 'theatrum-blocks' ),
+									value: 'top',
+								},
+								{
+									label: __( 'Middle', 'theatrum-blocks' ),
+									value: 'middle',
+								},
+								{
+									label: __( 'Bottom', 'theatrum-blocks' ),
+									value: 'bottom',
+								},
+							] }
+							onChange={ ( value ) =>
+								setAttributes( { iconAlign: value } )
+							}
+							__nextHasNoMarginBottom
+						/>
+					</ToolsPanelItem>
+
+					<ToolsPanelItem
 						hasValue={ () => iconSpacing !== '8' }
 						label={ __( 'Icon Spacing', 'theatrum-blocks' ) }
 						onDeselect={ () =>
@@ -249,7 +255,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				</ToolsPanel>
 			</InspectorControls>
 
-			<ListTag { ...innerBlocksProps } />
+			<ul { ...innerBlocksProps } />
 		</Fragment>
 	);
 }

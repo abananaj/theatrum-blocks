@@ -9,8 +9,8 @@
 import { addFilter } from '@wordpress/hooks';
 import { normalizeIconObject } from '@wordpress/blocks';
 
-const CUSTOM_BLOCK_COLOR = '#448CCA';
-const META_BLOCK_COLOR = '#DB5000'; // theme.json preset color "red-orange"
+const CUSTOM_BLOCK_COLOR = '#4499ca';
+const META_BLOCK_COLOR = '#2f00db'; // theme.json preset color "red-orange"
 
 function colorizeCustomBlockIcon( settings, name ) {
 	if ( ! name?.startsWith( 'theatrum/' ) ) {

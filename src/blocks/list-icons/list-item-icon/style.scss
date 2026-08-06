@@ -8,9 +8,12 @@
 
 .list-icons-item {
 	display: flex;
-	align-items: center;
+	align-items: var(--list-icon-align, center);
 	gap: var(--list-icon-spacing, 8px);
-	margin-bottom: 0.5em;
+	// --wp--style--block-gap is set on the wrapper by the block's "Block
+	// spacing" support (block.json supports.spacing.blockGap) — read it here
+	// since that support only emits the custom property, not a consuming rule.
+	margin-bottom: var(--wp--style--block-gap, 0.5em);
 
 	&:last-child {
 		margin-bottom: 0;

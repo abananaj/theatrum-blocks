@@ -100,6 +100,10 @@
 			"type": "string",
 			"default": "cover",
 			"enum": ["cover", "contain", "fill"]
+		},
+		"hideDescriptionUntilHover": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {},

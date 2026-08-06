@@ -37,7 +37,9 @@ $wrapper_attributes = get_block_wrapper_attributes($wrapper_extra_attributes);
     aria-modal="true"
     aria-label="<?php echo esc_attr($dialog_label); ?>"
     inert>
-    <div class="popup-dialog-header">
+    <!-- <div class="popup-dialog-header">
+    </div> -->
+    <div class="popup-dialog-content">
       <button
         class="popup-close-button"
         data-close-popup="true"
@@ -47,8 +49,6 @@ $wrapper_attributes = get_block_wrapper_attributes($wrapper_extra_attributes);
           <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-    </div>
-    <div class="popup-dialog-content">
       <?php echo $content; ?>
     </div>
   </div>

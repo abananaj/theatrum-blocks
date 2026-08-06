@@ -673,7 +673,8 @@ function theatrum_get_person_option_rest_response($option_name, $group)
 }
 
 /* -----------------------------------------------------------------------
- * Board Member
+ * Board Member (deprecated site-option variation — kept so its existing
+ * editor previews keep working; not offered for new content)
  * -------------------------------------------------------------------- */
 
 function theatrum_register_board_member_rest_endpoint()
@@ -774,7 +775,8 @@ function theatrum_get_site_option_rest_callback($request)
 }
 
 /* -----------------------------------------------------------------------
- * Staff Member
+ * Staff Member (deprecated site-option variation — kept so its existing
+ * editor previews keep working; not offered for new content)
  * -------------------------------------------------------------------- */
 
 function theatrum_register_staff_member_rest_endpoint()
@@ -961,7 +963,8 @@ function theatrum_get_meta_related_rest_callback($request)
 }
 
 /* -----------------------------------------------------------------------
- * Season Producer
+ * Season Producer (deprecated term-meta variation — kept so its existing
+ * editor previews keep working; not offered for new content)
  * -------------------------------------------------------------------- */
 
 function theatrum_register_season_producer_rest_endpoint()

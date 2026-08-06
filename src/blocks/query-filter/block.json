@@ -13,6 +13,14 @@
 		"html": false,
 		"anchor": true,
 		"interactivity": true,
+		"color": {
+			"text": true,
+			"background": true,
+			"gradient": true
+		},
+		"typography": {
+			"fontSize": true
+		},
 		"spacing": {
 			"margin": true,
 			"padding": true
@@ -57,6 +65,6 @@
 	"render": "file:./render.php",
 	"viewScriptModule": "file:./view.js",
 	"editorScript": "file:./index.js",
-	"style": "file:./style.scss",
-	"editorStyle": "file:./editor.scss"
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css"
 }

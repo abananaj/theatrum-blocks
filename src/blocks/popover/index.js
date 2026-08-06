@@ -8,8 +8,14 @@ import {
 } from '@wordpress/block-editor';
 import metadata from './block.json';
 
-const ALLOWED_BLOCKS = [ 'theatrum/popover-trigger', 'theatrum/popover-content' ];
-const TEMPLATE = [ [ 'theatrum/popover-trigger' ], [ 'theatrum/popover-content' ] ];
+const ALLOWED_BLOCKS = [
+	'theatrum/popover-trigger',
+	'theatrum/popover-content',
+];
+const TEMPLATE = [
+	[ 'theatrum/popover-trigger' ],
+	[ 'theatrum/popover-content' ],
+];
 
 const Edit = () => {
 	const blockProps = useBlockProps( { className: 'ct-popover' } );

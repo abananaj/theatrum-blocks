@@ -1,5 +1,5 @@
 /**
- * Registers the Production Tabs (parent) block.
+ * Registers the Tabs (parent) block.
  */
 import { registerBlockType } from '@wordpress/blocks';
 

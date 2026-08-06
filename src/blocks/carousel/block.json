@@ -30,8 +30,7 @@
 		},
 		"spacing": {
 			"margin": true,
-			"padding": true,
-			"blockGap": true
+			"padding": true
 		},
 		"border": {
 			"color": true,
@@ -53,6 +52,15 @@
 			"type": "string",
 			"default": "px",
 			"enum": ["px", "%", "em", "rem"]
+		},
+		"arrowPosition": {
+			"type": "string",
+			"default": "outside",
+			"enum": ["outside", "inside", "hidden"]
+		},
+		"showScrollbar": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"allowedBlocks": ["theatrum/carousel-item"],

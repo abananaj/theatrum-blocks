@@ -13,6 +13,7 @@ An interactive block that displays a list of items with corresponding thumbnail 
 - **Customizable Layout**: Choose thumbnail position (left or right)
 - **Configurable Sizing**: Control item height, thumbnail width/height with flexible units
 - **Animation Speed**: Adjust animation speed (0.2s, 0.3s, 0.5s, or 1s)
+- **Hide Description Until Hover**: Optionally collapse each item's paragraph content, revealing it on hover
 - **Responsive Design**: Automatically adapts to mobile and tablet sizes
 - **Full Block Support**: Supports alignment, spacing, typography, colors, borders, shadows, and more
 
@@ -28,6 +29,7 @@ List-wide settings, applied as CSS custom properties consumed by the child items
 - `imageSizeSlug` (string): WP registered image size used to resolve every item's thumbnail URL (default: "full"); passed down to children as block context (`theatrum/imageSizeSlug`)
 - `thumbnailAspectRatio` (string): "auto" (use `thumbnailHeight`), "1", "4/3", "3/4", "16/9", or "9/16" — when set, height is derived from width via CSS `aspect-ratio` instead
 - `thumbnailObjectFit` (string): "cover", "contain", or "fill" (default: "cover")
+- `hideDescriptionUntilHover` (boolean): Collapses each item's paragraph content and reveals it only while that item is hovered (default: false)
 
 ## Child Block: `theatrum/list-item-thumbnail`
 

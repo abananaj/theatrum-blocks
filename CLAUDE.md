@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Theatrum Blocks is a WordPress plugin that provides custom Gutenberg blocks for the Chance Theater website. It's a multi-block plugin that registers 31 top-level blocks (49 registered block types counting nested children) used for displaying production information, metadata, carousels, and other custom content types. See [README.md](README.md#block-inventory) for the full inventory.
+Theatrum Blocks is a WordPress plugin that provides custom Gutenberg blocks for the Chance Theater website. It's a multi-block plugin that registers 33 top-level blocks (51 registered block types counting nested children, including deprecated blocks kept registered for existing content) used for displaying production information, metadata, carousels, and other custom content types. See [README.md](README.md#block-inventory) for the full inventory.
 
 ## Development Commands
 
@@ -94,7 +94,7 @@ The plugin organizes blocks into three groups in `theatrum-blocks.php`:
 
 1. **Standard display blocks** — UI components (breadcrumbs, carousels, popups, etc.)
 2. **Meta blocks** — Extract and display post meta fields (meta-field, meta-date, meta-image, etc.)
-3. **Production-specific blocks** — Domain-specific blocks for Chance Theater (production-tabs, season-producer, etc.)
+3. **Production-specific blocks** — Domain-specific blocks for Chance Theater (production-quotes, performances-list, etc.)
 4. **Query blocks** — Frontend filtering/sorting (query-filter)
 
 Block variations (in `_variations/` directory) extend existing WordPress blocks with presets.

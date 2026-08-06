@@ -3,9 +3,14 @@
 @use "../../formats/arrows";
 
 .wp-block-theatrum-carousel {
+	width: fit-content;
 	max-width: 1140px;
-	margin: 0 auto;
-	padding: 1rem;
+	margin-inline: auto;
+
+	&.alignwide,
+	&.alignfull {
+		width: 100%;
+	}
 
 	a {
 		text-decoration: none;
@@ -13,9 +18,9 @@
 	}
 
 	img {
-		aspect-ratio: 1/1;
-		width: 175px;
-		height: 175px;
+		max-width: 100%;
+		height: auto;
+		object-fit: cover;
 		-webkit-user-drag: none;
 		-khtml-user-drag: none;
 		-moz-user-drag: none;
@@ -32,7 +37,6 @@
 	}
 
 	h3 {
-		font-size: 16px;
 		margin: 0;
 		margin-bottom: 4px;
 	}
@@ -40,7 +44,6 @@
 	span,
 	p {
 		color: #a7a7a7;
-		font-size: 14px;
 		margin: 0;
 	}
 
@@ -48,6 +51,45 @@
 
 		a {
 			pointer-events: none;
+		}
+	}
+
+	.theatrum-carousel-content {
+		overflow-y: hidden;
+		overflow-x: scroll;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		display: grid;
+		-webkit-overflow-scrolling: touch;
+		cursor: grab;
+		padding: 0;
+		margin: 0;
+		grid-gap: 24px;
+		grid-auto-flow: column;
+		grid-auto-columns: var(--ct-carousel-card-width, 175px);
+		list-style: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+
+	&.theatrum-scrollbar-visible .theatrum-carousel-content {
+		scrollbar-width: auto;
+		-ms-overflow-style: auto;
+
+		&::-webkit-scrollbar {
+			display: block;
+			height: 8px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background: rgba(0, 0, 0, 0.3);
+			border-radius: 4px;
 		}
 	}
 
@@ -66,36 +108,20 @@
 		}
 	}
 
-	.theatrum-carousel-content {
-		overflow-y: hidden;
-		overflow-x: scroll;
-		scrollbar-width: none;
-		-ms-overflow-style: none;
-		display: grid;
-		-webkit-overflow-scrolling: touch;
-		cursor: grab;
-		padding: 0;
-		margin: 0;
-		grid-gap: 24px;
-		grid-auto-flow: column;
-		grid-auto-columns: var(--ct-carousel-card-width, max-content);
-		list-style: none;
-
-		&::-webkit-scrollbar {
-			display: none;
-		}
-	}
-
 	.ct-carousel-card {
-		// Layout (display, direction, justification, alignment) comes from
-		// the block's `layout` support — see carousel-item/block.json —
-		// so users can actually change it via the Layout inspector panel.
+		// carousel-item has no `layout` support (removed so users lay out
+		// card content with a nested Group/Row instead), so the vertical
+		// stack is set explicitly here rather than via block-support classes.
+		display: flex;
+		flex-direction: column;
 		position: relative;
+		// Clips card content (esp. the image) to the block's own border-radius
+		// support — otherwise the image's square corners poke past a rounded card.
+		overflow: hidden;
 		user-select: none;
 		margin: 10px 0;
 		padding: 16px;
-		background: #181818;
-		// border-radius: clamp(0px, ((100vw - 4px) - 100%) * 9999, 8px);
+		font-size: 14px;
 	}
 }
 

@@ -30,4 +30,24 @@
 		transition: transform var(--animation-speed, 0.3s) ease;
 	}
 
+	// "Hide Description Until Hover" (parent block setting): collapse every
+	// paragraph by default and reveal it on hover via the grid-rows trick
+	// (0fr -> 1fr), which animates smoothly without needing a fixed height.
+	.wp-block-theatrum-list-thumbnail.hide-description-until-hover & {
+
+		:where(p) {
+			display: grid;
+			grid-template-rows: 0fr;
+			opacity: 0;
+			overflow: hidden;
+			transition:
+				grid-template-rows var(--animation-speed, 0.3s) ease,
+				opacity var(--animation-speed, 0.3s) ease;
+		}
+
+		&:hover :where(p) {
+			grid-template-rows: 1fr;
+			opacity: 1;
+		}
+	}
 }

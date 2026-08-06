@@ -7,8 +7,14 @@ import { __ } from '@wordpress/i18n';
 
 const TEMPLATE = [
 	[ 'core/image', {} ],
-	[ 'core/heading', { level: 3, placeholder: __( 'Card title', 'theatrum-blocks' ) } ],
-	[ 'core/paragraph', { placeholder: __( 'Card subtitle', 'theatrum-blocks' ) } ],
+	[
+		'core/heading',
+		{ level: 3, placeholder: __( 'Card title', 'theatrum-blocks' ) },
+	],
+	[
+		'core/paragraph',
+		{ placeholder: __( 'Card subtitle', 'theatrum-blocks' ) },
+	],
 ];
 
 export default function Edit() {

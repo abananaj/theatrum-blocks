@@ -15,10 +15,26 @@ $card_width_unit = isset($attributes['cardWidthUnit']) && in_array($attributes['
   : 'px';
 $content_style = $card_width !== '' ? 'style="--ct-carousel-card-width: ' . esc_attr($card_width . $card_width_unit) . ';"' : '';
 
+$allowed_arrow_positions = array('outside', 'inside', 'hidden');
+$arrow_position = isset($attributes['arrowPosition']) && in_array($attributes['arrowPosition'], $allowed_arrow_positions, true)
+  ? $attributes['arrowPosition']
+  : 'outside';
+$show_scrollbar = ! empty($attributes['showScrollbar']);
+
+$modifier_classes = array('wp-block-theatrum-carousel');
+if ('inside' === $arrow_position) {
+  $modifier_classes[] = 'theatrum-arrows-inside';
+} elseif ('hidden' === $arrow_position) {
+  $modifier_classes[] = 'theatrum-arrows-hidden';
+}
+if ($show_scrollbar) {
+  $modifier_classes[] = 'theatrum-scrollbar-visible';
+}
+
 // Let WordPress generate the wrapper class plus all supports-driven
 // classes/inline styles (align, spacing, color, border, etc.) so the
 // frontend wrapper matches what useBlockProps() renders in the editor.
-$wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-carousel'));
+$wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $modifier_classes)));
 
 ob_start();
 ?>

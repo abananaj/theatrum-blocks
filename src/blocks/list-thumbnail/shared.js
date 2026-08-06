@@ -8,6 +8,16 @@
  * `--item-height` from the cascade.
  */
 
+// Converts a spacing preset reference (e.g. "var:preset|spacing|40") saved by
+// the core "Block spacing" control into the `var(--wp--preset--spacing--40)`
+// form usable in an inline style; passes literal values (e.g. "2rem") through.
+function resolveSpacingPreset( value ) {
+	if ( typeof value === 'string' && value.startsWith( 'var:' ) ) {
+		return `var(--wp--${ value.slice( 4 ).replace( /\|/g, '--' ) })`;
+	}
+	return value;
+}
+
 export function getThumbnailListProps( attributes ) {
 	const {
 		thumbnailPosition,
@@ -20,6 +30,8 @@ export function getThumbnailListProps( attributes ) {
 		thumbnailHeightUnit,
 		thumbnailAspectRatio,
 		thumbnailObjectFit,
+		hideDescriptionUntilHover,
+		style: blockStyle,
 	} = attributes;
 
 	const hasAspectRatio =
@@ -28,9 +40,17 @@ export function getThumbnailListProps( attributes ) {
 	const className = [
 		`thumbnail-position-${ thumbnailPosition }`,
 		hasAspectRatio ? 'has-aspect-ratio' : '',
+		hideDescriptionUntilHover ? 'hide-description-until-hover' : '',
 	]
 		.filter( Boolean )
 		.join( ' ' );
+
+	// The "Block spacing" (Styles > Spacing > Blocks) control saves to
+	// `style.spacing.blockGap` but — unlike margin/padding — WordPress only
+	// auto-applies it for blocks that declare `supports.layout`. This block
+	// uses a manual CSS grid instead, so the value has to be read and passed
+	// through as a CSS custom property ourselves for the control to do anything.
+	const blockGap = resolveSpacingPreset( blockStyle?.spacing?.blockGap );
 
 	const style = {
 		'--animation-speed': `${ animationSpeed }s`,
@@ -41,6 +61,7 @@ export function getThumbnailListProps( attributes ) {
 		...( hasAspectRatio
 			? { '--thumb-aspect-ratio': thumbnailAspectRatio }
 			: {} ),
+		...( blockGap ? { '--wp--style--block-gap': blockGap } : {} ),
 	};
 
 	return { className, style };

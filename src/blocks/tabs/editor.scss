@@ -1,4 +1,4 @@
-// Production Tabs — editor-only styles.
+// Tabs — editor-only styles.
 //
 // Layout (horizontal strip at >=768px, stacked below it) comes entirely from
 // the shared style.scss's own `min-width: 768px` media query — style.scss is
@@ -19,7 +19,7 @@
 
 @use 'mixins';
 
-.wp-block-theatrum-production-tabs.is-editor {
+.wp-block-theatrum-tabs.is-editor {
 	.ct-tab__panel {
 		display: none;
 	}

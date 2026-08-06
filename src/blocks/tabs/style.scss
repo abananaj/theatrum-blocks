@@ -1,4 +1,4 @@
-// Production Tabs — front-end + shared styles.
+// Tabs — front-end + shared styles.
 //
 // Mobile-first: the block reads as a vertical accordion (each header stacked
 // above its own panel, only the active panel shown). At the tablet breakpoint
@@ -14,7 +14,7 @@
 
 $ct-tabs-breakpoint: 768px;
 
-.ct-production-tabs {
+.ct-tabs {
 	// Reset the header <button> so it reads as plain text until styled.
 	.ct-tab__header {
 		display: block;
@@ -25,30 +25,34 @@ $ct-tabs-breakpoint: 768px;
 		font: inherit;
 		text-align: left;
 		cursor: pointer;
-		// color: var(--ct-tab-header-color, inherit);
-		// background-color: var(--ct-tab-header-bg, transparent);
-		color: var(--ct-light, inherit);
-		// background-color: var(--ct-dark, transparent);
+		color: var(--ct-tab-header-color, var(--ct-light, inherit));
+		background-color: var(--ct-tab-header-bg, transparent);
 		padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
 		border-radius: var(--wp--preset--border-radius--large)
 			var(--wp--preset--border-radius--large) 0 0;
+		font-size: 1.25rem;
 		transition:
 			color 150ms ease,
 			background-color 150ms ease,
 			border-color 150ms ease;
 		h2,
 		h3 {
-			font-size: 1.25rem;
+			font-size: inherit;
+			font-weight: inherit;
 		}
 		&:hover {
-			color: var(--ct-on-secondary, inherit);
-			background-color: var(--ct-secondary, inherit);
+			color: var(
+				--ct-tab-header-hover-color,
+				var(--ct-tab-header-color, var(--ct-on-secondary, inherit))
+			);
+			background-color: var(
+				--ct-tab-header-hover-bg,
+				var(--ct-tab-header-bg, var(--ct-secondary, inherit))
+			);
 		}
 
 		&.is-active {
-			// @include mixins.tab-header-active-colors;
-			color: var(--ct-on-primary, inherit);
-			background-color: var(--ct-primary, inherit);
+			@include mixins.tab-header-active-colors;
 			border-radius: var(--wp--preset--border-radius--x-large);
 			// Accent underline — defaults to the active header's own text
 			// color so it looks intentional without extra setup, but stays
@@ -60,7 +64,6 @@ $ct-tabs-breakpoint: 768px;
 	.ct-tab__panel {
 		display: none;
 		padding: 1rem;
-		background: lightsteelblue;
 		&.is-active {
 			display: block;
 		}
@@ -78,7 +81,7 @@ $ct-tabs-breakpoint: 768px;
 }
 
 @media (min-width: $ct-tabs-breakpoint) {
-	.ct-production-tabs {
+	.ct-tabs {
 		@include mixins.tab-strip-layout;
 
 		&.is-equal-width .ct-tab__header {

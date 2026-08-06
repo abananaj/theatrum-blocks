@@ -30,6 +30,7 @@ import {
 	Button,
 	SelectControl,
 	RangeControl,
+	ToggleControl,
 	__experimentalToolsPanel as ToolsPanel,
 	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
@@ -55,6 +56,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		imageSizeSlug,
 		thumbnailAspectRatio,
 		thumbnailObjectFit,
+		hideDescriptionUntilHover,
 	} = attributes;
 
 	const { className, style } = getThumbnailListProps( attributes );
@@ -148,9 +150,41 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							itemHeightUnit: 'px',
 							thumbnailPosition: 'right',
 							animationSpeed: '0.3',
+							hideDescriptionUntilHover: false,
 						} );
 					} }
 				>
+					<ToolsPanelItem
+						hasValue={ () => hideDescriptionUntilHover }
+						label={ __(
+							'Hide Description Until Hover',
+							'theatrum-blocks'
+						) }
+						onDeselect={ () =>
+							setAttributes( {
+								hideDescriptionUntilHover: false,
+							} )
+						}
+						isShownByDefault={ true }
+					>
+						<ToggleControl
+							label={ __(
+								'Hide Description Until Hover',
+								'theatrum-blocks'
+							) }
+							help={ __(
+								"Collapses each item's paragraph content and reveals it only while that item is hovered.",
+								'theatrum-blocks'
+							) }
+							checked={ !! hideDescriptionUntilHover }
+							onChange={ ( value ) =>
+								setAttributes( {
+									hideDescriptionUntilHover: value,
+								} )
+							}
+						/>
+					</ToolsPanelItem>
+
 					<ToolsPanelItem
 						hasValue={ () => thumbnailPosition !== 'right' }
 						label={ __( 'Thumbnail Position', 'theatrum-blocks' ) }
@@ -196,7 +230,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onDeselect={ () =>
 							setAttributes( { itemHeight: '80' } )
 						}
-						isShownByDefault={ false }
+						isShownByDefault={ true }
 					>
 						<div
 							style={ {
@@ -242,7 +276,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								thumbnailWidthUnit: 'px',
 							} )
 						}
-						isShownByDefault={ false }
+						isShownByDefault={ true }
 					>
 						<div
 							style={ {
@@ -291,7 +325,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									thumbnailHeightUnit: 'px',
 								} )
 							}
-							isShownByDefault={ false }
+							isShownByDefault={ true }
 						>
 							<div
 								style={ {
@@ -335,7 +369,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onDeselect={ () =>
 							setAttributes( { animationSpeed: '0.3' } )
 						}
-						isShownByDefault={ false }
+						isShownByDefault={ true }
 					>
 						<SelectControl
 							label={ __( 'Speed', 'theatrum-blocks' ) }

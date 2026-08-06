@@ -11,8 +11,9 @@ if (! defined('ABSPATH')) {
  */
 
 /**
- * Whether an option name is safe to expose through the board-member,
- * staff-member, and site-option blocks/endpoints.
+ * Whether an option name is safe to expose through the site-option block
+ * (including its deprecated staff/board member variations) and its
+ * REST endpoints.
  *
  * These blocks are designed to surface ACF Options Page fields, which are
  * always stored with an `options_`/`option_` prefix. Requiring that prefix

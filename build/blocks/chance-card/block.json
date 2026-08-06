@@ -2,9 +2,9 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "theatrum/chance-card",
-  "title": "Chance Card",
-  "category": "theatrum",
-  "description": "Display a featured production or event as a card with featured image background and overlaid title",
+  "title": "Chance Card (Deprecated)",
+  "category": "deprecated",
+  "description": "Deprecated — display a featured production or event as a card with featured image background and overlaid title. Hidden from the inserter; do not use for new content. No replacement card block currently exists in this plugin.",
   "icon": "cover-image",
   "supports": {
     "customCSS": true,
@@ -27,7 +27,7 @@
     "filter": {
       "duotone": true
     },
-    "inserter": true,
+    "inserter": false,
     "interactivity": true,
     "layout": true,
     "listView": true,

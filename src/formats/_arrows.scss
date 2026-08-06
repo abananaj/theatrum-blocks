@@ -52,3 +52,31 @@
 		opacity: 0.3;
 	}
 }
+
+// Native theatrum/carousel only — not part of the is-style-ct-carousel
+// format's contract, so these are scoped under its own modifier classes
+// rather than living on the base .theatrum-carousel-arrow rules above.
+.theatrum-arrows-inside {
+
+	.theatrum-carousel-arrow {
+		// Inside arrows sit on top of card images, which are often dark —
+		// give them an opaque backdrop so the icon stays visible regardless
+		// of what's underneath (outside arrows sit on the page background,
+		// so they don't need one).
+		background: rgba(255, 255, 255, 0.85);
+		border-radius: 50%;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+	}
+
+	.theatrum-arrow-prev {
+		left: 8px;
+	}
+
+	.theatrum-arrow-next {
+		right: 8px;
+	}
+}
+
+.theatrum-arrows-hidden .theatrum-carousel-arrow {
+	display: none;
+}

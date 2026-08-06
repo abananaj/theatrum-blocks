@@ -9,7 +9,7 @@
 // have to resolve on the portal too since it's no longer a descendant of
 // .wp-block-theatrum-popup.
 :where(.wp-block-theatrum-popup, .popup-portal) {
-	--popup-padding: 24px;
+	--popup-padding: 2rem;
 	--popup-gap: 16px;
 	--popup-gap-sm: 8px;
 	--popup-border-radius: 12px;
@@ -146,13 +146,16 @@
 	min-block-size: 0;
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding: var(--popup-padding);
-	padding-block-start: var(--popup-gap); // visual gap after header separator
+	padding: var(--popup-padding) var(--popup-padding) calc(var(--popup-padding) * 0.75) var(--popup-padding);
+	// padding-block-start: var(--popup-gap); // visual gap after header separator
 }
 
 // ── Close button ─────────────────────────────────────────────────────────────
 
 .popup-close-button {
+	position: absolute;
+	top:0;
+	right:0;
 	flex-shrink: 0;
 	margin-inline-start: auto;
 	display: flex;

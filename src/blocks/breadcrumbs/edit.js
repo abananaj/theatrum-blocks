@@ -84,18 +84,27 @@ export default function BreadcrumbsEdit( { attributes, setAttributes } ) {
 				<ol>
 					{ showHomeItem && (
 						<li>
-							<a href="#breadcrumbs-preview-home" onClick={ ( event ) => event.preventDefault() }>
+							<a
+								href="#breadcrumbs-preview-home"
+								onClick={ ( event ) => event.preventDefault() }
+							>
 								{ __( 'Home', 'theatrum-blocks' ) }
 							</a>
 						</li>
 					) }
 					<li>
-						<a href="#breadcrumbs-preview-ancestor" onClick={ ( event ) => event.preventDefault() }>
+						<a
+							href="#breadcrumbs-preview-ancestor"
+							onClick={ ( event ) => event.preventDefault() }
+						>
 							{ __( 'Ancestor', 'theatrum-blocks' ) }
 						</a>
 					</li>
 					<li>
-						<a href="#breadcrumbs-preview-parent" onClick={ ( event ) => event.preventDefault() }>
+						<a
+							href="#breadcrumbs-preview-parent"
+							onClick={ ( event ) => event.preventDefault() }
+						>
 							{ __( 'Parent', 'theatrum-blocks' ) }
 						</a>
 					</li>

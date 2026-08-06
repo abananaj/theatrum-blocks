@@ -60,7 +60,9 @@ export function initSlider( root ) {
 
 	if ( isNativeSlider ) {
 		slides.forEach( ( slide, index ) => {
-			if ( slide.querySelector( ':scope > .theatrum-slider-slide__number' ) ) {
+			if (
+				slide.querySelector( ':scope > .theatrum-slider-slide__number' )
+			) {
 				return;
 			}
 			const badge = document.createElement( 'div' );

@@ -11,6 +11,9 @@ import { __, sprintf } from '@wordpress/i18n';
 
 import metadata from './block.json';
 
+import './style.scss';
+import './editor.scss';
+
 /**
  * Recursively collects every core/query block in the editor's block tree,
  * along with the queryId WordPress assigned it and its post type (for a
@@ -98,10 +101,7 @@ function Edit( { attributes, setAttributes } ) {
 						value={ String( queryId ) }
 						options={ [
 							{
-								label: __(
-									'None selected',
-									'theatrum-blocks'
-								),
+								label: __( 'None selected', 'theatrum-blocks' ),
 								value: '0',
 							},
 							...queryLoops.map( ( q ) => ( {

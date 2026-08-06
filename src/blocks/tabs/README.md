@@ -1,4 +1,4 @@
-# Production Tabs (`theatrum/production-tabs` + `theatrum/tab` + `theatrum/tab-heading` + `theatrum/tab-content`)
+# Tabs (`theatrum/tabs` + `theatrum/tab` + `theatrum/tab-heading` + `theatrum/tab-content`)
 
 Responsive tabbed content. **Horizontal tabs on desktop, vertical accordion on
 mobile** — one active tab/panel at a time in both layouts.
@@ -7,7 +7,7 @@ mobile** — one active tab/panel at a time in both layouts.
 
 | Block | Role |
 | ----- | ---- |
-| `theatrum/production-tabs` | Parent. Holds the tabs; `align`, color, spacing & typography supports. |
+| `theatrum/tabs` | Parent. Holds the tabs; `align`, color, spacing & typography supports. |
 | `theatrum/tab` | Holds exactly one `theatrum/tab-heading` + one `theatrum/tab-content` (`templateLock: 'all'` — editors can't add/remove/reorder these two). |
 | `theatrum/tab-heading` | The clickable label. Locked (`templateLock: 'all'`) to a single `core/heading` (level 3) — can't be removed, added to, or swapped for a paragraph. |
 | `theatrum/tab-content` | The panel content. Freeform InnerBlocks, explicitly unlocked (`templateLock: false`) so it doesn't inherit `theatrum/tab`'s lock — behaves like a Group. |

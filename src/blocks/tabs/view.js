@@ -1,5 +1,5 @@
 /**
- * Front-end behavior for the Production Tabs block.
+ * Front-end behavior for the Tabs block.
  *
  * Desktop: the tab headers sit in a row and clicking one swaps the visible
  * panel (via CSS flex `order`, see style.scss). Mobile: the same markup reads
@@ -9,7 +9,7 @@
  * at a time — so a single click handler drives both.
  */
 window.addEventListener( 'load', () => {
-	const groups = document.querySelectorAll( '.ct-production-tabs' );
+	const groups = document.querySelectorAll( '.ct-tabs' );
 
 	for ( const group of groups ) {
 		const items = Array.from(

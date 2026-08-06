@@ -5,9 +5,9 @@
 	"title": "Tab",
 	"category": "theatrum",
 	"icon": "index-card",
-	"description": "A single tab: holds a Tab Heading and a Tab Content block. Used inside Production Tabs.",
+	"description": "A single tab: holds a Tab Heading and a Tab Content block. Used inside Tabs.",
 	"textdomain": "theatrum-blocks",
-	"parent": ["theatrum/production-tabs"],
+	"parent": ["theatrum/tabs"],
 	"allowedBlocks": ["theatrum/tab-heading", "theatrum/tab-content"],
 	"supports": {
 		"html": false,

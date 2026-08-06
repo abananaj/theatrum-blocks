@@ -30,8 +30,7 @@
     },
     "spacing": {
       "margin": true,
-      "padding": true,
-      "blockGap": true
+      "padding": true
     },
     "border": {
       "color": true,
@@ -58,6 +57,19 @@
         "em",
         "rem"
       ]
+    },
+    "arrowPosition": {
+      "type": "string",
+      "default": "outside",
+      "enum": [
+        "outside",
+        "inside",
+        "hidden"
+      ]
+    },
+    "showScrollbar": {
+      "type": "boolean",
+      "default": false
     }
   },
   "allowedBlocks": [

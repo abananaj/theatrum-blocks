@@ -13,8 +13,14 @@ import {
 	InnerBlocks,
 } from '@wordpress/block-editor';
 import { Fragment } from '@wordpress/element';
-import { TextControl, SelectControl, PanelBody } from '@wordpress/components';
+import {
+	TextControl,
+	SelectControl,
+	ToggleControl,
+	PanelBody,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import classnames from 'classnames';
 import './editor.scss';
 
 const TEMPLATE = [
@@ -30,9 +36,22 @@ const UNIT_OPTIONS = [
 	{ label: 'rem', value: 'rem' },
 ];
 
+const ARROW_POSITION_OPTIONS = [
+	{ label: __( 'Outside', 'theatrum-blocks' ), value: 'outside' },
+	{ label: __( 'Inside', 'theatrum-blocks' ), value: 'inside' },
+	{ label: __( 'Hidden', 'theatrum-blocks' ), value: 'hidden' },
+];
+
 export default function Edit( { attributes, setAttributes } ) {
-	const { cardWidth, cardWidthUnit } = attributes;
-	const blockProps = useBlockProps();
+	const { cardWidth, cardWidthUnit, arrowPosition, showScrollbar } =
+		attributes;
+	const blockProps = useBlockProps( {
+		className: classnames( {
+			'theatrum-arrows-inside': arrowPosition === 'inside',
+			'theatrum-arrows-hidden': arrowPosition === 'hidden',
+			'theatrum-scrollbar-visible': showScrollbar,
+		} ),
+	} );
 
 	const contentStyle = cardWidth
 		? { '--ct-carousel-card-width': `${ cardWidth }${ cardWidthUnit }` }
@@ -85,6 +104,23 @@ export default function Edit( { attributes, setAttributes } ) {
 							style={ { width: '80px' } }
 						/>
 					</div>
+					<SelectControl
+						label={ __( 'Arrow Position', 'theatrum-blocks' ) }
+						value={ arrowPosition }
+						options={ ARROW_POSITION_OPTIONS }
+						onChange={ ( value ) =>
+							setAttributes( { arrowPosition: value } )
+						}
+						__nextHasNoMarginBottom
+					/>
+					<ToggleControl
+						label={ __( 'Show scrollbar', 'theatrum-blocks' ) }
+						checked={ showScrollbar }
+						onChange={ ( value ) =>
+							setAttributes( { showScrollbar: value } )
+						}
+						__nextHasNoMarginBottom
+					/>
 				</PanelBody>
 			</InspectorControls>
 

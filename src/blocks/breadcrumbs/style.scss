@@ -85,7 +85,7 @@
 	li:not(:first-child) {
 		a,
 		span {
-			padding-left: calc(var(--bc-bevel) + 1em);
+			padding-left: calc(var(--bc-bevel) + 0.75em);
 		}
 	}
 

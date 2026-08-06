@@ -40,8 +40,22 @@ const ALLOWED_BLOCKS = [
 ];
 
 const Edit = ( { attributes, setAttributes, clientId } ) => {
-	const { hasThead, hasTFoot, tableLayoutFixed } = attributes;
-	const blockProps = useBlockProps( { className: 'tm-edit-table' } );
+	const {
+		hasThead,
+		hasTFoot,
+		tableLayoutFixed,
+		stickyHeader,
+		stickyFirstColumn,
+	} = attributes;
+	const blockProps = useBlockProps( {
+		className: [
+			'tm-edit-table',
+			stickyHeader ? 'sticky-header' : null,
+			stickyFirstColumn ? 'sticky-first-column' : null,
+		]
+			.filter( Boolean )
+			.join( ' ' ),
+	} );
 
 	const { insertBlock, removeBlock } = useDispatch( blockEditorStore );
 
@@ -116,6 +130,22 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 							setAttributes( { tableLayoutFixed: value } )
 						}
 					/>
+					<ToggleControl
+						label="Sticky header row"
+						help="Header row stays visible (frozen) while the page scrolls."
+						checked={ !! stickyHeader }
+						onChange={ ( value ) =>
+							setAttributes( { stickyHeader: value } )
+						}
+					/>
+					<ToggleControl
+						label="Sticky first column"
+						help="First column stays visible (frozen) while the table scrolls horizontally."
+						checked={ !! stickyFirstColumn }
+						onChange={ ( value ) =>
+							setAttributes( { stickyFirstColumn: value } )
+						}
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
@@ -129,10 +159,15 @@ const Edit = ( { attributes, setAttributes, clientId } ) => {
 };
 
 const save = ( { attributes } ) => {
-	const { tableLayoutFixed } = attributes;
-	const className = tableLayoutFixed
-		? 'tm-table-advanced table-layout-fixed'
-		: 'tm-table-advanced';
+	const { tableLayoutFixed, stickyHeader, stickyFirstColumn } = attributes;
+	const className = [
+		'tm-table-advanced',
+		tableLayoutFixed ? 'table-layout-fixed' : null,
+		stickyHeader ? 'sticky-header' : null,
+		stickyFirstColumn ? 'sticky-first-column' : null,
+	]
+		.filter( Boolean )
+		.join( ' ' );
 	return (
 		<table { ...useBlockProps.save( { className } ) }>
 			<InnerBlocks.Content />

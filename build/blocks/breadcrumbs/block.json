@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "theatrum/breadcrumbs",
-  "title": "Breadcrumbs",
+  "title": "Fancy Breadcrumbs",
   "category": "theme",
   "description": "Display a breadcrumb trail showing the path to the current page.",
   "example": {},

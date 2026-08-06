@@ -22,7 +22,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const { equalWidthTabs } = attributes;
 
 	const blockProps = useBlockProps( {
-		className: clsx( 'ct-production-tabs is-editor', {
+		className: clsx( 'ct-tabs is-editor', {
 			'is-equal-width': equalWidthTabs,
 		} ),
 	} );

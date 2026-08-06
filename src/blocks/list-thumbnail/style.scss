@@ -22,7 +22,7 @@
 
 	.thumbnail-list-wrapper {
 		display: grid;
-		gap: 2rem;
+		gap: var(--wp--style--block-gap, 2rem);
 		align-items: start;
 	}
 

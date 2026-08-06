@@ -2,8 +2,8 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "theatrum/popup",
-  "title": "popup",
-  "category": "theatrum",
+  "title": "Popup",
+  "category": "design",
   "icon": "visibility",
   "description": "A dialog/popup block. Opened by any core/button linked to it via its HTML Anchor.",
   "supports": {

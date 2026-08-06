@@ -1,5 +1,10 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { Fragment, useState, useEffect, createElement } from '@wordpress/element';
+import {
+	Fragment,
+	useState,
+	useEffect,
+	createElement,
+} from '@wordpress/element';
 import {
 	TextControl,
 	SelectControl,
@@ -35,8 +40,8 @@ const ROW_STYLE_OPTIONS = [
 	{ label: 'Ordered List', value: 'ol' },
 ];
 
-function resolveRowStyle(tagName) {
-	const rowStyle = ['ul', 'ol', 'p'].includes(tagName) ? tagName : 'p';
+function resolveRowStyle( tagName ) {
+	const rowStyle = [ 'ul', 'ol', 'p' ].includes( tagName ) ? tagName : 'p';
 	const isParagraphRows = rowStyle === 'p';
 	return {
 		rowStyle,
@@ -46,88 +51,118 @@ function resolveRowStyle(tagName) {
 	};
 }
 
-export default function Edit({ attributes, setAttributes, context }) {
+export default function Edit( { attributes, setAttributes, context } ) {
 	const blockProps = useBlockProps();
-	const [rows, setRows] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [postSearchInput, setPostSearchInput] = useState('');
-	const [searchOptions, setSearchOptions] = useState([]);
+	const [ rows, setRows ] = useState( [] );
+	const [ isLoading, setIsLoading ] = useState( false );
+	const [ postSearchInput, setPostSearchInput ] = useState( '' );
+	const [ searchOptions, setSearchOptions ] = useState( [] );
 
-	const editorPostId = useSelect((select) => select('core/editor')?.getCurrentPostId?.() ?? 0);
+	const editorPostId = useSelect(
+		( select ) => select( 'core/editor' )?.getCurrentPostId?.() ?? 0
+	);
 	const contextPostId = context?.postId;
 	const defaultPostId = contextPostId || editorPostId;
 	const postId = attributes.overridePostId || defaultPostId;
 
 	// Fetch post search results for the ComboboxControl
-	useEffect(() => {
-		if (!postSearchInput || postSearchInput.length < 2) {
-			setSearchOptions([]);
+	useEffect( () => {
+		if ( ! postSearchInput || postSearchInput.length < 2 ) {
+			setSearchOptions( [] );
 			return;
 		}
-		apiFetch({
-			path: `/wp/v2/search?search=${encodeURIComponent(postSearchInput)}&per_page=20&type=post&subtype=any`,
-		})
-			.then((results) => {
-				if (Array.isArray(results)) {
+		apiFetch( {
+			path: `/wp/v2/search?search=${ encodeURIComponent(
+				postSearchInput
+			) }&per_page=20&type=post&subtype=any`,
+		} )
+			.then( ( results ) => {
+				if ( Array.isArray( results ) ) {
 					setSearchOptions(
-						results.map((r) => ({
-							label: `${r.title} — ${r.subtype} #${r.id}`,
-							value: String(r.id),
-						}))
+						results.map( ( r ) => ( {
+							label: `${ r.title } — ${ r.subtype } #${ r.id }`,
+							value: String( r.id ),
+						} ) )
 					);
 				}
-			})
-			.catch(() => setSearchOptions([]));
-	}, [postSearchInput]);
+			} )
+			.catch( () => setSearchOptions( [] ) );
+	}, [ postSearchInput ] );
 
-	useEffect(() => {
-		if (!attributes.repeaterKey || !postId) {
-			setRows([]);
+	useEffect( () => {
+		if ( ! attributes.repeaterKey || ! postId ) {
+			setRows( [] );
 			return;
 		}
 
-		setIsLoading(true);
+		setIsLoading( true );
 
-		apiFetch({ path: `/theatrum/v1/meta-repeater/${postId}/${attributes.repeaterKey}` })
-			.then((data) => {
-				setRows(Array.isArray(data.rows) ? data.rows : []);
-				setIsLoading(false);
-			})
-			.catch(() => {
-				setRows([]);
-				setIsLoading(false);
-			});
-	}, [attributes.repeaterKey, postId]);
+		apiFetch( {
+			path: `/theatrum/v1/meta-repeater/${ postId }/${ attributes.repeaterKey }`,
+		} )
+			.then( ( data ) => {
+				setRows( Array.isArray( data.rows ) ? data.rows : [] );
+				setIsLoading( false );
+			} )
+			.catch( () => {
+				setRows( [] );
+				setIsLoading( false );
+			} );
+	}, [ attributes.repeaterKey, postId ] );
 
-	const { rowStyle, isParagraphRows, WrapperTag, ItemTag } = resolveRowStyle(attributes.tagName);
-	const TagA = isParagraphRows ? 'span' : (attributes.tagA || 'span');
-	const TagB = isParagraphRows ? 'span' : (attributes.tagB || 'span');
+	const { rowStyle, isParagraphRows, WrapperTag, ItemTag } = resolveRowStyle(
+		attributes.tagName
+	);
+	const TagA = isParagraphRows ? 'span' : attributes.tagA || 'span';
+	const TagB = isParagraphRows ? 'span' : attributes.tagB || 'span';
 
 	const renderPreview = () => {
-		if (!rows.length) {
+		if ( ! rows.length ) {
 			return attributes.repeaterKey ? (
-				<p>{`[${attributes.repeaterKey}]`}</p>
+				<p>{ `[${ attributes.repeaterKey }]` }</p>
 			) : (
-				<p style={{ color: '#999', fontStyle: 'italic' }}>Enter a repeater key in the sidebar</p>
+				<p style={ { color: '#999', fontStyle: 'italic' } }>
+					Enter a repeater key in the sidebar
+				</p>
 			);
 		}
 
-		const items = rows.map((row, i) => {
-			const valA = attributes.subfieldA ? (row[attributes.subfieldA] ?? '') : '';
-			const valB = attributes.subfieldB ? (row[attributes.subfieldB] ?? '') : '';
+		const items = rows.map( ( row, i ) => {
+			const valA = attributes.subfieldA
+				? row[ attributes.subfieldA ] ?? ''
+				: '';
+			const valB = attributes.subfieldB
+				? row[ attributes.subfieldB ] ?? ''
+				: '';
 			return createElement(
 				ItemTag,
 				{ key: i },
-				valA && createElement(TagA, { className: 'repeater-subfield-a' }, String(valA)),
+				valA &&
+					createElement(
+						TagA,
+						{ className: 'repeater-subfield-a' },
+						String( valA )
+					),
 				valA && valB ? ' ' : null,
-				valB && createElement(TagB, { className: 'repeater-subfield-b' }, String(valB)),
-				!valA && !valB && (
-					<span style={{ color: '#aaa' }}>Row {i + 1} — set subfield keys to see values</span>
+				valB &&
+					createElement(
+						TagB,
+						{ className: 'repeater-subfield-b' },
+						String( valB )
+					),
+				! valA && ! valB && (
+					<span style={ { color: '#aaa' } }>
+						Row { i + 1 } — set subfield keys to see values
+					</span>
 				)
 			);
-		});
+		} );
 
-		return createElement(WrapperTag, { className: 'wp-block-theatrum-meta-repeater-preview' }, ...items);
+		return createElement(
+			WrapperTag,
+			{ className: 'wp-block-theatrum-meta-repeater-preview' },
+			...items
+		);
 	};
 
 	return (
@@ -136,31 +171,41 @@ export default function Edit({ attributes, setAttributes, context }) {
 				<ToolsPanel
 					label="Post Source"
 					panelId="theatrum/meta-repeater"
-					resetAll={() => {
-						setAttributes({ overridePostId: 0 });
-						setPostSearchInput('');
-						setSearchOptions([]);
-					}}
+					resetAll={ () => {
+						setAttributes( { overridePostId: 0 } );
+						setPostSearchInput( '' );
+						setSearchOptions( [] );
+					} }
 				>
 					<ToolsPanelItem
-						hasValue={() => !!attributes.overridePostId}
+						hasValue={ () => !! attributes.overridePostId }
 						label="Override Post"
 						panelId="theatrum/meta-repeater"
-						onDeselect={() => {
-							setAttributes({ overridePostId: 0 });
-							setPostSearchInput('');
-							setSearchOptions([]);
-						}}
-						isShownByDefault={false}
+						onDeselect={ () => {
+							setAttributes( { overridePostId: 0 } );
+							setPostSearchInput( '' );
+							setSearchOptions( [] );
+						} }
+						isShownByDefault={ false }
 					>
 						<ComboboxControl
 							label="Search posts"
-							value={attributes.overridePostId ? String(attributes.overridePostId) : null}
-							options={searchOptions}
-							onFilterValueChange={(val) => setPostSearchInput(val)}
-							onChange={(val) => {
-								setAttributes({ overridePostId: val ? parseInt(val, 10) : 0 });
-							}}
+							value={
+								attributes.overridePostId
+									? String( attributes.overridePostId )
+									: null
+							}
+							options={ searchOptions }
+							onFilterValueChange={ ( val ) =>
+								setPostSearchInput( val )
+							}
+							onChange={ ( val ) => {
+								setAttributes( {
+									overridePostId: val
+										? parseInt( val, 10 )
+										: 0,
+								} );
+							} }
 							help="Search by title to select a post"
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
@@ -168,22 +213,28 @@ export default function Edit({ attributes, setAttributes, context }) {
 						<TextControl
 							label="Post ID"
 							type="number"
-							value={attributes.overridePostId || ''}
-							onChange={(val) => {
-								setAttributes({ overridePostId: val ? parseInt(val, 10) : 0 });
-							}}
-							placeholder={`Default: ${defaultPostId || '—'}`}
+							value={ attributes.overridePostId || '' }
+							onChange={ ( val ) => {
+								setAttributes( {
+									overridePostId: val
+										? parseInt( val, 10 )
+										: 0,
+								} );
+							} }
+							placeholder={ `Default: ${ defaultPostId || '—' }` }
 							help="Or enter a numeric post ID directly"
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 						/>
 					</ToolsPanelItem>
 				</ToolsPanel>
-				<PanelBody title="Repeater Settings" initialOpen={true}>
+				<PanelBody title="Repeater Settings" initialOpen={ true }>
 					<TextControl
 						label="Repeater Field Key"
-						value={attributes.repeaterKey || ''}
-						onChange={(value) => setAttributes({ repeaterKey: value })}
+						value={ attributes.repeaterKey || '' }
+						onChange={ ( value ) =>
+							setAttributes( { repeaterKey: value } )
+						}
 						placeholder="e.g., info, team_members"
 						help="The ACF repeater field key"
 						__nextHasNoMarginBottom
@@ -191,25 +242,31 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					<SelectControl
 						label="Block Format"
-						value={rowStyle}
-						onChange={(value) => {
+						value={ rowStyle }
+						onChange={ ( value ) => {
 							const nextIsParagraphRows = value === 'p';
-							setAttributes({
+							setAttributes( {
 								tagName: value,
-								...(nextIsParagraphRows ? { tagA: 'span', tagB: 'span' } : {}),
-							});
-						}}
-						options={ROW_STYLE_OPTIONS}
+								...( nextIsParagraphRows
+									? { tagA: 'span', tagB: 'span' }
+									: {} ),
+							} );
+						} }
+						options={ ROW_STYLE_OPTIONS }
 						help="Sets the outer block tag and each row's tag together."
 					/>
 
-					<BaseControl.VisualLabel style={{ display: 'block', marginTop: '24px' }}>
+					<BaseControl.VisualLabel
+						style={ { display: 'block', marginTop: '24px' } }
+					>
 						Subfield A
 					</BaseControl.VisualLabel>
 					<TextControl
 						label="Key"
-						value={attributes.subfieldA || ''}
-						onChange={(value) => setAttributes({ subfieldA: value })}
+						value={ attributes.subfieldA || '' }
+						onChange={ ( value ) =>
+							setAttributes( { subfieldA: value } )
+						}
 						placeholder="e.g., text, name"
 						help="The ACF subfield key for the first field"
 						__nextHasNoMarginBottom
@@ -217,20 +274,30 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					<SelectControl
 						label="Tag"
-						value={TagA}
-						onChange={(value) => setAttributes({ tagA: value })}
-						options={SUBFIELD_TAG_OPTIONS}
-						disabled={isParagraphRows}
-						help={isParagraphRows ? 'Locked to <span> while rows are <p> tags.' : undefined}
+						value={ TagA }
+						onChange={ ( value ) =>
+							setAttributes( { tagA: value } )
+						}
+						options={ SUBFIELD_TAG_OPTIONS }
+						disabled={ isParagraphRows }
+						help={
+							isParagraphRows
+								? 'Locked to <span> while rows are <p> tags.'
+								: undefined
+						}
 					/>
 
-					<BaseControl.VisualLabel style={{ display: 'block', marginTop: '24px' }}>
+					<BaseControl.VisualLabel
+						style={ { display: 'block', marginTop: '24px' } }
+					>
 						Subfield B
 					</BaseControl.VisualLabel>
 					<TextControl
 						label="Key"
-						value={attributes.subfieldB || ''}
-						onChange={(value) => setAttributes({ subfieldB: value })}
+						value={ attributes.subfieldB || '' }
+						onChange={ ( value ) =>
+							setAttributes( { subfieldB: value } )
+						}
 						placeholder="e.g., url, title"
 						help="The ACF subfield key for the second field (optional)"
 						__nextHasNoMarginBottom
@@ -238,16 +305,22 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					<SelectControl
 						label="Tag"
-						value={TagB}
-						onChange={(value) => setAttributes({ tagB: value })}
-						options={SUBFIELD_TAG_OPTIONS}
-						disabled={isParagraphRows}
-						help={isParagraphRows ? 'Locked to <span> while rows are <p> tags.' : undefined}
+						value={ TagB }
+						onChange={ ( value ) =>
+							setAttributes( { tagB: value } )
+						}
+						options={ SUBFIELD_TAG_OPTIONS }
+						disabled={ isParagraphRows }
+						help={
+							isParagraphRows
+								? 'Locked to <span> while rows are <p> tags.'
+								: undefined
+						}
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<div {...blockProps}>
-				{isLoading ? <Spinner /> : renderPreview()}
+			<div { ...blockProps }>
+				{ isLoading ? <Spinner /> : renderPreview() }
 			</div>
 		</Fragment>
 	);

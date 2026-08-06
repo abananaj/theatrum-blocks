@@ -20,15 +20,60 @@
 // Offset anchored sections so a sticky header doesn't cover the heading when
 // a jump link is followed. Override with --theatrum-page-nav-offset as needed.
 section[id] {
-	scroll-margin-top: var( --theatrum-page-nav-offset, 5rem );
+	scroll-margin-top: var(--theatrum-page-nav-offset, 5rem);
 }
 
-@media ( prefers-reduced-motion: no-preference ) {
+@media (prefers-reduced-motion: no-preference) {
 	html {
 		scroll-behavior: smooth;
 	}
 }
-.wp-block-button__link .wp-element-button,
-.wp-block-button .theatrum-page-nav__item {
-	background: var( --ct-primary );
+.wp-block-buttons.theatrum-page-nav__list .wp-block-button.theatrum-page-nav__item {
+	
+		border:none;
+	&:nth-child(1) .wp-block-button__link.wp-element-button {
+		background: var(--ct-primary);
+		color: var(--ct-on-primary);
+		border:none;
+		&:hover {
+			color: var(--ct-primary);
+			background: var(--ct-on-primary);
+		}
+	}	
+	&:nth-child(2) .wp-block-button__link {
+		border:none;
+		background: var(--ct-secondary);
+		color: var(--ct-on-secondary);
+		&:hover {
+			color: var(--ct-on-tertiary);
+			background: var(--ct-tertiary);
+		}
+	}	
+	&:nth-child(3) .wp-block-button__link {
+		border:none;
+		background: var(--ct-tertiary);
+		color: var(--ct-on-tertiary);
+		&:hover {
+			color: var(--ct-tertiary);
+			background: var(--ct-on-tertiary);
+		}
+	}	
+	&:nth-child(4) .wp-block-button__link {
+		border:none;
+		background: var(--ct-muted);
+		color: var(--ct-dark);
+		&:hover {
+			color: var(--ct-light);
+			background: var(--ct-dark);
+		}
+	}	
+	&:nth-child(5) .wp-block-button__link {
+		border:none;
+		background: var(--ct-light);
+		color: var(--ct-dark);
+		&:hover {
+			color: var(--ct-light);
+			background: var(--ct-dark);
+		}
+	}
 }

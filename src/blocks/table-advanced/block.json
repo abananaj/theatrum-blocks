@@ -19,6 +19,14 @@
 			"type": "boolean",
 			"default": false
 		},
+		"stickyHeader": {
+			"type": "boolean",
+			"default": false
+		},
+		"stickyFirstColumn": {
+			"type": "boolean",
+			"default": false
+		},
 		"tableTitle": {
 			"type": "rich-text",
 			"source": "rich-text",

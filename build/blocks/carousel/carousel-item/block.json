@@ -16,18 +16,9 @@
     "anchor": true,
     "className": true,
     "customClassName": true,
-    "layout": {
-      "allowSwitching": true,
-      "allowInheriting": false,
-      "default": {
-        "type": "flex",
-        "orientation": "vertical"
-      }
-    },
     "spacing": {
       "margin": true,
-      "padding": true,
-      "blockGap": true
+      "padding": true
     },
     "color": {
       "text": true,
@@ -49,7 +40,8 @@
       "radius": true,
       "style": true,
       "width": true
-    }
+    },
+    "shadow": true
   },
   "editorScript": "file:./index.js"
 }
