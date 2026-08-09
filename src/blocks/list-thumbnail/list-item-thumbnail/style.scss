@@ -20,9 +20,9 @@
 	height: min-content;
 	cursor: pointer;
 	transition: color var(--animation-speed, 0.3s) ease;
-
+	
 	&:hover :where(h1, h2, h3, h4, h5, h6) {
-		transform: translateX(1rem);
+		transform: translateY(-2px);
 	}
 
 	:where(h1, h2, h3, h4, h5, h6) {

@@ -269,7 +269,17 @@ function theatrum_get_post_meta_field_rest_callback($request)
 		$value = json_encode($value);
 	}
 
-	return new WP_REST_Response(array('value' => theatrum_decode_entities($value)), 200);
+	$value = theatrum_decode_entities($value);
+
+	// WYSIWYG mode previews rendered HTML, so run it through wpautop() here
+	// too — otherwise the editor preview shows the raw blank-line-separated
+	// text while the frontend (which also runs wpautop in render.php) shows
+	// proper paragraphs.
+	if ($request->get_param('html')) {
+		$value = wpautop($value);
+	}
+
+	return new WP_REST_Response(array('value' => $value), 200);
 }
 
 /* -----------------------------------------------------------------------

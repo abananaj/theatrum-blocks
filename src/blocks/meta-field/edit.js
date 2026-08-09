@@ -4,8 +4,13 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { TextControl, SelectControl, Spinner } from '@wordpress/components';
+import { Fragment, RawHTML, useState, useEffect } from '@wordpress/element';
+import {
+	TextControl,
+	SelectControl,
+	ToggleControl,
+	Spinner,
+} from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
@@ -31,7 +36,9 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 		setIsLoading( true );
 
-		const url = `/theatrum/v1/post-meta/${ postId }/${ attributes.keyInput }`;
+		const url = `/theatrum/v1/post-meta/${ postId }/${ attributes.keyInput }${
+			attributes.isHtml ? '?html=1' : ''
+		}`;
 
 		apiFetch( { path: url } )
 			.then( ( data ) => {
@@ -42,7 +49,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				setDisplayValue( '' );
 				setIsLoading( false );
 			} );
-	}, [ attributes.keyInput, postId ] );
+	}, [ attributes.keyInput, attributes.isHtml, postId ] );
 
 	const Tag = attributes.tagName || 'span';
 	const displayText = displayValue || `[${ attributes.keyInput }]`;
@@ -65,65 +72,86 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
-					<SelectControl
-						label="HTML Tag"
-						value={ attributes.tagName || 'span' }
+					<ToggleControl
+						label="Render as HTML (WYSIWYG)"
+						checked={ !! attributes.isHtml }
 						onChange={ ( value ) =>
-							setAttributes( { tagName: value } )
+							setAttributes( { isHtml: value } )
 						}
-						options={ [
-							{ label: '<p>', value: 'p' },
-							{ label: '<span>', value: 'span' },
-							{ label: '<a>', value: 'a' },
-							{ label: '<h1>', value: 'h1' },
-							{ label: '<h2>', value: 'h2' },
-							{ label: '<h3>', value: 'h3' },
-							{ label: '<h4>', value: 'h4' },
-							{ label: '<h5>', value: 'h5' },
-							{ label: '<h6>', value: 'h6' },
-						] }
+						help="For rich-text fields (e.g. ACF WYSIWYG like widget_content). Renders the field's markup instead of escaping it as plain text."
+						__nextHasNoMarginBottom
 					/>
-					{ attributes.tagName === 'a' && (
-						<TextControl
-							label="Link URL"
-							value={ attributes.href || '' }
-							onChange={ ( value ) =>
-								setAttributes( { href: value } )
-							}
-							placeholder="https://example.com"
-							help="Enter the URL for the link"
-							__nextHasNoMarginBottom
-							__next40pxDefaultSize
-						/>
+					{ ! attributes.isHtml && (
+						<Fragment>
+							<SelectControl
+								label="HTML Tag"
+								value={ attributes.tagName || 'span' }
+								onChange={ ( value ) =>
+									setAttributes( { tagName: value } )
+								}
+								options={ [
+									{ label: '<p>', value: 'p' },
+									{ label: '<span>', value: 'span' },
+									{ label: '<a>', value: 'a' },
+									{ label: '<h1>', value: 'h1' },
+									{ label: '<h2>', value: 'h2' },
+									{ label: '<h3>', value: 'h3' },
+									{ label: '<h4>', value: 'h4' },
+									{ label: '<h5>', value: 'h5' },
+									{ label: '<h6>', value: 'h6' },
+								] }
+							/>
+							{ attributes.tagName === 'a' && (
+								<TextControl
+									label="Link URL"
+									value={ attributes.href || '' }
+									onChange={ ( value ) =>
+										setAttributes( { href: value } )
+									}
+									placeholder="https://example.com"
+									help="Enter the URL for the link"
+									__nextHasNoMarginBottom
+									__next40pxDefaultSize
+								/>
+							) }
+							<TextControl
+								label="Prepend"
+								value={ attributes.prepend || '' }
+								onChange={ ( value ) =>
+									setAttributes( { prepend: value } )
+								}
+								placeholder="Text to prepend"
+								help="Optional plain text to add before the value"
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							/>
+							<TextControl
+								label="Append"
+								value={ attributes.append || '' }
+								onChange={ ( value ) =>
+									setAttributes( { append: value } )
+								}
+								placeholder="Text to append"
+								help="Optional plain text to add after the value"
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							/>
+						</Fragment>
 					) }
-					<TextControl
-						label="Prepend"
-						value={ attributes.prepend || '' }
-						onChange={ ( value ) =>
-							setAttributes( { prepend: value } )
-						}
-						placeholder="Text to prepend"
-						help="Optional plain text to add before the value"
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-					/>
-					<TextControl
-						label="Append"
-						value={ attributes.append || '' }
-						onChange={ ( value ) =>
-							setAttributes( { append: value } )
-						}
-						placeholder="Text to append"
-						help="Optional plain text to add after the value"
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-					/>
 				</div>
 			</InspectorControls>
 			<div { ...blockProps }>
 				{ isLoading ? (
 					<Spinner />
-				) : attributes.keyInput ? (
+				) : ! attributes.keyInput ? (
+					<em style={ { color: '#999' } }>
+						Enter a key to display its value
+					</em>
+				) : attributes.isHtml ? (
+					<div className="wp-block-theatrum-post-meta-field is-html">
+						<RawHTML>{ displayValue || `[${ attributes.keyInput }]` }</RawHTML>
+					</div>
+				) : (
 					<Tag
 						className="wp-block-theatrum-post-meta-field"
 						style={ { wordBreak: 'break-word' } }
@@ -137,10 +165,6 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					>
 						{ finalText }
 					</Tag>
-				) : (
-					<em style={ { color: '#999' } }>
-						Enter a key to display its value
-					</em>
 				) }
 			</div>
 		</Fragment>

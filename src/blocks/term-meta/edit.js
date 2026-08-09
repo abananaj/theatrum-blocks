@@ -35,8 +35,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		append,
 		headingText,
 		headingLevel,
+		tagName,
 	} = attributes;
 	const isSeasonProducer = displayType === 'season-producer';
+	const Tag = tagName || 'p';
 
 	const [ taxonomies, setTaxonomies ] = useState( [] );
 	const [ terms, setTerms ] = useState( [] );
@@ -335,51 +337,52 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<div { ...blockProps }>
-				{ isLoadingMeta ? (
+			{ isLoadingMeta ? (
+				<div { ...blockProps }>
 					<Spinner />
-				) : metaItems.length > 0 ? (
-					<p style={ { margin: 0, padding: '8px 0' } }>
-						{ prepend }
-						{ metaItems.map( ( item, i ) => (
-							<Fragment
-								key={ item.id || `${ item.title }-${ i }` }
-							>
-								{ i > 0 && ', ' }
-								{ item.url ? (
-									<a
-										href={ item.url }
-										onClick={ ( event ) =>
-											event.preventDefault()
-										}
-									>
-										{ decodeHtmlEntities( item.title ) }
-									</a>
-								) : (
-									decodeHtmlEntities( item.title )
-								) }
-							</Fragment>
-						) ) }
-						{ append }
-					</p>
-				) : metaValue ? (
-					<p style={ { margin: 0, padding: '8px 0' } }>{ `${
-						prepend || ''
-					}${ metaValue }${ append || '' }` }</p>
-				) : termId && metaKey ? (
-					<p style={ { margin: 0 } }>{ `[${ metaKey }]` }</p>
-				) : (
-					<p
-						style={ {
-							margin: 0,
-							color: '#999',
-							fontStyle: 'italic',
-						} }
-					>
-						Select a taxonomy, term, and meta key
-					</p>
-				) }
-			</div>
+				</div>
+			) : metaItems.length > 0 ? (
+				<Tag { ...blockProps }>
+					{ prepend }
+					{ metaItems.map( ( item, i ) => (
+						<Fragment
+							key={ item.id || `${ item.title }-${ i }` }
+						>
+							{ i > 0 && ', ' }
+							{ item.url ? (
+								<a
+									href={ item.url }
+									onClick={ ( event ) =>
+										event.preventDefault()
+									}
+								>
+									{ decodeHtmlEntities( item.title ) }
+								</a>
+							) : (
+								decodeHtmlEntities( item.title )
+							) }
+						</Fragment>
+					) ) }
+					{ append }
+				</Tag>
+			) : metaValue ? (
+				<Tag { ...blockProps }>{ `${ prepend || '' }${ metaValue }${
+					append || ''
+				}` }</Tag>
+			) : termId && metaKey ? (
+				<Tag { ...blockProps }>{ `[${ metaKey }]` }</Tag>
+			) : (
+				<Tag
+					{ ...blockProps }
+					style={ {
+						...blockProps.style,
+						color: '#999',
+						fontStyle: 'italic',
+					} }
+				>
+					Select a taxonomy, term, and meta key
+				</Tag>
+			) }
 		</Fragment>
 	);
 }

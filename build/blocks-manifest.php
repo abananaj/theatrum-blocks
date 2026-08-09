@@ -1112,6 +1112,10 @@ return array(
 			'append' => array(
 				'type' => 'string',
 				'default' => ''
+			),
+			'isHtml' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'usesContext' => array(

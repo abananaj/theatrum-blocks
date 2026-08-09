@@ -155,7 +155,7 @@ if ($is_member_type) {
     }
 
     $html .= '</ul>';
-    $html .= '</div>' . $append_html;
+    $html .= $append_html . '</div>';
     echo $html;
   } elseif (is_numeric($option_value)) {
     // Single post ID — resolve to title/link like the array branch
@@ -186,7 +186,7 @@ if ($is_member_type) {
       $html .= '<em>' . esc_html($post_meta_title) . '</em>';
     }
     $html .= '</p>';
-    $html .= '</div>' . $append_html;
+    $html .= $append_html . '</div>';
     echo $html;
   } else {
     // Single string value
@@ -203,7 +203,7 @@ if ($is_member_type) {
 
     $html = '<div ' . $wrapper_attrs . '>' . $prepend_html;
     $html .= '<p>' . esc_html($option_value) . '</p>';
-    $html .= '</div>' . $append_html;
+    $html .= $append_html . '</div>';
     echo $html;
   }
   return;
@@ -262,7 +262,7 @@ if ($has_ref_links) {
     $html .= '</p>';
   }
 
-  $html .= '</div>' . $append_html;
+  $html .= $append_html . '</div>';
   echo $html;
   return;
 }

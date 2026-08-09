@@ -26,9 +26,12 @@ $tag_name  = theatrum_sanitize_tag(
 $href      = $attributes['href'] ?? '';
 $prepend   = $attributes['prepend'] ?? '';
 $append    = $attributes['append'] ?? '';
+$is_html   = !empty($attributes['isHtml']);
+
+$wrapper_class = 'wp-block-theatrum-post-meta-field' . ($is_html ? ' is-html' : '');
 
 if (!$key_input) {
-  theatrum_render_meta_empty_marker($tag_name, '', array('class' => 'wp-block-theatrum-post-meta-field'));
+  theatrum_render_meta_empty_marker($tag_name, '', array('class' => $wrapper_class));
   return;
 }
 
@@ -36,7 +39,7 @@ if (!$key_input) {
 $value = get_post_meta($post->ID, $key_input, true);
 
 if ($value === '' || $value === false) {
-  theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => 'wp-block-theatrum-post-meta-field'));
+  theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => $wrapper_class));
   return;
 }
 
@@ -45,9 +48,23 @@ if (is_array($value) || is_object($value)) {
   $value = json_encode($value);
 }
 
-$value = $prepend . (string) $value . $append;
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $wrapper_class)) );
 
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-post-meta-field')) );
+// WYSIWYG/rich-text fields (e.g. ACF `widget_content`) store raw TinyMCE
+// output: blank-line-separated text, not literal <p> tags. Core defers that
+// conversion to wpautop() at render time (same as the_content), so it has to
+// run here too or paragraphs collapse into one clump. Tag/href/prepend/append
+// don't apply to block-level HTML, so they're skipped in this mode.
+if ($is_html) {
+  printf(
+    '<div %s>%s</div>',
+    $wrapper_attrs,
+    wp_kses_post(wpautop((string) $value))
+  );
+  return;
+}
+
+$value = $prepend . (string) $value . $append;
 
 if ($tag_name === 'a') {
   printf(

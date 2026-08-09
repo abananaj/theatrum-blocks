@@ -65,6 +65,10 @@
     "append": {
       "type": "string",
       "default": ""
+    },
+    "isHtml": {
+      "type": "boolean",
+      "default": false
     }
   },
   "usesContext": [
