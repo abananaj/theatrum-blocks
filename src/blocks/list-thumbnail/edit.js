@@ -43,6 +43,9 @@ const TEMPLATE = [
 	[ 'theatrum/list-item-thumbnail' ],
 ];
 
+const PLACEHOLDER_THUMBNAIL_URL =
+	'https://chance-theater.s3.us-west-1.amazonaws.com/2026/06/blue-gradient.png';
+
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		thumbnailWidth,
@@ -52,6 +55,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		itemHeight,
 		itemHeightUnit,
 		thumbnailPosition,
+		verticalAlignment,
 		animationSpeed,
 		imageSizeSlug,
 		thumbnailAspectRatio,
@@ -149,6 +153,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							itemHeight: '80',
 							itemHeightUnit: 'px',
 							thumbnailPosition: 'right',
+							verticalAlignment: 'top',
 							animationSpeed: '0.3',
 							hideDescriptionUntilHover: false,
 						} );
@@ -215,6 +220,49 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									onClick={ () =>
 										setAttributes( {
 											thumbnailPosition: option.value,
+										} )
+									}
+								>
+									{ option.label }
+								</Button>
+							) ) }
+						</ButtonGroup>
+					</ToolsPanelItem>
+
+					<ToolsPanelItem
+						hasValue={ () => verticalAlignment !== 'top' }
+						label={ __( 'Vertical Alignment', 'theatrum-blocks' ) }
+						onDeselect={ () =>
+							setAttributes( { verticalAlignment: 'top' } )
+						}
+						isShownByDefault={ true }
+					>
+						<ButtonGroup>
+							{ [
+								{
+									label: __( 'Top', 'theatrum-blocks' ),
+									value: 'top',
+								},
+								{
+									label: __( 'Center', 'theatrum-blocks' ),
+									value: 'center',
+								},
+								{
+									label: __( 'Bottom', 'theatrum-blocks' ),
+									value: 'bottom',
+								},
+							].map( ( option ) => (
+								<Button
+									key={ option.value }
+									isPrimary={
+										verticalAlignment === option.value
+									}
+									isSecondary={
+										verticalAlignment !== option.value
+									}
+									onClick={ () =>
+										setAttributes( {
+											verticalAlignment: option.value,
 										} )
 									}
 								>
@@ -568,12 +616,18 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						>
 							<img
 								className="thumbnail thumbnail-front"
-								src={ faces.front?.thumbnailUrl || '' }
+								src={
+									faces.front?.thumbnailUrl ||
+									PLACEHOLDER_THUMBNAIL_URL
+								}
 								alt={ faces.front?.thumbnailAlt || '' }
 							/>
 							<img
 								className="thumbnail thumbnail-back"
-								src={ faces.back?.thumbnailUrl || '' }
+								src={
+									faces.back?.thumbnailUrl ||
+									PLACEHOLDER_THUMBNAIL_URL
+								}
 								alt={ faces.back?.thumbnailAlt || '' }
 							/>
 						</div>

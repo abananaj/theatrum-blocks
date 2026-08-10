@@ -15,13 +15,26 @@ if (!$post_id) {
 $meta_key     = isset($attributes['metaKey']) ? sanitize_text_field($attributes['metaKey']) : '';
 $size_slug    = isset($attributes['sizeSlug']) ? sanitize_key($attributes['sizeSlug']) : 'large';
 $columns      = isset($attributes['columns']) ? intval($attributes['columns']) : null;
+$columns_tablet = isset($attributes['columnsTablet']) ? intval($attributes['columnsTablet']) : null;
+$columns_mobile = isset($attributes['columnsMobile']) ? intval($attributes['columnsMobile']) : null;
 $link_to      = isset($attributes['linkTo']) ? sanitize_text_field($attributes['linkTo']) : 'none';
 $image_crop   = !empty($attributes['imageCrop']);
 $fixed_height = !empty($attributes['fixedHeight']);
 $random_order = !empty($attributes['randomOrder']);
+$image_limit  = isset($attributes['imageLimit']) ? intval($attributes['imageLimit']) : 0;
 $aspect_ratio = isset($attributes['aspectRatio']) ? sanitize_text_field($attributes['aspectRatio']) : 'auto';
+$custom_width  = isset($attributes['customWidth']) ? intval($attributes['customWidth']) : 0;
+$custom_height = isset($attributes['customHeight']) ? intval($attributes['customHeight']) : 0;
 $fallback_text = isset($attributes['fallbackText']) ? sanitize_text_field($attributes['fallbackText']) : '';
 $caption      = isset($attributes['caption']) ? wp_kses_post($attributes['caption']) : '';
+
+// Desktop/tablet/mobile column counts fall back down the chain so an unset
+// breakpoint inherits the wider one (mirrors edit.js's numColumns* calc).
+$columns_desktop_resolved = $columns ?: 3;
+$columns_tablet_resolved  = $columns_tablet ?: $columns_desktop_resolved;
+$columns_mobile_resolved  = $columns_mobile ?: $columns_tablet_resolved;
+
+$use_custom_size = $size_slug === 'custom' && $custom_width > 0 && $custom_height > 0;
 
 if (!$meta_key) {
   theatrum_render_meta_empty_marker('figure', '', ['class' => 'wp-block-theatrum-meta-gallery']);
@@ -52,6 +65,11 @@ if ($random_order) {
   shuffle($value);
 }
 
+// Limit if requested
+if ($image_limit > 0) {
+  $value = array_slice($value, 0, $image_limit);
+}
+
 // Build image list
 $items_html = '';
 $image_count = 0;
@@ -70,14 +88,20 @@ foreach ($value as $image) {
     $img_caption = isset($image['caption']) ? wp_kses_post($image['caption']) : '';
     $attach_id   = isset($image['ID']) ? intval($image['ID']) : 0;
 
-    if ($size_slug !== 'full' && isset($image['sizes'][$size_slug])) {
+    if ($use_custom_size && $attach_id) {
+      // ACF gallery arrays only carry pre-registered sizes, so a custom
+      // width/height needs its own lookup against the attachment ID.
+      $custom_src = wp_get_attachment_image_src($attach_id, [$custom_width, $custom_height]);
+      $img_url    = $custom_src ? esc_url($custom_src[0]) : $full_url;
+    } elseif ($size_slug !== 'full' && isset($image['sizes'][$size_slug])) {
       $img_url = esc_url($image['sizes'][$size_slug]);
     } else {
       $img_url = $full_url;
     }
   } elseif (is_numeric($image)) {
     $attach_id = intval($image);
-    $src = wp_get_attachment_image_src($attach_id, $size_slug);
+    $requested_size = $use_custom_size ? [$custom_width, $custom_height] : $size_slug;
+    $src = wp_get_attachment_image_src($attach_id, $requested_size);
     $full_src = wp_get_attachment_image_src($attach_id, 'full');
     if ($src) {
       $img_url  = esc_url($src[0]);
@@ -199,12 +223,24 @@ if (is_array($gap)) {
   }
 }
 
+// Desktop/tablet/mobile column counts as CSS custom properties — the
+// tablet/mobile media queries in style.scss read these to override
+// --theatrum-gallery-columns, which the item flex-basis calc uses.
+$columns_style = sprintf(
+  '--theatrum-gallery-columns: %d; --theatrum-gallery-columns-tablet: %d; --theatrum-gallery-columns-mobile: %d;',
+  $columns_desktop_resolved,
+  $columns_tablet_resolved,
+  $columns_mobile_resolved
+);
+
+$ul_style = $columns_style . $gap_style;
+
 // Output gallery
 printf(
-  '<figure %s%s><ul class="wp-block-gallery blocks-gallery-grid"%s>%s</ul>%s</figure>',
+  '<figure %s%s><ul class="wp-block-gallery blocks-gallery-grid" style="%s">%s</ul>%s</figure>',
   wp_kses_data( get_block_wrapper_attributes(['class' => $wrapper_classes]) ),
   $gap_style ? sprintf(' style="%s"', $gap_style) : '',
-  $gap_style ? sprintf(' style="%s"', $gap_style) : '',
+  esc_attr($ul_style),
   $items_html,
   $caption ? sprintf('<figcaption class="blocks-gallery-caption">%s</figcaption>', $caption) : ''
 );

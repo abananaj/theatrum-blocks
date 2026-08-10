@@ -28,8 +28,7 @@ $ct-tabs-breakpoint: 768px;
 		color: var(--ct-tab-header-color, var(--ct-light, inherit));
 		background-color: var(--ct-tab-header-bg, transparent);
 		padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
-		border-radius: var(--wp--preset--border-radius--large)
-			var(--wp--preset--border-radius--large) 0 0;
+		border-radius: var(--wp--preset--border-radius--x-large);
 		font-size: 1.25rem;
 		transition:
 			color 150ms ease,
@@ -49,12 +48,12 @@ $ct-tabs-breakpoint: 768px;
 				--ct-tab-header-hover-bg,
 				var(--ct-tab-header-bg, var(--ct-secondary, inherit))
 			);
+			border-radius: var(--wp--preset--border-radius--x-large);
 		}
 
 		&.is-active {
 			@include mixins.tab-header-active-colors;
-			border-radius: var(--wp--preset--border-radius--x-large)
-				var(--wp--preset--border-radius--x-large) 0 0;
+			border-radius: var(--wp--preset--border-radius--large);
 			// Accent underline — defaults to the active header's own text
 			// color so it looks intentional without extra setup, but stays
 			// overridable per-tab via --ct-tab-header-accent.

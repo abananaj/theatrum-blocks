@@ -269,14 +269,15 @@ function theatrum_get_post_meta_field_rest_callback($request)
 		$value = json_encode($value);
 	}
 
-	$value = theatrum_decode_entities($value);
-
-	// WYSIWYG mode previews rendered HTML, so run it through wpautop() here
-	// too — otherwise the editor preview shows the raw blank-line-separated
-	// text while the frontend (which also runs wpautop in render.php) shows
-	// proper paragraphs.
+	// WYSIWYG mode previews the field's actual markup via RawHTML, so it must
+	// skip theatrum_decode_entities() — that helper re-escapes `<`/`>` for
+	// plain-text display, which would turn real tags into literal `&lt;...&gt;`
+	// text. Run wpautop() here instead, matching render.php's frontend path,
+	// so blank-line-separated text becomes proper paragraphs in the preview too.
 	if ($request->get_param('html')) {
 		$value = wpautop($value);
+	} else {
+		$value = theatrum_decode_entities($value);
 	}
 
 	return new WP_REST_Response(array('value' => $value), 200);
@@ -385,6 +386,8 @@ function theatrum_register_meta_gallery_rest_endpoint()
 			}],
 			'key'     => ['sanitize_callback' => 'sanitize_key'],
 			'size'    => ['sanitize_callback' => 'sanitize_key', 'default' => 'full'],
+			'width'   => ['sanitize_callback' => 'absint', 'default' => 0],
+			'height'  => ['sanitize_callback' => 'absint', 'default' => 0],
 		],
 	]);
 }
@@ -395,6 +398,11 @@ function theatrum_get_meta_gallery_rest_callback($request)
 	$post_id = intval($request->get_param('post_id'));
 	$key     = sanitize_key($request->get_param('key'));
 	$size    = sanitize_key($request->get_param('size')) ?: 'full';
+	$width   = absint($request->get_param('width'));
+	$height  = absint($request->get_param('height'));
+
+	$use_custom_size = 'custom' === $size && $width > 0 && $height > 0;
+	$requested_size  = $use_custom_size ? [$width, $height] : $size;
 
 	if (!$post_id || !$key) {
 		return new WP_REST_Response(['images' => []], 200);
@@ -411,7 +419,13 @@ function theatrum_get_meta_gallery_rest_callback($request)
 	foreach ($value as $image) {
 		if (is_array($image)) {
 			$image_url = $image['url'] ?? '';
-			if ('full' !== $size && isset($image['sizes'][$size])) {
+			$attach_id = intval($image['ID'] ?? 0);
+			if ($use_custom_size && $attach_id) {
+				$custom_src = wp_get_attachment_image_src($attach_id, $requested_size);
+				if ($custom_src) {
+					$image_url = $custom_src[0];
+				}
+			} elseif ('full' !== $size && isset($image['sizes'][$size])) {
 				$image_url = $image['sizes'][$size];
 			}
 			$images[] = [
@@ -422,7 +436,7 @@ function theatrum_get_meta_gallery_rest_callback($request)
 			];
 		} elseif (is_numeric($image)) {
 			$attach_id = intval($image);
-			$src = wp_get_attachment_image_src($attach_id, $size);
+			$src = wp_get_attachment_image_src($attach_id, $requested_size);
 			if ($src) {
 				$images[] = [
 					'url'     => $src[0],

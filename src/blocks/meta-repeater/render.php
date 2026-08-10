@@ -92,7 +92,7 @@ foreach ($rows as $row) {
       printf(
         '<%s class="repeater-subfield-a">%s</%s>',
         $tag_a,
-        esc_html($display_a),
+        theatrum_repeater_escape_value($display_a),
         $tag_a
       );
       $printed_a = true;
@@ -109,7 +109,7 @@ foreach ($rows as $row) {
       printf(
         '<%s class="repeater-subfield-b">%s</%s>',
         $tag_b,
-        esc_html($display_b),
+        theatrum_repeater_escape_value($display_b),
         $tag_b
       );
     }

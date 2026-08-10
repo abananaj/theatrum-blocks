@@ -91,6 +91,7 @@ $tag = theatrum_sanitize_tag(
 );
 $prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
 $append = isset($attributes['append']) ? $attributes['append'] : '';
+$link_to_post = !isset($attributes['linkToPost']) || !empty($attributes['linkToPost']);
 
 if (!$meta_key) {
   theatrum_render_meta_empty_marker($tag, '');
@@ -115,7 +116,7 @@ $links = theatrum_resolve_post_links($value);
 if (!empty($links)) {
   $parts = array();
   foreach ($links as $link) {
-    if ($link['url'] !== '') {
+    if ($link_to_post && $link['url'] !== '') {
       $parts[] = sprintf(
         '<a href="%s">%s</a>',
         esc_url($link['url']),

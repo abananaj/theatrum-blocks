@@ -9,10 +9,16 @@
  *
  * List items are rendered by the `theatrum/list-item-thumbnail` child block —
  * each carries its thumbnail URL/alt as data attributes for us to read here.
+ * Items saved before the blue-gradient placeholder became the default (or
+ * otherwise missing a URL) fall back to that same placeholder here, so the
+ * flip panel never shows a blank/broken face.
  *
  * Animation duration comes from the `--animation-speed` CSS custom property
  * set in save.js (applied to the flipper transition in style.scss).
  */
+
+const PLACEHOLDER_THUMBNAIL_URL =
+	'https://chance-theater.s3.us-west-1.amazonaws.com/2026/06/blue-gradient.png';
 
 document.addEventListener( 'DOMContentLoaded', function () {
 	const blocks = document.querySelectorAll(
@@ -35,15 +41,15 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				return;
 			}
 
-			const url = item.getAttribute( 'data-thumb-url' ) || '';
+			const url =
+				item.getAttribute( 'data-thumb-url' ) ||
+				PLACEHOLDER_THUMBNAIL_URL;
 			const alt = item.getAttribute( 'data-thumb-alt' ) || '';
 
 			// Even indices land on the front face, odd on the back.
 			const face = index % 2 ? back : front;
-			if ( url ) {
-				face.src = url;
-				face.alt = alt;
-			}
+			face.src = url;
+			face.alt = alt;
 
 			flipper.style.transform = `rotateX(${ index * -180 }deg)`;
 		};

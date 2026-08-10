@@ -756,6 +756,16 @@ return array(
 					'right'
 				)
 			),
+			'verticalAlignment' => array(
+				'type' => 'string',
+				'default' => 'top',
+				'enum' => array(
+					'top',
+					'center',
+					'bottom'
+				),
+				'description' => 'Vertical alignment of the list-items column against the flip-card thumbnail panel'
+			),
 			'animationSpeed' => array(
 				'type' => 'string',
 				'default' => '0.3',
@@ -1278,6 +1288,16 @@ return array(
 				'minimum' => 1,
 				'maximum' => 8
 			),
+			'columnsTablet' => array(
+				'type' => 'number',
+				'minimum' => 1,
+				'maximum' => 8
+			),
+			'columnsMobile' => array(
+				'type' => 'number',
+				'minimum' => 1,
+				'maximum' => 8
+			),
 			'linkTo' => array(
 				'type' => 'string',
 				'default' => 'none'
@@ -1293,6 +1313,10 @@ return array(
 			'randomOrder' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'imageLimit' => array(
+				'type' => 'number',
+				'minimum' => 1
 			),
 			'caption' => array(
 				'type' => 'rich-text',
@@ -1316,6 +1340,12 @@ return array(
 			'aspectRatio' => array(
 				'type' => 'string',
 				'default' => 'auto'
+			),
+			'customWidth' => array(
+				'type' => 'number'
+			),
+			'customHeight' => array(
+				'type' => 'number'
 			),
 			'linkTarget' => array(
 				'type' => 'string'
@@ -2652,7 +2682,7 @@ return array(
 		'attributes' => array(
 			'equalWidthTabs' => array(
 				'type' => 'boolean',
-				'default' => false
+				'default' => true
 			)
 		),
 		'supports' => array(
@@ -2827,6 +2857,10 @@ return array(
 			'tagName' => array(
 				'type' => 'string',
 				'default' => 'p'
+			),
+			'linkToPost' => array(
+				'type' => 'boolean',
+				'default' => true
 			),
 			'prepend' => array(
 				'type' => 'string',
@@ -3151,7 +3185,8 @@ return array(
 		),
 		'allowedBlocks' => array(
 			'core/heading',
-			'core/paragraph'
+			'core/paragraph',
+			'core/group'
 		),
 		'usesContext' => array(
 			'theatrum/imageSizeSlug'
@@ -3184,11 +3219,12 @@ return array(
 		'attributes' => array(
 			'thumbnailId' => array(
 				'type' => 'number',
-				'default' => 0
+				'default' => 106035,
+				'description' => 'Media library attachment ID; defaults to the blue-gradient placeholder image'
 			),
 			'thumbnailUrl' => array(
 				'type' => 'string',
-				'default' => ''
+				'default' => 'https://chance-theater.s3.us-west-1.amazonaws.com/2026/06/blue-gradient.png'
 			),
 			'thumbnailAlt' => array(
 				'type' => 'string',

@@ -10,7 +10,7 @@
   "attributes": {
     "equalWidthTabs": {
       "type": "boolean",
-      "default": false
+      "default": true
     }
   },
   "supports": {

@@ -4,9 +4,11 @@
  * Page Nav block — server-side render callback.
  *
  * Emits an empty, accessible <nav> container. The links themselves are built
- * on the front end by view.js, which scans the page for `<section id>` elements
- * and turns the first heading in each into a jump link. If no qualifying
- * sections exist, view.js removes the container so nothing is shown.
+ * on the front end by view.js, which scans the page for opt-in jump targets:
+ * `<section id>` elements (first heading becomes the link text) and Query
+ * Loop blocks that have an HTML Anchor (one link per post, from the post
+ * title). If nothing qualifies, view.js removes the container so nothing is
+ * shown.
  *
  * Scope: pages, productions, and events — the post types with long-form
  * content likely to contain jump-linkable sections.

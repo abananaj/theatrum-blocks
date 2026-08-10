@@ -330,6 +330,30 @@ function theatrum_enqueue_block_color_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_block_color_script');
 
 /**
+ * Enqueues the rich-text-formats script that registers custom RichText
+ * toolbar formats (e.g. Small) alongside core bold/italic/etc.
+ */
+function theatrum_enqueue_rich_text_formats_script()
+{
+	$asset_file = __DIR__ . '/build/rich-text-formats.asset.php';
+
+	if (! file_exists($asset_file)) {
+		return;
+	}
+
+	$asset = require $asset_file;
+
+	wp_enqueue_script(
+		'theatrum-rich-text-formats',
+		plugins_url('build/rich-text-formats.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_rich_text_formats_script');
+
+/**
  * Registers the Carousel/Slider block styles on core/query and core/gallery
  * (the "formats" — see src/formats/). Names are prefixed (ct-carousel,
  * ct-slider) since a bare "carousel"/"slider" slug is a plausible collision

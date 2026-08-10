@@ -40,6 +40,17 @@ const ROW_STYLE_OPTIONS = [
 	{ label: 'Ordered List', value: 'ol' },
 ];
 
+// Repeater subfields are plain ACF text fields (no per-row WYSIWYG), so
+// editors have adopted typing a literal `<br />` to split a row into
+// multiple lines — mirrors render.php's theatrum_repeater_escape_value().
+// Rendering the raw string as a React child would print the tag itself.
+function renderWithBreaks( text ) {
+	const parts = String( text ).split( /<br\s*\/?>/i );
+	return parts.flatMap( ( part, i ) =>
+		i === 0 ? [ part ] : [ createElement( 'br', { key: `br-${ i }` } ), part ]
+	);
+}
+
 function resolveRowStyle( tagName ) {
 	const rowStyle = [ 'ul', 'ol', 'p' ].includes( tagName ) ? tagName : 'p';
 	const isParagraphRows = rowStyle === 'p';
@@ -141,14 +152,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					createElement(
 						TagA,
 						{ className: 'repeater-subfield-a' },
-						String( valA )
+						...renderWithBreaks( valA )
 					),
 				valA && valB ? ' ' : null,
 				valB &&
 					createElement(
 						TagB,
 						{ className: 'repeater-subfield-b' },
-						String( valB )
+						...renderWithBreaks( valB )
 					),
 				! valA && ! valB && (
 					<span style={ { color: '#aaa' } }>

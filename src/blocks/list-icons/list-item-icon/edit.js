@@ -15,8 +15,8 @@ import {
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
-import { Fragment } from '@wordpress/element';
-import { Button, PanelBody } from '@wordpress/components';
+import { Fragment, useState } from '@wordpress/element';
+import { Button, PanelBody, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
@@ -36,16 +36,29 @@ export default function Edit( {
 	const blockProps = useBlockProps( { className: 'list-icons-item' } );
 	const iconIsSvg = isSvgUrl( iconUrl );
 
+	const [ isEditingUrl, setIsEditingUrl ] = useState( false );
+	const [ urlInput, setUrlInput ] = useState( iconUrl );
+
 	const setIcon = ( media ) => {
 		setAttributes( {
 			iconId: media.id,
 			iconUrl: media.url,
 			iconAlt: media.alt || '',
 		} );
+		setIsEditingUrl( false );
+	};
+
+	const applyIconUrl = () => {
+		if ( ! urlInput ) {
+			return;
+		}
+		setAttributes( { iconId: 0, iconUrl: urlInput, iconAlt } );
+		setIsEditingUrl( false );
 	};
 
 	const removeIcon = () => {
 		setAttributes( { iconId: 0, iconUrl: '', iconAlt: '' } );
+		setIsEditingUrl( false );
 	};
 
 	return (
@@ -83,6 +96,46 @@ export default function Edit( {
 							) }
 						/>
 					</MediaUploadCheck>
+
+					<Button
+						variant="link"
+						onClick={ () => {
+							setUrlInput( iconUrl );
+							setIsEditingUrl( ( prev ) => ! prev );
+						} }
+						style={ { marginBottom: '8px' } }
+					>
+						{ __( 'Or enter an icon URL', 'theatrum-blocks' ) }
+					</Button>
+
+					{ isEditingUrl && (
+						<form
+							onSubmit={ ( event ) => {
+								event.preventDefault();
+								applyIconUrl();
+							} }
+							style={ { marginBottom: '8px' } }
+						>
+							<TextControl
+								type="url"
+								label={ __( 'Icon URL', 'theatrum-blocks' ) }
+								value={ urlInput }
+								onChange={ setUrlInput }
+								placeholder="https://"
+							/>
+							<Button
+								variant="secondary"
+								type="submit"
+								style={ {
+									width: '100%',
+									justifyContent: 'center',
+								} }
+							>
+								{ __( 'Apply', 'theatrum-blocks' ) }
+							</Button>
+						</form>
+					) }
+
 					{ iconUrl && (
 						<Fragment>
 							<img

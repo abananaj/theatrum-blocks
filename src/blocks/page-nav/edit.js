@@ -144,7 +144,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				) : (
 					<span className="theatrum-page-nav__placeholder">
 						{ __(
-							'Page Nav — links to on-page sections appear here on the front end. Add a Group with HTML element “<section>” and an HTML Anchor to generate a link.',
+							'Page Nav — links to on-page sections appear here on the front end. Add a Group with HTML element “<section>” and an HTML Anchor to generate a link. A Query Loop can also generate one link per post — give the Query Loop block itself an HTML Anchor (not previewed here, since results depend on the live query).',
 							'theatrum-blocks'
 						) }
 					</span>

@@ -43,12 +43,27 @@ if ($value === '' || $value === false) {
   return;
 }
 
-// Handle arrays/objects
-if (is_array($value) || is_object($value)) {
-  $value = json_encode($value);
-}
-
 $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $wrapper_class)) );
+
+// Handle arrays/objects — render each item in its own <span> instead of
+// collapsing the value into a JSON blob.
+if (is_array($value) || is_object($value)) {
+  $items = is_object($value) ? (array) $value : $value;
+  $spans = array();
+  foreach ($items as $item) {
+    $item    = (is_array($item) || is_object($item)) ? wp_json_encode($item) : (string) $item;
+    $spans[] = '<span>' . esc_html($item) . '</span>';
+  }
+
+  printf(
+    '<div %s>%s%s%s</div>',
+    $wrapper_attrs,
+    esc_html($prepend),
+    implode('', $spans),
+    esc_html($append)
+  );
+  return;
+}
 
 // WYSIWYG/rich-text fields (e.g. ACF `widget_content`) store raw TinyMCE
 // output: blank-line-separated text, not literal <p> tags. Core defers that

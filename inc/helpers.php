@@ -268,6 +268,20 @@ function theatrum_repeater_resolve_value($value)
 }
 
 /**
+ * Escape a resolved repeater subfield value for output, while preserving
+ * manual `<br>` line breaks — editors use plain ACF text fields for
+ * repeater subfields (no WYSIWYG per-row) and have adopted typing a literal
+ * `<br />` to split a row into multiple lines. esc_html() alone would print
+ * that literally instead of breaking the line.
+ *
+ * @param string $value Already-resolved (theatrum_repeater_resolve_value()) subfield text.
+ */
+function theatrum_repeater_escape_value($value)
+{
+	return wp_kses((string) $value, array('br' => array()));
+}
+
+/**
  * Resolve a meta value into a list of displayable items.
  *
  * Accepts a single value or an array of values (post IDs, WP_Post objects,

@@ -70,6 +70,16 @@
       "minimum": 1,
       "maximum": 8
     },
+    "columnsTablet": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "columnsMobile": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 8
+    },
     "linkTo": {
       "type": "string",
       "default": "none"
@@ -85,6 +95,10 @@
     "randomOrder": {
       "type": "boolean",
       "default": false
+    },
+    "imageLimit": {
+      "type": "number",
+      "minimum": 1
     },
     "caption": {
       "type": "rich-text",
@@ -108,6 +122,12 @@
     "aspectRatio": {
       "type": "string",
       "default": "auto"
+    },
+    "customWidth": {
+      "type": "number"
+    },
+    "customHeight": {
+      "type": "number"
     },
     "linkTarget": {
       "type": "string"

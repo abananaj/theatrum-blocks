@@ -27,7 +27,8 @@
 
 	// Gallery list items
 	.blocks-gallery-item {
-		flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
+		flex: 1 1 calc((100% / var(--theatrum-gallery-columns, 3)) - (var(--wp--style--unstable-gallery-gap, 16px) * (var(--theatrum-gallery-columns, 3) - 1) / var(--theatrum-gallery-columns, 3)));
+		max-width: calc((100% / var(--theatrum-gallery-columns, 3)) - (var(--wp--style--unstable-gallery-gap, 16px) * (var(--theatrum-gallery-columns, 3) - 1) / var(--theatrum-gallery-columns, 3)));
 		min-width: 0;
 		list-style: none;
 		margin: 0;
@@ -120,43 +121,26 @@
 		}
 	}
 
-	// Column configurations
-	&.columns-1 .blocks-gallery-item {
-		flex: 1 1 100%;
-	}
-
-	&.columns-2 .blocks-gallery-item {
-		flex: 1 1 calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
-	}
-
-	&.columns-3 .blocks-gallery-item {
-		flex: 1 1 calc(33.333333% - (var(--wp--style--unstable-gallery-gap, 16px) * 2 / 3));
-	}
-
-	&.columns-4 .blocks-gallery-item {
-		flex: 1 1 calc(25% - (var(--wp--style--unstable-gallery-gap, 16px) * 3 / 4));
-	}
-
-	&.columns-5 .blocks-gallery-item {
-		flex: 1 1 calc(20% - (var(--wp--style--unstable-gallery-gap, 16px) * 4 / 5));
-	}
-
-	&.columns-6 .blocks-gallery-item {
-		flex: 1 1 calc(16.666666% - (var(--wp--style--unstable-gallery-gap, 16px) * 5 / 6));
-	}
-
-	&.columns-7 .blocks-gallery-item {
-		flex: 1 1 calc(14.285714% - (var(--wp--style--unstable-gallery-gap, 16px) * 6 / 7));
-	}
-
-	&.columns-8 .blocks-gallery-item {
-		flex: 1 1 calc(12.5% - (var(--wp--style--unstable-gallery-gap, 16px) * 7 / 8));
-	}
-
 	// Gallery caption
 	.blocks-gallery-caption {
 		flex-basis: 100%;
 		margin-top: 8px;
 		padding: 0;
+	}
+}
+
+// Responsive columns — mirrors style.scss. The editor canvas is an iframe,
+// so these media queries apply when previewing tablet/mobile viewports.
+// Reassigning from the (already-resolved) -tablet/-mobile custom property
+// avoids a self-referencing cycle on --theatrum-gallery-columns itself.
+@media (max-width: 781px) {
+	.wp-block-theatrum-meta-gallery .wp-block-gallery.blocks-gallery-grid {
+		--theatrum-gallery-columns: var(--theatrum-gallery-columns-tablet);
+	}
+}
+
+@media (max-width: 599px) {
+	.wp-block-theatrum-meta-gallery .wp-block-gallery.blocks-gallery-grid {
+		--theatrum-gallery-columns: var(--theatrum-gallery-columns-mobile);
 	}
 }

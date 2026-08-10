@@ -9,7 +9,7 @@
 	"icon": "format-image",
 	"keywords": ["thumbnail", "list", "item"],
 	"parent": ["theatrum/list-thumbnail"],
-	"allowedBlocks": ["core/heading", "core/paragraph"],
+	"allowedBlocks": ["core/heading", "core/paragraph", "core/group"],
 	"usesContext": ["theatrum/imageSizeSlug"],
 	"supports": {
 		"html": false,
@@ -39,11 +39,12 @@
 	"attributes": {
 		"thumbnailId": {
 			"type": "number",
-			"default": 0
+			"default": 106035,
+			"description": "Media library attachment ID; defaults to the blue-gradient placeholder image"
 		},
 		"thumbnailUrl": {
 			"type": "string",
-			"default": ""
+			"default": "https://chance-theater.s3.us-west-1.amazonaws.com/2026/06/blue-gradient.png"
 		},
 		"thumbnailAlt": {
 			"type": "string",

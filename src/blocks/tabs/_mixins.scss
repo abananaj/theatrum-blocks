@@ -26,6 +26,11 @@
 @mixin tab-strip-layout {
 	display: flex;
 	flex-wrap: wrap;
+	// Horizontal-only: `gap` would also land between the header row and the
+	// panel below it (both are flex items here — see .ct-tab's
+	// `display: contents` note below). `column-gap` only ever applies
+	// between items on the same row, so it can't touch that vertical seam.
+	column-gap: 5px;
 
 	.ct-tab {
 		display: contents;

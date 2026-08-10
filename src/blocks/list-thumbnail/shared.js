@@ -21,6 +21,7 @@ function resolveSpacingPreset( value ) {
 export function getThumbnailListProps( attributes ) {
 	const {
 		thumbnailPosition,
+		verticalAlignment,
 		animationSpeed,
 		itemHeight,
 		itemHeightUnit,
@@ -52,8 +53,16 @@ export function getThumbnailListProps( attributes ) {
 	// through as a CSS custom property ourselves for the control to do anything.
 	const blockGap = resolveSpacingPreset( blockStyle?.spacing?.blockGap );
 
+	const verticalAlignmentMap = {
+		top: 'start',
+		center: 'center',
+		bottom: 'end',
+	};
+
 	const style = {
 		'--animation-speed': `${ animationSpeed }s`,
+		'--vertical-alignment':
+			verticalAlignmentMap[ verticalAlignment ] || 'start',
 		'--item-height': `${ itemHeight }${ itemHeightUnit }`,
 		'--thumb-width': `${ thumbnailWidth }${ thumbnailWidthUnit }`,
 		'--thumb-height': `${ thumbnailHeight }${ thumbnailHeightUnit }`,

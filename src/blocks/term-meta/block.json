@@ -67,6 +67,10 @@
 			"type": "string",
 			"default": "p"
 		},
+		"linkToPost": {
+			"type": "boolean",
+			"default": true
+		},
 		"prepend": {
 			"type": "string",
 			"default": ""

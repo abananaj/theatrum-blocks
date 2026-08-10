@@ -17,6 +17,8 @@ import {
 	PanelBody,
 	TextControl,
 	Spinner,
+	Flex,
+	FlexItem,
 } from '@wordpress/components';
 import {
 	InspectorControls,
@@ -40,18 +42,28 @@ const LINK_OPTIONS = [
 	{ label: 'Attachment Pages', value: 'attachment' },
 ];
 
+const SIZE_OPTIONS = [
+	...IMAGE_SIZE_OPTIONS,
+	{ label: 'Custom', value: 'custom' },
+];
+
 export default function Edit( { attributes, setAttributes, context } ) {
 	const {
 		metaKey,
 		sizeSlug,
 		columns,
+		columnsTablet,
+		columnsMobile,
 		linkTo,
 		imageCrop,
 		fixedHeight,
 		randomOrder,
+		imageLimit,
 		navigationButtonType,
 		allowResize,
 		aspectRatio,
+		customWidth,
+		customHeight,
 		fallbackText,
 	} = attributes;
 
@@ -77,17 +89,24 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		setIsLoading( true );
 
 		const size = sizeSlug || 'large';
-		apiFetch( {
-			path: `/theatrum/v1/meta-gallery/${ postId }/${ encodeURIComponent(
-				trimmedKey
-			) }?size=${ size }`,
-		} )
+		let path = `/theatrum/v1/meta-gallery/${ postId }/${ encodeURIComponent(
+			trimmedKey
+		) }?size=${ size }`;
+
+		if ( size === 'custom' && customWidth && customHeight ) {
+			path += `&width=${ customWidth }&height=${ customHeight }`;
+		}
+
+		apiFetch( { path } )
 			.then( ( data ) => {
 				let imageList = Array.isArray( data.images ) ? data.images : [];
 				if ( randomOrder ) {
 					imageList = [ ...imageList ].sort(
 						() => Math.random() - 0.5
 					);
+				}
+				if ( imageLimit ) {
+					imageList = imageList.slice( 0, imageLimit );
 				}
 				setImages( imageList );
 				setIsLoading( false );
@@ -96,37 +115,41 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				setImages( [] );
 				setIsLoading( false );
 			} );
-	}, [ metaKey, postId, randomOrder, sizeSlug ] );
+	}, [
+		metaKey,
+		postId,
+		randomOrder,
+		sizeSlug,
+		customWidth,
+		customHeight,
+		imageLimit,
+	] );
 
-	// Calculate gallery layout
+	// Calculate gallery layout — desktop/tablet/mobile column counts fall
+	// back down the chain so an unset breakpoint inherits the wider one,
+	// mirroring the CSS custom-property fallback in style.scss/editor.scss.
 	const numColumns = columns || 3;
+	const numColumnsTablet = columnsTablet || numColumns;
+	const numColumnsMobile = columnsMobile || numColumnsTablet;
 	const gap = 16;
-	const flexBasis =
-		numColumns > 1
-			? `calc(${ ( 100 / numColumns ).toFixed( 2 ) }% - ${ (
-					( gap * ( numColumns - 1 ) ) /
-					numColumns
-			  ).toFixed( 2 ) }px)`
-			: '100%';
 
 	const galleryClasses = clsx(
 		'wp-block-gallery',
 		'has-nested-images',
 		'blocks-gallery-grid',
 		{
-			[ `columns-${ numColumns }` ]: numColumns !== undefined,
 			'is-cropped': imageCrop,
 		}
 	);
 
 	const gridStyle = {
-		display: 'flex',
-		flexWrap: 'wrap',
-		gap: `${ gap }px`,
 		listStyle: 'none',
 		margin: 0,
 		padding: 0,
 		'--wp--style--unstable-gallery-gap': `${ gap }px`,
+		'--theatrum-gallery-columns': numColumns,
+		'--theatrum-gallery-columns-tablet': numColumnsTablet,
+		'--theatrum-gallery-columns-mobile': numColumnsMobile,
 	};
 
 	return (
@@ -144,17 +167,23 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							metaKey: '',
 							sizeSlug: 'large',
 							columns: undefined,
+							columnsTablet: undefined,
+							columnsMobile: undefined,
 							linkTo: 'none',
 							imageCrop: true,
 							fixedHeight: true,
 							randomOrder: false,
+							imageLimit: undefined,
 							navigationButtonType: 'icon',
 							allowResize: false,
 							aspectRatio: 'auto',
+							customWidth: undefined,
+							customHeight: undefined,
 						} );
 					} }
 				>
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => metaKey !== '' }
 						label={ __( 'Meta Key' ) }
 						panelId="theatrum/meta-gallery"
@@ -173,6 +202,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => columns !== undefined }
 						label={ __( 'Columns' ) }
 						panelId="theatrum/meta-gallery"
@@ -193,6 +223,55 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
+						hasValue={ () => columnsTablet !== undefined }
+						label={ __( 'Columns (Tablet)' ) }
+						panelId="theatrum/meta-gallery"
+						onDeselect={ () =>
+							setAttributes( { columnsTablet: undefined } )
+						}
+					>
+						<RangeControl
+							label={ __( 'Columns (Tablet)' ) }
+							value={ columnsTablet || numColumns }
+							onChange={ ( value ) =>
+								setAttributes( { columnsTablet: value } )
+							}
+							min={ 1 }
+							max={ 8 }
+							help={ __(
+								'Applies at tablet widths (781px and below). Defaults to the desktop column count.'
+							) }
+							__nextHasNoMarginBottom
+						/>
+					</ToolsPanelItem>
+
+					<ToolsPanelItem
+						isShownByDefault
+						hasValue={ () => columnsMobile !== undefined }
+						label={ __( 'Columns (Mobile)' ) }
+						panelId="theatrum/meta-gallery"
+						onDeselect={ () =>
+							setAttributes( { columnsMobile: undefined } )
+						}
+					>
+						<RangeControl
+							label={ __( 'Columns (Mobile)' ) }
+							value={ columnsMobile || numColumnsTablet }
+							onChange={ ( value ) =>
+								setAttributes( { columnsMobile: value } )
+							}
+							min={ 1 }
+							max={ 8 }
+							help={ __(
+								'Applies at mobile widths (599px and below). Defaults to the tablet column count.'
+							) }
+							__nextHasNoMarginBottom
+						/>
+					</ToolsPanelItem>
+
+					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => sizeSlug !== 'large' }
 						label={ __( 'Image Size' ) }
 						panelId="theatrum/meta-gallery"
@@ -206,12 +285,68 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							onChange={ ( value ) =>
 								setAttributes( { sizeSlug: value } )
 							}
-							options={ IMAGE_SIZE_OPTIONS }
+							options={ SIZE_OPTIONS }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
 
+					{ sizeSlug === 'custom' && (
+						<ToolsPanelItem
+							isShownByDefault
+							hasValue={ () => !! customWidth || !! customHeight }
+							label={ __( 'Custom Resolution' ) }
+							panelId="theatrum/meta-gallery"
+							onDeselect={ () =>
+								setAttributes( {
+									customWidth: undefined,
+									customHeight: undefined,
+								} )
+							}
+						>
+							<Flex>
+								<FlexItem isBlock>
+									<TextControl
+										label={ __( 'Width (px)' ) }
+										type="number"
+										min={ 1 }
+										value={ customWidth || '' }
+										onChange={ ( value ) =>
+											setAttributes( {
+												customWidth: value
+													? parseInt( value, 10 )
+													: undefined,
+											} )
+										}
+										__nextHasNoMarginBottom
+									/>
+								</FlexItem>
+								<FlexItem isBlock>
+									<TextControl
+										label={ __( 'Height (px)' ) }
+										type="number"
+										min={ 1 }
+										value={ customHeight || '' }
+										onChange={ ( value ) =>
+											setAttributes( {
+												customHeight: value
+													? parseInt( value, 10 )
+													: undefined,
+											} )
+										}
+										__nextHasNoMarginBottom
+									/>
+								</FlexItem>
+							</Flex>
+							<p className="components-base-control__help">
+								{ __(
+									'Requests the closest generated image size to these dimensions.'
+								) }
+							</p>
+						</ToolsPanelItem>
+					) }
+
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => linkTo !== 'none' }
 						label={ __( 'Link To' ) }
 						panelId="theatrum/meta-gallery"
@@ -229,6 +364,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => imageCrop !== true }
 						label={ __( 'Image Crop' ) }
 						panelId="theatrum/meta-gallery"
@@ -247,6 +383,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => fixedHeight !== true }
 						label={ __( 'Fixed Height' ) }
 						panelId="theatrum/meta-gallery"
@@ -265,6 +402,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => randomOrder !== false }
 						label={ __( 'Random Order' ) }
 						panelId="theatrum/meta-gallery"
@@ -283,6 +421,36 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
+						hasValue={ () => !! imageLimit }
+						label={ __( 'Limit' ) }
+						panelId="theatrum/meta-gallery"
+						onDeselect={ () =>
+							setAttributes( { imageLimit: undefined } )
+						}
+					>
+						<TextControl
+							label={ __( 'Limit number of images' ) }
+							type="number"
+							min={ 1 }
+							value={ imageLimit || '' }
+							onChange={ ( value ) =>
+								setAttributes( {
+									imageLimit: value
+										? parseInt( value, 10 )
+										: undefined,
+								} )
+							}
+							placeholder={ __( 'All' ) }
+							help={ __(
+								'Maximum number of images to display. Leave empty to show all.'
+							) }
+							__nextHasNoMarginBottom
+						/>
+					</ToolsPanelItem>
+
+					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => navigationButtonType !== 'icon' }
 						label={ __( 'Navigation Buttons' ) }
 						panelId="theatrum/meta-gallery"
@@ -315,6 +483,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => aspectRatio !== 'auto' }
 						label={ __( 'Aspect Ratio' ) }
 						panelId="theatrum/meta-gallery"
@@ -341,6 +510,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
+						isShownByDefault
 						hasValue={ () => allowResize !== false }
 						label={ __( 'Allow Resize' ) }
 						panelId="theatrum/meta-gallery"
@@ -394,14 +564,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				{ ! isLoading && images.length > 0 && (
 					<ul className={ galleryClasses } style={ gridStyle }>
 						{ images.map( ( img, idx ) => (
-							<li
-								key={ idx }
-								className="blocks-gallery-item"
-								style={ {
-									flex: `1 1 ${ flexBasis }`,
-									minWidth: 0,
-								} }
-							>
+							<li key={ idx } className="blocks-gallery-item">
 								<figure
 									style={ {
 										margin: 0,

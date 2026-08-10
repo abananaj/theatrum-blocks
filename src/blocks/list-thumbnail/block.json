@@ -81,6 +81,12 @@
 			"default": "right",
 			"enum": ["left", "right"]
 		},
+		"verticalAlignment": {
+			"type": "string",
+			"default": "top",
+			"enum": ["top", "center", "bottom"],
+			"description": "Vertical alignment of the list-items column against the flip-card thumbnail panel"
+		},
 		"animationSpeed": {
 			"type": "string",
 			"default": "0.3",

@@ -9,6 +9,7 @@ import {
 import {
 	SelectControl,
 	TextControl,
+	ToggleControl,
 	Spinner,
 	PanelBody,
 } from '@wordpress/components';
@@ -36,6 +37,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		headingText,
 		headingLevel,
 		tagName,
+		linkToPost = true,
 	} = attributes;
 	const isSeasonProducer = displayType === 'season-producer';
 	const Tag = tagName || 'p';
@@ -335,6 +337,15 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
+					<ToggleControl
+						label="Link to post"
+						checked={ linkToPost }
+						onChange={ ( value ) =>
+							setAttributes( { linkToPost: value } )
+						}
+						help="Wrap resolved post/term titles in a link"
+						__nextHasNoMarginBottom
+					/>
 				</PanelBody>
 			</InspectorControls>
 			{ isLoadingMeta ? (
@@ -349,7 +360,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							key={ item.id || `${ item.title }-${ i }` }
 						>
 							{ i > 0 && ', ' }
-							{ item.url ? (
+							{ linkToPost && item.url ? (
 								<a
 									href={ item.url }
 									onClick={ ( event ) =>

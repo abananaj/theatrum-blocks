@@ -11,6 +11,10 @@ const extraEntries = {
 	'style-book': path.resolve( __dirname, 'src/style-book.js' ),
 	'block-color': path.resolve( __dirname, 'src/block-color.js' ),
 	formats: path.resolve( __dirname, 'src/formats/index.js' ),
+	'rich-text-formats': path.resolve(
+		__dirname,
+		'src/rich-text-formats/index.js'
+	),
 };
 
 function withExtraEntries( config ) {

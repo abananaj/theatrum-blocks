@@ -23,7 +23,7 @@
 	.thumbnail-list-wrapper {
 		display: grid;
 		gap: var(--wp--style--block-gap, 2rem);
-		align-items: start;
+		align-items: var(--vertical-alignment, start);
 	}
 
 	.list-items {
