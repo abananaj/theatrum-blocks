@@ -262,6 +262,13 @@ function theatrum_get_post_meta_field_rest_callback($request)
 	$value = get_post_meta($post_id, $key, true);
 
 	if ($value === '' || $value === false) {
+		if ($request->get_param('fallback') === 'post_content') {
+			$post = get_post($post_id);
+			$fallback = $post ? apply_filters('the_content', $post->post_content) : '';
+			if (trim($fallback) !== '') {
+				return new WP_REST_Response(array('value' => $fallback), 200);
+			}
+		}
 		return new WP_REST_Response(array('value' => ''), 200);
 	}
 

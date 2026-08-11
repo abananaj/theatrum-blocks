@@ -1126,6 +1126,10 @@ return array(
 			'isHtml' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'fallbackToPostContent' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'usesContext' => array(

@@ -36,8 +36,11 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 		setIsLoading( true );
 
+		const params = [];
+		if ( attributes.isHtml ) params.push( 'html=1' );
+		if ( attributes.fallbackToPostContent ) params.push( 'fallback=post_content' );
 		const url = `/theatrum/v1/post-meta/${ postId }/${ attributes.keyInput }${
-			attributes.isHtml ? '?html=1' : ''
+			params.length ? `?${ params.join( '&' ) }` : ''
 		}`;
 
 		apiFetch( { path: url } )
@@ -49,7 +52,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				setDisplayValue( '' );
 				setIsLoading( false );
 			} );
-	}, [ attributes.keyInput, attributes.isHtml, postId ] );
+	}, [ attributes.keyInput, attributes.isHtml, attributes.fallbackToPostContent, postId ] );
 
 	const Tag = attributes.tagName || 'span';
 	const displayText = displayValue || `[${ attributes.keyInput }]`;
@@ -79,6 +82,15 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							setAttributes( { isHtml: value } )
 						}
 						help="For rich-text fields (e.g. ACF WYSIWYG like widget_content). Renders the field's markup instead of escaping it as plain text."
+						__nextHasNoMarginBottom
+					/>
+					<ToggleControl
+						label="Fallback to post content when empty"
+						checked={ !! attributes.fallbackToPostContent }
+						onChange={ ( value ) =>
+							setAttributes( { fallbackToPostContent: value } )
+						}
+						help="If this meta key has no value, show the post's own content instead."
 						__nextHasNoMarginBottom
 					/>
 					{ ! attributes.isHtml && (

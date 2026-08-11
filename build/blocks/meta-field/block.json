@@ -69,6 +69,10 @@
     "isHtml": {
       "type": "boolean",
       "default": false
+    },
+    "fallbackToPostContent": {
+      "type": "boolean",
+      "default": false
     }
   },
   "usesContext": [

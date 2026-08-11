@@ -29,6 +29,8 @@ $append    = $attributes['append'] ?? '';
 $is_html   = !empty($attributes['isHtml']);
 
 $wrapper_class = 'wp-block-theatrum-post-meta-field' . ($is_html ? ' is-html' : '');
+$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $wrapper_class)) );
+$fallback_to_post_content = !empty($attributes['fallbackToPostContent']);
 
 if (!$key_input) {
   theatrum_render_meta_empty_marker($tag_name, '', array('class' => $wrapper_class));
@@ -39,11 +41,16 @@ if (!$key_input) {
 $value = get_post_meta($post->ID, $key_input, true);
 
 if ($value === '' || $value === false) {
+  if ($fallback_to_post_content) {
+    $fallback = apply_filters('the_content', $post->post_content);
+    if (trim($fallback) !== '') {
+      printf('<div %s>%s</div>', $wrapper_attrs, $fallback);
+      return;
+    }
+  }
   theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => $wrapper_class));
   return;
 }
-
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $wrapper_class)) );
 
 // Handle arrays/objects — render each item in its own <span> instead of
 // collapsing the value into a JSON blob.
