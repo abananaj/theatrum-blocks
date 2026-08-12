@@ -20,6 +20,15 @@
     "rowspan": {
       "type": "number",
       "default": 1
+    },
+    "verticalAlign": {
+      "type": "string",
+      "enum": [
+        "top",
+        "middle",
+        "bottom"
+      ],
+      "default": "middle"
     }
   },
   "parent": [

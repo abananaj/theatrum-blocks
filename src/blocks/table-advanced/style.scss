@@ -14,6 +14,11 @@
 		thead th,
 		thead td {
 			position: sticky;
+			// The table is now wrapped in .tm-table-scroll-wrapper
+			// (overflow-y: auto), which becomes the sticky containing
+			// block instead of the viewport — so this sticks within
+			// the wrapper's own scroll, not against the page, and no
+			// longer needs to clear the site header's height.
 			top: 0;
 			z-index: 2;
 			background-color: var( --wp--preset--color--white, #fff );
@@ -100,11 +105,14 @@
 		> .block-editor-block-list__block {
 		flex: 1;
 		min-width: 0; // prevent text overflow breaking flex
-		// A header cell with an explicit width (set via its Dimensions
-		// panel) sizes to that width instead of sharing space equally, so
-		// the editor preview reflects the column width the same way
+		// A cell with an explicit width (set via its Dimensions panel)
+		// sizes to that width instead of sharing space equally, so the
+		// editor preview reflects the column width the same way
 		// table-layout: fixed does on the frontend.
-		&:has( > [data-has-column-width] ) {
+		// Not :has(> [data-has-column-width]) â useBlockProps() merges
+		// this wrapper class directly onto the cell's own root node, so
+		// the data attribute lands on this same element, not a child.
+		&[data-has-column-width] {
 			flex: 0 0 auto;
 			min-width: auto;
 		}
@@ -116,7 +124,7 @@
 	font-size:1em;
 	width: 100%;
 	// Keep native table-cell display so the frontend <th> aligns in columns.
-	// (Do NOT use display:flex here — it breaks the browser table layout.)
+	// (Do NOT use display:flex here Ã¢ÂÂ it breaks the browser table layout.)
 	vertical-align: middle;
 	.wp-block-paragraph {
 		width: 100%;
@@ -131,7 +139,7 @@
 
 	font-size:1em;
 	// Keep native table-cell display so the frontend <td> aligns in columns.
-	// (Do NOT use display:flex here — it breaks the browser table layout.)
+	// (Do NOT use display:flex here Ã¢ÂÂ it breaks the browser table layout.)
 	vertical-align: middle;
 	.wp-block-paragraph {
 		width: 100%;

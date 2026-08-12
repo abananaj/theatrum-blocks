@@ -47,10 +47,42 @@ const thIcon = (
 const TEMPLATE = [ [ 'core/paragraph', { placeholder: 'Header content' } ] ];
 
 const Edit = ( { attributes, setAttributes } ) => {
-	const { colspan, rowspan, scope, abbr, headers } = attributes;
+	const { colspan, rowspan, scope, abbr, headers, verticalAlign } =
+		attributes;
 	const columnWidth = attributes.style?.dimensions?.width;
+	const columnHeight = attributes.style?.dimensions?.height;
+	const columnMinWidth = attributes.style?.dimensions?.minWidth;
+	// Color and border supports use __experimentalSkipSerialization, so apply
+	// their classes/styles manually here too — otherwise they never reach the
+	// editor canvas, even though save() applies them to the frontend markup.
+	const colorProps = getColorClassesAndStyles( attributes );
+	const borderProps = getBorderClassesAndStyles( attributes );
+	// Dimensions (width/height/minWidth) block support only auto-applies CSS
+	// for dynamic blocks via get_block_wrapper_attributes() in render.php —
+	// this block is static (save()-based), so that pathway never runs. Apply
+	// the values manually here, same as color/border above.
+	const dimensionsStyle = {
+		...( columnWidth ? { width: columnWidth } : {} ),
+		...( columnHeight ? { height: columnHeight } : {} ),
+		...( columnMinWidth ? { minWidth: columnMinWidth } : {} ),
+	};
+	// "middle" is the CSS default (style.scss), so only emit an inline
+	// override when it differs — keeps already-saved cells validating
+	// without needing a deprecation.
+	const verticalAlignStyle =
+		verticalAlign && verticalAlign !== 'middle'
+			? { verticalAlign }
+			: {};
 	const blockProps = useBlockProps( {
-		className: 'tm-edit-th',
+		className: [ 'tm-edit-th', colorProps.className, borderProps.className ]
+			.filter( Boolean )
+			.join( ' ' ),
+		style: {
+			...colorProps.style,
+			...borderProps.style,
+			...dimensionsStyle,
+			...verticalAlignStyle,
+		},
 		'data-has-column-width': columnWidth ? '' : undefined,
 	} );
 
@@ -112,6 +144,18 @@ const Edit = ( { attributes, setAttributes } ) => {
 						}
 						help="Space-separated list of header cell IDs this cell relates to."
 					/>
+					<SelectControl
+						label="Vertical alignment"
+						value={ verticalAlign || 'middle' }
+						options={ [
+							{ label: 'Top', value: 'top' },
+							{ label: 'Middle', value: 'middle' },
+							{ label: 'Bottom', value: 'bottom' },
+						] }
+						onChange={ ( value ) =>
+							setAttributes( { verticalAlign: value } )
+						}
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
@@ -130,11 +174,27 @@ const Edit = ( { attributes, setAttributes } ) => {
 };
 
 const save = ( { attributes } ) => {
-	const { colspan, rowspan, scope, abbr, headers } = attributes;
+	const { colspan, rowspan, scope, abbr, headers, verticalAlign } =
+		attributes;
 	// Color and border supports use __experimentalSkipSerialization, so apply
 	// their classes/styles manually here — otherwise they never reach the markup.
 	const colorProps = getColorClassesAndStyles( attributes );
 	const borderProps = getBorderClassesAndStyles( attributes );
+	// Dimensions (width/height/minWidth) never auto-applies for static blocks
+	// (see Edit() above) — apply manually here too so it reaches the frontend.
+	const { width, height, minWidth } = attributes.style?.dimensions || {};
+	const dimensionsStyle = {
+		...( width ? { width } : {} ),
+		...( height ? { height } : {} ),
+		...( minWidth ? { minWidth } : {} ),
+	};
+	// "middle" is the CSS default (style.scss), so only emit an inline
+	// override when it differs — keeps already-saved cells validating
+	// without needing a deprecation.
+	const verticalAlignStyle =
+		verticalAlign && verticalAlign !== 'middle'
+			? { verticalAlign }
+			: {};
 	const blockProps = useBlockProps.save( {
 		className: [
 			'tm-table-heading-cell',
@@ -143,7 +203,12 @@ const save = ( { attributes } ) => {
 		]
 			.filter( Boolean )
 			.join( ' ' ),
-		style: { ...colorProps.style, ...borderProps.style },
+		style: {
+			...colorProps.style,
+			...borderProps.style,
+			...dimensionsStyle,
+			...verticalAlignStyle,
+		},
 	} );
 	const extraProps = {};
 	if ( colspan > 1 ) {
@@ -204,11 +269,56 @@ const v1 = {
 	},
 };
 
+// v2: save with color/border serialized but before dimensions
+// (width/height/minWidth) were also applied manually. Lets existing header
+// cells (saved before that fix) validate and auto-migrate.
+const v2 = {
+	attributes: metadata.attributes,
+	supports: metadata.supports,
+	save: ( { attributes } ) => {
+		const { colspan, rowspan, scope, abbr, headers } = attributes;
+		const colorProps = getColorClassesAndStyles( attributes );
+		const borderProps = getBorderClassesAndStyles( attributes );
+		const blockProps = useBlockProps.save( {
+			className: [
+				'tm-table-heading-cell',
+				colorProps.className,
+				borderProps.className,
+			]
+				.filter( Boolean )
+				.join( ' ' ),
+			style: { ...colorProps.style, ...borderProps.style },
+		} );
+		const extraProps = {};
+		if ( colspan > 1 ) {
+			extraProps.colSpan = colspan;
+		}
+		if ( rowspan > 1 ) {
+			extraProps.rowSpan = rowspan;
+		}
+		if ( scope ) {
+			extraProps.scope = scope;
+		}
+		if ( abbr ) {
+			extraProps.abbr = abbr;
+		}
+		if ( headers ) {
+			extraProps.headers = headers;
+		}
+
+		return (
+			<th { ...blockProps } { ...extraProps }>
+				<InnerBlocks.Content />
+			</th>
+		);
+	},
+};
+
 registerBlockType( metadata.name, {
 	icon: thIcon,
 	edit: Edit,
 	save,
-	deprecated: [ v1 ],
+	deprecated: [ v2, v1 ],
 	transforms: {
 		to: [
 			{

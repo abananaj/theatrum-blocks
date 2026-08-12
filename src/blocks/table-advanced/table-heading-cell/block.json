@@ -22,6 +22,11 @@
 		"scope": {
 			"type": "string",
 			"enum": ["row", "col", "rowgroup", "colgroup"]
+		},
+		"verticalAlign": {
+			"type": "string",
+			"enum": ["top", "middle", "bottom"],
+			"default": "middle"
 		}
 	},
 	"parent": ["theatrum/table-row"],

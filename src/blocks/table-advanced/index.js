@@ -168,15 +168,48 @@ const save = ( { attributes } ) => {
 	]
 		.filter( Boolean )
 		.join( ' ' );
+	// Wrapped in a plain scroll container (not on the table itself) so the
+	// <table> stays a single real table — tbody's own `display:
+	// table-row-group` silently ignores height/overflow/max-height in every
+	// browser, so clipping has to happen on an ancestor instead. Keeping
+	// this wrapper free of block-support classes/attributes means color,
+	// border, spacing etc. keep landing on the <table> exactly as before.
 	return (
-		<table { ...useBlockProps.save( { className } ) }>
-			<InnerBlocks.Content />
-		</table>
+		<div className="tm-table-scroll-wrapper">
+			<table { ...useBlockProps.save( { className } ) }>
+				<InnerBlocks.Content />
+			</table>
+		</div>
 	);
+};
+
+// v1: original save without the .tm-table-scroll-wrapper div. Lets existing
+// tables (saved before that wrapper was added) validate and auto-migrate.
+const v1 = {
+	attributes: metadata.attributes,
+	supports: metadata.supports,
+	save: ( { attributes } ) => {
+		const { tableLayoutFixed, stickyHeader, stickyFirstColumn } =
+			attributes;
+		const className = [
+			'tm-table-advanced',
+			tableLayoutFixed ? 'table-layout-fixed' : null,
+			stickyHeader ? 'sticky-header' : null,
+			stickyFirstColumn ? 'sticky-first-column' : null,
+		]
+			.filter( Boolean )
+			.join( ' ' );
+		return (
+			<table { ...useBlockProps.save( { className } ) }>
+				<InnerBlocks.Content />
+			</table>
+		);
+	},
 };
 
 registerBlockType( metadata.name, {
 	icon: tableIcon,
 	edit: Edit,
 	save,
+	deprecated: [ v1 ],
 } );

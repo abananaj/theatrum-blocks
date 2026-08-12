@@ -3592,6 +3592,15 @@ return array(
 			'rowspan' => array(
 				'type' => 'number',
 				'default' => 1
+			),
+			'verticalAlign' => array(
+				'type' => 'string',
+				'enum' => array(
+					'top',
+					'middle',
+					'bottom'
+				),
+				'default' => 'middle'
 			)
 		),
 		'parent' => array(
@@ -3902,6 +3911,15 @@ return array(
 					'rowgroup',
 					'colgroup'
 				)
+			),
+			'verticalAlign' => array(
+				'type' => 'string',
+				'enum' => array(
+					'top',
+					'middle',
+					'bottom'
+				),
+				'default' => 'middle'
 			)
 		),
 		'parent' => array(

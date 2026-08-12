@@ -29,6 +29,15 @@
         "rowgroup",
         "colgroup"
       ]
+    },
+    "verticalAlign": {
+      "type": "string",
+      "enum": [
+        "top",
+        "middle",
+        "bottom"
+      ],
+      "default": "middle"
     }
   },
   "parent": [
