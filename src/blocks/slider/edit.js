@@ -24,24 +24,24 @@ import { Fragment } from '@wordpress/element';
 import { PanelBody, ToggleControl, RangeControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-const TEMPLATE = [ [ 'theatrum/slider-item' ], [ 'theatrum/slider-item' ] ];
+const TEMPLATE = [['theatrum/slider-item'], ['theatrum/slider-item']];
 
-function useActiveDotIndex( clientId ) {
+function useActiveDotIndex(clientId) {
 	return useSelect(
-		( select ) => {
+		(select) => {
 			const {
 				getSelectedBlockClientId,
 				hasSelectedInnerBlock,
 				getBlockOrder,
-			} = select( blockEditorStore );
+			} = select(blockEditorStore);
 
-			const order = getBlockOrder( clientId );
+			const order = getBlockOrder(clientId);
 			const selectedClientId = getSelectedBlockClientId();
 
 			const activeIndex = order.findIndex(
-				( childId ) =>
+				(childId) =>
 					childId === selectedClientId ||
-					hasSelectedInnerBlock( childId, true )
+					hasSelectedInnerBlock(childId, true)
 			);
 
 			return {
@@ -49,26 +49,26 @@ function useActiveDotIndex( clientId ) {
 				total: order.length,
 			};
 		},
-		[ clientId ]
+		[clientId]
 	);
 }
 
-export default function Edit( { attributes, setAttributes, clientId } ) {
+export default function Edit({ attributes, setAttributes, clientId }) {
 	const { autoplay, autoplaySpeed } = attributes;
-	const { activeIndex, total } = useActiveDotIndex( clientId );
+	const { activeIndex, total } = useActiveDotIndex(clientId);
 
-	const blockProps = useBlockProps( {
+	const blockProps = useBlockProps({
 		// `is-ready` here (normally added by view.js after hydration) stops
 		// the no-JS fallback CSS from forcing the first slide to show — the
 		// editor already knows the true active slide via useSelect.
-		className: clsx( 'ct-slider', 'is-ready' ),
+		className: clsx('tm-slider', 'is-ready'),
 		'data-autoplay': autoplay ? 'true' : 'false',
 		'data-autoplay-speed': autoplaySpeed,
-	} );
+	});
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'ct-slider-track' },
+		{ className: 'tm-slider-track' },
 		{
-			allowedBlocks: [ 'theatrum/slider-item' ],
+			allowedBlocks: ['theatrum/slider-item'],
 			template: TEMPLATE,
 			templateLock: false,
 			renderAppender: InnerBlocks.ButtonBlockAppender,
@@ -79,63 +79,63 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		<Fragment>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Slider Settings', 'theatrum-blocks' ) }
-					initialOpen={ true }
+					title={__('Slider Settings', 'theatrum-blocks')}
+					initialOpen={true}
 				>
 					<ToggleControl
-						label={ __( 'Autoplay', 'theatrum-blocks' ) }
-						checked={ !! autoplay }
-						onChange={ ( value ) =>
-							setAttributes( { autoplay: value } )
+						label={__('Autoplay', 'theatrum-blocks')}
+						checked={!!autoplay}
+						onChange={(value) =>
+							setAttributes({ autoplay: value })
 						}
-						help={ __(
+						help={__(
 							'Automatically advance to the next slide',
 							'theatrum-blocks'
-						) }
+						)}
 					/>
-					{ autoplay && (
+					{autoplay && (
 						<RangeControl
-							label={ __(
+							label={__(
 								'Autoplay speed (ms)',
 								'theatrum-blocks'
-							) }
-							value={ autoplaySpeed }
-							onChange={ ( value ) =>
-								setAttributes( { autoplaySpeed: value } )
+							)}
+							value={autoplaySpeed}
+							onChange={(value) =>
+								setAttributes({ autoplaySpeed: value })
 							}
-							min={ 1000 }
-							max={ 10000 }
-							step={ 500 }
+							min={1000}
+							max={10000}
+							step={500}
 						/>
-					) }
+					)}
 				</PanelBody>
 			</InspectorControls>
 
-			<div { ...blockProps }>
-				<div className="ct-slider-wrapper">
-					<ul { ...innerBlocksProps } />
+			<div {...blockProps}>
+				<div className="tm-slider-wrapper">
+					<ul {...innerBlocksProps} />
 					<button
-						className="ct-slider-arrow ct-slider-prev"
-						aria-label={ __( 'Previous', 'theatrum-blocks' ) }
+						className="tm-slider-arrow tm-slider-prev"
+						aria-label={__('Previous', 'theatrum-blocks')}
 					>
 						❮
 					</button>
 					<button
-						className="ct-slider-arrow ct-slider-next"
-						aria-label={ __( 'Next', 'theatrum-blocks' ) }
+						className="tm-slider-arrow tm-slider-next"
+						aria-label={__('Next', 'theatrum-blocks')}
 					>
 						❯
 					</button>
 				</div>
-				<div className="ct-slider-dots">
-					{ Array.from( { length: total } ).map( ( _, index ) => (
+				<div className="tm-slider-dots">
+					{Array.from({ length: total }).map((_, index) => (
 						<span
-							key={ index }
-							className={ clsx( 'theatrum-slider-dot', {
+							key={index}
+							className={clsx('theatrum-slider-dot', {
 								'is-active': index === activeIndex,
-							} ) }
+							})}
 						/>
-					) ) }
+					))}
 				</div>
 			</div>
 		</Fragment>

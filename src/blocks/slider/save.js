@@ -9,36 +9,36 @@
 
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
-export default function save( { attributes } ) {
+export default function save({ attributes }) {
 	const { autoplay, autoplaySpeed } = attributes;
 
-	const blockProps = useBlockProps.save( {
-		className: 'ct-slider',
+	const blockProps = useBlockProps.save({
+		className: 'tm-slider',
 		'data-autoplay': autoplay ? 'true' : 'false',
 		'data-autoplay-speed': autoplaySpeed,
-	} );
-	const innerBlocksProps = useInnerBlocksProps.save( {
-		className: 'ct-slider-track',
-	} );
+	});
+	const innerBlocksProps = useInnerBlocksProps.save({
+		className: 'tm-slider-track',
+	});
 
 	return (
-		<div { ...blockProps }>
-			<div className="ct-slider-wrapper">
-				<ul { ...innerBlocksProps } />
+		<div {...blockProps}>
+			<div className="tm-slider-wrapper">
+				<ul {...innerBlocksProps} />
 				<button
-					className="ct-slider-arrow ct-slider-prev"
+					className="tm-slider-arrow tm-slider-prev"
 					aria-label="Previous"
 				>
 					❮
 				</button>
 				<button
-					className="ct-slider-arrow ct-slider-next"
+					className="tm-slider-arrow tm-slider-next"
 					aria-label="Next"
 				>
 					❯
 				</button>
 			</div>
-			<div className="ct-slider-dots"></div>
+			<div className="tm-slider-dots"></div>
 		</div>
 	);
 }

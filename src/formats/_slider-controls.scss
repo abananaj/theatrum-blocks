@@ -4,7 +4,7 @@
 // formats/slider.js on core/query and core/gallery, which don't nest under
 // `.ct-slider`.
 
-.ct-slider-arrow {
+.tm-slider-arrow {
 	cursor: pointer;
 	position: absolute;
 	top: 50%;
@@ -26,11 +26,11 @@
 	transition: 0.3s ease;
 	user-select: none;
 
-	&.ct-slider-prev {
+	&.tm-slider-prev {
 		left: 8px;
 	}
-
-	&.ct-slider-next {
+			// animation: tm-slider-fade 1.5s;
+	&.tm-slider-next {
 		right: 8px;
 	}
 
@@ -39,7 +39,7 @@
 	}
 }
 
-.ct-slider-dots {
+	.tm-slider-dots {
 	text-align: center;
 	margin-top: 8px;
 }
@@ -60,20 +60,20 @@
 	}
 }
 
-@keyframes ct-slider-fade {
+// @keyframes tm-slider-fade {
 
-	from {
-		opacity: 0.4;
-	}
+// 	from {
+// 		opacity: 0.4;
+// 	}
 
-	to {
-		opacity: 1;
-	}
-}
+// 	to {
+// 		opacity: 1;
+// 	}
+// }
 
 @media only screen and (max-width: 300px) {
 
-	.ct-slider-arrow {
+	.tm-slider-arrow {
 		font-size: 11px;
 	}
 }

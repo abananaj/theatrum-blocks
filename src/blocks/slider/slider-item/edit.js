@@ -18,49 +18,49 @@ import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 const TEMPLATE = [
-	[ 'core/image', {} ],
+	['core/image', {}],
 	[
 		'core/paragraph',
-		{ placeholder: __( 'Caption text', 'theatrum-blocks' ) },
+		{ placeholder: __('Caption text', 'theatrum-blocks') },
 	],
 ];
 
-function useSlidePosition( clientId, isSelected ) {
+function useSlidePosition(clientId, isSelected) {
 	return useSelect(
-		( select ) => {
+		(select) => {
 			const {
 				hasSelectedInnerBlock,
 				getBlockRootClientId,
 				getBlockOrder,
-			} = select( blockEditorStore );
+			} = select(blockEditorStore);
 
-			const parentClientId = getBlockRootClientId( clientId );
-			const order = getBlockOrder( parentClientId );
-			const index = order.indexOf( clientId );
+			const parentClientId = getBlockRootClientId(clientId);
+			const order = getBlockOrder(parentClientId);
+			const index = order.indexOf(clientId);
 
 			let isActive;
-			if ( isSelected || hasSelectedInnerBlock( clientId, true ) ) {
+			if (isSelected || hasSelectedInnerBlock(clientId, true)) {
 				isActive = true;
-			} else if ( hasSelectedInnerBlock( parentClientId, true ) ) {
+			} else if (hasSelectedInnerBlock(parentClientId, true)) {
 				isActive = false;
 			} else {
-				isActive = order[ 0 ] === clientId;
+				isActive = order[0] === clientId;
 			}
 
 			return { index, total: order.length, isActive };
 		},
-		[ clientId, isSelected ]
+		[clientId, isSelected]
 	);
 }
 
-export default function Edit( { clientId, isSelected } ) {
-	const { index, total, isActive } = useSlidePosition( clientId, isSelected );
+export default function Edit({ clientId, isSelected }) {
+	const { index, total, isActive } = useSlidePosition(clientId, isSelected);
 
-	const blockProps = useBlockProps( {
-		className: clsx( 'ct-slider-slide', { 'is-active': isActive } ),
-	} );
+	const blockProps = useBlockProps({
+		className: clsx('tm-slider-slide', { 'is-active': isActive }),
+	});
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'ct-slider-slide__content' },
+		{ className: 'tm-slider-slide__content' },
 		{
 			template: TEMPLATE,
 			templateLock: false,
@@ -68,11 +68,11 @@ export default function Edit( { clientId, isSelected } ) {
 	);
 
 	return (
-		<li { ...blockProps }>
+		<li {...blockProps}>
 			<div className="theatrum-slider-slide__number">
-				{ index + 1 } / { total }
+				{index + 1} / {total}
 			</div>
-			<div { ...innerBlocksProps } />
+			<div {...innerBlocksProps} />
 		</li>
 	);
 }

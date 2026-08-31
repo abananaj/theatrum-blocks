@@ -1,6 +1,6 @@
 // Slider — front-end + shared styles.
 //
-// Only one .ct-slider-slide is visible at a time (.is-active), faded in via
+// Only one .tm-slider-slide is visible at a time (.is-active), faded in via
 // @keyframes ct-slider-fade. Shared between the frontend and the editor
 // (block.json's "style" key loads this in both places) — the editor derives
 // `.is-active` from block selection instead of clicks/autoplay (see
@@ -10,22 +10,20 @@
 // @keyframes ct-slider-fade are shared with the is-style-ct-slider format on
 // core/query and core/gallery — see ../../formats/_slider-controls.scss.
 @use "../../formats/slider-controls";
-
-.ct-slider {
+.tm-slider {
 	max-width: 1000px;
 	margin: 0 auto;
-
-	.ct-slider-wrapper {
+.tm-slider-wrapper {
 		position: relative;
 	}
 
-	.ct-slider-track {
+	.tm-slider-track{
 		list-style: none;
 		margin: 0;
 		padding: 0;
 	}
 
-	.ct-slider-slide {
+	.tm-slider-slide{
 		display: none;
 		position: relative;
 
@@ -42,7 +40,7 @@
 
 	// No-JS / pre-hydration fallback: keep the first slide visible until
 	// view.js takes over (it adds `.is-ready`).
-	&:not(.is-ready) .ct-slider-slide:first-child {
+	&:not(.is-ready) .tm-slider-slide:first-child {
 		display: block;
 	}
 
@@ -58,7 +56,7 @@
 
 @media only screen and (max-width: 300px) {
 
-	.ct-slider {
+	.tm-slider {
 
 		.theatrum-slider-slide__number {
 			font-size: 11px;

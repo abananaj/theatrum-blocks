@@ -107,21 +107,21 @@
 		}
 	}
 
-	.ct-carousel-card {
-		// carousel-item has no `layout` support (removed so users lay out
-		// card content with a nested Group/Row instead), so the vertical
-		// stack is set explicitly here rather than via block-support classes.
-		display: flex;
-		flex-direction: column;
-		position: relative;
-		// Clips card content (esp. the image) to the block's own border-radius
-		// support — otherwise the image's square corners poke past a rounded card.
-		overflow: hidden;
-		user-select: none;
-		margin: 10px 0;
-		padding: 16px;
-		font-size: 14px;
-	}
+// 	.ct-carousel-card { ************* MOVED TO THEME scss/cards.scss
+// 		// carousel-item has no `layout` support (removed so users lay out
+// 		// card content with a nested Group/Row instead), so the vertical
+// 		// stack is set explicitly here rather than via block-support classes.
+// 		display: flex;
+// 		flex-direction: column;
+// 		position: relative;
+// 		// Clips card content (esp. the image) to the block's own border-radius
+// 		// support — otherwise the image's square corners poke past a rounded card.
+// 		overflow: hidden;
+// 		user-select: none;
+// 		margin: 10px 0;
+// 		padding: 16px;
+// 		font-size: 14px;
+// 	}
 }
 
 .disclaimer {
