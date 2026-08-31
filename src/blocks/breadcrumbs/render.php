@@ -9,7 +9,7 @@
  * @package Theatrum_Blocks
  */
 
-if ( ! function_exists( 'render_block_core_breadcrumbs' ) ) {
+if ( ! function_exists( 'theatrum_render_breadcrumbs' ) ) {
 /**
  * Server-side rendering of the `core/breadcrumbs` block.
  *
@@ -27,7 +27,7 @@ if ( ! function_exists( 'render_block_core_breadcrumbs' ) ) {
  *
  * @return string Returns the post breadcrumb for hierarchical post types.
  */
-function render_block_core_breadcrumbs( $attributes, $content, $block ) {
+function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 	$is_front_page = is_front_page();
 
 	if ( ! $attributes['showOnHomePage'] && $is_front_page ) {
@@ -47,7 +47,7 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
 				'url'   => home_url( '/' ),
 			);
 		} else {
-			$breadcrumb_items[] = block_core_breadcrumbs_create_item( __( 'Home' ), block_core_breadcrumbs_is_paged() );
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_item( __( 'Home' ), theatrum_breadcrumbs_is_paged() );
 		}
 	}
 
@@ -55,27 +55,27 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
 	if ( $is_home ) {
 		// These checks are explicitly nested in order not to execute the `else` branch.
 		if ( $page_for_posts ) {
-			$breadcrumb_items[] = block_core_breadcrumbs_create_item( block_core_breadcrumbs_get_post_title( $page_for_posts ), block_core_breadcrumbs_is_paged() );
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_item( theatrum_breadcrumbs_get_post_title( $page_for_posts ), theatrum_breadcrumbs_is_paged() );
 		}
-		if ( block_core_breadcrumbs_is_paged() ) {
-			$breadcrumb_items[] = block_core_breadcrumbs_create_page_number_item();
+		if ( theatrum_breadcrumbs_is_paged() ) {
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item();
 		}
 	} elseif ( $is_front_page ) {
 		// Handle front page.
 		// This check is explicitly nested in order not to execute the `else` branch.
 		// If front page is set to custom page and is paged, add the page number.
 		if ( (int) get_query_var( 'page' ) > 1 ) {
-			$breadcrumb_items[] = block_core_breadcrumbs_create_page_number_item( 'page' );
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item( 'page' );
 		}
 	} elseif ( is_search() ) {
 		// Handle search results.
-		$is_paged = block_core_breadcrumbs_is_paged();
+		$is_paged = theatrum_breadcrumbs_is_paged();
 		/* translators: %s: search query */
 		$text               = sprintf( __( 'Search results for: "%s"' ), wp_trim_words( get_search_query(), 10 ) );
-		$breadcrumb_items[] = block_core_breadcrumbs_create_item( $text, $is_paged );
+		$breadcrumb_items[] = theatrum_breadcrumbs_create_item( $text, $is_paged );
 		// Add the "Page X" as the current page if paginated.
 		if ( $is_paged ) {
-			$breadcrumb_items[] = block_core_breadcrumbs_create_page_number_item();
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item();
 		}
 	} elseif ( is_404() ) {
 		// Handle 404 pages.
@@ -84,7 +84,7 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
 		);
 	} elseif ( is_archive() ) {
 		// Handle archive pages (taxonomy, post type, date, author archives).
-		$archive_breadcrumbs = block_core_breadcrumbs_get_archive_breadcrumbs();
+		$archive_breadcrumbs = theatrum_breadcrumbs_get_archive_breadcrumbs();
 		if ( ! empty( $archive_breadcrumbs ) ) {
 			$breadcrumb_items = array_merge( $breadcrumb_items, $archive_breadcrumbs );
 		}
@@ -132,7 +132,7 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
 		if ( $archive_link && untrailingslashit( home_url() ) !== untrailingslashit( $archive_link ) ) {
 			$label = $post_type_object->labels->archives;
 			if ( 'post' === $post_type && $page_for_posts ) {
-				$label = block_core_breadcrumbs_get_post_title( $page_for_posts );
+				$label = theatrum_breadcrumbs_get_post_title( $page_for_posts );
 			}
 			$breadcrumb_items[] = array(
 				'label' => $label,
@@ -141,14 +141,14 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
 		}
 		// Build breadcrumb trail based on hierarchical structure or taxonomy terms.
 		if ( ! $show_terms ) {
-			$breadcrumb_items = array_merge( $breadcrumb_items, block_core_breadcrumbs_get_hierarchical_post_type_breadcrumbs( $post_id ) );
+			$breadcrumb_items = array_merge( $breadcrumb_items, theatrum_breadcrumbs_get_hierarchical_post_type_breadcrumbs( $post_id ) );
 		} else {
-			$breadcrumb_items = array_merge( $breadcrumb_items, block_core_breadcrumbs_get_terms_breadcrumbs( $post_id, $post_type ) );
+			$breadcrumb_items = array_merge( $breadcrumb_items, theatrum_breadcrumbs_get_terms_breadcrumbs( $post_id, $post_type ) );
 		}
 
 		// Add post title: linked when viewing a paginated page, plain text otherwise.
 		$is_paged = (int) get_query_var( 'page' ) > 1 || (int) get_query_var( 'cpage' ) > 1;
-		$title    = block_core_breadcrumbs_get_post_title( $post );
+		$title    = theatrum_breadcrumbs_get_post_title( $post );
 
 		if ( $is_paged ) {
 			$breadcrumb_items[] = array(
@@ -156,7 +156,7 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
 				'url'        => get_permalink( $post ),
 				'allow_html' => true,
 			);
-			$breadcrumb_items[] = block_core_breadcrumbs_create_page_number_item( (int) get_query_var( 'cpage' ) > 1 ? 'cpage' : 'page' );
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item( (int) get_query_var( 'cpage' ) > 1 ? 'cpage' : 'page' );
 		} else {
 			$breadcrumb_items[] = array(
 				'label'      => $title,
@@ -229,7 +229,7 @@ function render_block_core_breadcrumbs( $attributes, $content, $block ) {
  *
  * @return bool True if paged > 1, false otherwise.
  */
-function block_core_breadcrumbs_is_paged() {
+function theatrum_breadcrumbs_is_paged() {
 	$paged = (int) get_query_var( 'paged' );
 	return $paged > 1;
 }
@@ -241,7 +241,7 @@ function block_core_breadcrumbs_is_paged() {
  * @param string $query_var Optional. Query variable to get current page number. Default 'paged'.
  * @return array The "Page X" breadcrumb item data.
  */
-function block_core_breadcrumbs_create_page_number_item( $query_var = 'paged' ) {
+function theatrum_breadcrumbs_create_page_number_item( $query_var = 'paged' ) {
 	$paged = (int) get_query_var( $query_var );
 
 	if ( 'cpage' === $query_var ) {
@@ -277,7 +277,7 @@ function block_core_breadcrumbs_create_page_number_item( $query_var = 'paged' ) 
  *
  * @return array The breadcrumb item data.
  */
-function block_core_breadcrumbs_create_item( $text, $is_paged = false ) {
+function theatrum_breadcrumbs_create_item( $text, $is_paged = false ) {
 	$item = array( 'label' => $text );
 	if ( $is_paged ) {
 		$item['url'] = get_pagenum_link( 1 );
@@ -294,7 +294,7 @@ function block_core_breadcrumbs_create_item( $text, $is_paged = false ) {
  *
  * @return string The post title or fallback text.
  */
-function block_core_breadcrumbs_get_post_title( $post_id_or_object ) {
+function theatrum_breadcrumbs_get_post_title( $post_id_or_object ) {
 	$title = get_the_title( $post_id_or_object );
 	if ( strlen( $title ) === 0 ) {
 		$title = __( '(no title)' );
@@ -311,14 +311,14 @@ function block_core_breadcrumbs_get_post_title( $post_id_or_object ) {
  *
  * @return array Array of breadcrumb item data.
  */
-function block_core_breadcrumbs_get_hierarchical_post_type_breadcrumbs( $post_id ) {
+function theatrum_breadcrumbs_get_hierarchical_post_type_breadcrumbs( $post_id ) {
 	$breadcrumb_items = array();
 	$ancestors        = get_post_ancestors( $post_id );
 	$ancestors        = array_reverse( $ancestors );
 
 	foreach ( $ancestors as $ancestor_id ) {
 		$breadcrumb_items[] = array(
-			'label'      => block_core_breadcrumbs_get_post_title( $ancestor_id ),
+			'label'      => theatrum_breadcrumbs_get_post_title( $ancestor_id ),
 			'url'        => get_permalink( $ancestor_id ),
 			'allow_html' => true,
 		);
@@ -338,7 +338,7 @@ function block_core_breadcrumbs_get_hierarchical_post_type_breadcrumbs( $post_id
  *
  * @return array Array of breadcrumb item data for ancestors.
  */
-function block_core_breadcrumbs_get_term_ancestors_items( $term_id, $taxonomy ) {
+function theatrum_breadcrumbs_get_term_ancestors_items( $term_id, $taxonomy ) {
 	$breadcrumb_items = array();
 
 	// Check if taxonomy is hierarchical and add ancestor term links.
@@ -369,7 +369,7 @@ function block_core_breadcrumbs_get_term_ancestors_items( $term_id, $taxonomy ) 
  *
  * @return array Array of breadcrumb item data.
  */
-function block_core_breadcrumbs_get_archive_breadcrumbs() {
+function theatrum_breadcrumbs_get_archive_breadcrumbs() {
 	$breadcrumb_items = array();
 
 	// Date archive (check first since it doesn't have a queried object).
@@ -389,7 +389,7 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 			}
 		}
 
-		$is_paged = block_core_breadcrumbs_is_paged();
+		$is_paged = theatrum_breadcrumbs_is_paged();
 
 		if ( $year ) {
 			if ( $month ) {
@@ -406,20 +406,20 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 						'url'   => get_month_link( $year, $month ),
 					);
 					// Add day (current if not paginated, link if paginated).
-					$breadcrumb_items[] = block_core_breadcrumbs_create_item(
+					$breadcrumb_items[] = theatrum_breadcrumbs_create_item(
 						$day,
 						$is_paged
 					);
 				} else {
 					// Add month (current if not paginated, link if paginated).
-					$breadcrumb_items[] = block_core_breadcrumbs_create_item(
+					$breadcrumb_items[] = theatrum_breadcrumbs_create_item(
 						date_i18n( 'F', mktime( 0, 0, 0, $month, 1, $year ) ),
 						$is_paged
 					);
 				}
 			} else {
 				// Add year (current if not paginated, link if paginated).
-				$breadcrumb_items[] = block_core_breadcrumbs_create_item(
+				$breadcrumb_items[] = theatrum_breadcrumbs_create_item(
 					$year,
 					$is_paged
 				);
@@ -428,7 +428,7 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 
 		// Add pagination breadcrumb if on a paged date archive.
 		if ( $is_paged ) {
-			$breadcrumb_items[] = block_core_breadcrumbs_create_page_number_item();
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item();
 		}
 
 		return $breadcrumb_items;
@@ -441,7 +441,7 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 		return array();
 	}
 
-	$is_paged = block_core_breadcrumbs_is_paged();
+	$is_paged = theatrum_breadcrumbs_is_paged();
 
 	// Taxonomy archive (category, tag, custom taxonomy).
 	if ( $queried_object instanceof WP_Term ) {
@@ -451,11 +451,11 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 		// Add hierarchical term ancestors if applicable.
 		$breadcrumb_items = array_merge(
 			$breadcrumb_items,
-			block_core_breadcrumbs_get_term_ancestors_items( $term->term_id, $taxonomy )
+			theatrum_breadcrumbs_get_term_ancestors_items( $term->term_id, $taxonomy )
 		);
 
 		// Add current term (current if not paginated, link if paginated).
-		$breadcrumb_items[] = block_core_breadcrumbs_create_item(
+		$breadcrumb_items[] = theatrum_breadcrumbs_create_item(
 			$term->name,
 			$is_paged
 		);
@@ -472,7 +472,7 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 
 		if ( $post_type_object ) {
 			// Add post type (current if not paginated, link if paginated).
-			$breadcrumb_items[] = block_core_breadcrumbs_create_item(
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_item(
 				$title ? $title : $post_type_object->labels->archives,
 				$is_paged
 			);
@@ -481,7 +481,7 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 		// Author archive.
 		$author = $queried_object;
 		// Add author (current if not paginated, link if paginated).
-		$breadcrumb_items[] = block_core_breadcrumbs_create_item(
+		$breadcrumb_items[] = theatrum_breadcrumbs_create_item(
 			$author->display_name,
 			$is_paged
 		);
@@ -489,7 +489,7 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
 
 	// Add pagination breadcrumb if on a paged archive.
 	if ( $is_paged ) {
-		$breadcrumb_items[] = block_core_breadcrumbs_create_page_number_item();
+		$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item();
 	}
 
 	return $breadcrumb_items;
@@ -508,7 +508,7 @@ function block_core_breadcrumbs_get_archive_breadcrumbs() {
  *
  * @return array Array of breadcrumb item data.
  */
-function block_core_breadcrumbs_get_terms_breadcrumbs( $post_id, $post_type ) {
+function theatrum_breadcrumbs_get_terms_breadcrumbs( $post_id, $post_type ) {
 	$breadcrumb_items = array();
 
 	// Get public taxonomies for this post type.
@@ -596,7 +596,7 @@ function block_core_breadcrumbs_get_terms_breadcrumbs( $post_id, $post_type ) {
 		// Add hierarchical term ancestors if applicable.
 		$breadcrumb_items   = array_merge(
 			$breadcrumb_items,
-			block_core_breadcrumbs_get_term_ancestors_items( $term->term_id, $taxonomy_name )
+			theatrum_breadcrumbs_get_term_ancestors_items( $term->term_id, $taxonomy_name )
 		);
 		$breadcrumb_items[] = array(
 			'label' => $term->name,
@@ -607,4 +607,4 @@ function block_core_breadcrumbs_get_terms_breadcrumbs( $post_id, $post_type ) {
 }
 }
 
-echo render_block_core_breadcrumbs( $attributes, $content, $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo theatrum_render_breadcrumbs( $attributes, $content, $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
