@@ -59,8 +59,8 @@ $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ',
 ?>
 <div <?php echo wp_kses_data( $wrapper_attributes ); ?>>
   <div class="theatrum-card">
-    <a class="theatrum-card__link" href="<?php echo esc_url($post_permalink); ?>" <?php echo $target; ?> aria-label="<?php echo esc_attr($post_title); ?>"></a>
-    <div class="user-content" style="<?php echo esc_attr($bg_style); ?>"><?php echo do_blocks($content); ?></div>
+    <a class="theatrum-card__link" href="<?php echo esc_url($post_permalink); ?>" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $target is a fixed literal (' target="_blank" rel="noopener noreferrer"' or ''). ?> aria-label="<?php echo esc_attr($post_title); ?>"></a>
+    <div class="user-content" style="<?php echo esc_attr($bg_style); ?>"><?php echo do_blocks($content); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- InnerBlocks output rendered by the block pipeline. ?></div>
     <div class="bottom-bar">
       <h4 class="dates"><?php
                         if ('event' === $post->post_type) {
@@ -85,17 +85,17 @@ $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ',
         if ($button_text) :
           $href = $button_url ?: $post_permalink;
         ?>
-          <a href="<?php echo esc_url($href); ?>" class="button" <?php echo $target; ?>><?php echo esc_html($button_text); ?></a>
+          <a href="<?php echo esc_url($href); ?>" class="button" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $target is a fixed literal. ?>><?php echo esc_html($button_text); ?></a>
         <?php endif; ?>
         <?php if ($button2_text) :
           $href2 = $button2_url ?: $post_permalink;
         ?>
-          <a href="<?php echo esc_url($href2); ?>" class="button" <?php echo $target; ?>><?php echo esc_html($button2_text); ?></a>
+          <a href="<?php echo esc_url($href2); ?>" class="button" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $target is a fixed literal. ?>><?php echo esc_html($button2_text); ?></a>
         <?php endif; ?>
         <?php if ($button3_text) :
           $href3 = $button3_url ?: $post_permalink;
         ?>
-          <a href="<?php echo esc_url($href3); ?>" class="button" <?php echo $target; ?>><?php echo esc_html($button3_text); ?></a>
+          <a href="<?php echo esc_url($href3); ?>" class="button" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $target is a fixed literal. ?>><?php echo esc_html($button3_text); ?></a>
         <?php endif; ?>
       </div>
     </div>

@@ -49,7 +49,7 @@ $wrapper_attributes = get_block_wrapper_attributes($wrapper_extra_attributes);
           <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <?php echo $content; ?>
+      <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- InnerBlocks output rendered by the block pipeline. ?>
     </div>
   </div>
 </div>

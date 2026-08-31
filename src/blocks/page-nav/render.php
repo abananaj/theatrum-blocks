@@ -36,4 +36,4 @@ $wrapper_attributes = get_block_wrapper_attributes(array(
 	'hidden'                => 'hidden',
 ));
 
-printf('<nav %s></nav>', $wrapper_attributes);
+printf('<nav %s></nav>', wp_kses_data($wrapper_attributes));

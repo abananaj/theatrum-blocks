@@ -239,8 +239,9 @@ $ul_style = $columns_style . $gap_style;
 printf(
   '<figure %s%s><ul class="wp-block-gallery blocks-gallery-grid" style="%s">%s</ul>%s</figure>',
   wp_kses_data( get_block_wrapper_attributes(['class' => $wrapper_classes]) ),
+  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $gap_style is a CSS custom-property string; its dynamic values are esc_attr()'d where built.
   $gap_style ? sprintf(' style="%s"', $gap_style) : '',
   esc_attr($ul_style),
-  $items_html,
-  $caption ? sprintf('<figcaption class="blocks-gallery-caption">%s</figcaption>', $caption) : ''
+  $items_html, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled in the loop from esc_url()/esc_attr()/wp_kses_post() output.
+  $caption ? sprintf('<figcaption class="blocks-gallery-caption">%s</figcaption>', wp_kses_post($caption)) : ''
 );

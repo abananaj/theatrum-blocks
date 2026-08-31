@@ -82,7 +82,7 @@ if ('youtube' === $embed_type) {
   printf(
     '<div %s><div class="wp-block-embed__wrapper">%s</div></div>',
     wp_kses_data(get_block_wrapper_attributes(array('class' => $wrapper_class))),
-    $iframe
+    $iframe // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $iframe built above from esc_url()/esc_attr() output; wp_kses_post() would strip the <iframe>.
   );
   return;
 }

@@ -150,5 +150,5 @@ $link_html = sprintf(
 printf(
   '<div %s>%s</div>',
   wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
-  $link_html
+  $link_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled above from esc_url()/esc_attr()/esc_html() output.
 );

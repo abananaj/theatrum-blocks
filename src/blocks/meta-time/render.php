@@ -58,7 +58,7 @@ $display_value = $prepend . $display_value . $append;
 
 printf(
   '<%1$s %2$s>%3$s</%1$s>',
-  $tag,
-  get_block_wrapper_attributes(),
+  tag_escape($tag),
+  wp_kses_data(get_block_wrapper_attributes()),
   esc_html($display_value)
 );

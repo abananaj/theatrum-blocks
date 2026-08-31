@@ -74,7 +74,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
 ]);
 ?>
 
-<div <?php echo $wrapper_attributes; ?> <?php echo $context; ?>>
+<div <?php echo wp_kses_data($wrapper_attributes); ?> <?php echo $context; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output of wp_interactivity_data_wp_context() (already an escaped attribute string). ?>>
   <?php if ($show_label) : ?>
     <span class="query-filter__label"><?php echo esc_html($label); ?></span>
   <?php endif; ?>

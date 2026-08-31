@@ -38,14 +38,14 @@ $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ',
 
 ob_start();
 ?>
-<div <?php echo $wrapper_attributes; ?>>
+<div <?php echo wp_kses_data($wrapper_attributes); ?>>
   <div class="theatrum-carousel-wrapper">
     <button class="theatrum-carousel-arrow disabled theatrum-arrow-prev" aria-label="Previous"></button>
-    <ul class="theatrum-carousel-content" <?php echo $content_style; ?>>
-      <?php echo $content; ?>
+    <ul class="theatrum-carousel-content" <?php echo $content_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute string; the card-width value is esc_attr()'d where $content_style is built. ?>>
+      <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- InnerBlocks output, already rendered/sanitized by the block pipeline. ?>
     </ul>
     <button class="theatrum-carousel-arrow theatrum-arrow-next" aria-label="Next"></button>
   </div>
 </div>
 <?php
-echo ob_get_clean();
+echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- buffer assembled above from escaped parts.

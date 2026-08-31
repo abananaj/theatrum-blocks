@@ -91,6 +91,7 @@ if (!$icon_output) {
   return;
 }
 
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-icon')) );
+$wrapper_attrs = get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-icon'));
 
-printf('<span %s>%s</span>', $wrapper_attrs, $icon_output);
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $icon_output is a <span> built above from esc_attr()'d values and integer sizes.
+printf('<span %s>%s</span>', wp_kses_data($wrapper_attrs), $icon_output);

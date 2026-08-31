@@ -74,9 +74,9 @@ function theatrum_render_meta_empty_marker($tag, $key = '', $extra_wrapper_args 
 
 	printf(
 		'<%1$s %2$s>%3$s</%1$s>',
-		$tag,
+		tag_escape( $tag ),
 		wp_kses_data( get_block_wrapper_attributes($extra_wrapper_args) ),
-		$inner
+		$inner // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $inner is esc_html() output or an empty string.
 	);
 }
 

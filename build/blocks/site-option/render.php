@@ -156,6 +156,7 @@ if ($is_member_type) {
 
     $html .= '</ul>';
     $html .= $append_html . '</div>';
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $html assembled above from wp_kses_data()/esc_html()/esc_url() output.
     echo $html;
   } elseif (is_numeric($option_value)) {
     // Single post ID — resolve to title/link like the array branch
@@ -187,6 +188,7 @@ if ($is_member_type) {
     }
     $html .= '</p>';
     $html .= $append_html . '</div>';
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $html assembled above from wp_kses_data()/esc_html()/esc_url() output.
     echo $html;
   } else {
     // Single string value
@@ -204,6 +206,7 @@ if ($is_member_type) {
     $html = '<div ' . $wrapper_attrs . '>' . $prepend_html;
     $html .= '<p>' . esc_html($option_value) . '</p>';
     $html .= $append_html . '</div>';
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $html assembled above from wp_kses_data()/esc_html()/esc_url() output.
     echo $html;
   }
   return;
@@ -263,6 +266,7 @@ if ($has_ref_links) {
   }
 
   $html .= $append_html . '</div>';
+  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $html assembled above from wp_kses_data()/esc_html()/esc_url() output.
   echo $html;
   return;
 }
@@ -296,10 +300,12 @@ $value_html = $href !== ''
   ? '<a href="' . esc_url($href) . '">' . esc_html($raw_value) . '</a>'
   : '<span>' . esc_html($raw_value) . '</span>';
 
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- $prepend_html/$value_html/$append_html assembled from esc_html()/esc_url() output.
 printf(
   '<div %s><p>%s%s%s</p></div>',
-  $wrapper_attrs,
+  wp_kses_data($wrapper_attrs),
   $prepend_html,
   $value_html,
   $append_html
 );
+// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped

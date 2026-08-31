@@ -107,6 +107,6 @@ if ($show_caption && $img_caption) {
 printf(
   '<figure %s>%s%s</figure>',
   wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-image']) ),
-  $img_content,
-  $caption_html
+  $img_content, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- <img>/<a> assembled above from esc_url()/esc_attr() output.
+  $caption_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- caption is wp_kses_post()'d where built.
 );

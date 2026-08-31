@@ -74,14 +74,14 @@ if (! in_array($tag_b, $allowed_tags, true)) {
 
 printf('<div %s>', wp_kses_data( get_block_wrapper_attributes() ));
 
-printf('<%s class="repeater-rows">', $wrapper_tag);
+printf('<%s class="repeater-rows">', tag_escape($wrapper_tag));
 
 foreach ($rows as $row) {
   if (! is_array($row)) {
     continue;
   }
 
-  echo '<' . $item_tag . '>';
+  echo '<' . tag_escape($item_tag) . '>';
 
   $printed_a = false;
 
@@ -91,9 +91,9 @@ foreach ($rows as $row) {
     if ($display_a !== '') {
       printf(
         '<%s class="repeater-subfield-a">%s</%s>',
-        $tag_a,
-        theatrum_repeater_escape_value($display_a),
-        $tag_a
+        tag_escape($tag_a),
+        theatrum_repeater_escape_value($display_a), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theatrum_repeater_escape_value() is a wp_kses() wrapper (allows <br> only).
+        tag_escape($tag_a)
       );
       $printed_a = true;
     }
@@ -108,16 +108,16 @@ foreach ($rows as $row) {
       }
       printf(
         '<%s class="repeater-subfield-b">%s</%s>',
-        $tag_b,
-        theatrum_repeater_escape_value($display_b),
-        $tag_b
+        tag_escape($tag_b),
+        theatrum_repeater_escape_value($display_b), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theatrum_repeater_escape_value() is a wp_kses() wrapper (allows <br> only).
+        tag_escape($tag_b)
       );
     }
   }
 
-  echo '</' . $item_tag . '>';
+  echo '</' . tag_escape($item_tag) . '>';
 }
 
-printf('</%s>', $wrapper_tag);
+printf('</%s>', tag_escape($wrapper_tag));
 
 echo '</div>';

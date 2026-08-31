@@ -29,7 +29,7 @@ $append    = $attributes['append'] ?? '';
 $is_html   = !empty($attributes['isHtml']);
 
 $wrapper_class = 'wp-block-theatrum-post-meta-field' . ($is_html ? ' is-html' : '');
-$wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $wrapper_class)) );
+$wrapper_attrs = get_block_wrapper_attributes(array('class' => $wrapper_class));
 $fallback_to_post_content = !empty($attributes['fallbackToPostContent']);
 
 if (!$key_input) {
@@ -44,7 +44,8 @@ if ($value === '' || $value === false) {
   if ($fallback_to_post_content) {
     $fallback = apply_filters('the_content', $post->post_content);
     if (trim($fallback) !== '') {
-      printf('<div %s>%s</div>', $wrapper_attrs, $fallback);
+      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $fallback is the_content filter output (trusted post content).
+      printf('<div %s>%s</div>', wp_kses_data($wrapper_attrs), $fallback);
       return;
     }
   }
@@ -64,9 +65,9 @@ if (is_array($value) || is_object($value)) {
 
   printf(
     '<div %s>%s%s%s</div>',
-    $wrapper_attrs,
+    wp_kses_data($wrapper_attrs),
     esc_html($prepend),
-    implode('', $spans),
+    implode('', $spans), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each $spans entry is esc_html()'d where built.
     esc_html($append)
   );
   return;
@@ -80,7 +81,7 @@ if (is_array($value) || is_object($value)) {
 if ($is_html) {
   printf(
     '<div %s>%s</div>',
-    $wrapper_attrs,
+    wp_kses_data($wrapper_attrs),
     wp_kses_post(wpautop((string) $value))
   );
   return;
@@ -91,16 +92,16 @@ $value = $prepend . (string) $value . $append;
 if ($tag_name === 'a') {
   printf(
     '<div %s><a href="%s">%s</a></div>',
-    $wrapper_attrs,
+    wp_kses_data($wrapper_attrs),
     esc_url($href),
     esc_html($value)
   );
 } else {
   printf(
     '<div %s><%s>%s</%s></div>',
-    $wrapper_attrs,
-    $tag_name,
+    wp_kses_data($wrapper_attrs),
+    tag_escape($tag_name),
     esc_html($value),
-    $tag_name
+    tag_escape($tag_name)
   );
 }

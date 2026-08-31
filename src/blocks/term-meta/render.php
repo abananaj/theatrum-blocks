@@ -69,7 +69,7 @@ if ($display_type === 'season-producer') {
 ?>
   <div <?php echo wp_kses_data( get_block_wrapper_attributes(['class' => 'season-producer-list-wrap']) ); ?>>
     <?php if ($heading_text !== '') : ?>
-      <<?php echo $heading_level; ?> class="season-producer-heading"><?php echo esc_html($heading_text); ?></<?php echo $heading_level; ?>>
+      <<?php echo tag_escape($heading_level); ?> class="season-producer-heading"><?php echo esc_html($heading_text); ?></<?php echo tag_escape($heading_level); ?>>
     <?php endif; ?>
     <ul class="season-producer-list">
       <?php foreach ($producers as $title) : ?>
@@ -136,7 +136,7 @@ $display_value = esc_html($prepend) . $inner . esc_html($append);
 
 printf(
   '<%1$s %2$s>%3$s</%1$s>',
-  $tag,
-  get_block_wrapper_attributes(),
-  $display_value
+  tag_escape($tag),
+  wp_kses_data(get_block_wrapper_attributes()),
+  $display_value // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $display_value is esc_html()/esc_url() output concatenated above.
 );
