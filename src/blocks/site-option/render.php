@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Site Option Block - Server-side render callback
  * Handles generic options, staff members, and board members

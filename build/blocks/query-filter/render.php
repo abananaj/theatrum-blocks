@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Server-side render for the theatrum/query-filter block.
  *

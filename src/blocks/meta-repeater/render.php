@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Meta Repeater block — file template
  * $attributes, $content, $block are injected by WordPress.

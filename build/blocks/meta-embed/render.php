@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Meta Embed block — server-side render callback
  * $attributes, $content, $block are injected by WordPress.

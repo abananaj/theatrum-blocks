@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Page Nav block — server-side render callback.
  *

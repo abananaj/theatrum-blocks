@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Meta Icon block — server-side render
  * $attributes, $content, $block are injected by WordPress.

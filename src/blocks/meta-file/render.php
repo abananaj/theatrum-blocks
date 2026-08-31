@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Meta File Block - Server-side render callback
  * Handles ACF file fields that return array, URL, or attachment ID

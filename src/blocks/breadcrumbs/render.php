@@ -1,4 +1,9 @@
 <?php
+
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Server-side render template for the Breadcrumbs block.
  *

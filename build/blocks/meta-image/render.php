@@ -1,5 +1,8 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
 
 /**
  * Meta Image Block - Server-side render callback

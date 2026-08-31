@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Render the Term Meta block on the frontend
  * Handles both generic term meta and season producer displays

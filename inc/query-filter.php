@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Applies theatrum/query-filter blocks to the specific Query Loop they target.
  *

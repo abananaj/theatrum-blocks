@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /**
  * Meta Gallery Block - Server-side render callback
  * Handles ACF gallery fields that return an array of image arrays
