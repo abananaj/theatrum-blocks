@@ -24,6 +24,15 @@ require_once __DIR__ . '/inc/block-bindings.php';
 require_once __DIR__ . '/inc/query-filter.php';
 
 /**
+ * Load the plugin text domain so the PHP-side __() strings are translatable.
+ */
+function theatrum_blocks_load_textdomain()
+{
+	load_plugin_textdomain('theatrum-blocks', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+add_action('init', 'theatrum_blocks_load_textdomain');
+
+/**
  * Registers the blocks using block.json files.
  */
 function theatrum_register_blocks()
@@ -32,7 +41,7 @@ function theatrum_register_blocks()
 	$custom_blocks = array(
 		'breadcrumbs',
 		'page-nav',
-		'carousel',
+		'carousel', // shoiuld be able to edit grid gap in editor, choose arrow styles inside or outside, background or no background, color, background color, and size
 		'carousel/carousel-item',
 
 		'blockquote-advanced',
@@ -126,7 +135,7 @@ function theatrum_register_blocks()
 
 		'site-option',
 
-		'slider',
+		'slider', // not rendering on the frontend, controls do not work inside block editor, Autoplay speed should allow values smaller than 1000ms, 
 		'slider/slider-item',
 
 		'table-advanced',

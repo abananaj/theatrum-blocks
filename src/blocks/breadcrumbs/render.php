@@ -48,11 +48,11 @@ function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 		// is set to a custom page and is paged.
 		if ( ! $is_front_page || ( 'page' === get_option( 'show_on_front' ) && (int) get_query_var( 'page' ) > 1 ) ) {
 			$breadcrumb_items[] = array(
-				'label' => __( 'Home' ),
+				'label' => __( 'Home', 'theatrum-blocks' ),
 				'url'   => home_url( '/' ),
 			);
 		} else {
-			$breadcrumb_items[] = theatrum_breadcrumbs_create_item( __( 'Home' ), theatrum_breadcrumbs_is_paged() );
+			$breadcrumb_items[] = theatrum_breadcrumbs_create_item( __( 'Home', 'theatrum-blocks' ), theatrum_breadcrumbs_is_paged() );
 		}
 	}
 
@@ -76,7 +76,7 @@ function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 		// Handle search results.
 		$is_paged = theatrum_breadcrumbs_is_paged();
 		/* translators: %s: search query */
-		$text               = sprintf( __( 'Search results for: "%s"' ), wp_trim_words( get_search_query(), 10 ) );
+		$text               = sprintf( __( 'Search results for: "%s"', 'theatrum-blocks' ), wp_trim_words( get_search_query(), 10 ) );
 		$breadcrumb_items[] = theatrum_breadcrumbs_create_item( $text, $is_paged );
 		// Add the "Page X" as the current page if paginated.
 		if ( $is_paged ) {
@@ -85,7 +85,7 @@ function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 	} elseif ( is_404() ) {
 		// Handle 404 pages.
 		$breadcrumb_items[] = array(
-			'label' => __( 'Page not found' ),
+			'label' => __( 'Page not found', 'theatrum-blocks' ),
 		);
 	} elseif ( is_archive() ) {
 		// Handle archive pages (taxonomy, post type, date, author archives).
@@ -202,7 +202,7 @@ function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
 			'style'      => '--separator: "' . addcslashes( $attributes['separator'], '\\"' ) . '";',
-			'aria-label' => __( 'Breadcrumbs' ),
+			'aria-label' => __( 'Breadcrumbs', 'theatrum-blocks' ),
 		)
 	);
 
@@ -253,7 +253,7 @@ function theatrum_breadcrumbs_create_page_number_item( $query_var = 'paged' ) {
 		return array(
 			'label' => sprintf(
 				/* translators: %s: comment page number */
-				__( 'Comments Page %s' ),
+				__( 'Comments Page %s', 'theatrum-blocks' ),
 				number_format_i18n( $paged )
 			),
 		);
@@ -262,7 +262,7 @@ function theatrum_breadcrumbs_create_page_number_item( $query_var = 'paged' ) {
 	return array(
 		'label' => sprintf(
 			/* translators: %s: page number */
-			__( 'Page %s' ),
+			__( 'Page %s', 'theatrum-blocks' ),
 			number_format_i18n( $paged )
 		),
 	);
@@ -302,7 +302,7 @@ function theatrum_breadcrumbs_create_item( $text, $is_paged = false ) {
 function theatrum_breadcrumbs_get_post_title( $post_id_or_object ) {
 	$title = get_the_title( $post_id_or_object );
 	if ( strlen( $title ) === 0 ) {
-		$title = __( '(no title)' );
+		$title = __( '(no title)', 'theatrum-blocks' );
 	}
 	return $title;
 }
