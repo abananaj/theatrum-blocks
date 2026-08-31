@@ -14,7 +14,7 @@ import { resolveTrack } from './resolve-track';
 function buildArrow( direction, glyph ) {
 	const button = document.createElement( 'button' );
 	button.type = 'button';
-	button.className = `ct-slider-arrow ct-slider-${ direction }`;
+	button.className = `tm-slider-arrow tm-slider-${ direction }`;
 	button.setAttribute(
 		'aria-label',
 		direction === 'prev' ? 'Previous' : 'Next'
@@ -24,26 +24,43 @@ function buildArrow( direction, glyph ) {
 }
 
 /**
- * @param {HTMLElement} root Root element to scan/hydrate (`.ct-slider` for
+ * @param {HTMLElement} root Root element to scan/hydrate (`.tm-slider` for
  *                           the native block, or any `is-style-ct-slider`
  *                           core block).
  */
 export function initSlider( root ) {
 	const track =
-		root.querySelector( '.ct-slider-track' ) ?? resolveTrack( root );
+		root.querySelector( '.tm-slider-track' ) ?? resolveTrack( root );
 	const slides = track ? Array.from( track.children ) : [];
 
 	if ( ! slides.length ) {
 		return;
 	}
 
+	// `loading="eager"` (see inc/slider-eager-images.php) makes the browser
+	// *fetch* every slide's image right away instead of waiting for the
+	// slide to be shown — but fetching and decoding are separate costs.
+	// Chromium specifically defers decoding an off-screen (display:none)
+	// image into a paintable bitmap until it's actually revealed, even once
+	// its bytes have fully downloaded, so there can still be a flash the
+	// first time a slide appears while the browser decodes it. Force every
+	// slide's image(s) to decode immediately, well before any of them are
+	// ever shown.
+	slides.forEach( ( slide ) => {
+		slide.querySelectorAll( 'img' ).forEach( ( img ) => {
+			if ( typeof img.decode === 'function' ) {
+				img.decode().catch( () => {} );
+			}
+		} );
+	} );
+
 	// A "1 / 5" badge belongs on native slider slides, not stamped onto
 	// arbitrary post cards or gallery images.
-	const isNativeSlider = root.classList.contains( 'ct-slider' );
+	const isNativeSlider = root.classList.contains( 'tm-slider' );
 
-	let prevButton = root.querySelector( '.ct-slider-prev' );
-	let nextButton = root.querySelector( '.ct-slider-next' );
-	let dotsContainer = root.querySelector( '.ct-slider-dots' );
+	let prevButton = root.querySelector( '.tm-slider-prev' );
+	let nextButton = root.querySelector( '.tm-slider-next' );
+	let dotsContainer = root.querySelector( '.tm-slider-dots' );
 
 	if ( ! prevButton && ! nextButton ) {
 		prevButton = buildArrow( 'prev', '❮' );
@@ -54,7 +71,7 @@ export function initSlider( root ) {
 
 	if ( ! dotsContainer ) {
 		dotsContainer = document.createElement( 'div' );
-		dotsContainer.className = 'ct-slider-dots';
+		dotsContainer.className = 'tm-slider-dots';
 		root.append( dotsContainer );
 	}
 

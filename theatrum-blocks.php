@@ -22,6 +22,7 @@ require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/rest-endpoints.php';
 require_once __DIR__ . '/inc/block-bindings.php';
 require_once __DIR__ . '/inc/query-filter.php';
+require_once __DIR__ . '/inc/slider-eager-images.php';
 
 /**
  * Load the plugin text domain so the PHP-side __() strings are translatable.
@@ -41,7 +42,7 @@ function theatrum_register_blocks()
 	$custom_blocks = array(
 		'breadcrumbs',
 		'page-nav',
-		'carousel', // shoiuld be able to edit grid gap in editor, choose arrow styles inside or outside, background or no background, color, background color, and size
+		'carousel',
 		'carousel/carousel-item',
 
 		'blockquote-advanced',
@@ -52,7 +53,7 @@ function theatrum_register_blocks()
 		// keeps rendering; hidden from the inserter (category: deprecated,
 		// supports.inserter:false). Do not use for new content.
 		// Codepen reference: https://codepen.io/annabananajennings/pen/YPGdGbb
-		'cover-card',
+		'cover-card', // ❌ delete
 
 		// Deprecated (2026-08-06) — was the successor to cover-card
 		// (background image on .user-content instead of the outer wrapper,
@@ -60,12 +61,12 @@ function theatrum_register_blocks()
 		// deprecated. Kept registered so existing content keeps rendering;
 		// hidden from the inserter. No replacement card block currently
 		// exists in this plugin.
-		'chance-card',
+		'chance-card', // ❌ delete
 
 		// Deprecated — re-registered under the 'deprecated' category with
 		// supports.inserter:false so it's not selectable for new content but
 		// still renders if any existing content references it.
-		'meta-icon',
+		'meta-icon', // ❌ delete
 
 		'list-icons',
 		'list-icons/list-item-icon',
@@ -114,10 +115,10 @@ function theatrum_register_blocks()
 		// make this button nestable inside core/buttons?
 		// ability to link to production page with this popup open from other pages by appending a query of some sort to the url? #anchor tag?
 
-		'performances-list',
+		'performances-list', // ➡️ move to theme
 		// should render on block editor as well as frontend, so user can see what it will look like on the frontend.
 
-		'production-quotes',
+		'production-quotes', // ➡️ move to theme
 
 		'tabs',
 		// these look different on the frontend than in the block editor. On the frontend the tab labels are horizontal then go vertical on mobile, but in the block editor they are vertical always. I want the block editor to match the frontend.
@@ -128,14 +129,14 @@ function theatrum_register_blocks()
 		'tabs/tab-content',
 
 		'query-filter',
-		'query-loop',
+		'query-loop',  // ➡️ move loop variations to theme
 		// change production icon to masks
 		// change venue icon to building
 		// change artist icon to color palette
 
 		'site-option',
 
-		'slider', // not rendering on the frontend, controls do not work inside block editor, Autoplay speed should allow values smaller than 1000ms, 
+		'slider',
 		'slider/slider-item',
 
 		'table-advanced',

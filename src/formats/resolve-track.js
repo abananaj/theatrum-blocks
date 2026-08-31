@@ -14,7 +14,7 @@
 export function resolveTrack( root ) {
 	return (
 		root.querySelector(
-			'.theatrum-carousel-content, .ct-slider-track, .wp-block-post-template'
+			'.theatrum-carousel-content, .tm-slider-track, .wp-block-post-template'
 		) ?? root
 	);
 }

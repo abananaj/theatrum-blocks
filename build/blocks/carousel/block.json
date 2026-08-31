@@ -58,6 +58,20 @@
         "rem"
       ]
     },
+    "gap": {
+      "type": "string",
+      "default": ""
+    },
+    "gapUnit": {
+      "type": "string",
+      "default": "px",
+      "enum": [
+        "px",
+        "%",
+        "em",
+        "rem"
+      ]
+    },
     "arrowPosition": {
       "type": "string",
       "default": "outside",
@@ -70,6 +84,32 @@
     "showScrollbar": {
       "type": "boolean",
       "default": false
+    },
+    "arrowBackground": {
+      "type": "boolean",
+      "default": true
+    },
+    "arrowColor": {
+      "type": "string",
+      "default": ""
+    },
+    "arrowBackgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "arrowSize": {
+      "type": "string",
+      "default": ""
+    },
+    "arrowSizeUnit": {
+      "type": "string",
+      "default": "px",
+      "enum": [
+        "px",
+        "%",
+        "em",
+        "rem"
+      ]
     }
   },
   "allowedBlocks": [

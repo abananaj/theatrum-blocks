@@ -21,7 +21,7 @@ window.addEventListener( 'load', () => {
 	}
 
 	for ( const root of document.querySelectorAll( '.is-style-ct-slider' ) ) {
-		if ( root.classList.contains( 'ct-slider' ) ) {
+		if ( root.classList.contains( 'tm-slider' ) ) {
 			continue;
 		}
 		initSlider( root );

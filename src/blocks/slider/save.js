@@ -7,13 +7,19 @@
  * (edit.js does the equivalent with real JSX for the editor preview).
  */
 
+import clsx from 'clsx';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import getArrowStyleVars from '../../components/arrow-controls/get-arrow-style-vars';
 
 export default function save({ attributes }) {
-	const { autoplay, autoplaySpeed } = attributes;
+	const { autoplay, autoplaySpeed, arrowPosition } = attributes;
 
 	const blockProps = useBlockProps.save({
-		className: 'tm-slider',
+		className: clsx('tm-slider', {
+			'tm-slider-arrows-inside': arrowPosition === 'inside',
+			'tm-slider-arrows-hidden': arrowPosition === 'hidden',
+		}),
+		style: getArrowStyleVars(attributes, { prefix: 'tm-arrow' }),
 		'data-autoplay': autoplay ? 'true' : 'false',
 		'data-autoplay-speed': autoplaySpeed,
 	});

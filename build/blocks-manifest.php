@@ -226,6 +226,20 @@ return array(
 					'rem'
 				)
 			),
+			'gap' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'gapUnit' => array(
+				'type' => 'string',
+				'default' => 'px',
+				'enum' => array(
+					'px',
+					'%',
+					'em',
+					'rem'
+				)
+			),
 			'arrowPosition' => array(
 				'type' => 'string',
 				'default' => 'outside',
@@ -238,6 +252,32 @@ return array(
 			'showScrollbar' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'arrowBackground' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'arrowColor' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'arrowBackgroundColor' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'arrowSize' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'arrowSizeUnit' => array(
+				'type' => 'string',
+				'default' => 'px',
+				'enum' => array(
+					'px',
+					'%',
+					'em',
+					'rem'
+				)
 			)
 		),
 		'allowedBlocks' => array(
@@ -2427,7 +2467,44 @@ return array(
 			),
 			'autoplaySpeed' => array(
 				'type' => 'number',
-				'default' => 5000
+				'default' => 5000,
+				'minimum' => 100,
+				'maximum' => 10000
+			),
+			'arrowPosition' => array(
+				'type' => 'string',
+				'default' => 'inside',
+				'enum' => array(
+					'outside',
+					'inside',
+					'hidden'
+				)
+			),
+			'arrowBackground' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'arrowColor' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'arrowBackgroundColor' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'arrowSize' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'arrowSizeUnit' => array(
+				'type' => 'string',
+				'default' => 'px',
+				'enum' => array(
+					'px',
+					'%',
+					'em',
+					'rem'
+				)
 			)
 		),
 		'allowedBlocks' => array(

@@ -21,6 +21,8 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
+import ArrowControls from '../../components/arrow-controls';
+import getArrowStyleVars from '../../components/arrow-controls/get-arrow-style-vars';
 import './editor.scss';
 
 const TEMPLATE = [
@@ -36,29 +38,38 @@ const UNIT_OPTIONS = [
 	{ label: 'rem', value: 'rem' },
 ];
 
-const ARROW_POSITION_OPTIONS = [
-	{ label: __( 'Outside', 'theatrum-blocks' ), value: 'outside' },
-	{ label: __( 'Inside', 'theatrum-blocks' ), value: 'inside' },
-	{ label: __( 'Hidden', 'theatrum-blocks' ), value: 'hidden' },
-];
-
 export default function Edit( { attributes, setAttributes } ) {
-	const { cardWidth, cardWidthUnit, arrowPosition, showScrollbar } =
-		attributes;
+	const {
+		cardWidth,
+		cardWidthUnit,
+		gap,
+		gapUnit,
+		arrowPosition,
+		showScrollbar,
+	} = attributes;
 	const blockProps = useBlockProps( {
 		className: classnames( {
 			'theatrum-arrows-inside': arrowPosition === 'inside',
 			'theatrum-arrows-hidden': arrowPosition === 'hidden',
 			'theatrum-scrollbar-visible': showScrollbar,
 		} ),
+		style: getArrowStyleVars( attributes, { prefix: 'ct-arrow' } ),
 	} );
 
-	const contentStyle = cardWidth
-		? { '--ct-carousel-card-width': `${ cardWidth }${ cardWidthUnit }` }
-		: undefined;
+	const contentStyle = {
+		...( cardWidth
+			? { '--ct-carousel-card-width': `${ cardWidth }${ cardWidthUnit }` }
+			: {} ),
+		...( gap ? { '--ct-carousel-gap': `${ gap }${ gapUnit }` } : {} ),
+	};
 
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'theatrum-carousel-content', style: contentStyle },
+		{
+			className: 'theatrum-carousel-content',
+			style: Object.keys( contentStyle ).length
+				? contentStyle
+				: undefined,
+		},
 		{
 			allowedBlocks: [ 'theatrum/carousel-item' ],
 			template: TEMPLATE,
@@ -104,15 +115,34 @@ export default function Edit( { attributes, setAttributes } ) {
 							style={ { width: '80px' } }
 						/>
 					</div>
-					<SelectControl
-						label={ __( 'Arrow Position', 'theatrum-blocks' ) }
-						value={ arrowPosition }
-						options={ ARROW_POSITION_OPTIONS }
-						onChange={ ( value ) =>
-							setAttributes( { arrowPosition: value } )
-						}
-						__nextHasNoMarginBottom
-					/>
+					<div style={ { display: 'flex', gap: '8px' } }>
+						<TextControl
+							label={ __( 'Grid Gap', 'theatrum-blocks' ) }
+							value={ gap }
+							onChange={ ( value ) =>
+								setAttributes( { gap: value } )
+							}
+							type="number"
+							min="0"
+							help={ __(
+								'Space between cards. Leave empty for the default.',
+								'theatrum-blocks'
+							) }
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+							style={ { flex: 1 } }
+						/>
+						<SelectControl
+							label={ __( 'Unit', 'theatrum-blocks' ) }
+							value={ gapUnit }
+							options={ UNIT_OPTIONS }
+							onChange={ ( value ) =>
+								setAttributes( { gapUnit: value } )
+							}
+							__nextHasNoMarginBottom
+							style={ { width: '80px' } }
+						/>
+					</div>
 					<ToggleControl
 						label={ __( 'Show scrollbar', 'theatrum-blocks' ) }
 						checked={ showScrollbar }
@@ -123,6 +153,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 			</InspectorControls>
+			<ArrowControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				positions={ [ 'outside', 'inside', 'hidden' ] }
+			/>
 
 			<div { ...blockProps }>
 				<div className="theatrum-carousel-wrapper">
