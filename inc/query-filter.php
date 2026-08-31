@@ -88,11 +88,11 @@ function theatrum_query_filter_field_name(array $attrs, int $query_id): string {
 function theatrum_apply_query_filter(array $query, array $attrs, int $query_id): array {
   $field_name = theatrum_query_filter_field_name($attrs, $query_id);
 
-  if (!isset($_GET[$field_name])) {
+  if (!isset($_GET[$field_name])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
     return $query;
   }
 
-  $value = sanitize_text_field(wp_unslash($_GET[$field_name]));
+  $value = sanitize_text_field(wp_unslash($_GET[$field_name])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
   if ('' === $value) {
     return $query;
   }

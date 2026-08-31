@@ -813,11 +813,11 @@ add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_term', 
  */
 function theatrum_filter_query_loop_by_orderby($query)
 {
-	if (empty($_GET['orderby'])) {
+	if (empty($_GET['orderby'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
 		return $query;
 	}
 
-	$value = sanitize_text_field(wp_unslash($_GET['orderby']));
+	$value = sanitize_text_field(wp_unslash($_GET['orderby'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
 
 	$map = array(
 		'date'       => array('orderby' => 'date', 'order' => 'DESC'),

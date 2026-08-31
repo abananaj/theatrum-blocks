@@ -34,10 +34,10 @@ $field_name = $query_id
   : (('orderby' === $filter_type) ? 'orderby' : $param_name);
 
 // Read the current active value from URL params (sanitized).
-$current_value = isset($_GET[$field_name]) ? sanitize_text_field(wp_unslash($_GET[$field_name])) : '';
+$current_value = isset($_GET[$field_name]) ? sanitize_text_field(wp_unslash($_GET[$field_name])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
 
 // Build the form action URL (path only, no query string).
-$action_url = strtok(isset($_SERVER['REQUEST_URI']) ? esc_url_raw($_SERVER['REQUEST_URI']) : '/', '?');
+$action_url = strtok(isset($_SERVER['REQUEST_URI']) ? esc_url_raw($_SERVER['REQUEST_URI']) : '/', '?'); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
 
 // Build terms list for taxonomy filters.
 $terms = [];
@@ -59,7 +59,7 @@ if ('taxonomy' === $filter_type) {
 // block's Target Query Loop doesn't leave a stale duplicate param behind.
 $preserved_params = [];
 $skip_params      = ['paged', 'page', $field_name, $param_name, 'orderby'];
-foreach ($_GET as $key => $value) {
+foreach ($_GET as $key => $value) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
   $key = sanitize_key($key);
   if (in_array($key, $skip_params, true) || !is_string($value)) {
     continue;
