@@ -26,7 +26,7 @@
 		overflow-x: auto;
 		grid-template-columns: none; // neutralize is-layout-grid
 		scroll-snap-type: x mandatory;
-		gap: 20px;
+		gap: var(--ct-carousel-gap, 20px);
 
 		> li {
 			flex: 0 0 var(--ct-carousel-card-width, 300px);

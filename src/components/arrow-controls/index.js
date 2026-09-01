@@ -1,11 +1,15 @@
 /**
- * Shared "Arrow Styles" inspector controls — used by theatrum/carousel and
- * theatrum/slider. The two blocks render their arrows very differently (an
- * SVG-mask chevron button vs. a glyph-text button), but expose the same
+ * Shared "Arrow Styles" inspector controls — used by theatrum/carousel,
+ * theatrum/slider, and the is-style-ct-carousel format's core/query &
+ * core/gallery attribute extension. Consumers render their arrows very
+ * differently (an SVG-mask chevron button, a glyph-text button, or a
+ * frontend-JS-built button on a core block), but expose the same
  * user-facing options: position, background on/off, color, background
- * color, and size. Each block supplies its own attribute defaults (via
- * block.json) and its own CSS custom-property prefix (see
- * get-arrow-style-vars.js) so this component stays block-agnostic.
+ * color, and size. Each consumer supplies its own attribute defaults (via
+ * block.json, or its own registerBlockType filter for the format) and its
+ * own CSS custom-property prefix (see get-arrow-style-vars.js), plus an
+ * optional attributePrefix (see attr-key.js) so this component stays both
+ * block-agnostic and attribute-name-agnostic.
  */
 import {
 	InspectorControls,
@@ -18,6 +22,7 @@ import {
 	TextControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import attrKey from './attr-key';
 
 const POSITION_LABELS = {
 	outside: __( 'Outside', 'theatrum-blocks' ),
@@ -34,24 +39,35 @@ const UNIT_OPTIONS = [
 
 /**
  * @param {Object}   props
- * @param {Object}   props.attributes    Block attributes.
- * @param {Function} props.setAttributes Block `setAttributes`.
- * @param {string[]} [props.positions]   Which arrow-position options to
- *                                       offer, in order (default: all three).
+ * @param {Object}   props.attributes       Block attributes.
+ * @param {Function} props.setAttributes    Block `setAttributes`.
+ * @param {string[]} [props.positions]      Which arrow-position options to
+ *                                          offer, in order (default: all three).
+ * @param {string}   [props.attributePrefix] Namespace prefix for the
+ *                                          underlying attribute names (see
+ *                                          attr-key.js). Default '' reads/
+ *                                          writes the bare `arrowPosition`
+ *                                          etc. names the native blocks use.
  */
 export default function ArrowControls( {
 	attributes,
 	setAttributes,
 	positions = [ 'outside', 'inside', 'hidden' ],
+	attributePrefix = '',
 } ) {
-	const {
-		arrowPosition,
-		arrowBackground,
-		arrowColor,
-		arrowBackgroundColor,
-		arrowSize,
-		arrowSizeUnit,
-	} = attributes;
+	const positionKey = attrKey( attributePrefix, 'ArrowPosition' );
+	const backgroundKey = attrKey( attributePrefix, 'ArrowBackground' );
+	const colorKey = attrKey( attributePrefix, 'ArrowColor' );
+	const backgroundColorKey = attrKey( attributePrefix, 'ArrowBackgroundColor' );
+	const sizeKey = attrKey( attributePrefix, 'ArrowSize' );
+	const sizeUnitKey = attrKey( attributePrefix, 'ArrowSizeUnit' );
+
+	const arrowPosition = attributes[ positionKey ];
+	const arrowBackground = attributes[ backgroundKey ];
+	const arrowColor = attributes[ colorKey ];
+	const arrowBackgroundColor = attributes[ backgroundColorKey ];
+	const arrowSize = attributes[ sizeKey ];
+	const arrowSizeUnit = attributes[ sizeUnitKey ];
 
 	const positionOptions = positions.map( ( value ) => ( {
 		label: POSITION_LABELS[ value ],
@@ -69,7 +85,7 @@ export default function ArrowControls( {
 					value={ arrowPosition }
 					options={ positionOptions }
 					onChange={ ( value ) =>
-						setAttributes( { arrowPosition: value } )
+						setAttributes( { [ positionKey ]: value } )
 					}
 					__nextHasNoMarginBottom
 				/>
@@ -77,7 +93,7 @@ export default function ArrowControls( {
 					label={ __( 'Arrow Background', 'theatrum-blocks' ) }
 					checked={ !! arrowBackground }
 					onChange={ ( value ) =>
-						setAttributes( { arrowBackground: value } )
+						setAttributes( { [ backgroundKey ]: value } )
 					}
 					__nextHasNoMarginBottom
 				/>
@@ -86,7 +102,7 @@ export default function ArrowControls( {
 						label={ __( 'Arrow Size', 'theatrum-blocks' ) }
 						value={ arrowSize }
 						onChange={ ( value ) =>
-							setAttributes( { arrowSize: value } )
+							setAttributes( { [ sizeKey ]: value } )
 						}
 						type="number"
 						min="0"
@@ -103,7 +119,7 @@ export default function ArrowControls( {
 						value={ arrowSizeUnit }
 						options={ UNIT_OPTIONS }
 						onChange={ ( value ) =>
-							setAttributes( { arrowSizeUnit: value } )
+							setAttributes( { [ sizeUnitKey ]: value } )
 						}
 						__nextHasNoMarginBottom
 						style={ { width: '80px' } }
@@ -117,14 +133,14 @@ export default function ArrowControls( {
 					{
 						value: arrowColor,
 						onChange: ( value ) =>
-							setAttributes( { arrowColor: value } ),
+							setAttributes( { [ colorKey ]: value } ),
 						label: __( 'Arrow Color', 'theatrum-blocks' ),
 					},
 					{
 						value: arrowBackgroundColor,
 						onChange: ( value ) =>
 							setAttributes( {
-								arrowBackgroundColor: value,
+								[ backgroundColorKey ]: value,
 							} ),
 						label: __(
 							'Arrow Background Color',

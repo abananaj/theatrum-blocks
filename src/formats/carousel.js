@@ -17,7 +17,7 @@ const CONTENT_SELECTOR = '.theatrum-carousel-content';
 function buildArrow( direction ) {
 	const button = document.createElement( 'button' );
 	button.type = 'button';
-	button.className = `theatrum-carousel-arrow ct-arrow-${ direction }`;
+	button.className = `theatrum-carousel-arrow theatrum-arrow-${ direction }`;
 	button.setAttribute(
 		'aria-label',
 		direction === 'prev' ? 'Previous' : 'Next'

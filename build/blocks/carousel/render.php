@@ -49,27 +49,10 @@ if ($show_scrollbar) {
   $modifier_classes[] = 'theatrum-scrollbar-visible';
 }
 
-// Arrow color/background-color come from a PanelColorSettings color picker,
-// which can emit a #hex value, an rgb()/rgba()/hsl()/hsla() function, or a
-// theme-color reference like var(--wp--preset--color--slug) — not just a
-// plain hex string, so sanitize_hex_color() alone would wrongly reject the
-// latter two. Allow only that narrow, CSS-safe shape.
-if (! function_exists('theatrum_carousel_sanitize_color')) {
-  /**
-   * @param mixed $value Raw attribute value to sanitize.
-   * @return string Sanitized color value, or '' if not a safe shape.
-   */
-  function theatrum_carousel_sanitize_color($value)
-  {
-    if (! is_string($value) || '' === trim($value)) {
-      return '';
-    }
-    $value = trim($value);
-    $pattern = '/^(#[0-9a-fA-F]{3,8}|(?:rgba?|hsla?)\([0-9.,%\s]+\)|var\(--[a-zA-Z0-9-]+\))$/';
-    return preg_match($pattern, $value) ? $value : '';
-  }
-}
-
+// Arrow color/background-color are sanitized via theatrum_carousel_sanitize_color()
+// (inc/helpers.php, always loaded — shared with the is-style-ct-carousel
+// format's render_block filter in inc/format-controls.php, which can run on
+// pages that never render a theatrum/carousel block at all).
 $arrow_background = ! isset($attributes['arrowBackground']) || ! empty($attributes['arrowBackground']);
 $arrow_color = theatrum_carousel_sanitize_color($attributes['arrowColor'] ?? '');
 $arrow_background_color = theatrum_carousel_sanitize_color($attributes['arrowBackgroundColor'] ?? '');

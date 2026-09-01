@@ -32,6 +32,36 @@ function theatrum_is_allowed_settings_option($option_name)
 }
 
 /**
+ * Sanitize a color value coming from a PanelColorSettings color picker
+ * (theatrum/carousel's arrow color/background-color controls, and the
+ * matching is-style-ct-carousel format controls) before it's written into
+ * an inline CSS custom property.
+ *
+ * The picker can emit a #hex value, an rgb()/rgba()/hsl()/hsla() function,
+ * or a theme-color reference like var(--wp--preset--color--slug) — not just
+ * a plain hex string, so sanitize_hex_color() alone would wrongly reject
+ * the latter two. Allow only that narrow, CSS-safe shape; anything else
+ * (including anything containing `url(`, `;`, or `<`) is dropped.
+ *
+ * Lives here (rather than in a single block's render.php) because more than
+ * one render path needs it: theatrum/carousel's own render.php, and the
+ * is-style-ct-carousel render_block filter (inc/format-controls.php), which
+ * can run on pages that never render a theatrum/carousel block at all.
+ *
+ * @param mixed $value Raw attribute value to sanitize.
+ * @return string Sanitized color value, or '' if not a safe shape.
+ */
+function theatrum_carousel_sanitize_color($value)
+{
+	if (! is_string($value) || '' === trim($value)) {
+		return '';
+	}
+	$value = trim($value);
+	$pattern = '/^(#[0-9a-fA-F]{3,8}|(?:rgba?|hsla?)\([0-9.,%\s]+\)|var\(--[a-zA-Z0-9-]+\))$/';
+	return preg_match($pattern, $value) ? $value : '';
+}
+
+/**
  * Whether the current render is happening inside the block editor's preview
  * (the REST `block-renderer` endpoint Gutenberg uses for dynamic blocks),
  * as opposed to a real frontend page load.

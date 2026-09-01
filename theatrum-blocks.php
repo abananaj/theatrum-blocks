@@ -23,6 +23,7 @@ require_once __DIR__ . '/inc/rest-endpoints.php';
 require_once __DIR__ . '/inc/block-bindings.php';
 require_once __DIR__ . '/inc/query-filter.php';
 require_once __DIR__ . '/inc/slider-eager-images.php';
+require_once __DIR__ . '/inc/format-controls.php';
 
 /**
  * Load the plugin text domain so the PHP-side __() strings are translatable.
@@ -432,6 +433,35 @@ function theatrum_enqueue_format_editor_assets()
 	wp_enqueue_style('theatrum-formats');
 }
 add_action('enqueue_block_assets', 'theatrum_enqueue_format_editor_assets');
+
+/**
+ * Enqueues the block-editor extension (src/format-controls.js) that adds
+ * Grid Gap + Arrow Styles inspector controls to core/query/core/gallery
+ * when styled is-style-ct-carousel — the editor-side counterpart to
+ * inc/format-controls.php's render_block filter.
+ */
+function theatrum_enqueue_format_controls_script()
+{
+	$asset_file = __DIR__ . '/build/format-controls.asset.php';
+	if (! file_exists($asset_file)) {
+		return;
+	}
+	$asset = require $asset_file;
+
+	$handle = 'theatrum-format-controls';
+	wp_enqueue_script(
+		$handle,
+		plugins_url('build/format-controls.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+
+	wp_localize_script($handle, 'theatrumFormatControls', array(
+		'blocks' => array_values(theatrum_format_blocks()),
+	));
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_format_controls_script');
 
 /**
  * Frontend: enqueue the formats script/style only on pages that actually
