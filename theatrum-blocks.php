@@ -49,25 +49,6 @@ function theatrum_register_blocks()
 		'blockquote-advanced/blockquote-text',
 		'blockquote-advanced/blockquote-source',
 
-		// Deprecated (2026-08-06) — kept registered so existing post content
-		// keeps rendering; hidden from the inserter (category: deprecated,
-		// supports.inserter:false). Do not use for new content.
-		// Codepen reference: https://codepen.io/annabananajennings/pen/YPGdGbb
-		'cover-card', // ❌ delete
-
-		// Deprecated (2026-08-06) — was the successor to cover-card
-		// (background image on .user-content instead of the outer wrapper,
-		// bottom-bar/buttons no longer position:absolute), but is now also
-		// deprecated. Kept registered so existing content keeps rendering;
-		// hidden from the inserter. No replacement card block currently
-		// exists in this plugin.
-		'chance-card', // ❌ delete
-
-		// Deprecated — re-registered under the 'deprecated' category with
-		// supports.inserter:false so it's not selectable for new content but
-		// still renders if any existing content references it.
-		'meta-icon', // ❌ delete
-
 		'list-icons',
 		'list-icons/list-item-icon',
 		// add ability to change icon color if it is an svg

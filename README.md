@@ -1,6 +1,6 @@
 # Theatrum Blocks
 
-Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 33 top-level blocks (51 registered block types counting nested children — includes deprecated blocks kept for existing content) for production management, metadata display, carousels, tables, tabs, and frontend filtering.
+Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 30 top-level blocks (48 registered block types counting nested children — includes deprecated blocks kept for existing content) for production management, metadata display, carousels, tables, tabs, and frontend filtering.
 
 **Version:** 0.1.1 | **Requires:** WordPress 6.8+ / PHP 7.4+ | **License:** GPL-2.0-or-later
 
@@ -11,10 +11,11 @@ Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 3
 ## Block Inventory
 
 Rebuilt 2026-08-04 directly against the `$custom_blocks` registration array in
-`theatrum-blocks.php` (33 top-level blocks, 51 total including nested children, as of
-2026-08-06's deprecation pass which re-registered `meta-icon`) — the previous version of
-this table had drifted significantly (documented blocks that were deleted per
-`BLOCK_CLEANUP_PLAN.md`, and was missing several that were added since).
+`theatrum-blocks.php` (30 top-level blocks, 48 total including nested children, as of
+2026-08-31's removal of `cover-card`, `chance-card`, and `meta-icon` — see
+`BLOCK_CLEANUP_PLAN.md`) — the previous version of this table had drifted significantly
+(documented blocks that were deleted per `BLOCK_CLEANUP_PLAN.md`, and was missing several
+that were added since).
 
 ### 🎭 Production Blocks
 | Block | Status | Notes |
@@ -38,10 +39,6 @@ Variation blocks backed by the `theatrum/post-meta` binding source (WP 6.5+). Ex
 | `meta-related` | ⏭️ | Skip — no suitable core block target |
 | `meta-time` | ⚠️ | Actively used in existing content — kept for now, revisit with a migration later |
 
-`meta-icon` is deprecated (2026-08-06) — registered under the `deprecated` category with
-`supports.inserter:false`, so it's hidden from the inserter but still renders if any existing
-content references it.
-
 ### 📋 Table-Advanced
 Hierarchical table block system.
 
@@ -63,8 +60,6 @@ Hierarchical table block system.
 | `carousel` | ✅ | Child: `carousel/carousel-item` |
 | `slider` | ✅ | Child: `slider/slider-item` |
 | `blockquote-advanced` | ✅ | Children: `blockquote-text`, `blockquote-source` |
-| `cover-card` | 🗑️ | Deprecated (2026-08-06) — kept registered so existing content keeps rendering; hidden from the inserter (`deprecated` category). Do not use for new content |
-| `chance-card` | 🗑️ | Deprecated (2026-08-06) — was the successor to `cover-card` (background image lives on `.user-content` instead of the outer wrapper, bottom-bar/buttons no longer `position:absolute`), but is now deprecated too; hidden from the inserter. No replacement card block currently exists in this plugin |
 | `list-icons` | ⚠️ | Needs list-item as nested block |
 | `list-icons/list-item-icon` | ✅ | Child of list-icons |
 | `list-thumbnail` | ✅ | Refactored to nested `list-item-thumbnail` blocks (model after list-icons); flip-card hover animation fixed |
@@ -107,7 +102,7 @@ theatrum-blocks/
 ### Key Systems
 
 - **Block Bindings** — `theatrum/post-meta` source in `inc/block-bindings.php` powers all meta-variation blocks. Reads ACF `get_field()` with raw `get_post_meta()` fallback. Handles date formatting, URL/href, and attachment ID attributes.
-- **REST API** — 15+ endpoints under `/wp-json/theatrum/v1/` serve block editor previews. All require `edit_posts` capability except `/cover-card` (see Issues).
+- **REST API** — 15 endpoints under `/wp-json/theatrum/v1/` serve block editor previews. All require `edit_posts` capability.
 - **Date parsing** — `theatrum_parse_flexible_date()` handles Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates; results cached 1h in `ct_dates` group.
 - **Query loop by term** — `theatrum_filter_query_loop_by_term()` constrains nested query loops to their `term-template` context (supports WP 6.9+ `core/term-template`).
 - **devMode** — `theatrum_add_dev_mode_attribute` injects a `devMode` boolean attribute to every `theatrum/*` block via `block_type_metadata` filter. Only `breadcrumbs` currently wires up the inspector toggle/indicator (see `DEV_MODE.md`).
@@ -150,12 +145,12 @@ npm run plugin-zip      # create a distributable plugin zip
 
 ### 🗑️ Cleanup / Removal
 - `meta-time` is actively used in existing content — keeping it for now; revisit removal alongside a content migration.
-- ~~`meta-icon`'s folder is unregistered dead code~~ — registered (2026-08-06) under the `deprecated` category with `supports.inserter:false` instead of left silently unregistered (see Meta Blocks table above).
+- ~~`meta-icon`'s folder is unregistered dead code~~ — removed 2026-08-31; deprecated (2026-08-06) then confirmed 0 live instances and fully deleted (registration, source, REST endpoint).
 - Fold `meta-related` into `term-meta` (marked Skip).
 - ~~Evaluate `season-producer`~~ — it's the `term-meta` block's `season-producer` variation (not a separate block); deprecated (2026-08-06), hidden from the inserter, `term-meta`'s generic display is the supported path.
 - ~~Evaluate `production-details`~~ — removed 2026-07-06; confirmed unused in any published content (only referenced in a docs/catalog page and a trashed test page).
 - ~~Decide fate of `board-member` and `staff-member`~~ — they're the `site-option` block's `staff`/`board` variations (not separate blocks); deprecated (2026-08-06), hidden from the inserter, `site-option`'s generic display is the supported path.
-- `cover-card` and `chance-card` deprecated (2026-08-06) — both hidden from the inserter (`deprecated` category); no replacement card block currently exists in this plugin.
+- ~~`cover-card` and `chance-card` deprecated (2026-08-06)~~ — removed 2026-08-31; confirmed 0 live instances (only a trashed page and an unreferenced reusable block still contained the markup) and fully deleted (registration, source, `cover-card`'s REST endpoint, theme-side style refs).
 - `query-loop`'s `credit-loop` variation deprecated (2026-08-06) — hidden from the inserter; the other post-type-specific query-loop variations are unaffected.
 
 ### 🔧 Improvements
@@ -168,7 +163,7 @@ npm run plugin-zip      # create a distributable plugin zip
 
 ## Security Posture
 
-Overall: **Good.** Input is consistently sanitized with `sanitize_text_field`, `sanitize_key`, `esc_html`, `esc_url`, `wp_kses_post`. Tag injection is blocked via allowlists in `meta-repeater` and `site-option`. Serialized data uses `unserialize(['allowed_classes' => false])`. The `/cover-card` public endpoint and the board/staff/site-option `wp_options` exposure (see Next Steps) have both been addressed.
+Overall: **Good.** Input is consistently sanitized with `sanitize_text_field`, `sanitize_key`, `esc_html`, `esc_url`, `wp_kses_post`. Tag injection is blocked via allowlists in `meta-repeater` and `site-option`. Serialized data uses `unserialize(['allowed_classes' => false])`. The board/staff/site-option `wp_options` exposure (see Next Steps) has been addressed; the `/cover-card` public endpoint was addressed and later removed entirely along with the block.
 
 ---
 

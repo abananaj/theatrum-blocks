@@ -109,14 +109,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deleted ~10 vendored Gutenberg tutorial/demo directories from `inc/` and the vendored `menu-thumbnail-flip-animation` demo from `thumbnail-list/` — none were wired into the plugin
 - Removed unused `image.png` from the plugin root and dead commented-out code in cover-card and card-carousel `render.php`
 - Removed the `production-details` block — confirmed unused across all published content, templates, and patterns (only referenced in a docs/catalog page and a trashed test page)
+- Fully removed `theatrum/cover-card`, `theatrum/chance-card`, and `theatrum/meta-icon` (PHP registration, `src/blocks/*` source, and the dedicated `cover-card`/`meta-icon` REST endpoints), closing out the 2026-08-06 deprecation noted above. Verified 0 live (non-trashed, non-revision, referenced) instances before deletion — a trashed page and an unreferenced reusable block still contain the old markup but neither renders
 
 ### Security
 
 - See Fixed — REST endpoint disclosure and privilege-escalation issues above
-
-### Known Issues
-
-- cover-card height still isn't fully resolved on the frontend (see `src/blocks/cover-card/style.scss`)
 
 ## [0.1.1] - 2026-06-10
 
