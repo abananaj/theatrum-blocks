@@ -5,36 +5,39 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * SERVER-SIDE APPLICATION of the is-style-ct-carousel format's Grid Gap +
- * Arrow Styles options (editor-side counterpart: src/format-controls.js).
+ * SERVER-SIDE APPLICATION of the is-style-ct-carousel and is-style-ct-slider
+ * formats' Grid Gap / Autoplay / Arrow Styles options (editor-side
+ * counterpart: src/format-controls.js).
  *
  * core/gallery is a static block — src/format-controls.js's
- * blocks.getSaveContent.extraProps filter already bakes classes/style into
- * its saved markup. core/query is dynamic (no saved markup exists), so its
- * only path to the frontend is here, at render time. This filter runs on
- * every render_block call regardless, so it doubles as an idempotent
- * fallback for core/gallery too (see the has_class() guard below) — same
- * shape as chance-ollie's ct_grid_columns_render_block()/
+ * blocks.getSaveContent.extraProps filter already bakes classes/style/data
+ * attributes into its saved markup. core/query is dynamic (no saved markup
+ * exists), so its only path to the frontend is here, at render time. This
+ * filter runs on every render_block call regardless, so it doubles as an
+ * idempotent fallback for core/gallery too (see the has_class() guard
+ * below) — same shape as chance-ollie's ct_grid_columns_render_block()/
  * ct_grid_span_render_block(), this codebase's only other precedent for
  * this kind of core-block extension.
  */
 
 /**
- * Marker class confirming this filter's classes/vars have already been
- * applied to a given block's wrapper — checked to avoid double-injecting on
- * a core/gallery instance whose saved markup already carries them.
+ * Marker class confirming this filter's classes/vars/attributes have
+ * already been applied to a given block's wrapper — checked to avoid
+ * double-injecting on a core/gallery instance whose saved markup already
+ * carries them.
  */
 const THEATRUM_FORMAT_CONTROLS_MARKER_CLASS = 'ct-carousel-controls-applied';
 
 /**
- * @param array $block Parsed block array (has 'blockName', 'attrs').
+ * @param array  $block Parsed block array (has 'blockName', 'attrs').
+ * @param string $slug  Style slug to check for, e.g. 'is-style-ct-carousel'.
  * @return bool
  */
-function theatrum_format_controls_has_carousel_style($block)
+function theatrum_format_controls_has_style($block, $slug)
 {
     $class_name = (string) ($block['attrs']['className'] ?? '');
     $classes = preg_split('/\s+/', trim($class_name));
-    return in_array('is-style-ct-carousel', $classes, true);
+    return in_array($slug, $classes, true);
 }
 
 /**
@@ -48,7 +51,9 @@ function theatrum_format_controls_render_block($block_content, $block)
         return $block_content;
     }
 
-    if (! theatrum_format_controls_has_carousel_style($block)) {
+    $is_carousel = theatrum_format_controls_has_style($block, 'is-style-ct-carousel');
+    $is_slider = ! $is_carousel && theatrum_format_controls_has_style($block, 'is-style-ct-slider');
+    if (! $is_carousel && ! $is_slider) {
         return $block_content;
     }
 
@@ -60,22 +65,36 @@ function theatrum_format_controls_render_block($block_content, $block)
     $allowed_units = array('px', '%', 'em', 'rem');
     $classes = array();
     $style_parts = array();
+    $extra_attributes = array();
 
-    if ('core/query' === $block['blockName']) {
-        $gap = isset($attrs['ctCarouselGap']) ? preg_replace('/[^0-9.]/', '', (string) $attrs['ctCarouselGap']) : '';
-        $gap_unit = in_array($attrs['ctCarouselGapUnit'] ?? '', $allowed_units, true) ? $attrs['ctCarouselGapUnit'] : 'px';
-        if ('' !== $gap) {
-            $style_parts[] = '--ct-carousel-gap:' . esc_attr($gap . $gap_unit);
+    if ($is_carousel) {
+        if ('core/query' === $block['blockName']) {
+            $gap = isset($attrs['ctCarouselGap']) ? preg_replace('/[^0-9.]/', '', (string) $attrs['ctCarouselGap']) : '';
+            $gap_unit = in_array($attrs['ctCarouselGapUnit'] ?? '', $allowed_units, true) ? $attrs['ctCarouselGapUnit'] : 'px';
+            if ('' !== $gap) {
+                $style_parts[] = '--ct-carousel-gap:' . esc_attr($gap . $gap_unit);
+            }
         }
+        $arrow_css_prefix = '--ct-arrow-';
+        $arrow_inside_class = 'theatrum-arrows-inside';
+        $arrow_hidden_class = 'theatrum-arrows-hidden';
+    } else {
+        $autoplay = ! empty($attrs['ctAutoplay']);
+        $autoplay_speed = isset($attrs['ctAutoplaySpeed']) ? (int) $attrs['ctAutoplaySpeed'] : 5000;
+        $extra_attributes['data-autoplay'] = $autoplay ? 'true' : 'false';
+        $extra_attributes['data-autoplay-speed'] = (string) $autoplay_speed;
+        $arrow_css_prefix = '--tm-arrow-';
+        $arrow_inside_class = 'tm-slider-arrows-inside';
+        $arrow_hidden_class = 'tm-slider-arrows-hidden';
     }
 
     $arrow_position = in_array($attrs['ctArrowPosition'] ?? '', array('outside', 'inside', 'hidden'), true)
         ? $attrs['ctArrowPosition']
         : 'outside';
     if ('inside' === $arrow_position) {
-        $classes[] = 'theatrum-arrows-inside';
+        $classes[] = $arrow_inside_class;
     } elseif ('hidden' === $arrow_position) {
-        $classes[] = 'theatrum-arrows-hidden';
+        $classes[] = $arrow_hidden_class;
     }
 
     $arrow_background = ! isset($attrs['ctArrowBackground']) || ! empty($attrs['ctArrowBackground']);
@@ -85,18 +104,18 @@ function theatrum_format_controls_render_block($block_content, $block)
     $arrow_size_unit = in_array($attrs['ctArrowSizeUnit'] ?? '', $allowed_units, true) ? $attrs['ctArrowSizeUnit'] : 'px';
 
     if ('' !== $arrow_color) {
-        $style_parts[] = '--ct-arrow-color:' . esc_attr($arrow_color);
+        $style_parts[] = $arrow_css_prefix . 'color:' . esc_attr($arrow_color);
     }
     if (! $arrow_background) {
-        $style_parts[] = '--ct-arrow-bg:transparent';
+        $style_parts[] = $arrow_css_prefix . 'bg:transparent';
     } elseif ('' !== $arrow_background_color) {
-        $style_parts[] = '--ct-arrow-bg:' . esc_attr($arrow_background_color);
+        $style_parts[] = $arrow_css_prefix . 'bg:' . esc_attr($arrow_background_color);
     }
     if ('' !== $arrow_size) {
-        $style_parts[] = '--ct-arrow-size:' . esc_attr($arrow_size . $arrow_size_unit);
+        $style_parts[] = $arrow_css_prefix . 'size:' . esc_attr($arrow_size . $arrow_size_unit);
     }
 
-    if (empty($classes) && empty($style_parts)) {
+    if (empty($classes) && empty($style_parts) && empty($extra_attributes)) {
         return $block_content;
     }
 
@@ -106,7 +125,7 @@ function theatrum_format_controls_render_block($block_content, $block)
     }
 
     // Idempotency guard: static core/gallery's saved markup may already
-    // carry these classes/vars (written by format-controls.js's
+    // carry these classes/vars/attributes (written by format-controls.js's
     // getSaveContent.extraProps at save time), and render_block runs on
     // every block, static or dynamic, on every request.
     if ($processor->has_class(THEATRUM_FORMAT_CONTROLS_MARKER_CLASS)) {
@@ -122,6 +141,10 @@ function theatrum_format_controls_render_block($block_content, $block)
         $existing_style = rtrim((string) $processor->get_attribute('style'), '; ');
         $new_style = ('' === $existing_style ? '' : $existing_style . ';') . implode(';', $style_parts) . ';';
         $processor->set_attribute('style', $new_style);
+    }
+
+    foreach ($extra_attributes as $name => $value) {
+        $processor->set_attribute($name, $value);
     }
 
     return $processor->get_updated_html();

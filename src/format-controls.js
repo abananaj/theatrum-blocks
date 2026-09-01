@@ -1,21 +1,37 @@
 /**
- * Editor-only extension bringing theatrum/carousel's Grid Gap + Arrow Styles
- * options to the is-style-ct-carousel format (core/query and core/gallery
- * styled as a carousel — see src/formats/). Follows the same
- * registerBlockType / BlockEdit / BlockListBlock / getSaveContent.extraProps
- * shape chance-ollie's ctGridColumns/ctGridSpan use to extend core blocks
- * (see wp-content/themes/chance-ollie/inc/grid-columns/js/editor.js) — this
+ * Editor-only extension bringing the native theatrum/carousel and
+ * theatrum/slider blocks' options to the is-style-ct-carousel and
+ * is-style-ct-slider formats (core/query and core/gallery styled as a
+ * carousel/slider — see src/formats/). Follows the same registerBlockType /
+ * BlockEdit / BlockListBlock / getSaveContent.extraProps shape
+ * chance-ollie's ctGridColumns/ctGridSpan use to extend core blocks (see
+ * wp-content/themes/chance-ollie/inc/grid-columns/js/editor.js) — this
  * codebase's only other precedent for this kind of extension.
  *
  * Attributes are namespaced `ct*` (ctArrowPosition, ctCarouselGap, ...) so
  * they read as this plugin's addition in the inspector/JSON, matching that
  * same ctGridColumns/ctGridSpan convention — even though a literal
- * collision with the native theatrum/carousel block's bare `arrowPosition`
- * etc. is impossible (attributes are scoped per block type).
+ * collision with the native blocks' bare `arrowPosition` etc. is impossible
+ * (attributes are scoped per block type).
  *
- * core/gallery already has native gap support (Styles > Dimensions), so it
- * doesn't get the Grid Gap control here — only core/query does, whose own
- * gap control lives one level down on its child core/post-template block.
+ * The arrow attributes (ctArrowPosition/ctArrowBackground/ctArrowColor/
+ * ctArrowBackgroundColor/ctArrowSize/ctArrowSizeUnit) are shared by BOTH
+ * formats rather than duplicated per-format — is-style-ct-carousel and
+ * is-style-ct-slider are mutually exclusive on a given block, so one block
+ * only ever has one of them active, and reusing the same attributes means a
+ * value set while styled as one carries over if the style is later switched
+ * to the other. Which format is actually active determines which CSS
+ * custom-property prefix / modifier class names get emitted (carousel:
+ * --ct-arrow-*, .theatrum-arrows-*; slider: --tm-arrow-*,
+ * .tm-slider-arrows-*), and only carousel gets a Grid Gap control (no
+ * per-item gap concept for a one-slide-visible-at-a-time slider) while only
+ * slider gets Autoplay controls (core/query/core/gallery have no existing
+ * autoplay mechanism at all today — src/formats/slider.js reads
+ * root.dataset.autoplay, which nothing currently sets for either format).
+ *
+ * core/gallery already has native gap support (Styles > Dimensions), so
+ * Grid Gap is carousel-only AND core/query-only here — its own gap control
+ * lives one level down on its child core/post-template block.
  *
  * Server-side counterpart: inc/format-controls.php (render_block filter for
  * core/query, which is dynamic and has no saved markup to extend here).
@@ -24,12 +40,19 @@ import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, SelectControl } from '@wordpress/components';
+import {
+	PanelBody,
+	TextControl,
+	SelectControl,
+	ToggleControl,
+	RangeControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import ArrowControls from './components/arrow-controls';
 import getArrowStyleVars from './components/arrow-controls/get-arrow-style-vars';
 
-const STYLE_SLUG = 'is-style-ct-carousel';
+const CAROUSEL_STYLE_SLUG = 'is-style-ct-carousel';
+const SLIDER_STYLE_SLUG = 'is-style-ct-slider';
 const TARGET_BLOCKS = ( window.theatrumFormatControls || {} ).blocks || [
 	'core/query',
 	'core/gallery',
@@ -69,40 +92,73 @@ const GAP_ATTRIBUTES = {
 	},
 };
 
+const AUTOPLAY_ATTRIBUTES = {
+	ctAutoplay: { type: 'boolean', default: false },
+	ctAutoplaySpeed: {
+		type: 'number',
+		default: 5000,
+		minimum: 100,
+		maximum: 10000,
+	},
+};
+
 function isTargetBlock( name ) {
 	return TARGET_BLOCKS.includes( name );
 }
 
-function hasCarouselStyle( attributes ) {
-	return ( attributes?.className || '' ).split( /\s+/ ).includes( STYLE_SLUG );
+function hasStyle( attributes, slug ) {
+	return ( attributes?.className || '' ).split( /\s+/ ).includes( slug );
 }
 
 function isCarouselFormatBlock( name, attributes ) {
-	return isTargetBlock( name ) && hasCarouselStyle( attributes );
+	return isTargetBlock( name ) && hasStyle( attributes, CAROUSEL_STYLE_SLUG );
+}
+
+function isSliderFormatBlock( name, attributes ) {
+	return isTargetBlock( name ) && hasStyle( attributes, SLIDER_STYLE_SLUG );
+}
+
+function isArrowFormatBlock( name, attributes ) {
+	return (
+		isCarouselFormatBlock( name, attributes ) ||
+		isSliderFormatBlock( name, attributes )
+	);
 }
 
 /**
- * Builds the modifier classes + inline CSS vars for a carousel-format
- * instance, shared by the BlockListBlock (canvas preview) and
+ * Builds the modifier classes + inline CSS vars for a carousel- or
+ * slider-format instance, shared by the BlockListBlock (canvas preview) and
  * getSaveContent.extraProps (static core/gallery) filters below.
  */
 function buildFormatModifiers( name, attributes ) {
 	const classes = [];
-	if ( 'inside' === attributes.ctArrowPosition ) {
-		classes.push( 'theatrum-arrows-inside' );
-	} else if ( 'hidden' === attributes.ctArrowPosition ) {
-		classes.push( 'theatrum-arrows-hidden' );
-	}
+	let style = {};
 
-	const style = getArrowStyleVars( attributes, {
-		prefix: 'ct-arrow',
-		attributePrefix: 'ct',
-	} );
-
-	if ( GAP_ELIGIBLE_BLOCKS.includes( name ) && attributes.ctCarouselGap ) {
-		style[ '--ct-carousel-gap' ] = `${ attributes.ctCarouselGap }${
-			attributes.ctCarouselGapUnit || 'px'
-		}`;
+	if ( isCarouselFormatBlock( name, attributes ) ) {
+		if ( 'inside' === attributes.ctArrowPosition ) {
+			classes.push( 'theatrum-arrows-inside' );
+		} else if ( 'hidden' === attributes.ctArrowPosition ) {
+			classes.push( 'theatrum-arrows-hidden' );
+		}
+		style = getArrowStyleVars( attributes, {
+			prefix: 'ct-arrow',
+			attributePrefix: 'ct',
+		} );
+		if ( GAP_ELIGIBLE_BLOCKS.includes( name ) && attributes.ctCarouselGap ) {
+			style[ '--ct-carousel-gap' ] = `${ attributes.ctCarouselGap }${
+				attributes.ctCarouselGapUnit || 'px'
+			}`;
+		}
+	} else if ( isSliderFormatBlock( name, attributes ) ) {
+		if ( 'inside' === attributes.ctArrowPosition ) {
+			classes.push( 'tm-slider-arrows-inside' );
+		} else if ( 'hidden' === attributes.ctArrowPosition ) {
+			classes.push( 'tm-slider-arrows-hidden' );
+		}
+		style = getArrowStyleVars( attributes, {
+			prefix: 'tm-arrow',
+			attributePrefix: 'ct',
+		} );
 	}
 
 	Object.keys( style ).forEach( ( key ) => {
@@ -114,8 +170,21 @@ function buildFormatModifiers( name, attributes ) {
 	return { classes, style };
 }
 
-/* 1. Register the arrow attributes on core/query & core/gallery, and the
- * gap attributes on core/query only. */
+/**
+ * Builds the data-autoplay/data-autoplay-speed attributes
+ * src/formats/slider.js reads off the format root, for a slider-format
+ * instance.
+ */
+function buildAutoplayAttributes( attributes ) {
+	return {
+		'data-autoplay': attributes.ctAutoplay ? 'true' : 'false',
+		'data-autoplay-speed': String( attributes.ctAutoplaySpeed ?? 5000 ),
+	};
+}
+
+/* 1. Register the shared arrow attributes on core/query & core/gallery, the
+ * gap attributes on core/query only, and the autoplay attributes on
+ * core/query & core/gallery. */
 addFilter(
 	'blocks.registerBlockType',
 	'theatrum-blocks/format-controls/attributes',
@@ -123,7 +192,11 @@ addFilter(
 		if ( ! isTargetBlock( name ) ) {
 			return settings;
 		}
-		const attributes = { ...settings.attributes, ...ARROW_ATTRIBUTES };
+		const attributes = {
+			...settings.attributes,
+			...ARROW_ATTRIBUTES,
+			...AUTOPLAY_ATTRIBUTES,
+		};
 		if ( GAP_ELIGIBLE_BLOCKS.includes( name ) ) {
 			Object.assign( attributes, GAP_ATTRIBUTES );
 		}
@@ -131,19 +204,21 @@ addFilter(
 	}
 );
 
-/* 2. Inspector panel — only when the block style is is-style-ct-carousel. */
+/* 2. Inspector panels — shown based on which format style is active. */
 const withFormatInspectorControls = createHigherOrderComponent(
 	( BlockEdit ) => ( props ) => {
-		if ( ! isCarouselFormatBlock( props.name, props.attributes ) ) {
+		if ( ! isArrowFormatBlock( props.name, props.attributes ) ) {
 			return <BlockEdit { ...props } />;
 		}
 
 		const { attributes, setAttributes } = props;
+		const isCarousel = isCarouselFormatBlock( props.name, attributes );
+		const isSlider = isSliderFormatBlock( props.name, attributes );
 
 		return (
 			<Fragment>
 				<BlockEdit { ...props } />
-				{ GAP_ELIGIBLE_BLOCKS.includes( props.name ) && (
+				{ isCarousel && GAP_ELIGIBLE_BLOCKS.includes( props.name ) && (
 					<InspectorControls>
 						<PanelBody
 							title={ __( 'Carousel Layout', 'theatrum-blocks' ) }
@@ -182,6 +257,43 @@ const withFormatInspectorControls = createHigherOrderComponent(
 						</PanelBody>
 					</InspectorControls>
 				) }
+				{ isSlider && (
+					<InspectorControls>
+						<PanelBody
+							title={ __( 'Slider Settings', 'theatrum-blocks' ) }
+							initialOpen={ false }
+						>
+							<ToggleControl
+								label={ __( 'Autoplay', 'theatrum-blocks' ) }
+								checked={ !! attributes.ctAutoplay }
+								onChange={ ( value ) =>
+									setAttributes( { ctAutoplay: value } )
+								}
+								help={ __(
+									'Automatically advance to the next slide',
+									'theatrum-blocks'
+								) }
+							/>
+							{ attributes.ctAutoplay && (
+								<RangeControl
+									label={ __(
+										'Autoplay speed (ms)',
+										'theatrum-blocks'
+									) }
+									value={ attributes.ctAutoplaySpeed }
+									onChange={ ( value ) =>
+										setAttributes( {
+											ctAutoplaySpeed: value,
+										} )
+									}
+									min={ 100 }
+									max={ 10000 }
+									step={ 100 }
+								/>
+							) }
+						</PanelBody>
+					</InspectorControls>
+				) }
 				<ArrowControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
@@ -199,17 +311,20 @@ addFilter(
 	withFormatInspectorControls
 );
 
-/* 3. Reflect classes + CSS vars on the editor canvas wrapper. Note: arrow
- * vars have no visible effect here yet — the format's arrow buttons are
- * built by frontend-only JS (src/formats/carousel.js), so there's no arrow
- * DOM in the canvas to style. Grid Gap *is* visible immediately, since
- * .wp-block-post-template already exists in the canvas and the format's own
- * CSS already reads var(--ct-carousel-gap, ...). Setting the arrow vars
- * anyway is harmless and keeps this in sync if that limitation is lifted
- * later. */
+/* 3. Reflect classes + CSS vars (and, for slider, the data-autoplay*
+ * attributes) on the editor canvas wrapper. Note: arrow vars have no
+ * visible effect here yet — the formats' arrow buttons are built by
+ * frontend-only JS (src/formats/carousel.js, src/formats/slider.js), so
+ * there's no arrow DOM in the canvas to style. Carousel Grid Gap *is*
+ * visible immediately, since .wp-block-post-template already exists in the
+ * canvas and the format's own CSS already reads var(--ct-carousel-gap,
+ * ...). Setting the other vars/attributes anyway is harmless and keeps
+ * this in sync if the arrow-DOM limitation is lifted later. */
 const withFormatEditorClass = createHigherOrderComponent(
 	( BlockListBlock ) => ( props ) => {
-		if ( ! isCarouselFormatBlock( props.name, props.attributes ) ) {
+		const isCarousel = isCarouselFormatBlock( props.name, props.attributes );
+		const isSlider = isSliderFormatBlock( props.name, props.attributes );
+		if ( ! isCarousel && ! isSlider ) {
 			return <BlockListBlock { ...props } />;
 		}
 
@@ -217,7 +332,15 @@ const withFormatEditorClass = createHigherOrderComponent(
 			props.name,
 			props.attributes
 		);
-		if ( ! classes.length && ! Object.keys( style ).length ) {
+		const extraWrapperProps = isSlider
+			? buildAutoplayAttributes( props.attributes )
+			: {};
+
+		if (
+			! classes.length &&
+			! Object.keys( style ).length &&
+			! Object.keys( extraWrapperProps ).length
+		) {
 			return <BlockListBlock { ...props } />;
 		}
 
@@ -226,6 +349,7 @@ const withFormatEditorClass = createHigherOrderComponent(
 			.join( ' ' );
 		const nextWrapperProps = {
 			...props.wrapperProps,
+			...extraWrapperProps,
 			style: { ...props.wrapperProps?.style, ...style },
 		};
 
@@ -245,16 +369,18 @@ addFilter(
 	withFormatEditorClass
 );
 
-/* 4. Persist classes + CSS vars into saved markup for the static
- * core/gallery block (core/query is dynamic — see inc/format-controls.php
- * for its render-time equivalent). */
+/* 4. Persist classes + CSS vars + (for slider) data-autoplay* into saved
+ * markup for the static core/gallery block (core/query is dynamic — see
+ * inc/format-controls.php for its render-time equivalent). */
 addFilter(
 	'blocks.getSaveContent.extraProps',
 	'theatrum-blocks/format-controls/save-props',
 	( props, blockType, attributes ) => {
+		const isCarousel = isCarouselFormatBlock( blockType.name, attributes );
+		const isSlider = isSliderFormatBlock( blockType.name, attributes );
 		if (
 			'core/gallery' !== blockType.name ||
-			! hasCarouselStyle( attributes )
+			( ! isCarousel && ! isSlider )
 		) {
 			return props;
 		}
@@ -263,12 +389,19 @@ addFilter(
 			blockType.name,
 			attributes
 		);
-		if ( ! classes.length && ! Object.keys( style ).length ) {
+		const extraProps = isSlider ? buildAutoplayAttributes( attributes ) : {};
+
+		if (
+			! classes.length &&
+			! Object.keys( style ).length &&
+			! Object.keys( extraProps ).length
+		) {
 			return props;
 		}
 
 		return {
 			...props,
+			...extraProps,
 			className: [ props.className, ...classes ]
 				.filter( Boolean )
 				.join( ' ' ),
