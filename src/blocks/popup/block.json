@@ -51,6 +51,16 @@
 		"autoOpenDelay": {
 			"type": "number",
 			"default": 0
+		},
+		"position": {
+			"type": "string",
+			"default": "center",
+			"enum": [ "center", "top", "right", "bottom", "left" ]
+		},
+		"size": {
+			"type": "string",
+			"default": "medium",
+			"enum": [ "small", "medium", "large", "full" ]
 		}
 	},
 	"example": {},

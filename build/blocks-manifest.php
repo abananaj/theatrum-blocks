@@ -1730,6 +1730,27 @@ return array(
 			'autoOpenDelay' => array(
 				'type' => 'number',
 				'default' => 0
+			),
+			'position' => array(
+				'type' => 'string',
+				'default' => 'center',
+				'enum' => array(
+					'center',
+					'top',
+					'right',
+					'bottom',
+					'left'
+				)
+			),
+			'size' => array(
+				'type' => 'string',
+				'default' => 'medium',
+				'enum' => array(
+					'small',
+					'medium',
+					'large',
+					'full'
+				)
 			)
 		),
 		'example' => array(

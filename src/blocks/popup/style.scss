@@ -19,7 +19,8 @@
 	--popup-bg: #fff;
 	--popup-content-color: #1e1e1e;
 	--popup-close-size: 32px;
-	--popup-max-width: 1140px; // medium — matches Dialog is-medium
+	--popup-offcanvas-width: 420px; // medium, for left/right offcanvas
+	--popup-offcanvas-height: 60vh; // medium, for top/bottom offcanvas
 	--popup-backdrop-color: rgba(0, 0, 0, 0.35);
 	--popup-z-index: 9999;
 }
@@ -66,21 +67,13 @@
 
 .popup-dialog {
 	position: fixed;
-	top: 50%;
-	left: 50%;
 	z-index: var(--popup-z-index);
-	transform: translate(-50%, -50%) scale(0.9);
 	opacity: 0;
 	pointer-events: none;
 
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
-
-	// Sizing — matches Dialog is-medium (max-width: surface-width-lg ≈ 640px)
-	width: calc(100vw - 2 * var(--popup-padding));
-	max-width: var(--popup-max-width);
-	max-height: calc(90dvh - 2 * var(--popup-padding));
 
 	background-color: var(--popup-bg);
 	border-radius: var(--popup-border-radius);
@@ -89,8 +82,12 @@
 	overflow: hidden;
 	color: var(--popup-content-color);
 
-	// Enter animation (open state): ease in from scale 0.9
-	// Exit animation (closed state): ease out to scale 0.9
+	// Enter animation (open state): ease in
+	// Exit animation (closed state): ease out
+	// Targets opacity + transform generically — each .is-position-* modifier
+	// below supplies its own transform values for the open/closed states
+	// (a scale for the center modal, a translate for offcanvas panels) but
+	// shares this timing.
 	@media not (prefers-reduced-motion) {
 		transition:
 			opacity 0.2s cubic-bezier(1, 0, 0.2, 1),
@@ -106,13 +103,152 @@
 	&[data-state="open"] {
 		opacity: 1;
 		pointer-events: auto;
-		transform: translate(-50%, -50%) scale(1);
 	}
 
 	&[data-state="closed"] {
 		opacity: 0;
 		pointer-events: none;
+	}
+
+	// ── Center (default): fixed modal, centered, scales in ────────────────────
+	&.is-position-center {
+		top: 50%;
+		left: 50%;
+		width: calc(100vw - 2 * var(--popup-padding));
+		max-height: calc(90dvh - 2 * var(--popup-padding));
 		transform: translate(-50%, -50%) scale(0.9);
+
+		&[data-state="open"] {
+			transform: translate(-50%, -50%) scale(1);
+		}
+
+		&[data-state="closed"] {
+			transform: translate(-50%, -50%) scale(0.9);
+		}
+
+		// Sizing maps to max-width — medium matches Dialog is-medium
+		// (max-width: surface-width-lg ≈ 640px).
+		&.is-size-small {
+			max-width: 480px;
+		}
+
+		&.is-size-medium {
+			max-width: 640px;
+		}
+
+		&.is-size-large {
+			max-width: 960px;
+		}
+
+		&.is-size-full {
+			max-width: calc(100vw - 2 * var(--popup-padding));
+		}
+	}
+
+	// ── Left/right: full-height offcanvas panel, slides in horizontally ───────
+	&.is-position-left,
+	&.is-position-right {
+		top: 0;
+		bottom: 0;
+		height: 100dvh;
+		max-height: 100dvh;
+		width: var(--popup-offcanvas-width);
+		border-radius: 0;
+
+		&.is-size-small {
+			width: 320px;
+		}
+
+		&.is-size-medium {
+			width: 420px;
+		}
+
+		&.is-size-large {
+			width: 560px;
+		}
+
+		&.is-size-full {
+			width: 100vw;
+		}
+	}
+
+	&.is-position-left {
+		left: 0;
+		transform: translateX(-100%);
+
+		&[data-state="open"] {
+			transform: translateX(0);
+		}
+
+		&[data-state="closed"] {
+			transform: translateX(-100%);
+		}
+	}
+
+	&.is-position-right {
+		right: 0;
+		transform: translateX(100%);
+
+		&[data-state="open"] {
+			transform: translateX(0);
+		}
+
+		&[data-state="closed"] {
+			transform: translateX(100%);
+		}
+	}
+
+	// ── Top/bottom: full-width offcanvas panel, slides in vertically ──────────
+	&.is-position-top,
+	&.is-position-bottom {
+		left: 0;
+		right: 0;
+		width: 100%;
+		max-width: 100%;
+		height: var(--popup-offcanvas-height);
+		border-radius: 0;
+
+		&.is-size-small {
+			height: 40vh;
+		}
+
+		&.is-size-medium {
+			height: 60vh;
+		}
+
+		&.is-size-large {
+			height: 80vh;
+		}
+
+		&.is-size-full {
+			height: 100dvh;
+		}
+	}
+
+	&.is-position-top {
+		top: 0;
+		transform: translateY(-100%);
+
+		&[data-state="open"] {
+			transform: translateY(0);
+		}
+
+		&[data-state="closed"] {
+			transform: translateY(-100%);
+		}
+	}
+
+	&.is-position-bottom {
+		bottom: 0;
+		transform: translateY(100%);
+
+		&[data-state="open"] {
+			transform: translateY(0);
+		}
+
+		&[data-state="closed"] {
+			transform: translateY(100%);
+		}
 	}
 }
 

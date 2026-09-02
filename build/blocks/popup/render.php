@@ -20,12 +20,23 @@ if ($dialog_label === '') {
 $auto_open_delay = (float) ($attributes['autoOpenDelay'] ?? 0);
 $should_auto_open = $auto_open_delay > 0;
 
+$allowed_positions = array('center', 'top', 'right', 'bottom', 'left');
+$position = isset($attributes['position']) && in_array($attributes['position'], $allowed_positions, true)
+    ? $attributes['position']
+    : 'center';
+
+$allowed_sizes = array('small', 'medium', 'large', 'full');
+$size = isset($attributes['size']) && in_array($attributes['size'], $allowed_sizes, true)
+    ? $attributes['size']
+    : 'medium';
+
 $wrapper_extra_attributes = ['class' => 'wp-block-theatrum-popup'];
 if ($should_auto_open) {
     $wrapper_extra_attributes['data-auto-open-delay'] = $auto_open_delay;
 }
 
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_extra_attributes);
+$dialog_classes = 'popup-dialog is-position-' . $position . ' is-size-' . $size;
 ?>
 <div <?php echo wp_kses_data( $wrapper_attributes ); ?>>
   <div
@@ -35,7 +46,7 @@ $wrapper_attributes = get_block_wrapper_attributes($wrapper_extra_attributes);
     inert></div>
 
   <div
-    class="popup-dialog"
+    class="<?php echo esc_attr($dialog_classes); ?>"
     data-popup-content="true"
     role="dialog"
     aria-modal="true"

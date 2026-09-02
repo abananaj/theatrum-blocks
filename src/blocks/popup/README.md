@@ -10,6 +10,8 @@ A dialog/popup block that reveals nested content. It has no button of its own â€
 - Optional Dialog Label for screen readers (falls back to the HTML Anchor if blank)
 - Alignment options (left, center, right)
 - Optional automatic opening after a configurable delay
+- Position: centered modal (default), or an offcanvas panel sliding in from the top, right, bottom, or left edge
+- Size presets (Small / Medium / Large / Full) â€” map to a max-width for the center modal, or a fixed width/height for offcanvas panels
 
 ## Usage
 

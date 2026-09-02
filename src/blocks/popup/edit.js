@@ -9,6 +9,7 @@ import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import {
 	TextControl,
+	SelectControl,
 	__experimentalNumberControl as NumberControl,
 	PanelBody,
 	ToolbarGroup,
@@ -16,7 +17,23 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { seen, unseen } from '@wordpress/icons';
+import classnames from 'classnames';
 import './editor.scss';
+
+const POSITION_OPTIONS = [
+	{ label: __( 'Center', 'theatrum-blocks' ), value: 'center' },
+	{ label: __( 'Top', 'theatrum-blocks' ), value: 'top' },
+	{ label: __( 'Right', 'theatrum-blocks' ), value: 'right' },
+	{ label: __( 'Bottom', 'theatrum-blocks' ), value: 'bottom' },
+	{ label: __( 'Left', 'theatrum-blocks' ), value: 'left' },
+];
+
+const SIZE_OPTIONS = [
+	{ label: __( 'Small', 'theatrum-blocks' ), value: 'small' },
+	{ label: __( 'Medium', 'theatrum-blocks' ), value: 'medium' },
+	{ label: __( 'Large', 'theatrum-blocks' ), value: 'large' },
+	{ label: __( 'Full', 'theatrum-blocks' ), value: 'full' },
+];
 
 export default function Edit( {
 	attributes,
@@ -24,7 +41,13 @@ export default function Edit( {
 	isSelected,
 	clientId,
 } ) {
-	const { dialogLabel, anchor, autoOpenDelay } = attributes;
+	const {
+		dialogLabel,
+		anchor,
+		autoOpenDelay,
+		position = 'center',
+		size = 'medium',
+	} = attributes;
 	const blockProps = useBlockProps( {
 		className: 'wp-block-theatrum-popup',
 	} );
@@ -91,6 +114,30 @@ export default function Edit( {
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
+					<SelectControl
+						label={ __( 'Position', 'theatrum-blocks' ) }
+						value={ position }
+						options={ POSITION_OPTIONS }
+						onChange={ ( value ) =>
+							setAttributes( { position: value } )
+						}
+						help={ __(
+							'Center opens as a modal dialog; the other options slide in as an offcanvas panel from that edge.',
+							'theatrum-blocks'
+						) }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<SelectControl
+						label={ __( 'Size', 'theatrum-blocks' ) }
+						value={ size }
+						options={ SIZE_OPTIONS }
+						onChange={ ( value ) =>
+							setAttributes( { size: value } )
+						}
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
 				</PanelBody>
 				<PanelBody
 					title={ __( 'Automatic Opening', 'theatrum-blocks' ) }
@@ -127,7 +174,11 @@ export default function Edit( {
 					style={ { pointerEvents: open ? 'auto' : 'none' } }
 				/>
 				<div
-					className="popup-dialog"
+					className={ classnames(
+						'popup-dialog',
+						`is-position-${ position }`,
+						`is-size-${ size }`
+					) }
 					role="dialog"
 					aria-modal="true"
 					aria-label={ displayLabel }
