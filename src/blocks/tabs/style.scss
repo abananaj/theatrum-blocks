@@ -31,9 +31,9 @@ $ct-tabs-breakpoint: 768px;
 		border-radius: var(--wp--preset--border-radius--x-large);
 		font-size: 1.25rem;
 		transition:
-			color var(--ct-duration-fast-2, 150ms) ease,
-			background-color var(--ct-duration-fast-2, 150ms) ease,
-			border-color var(--ct-duration-fast-2, 150ms) ease;
+			color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease),
+			background-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease),
+			border-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease);
 		h2,
 		h3 {
 			font-size: inherit;

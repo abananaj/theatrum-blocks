@@ -185,8 +185,14 @@ as a fallback** so the rule still works with the theme deactivated — the same
 house style used for colour tokens (`var(--ct-tab-header-accent, currentColor)`):
 
 ```scss
-transition: opacity var(--ct-duration-fast-1, 0.2s) var(--ct-ease-exit, ease-out);
+transition: opacity var(--ct-duration-fast-1, 0.2s) var(--ct-ease-entrance, ease-out);
 ```
+
+The fallback must be the literal the token actually resolves to, or the block
+renders one curve with the theme active and a different one without it. Two
+traps: a bare `ease` is `var(--ct-ease-standard, ease)`, not `ease-in-out`; and
+the easing roles are the inverse of the CSS keyword they name —
+`--ct-ease-entrance` is `ease-out`, `--ct-ease-exit` is `ease-in`.
 
 Exception: where a block exposes its own timing control as a custom property
 (e.g. list-thumbnail's `--animation-speed`, an editor-facing enum), keep the

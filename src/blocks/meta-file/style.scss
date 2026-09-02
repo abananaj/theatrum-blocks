@@ -7,7 +7,7 @@
 		padding: 0.25em 0.5em;
 		border-radius: 0.25em;
 		font-weight: 500;
-		transition: all var(--ct-duration-fast-1, 0.2s) ease;
+		transition: all var(--ct-duration-fast-1, 0.2s) var(--ct-ease-standard, ease);
 
 		.dashicons {
 			display: inline-block;

@@ -46,7 +46,7 @@
 	background-color: var(--popup-backdrop-color);
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity var(--ct-duration-fast-1, 0.2s) var(--ct-ease-exit, ease-out);
+	transition: opacity var(--ct-duration-fast-1, 0.2s) var(--ct-ease-entrance, ease-out);
 
 	&[data-state="open"] {
 		opacity: 1;
@@ -306,8 +306,8 @@
 	cursor: pointer;
 	color: var(--popup-content-color);
 	transition:
-		background-color var(--ct-duration-fast-2, 0.15s) ease,
-		border-color var(--ct-duration-fast-2, 0.15s) ease;
+		background-color var(--ct-duration-fast-2, 0.15s) var(--ct-ease-standard, ease),
+		border-color var(--ct-duration-fast-2, 0.15s) var(--ct-ease-standard, ease);
 
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.06);

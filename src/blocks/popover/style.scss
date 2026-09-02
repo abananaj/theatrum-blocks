@@ -48,7 +48,7 @@
 	opacity: 0;
 	visibility: hidden;
 	pointer-events: none;
-	transition: opacity var(--ct-duration-slow-1, 0.3s) ease, visibility var(--ct-duration-slow-1, 0.3s) ease;
+	transition: opacity var(--ct-duration-slow-1, 0.3s) var(--ct-ease-standard, ease), visibility var(--ct-duration-slow-1, 0.3s) var(--ct-ease-standard, ease);
 
 	&::after {
 		content: '';

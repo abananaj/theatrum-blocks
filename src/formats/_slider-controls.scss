@@ -40,7 +40,7 @@
 	background-color: var(--tm-arrow-bg, transparent);
 	border: 0;
 	border-radius: 50%;
-	transition: var(--ct-duration-slow-1, 0.3s) ease;
+	transition: var(--ct-duration-slow-1, 0.3s) var(--ct-ease-standard, ease);
 	user-select: none;
 
 	&.tm-slider-prev {
@@ -92,7 +92,7 @@
 	background-color: #bbb;
 	border-radius: 50%;
 	display: inline-block;
-	transition: background-color 0.6s ease;
+	transition: background-color var(--ct-duration-slow-4, 0.6s) var(--ct-ease-standard, ease);
 	// Dots are rendered as <button> in the editor (for real click handling)
 	// and <span role="button"> on the frontend — reset button chrome so both
 	// look identical.

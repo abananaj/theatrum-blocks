@@ -19,7 +19,7 @@
 	justify-content: center;
 	height: min-content;
 	cursor: pointer;
-	transition: color var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) ease;
+	transition: color var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) var(--ct-ease-standard, ease);
 	
 	&:hover :where(h1, h2, h3, h4, h5, h6) {
 		transform: translateY(-2px);
@@ -27,7 +27,7 @@
 
 	:where(h1, h2, h3, h4, h5, h6) {
 		margin: 0;
-		transition: transform var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) ease;
+		transition: transform var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) var(--ct-ease-standard, ease);
 	}
 
 	// "Hide Description Until Hover" (parent block setting): collapse every
@@ -41,8 +41,8 @@
 			opacity: 0;
 			overflow: hidden;
 			transition:
-				grid-template-rows var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) ease,
-				opacity var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) ease;
+				grid-template-rows var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) var(--ct-ease-standard, ease),
+				opacity var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) var(--ct-ease-standard, ease);
 		}
 
 		&:hover :where(p) {

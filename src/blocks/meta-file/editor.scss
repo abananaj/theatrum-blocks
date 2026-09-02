@@ -6,7 +6,7 @@
 		text-decoration: none;
 		padding: 0.25em 0.5em;
 		border-radius: 0.25em;
-		transition: background-color var(--ct-duration-fast-1, 0.2s) ease;
+		transition: background-color var(--ct-duration-fast-1, 0.2s) var(--ct-ease-standard, ease);
 
 		&:hover {
 			background-color: rgba(0, 115, 170, 0.1);
