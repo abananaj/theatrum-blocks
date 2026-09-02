@@ -4,6 +4,10 @@ This file documents Claude agents and workflows for working with the Theatrum Bl
 
 **[← Back to wp_root](../../../../AGENTS.md)** | [CLAUDE.md](CLAUDE.md) | [CHANGELOG.md](CHANGELOG.md)
 
+## Code Comments
+
+One line, essential info only. No multi-line/wrapped comment blocks, no restating what the code does — if a comment needs more than one line, cut it down or drop it.
+
 ## Available Agent Types
 
 ### Explore Agent
