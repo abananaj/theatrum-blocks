@@ -5,14 +5,9 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Performances List block — server-side render
- * $attributes, $content, $block are injected by WordPress.
- *
- * Reads the 'performances' ACF repeater from the current post and
- * displays the next 5 upcoming performances (today or later), sorted
- * ascending by date.
- *
- * Each row exposes: date (D M jS), time (g:i A), note (plain text).
+ * Performances List block — server-side render.
+ * Reads the 'performances' ACF repeater and displays the next 5 upcoming performances (today or later), sorted ascending by date.
+ * Row shape: date (D M jS), time (g:i A), note (plain text).
  */
 
 $post_id = isset($block->context['postId']) ? (int) $block->context['postId'] : get_the_ID();
@@ -112,8 +107,7 @@ usort($upcoming, fn($a, $b) => $a['ts'] - $b['ts']);
 // Take the next 5.
 $upcoming = array_slice($upcoming, 0, 5);
 
-// Map the editor "Block spacing" (blockGap) value onto the CSS custom property
-// the stylesheet consumes. blockGap isn't auto-rendered for non-layout blocks.
+// Map the editor "Block spacing" (blockGap) value onto the CSS custom property the stylesheet consumes — blockGap isn't auto-rendered for non-layout blocks.
 $wrapper_args = array();
 $block_gap    = $attributes['style']['spacing']['blockGap'] ?? '';
 if ($block_gap) {

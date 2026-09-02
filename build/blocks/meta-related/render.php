@@ -5,11 +5,8 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Meta Related Block - Server-side render callback
- *
- * Reads a meta field from the current post that contains one or more post IDs
- * (or ACF Post Objects), then displays each related post's title, optionally
- * linked to its permalink.
+ * Meta Related block — server-side render.
+ * Reads a meta field holding one or more post IDs (or ACF Post Objects) and displays each related post's title, optionally linked.
  */
 
 $key_input   = isset($attributes['keyInput'])  ? sanitize_text_field($attributes['keyInput'])  : '';

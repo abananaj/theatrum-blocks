@@ -5,9 +5,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Meta File Block - Server-side render callback
- * Handles ACF file fields that return array, URL, or attachment ID
- * Renders as a link that opens in a new tab
+ * Meta File block — server-side render; handles ACF file fields returning array, URL, or attachment ID; renders as a link.
  */
 
 $post_id = $block->context['postId'] ?? get_the_ID();

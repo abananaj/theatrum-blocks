@@ -5,11 +5,8 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Server-side render template for the Breadcrumbs block.
- *
- * $attributes, $content, and $block are injected by WordPress.
- * The trail-building functions are wrapped in a function_exists() guard so
- * that multiple Breadcrumbs blocks on one page don't redeclare them.
+ * Server-side render template for the Breadcrumbs block. $attributes, $content, $block injected by WordPress.
+ * Trail-building functions are wrapped in function_exists() so multiple Breadcrumbs blocks don't redeclare them.
  *
  * @package Theatrum_Blocks
  */
@@ -44,8 +41,7 @@ function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 	$breadcrumb_items = array();
 
 	if ( $attributes['showHomeItem'] ) {
-		// We make `home` a link if not on front page, or if front page
-		// is set to a custom page and is paged.
+		// We make `home` a link if not on front page, or if front page is set to a custom page and is paged.
 		if ( ! $is_front_page || ( 'page' === get_option( 'show_on_front' ) && (int) get_query_var( 'page' ) > 1 ) ) {
 			$breadcrumb_items[] = array(
 				'label' => __( 'Home', 'theatrum-blocks' ),
@@ -66,9 +62,7 @@ function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 			$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item();
 		}
 	} elseif ( $is_front_page ) {
-		// Handle front page.
-		// This check is explicitly nested in order not to execute the `else` branch.
-		// If front page is set to custom page and is paged, add the page number.
+		// Front page: add page number if paginated (nested so we skip the else branch).
 		if ( (int) get_query_var( 'page' ) > 1 ) {
 			$breadcrumb_items[] = theatrum_breadcrumbs_create_page_number_item( 'page' );
 		}
@@ -119,9 +113,7 @@ function theatrum_render_breadcrumbs( $attributes, $content, $block ) {
 			}
 		}
 
-		// Determine breadcrumb type.
-		// Some non-hierarchical post types (e.g., attachments) can have parents.
-		// Use hierarchical breadcrumbs if a parent exists, otherwise use taxonomy breadcrumbs.
+		// Breadcrumb type: hierarchical if a parent exists (non-hierarchical types like attachments can have one), else taxonomy terms.
 		$show_terms = false;
 		if ( ! is_post_type_hierarchical( $post_type ) && ! $post_parent ) {
 			$show_terms = true;
@@ -383,8 +375,7 @@ function theatrum_breadcrumbs_get_archive_breadcrumbs() {
 		$month = get_query_var( 'monthnum' );
 		$day   = get_query_var( 'day' );
 
-		// Fallback to 'm' query var for plain permalinks.
-		// Plain permalinks use ?m=YYYYMMDD format instead of separate query vars.
+		// Fallback to 'm' query var (?m=YYYYMMDD) used by plain permalinks.
 		if ( ! $year ) {
 			$m = get_query_var( 'm' );
 			if ( $m ) {
