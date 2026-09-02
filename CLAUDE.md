@@ -174,6 +174,25 @@ Blocks can fetch from these endpoints in `edit.js` via `@wordpress/api-fetch`.
 
 Blocks inherit WordPress theme styling via `theme.json`. Use block.json `supports` to enable color, typography, spacing, and border controls. Inline styles are compiled by wp-scripts.
 
+**Motion**: never hand-type a duration or easing keyword in a `transition`. Use
+the shared motion tokens — `--ct-duration-*` and `--ct-ease-*` — defined by the
+chance-ollie theme (`src/json/settings/motion.jsonc` → `theme.json`, aliased in
+its `src/scss/_tokens.scss`). The scale and the intent behind each step are
+documented in the theme's `docs/MOTION.md`.
+
+Because this is a plugin and cannot assume its theme, **always supply the literal
+as a fallback** so the rule still works with the theme deactivated — the same
+house style used for colour tokens (`var(--ct-tab-header-accent, currentColor)`):
+
+```scss
+transition: opacity var(--ct-duration-fast-1, 0.2s) var(--ct-ease-exit, ease-out);
+```
+
+Exception: where a block exposes its own timing control as a custom property
+(e.g. list-thumbnail's `--animation-speed`, an editor-facing enum), keep the
+control and tokenise only its fallback:
+`var(--animation-speed, var(--ct-duration-slow-1, 0.3s))`.
+
 ## Important Concepts
 
 **Dynamic vs Static Blocks**

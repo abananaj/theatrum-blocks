@@ -40,7 +40,7 @@
 	background-color: var(--tm-arrow-bg, transparent);
 	border: 0;
 	border-radius: 50%;
-	transition: 0.3s ease;
+	transition: var(--ct-duration-slow-1, 0.3s) ease;
 	user-select: none;
 
 	&.tm-slider-prev {

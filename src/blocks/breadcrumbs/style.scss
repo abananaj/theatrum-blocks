@@ -77,7 +77,7 @@
 		// Border traces the beveled edge, drawing the seam between segments.
 		border: var(--bc-seam) solid var(--bc-seam-color);
 
-		transition: background-color 150ms linear, color 150ms linear;
+		transition: background-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-linear, linear), color var(--ct-duration-fast-2, 150ms) var(--ct-ease-linear, linear);
 	}
 
 	// Crumbs after the first need extra left room so their text clears the
