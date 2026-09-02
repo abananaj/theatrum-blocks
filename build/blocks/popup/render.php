@@ -52,8 +52,6 @@ $dialog_classes = 'popup-dialog is-position-' . $position . ' is-size-' . $size;
     aria-modal="true"
     aria-label="<?php echo esc_attr($dialog_label); ?>"
     inert>
-    <!-- <div class="popup-dialog-header">
-    </div> -->
     <div class="popup-dialog-content">
       <button
         class="popup-close-button"
