@@ -1,17 +1,10 @@
 /**
- * Builds the actual attribute name <ArrowControls>/getArrowStyleVars() read
- * and write, given an optional namespace prefix.
- *
- * Bare (no prefix, the default): 'ArrowPosition' -> 'arrowPosition' — the
- * shape theatrum/carousel and theatrum/slider have always used.
- *
- * Prefixed (e.g. attributePrefix: 'ct'): 'ArrowPosition' -> 'ctArrowPosition'
- * — used by the is-style-ct-carousel format's core/query & core/gallery
- * attribute extension, so its added attributes stay visually distinct from
- * core's own in the inspector/JSON (matching this codebase's ctGridColumns/
- * ctGridSpan convention for extending a core block), even though a literal
- * collision with the native blocks' bare names is impossible — attributes
- * are scoped per block *type*, not shared across types.
+ * Builds the attribute name <ArrowControls>/getArrowStyleVars() read/write, given an optional
+ * namespace prefix. Bare (default): 'ArrowPosition' -> 'arrowPosition' (theatrum/carousel,
+ * theatrum/slider). Prefixed (e.g. 'ct'): -> 'ctArrowPosition', used by the is-style-ct-carousel
+ * format's core/query & core/gallery extension so added attributes stay visually distinct from
+ * core's own (matching the ctGridColumns/ctGridSpan convention) — not needed to avoid a collision,
+ * since attributes are scoped per block type.
  *
  * @param {string} attributePrefix Namespace prefix, or '' for bare names.
  * @param {string} field           PascalCase field name, e.g. 'ArrowPosition'.

@@ -1,14 +1,7 @@
-// Tabs — front-end + shared styles.
-//
-// Mobile-first: the block reads as a vertical accordion (each header stacked
-// above its own panel, only the active panel shown). At the tablet breakpoint
-// it becomes a horizontal tab strip: every header lines up in a row and the
-// single active panel spans the full width below them.
-//
-// Shared between the frontend and the editor (block.json's "style" key loads
-// this in both places) — the editor derives `.is-active` from block
-// selection instead of clicks (see tab/edit.js + editor.scss), but reuses
-// this same layout and the mixin below so both contexts look identical.
+// Mobile-first: vertical accordion (stacked headers/panels, only active panel shown); becomes
+// a horizontal tab strip at the tablet breakpoint. Shared between frontend and editor
+// (block.json's "style" key) — editor derives `.is-active` from selection instead of clicks
+// (tab/edit.js + editor.scss) but reuses this same layout.
 
 @use "mixins";
 
@@ -54,9 +47,7 @@ $ct-tabs-breakpoint: 768px;
 		&.is-active {
 			@include mixins.tab-header-active-colors;
 			border-radius: var(--wp--preset--border-radius--large);
-			// Accent underline — defaults to the active header's own text
-			// color so it looks intentional without extra setup, but stays
-			// overridable per-tab via --ct-tab-header-accent.
+			// Accent underline defaults to the active header's own text color, overridable via --ct-tab-header-accent.
 			// border-bottom-color: var(--ct-tab-header-accent, currentColor);
 		}
 	}
@@ -69,12 +60,8 @@ $ct-tabs-breakpoint: 768px;
 		}
 	}
 
-	// No-JS / pre-hydration fallback: keep the first tab's panel open until
-	// view.js takes over (it adds `.is-ready`). Frontend-only: the editor
-	// canvas never gets `.is-ready` (view.js is a viewScript, not loaded in
-	// the editor), so without excluding `.is-editor` this permanently pins
-	// tab 1's panel open there, tying editor.scss's is-active rule on
-	// specificity and fighting it for whichever tab is actually selected.
+	// No-JS / pre-hydration fallback: keep first tab's panel open until view.js adds `.is-ready`.
+	// Excludes `.is-editor` (view.js never runs there) so it doesn't fight editor.scss's is-active rule on specificity.
 	&:not(.is-ready):not(.is-editor) .ct-tab:first-child .ct-tab__panel {
 		display: block;
 	}

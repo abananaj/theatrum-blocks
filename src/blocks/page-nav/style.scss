@@ -17,8 +17,7 @@
 		margin: 0;
 	}
 }
-// Offset anchored sections so a sticky header doesn't cover the heading when
-// a jump link is followed. Override with --theatrum-page-nav-offset as needed.
+// Offset anchored sections so a sticky header doesn't cover the heading; override with --theatrum-page-nav-offset.
 section[id] {
 	scroll-margin-top: var(--theatrum-page-nav-offset, 5rem);
 }

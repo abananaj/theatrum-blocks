@@ -1,34 +1,8 @@
 /**
- * Page Nav — front-end behaviour.
- *
- * For each rendered `theatrum/page-nav` container, scan the configured content
- * region for two kinds of jump targets, in document order. Both are opt-in:
- * a block only becomes a nav target when it's been given an HTML Anchor
- * (id), same as any other in-page jump link. Anything without one — a Query
- * Loop added for some unrelated reason, a "related posts" widget, whatever
- * gets nested where next — is invisible to this scan by default, so adding
- * new content elsewhere on the page can't silently add nav entries.
- *
- * - `<section id>` elements, using the first heading inside each. Sections
- *   nested inside a query loop's post content are skipped — that markup
- *   belongs to the individual post's own body (e.g. a promo/bio block) and
- *   isn't the section the loop item should be filed under.
- * - Query loop cards (`.wp-block-post-template` items) belonging to a Query
- *   Loop block that itself has an HTML Anchor set (`.wp-block-query[id]`),
- *   using each card's `.wp-block-post-title` so every looped post gets one
- *   nav entry named after its title rather than whatever heading happens to
- *   appear first inside it. Cards nested inside a `section[id]` are skipped
- *   — that section already contributes its own single nav entry (e.g. a
- *   "2026" season section wrapping a query loop of that season's
- *   productions), so listing its individual cards too would be redundant.
- *
- * Either kind of target is skipped when it lives inside a Tabs panel
- * (`.wp-block-theatrum-tab-content`): only the active tab is visible at a
- * time, so a jump link into an inactive one would land on hidden content.
- *
- * If nothing qualifies, the container is removed so no empty nav shows.
- *
- * Enqueued via the `viewScript` property in block.json.
+ * Page Nav — front-end behaviour. Scans the content region for opt-in jump targets (must have an
+ * HTML Anchor): `<section id>` elements (first heading as text, skips ones inside a Query Loop
+ * card) and anchored Query Loop cards (post title as text, skips ones inside a section) — either
+ * kind also skips inactive Tabs panels. Removes itself if nothing qualifies. Enqueued as viewScript.
  */
 
 const HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6';
@@ -77,8 +51,7 @@ function resolveId( el, text, seen ) {
 }
 
 /**
- * Collect { id, text } nav items from sections and query loop cards, in
- * document order.
+ * Collect { id, text } nav items from sections and query loop cards, in document order.
  *
  * @param {Element} root Element to search within.
  * @return {Array<{id: string, text: string}>} Ordered nav items.

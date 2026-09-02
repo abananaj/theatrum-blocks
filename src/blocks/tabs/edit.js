@@ -26,11 +26,8 @@ export default function Edit( { attributes, setAttributes } ) {
 			'is-equal-width': equalWidthTabs,
 		} ),
 	} );
-	// useInnerBlocksProps (not the legacy <InnerBlocks> element) so the tab
-	// blocks render as direct children of this div instead of being nested
-	// two wrapper divs deep (<InnerBlocks> injects its own
-	// .block-editor-inner-blocks wrapper) — the flex/tab-strip CSS in
-	// _mixins.scss relies on .ct-tab being a direct child of .is-editor.
+	// useInnerBlocksProps (not <InnerBlocks>) keeps tab blocks as direct children instead of an
+	// extra wrapper div — _mixins.scss's tab-strip CSS relies on .ct-tab being a direct child of .is-editor.
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		template: TEMPLATE,

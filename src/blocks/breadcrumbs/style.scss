@@ -1,17 +1,7 @@
 /**
- * Breadcrumbs — "arrow trail" style.
- *
- * Adapted from https://codepen.io/annabananajennings/pen/myOabZz, swapping the
- * demo's slate palette for the Chance theme colors and simplifying the demo's
- * ~10 CSS variables down to the six tokens below.
- *
- * Each crumb is a beveled segment (`corner-shape: bevel`) that points right like
- * a chevron; segments overlap so the trail reads as one continuous arrow. The
- * demo's grid spring-expand-on-hover relied on a fixed 4-item count, so it is
- * replaced here with a color transition that works for any number of crumbs.
- *
- * `corner-shape` is progressively enhanced: browsers without it fall back to the
- * rounded `border-radius`, which still produces a clean overlapping trail.
+ * Breadcrumbs "arrow trail" style, adapted from https://codepen.io/annabananajennings/pen/myOabZz
+ * (Chance theme colors instead of the demo's slate palette). Each crumb is a beveled `corner-shape`
+ * segment overlapping the next to read as one arrow; falls back to border-radius where unsupported.
  */
 
 .wp-block-theatrum-breadcrumbs {
@@ -48,8 +38,7 @@
 		}
 	}
 
-	// Earlier crumbs stack on top so their arrow point stays visible over the
-	// next segment. Ten covers any realistic breadcrumb depth.
+	// Earlier crumbs stack on top so their arrow point stays visible; ten covers any realistic depth.
 	@for $i from 1 through 10 {
 		li:nth-child(#{$i}) {
 			z-index: #{10 - $i};
@@ -80,8 +69,7 @@
 		transition: background-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-linear, linear), color var(--ct-duration-fast-2, 150ms) var(--ct-ease-linear, linear);
 	}
 
-	// Crumbs after the first need extra left room so their text clears the
-	// incoming arrow point from the previous segment.
+	// Crumbs after the first need extra left room so their text clears the incoming arrow point.
 	li:not(:first-child) {
 		a,
 		span {

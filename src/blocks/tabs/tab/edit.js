@@ -15,12 +15,9 @@ import { useSelect } from '@wordpress/data';
 
 const TEMPLATE = [ [ 'theatrum/tab-heading' ], [ 'theatrum/tab-content' ] ];
 
-// There's no click-to-switch JS running in the editor (view.js is a
-// viewScript, frontend-only), so "which tab is active" is derived from
-// block-editor selection instead — the same approach core/accordion uses
-// for its accordion-item: a tab is active if it (or something inside it)
-// is selected, and if nothing in the whole group is selected yet, the
-// first tab defaults active to match view.js's activate(0) on load.
+// No click JS in the editor, so "active tab" derives from block-editor selection instead — like
+// core/accordion: active if selected or containing the selection; if nothing in the group is
+// selected, the first tab defaults active to match view.js's activate(0) on load.
 function useIsActiveTab( clientId, isSelected ) {
 	return useSelect(
 		( select ) => {

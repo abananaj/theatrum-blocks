@@ -8,9 +8,7 @@ import { PanelBody, ToggleControl } from '@wordpress/components';
 /**
  * Editor view for the Breadcrumbs block.
  *
- * The real trail is built server-side (render.php); here we show a
- * representative preview so the "arrow trail" styling is visible while editing,
- * and expose the same toggles the front end honors.
+ * Real trail is built server-side (render.php); this is a representative preview with the same toggles the front end honors.
  *
  * @param {Object}   props               Block props.
  * @param {Object}   props.attributes    Block attributes.

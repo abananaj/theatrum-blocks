@@ -1,14 +1,9 @@
-// Carousel arrow visuals — shared by theatrum/carousel (native block) and any
-// core block styled `is-style-ct-carousel`. Extracted from
-// blocks/carousel/style.scss so it also applies to arrows built by
-// formats/carousel.js on core/query and core/gallery, which don't nest
-// under `.wp-block-theatrum-carousel`.
-//
-// Size/color/background are CSS custom properties so theatrum/carousel's own
-// Arrow Styles controls can override them per-instance (see
-// components/arrow-controls) without touching this shared file — the
-// fallback values below are exactly the old hardcoded values, so
-// is-style-ct-carousel (which never sets these vars) looks unchanged.
+// Carousel arrow visuals — shared by theatrum/carousel and any core block styled
+// `is-style-ct-carousel`; extracted from blocks/carousel/style.scss so it also applies to arrows
+// built by formats/carousel.js on core/query and core/gallery (which don't nest under `.wp-block-theatrum-carousel`).
+// Size/color/background are CSS custom properties so theatrum/carousel's Arrow Styles controls
+// (components/arrow-controls) can override per-instance; fallbacks below match the old hardcoded
+// values, so is-style-ct-carousel (which never sets these vars) looks unchanged.
 
 .theatrum-carousel-arrow {
 	position: absolute;
@@ -45,9 +40,8 @@
 
 	&::before {
 		content: "";
-		// A plain `background-image` data URI can't be recolored via CSS, so
-		// the chevron is drawn as a mask (shape) painted by `background-color`
-		// (color) instead — same SVG, now recolorable via --ct-arrow-color.
+		// A plain `background-image` data URI can't be recolored via CSS, so the chevron is a mask
+		// (shape) painted by `background-color` (color) instead — same SVG, now recolorable.
 		background-color: var(--ct-arrow-color, #333);
 		-webkit-mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgMTUgOSI+Cgk8cGF0aCBmaWxsPSIjMzMzMzMzIiBkPSJNNy44NjcgOC41NzRsLTcuMjItNy4yMi43MDctLjcwOEw3Ljg2NyA3LjE2IDE0LjA1Ljk4bC43MDYuNzA3Ii8+Cjwvc3ZnPgo=);
 		mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgMTUgOSI+Cgk8cGF0aCBmaWxsPSIjMzMzMzMzIiBkPSJNNy44NjcgOC41NzRsLTcuMjItNy4yMi43MDctLjcwOEw3Ljg2NyA3LjE2IDE0LjA1Ljk4bC43MDYuNzA3Ii8+Cjwvc3ZnPgo=);
@@ -58,9 +52,8 @@
 		-webkit-mask-position: center;
 		mask-position: center;
 		display: block;
-		// Percentages (not a fixed px box) so the icon scales proportionally
-		// with --ct-arrow-size instead of staying pinned at its old 18x12
-		// size inside a resized button (18/40 = 45%, 12/40 = 30%).
+		// Percentages (not a fixed px box) so the icon scales with --ct-arrow-size instead of
+		// staying pinned at its old 18x12 size (18/40 = 45%, 12/40 = 30%).
 		width: 45%;
 		height: 30%;
 	}
@@ -73,17 +66,13 @@
 	}
 }
 
-// Native theatrum/carousel only — not part of the is-style-ct-carousel
-// format's contract, so these are scoped under its own modifier classes
-// rather than living on the base .theatrum-carousel-arrow rules above.
+// Native theatrum/carousel only — not part of the is-style-ct-carousel format's contract, so
+// these are scoped under its own modifier classes rather than the base .theatrum-carousel-arrow rules.
 .theatrum-arrows-inside {
 
 	.theatrum-carousel-arrow {
-		// Inside arrows sit on top of card images, which are often dark —
-		// give them an opaque backdrop so the icon stays visible regardless
-		// of what's underneath (outside arrows sit on the page background,
-		// so they don't need one). Same --ct-arrow-bg var as the base rule
-		// above, just with a different fallback for this position.
+		// Inside arrows sit on card images (often dark), so give them an opaque backdrop to stay
+		// visible; outside arrows sit on the page background and don't need one. Same --ct-arrow-bg var, different fallback.
 		background: var(--ct-arrow-bg, rgba(255, 255, 255, 0.85));
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	}

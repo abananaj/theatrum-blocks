@@ -1,12 +1,8 @@
 /**
- * Slider format — shared by theatrum/slider (native block) and any core block
- * styled `is-style-ct-slider` (core/query, core/gallery).
- *
- * Ports example.html's showSlides/plusSlides/currentSlide (see the original
- * theatrum/slider view.js this was extracted from), but toggles a `.is-active`
- * class instead of inline `style.display`, and builds the numbertext badge,
- * dot navigation, and (for core blocks, which don't ship them in markup)
- * the arrow buttons and dots container from the live DOM.
+ * Slider format — shared by theatrum/slider and any core block styled `is-style-ct-slider`
+ * (core/query, core/gallery). Ports example.html's showSlides/plusSlides/currentSlide (the
+ * original theatrum/slider view.js this was extracted from), but toggles `.is-active` instead of
+ * inline `style.display`, and builds the badge/dots/arrows from the live DOM for core blocks that don't ship them.
  */
 
 import { resolveTrack } from './resolve-track';
@@ -37,15 +33,10 @@ export function initSlider( root ) {
 		return;
 	}
 
-	// `loading="eager"` (see inc/slider-eager-images.php) makes the browser
-	// *fetch* every slide's image right away instead of waiting for the
-	// slide to be shown — but fetching and decoding are separate costs.
-	// Chromium specifically defers decoding an off-screen (display:none)
-	// image into a paintable bitmap until it's actually revealed, even once
-	// its bytes have fully downloaded, so there can still be a flash the
-	// first time a slide appears while the browser decodes it. Force every
-	// slide's image(s) to decode immediately, well before any of them are
-	// ever shown.
+	// `loading="eager"` (inc/slider-eager-images.php) fetches every slide's image right away, but
+	// fetching and decoding are separate costs: Chromium defers decoding an off-screen
+	// (display:none) image until revealed, even after full download, causing a flash on first
+	// show. Force every slide's image(s) to decode immediately, before any are shown.
 	slides.forEach( ( slide ) => {
 		slide.querySelectorAll( 'img' ).forEach( ( img ) => {
 			if ( typeof img.decode === 'function' ) {
@@ -54,8 +45,7 @@ export function initSlider( root ) {
 		} );
 	} );
 
-	// A "1 / 5" badge belongs on native slider slides, not stamped onto
-	// arbitrary post cards or gallery images.
+	// A "1 / 5" badge belongs on native slider slides, not stamped onto arbitrary post cards or gallery images.
 	const isNativeSlider = root.classList.contains( 'tm-slider' );
 
 	let prevButton = root.querySelector( '.tm-slider-prev' );

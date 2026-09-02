@@ -21,14 +21,9 @@ $show_label   = (bool) ($attributes['showLabel'] ?? true);
 $all_label    = $attributes['allLabel'] ?? 'All';
 $layout       = $attributes['layout'] ?? 'horizontal';
 
-// GET params are namespaced by queryId (`season-q23`) so more than one
-// Query Loop + filter pair can coexist on the same page without their URL
-// params colliding. theatrum_apply_query_filter() in inc/query-filter.php
-// reads this same namespaced key to know which value to apply — the two
-// must stay in sync. Without a target Query Loop selected (queryId 0) the
-// field falls back to the bare param name, matching the old global behavior.
-// The orderby mode always submits under its own field, independent of
-// $param_name — see the hardcoded select name below.
+// GET params are namespaced by queryId (`season-q23`) so multiple Query Loop + filter pairs can
+// coexist without URL collisions; theatrum_apply_query_filter() in inc/query-filter.php reads this
+// same key and must stay in sync. queryId 0 falls back to the bare param; orderby always uses its own field.
 $field_name = $query_id
   ? (('orderby' === $filter_type) ? "orderby-q{$query_id}" : "{$param_name}-q{$query_id}")
   : (('orderby' === $filter_type) ? 'orderby' : $param_name);
@@ -54,9 +49,8 @@ if ('taxonomy' === $filter_type) {
   }
 }
 
-// Collect other active GET params to preserve when this form is submitted without JS.
-// Skips both the namespaced field name and its bare form, so switching a
-// block's Target Query Loop doesn't leave a stale duplicate param behind.
+// Collect other active GET params to preserve on submit; skips the namespaced field name and its
+// bare form so switching a block's Target Query Loop doesn't leave a stale duplicate param.
 $preserved_params = [];
 $skip_params      = ['paged', 'page', $field_name, $param_name, 'orderby'];
 foreach ($_GET as $key => $value) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
@@ -67,9 +61,8 @@ foreach ($_GET as $key => $value) { // phpcs:ignore WordPress.Security.NonceVeri
   $preserved_params[$key] = sanitize_text_field(wp_unslash($value));
 }
 
-// Interactivity API per-block context. view.js is queryId-agnostic — it just
-// writes whatever param name it's given — so handing it the already-namespaced
-// $field_name is all that's needed to scope client-side updates too.
+// Interactivity API context: view.js is queryId-agnostic (just writes whatever param name it's
+// given), so handing it the already-namespaced $field_name scopes client-side updates too.
 $context = wp_interactivity_data_wp_context(['paramName' => $field_name]);
 
 $wrapper_attributes = get_block_wrapper_attributes([

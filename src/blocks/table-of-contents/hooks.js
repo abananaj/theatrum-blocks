@@ -41,16 +41,14 @@ function getLatestHeadings( select, clientId ) {
 	let tocPage = 1;
 
 	if ( isPaginated && onlyIncludeCurrentPage ) {
-		// We can't use getBlockIndex because it only returns the index
-		// relative to sibling blocks.
+		// We can't use getBlockIndex because it only returns the index relative to sibling blocks.
 		const tocIndex = allBlockClientIds.indexOf( clientId );
 
 		for ( const [
 			blockIndex,
 			blockClientId,
 		] of allBlockClientIds.entries() ) {
-			// If we've reached blocks after the Table of Contents, we've
-			// finished calculating which page the block is on.
+			// If we've reached blocks after the Table of Contents, we've finished calculating the page.
 			if ( blockIndex >= tocIndex ) {
 				break;
 			}
@@ -66,8 +64,7 @@ function getLatestHeadings( select, clientId ) {
 	let headingPage = 1;
 	let headingPageLink = null;
 
-	// If the core/editor store is available, we can add permalinks to the
-	// generated table of contents.
+	// If the core/editor store is available, we can add permalinks to the generated table of contents.
 	if ( typeof permalink === 'string' ) {
 		headingPageLink = isPaginated
 			? addQueryArgs( permalink, { page: headingPage } )
@@ -79,9 +76,8 @@ function getLatestHeadings( select, clientId ) {
 		if ( blockName === 'core/nextpage' ) {
 			headingPage++;
 
-			// If we're only including headings from the current page (of
-			// a paginated post), then exit the loop if we've reached the
-			// pages after the one with the Table of Contents block.
+			// If only including headings from the current page (paginated post), exit once we've
+			// reached pages after the one with the Table of Contents block.
 			if ( onlyIncludeCurrentPage && headingPage > tocPage ) {
 				break;
 			}
@@ -93,9 +89,7 @@ function getLatestHeadings( select, clientId ) {
 				);
 			}
 		}
-		// If we're including all headings or we've reached headings on
-		// the same page as the Table of Contents block, add them to the
-		// list.
+		// If including all headings, or we've reached headings on the same page as the ToC block, add them.
 		else if ( ! onlyIncludeCurrentPage || headingPage === tocPage ) {
 			if ( blockName === 'core/heading' ) {
 				const headingAttributes = getBlockAttributes( blockClientId );
@@ -135,11 +129,8 @@ function observeCallback( select, dispatch, clientId ) {
 	const { updateBlockAttributes, __unstableMarkNextChangeAsNotPersistent } =
 		dispatch( blockEditorStore );
 
-	/**
-	 * If the block no longer exists in the store, skip the update.
-	 * The "undo" action recreates the block and provides a new `clientId`.
-	 * The hook still might be observing the changes while the old block unmounts.
-	 */
+	// If the block no longer exists in the store, skip the update — "undo" recreates it with a new
+	// `clientId`, and this hook might still be observing changes while the old block unmounts.
 	const attributes = getBlockAttributes( clientId );
 	if ( attributes === null ) {
 		return;

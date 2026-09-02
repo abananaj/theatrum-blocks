@@ -18,8 +18,7 @@ $append_tag = isset($attributes['appendTag']) ? $attributes['appendTag'] : '';
 $meta_key = isset($attributes['metaKey']) ? $attributes['metaKey'] : '';
 $link_post_title = isset($attributes['linkPostTitle']) ? (bool) $attributes['linkPostTitle'] : true;
 
-// Check if this is a staff or board member block — resolved up front so the
-// empty-marker calls below can use the right wrapper class.
+// Check if this is a staff or board member block — resolved up front so the empty-marker calls below can use the right wrapper class.
 $is_member_type = $member_type === 'staff' || $member_type === 'board';
 $empty_marker_class = $is_member_type
   ? ($member_type === 'board' ? 'wp-block-theatrum-board-member' : 'wp-block-theatrum-staff-member')
@@ -216,11 +215,8 @@ if ($is_member_type) {
   return;
 }
 
-// Handle generic option display
-// Resolve post/term references (single ID, array of IDs, WP_Post/WP_Term
-// objects, or ACF post-object / term arrays) to linked titles — same
-// resolution the meta blocks use. Bare numeric IDs resolve as posts first,
-// then fall back to terms linked to their archive page.
+// Handle generic option display: resolve post/term references (IDs, WP_Post/WP_Term objects, ACF
+// post-object/term arrays) to linked titles like the meta blocks do; bare IDs try posts, then terms.
 $links = theatrum_resolve_post_links($option_value);
 
 $has_ref_links = false;
@@ -248,8 +244,7 @@ if ($has_ref_links) {
 
     $post_title = $link['title'] !== '' ? $link['title'] : 'Untitled';
 
-    // Show the meta value alongside the option value (title), not in place of
-    // it. Meta only applies to posts — terms don't carry post meta.
+    // Show the meta value alongside the option value (title); meta only applies to posts, not terms.
     $meta_value = (!empty($meta_key) && $link['type'] === 'post')
       ? get_post_meta($link['id'], $meta_key, true)
       : '';

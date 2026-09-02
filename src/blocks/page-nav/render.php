@@ -5,19 +5,10 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Page Nav block — server-side render callback.
- *
- * Emits an empty, accessible <nav> container. The links themselves are built
- * on the front end by view.js, which scans the page for opt-in jump targets:
- * `<section id>` elements (first heading becomes the link text) and Query
- * Loop blocks that have an HTML Anchor (one link per post, from the post
- * title). If nothing qualifies, view.js removes the container so nothing is
- * shown.
- *
- * Scope: pages, productions, and events — the post types with long-form
- * content likely to contain jump-linkable sections.
- *
- * $attributes, $content, $block are injected by WordPress.
+ * Page Nav block — server-side render callback. Emits an empty, accessible <nav>; view.js builds
+ * links on the front end from opt-in jump targets (`<section id>` elements, Query Loop blocks with
+ * an HTML Anchor), removing the container if nothing qualifies. Scoped to pages/productions/events;
+ * $attributes/$content/$block injected by WordPress.
  */
 
 if (! is_singular(array('page', 'production', 'event'))) {

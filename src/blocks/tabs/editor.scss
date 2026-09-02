@@ -1,21 +1,6 @@
-// Tabs — editor-only styles.
-//
-// Layout (horizontal strip at >=768px, stacked below it) comes entirely from
-// the shared style.scss's own `min-width: 768px` media query — style.scss is
-// loaded in the editor too (block.json's "style" key), and the editor canvas
-// iframe has a real viewport that responds correctly to that media query
-// (including the Desktop/Tablet/Mobile preview toggle, which actually
-// resizes the iframe). This file only overrides the one thing that's
-// legitimately different in the editor:
-//
-// Active state: there's no click-to-switch JS running in the editor
-// (view.js is frontend-only), so tab/edit.js derives an `.is-active` class
-// from block selection instead, applied to the parent `.ct-tab` (not
-// directly to `.ct-tab__header`/`.ct-tab__panel` the way view.js does on the
-// frontend) — the same approach core/accordion uses for its accordion-item,
-// rather than a click handler or a data store. These rules translate that
-// parent-level class into the same header highlight / panel visibility the
-// frontend gets from its own directly-classed elements.
+// Editor-only overrides: layout comes from style.scss's shared `min-width: 768px` media query
+// (loaded here too, iframe has a real viewport). No click JS in editor — tab/edit.js derives
+// `.is-active` from block selection on the parent .ct-tab instead, like core/accordion.
 
 @use 'mixins';
 
@@ -29,9 +14,7 @@
 			display: block;
 		}
 
-		// Reuses the same active-color custom properties as the frontend's
-		// .ct-tab__header.is-active rule so the highlighted tab looks
-		// identical in both places.
+		// Reuses the frontend's active-color custom properties so the highlighted tab matches.
 		> .ct-tab__header {
 			@include mixins.tab-header-active-colors;
 			border-bottom-color: var(--ct-tab-header-accent, currentColor);

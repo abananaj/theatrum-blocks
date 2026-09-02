@@ -222,9 +222,8 @@ export default function TableOfContentsEdit( {
 		</InspectorControls>
 	);
 
-	// If there are no headings or the only heading is empty.
-	// Note that the toolbar controls are intentionally omitted since the
-	// "Convert to static list" option is useless to the placeholder state.
+	// If there are no headings (or the only one is empty): toolbar controls are intentionally
+	// omitted since "Convert to static list" is useless in the placeholder state.
 	if ( headings.length === 0 ) {
 		return (
 			<>

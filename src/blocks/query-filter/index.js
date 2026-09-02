@@ -15,11 +15,9 @@ import './style.scss';
 import './editor.scss';
 
 /**
- * Recursively collects every core/query block in the editor's block tree,
- * along with the queryId WordPress assigned it and its post type (for a
- * human-readable label). Query Loop blocks don't expose their queryId
- * anywhere in the UI, so this is the only way an editor can tell them apart
- * when a page has more than one.
+ * Recursively collects every core/query block in the editor's block tree, with the queryId
+ * WordPress assigned and its post type — Query Loop blocks don't expose queryId in the UI,
+ * so this is the only way to tell them apart when a page has more than one.
  *
  * @param {Array} blocks Block list from getBlocks()/innerBlocks.
  * @return {Array<{queryId: number, postType: string}>}

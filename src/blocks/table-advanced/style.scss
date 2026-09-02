@@ -14,11 +14,8 @@
 		thead th,
 		thead td {
 			position: sticky;
-			// The table is now wrapped in .tm-table-scroll-wrapper
-			// (overflow-y: auto), which becomes the sticky containing
-			// block instead of the viewport — so this sticks within
-			// the wrapper's own scroll, not against the page, and no
-			// longer needs to clear the site header's height.
+			// Wrapped in .tm-table-scroll-wrapper (overflow-y: auto), which becomes the sticky containing
+			// block instead of the viewport — sticks within the wrapper's scroll, no site-header clearance needed.
 			top: 0;
 			z-index: 2;
 			background-color: var( --wp--preset--color--white, #fff );
@@ -40,9 +37,8 @@
 		}
 	}
 }
-// Editor preview: the div-based fake table (see "Known Editor Rendering
-// Issues" in README.md) needs its own selectors since .tm-edit-th/.tm-edit-td
-// sit inside block-editor wrapper divs rather than real <th>/<td> elements.
+// Editor preview: div-based fake table (see "Known Editor Rendering Issues" in README.md) needs
+// its own selectors since .tm-edit-th/.tm-edit-td sit inside wrapper divs, not real <th>/<td>.
 .editor-styles-wrapper .tm-edit-table {
 	&.sticky-header {
 		.tm-edit-thead .tm-edit-th,
@@ -105,13 +101,10 @@
 		> .block-editor-block-list__block {
 		flex: 1;
 		min-width: 0; // prevent text overflow breaking flex
-		// A cell with an explicit width (set via its Dimensions panel)
-		// sizes to that width instead of sharing space equally, so the
-		// editor preview reflects the column width the same way
-		// table-layout: fixed does on the frontend.
-		// Not :has(> [data-has-column-width]) â useBlockProps() merges
-		// this wrapper class directly onto the cell's own root node, so
-		// the data attribute lands on this same element, not a child.
+		// A cell with an explicit width (Dimensions panel) sizes to that width instead of sharing space
+		// equally, so the editor preview matches table-layout: fixed on the frontend.
+		// Not :has(> [data-has-column-width]) — useBlockProps() merges this wrapper class directly
+		// onto the cell's own root node, so the data attribute lands on this element, not a child.
 		&[data-has-column-width] {
 			flex: 0 0 auto;
 			min-width: auto;
@@ -123,8 +116,7 @@
 .tm-table-heading-cell {
 	font-size:1em;
 	width: 100%;
-	// Keep native table-cell display so the frontend <th> aligns in columns.
-	// (Do NOT use display:flex here Ã¢ÂÂ it breaks the browser table layout.)
+	// Keep native table-cell display so the frontend <th> aligns in columns (display:flex breaks browser table layout).
 	vertical-align: middle;
 	.wp-block-paragraph {
 		width: 100%;
@@ -138,8 +130,7 @@
 .tm-table-cell {
 
 	font-size:1em;
-	// Keep native table-cell display so the frontend <td> aligns in columns.
-	// (Do NOT use display:flex here Ã¢ÂÂ it breaks the browser table layout.)
+	// Keep native table-cell display so the frontend <td> aligns in columns (display:flex breaks browser table layout).
 	vertical-align: middle;
 	.wp-block-paragraph {
 		width: 100%;

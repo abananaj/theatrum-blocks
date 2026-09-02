@@ -63,23 +63,18 @@ const Edit = ( { attributes, setAttributes } ) => {
 	const columnWidth = attributes.style?.dimensions?.width;
 	const columnHeight = attributes.style?.dimensions?.height;
 	const columnMinWidth = attributes.style?.dimensions?.minWidth;
-	// Color and border supports use __experimentalSkipSerialization, so apply
-	// their classes/styles manually here too — otherwise they never reach the
-	// editor canvas, even though save() applies them to the frontend markup.
+	// Color/border supports use __experimentalSkipSerialization, so apply their classes/styles
+	// manually here too — otherwise they never reach the editor canvas (save() handles the frontend).
 	const colorProps = getColorClassesAndStyles( attributes );
 	const borderProps = getBorderClassesAndStyles( attributes );
-	// Dimensions (width/height/minWidth) block support only auto-applies CSS
-	// for dynamic blocks via get_block_wrapper_attributes() in render.php —
-	// this block is static (save()-based), so that pathway never runs. Apply
-	// the values manually here, same as color/border above.
+	// Dimensions support only auto-applies CSS for dynamic blocks via get_block_wrapper_attributes()
+	// in render.php; this block is static (save()-based), so apply values manually like color/border above.
 	const dimensionsStyle = {
 		...( columnWidth ? { width: columnWidth } : {} ),
 		...( columnHeight ? { height: columnHeight } : {} ),
 		...( columnMinWidth ? { minWidth: columnMinWidth } : {} ),
 	};
-	// "middle" is the CSS default (style.scss), so only emit an inline
-	// override when it differs — keeps already-saved cells validating
-	// without needing a deprecation.
+	// "middle" is the CSS default (style.scss); only emit an inline override when it differs, keeping already-saved cells validating without a deprecation.
 	const verticalAlignStyle =
 		verticalAlign && verticalAlign !== 'middle'
 			? { verticalAlign }
@@ -153,21 +148,18 @@ const Edit = ( { attributes, setAttributes } ) => {
 
 const save = ( { attributes } ) => {
 	const { colspan, rowspan, headers, verticalAlign } = attributes;
-	// Color and border supports use __experimentalSkipSerialization, so apply
-	// their classes/styles manually here — otherwise they never reach the markup.
+	// Color/border supports use __experimentalSkipSerialization, so apply their classes/styles
+	// manually here — otherwise they never reach the markup.
 	const colorProps = getColorClassesAndStyles( attributes );
 	const borderProps = getBorderClassesAndStyles( attributes );
-	// Dimensions (width/height/minWidth) never auto-applies for static blocks
-	// (see Edit() above) — apply manually here too so it reaches the frontend.
+	// Dimensions never auto-applies for static blocks (see Edit() above) — apply manually here too.
 	const { width, height, minWidth } = attributes.style?.dimensions || {};
 	const dimensionsStyle = {
 		...( width ? { width } : {} ),
 		...( height ? { height } : {} ),
 		...( minWidth ? { minWidth } : {} ),
 	};
-	// "middle" is the CSS default (style.scss), so only emit an inline
-	// override when it differs — keeps already-saved cells validating
-	// without needing a deprecation.
+	// "middle" is the CSS default (style.scss); only emit an inline override when it differs, keeping already-saved cells validating without a deprecation.
 	const verticalAlignStyle =
 		verticalAlign && verticalAlign !== 'middle'
 			? { verticalAlign }
@@ -205,8 +197,7 @@ const save = ( { attributes } ) => {
 	);
 };
 
-// v1: original save without serialized color/border. Lets existing cells
-// (saved before color serialization was added) validate and auto-migrate.
+// v1: original save without serialized color/border; lets existing cells validate and auto-migrate.
 const v1 = {
 	attributes: metadata.attributes,
 	supports: metadata.supports,
@@ -232,9 +223,7 @@ const v1 = {
 	},
 };
 
-// v2: save with color/border serialized but before dimensions
-// (width/height/minWidth) were also applied manually. Lets existing cells
-// (saved before that fix) validate and auto-migrate.
+// v2: color/border serialized but before dimensions were also applied manually; lets existing cells validate and auto-migrate.
 const v2 = {
 	attributes: metadata.attributes,
 	supports: metadata.supports,

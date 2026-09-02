@@ -4,8 +4,7 @@
 	display: flex;
 	flex-direction: column;
   margin: 1rem 0;
-  // Default quote text size; overridden when a font-size is set on the block.
-  // The visible quote text inherits this so the editor control takes effect.
+  // Default quote text size (unset); inherited font-size lets the editor's block font-size control take effect.
 }
 
 .wp-block-theatrum-production-quotes-item {
@@ -13,10 +12,8 @@
 }
 
 .wp-block-theatrum-production-quotes .wp-block-quote {
-	// `main` was a parent-theme (Ollie) palette slug; our palette fully
-	// replaces the parent's, so this always resolved to the #000 fallback
-	// instead of a brand colour. --ct-primary is the equivalent token and
-	// re-points inside a nomenclature context.
+	// `main` was a parent-theme (Ollie) palette slug that our palette replaces, so it always
+	// resolved to the #000 fallback; --ct-primary is the equivalent token in our nomenclature.
 	border-left: 2px solid var(--ct-primary, #000);
   padding: 0 var(--wp--preset--spacing--40);
   margin: 0.5rem 0;

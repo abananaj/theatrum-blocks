@@ -9,8 +9,7 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 /**
- * Strip HTML tags from a RichText value, the same way view.js relies on
- * `heading.textContent` to get plain text from rendered markup.
+ * Strip HTML tags from a RichText value, same as view.js's `heading.textContent` for plain text.
  *
  * @param {string} html RichText HTML content.
  * @return {string} Plain text.
@@ -22,9 +21,8 @@ function stripHTML( html ) {
 }
 
 /**
- * Mirror of view.js's `collectSections()`, but reading Group blocks with
- * HTML element "section" + an anchor from the block-editor store instead of
- * scanning rendered DOM. Keeps editor preview and front end in sync.
+ * Mirror of view.js's `collectSections()`, but reads Group blocks with HTML element "section" +
+ * an anchor from the block-editor store instead of scanning rendered DOM, to keep editor and frontend in sync.
  *
  * @param {Function} select `wp.data.select`.
  * @return {Array<{id: string, text: string}>} Ordered nav items.

@@ -14,11 +14,9 @@ const { state } = store( 'theatrum/query-filter', {
 		},
 
 		/**
-		 * Navigate to filtered URL when a select value changes.
-		 * Preserves all existing URL params and replaces only this filter's param.
-		 * Uses the Interactivity Router so the matching core/query block (with
-		 * enhancedPagination enabled) updates client-side instead of triggering
-		 * a full page reload.
+		 * Navigate to filtered URL on select change, preserving other URL params — uses the
+		 * Interactivity Router so the matching core/query block (enhancedPagination) updates
+		 * client-side instead of a full reload.
 		 *
 		 * @param {Event} event - The change event from the select element.
 		 */

@@ -1,13 +1,8 @@
 /**
- * Carousel format — shared by theatrum/carousel (native block) and any core
- * block styled `is-style-ct-carousel` (core/query, core/gallery).
- *
- * The contract is deliberately small: a root element, a scrollable track
- * inside it, and two optional arrow buttons. Slides themselves need no
- * class or data attribute, which is what lets core block markup adopt this
- * unchanged. If arrows aren't present in the markup (true for every core
- * block, and for theatrum/carousel before render.php added them) this builds
- * them.
+ * Carousel format — shared by theatrum/carousel and any core block styled `is-style-ct-carousel`
+ * (core/query, core/gallery). Contract: a root, a scrollable track inside it, and two optional
+ * arrow buttons — slides need no class/attribute, so core markup adopts this unchanged. Builds
+ * arrows itself when missing (every core block, and theatrum/carousel before render.php added them).
  */
 
 import { resolveTrack } from './resolve-track';
@@ -55,9 +50,8 @@ export function initCarousel( component ) {
 	let maxScrollWidth = content.scrollWidth - content.clientWidth;
 	let scrollBy = content.clientWidth / 2;
 
-	// Re-measured on resize (and whenever the track's content changes size,
-	// e.g. lazy-loaded images) rather than once on `load`, so arrow state
-	// doesn't go stale.
+	// Re-measured on resize (and whenever the track's content changes size, e.g. lazy-loaded
+	// images) rather than once on `load`, so arrow state doesn't go stale.
 	const remeasure = () => {
 		maxScrollWidth = content.scrollWidth - content.clientWidth;
 		scrollBy = content.clientWidth / 2;

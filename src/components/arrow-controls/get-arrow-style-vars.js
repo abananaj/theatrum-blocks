@@ -1,15 +1,10 @@
 import attrKey from './attr-key';
 
 /**
- * Builds the inline CSS custom properties that drive arrow color, background,
- * and size for a block using <ArrowControls> (see ./index.js).
- *
- * Each consuming block supplies its own `prefix` (e.g. "ct-arrow" for
- * theatrum/carousel, "tm-arrow" for theatrum/slider) matching the custom
- * property names its own stylesheet reads, so consumers stay independent
- * even though they share this same attribute shape. Leaving a value
- * `undefined` omits that custom property entirely, letting the stylesheet's
- * own `var(--x, fallback)` default apply.
+ * Builds the inline CSS custom properties that drive arrow color, background, and size for a
+ * block using <ArrowControls> (see ./index.js). Each consumer supplies its own `prefix` (e.g.
+ * "ct-arrow" for theatrum/carousel) matching its own stylesheet; an `undefined` value omits that
+ * property entirely, letting the stylesheet's own `var(--x, fallback)` default apply.
  *
  * @param {Object} attributes               Block attributes.
  * @param {Object} options
@@ -35,10 +30,8 @@ export default function getArrowStyleVars(
 
 	return {
 		[ `--${ prefix }-color` ]: arrowColor || undefined,
-		// `arrowBackground === false` is an explicit "no background" choice
-		// and should win regardless of position; otherwise fall through to
-		// the user's custom color, or (if unset) the stylesheet's own
-		// per-position default via the CSS `var(..., fallback)` chain.
+		// `arrowBackground === false` is explicit "no background" and wins regardless; otherwise
+		// falls through to the user's color, or the stylesheet's own per-position default.
 		[ `--${ prefix }-bg` ]:
 			arrowBackground === false
 				? 'transparent'

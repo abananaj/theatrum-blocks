@@ -35,18 +35,14 @@ export default function Edit( { attributes, setAttributes } ) {
 		allowedBlocks: ALLOWED_BLOCKS,
 		template: TEMPLATE,
 		templateInsertUpdatesSelection: false,
-		// Explicit (not just inherited from theatrum/tab) so this stays locked
-		// to a single label even if the parent's lock ever changes.
+		// Explicit (not inherited from theatrum/tab) so this stays locked even if the parent's lock changes.
 		templateLock: 'all',
 	} );
 
 	return (
 		<>
-			{ /* group="filter" is a plain slot (same bare rendering as the
-			old default group — no two-column grid wrapper the way
-			group="color" applies) that happens to sit right before
-			Typography in the Styles tab's slot order, which is what puts
-			this panel above Typography. */ }
+			{ /* group="filter" is a plain slot (no two-column grid like group="color") that happens to
+			sit right before Typography in the Styles tab's slot order, putting this panel there. */ }
 			<InspectorControls group="filter">
 				<PanelColorSettings
 					title={ __( 'Normal Colors', 'theatrum-blocks' ) }

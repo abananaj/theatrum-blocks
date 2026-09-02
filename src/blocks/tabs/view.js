@@ -1,12 +1,9 @@
 /**
  * Front-end behavior for the Tabs block.
  *
- * Desktop: the tab headers sit in a row and clicking one swaps the visible
- * panel (via CSS flex `order`, see style.scss). Mobile: the same markup reads
- * as a vertical accordion where the active header's panel is the one shown.
- *
- * The active state is identical in both layouts — only one tab/panel is active
- * at a time — so a single click handler drives both.
+ * Desktop: headers in a row, click swaps the visible panel (CSS flex `order`, style.scss).
+ * Mobile: same markup reads as a vertical accordion. One click handler drives both since
+ * only one tab/panel is ever active.
  */
 window.addEventListener( 'load', () => {
 	const groups = document.querySelectorAll( '.ct-tabs' );
@@ -43,9 +40,8 @@ window.addEventListener( 'load', () => {
 			part.header.setAttribute( 'aria-expanded', 'false' );
 			part.header.addEventListener( 'click', () => activate( i ) );
 
-			// The header is a `div[role="button"]` (a native <button> can't
-			// contain heading elements), so Enter/Space activation has to be
-			// wired up manually — it isn't automatic like it is for <button>.
+			// Header is a `div[role="button"]` (can't contain headings like a <button>), so
+			// Enter/Space activation must be wired manually — not automatic like a real <button>.
 			part.header.addEventListener( 'keydown', ( event ) => {
 				if ( event.key === 'Enter' || event.key === ' ' ) {
 					event.preventDefault();
@@ -54,8 +50,7 @@ window.addEventListener( 'load', () => {
 			} );
 		} );
 
-		// Hand control to JS: the CSS "first panel open" fallback stops
-		// applying once this class is present, avoiding a flash of two panels.
+		// Hand control to JS: the CSS "first panel open" fallback stops once .is-ready is set.
 		group.classList.add( 'is-ready' );
 		activate( 0 );
 	}

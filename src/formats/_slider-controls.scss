@@ -1,20 +1,9 @@
-// Slider arrow/dot chrome — shared by theatrum/slider (native block) and any
-// core block styled `is-style-ct-slider`. Extracted from
-// blocks/slider/style.scss so it also applies to arrows/dots built by
-// formats/slider.js on core/query and core/gallery, which don't nest under
-// `.tm-slider`.
-//
-// Color/background/size are CSS custom properties so theatrum/slider's own
-// Arrow Styles controls can override them per-instance (see
-// components/arrow-controls) without touching this shared file —
-// is-style-ct-slider never sets these vars, so it keeps using the fallback
-// defaults below.
-//
-// Default (outside) position mirrors theatrum/carousel's outside arrows:
-// no backdrop, dark icon, positioned outside the slider box, relying on
-// contrast with the page background. .tm-slider-arrows-inside preserves the
-// slider's original always-visible look (dark backdrop + light glyph) for
-// arrows that sit on top of slide content, which could be any color.
+// Slider arrow/dot chrome — shared by theatrum/slider and any core block styled `is-style-ct-slider`;
+// extracted from blocks/slider/style.scss so formats/slider.js's arrows/dots (core/query, core/gallery)
+// get it too. Color/bg/size are CSS custom properties so theatrum/slider's Arrow Styles controls can
+// override per-instance; is-style-ct-slider never sets them, so it uses these fallbacks. Default
+// (outside) position mirrors theatrum/carousel's outside arrows (no backdrop); .tm-slider-arrows-inside
+// keeps the original always-visible dark-backdrop look for arrows over slide content.
 
 .tm-slider-arrow {
 	cursor: pointer;
@@ -25,16 +14,14 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	// A fixed square (like theatrum/carousel's arrows) rather than
-	// padding-around-text, so border-radius: 50% below is a true circle
-	// regardless of glyph width.
+	// A fixed square (like theatrum/carousel's arrows) rather than padding-around-text, so
+	// border-radius: 50% below is a true circle regardless of glyph width.
 	width: var(--tm-arrow-size, 40px);
 	height: var(--tm-arrow-size, 40px);
 	padding: 0;
 	color: var(--tm-arrow-color, #333);
 	font-weight: 700;
-	// Scales with --tm-arrow-size (18/40 preserves the old default glyph
-	// size at the new default button size).
+	// Scales with --tm-arrow-size (18/40 preserves the old default glyph size at the new default button size).
 	font-size: calc(var(--tm-arrow-size, 40px) * 0.45);
 	line-height: 1;
 	background-color: var(--tm-arrow-bg, transparent);
@@ -61,8 +48,7 @@
 }
 
 .tm-slider-arrows-inside .tm-slider-arrow {
-	// Same --tm-arrow-color/--tm-arrow-bg vars as the base rule above, just
-	// with different fallbacks for this position.
+	// Same --tm-arrow-color/--tm-arrow-bg vars as the base rule above, just with different fallbacks for this position.
 	color: var(--tm-arrow-color, #fff);
 	background-color: var(--tm-arrow-bg, rgba(0, 0, 0, 0.5));
 
@@ -93,9 +79,8 @@
 	border-radius: 50%;
 	display: inline-block;
 	transition: background-color var(--ct-duration-slow-4, 0.6s) var(--ct-ease-standard, ease);
-	// Dots are rendered as <button> in the editor (for real click handling)
-	// and <span role="button"> on the frontend — reset button chrome so both
-	// look identical.
+	// Dots are rendered as <button> in the editor and <span role="button"> on the frontend —
+	// reset button chrome so both look identical.
 	padding: 0;
 	border: 0;
 

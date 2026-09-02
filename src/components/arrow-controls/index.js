@@ -1,15 +1,8 @@
 /**
- * Shared "Arrow Styles" inspector controls — used by theatrum/carousel,
- * theatrum/slider, and the is-style-ct-carousel format's core/query &
- * core/gallery attribute extension. Consumers render their arrows very
- * differently (an SVG-mask chevron button, a glyph-text button, or a
- * frontend-JS-built button on a core block), but expose the same
- * user-facing options: position, background on/off, color, background
- * color, and size. Each consumer supplies its own attribute defaults (via
- * block.json, or its own registerBlockType filter for the format) and its
- * own CSS custom-property prefix (see get-arrow-style-vars.js), plus an
- * optional attributePrefix (see attr-key.js) so this component stays both
- * block-agnostic and attribute-name-agnostic.
+ * Shared "Arrow Styles" inspector controls — used by theatrum/carousel, theatrum/slider, and the
+ * is-style-ct-carousel format (each renders arrows differently but exposes the same options).
+ * Consumers supply their own defaults, CSS prefix (get-arrow-style-vars.js), and optional
+ * attributePrefix (attr-key.js), keeping this component block- and attribute-name-agnostic.
  */
 import {
 	InspectorControls,

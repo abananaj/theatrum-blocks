@@ -34,13 +34,10 @@ export function linearToNestedHeadingList(
 
 		// Make sure we are only working with the same level as the first iteration in our set.
 		if ( heading.level === headingList[ 0 ].level ) {
-			// Check that the next iteration will return a value.
-			// If it does and the next level is greater than the current level,
-			// the next iteration becomes a child of the current iteration.
+			// If the next iteration exists and its level is greater, it becomes a child of this one.
 			if ( headingList[ key + 1 ]?.level > heading.level ) {
-				// We must calculate the last index before the next iteration that
-				// has the same level (siblings). We then use this index to slice
-				// the array for use in recursion. This prevents duplicate nodes.
+				// Find the last index before the next sibling at the same level, then slice the
+				// array to that point for recursion — this prevents duplicate nodes.
 				let endOfSlice = headingList.length;
 				for ( let i = key + 1; i < headingList.length; i++ ) {
 					if ( headingList[ i ].level === heading.level ) {
@@ -49,8 +46,7 @@ export function linearToNestedHeadingList(
 					}
 				}
 
-				// We found a child node: Push a new node onto the return array
-				// with children.
+				// Found a child node: push a new node onto the return array with children.
 				nestedHeadingList.push( {
 					heading,
 					children: linearToNestedHeadingList(

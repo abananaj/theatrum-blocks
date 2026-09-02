@@ -45,8 +45,7 @@ const VARIATIONS = [
 		title: 'Credit Loop (Deprecated)',
 		icon: 'list-view',
 		postType: 'credit',
-		// Deprecated (2026-08-06) — hidden from the inserter/transform menu
-		// below, but isActive matching still labels any existing content.
+		// Deprecated (2026-08-06) — hidden from the inserter/transform menu, but isActive matching still labels existing content.
 		deprecated: true,
 	},
 	{
@@ -83,16 +82,14 @@ VARIATIONS.forEach( ( { name, title, icon, postType, deprecated } ) => {
 		},
 		// isActive array syntax (WP 6.6+): matches active variation by namespace attribute.
 		isActive: [ 'namespace' ],
-		// Deprecated variations drop 'inserter'/'transform' so they can't be
-		// picked for new content, while isActive matching still labels any
-		// existing content that already uses them.
+		// Deprecated variations drop 'inserter'/'transform' so they can't be picked for new content,
+		// while isActive matching still labels existing content that already uses them.
 		scope: deprecated ? [] : [ 'inserter', 'transform' ],
 	} );
 } );
 
-// Inject a <style> tag via InspectorControls to hide the Post Type SelectControl
-// when a Theatrum query loop variation is selected. The Query Type (inherit) toggle
-// is already hidden automatically by core/query when namespace is set.
+// Inject a <style> tag via InspectorControls to hide the Post Type SelectControl when a Theatrum
+// query loop variation is selected (the Query Type/inherit toggle is already hidden by core/query when namespace is set).
 addFilter(
 	'editor.BlockEdit',
 	'theatrum/hide-query-post-type-control',

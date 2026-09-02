@@ -1,8 +1,5 @@
-// Builds the inline CSS custom properties that drive normal/hover/active
-// colors for `.ct-tab__header` (see style.scss). Using custom properties
-// (rather than plain `color`/`background-color`) lets a single state's
-// fallback chain to the next, so an unset hover color reverts to the
-// normal color instead of the browser default.
+// Builds inline CSS custom properties for `.ct-tab__header` colors (see style.scss); using
+// custom properties instead of plain color/background-color lets an unset state fall back to the previous one.
 export default function getColorStyle( {
 	normalTextColor,
 	normalBackgroundColor,

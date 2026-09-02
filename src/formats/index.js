@@ -1,10 +1,7 @@
 /**
- * Frontend entry for the Carousel/Slider formats. Only loaded on pages that
- * actually use `is-style-ct-carousel` / `is-style-ct-slider` (see the
- * `render_block` enqueue sniff in inc/block-styles.php), so this doesn't
- * need to guard against absence — but it does need to skip roots already
- * owned by the native theatrum/carousel and theatrum/slider blocks, since their
- * own view.js already initializes them.
+ * Frontend entry for the Carousel/Slider formats. Only loaded on pages using `is-style-ct-carousel`
+ * / `is-style-ct-slider` (see the `render_block` enqueue sniff in inc/block-styles.php); skips
+ * roots already owned by the native theatrum/carousel and theatrum/slider blocks, whose own view.js already initializes them.
  */
 
 import './style.scss';

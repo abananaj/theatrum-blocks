@@ -9,10 +9,8 @@ import {
 import { createBlock } from '@wordpress/blocks';
 
 /**
- * v1: `title` attribute (RichText) + freeform InnerBlocks panel, flattened
- * directly inside `.ct-tab`. Superseded by the theatrum/tab-heading +
- * theatrum/tab-content child blocks. `migrate` rewraps old content into the
- * new shape so existing posts (e.g. post 58462) keep working.
+ * v1: `title` (RichText) + freeform InnerBlocks panel, flattened inside `.ct-tab`. Superseded by
+ * theatrum/tab-heading + theatrum/tab-content; `migrate` rewraps old content (e.g. post 58462).
  */
 const v1 = {
 	attributes: {

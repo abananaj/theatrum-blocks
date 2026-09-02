@@ -168,12 +168,9 @@ const save = ( { attributes } ) => {
 	]
 		.filter( Boolean )
 		.join( ' ' );
-	// Wrapped in a plain scroll container (not on the table itself) so the
-	// <table> stays a single real table — tbody's own `display:
-	// table-row-group` silently ignores height/overflow/max-height in every
-	// browser, so clipping has to happen on an ancestor instead. Keeping
-	// this wrapper free of block-support classes/attributes means color,
-	// border, spacing etc. keep landing on the <table> exactly as before.
+	// Wrapped in a plain scroll container (not the table itself): tbody's `display: table-row-group`
+	// ignores overflow in every browser, so clipping happens on this ancestor; kept free of
+	// block-support classes/attrs so color/border/spacing still land on the <table> as before.
 	return (
 		<div className="tm-table-scroll-wrapper">
 			<table { ...useBlockProps.save( { className } ) }>
@@ -183,8 +180,7 @@ const save = ( { attributes } ) => {
 	);
 };
 
-// v1: original save without the .tm-table-scroll-wrapper div. Lets existing
-// tables (saved before that wrapper was added) validate and auto-migrate.
+// v1: original save without .tm-table-scroll-wrapper; lets existing tables validate and auto-migrate.
 const v1 = {
 	attributes: metadata.attributes,
 	supports: metadata.supports,

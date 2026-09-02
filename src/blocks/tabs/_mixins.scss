@@ -1,11 +1,8 @@
-// Shared between style.scss (frontend + editor, via block.json's "style"
-// key) and editor.scss (editor-only). A leading-underscore partial with no
-// top-level CSS output of its own, so @use-ing it from editor.scss doesn't
-// double-load style.scss's rules into the compiled editor bundle.
+// Shared between style.scss (frontend + editor) and editor.scss; a partial with no top-level
+// output, so @use-ing it from editor.scss doesn't double-load style.scss into the editor bundle.
 
-// Colors come from theatrum/tab-heading's inline custom properties (see
-// color-style.js) so each tab can have its own normal/hover/active colors.
-// An unset state falls back to the next: hover → normal → inherit/transparent.
+// Colors come from theatrum/tab-heading's inline custom properties (color-style.js);
+// unset state falls back hover → normal → inherit/transparent.
 @mixin tab-header-active-colors {
 	color: var(
 		--ct-tab-header-active-color,
@@ -17,19 +14,14 @@
 	);
 }
 
-// The horizontal tab-strip layout — headers in a row, active panel spanning
-// full width below them. Used by style.scss's `min-width: 768px` media
-// query, which loads in both the frontend and the editor (block.json's
-// "style" key) — the editor canvas iframe has its own real viewport, so the
-// same breakpoint applies there too, including under the Desktop/Tablet/
-// Mobile preview toggle.
+// Horizontal tab-strip layout used by style.scss's `min-width: 768px` query, loaded in both
+// frontend and editor (block.json's "style" key) — the editor canvas iframe has a real
+// viewport, so the breakpoint applies there too, including the Desktop/Tablet/Mobile toggle.
 @mixin tab-strip-layout {
 	display: flex;
 	flex-wrap: wrap;
-	// Horizontal-only: `gap` would also land between the header row and the
-	// panel below it (both are flex items here — see .ct-tab's
-	// `display: contents` note below). `column-gap` only ever applies
-	// between items on the same row, so it can't touch that vertical seam.
+	// Horizontal-only: `gap` would also land between the header row and panel below (both are
+	// flex items — see .ct-tab's `display: contents`); `column-gap` only applies within a row.
 	column-gap: 5px;
 
 	.ct-tab {
@@ -44,11 +36,8 @@
 	.ct-tab__panel {
 		order: 1; // active panel drops below the header strip
 		width: 100%;
-		// Baseline rule separating the header strip from the content below it.
-		// `lightest-grey` is not a palette slug in the active theme, so this
-		// always resolved to the #ccc fallback. Kept as a literal: a hairline
-		// separator is block chrome, not a brand colour, and the theme has no
-		// mid-grey token to point at.
+		// `lightest-grey` isn't a palette slug in the active theme, so this always resolved
+		// to #ccc; kept as a literal since it's block chrome, not a brand colour.
 		border-top: 1px solid #ccc;
 	}
 }
