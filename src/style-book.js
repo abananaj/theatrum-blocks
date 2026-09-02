@@ -1,10 +1,5 @@
 /**
- * Style Book tab ordering for Theatrum Blocks.
- *
- * The WordPress Style Book builds its tab list from the registered block
- * categories returned by getCategories(). This script ensures the "theatrum"
- * category (registered server-side via block_categories_all) is positioned
- * immediately before the "widgets" category in the tab bar.
+ * Style Book tab ordering: positions the "theatrum" category (registered server-side via block_categories_all) immediately before "widgets" in the tab bar built from getCategories().
  *
  * @see packages/editor/src/components/style-book/categories.ts (Gutenberg)
  */

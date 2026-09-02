@@ -5,26 +5,11 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * SERVER-SIDE APPLICATION of the is-style-ct-carousel and is-style-ct-slider
- * formats' Grid Gap / Autoplay / Arrow Styles options (editor-side
- * counterpart: src/format-controls.js).
- *
- * core/gallery is a static block — src/format-controls.js's
- * blocks.getSaveContent.extraProps filter already bakes classes/style/data
- * attributes into its saved markup. core/query is dynamic (no saved markup
- * exists), so its only path to the frontend is here, at render time. This
- * filter runs on every render_block call regardless, so it doubles as an
- * idempotent fallback for core/gallery too (see the has_class() guard
- * below) — same shape as chance-ollie's ct_grid_columns_render_block()/
- * ct_grid_span_render_block(), this codebase's only other precedent for
- * this kind of core-block extension.
+ * Server-side counterpart to src/format-controls.js: applies is-style-ct-carousel/is-style-ct-slider Grid Gap/Autoplay/Arrow options at render time for core/query (dynamic, no saved markup); also an idempotent fallback for core/gallery (see has_class() guard below). Mirrors chance-ollie's ct_grid_columns_render_block()/ct_grid_span_render_block() pattern.
  */
 
 /**
- * Marker class confirming this filter's classes/vars/attributes have
- * already been applied to a given block's wrapper — checked to avoid
- * double-injecting on a core/gallery instance whose saved markup already
- * carries them.
+ * Marker class confirming this filter already applied its classes/vars/attributes to a block's wrapper, to avoid double-injecting on core/gallery's saved markup.
  */
 const THEATRUM_FORMAT_CONTROLS_MARKER_CLASS = 'ct-carousel-controls-applied';
 
@@ -124,10 +109,7 @@ function theatrum_format_controls_render_block($block_content, $block)
         return $block_content;
     }
 
-    // Idempotency guard: static core/gallery's saved markup may already
-    // carry these classes/vars/attributes (written by format-controls.js's
-    // getSaveContent.extraProps at save time), and render_block runs on
-    // every block, static or dynamic, on every request.
+    // Idempotency guard: static core/gallery's saved markup may already carry these (written by format-controls.js's getSaveContent.extraProps), and render_block runs on every block every request.
     if ($processor->has_class(THEATRUM_FORMAT_CONTROLS_MARKER_CLASS)) {
         return $block_content;
     }
@@ -151,8 +133,4 @@ function theatrum_format_controls_render_block($block_content, $block)
 }
 add_filter('render_block', 'theatrum_format_controls_render_block', 10, 2);
 
-// The editor-script enqueue for this feature lives in theatrum-blocks.php
-// (theatrum_enqueue_format_controls_script()), alongside every other
-// enqueue in this plugin — plugins_url()'s second argument resolves
-// relative to that file's own directory, so it needs to be called from a
-// file at the plugin root, not from here in inc/.
+// The editor-script enqueue lives in theatrum-blocks.php (theatrum_enqueue_format_controls_script()) — plugins_url()'s 2nd arg resolves relative to the calling file's dir, so it must be called from the plugin root, not from inc/.

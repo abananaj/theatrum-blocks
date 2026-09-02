@@ -11,16 +11,7 @@ if (! defined('ABSPATH')) {
  */
 
 /**
- * Whether an option name is safe to expose through the site-option block
- * (including its deprecated staff/board member variations) and its
- * REST endpoints.
- *
- * These blocks are designed to surface ACF Options Page fields, which are
- * always stored with an `options_`/`option_` prefix. Requiring that prefix
- * keeps the blocks working for their intended purpose while blocking access
- * to arbitrary wp_options rows (e.g. `mailserver_pass`, other plugins'
- * API keys) that Contributors/Authors could otherwise read via these
- * `edit_posts`-gated endpoints.
+ * Allowlist gate: only options_/option_-prefixed names may be read via the site-option block (and its deprecated staff/board variations) and REST endpoints — blocks arbitrary wp_options rows (e.g. mailserver_pass) from edit_posts-gated Contributors/Authors.
  *
  * @param string $option_name Option name requested by the block/endpoint.
  *
@@ -32,21 +23,7 @@ function theatrum_is_allowed_settings_option($option_name)
 }
 
 /**
- * Sanitize a color value coming from a PanelColorSettings color picker
- * (theatrum/carousel's arrow color/background-color controls, and the
- * matching is-style-ct-carousel format controls) before it's written into
- * an inline CSS custom property.
- *
- * The picker can emit a #hex value, an rgb()/rgba()/hsl()/hsla() function,
- * or a theme-color reference like var(--wp--preset--color--slug) — not just
- * a plain hex string, so sanitize_hex_color() alone would wrongly reject
- * the latter two. Allow only that narrow, CSS-safe shape; anything else
- * (including anything containing `url(`, `;`, or `<`) is dropped.
- *
- * Lives here (rather than in a single block's render.php) because more than
- * one render path needs it: theatrum/carousel's own render.php, and the
- * is-style-ct-carousel render_block filter (inc/format-controls.php), which
- * can run on pages that never render a theatrum/carousel block at all.
+ * Sanitizes a PanelColorSettings picker value (hex, rgb()/hsl(), or var(--wp--preset--color--slug)) before it's written into an inline CSS custom property — sanitize_hex_color() alone would wrongly reject the latter two. Shared by theatrum/carousel's render.php and the is-style-ct-carousel render_block filter (inc/format-controls.php).
  *
  * @param mixed $value Raw attribute value to sanitize.
  * @return string Sanitized color value, or '' if not a safe shape.
@@ -74,21 +51,7 @@ function theatrum_is_editor_render_context()
 }
 
 /**
- * Render an empty, invisible marker in place of a meta-* block that has no
- * value to display, instead of rendering nothing at all.
- *
- * Rendering truly nothing gives CSS no way to tell "this block was here but
- * had no data" apart from "this block was never here" — so a sibling
- * Heading can't be hidden automatically when grouped with an empty meta
- * block. This marker carries the block's default wrapper class plus a
- * shared `theatrum-meta-empty` class; `wp-blocks.scss` hides the marker
- * itself and hides any `.wp-block-heading` grouped with one via `:has()`.
- * No editor configuration is required — grouping a Heading with a meta-*
- * block is the only thing an editor has to do.
- *
- * In the block editor's own preview (`theatrum_is_editor_render_context()`)
- * the marker shows the requested meta key in brackets so authors can see
- * what's unset; on the frontend it's always empty and hidden via CSS.
+ * Renders an empty, invisible marker in place of a value-less meta-* block instead of rendering nothing, so CSS can tell "empty" from "never here" — carries a shared `theatrum-meta-empty` class that `wp-blocks.scss` hides (and hides a grouped `.wp-block-heading` sibling via `:has()`). In the editor preview it shows the requested key in brackets; on the frontend it's always empty.
  *
  * @param string $tag                 Sanitized HTML tag name for the marker.
  * @param string $key                 Meta key being requested, shown as an editor-only placeholder.
@@ -111,15 +74,7 @@ function theatrum_render_meta_empty_marker($tag, $key = '', $extra_wrapper_args 
 }
 
 /**
- * Decode HTML entities in a meta value for display in the block editor
- * (REST previews, block bindings) and on the frontend.
- *
- * esc_html() is the wrong tool here: it re-encodes straight quotes/ampersands
- * right back into entities (&#039;, &amp;), so esc_html(html_entity_decode($v))
- * is a no-op round-trip for anything but curly-quote-style entities. These
- * values are consumed either as plain text (React preview strings, which
- * escape on render) or dropped into an HTML text node (frontend), so only
- * &, <, > need re-escaping — quotes are safe as literal characters in both.
+ * Decodes HTML entities in a meta value for editor/frontend display. esc_html() alone is a no-op here (it re-encodes straight quotes/ampersands right back), so only &, <, > are re-escaped — quotes are safe as literal chars in both React preview text and frontend HTML text nodes.
  *
  * @param mixed $value Raw value (string or castable to string).
  *
@@ -132,14 +87,7 @@ function theatrum_decode_entities($value)
 }
 
 /**
- * Normalize a related-post meta value into a flat list of post IDs.
- *
- * Handles the same value shapes the meta-related block already supported for a
- * single value — raw post ID, WP_Post, ACF Post Object array — and extends them
- * to arrays of any of those (ACF relationship / multiple post object fields).
- *
- * Shared by meta-related's render.php (frontend) and the REST endpoint (editor
- * preview) so both resolve the same posts for a given field value.
+ * Normalizes a related-post meta value (raw ID, WP_Post, ACF Post Object array, or arrays of those) into a flat list of post IDs. Shared by meta-related's render.php and its REST endpoint so both resolve the same posts.
  *
  * @param mixed $meta_value Raw meta/ACF field value.
  *
@@ -174,13 +122,7 @@ function theatrum_meta_related_collect_ids($meta_value)
 }
 
 /**
- * Get a meta/ACF field value for a post, preferring ACF's get_field() when
- * active and falling back to get_post_meta().
- *
- * Centralizes a pattern that was duplicated (with two call sites missing the
- * function_exists() guard, which would fatal on a site without ACF active)
- * across meta-file, meta-image, meta-related, block-bindings, and several
- * REST endpoint callbacks.
+ * Gets a meta/ACF field value, preferring ACF's get_field() and falling back to get_post_meta(). Centralizes a pattern duplicated across meta-file/meta-image/meta-related/block-bindings/REST callbacks, two of which were missing the function_exists() guard (fatal without ACF active).
  *
  * @param int    $post_id Post ID.
  * @param string $key     Meta/ACF field key.
@@ -298,11 +240,7 @@ function theatrum_repeater_resolve_value($value)
 }
 
 /**
- * Escape a resolved repeater subfield value for output, while preserving
- * manual `<br>` line breaks — editors use plain ACF text fields for
- * repeater subfields (no WYSIWYG per-row) and have adopted typing a literal
- * `<br />` to split a row into multiple lines. esc_html() alone would print
- * that literally instead of breaking the line.
+ * Escapes a resolved repeater subfield value while preserving manual `<br>` line breaks — editors type literal `<br />` in plain ACF text subfields (no per-row WYSIWYG) to split lines; esc_html() alone would print that literally.
  *
  * @param string $value Already-resolved (theatrum_repeater_resolve_value()) subfield text.
  */
@@ -312,17 +250,7 @@ function theatrum_repeater_escape_value($value)
 }
 
 /**
- * Resolve a meta value into a list of displayable items.
- *
- * Accepts a single value or an array of values (post IDs, WP_Post objects,
- * ACF post-object arrays, term IDs, WP_Term objects, or plain strings) and
- * returns a normalized list of items. Post/term references resolve to a title
- * + permalink so callers can render them as links; non-reference scalars pass
- * through as plain text (empty url).
- *
- * A bare numeric ID is resolved as a post first; if it is not a valid post it
- * falls back to a term lookup. Explicit WP_Term objects / term arrays always
- * resolve as terms.
+ * Resolves a single value or array (post IDs, WP_Post, ACF post-object arrays, term IDs, WP_Term, or plain strings) into a normalized list of items — post/term references get a title+permalink, scalars pass through as plain text. A bare numeric ID resolves as a post first, falling back to a term lookup; explicit WP_Term/term arrays always resolve as terms.
  *
  * @param mixed $value Raw meta value.
  * @return array<int, array{id:int, title:string, url:string, type:string}>
@@ -333,8 +261,7 @@ function theatrum_resolve_post_links($value)
 		return array();
 	}
 
-	// A single reference array (ACF post-object with 'ID', or a term array with
-	// 'term_id') should be treated as one item, not iterated as a list.
+	// A single reference array (ACF post-object 'ID', or term array 'term_id') is treated as one item, not iterated.
 	$is_single_ref_array = is_array($value) && (isset($value['ID']) || isset($value['term_id']));
 
 	$items = (is_array($value) && ! $is_single_ref_array) ? $value : array($value);
@@ -395,15 +322,7 @@ function theatrum_resolve_post_links($value)
 }
 
 /**
- * Validate a user-supplied tag/level name against an allowlist, falling back
- * to a default when it isn't allowed.
- *
- * Centralizes a validation block duplicated (with an inconsistent mix of
- * strict/loose in_array() comparisons, and three call sites that used bare
- * tag_escape() instead of an allowlist at all — which only guarantees a
- * syntactically valid tag name, not one from a specific safe set) across
- * meta-field, site-option, meta-repeater, meta-related, meta-date, meta-time,
- * and term-meta.
+ * Validates a user-supplied tag/level name against an allowlist, falling back to a default. Centralizes validation duplicated across meta-field, site-option, meta-repeater, meta-related, meta-date, meta-time, and term-meta (some of which used bare tag_escape() alone — syntactically valid but not allowlisted).
  *
  * @param string   $tag     Requested tag/value.
  * @param string[] $allowed Allowed values.
@@ -417,9 +336,7 @@ function theatrum_sanitize_tag($tag, array $allowed, $default)
 }
 
 /**
- * Parse dates in multiple formats and return timestamp
- * Caches results to avoid redundant parsing
- * Handles: Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates, etc.
+ * Parses a date string in many formats (Unix timestamp, YYYYMMDD, Y-m-d, m/d/Y, text dates, etc.) into a timestamp, caching results.
  */
 function theatrum_parse_flexible_date($date_str)
 {
@@ -431,10 +348,7 @@ function theatrum_parse_flexible_date($date_str)
 	$cache_key = 'ct_date_' . md5($date_str);
 	$cached = wp_cache_get($cache_key, 'ct_dates');
 
-	// A sentinel ('none') marks a cached negative result. Storing PHP `null`
-	// directly doesn't survive round-tripping through every persistent
-	// object-cache backend distinguishably from a cache miss (both can read
-	// back as `false`), which made the negative cache a no-op.
+	// Sentinel 'none' marks a cached negative result — storing PHP `null` directly is indistinguishable from a cache miss on some persistent object-cache backends (both read back `false`), which made the negative cache a no-op.
 	if ($cached === 'none') {
 		return null;
 	}
@@ -528,8 +442,7 @@ function theatrum_parse_flexible_date($date_str)
 }
 
 /**
- * Parse time-only strings and return timestamp for today at that time
- * Handles formats like: 17:30, 5:30 PM, 5:30:45 PM, 14:30:00, etc.
+ * Parses a time-only string (17:30, 5:30 PM, 14:30:00, etc.) into today's timestamp at that time.
  */
 function theatrum_parse_flexible_time($time_str)
 {
@@ -591,10 +504,7 @@ function theatrum_parse_flexible_time($time_str)
 }
 
 /**
- * Get current production for the season
- *
- * Retrieves a single production that is either currently running, or if none are running,
- * the next upcoming production closest to today.
+ * Gets the currently-running production for the season, or the next upcoming one if none are running.
  *
  * @return array|null Production object with: ID, title, featured_image, opening, closing
  *                    or null if none found
@@ -636,11 +546,7 @@ function theatrum_get_current_production()
 }
 
 /**
- * Query productions in a season/series, parsing opening/closing meta with
- * theatrum_parse_flexible_date() rather than relying on SQL meta_query type
- * casting — the stored opening/closing values are a genuine mix of `Ymd`
- * and `Y-m-d H:i:s` formats, so no single SQL DATE/DATETIME cast is correct
- * for every row.
+ * Queries productions in a season/series, parsing opening/closing meta via theatrum_parse_flexible_date() instead of SQL meta_query type casting — stored values are a genuine mix of `Ymd` and `Y-m-d H:i:s`, so no single SQL DATE/DATETIME cast fits every row.
  *
  * @param int|string $season Season term ID or slug.
  *
@@ -689,9 +595,7 @@ function theatrum_query_season_productions($season)
 }
 
 /**
- * Get next production for the season
- *
- * Retrieves the next production after the current one.
+ * Gets the next production after the current one for the season.
  *
  * @return array|null Production object with: ID, title, featured_image, opening, closing
  *                    or null if none found
@@ -777,17 +681,7 @@ function theatrum_format_production_date($date, $format = 'M j')
 }
 
 /**
- * Constrain a nested query loop to the current taxonomy term.
- *
- * core/term-template (WP 6.9+) injects `termId` and `taxonomy` into the block
- * context of each term it iterates. core/query only reads `templateSlug`, so a
- * Supporter Loop nested inside a Terms Query → Term Template has no idea which
- * term it is rendering under and shows every supporter under every level.
- *
- * This bridges that gap: when a query loop is rendered inside a term-template,
- * add a tax_query limiting its posts to the current term. The termId/taxonomy
- * guard means this is inert for every other query loop on the site — it only
- * fires when genuinely nested in a term-template.
+ * Constrains a nested query loop to the current taxonomy term. core/term-template (WP 6.9+) injects `termId`/`taxonomy` into context, but core/query only reads `templateSlug` — so a loop nested in a Terms Query → Term Template would otherwise show every item under every term; this adds a tax_query to fix that, inert unless genuinely nested in a term-template.
  *
  * @link https://developer.wordpress.org/reference/hooks/query_loop_block_query_vars/
  *
@@ -805,8 +699,7 @@ function theatrum_filter_query_loop_by_term($query, $block)
 	$taxonomy  = $block->context['taxonomy'];
 	$post_type = $query['post_type'] ?? 'post';
 
-	// Only constrain when the taxonomy actually applies to this post type, so a
-	// loop nested in an unrelated term-template is left untouched.
+	// Only constrain when the taxonomy actually applies to this post type, leaving unrelated term-templates untouched.
 	if (! is_object_in_taxonomy($post_type, $taxonomy)) {
 		return $query;
 	}
@@ -826,14 +719,7 @@ function theatrum_filter_query_loop_by_term($query, $block)
 add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_term', 10, 2);
 
 /**
- * Apply the theatrum/query-filter block's "Sort Order" mode to query loops.
- *
- * The query-filter block's orderby mode writes an `?orderby=` GET param with
- * values like `date-asc` / `title-desc`, but those aren't real WP query vars
- * and nothing previously read them — the control changed the URL but had no
- * effect on results. This maps the sanitized GET value to real orderby/order
- * query vars for any query loop that inherits the main query, matching the
- * same "inheriting query loop" limitation the taxonomy filter mode already has.
+ * Applies the theatrum/query-filter block's "Sort Order" mode (a `?orderby=date-asc`-style GET param that isn't a real WP query var) to real orderby/order query vars, for any query loop that inherits the main query.
  *
  * @link https://developer.wordpress.org/reference/hooks/query_loop_block_query_vars/
  *

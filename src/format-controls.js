@@ -1,40 +1,9 @@
 /**
- * Editor-only extension bringing the native theatrum/carousel and
- * theatrum/slider blocks' options to the is-style-ct-carousel and
- * is-style-ct-slider formats (core/query and core/gallery styled as a
- * carousel/slider — see src/formats/). Follows the same registerBlockType /
- * BlockEdit / BlockListBlock / getSaveContent.extraProps shape
- * chance-ollie's ctGridColumns/ctGridSpan use to extend core blocks (see
- * wp-content/themes/chance-ollie/inc/grid-columns/js/editor.js) — this
- * codebase's only other precedent for this kind of extension.
+ * Editor-only extension bringing theatrum/carousel's and theatrum/slider's options to the is-style-ct-carousel/is-style-ct-slider formats (core/query & core/gallery styled as a carousel/slider — see src/formats/), following the same registerBlockType/BlockEdit/BlockListBlock/getSaveContent.extraProps shape as chance-ollie's ctGridColumns/ctGridSpan. Attributes are namespaced `ct*` for the same reason.
  *
- * Attributes are namespaced `ct*` (ctArrowPosition, ctCarouselGap, ...) so
- * they read as this plugin's addition in the inspector/JSON, matching that
- * same ctGridColumns/ctGridSpan convention — even though a literal
- * collision with the native blocks' bare `arrowPosition` etc. is impossible
- * (attributes are scoped per block type).
+ * Arrow attributes are shared by both formats (mutually exclusive per block, so a value set under one style carries over if switched to the other); which format is active picks the CSS var prefix/modifier classes, and only carousel gets Grid Gap (core/query-only — core/gallery has native gap support) while only slider gets Autoplay (neither format has any autoplay mechanism otherwise).
  *
- * The arrow attributes (ctArrowPosition/ctArrowBackground/ctArrowColor/
- * ctArrowBackgroundColor/ctArrowSize/ctArrowSizeUnit) are shared by BOTH
- * formats rather than duplicated per-format — is-style-ct-carousel and
- * is-style-ct-slider are mutually exclusive on a given block, so one block
- * only ever has one of them active, and reusing the same attributes means a
- * value set while styled as one carries over if the style is later switched
- * to the other. Which format is actually active determines which CSS
- * custom-property prefix / modifier class names get emitted (carousel:
- * --ct-arrow-*, .theatrum-arrows-*; slider: --tm-arrow-*,
- * .tm-slider-arrows-*), and only carousel gets a Grid Gap control (no
- * per-item gap concept for a one-slide-visible-at-a-time slider) while only
- * slider gets Autoplay controls (core/query/core/gallery have no existing
- * autoplay mechanism at all today — src/formats/slider.js reads
- * root.dataset.autoplay, which nothing currently sets for either format).
- *
- * core/gallery already has native gap support (Styles > Dimensions), so
- * Grid Gap is carousel-only AND core/query-only here — its own gap control
- * lives one level down on its child core/post-template block.
- *
- * Server-side counterpart: inc/format-controls.php (render_block filter for
- * core/query, which is dynamic and has no saved markup to extend here).
+ * Server-side counterpart: inc/format-controls.php (render_block filter for core/query, which has no saved markup to extend here).
  */
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
@@ -126,9 +95,7 @@ function isArrowFormatBlock( name, attributes ) {
 }
 
 /**
- * Builds the modifier classes + inline CSS vars for a carousel- or
- * slider-format instance, shared by the BlockListBlock (canvas preview) and
- * getSaveContent.extraProps (static core/gallery) filters below.
+ * Builds the modifier classes + inline CSS vars for a carousel-/slider-format instance, shared by the BlockListBlock and getSaveContent.extraProps filters below.
  */
 function buildFormatModifiers( name, attributes ) {
 	const classes = [];
@@ -171,9 +138,7 @@ function buildFormatModifiers( name, attributes ) {
 }
 
 /**
- * Builds the data-autoplay/data-autoplay-speed attributes
- * src/formats/slider.js reads off the format root, for a slider-format
- * instance.
+ * Builds the data-autoplay/data-autoplay-speed attributes src/formats/slider.js reads off the format root, for a slider-format instance.
  */
 function buildAutoplayAttributes( attributes ) {
 	return {
@@ -182,9 +147,7 @@ function buildAutoplayAttributes( attributes ) {
 	};
 }
 
-/* 1. Register the shared arrow attributes on core/query & core/gallery, the
- * gap attributes on core/query only, and the autoplay attributes on
- * core/query & core/gallery. */
+/* 1. Register shared arrow attributes on core/query & core/gallery, gap attributes on core/query only, autoplay attributes on both. */
 addFilter(
 	'blocks.registerBlockType',
 	'theatrum-blocks/format-controls/attributes',
@@ -311,15 +274,7 @@ addFilter(
 	withFormatInspectorControls
 );
 
-/* 3. Reflect classes + CSS vars (and, for slider, the data-autoplay*
- * attributes) on the editor canvas wrapper. Note: arrow vars have no
- * visible effect here yet — the formats' arrow buttons are built by
- * frontend-only JS (src/formats/carousel.js, src/formats/slider.js), so
- * there's no arrow DOM in the canvas to style. Carousel Grid Gap *is*
- * visible immediately, since .wp-block-post-template already exists in the
- * canvas and the format's own CSS already reads var(--ct-carousel-gap,
- * ...). Setting the other vars/attributes anyway is harmless and keeps
- * this in sync if the arrow-DOM limitation is lifted later. */
+/* 3. Reflect classes + CSS vars (+ data-autoplay* for slider) on the editor canvas wrapper. Arrow vars have no visible effect yet — the arrow buttons are built by frontend-only JS (src/formats/carousel.js, slider.js), so there's no arrow DOM in the canvas. Carousel Grid Gap IS visible immediately (canvas already has .wp-block-post-template + the var). Setting the rest anyway is harmless and future-proofs the arrow-DOM limitation being lifted later. */
 const withFormatEditorClass = createHigherOrderComponent(
 	( BlockListBlock ) => ( props ) => {
 		const isCarousel = isCarouselFormatBlock( props.name, props.attributes );
@@ -369,9 +324,7 @@ addFilter(
 	withFormatEditorClass
 );
 
-/* 4. Persist classes + CSS vars + (for slider) data-autoplay* into saved
- * markup for the static core/gallery block (core/query is dynamic — see
- * inc/format-controls.php for its render-time equivalent). */
+/* 4. Persist classes + CSS vars + (for slider) data-autoplay* into saved markup for static core/gallery (core/query is dynamic — see inc/format-controls.php for its render-time equivalent). */
 addFilter(
 	'blocks.getSaveContent.extraProps',
 	'theatrum-blocks/format-controls/save-props',
@@ -405,10 +358,7 @@ addFilter(
 			className: [ props.className, ...classes ]
 				.filter( Boolean )
 				.join( ' ' ),
-			// props.style is a plain object here (only serialized to a
-			// string attribute at final render) — merge as an object, never
-			// string-concatenate (that silently produces the literal text
-			// "[object Object]" and destroys other styles the user set).
+			// props.style is a plain object here — merge as an object, never string-concatenate (silently produces literal "[object Object]" and destroys other user-set styles).
 			style: { ...props.style, ...style },
 		};
 	}

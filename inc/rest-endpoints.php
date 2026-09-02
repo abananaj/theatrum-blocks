@@ -10,11 +10,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Permission callback for editor-level REST endpoints.
- *
- * Baseline requires edit_posts. Routes that carry a post_id or term_id URL
- * param are further scoped to that specific object, so a Contributor can't
- * pull meta for posts/terms they don't have access to by changing the ID.
+ * Permission callback for editor-level REST endpoints — requires edit_posts, and further scopes to the specific post_id/term_id URL param so a Contributor can't pull meta for objects they lack access to by changing the ID.
  *
  * @param WP_REST_Request|null $request
  * @return bool True if the current user can access this specific request.
@@ -155,11 +151,7 @@ function theatrum_get_post_meta_field_rest_callback($request)
 		$value = json_encode($value);
 	}
 
-	// WYSIWYG mode previews the field's actual markup via RawHTML, so it must
-	// skip theatrum_decode_entities() — that helper re-escapes `<`/`>` for
-	// plain-text display, which would turn real tags into literal `&lt;...&gt;`
-	// text. Run wpautop() here instead, matching render.php's frontend path,
-	// so blank-line-separated text becomes proper paragraphs in the preview too.
+	// WYSIWYG mode previews via RawHTML, so it must skip theatrum_decode_entities() (which would re-escape real tags to literal text) and run wpautop() instead, matching render.php's frontend path.
 	if ($request->get_param('html')) {
 		$value = wpautop($value);
 	} else {
@@ -202,8 +194,7 @@ function theatrum_get_meta_repeater_rest_callback($request)
 		return new WP_REST_Response(array('rows' => []), 200);
 	}
 
-	// Sanitize each row — resolve values with the same logic the frontend
-	// render.php uses, so the editor preview matches actual output.
+	// Sanitize each row using the same resolution logic as frontend render.php, so the editor preview matches actual output.
 	$sanitized = array();
 	foreach ($rows as $row) {
 		if (! is_array($row)) {
@@ -403,11 +394,7 @@ function theatrum_get_meta_image_rest_callback($request)
 }
 
 /**
- * Shared resolver for the board-member/staff-member option-name REST
- * endpoints. Both look up an allowlisted wp_options value and resolve it to
- * either a single display value or a list of linked posts; they differ only
- * in which "options_<group>_"/"option_<group>_" prefix gets stripped when
- * deriving a human-readable label from the raw option name.
+ * Shared resolver for the board-member/staff-member option-name REST endpoints — both look up an allowlisted wp_options value and resolve it to a display value or list of linked posts, differing only in which "options_<group>_"/"option_<group>_" prefix gets stripped for the label.
  *
  * @param string $option_name
  * @param string $group 'board' or 'staff'
@@ -570,8 +557,7 @@ function theatrum_get_site_option_rest_callback($request)
 		}
 	}
 
-	// Resolve post references (single ID, array of IDs, WP_Post objects, or ACF
-	// post-object arrays) to linked titles — same resolution the frontend uses.
+	// Resolve post references (single ID, array of IDs, WP_Post, or ACF post-object arrays) to linked titles — same resolution the frontend uses.
 	$links = theatrum_resolve_post_links($value);
 
 	$has_post_links = false;
@@ -665,8 +651,7 @@ function theatrum_get_term_meta_field_rest_callback($request)
 		return new WP_REST_Response(array('value' => '', 'items' => array()), 200);
 	}
 
-	// Resolve post IDs / post objects (single or array) to linked titles so the
-	// editor preview matches the frontend render.php output.
+	// Resolve post IDs/objects (single or array) to linked titles so the editor preview matches the frontend render.php output.
 	$links = theatrum_resolve_post_links($value);
 
 	if (! empty($links)) {

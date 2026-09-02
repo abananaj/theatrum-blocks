@@ -1,30 +1,9 @@
 /**
- * Meta block variations — registers core block variations backed by the
- * theatrum/post-meta Block Bindings source. Each variation appears in the
- * block inserter under the parent core block and pulls its attribute value
- * from post meta or ACF at render time.
+ * Registers core block variations backed by the theatrum/post-meta Block Bindings source — optional alternates to the theatrum/meta-* custom blocks (not a replacement/migration path) for when a core block's own styling/features are worth trading the custom block's dedicated UI for.
  *
- * These are optional alternates to the theatrum/meta-* custom blocks, useful
- * when a core block's own styling/features (e.g. core/button's width and
- * style controls) are worth trading the custom block's dedicated UI for.
- * They are not a replacement or migration path — the custom blocks remain
- * the primary, supported way to bind meta.
+ * Only core/image, core/button, and core/paragraph are registered — WP core's block bindings only recognize a fixed allowlist of block/attribute pairs that excludes core/embed and core/file, so bind-embed/bind-file variations were removed rather than shipped silently broken; use theatrum/meta-embed and theatrum/meta-file instead.
  *
- * Only core/image, core/button, and core/paragraph are registered here —
- * WordPress core's block bindings system only recognizes a fixed allowlist
- * of block/attribute pairs (see get_block_bindings_supported_attributes()
- * in wp-includes/block-bindings.php), which does not include core/embed or
- * core/file. Bindings on those two are silently ignored everywhere (editor
- * and front end), so theatrum/bind-embed and theatrum/bind-file variations were
- * removed rather than shipped broken — use the theatrum/meta-embed and
- * theatrum/meta-file custom blocks instead, which don't have this limitation.
- *
- * Also loads:
- *  - meta-binding-source: registers the theatrum/post-meta source client-side
- *    (getValues) so WP core's native "Attributes" panel can resolve it
- *    instead of showing "Source not registered"
- *  - meta-binding-panel: adds the Meta Source inspector panel to bound blocks
- *  - meta-transforms: adds Transform to/from support for theatrum/meta-* blocks
+ * Also loads meta-binding-source (client-side source registration, else the core Attributes panel shows "Source not registered"), meta-binding-panel (Meta Source inspector panel), and meta-transforms (Transform to/from support).
  */
 
 import { registerBlockVariation } from '@wordpress/blocks';

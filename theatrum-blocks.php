@@ -148,9 +148,7 @@ add_action('init', 'theatrum_register_blocks');
 
 
 /**
- * Registers the "Custom Blocks" block category for all Theatrum blocks.
- * The category is inserted just before the 'widgets' category so it appears
- * in the correct position in both the block inserter and the Style Book.
+ * Registers the "Custom Blocks" category, inserted just before 'widgets' so it appears correctly in both the block inserter and Style Book.
  *
  * @param array[] $categories Array of block categories.
  * @return array[] Modified array of block categories.
@@ -224,8 +222,7 @@ function theatrum_add_dev_mode_attribute($metadata)
 add_filter('block_type_metadata', 'theatrum_add_dev_mode_attribute');
 
 /**
- * Enqueues the Style Book editor script that ensures the "Custom Blocks"
- * tab is positioned correctly in the Site Editor Style Book.
+ * Enqueues the Style Book editor script that positions the "Custom Blocks" tab correctly in the Site Editor Style Book.
  */
 function theatrum_enqueue_style_book_script()
 {
@@ -248,8 +245,7 @@ function theatrum_enqueue_style_book_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_style_book_script');
 
 /**
- * Enqueues the meta-variations script that registers core block variations
- * backed by the theatrum/post-meta Block Bindings source.
+ * Enqueues the meta-variations script that registers core block variations backed by the theatrum/post-meta Block Bindings source.
  */
 function theatrum_enqueue_meta_variations_script()
 {
@@ -272,8 +268,7 @@ function theatrum_enqueue_meta_variations_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_meta_variations_script');
 
 /**
- * Enqueues the popup-trigger-variation script that registers the
- * theatrum/popup-trigger core/button variation.
+ * Enqueues the popup-trigger-variation script that registers the theatrum/popup-trigger core/button variation.
  */
 function theatrum_enqueue_popup_trigger_variation_script()
 {
@@ -296,10 +291,7 @@ function theatrum_enqueue_popup_trigger_variation_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_popup_trigger_variation_script');
 
 /**
- * Enqueues the block-color script that colors all Theatrum/Chance custom
- * block icons blue, so they're visually distinguishable in the inserter,
- * list view, and block toolbar (mirroring how meta-bound block variations
- * show purple).
+ * Enqueues the block-color script that colors custom block icons for visual distinction in the inserter/list view/toolbar (mirroring how meta-bound variations show purple).
  */
 function theatrum_enqueue_block_color_script()
 {
@@ -322,8 +314,7 @@ function theatrum_enqueue_block_color_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_block_color_script');
 
 /**
- * Enqueues the rich-text-formats script that registers custom RichText
- * toolbar formats (e.g. Small) alongside core bold/italic/etc.
+ * Enqueues the rich-text-formats script that registers custom RichText toolbar formats (e.g. Small) alongside core bold/italic/etc.
  */
 function theatrum_enqueue_rich_text_formats_script()
 {
@@ -346,10 +337,7 @@ function theatrum_enqueue_rich_text_formats_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_rich_text_formats_script');
 
 /**
- * Registers the Carousel/Slider block styles on core/query and core/gallery
- * (the "formats" — see src/formats/). Names are prefixed (ct-carousel,
- * ct-slider) since a bare "carousel"/"slider" slug is a plausible collision
- * with other plugins.
+ * Registers the Carousel/Slider block styles ("formats" — see src/formats/) on core/query and core/gallery; names are prefixed (ct-carousel, ct-slider) to avoid colliding with other plugins' bare slugs.
  */
 function theatrum_register_format_styles()
 {
@@ -368,9 +356,7 @@ function theatrum_register_format_styles()
 add_action('init', 'theatrum_register_format_styles');
 
 /**
- * Blocks eligible for the Carousel/Slider formats, and the style slugs
- * (without the is-style- prefix) that trigger them. Shared by the editor
- * and frontend enqueue functions below.
+ * Blocks eligible for the Carousel/Slider formats, and their style slugs (without the is-style- prefix) — shared by the editor/frontend enqueue functions below.
  */
 function theatrum_format_blocks()
 {
@@ -383,9 +369,7 @@ function theatrum_format_style_slugs()
 }
 
 /**
- * Registers (without enqueuing) the shared formats.js/formats.css handles
- * so both the editor and frontend enqueue functions below can reference
- * them by handle.
+ * Registers (without enqueuing) the shared formats.js/formats.css handles so the editor/frontend enqueue functions below can reference them.
  */
 function theatrum_register_format_assets()
 {
@@ -420,10 +404,7 @@ function theatrum_register_format_assets()
 add_action('init', 'theatrum_register_format_assets');
 
 /**
- * Editor: enqueue the formats stylesheet so the Carousel/Slider style
- * previews render correctly in the Styles panel and canvas. No script here
- * — the runtime is frontend-only, matching how theatrum/carousel and
- * theatrum/slider's own viewScript only ever runs on the frontend.
+ * Editor: enqueue the formats stylesheet for correct Carousel/Slider previews. No script here — the runtime is frontend-only, matching theatrum/carousel's and theatrum/slider's own viewScript.
  */
 function theatrum_enqueue_format_editor_assets()
 {
@@ -435,10 +416,7 @@ function theatrum_enqueue_format_editor_assets()
 add_action('enqueue_block_assets', 'theatrum_enqueue_format_editor_assets');
 
 /**
- * Enqueues the block-editor extension (src/format-controls.js) that adds
- * Grid Gap + Arrow Styles inspector controls to core/query/core/gallery
- * when styled is-style-ct-carousel — the editor-side counterpart to
- * inc/format-controls.php's render_block filter.
+ * Enqueues src/format-controls.js, which adds Grid Gap + Arrow Styles inspector controls to is-style-ct-carousel-styled core/query/core/gallery — editor-side counterpart to inc/format-controls.php's render_block filter.
  */
 function theatrum_enqueue_format_controls_script()
 {
@@ -464,10 +442,7 @@ function theatrum_enqueue_format_controls_script()
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_format_controls_script');
 
 /**
- * Frontend: enqueue the formats script/style only on pages that actually
- * render a Carousel/Slider-styled core/query or core/gallery block. This is
- * an enqueue sniff, not a markup filter — $block_content is returned
- * untouched, so it can't affect alignment or wrapper attributes.
+ * Frontend: enqueue the formats script/style only on pages rendering a Carousel/Slider-styled core/query or core/gallery block. An enqueue sniff, not a markup filter — $block_content is returned untouched.
  */
 function theatrum_enqueue_format_frontend_assets($block_content, $block)
 {

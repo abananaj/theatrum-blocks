@@ -5,18 +5,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Applies theatrum/query-filter blocks to the specific Query Loop they target.
- *
- * The filter block only stores which taxonomy/order to filter by and which
- * Query Loop's queryId it targets — it doesn't touch WP_Query itself. This
- * file is the other half: it reads the namespaced GET param (`{param}-q{id}`,
- * see render.php) and, when a Query Loop with a matching queryId renders,
- * folds the filter into its query args via `query_loop_block_query_vars`.
- *
- * Scoped to filter blocks living in the same post as the Query Loop being
- * rendered — the common case (filter controls placed alongside their Query
- * Loop on one page). A filter block targeting a Query Loop in a different
- * template part/pattern won't be found by this lookup.
+ * Applies theatrum/query-filter blocks to the Query Loop they target: reads the namespaced GET param (`{param}-q{id}`, see render.php) and folds it into the matching queryId's args via `query_loop_block_query_vars`. Scoped to filter blocks in the same post as the Query Loop — one targeting a Loop in a different template part/pattern won't be found.
  */
 
 /**

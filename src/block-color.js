@@ -1,9 +1,5 @@
 /**
- * Colors every Theatrum custom block's icon so custom blocks are
- * visually distinguishable in the inserter, list view, and block toolbar —
- * mirroring how the theatrum/bind-* meta variations show purple via BIND_COLOR
- * (see src/meta-variations.js). Meta blocks (category: "metablock") get the
- * theme's red-orange accent; all other custom blocks get blue.
+ * Colors every Theatrum custom block's icon for visual distinction in the inserter/list view/toolbar (mirroring the theatrum/bind-* variations' BIND_COLOR purple, src/meta-variations.js). Meta blocks get the red-orange accent; everything else gets blue.
  */
 
 import { addFilter } from '@wordpress/hooks';

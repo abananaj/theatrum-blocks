@@ -1,23 +1,7 @@
 /**
- * Registers the theatrum/post-meta block bindings source client-side.
+ * Registers the theatrum/post-meta block bindings source client-side. inc/block-bindings.php registers the same source on the PHP side for rendering, but without a matching JS registration WP core's native "Attributes" panel shows "Source not registered" and silently substitutes the source's label for the real value — broken editor preview.
  *
- * inc/block-bindings.php registers this same source name on the PHP side
- * (get_value_callback) so front-end rendering works, but WordPress core's
- * editor UI (the native "Attributes" panel added to every bindable block)
- * looks the source up in the client-side block bindings registry — without
- * a matching JS registration it shows the source as "Source not registered"
- * (disabled, unusable) and, worse, silently substitutes the source's label
- * string in for the real attribute value once one resolves, which broke the
- * editor preview for bound blocks.
- *
- * getValues() only returns a value when it can find one via the edited
- * entity record's `meta` (i.e. the key was registered with
- * `register_post_meta( ..., [ 'show_in_rest' => true ] )` or exposed by ACF's
- * REST support). Keys that aren't REST-exposed simply resolve to nothing
- * here — the block falls back to its own attributes, same as before this
- * source existed — while still getting a live preview for the common case.
- * The real, authoritative value always comes from the PHP callback at
- * render time regardless of what resolves here.
+ * getValues() only resolves a value when the key is REST-exposed (register_post_meta show_in_rest, or ACF's REST support) via the edited entity record's `meta`; unexposed keys just fall back to the block's own attributes, same as before this source existed. The PHP callback is always authoritative at render time regardless of what resolves here.
  */
 
 import { registerBlockBindingsSource } from '@wordpress/blocks';

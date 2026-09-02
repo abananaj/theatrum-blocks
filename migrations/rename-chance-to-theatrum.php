@@ -1,101 +1,17 @@
 <?php
 
 /**
- * Rewrites stored post_content (and DB-stored Site Editor templates) to use
- * this plugin's new `theatrum/` block namespace instead of the old, mixed
- * `chance/` / `theatrum/` split.
+ * Rewrites stored post_content/DB templates from the old `chance/` block namespace to `theatrum/` — the source-side rename (block.json names, PHP functions, CSS classes) doesn't retroactively touch bytes already in wp_posts.post_content, so pre-rename posts still carry old identifiers.
  *
- * Companion to the code rename performed in this repo (see CHANGELOG.md /
- * the "unify chance & theatrum namespaces" commits). That rename only
- * touched source files — block.json "name" fields, PHP function names, the
- * block-bindings source, and a handful of CSS classes. None of that
- * retroactively changes bytes already sitting in wp_posts.post_content, so
- * any post saved before this rename shipped still has the old identifiers
- * baked into its stored blocks. This script finds and rewrites those.
+ * Migrates 4 things: (1) block names, from the authoritative list in THEATRUM_BLOCK_NAME_MAP; (2) the `theatrum/post-meta` block-bindings source stored in attrs; (3) the `metadata.name` "sticky name" persisted by the bind-* / popup-trigger core-block variations, needed so `isActive()` still recognizes them post-reload (unmigrated, they still render fine but lose their dedicated inspector UI/inserter highlighting until re-saved); (4) the literal `wp-block-chance-x` wrapper class baked into saved innerHTML/innerContent — WP derives it from the block's own registered name and `serialize_blocks()` reuses saved HTML verbatim, so renaming attrs.className alone wouldn't touch it. (4) is scoped strictly to blocks whose own name is being renamed (a fixture smoke-test caught an earlier draft corrupting unrelated chance/-prefixed blocks' wrapper classes when this was done unconditionally).
  *
- * What it rewrites, and why each needs its own handling:
+ * Deliberately NOT touched: `.ct-*` classes baked into static blocks' own save() output, and the `is-style-ct-carousel`/`is-style-ct-slider` style slugs — neither was renamed in code, so stored content hasn't drifted from them. (`chance/artist-credits`/`chance/production-credits` moved to the theatrum-credits mu-plugin and ARE migrated here, despite once being excluded.)
  *
- * 1. Block names — `<!-- wp:chance/meta-field {...} -->` -> `theatrum/meta-field`.
- *    The authoritative old->new list below is copied verbatim from the 38
- *    block.json files that were renamed under src/blocks/ during this
- *    refactor (see THEATRUM_BLOCK_NAME_MAP) — not re-derived or guessed.
+ * Covers post_content for every public post type + wp_block, plus wp_template/wp_template_part (DB-stored Site Editor overrides, which shadow theme .html files). Idempotent.
  *
- * 2. The block-bindings source — `metadata.bindings.<attr>.source` values of
- *    `chance/post-meta` become `theatrum/post-meta` (registered in
- *    inc/block-bindings.php). This is stored per-block inside `attrs`, same
- *    as any other attribute.
+ * Usage (WP-CLI): dry run (default) `wp eval-file wp-content/plugins/theatrum-blocks/migrations/rename-chance-to-theatrum.php`; apply with an `apply` arg appended.
  *
- * 3. Core-block-variation "sticky name" — the `chance/bind-image`,
- *    `chance/bind-button`, `chance/bind-field`, `chance/bind-date`, and
- *    `chance/popup-trigger` variations (src/meta-variations.js,
- *    src/popup-trigger-variation.js) don't just register a variation name —
- *    they also set `metadata.name` to that same string as part of the
- *    variation's default attributes, specifically so `isActive()` can still
- *    recognize the block after a reload. That default value IS persisted
- *    into `attrs.metadata.name` on every block instance created from the
- *    variation, unlike the variation registration itself. Without migrating
- *    it, old Meta Bound image/button/paragraph blocks silently stop being
- *    recognized as their variation in the editor (they still render fine on
- *    the frontend — rendering keys off `metadata.bindings.*.source`, not
- *    `metadata.name` — but they lose the dedicated inspector UI and
- *    inserter highlighting until re-saved).
- *
- * 4. The `wp-block-chance-x` wrapper class. WordPress's block-supports
- *    system derives this class from the block's registered name and writes
- *    it into the block's *saved HTML*, not just into `attrs.className`. For
- *    a static block, that saved HTML is `parse_blocks()`'s `innerHTML` /
- *    `innerContent` — and `serialize_blocks()` reuses those strings
- *    VERBATIM; it only regenerates the `<!-- wp:name {attrs} -->` comment
- *    delimiters from `blockName`/`attrs`. So renaming `attrs.className`
- *    alone would leave the actual rendered wrapper `<div class="wp-block-
- *    chance-x ...">` untouched. This script rewrites the literal
- *    `wp-block-chance-` substring in a block's attrs, innerHTML, and
- *    innerContent — but ONLY for a block whose own name is being renamed
- *    (i.e. is a key in THEATRUM_BLOCK_NAME_MAP). A block's wrapper class is
- *    always derived from its own name, never another block's, so this is a
- *    safe way to scope it precisely. An earlier draft of this script did the
- *    substring rewrite unconditionally on every string found anywhere in the
- *    tree; a smoke test against a fixture containing a chance/ block that was
- *    deliberately absent from the map caught that this also rewrote *that*
- *    block's wrapper class even though its blockName was correctly left alone
- *    — fixed before this ever ran against a real database.
- *
- * What this script deliberately does NOT touch (and why):
- *
- * - `.ct-*` classes that are part of a static block's own save() output
- *   (ct-carousel-card, ct-popover*, ct-slider*, ct-tab*, ct-production-tabs
- *   — see src/blocks/**\/save.js) were left as `.ct-` in code specifically
- *   because they're stored. Since the code wasn't renamed, there's nothing
- *   for stored content to have drifted from — do not add these to this
- *   script without also changing the corresponding save.js/scss, and then
- *   only alongside a plan for the transient period between deploying the
- *   code and running this script.
- * - The `is-style-ct-carousel` / `is-style-ct-slider` block style slugs
- *   (registered in theatrum-blocks.php) — same reasoning, left unrenamed
- *   in code.
- * (`chance/artist-credits` and `chance/production-credits` used to be listed
- * here as deliberately-excluded, theme-owned blocks. That is no longer true —
- * they moved to the theatrum-credits mu-plugin and were renamed there. They
- * are now in THEATRUM_BLOCK_NAME_MAP and this script does migrate them.)
- *
- * Covers:
- *   - post_content for every public post type + wp_block (reusable blocks)
- *   - wp_template / wp_template_part (DB-stored Site Editor overrides —
- *     these shadow the theme's .html files and won't be touched by editing
- *     theme files alone)
- *
- * Idempotent — run it as many times as you like; posts with nothing left to
- * migrate are skipped (reported as "already migrated" the first time
- * nothing changes, silently skipped on the LIKE-filter level after that).
- *
- * Usage (WP-CLI):
- *   Dry run (default, writes nothing):
- *     wp eval-file wp-content/plugins/theatrum-blocks/migrations/rename-chance-to-theatrum.php
- *   Apply:
- *     wp eval-file wp-content/plugins/theatrum-blocks/migrations/rename-chance-to-theatrum.php apply
- *
- * Do NOT run this against any database without the user's explicit go-ahead
- * for that specific run — writing this file is not permission to execute it.
+ * Do NOT run this against any database without the user's explicit go-ahead for that specific run — writing this file is not permission to execute it.
  */
 
 if (! defined('WP_CLI') || ! WP_CLI) {
@@ -106,9 +22,7 @@ if (! defined('WP_CLI') || ! WP_CLI) {
 $apply = in_array('apply', $args ?? [], true);
 
 // ---------------------------------------------------------------------
-// Authoritative rename lists — copied from the src/blocks/**/block.json
-// "name" fields actually renamed in this refactor. Do not add/remove
-// entries here without also checking they match a real registered block.
+// Authoritative rename lists — copied verbatim from the renamed src/blocks/**/block.json "name" fields; don't add/remove entries without checking against a real registered block.
 // ---------------------------------------------------------------------
 
 const THEATRUM_BLOCK_NAME_MAP = [
@@ -150,12 +64,7 @@ const THEATRUM_BLOCK_NAME_MAP = [
 	'chance/slider-item'            => 'theatrum/slider-item',
 	'chance/term-meta'              => 'theatrum/term-meta',
 	'chance/title-advanced'         => 'theatrum/title-advanced',
-	// Added 2026-08-04. These two were excluded when this script was first
-	// written, on the then-correct grounds that they belonged to the
-	// chance-ollie theme and had not been renamed. They have since moved to
-	// the theatrum-credits mu-plugin and were renamed there in a second pass.
-	// The mu-plugin registers no alias for the old names, so any stored
-	// chance/ instance is now a dead block — they are in scope.
+	// Added 2026-08-04: originally excluded as chance-ollie theme blocks, they've since moved to theatrum-credits and been renamed there; the mu-plugin aliases nothing, so stored chance/ instances are now dead blocks and in scope.
 	'chance/artist-credits'         => 'theatrum/artist-credits',
 	'chance/production-credits'     => 'theatrum/production-credits',
 ];
@@ -164,8 +73,7 @@ const THEATRUM_BINDING_SOURCE_MAP = [
 	'chance/post-meta' => 'theatrum/post-meta',
 ];
 
-// Persisted `metadata.name` default values baked in by the core-block
-// variations in src/meta-variations.js and src/popup-trigger-variation.js.
+// Persisted `metadata.name` default values baked in by the core-block variations in src/meta-variations.js and src/popup-trigger-variation.js.
 const THEATRUM_VARIATION_NAME_MAP = [
 	'chance/bind-image'    => 'theatrum/bind-image',
 	'chance/bind-button'   => 'theatrum/bind-button',
@@ -178,9 +86,7 @@ const THEATRUM_OLD_WRAPPER_CLASS_FRAGMENT = 'wp-block-chance-';
 const THEATRUM_NEW_WRAPPER_CLASS_FRAGMENT = 'wp-block-theatrum-';
 
 /**
- * Recursively rewrites className-bearing strings (attrs values, innerHTML,
- * innerContent chunks) that reference the auto-generated wp-block-chance-x
- * wrapper class.
+ * Recursively rewrites className-bearing strings (attrs, innerHTML, innerContent) referencing the auto-generated wp-block-chance-x wrapper class.
  *
  * @param mixed $value
  * @param int   &$count Incremented once per string actually changed.
@@ -211,11 +117,7 @@ function theatrum_rewrite_wrapper_class($value, &$count)
 }
 
 /**
- * Migrates a single block's `attrs`: bindings source and variation
- * metadata name. Both are exact-value lookups (the incoming string must
- * match a known old value exactly), so — unlike the wrapper-class rewrite —
- * these are safe to apply unconditionally, regardless of which block they
- * belong to.
+ * Migrates a block's `attrs`: bindings source and variation metadata name. Both are exact-value lookups, so — unlike the wrapper-class rewrite — safe to apply unconditionally regardless of which block they belong to.
  *
  * @param array $attrs
  * @param array &$stats
@@ -250,24 +152,9 @@ function theatrum_migrate_attrs(array $attrs, array &$stats)
 }
 
 /**
- * Recursively migrates a parse_blocks() tree in place (blockName, attrs,
- * innerHTML, innerContent, innerBlocks).
+ * Recursively migrates a parse_blocks() tree in place (blockName, attrs, innerHTML, innerContent, innerBlocks).
  *
- * IMPORTANT: the wp-block-chance-x wrapper-class rewrite is deliberately
- * scoped to only run on a block whose *own* name is in
- * THEATRUM_BLOCK_NAME_MAP (checked via the block's ORIGINAL name, before
- * renaming). A block's own wrapper class is always derived from its own
- * registered name — never from some other block's — so this is a safe and
- * precise way to target it. Running the classname rewrite unconditionally
- * on every string in every block (an earlier version of this script did
- * that) would also corrupt classes on completely unrelated, never-renamed
- * blocks whose name merely happens to start with "chance/" — anything not
- * in THEATRUM_BLOCK_NAME_MAP must be left byte-for-byte untouched, since a
- * name absent from the map is by definition one we are not renaming and
- * whose wrapper class therefore still legitimately reads wp-block-chance-x.
- * Caught by this script's own smoke test before
- * this ever ran against a database — see migrations/README.md if present,
- * or the project's final rename report, for the test that caught it.
+ * IMPORTANT: the wp-block-chance-x wrapper-class rewrite only runs on a block whose ORIGINAL name is in THEATRUM_BLOCK_NAME_MAP — anything not in the map must stay byte-for-byte untouched, since its wrapper class still legitimately reads wp-block-chance-x. An earlier unconditional version corrupted unrelated never-renamed blocks; caught by this script's own smoke test before it ran against a database.
  *
  * @param array $blocks
  * @param array &$stats
@@ -292,9 +179,7 @@ function theatrum_migrate_blocks(array $blocks, array &$stats)
 			$block['attrs'] = theatrum_migrate_attrs($block['attrs'], $stats);
 		}
 
-		// Raw saved markup — see the file header for why this can't be
-		// skipped in favor of just renaming attrs.className. Only touched
-		// when this specific block is one we're actually renaming.
+		// Raw saved markup — see the file header for why this can't be skipped in favor of renaming attrs.className alone. Only touched for blocks we're actually renaming.
 		if ($is_renamed_block) {
 			if (! empty($block['attrs']) && is_array($block['attrs'])) {
 				$block['attrs'] = theatrum_rewrite_wrapper_class($block['attrs'], $stats['classnames']);

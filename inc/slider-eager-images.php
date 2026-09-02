@@ -5,29 +5,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Slider slides start out `display: none` until formats/slider.js (or the
- * editor) activates one. Browsers treat a `display: none` <img
- * loading="lazy"> as "nowhere near the viewport" and defer fetching it
- * until the element is actually laid out/shown — so the very first time a
- * slide becomes active (via autoplay or an arrow/dot click), there's a
- * visible flash of the page background behind it while the browser
- * downloads the image. Once an image has loaded once it's cached, so this
- * only ever happens on the first pass through a given slider's slides.
- *
- * Fix: force eager loading for <img> tags inside slider markup — native
- * theatrum/slider and the is-style-ct-slider core/query & core/gallery
- * format share this same display:none/is-active mechanism (see
- * src/blocks/slider/style.scss and src/formats/style.scss) and so share
- * this same fix — so the browser fetches every slide's image up front
- * instead of waiting for each slide's reveal.
- *
- * Runs at a late `the_content` priority so it applies after WordPress's own
- * automatic `loading="lazy"` attribute has already been added (that
- * happens via wp_filter_content_tags(), also hooked to `the_content`),
- * regardless of exact core hook-priority internals. `the_content` fires for
- * both classic templates (the_content() template tag) and block themes
- * (core/post-content's render callback also runs content through this
- * filter), so this covers both.
+ * Slider slides start `display: none` until formats/slider.js activates one; browsers defer fetching a `display: none` lazy <img> until shown, so the first slide reveal flashes the bare background while it downloads. Fix: force `loading="eager"` on <img>s in slider markup (theatrum/slider and the is-style-ct-slider format share this display:none/is-active mechanism) so images fetch up front. Runs at a late `the_content` priority, after WP's own wp_filter_content_tags() has added `loading="lazy"`; `the_content` covers both classic and block-theme rendering.
  */
 add_filter('the_content', 'theatrum_slider_force_eager_images', 20);
 

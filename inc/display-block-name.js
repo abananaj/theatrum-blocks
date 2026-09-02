@@ -1,7 +1,5 @@
 /**
- * Dev Mode Display Utility
- *
- * Provides utilities for displaying block names in dev mode.
+ * Dev Mode Display Utility — displays block names in dev mode.
  */
 
 import { __ } from '@wordpress/i18n';
@@ -29,9 +27,7 @@ export function DevModeToggle( { isDevMode, onChange } ) {
 }
 
 /**
- * Apply dev mode styling to a block element.
- *
- * Adds a visual indicator showing the block name and first class name.
+ * Applies dev mode styling to a block element: a visual indicator showing the block name and first class name.
  *
  * @param {HTMLElement} element   - The DOM element to apply dev mode to
  * @param {string}      blockName - The block name (e.g., 'theatrum/breadcrumbs')
