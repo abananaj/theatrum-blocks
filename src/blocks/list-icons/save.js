@@ -1,9 +1,5 @@
 /**
- * Icon List Block - Frontend Rendering (parent)
- *
- * Renders the `<ul>` wrapper. The individual items are saved by the
- * `theatrum/list-item-icon` child block via InnerBlocks. Icon sizing, spacing and
- * colour are passed down as CSS custom properties on the wrapper.
+ * Icon List Block - Frontend Rendering (parent). Renders the `<ul>` wrapper; items are saved by `theatrum/list-item-icon` children via InnerBlocks, with icon sizing/spacing/colour passed down as CSS custom properties.
  */
 
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';

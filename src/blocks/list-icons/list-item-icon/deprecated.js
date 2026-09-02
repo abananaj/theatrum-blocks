@@ -1,11 +1,7 @@
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
- * v1: SVG icons were saved as a plain <img>, which meant CSS could never
- * recolor them (an <img>'s SVG source is opaque to `color`/CSS variables).
- * Current save() renders SVG icons as a CSS-masked <span> instead so
- * --list-icon-color / the inherited text color actually applies. Non-SVG
- * (raster) icons are unaffected and still save as <img> either way.
+ * v1: SVG icons saved as plain <img>, which CSS couldn't recolor (SVG source is opaque to `color`). Current save() masks SVGs as a <span> instead so --list-icon-color applies; raster icons still save as <img>.
  */
 const v1 = {
 	attributes: {

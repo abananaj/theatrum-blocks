@@ -1,10 +1,5 @@
 /**
- * Icon List Item Block Editor (child of theatrum/list-icons)
- *
- * Renders a single `<li>` with an optional icon and editable text. Pressing
- * Enter splits the item into a new sibling (like core/list-item); backspacing
- * an empty item merges/removes it. Icon styling comes from the parent via CSS
- * custom properties, so this block stays static markup.
+ * Icon List Item Block Editor (child of theatrum/list-icons). Enter splits into a new sibling (like core/list-item); backspacing an empty item merges/removes it. Icon styling comes from the parent via CSS custom properties.
  */
 
 import {
@@ -191,8 +186,7 @@ export default function Edit( {
 					onChange={ ( value ) => setAttributes( { text: value } ) }
 					placeholder={ __( 'List item', 'theatrum-blocks' ) }
 					onSplit={ ( value, isOriginal ) => {
-						// Keep the icon with the original item; a freshly split
-						// item starts without one.
+						// Keep the icon with the original item; a freshly split item starts without one.
 						const newAttributes = isOriginal
 							? { ...attributes, text: value }
 							: { text: value };

@@ -1,20 +1,7 @@
 /**
- * Slider Block - Editor
- *
- * Renders the same wrapper/arrows markup as save.js so the editor is a real
- * WYSIWYG preview; the slides themselves are `theatrum/slider-item` child
- * blocks edited directly in the canvas, like a Group.
- *
- * The dots aren't in save.js (no sibling-count access in a plain save()),
- * but the editor DOES have data-store access, so they're rendered for real
- * here — one per slide, reusing the same "active = selected descendant, else
- * first" rule as theatrum/slider-item's own edit.js.
- *
- * Arrow/dot clicks select the corresponding `slider-item` child block (via
- * @wordpress/data's selectBlock) rather than driving a separate visual-only
- * "current slide" state — `useActiveDotIndex()` already derives the active
- * slide purely from block selection, so this is the one thing that needs to
- * change to make clicking arrows/dots actually navigate in the editor.
+ * Slider Block - Editor. Renders the same wrapper/arrows markup as save.js (real WYSIWYG preview); slides are `theatrum/slider-item` child blocks edited in the canvas, like a Group.
+ * Dots aren't in save.js (no sibling-count access in a plain save()) but ARE rendered here via data-store access, one per slide, reusing slider-item/edit.js's "active = selected descendant, else first" rule.
+ * Arrow/dot clicks call `selectBlock` on the corresponding slider-item rather than tracking separate visual-only state — `useActiveDotIndex()` already derives the active slide from block selection.
  */
 
 import clsx from 'clsx';
@@ -78,9 +65,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	};
 
 	const blockProps = useBlockProps({
-		// `is-ready` here (normally added by view.js after hydration) stops
-		// the no-JS fallback CSS from forcing the first slide to show — the
-		// editor already knows the true active slide via useSelect.
+		// `is-ready` (normally added by view.js after hydration) stops the no-JS fallback CSS from forcing the first slide — the editor already knows the active slide via useSelect.
 		className: clsx('tm-slider', 'is-ready', {
 			'tm-slider-arrows-inside': arrowPosition === 'inside',
 			'tm-slider-arrows-hidden': arrowPosition === 'hidden',

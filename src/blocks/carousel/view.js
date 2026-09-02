@@ -1,7 +1,5 @@
 /**
- * Front-end behavior for the Carousel block. The actual runtime lives in
- * ../../formats/carousel.js, shared with the `is-style-ct-carousel` format
- * on core/query and core/gallery — see ../../formats/index.js.
+ * Front-end behavior for the Carousel block — actual runtime lives in ../../formats/carousel.js, shared with the `is-style-ct-carousel` format on core/query and core/gallery (see ../../formats/index.js).
  */
 
 import { initCarousel } from '../../formats/carousel';

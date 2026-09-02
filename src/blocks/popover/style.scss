@@ -1,20 +1,10 @@
-// Popover — front-end + shared styles.
-//
-// Trigger and Content are siblings inside .ct-popover (fixed order, enforced
-// by the parent's templateLock: 'all'). Hovering/focusing the trigger reveals
-// the adjacent content via a sibling selector — no JS required on desktop.
-// view.js adds tap/click support for touch devices and closes on outside
-// click.
+// Popover — front-end + shared styles. Trigger and Content are siblings inside .ct-popover (fixed order via templateLock: 'all'); hovering/focusing the trigger reveals the content via a sibling selector, no JS required on desktop.
+// view.js adds tap/click support for touch devices and closes on outside click.
 
 .ct-popover {
 	position: relative;
 	display: block;
-	// Shrink-wrap to the trigger's natural size (like inline-block used to)
-	// while staying block-level, so a parent Group's "Constrained" layout can
-	// still center/max-width it via its normal margin:auto CSS — auto-margin
-	// centering has no effect on inline-level boxes. Only the trigger (an
-	// in-flow child) contributes to this; the content panel is absolutely
-	// positioned and is excluded from intrinsic-size calculations.
+	// Shrink-wrap to the trigger's natural size while staying block-level, so a parent Group's "Constrained" layout can still center/max-width it via margin:auto (which has no effect on inline boxes). Only the in-flow trigger contributes to intrinsic size; the absolutely-positioned content panel is excluded.
 	width: fit-content;
 }
 

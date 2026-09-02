@@ -1,10 +1,5 @@
 /**
- * Front-end behavior for the Popover block.
- *
- * Desktop: CSS :hover on .ct-popover__trigger reveals the adjacent
- * .ct-popover__content (see style.scss) — no JS needed. This script adds
- * tap/click support for touch devices (no hover) and closes the popover on
- * an outside click.
+ * Front-end behavior for the Popover block. Desktop uses CSS :hover on .ct-popover__trigger to reveal .ct-popover__content (see style.scss) with no JS; this script adds tap/click support for touch devices and closes on outside click.
  */
 document.addEventListener( 'DOMContentLoaded', function () {
 	const popovers = document.querySelectorAll( '.ct-popover' );

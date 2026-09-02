@@ -1,11 +1,5 @@
 /**
- * Thumbnail List Item - Frontend Rendering (child of theatrum/list-thumbnail)
- *
- * Saves a single `.list-item` containing its nested heading/paragraph content
- * and carries the thumbnail URL/alt as data attributes rather than an <img>.
- * The parent block owns the single flip-card `<img>` pair (front/back faces);
- * view.js reads these data attributes on hover to swap the visible face. This
- * keeps the expensive 3D-transform image markup out of every item.
+ * Thumbnail List Item - Frontend Rendering (child of theatrum/list-thumbnail). Saves a `.list-item` carrying thumbnail URL/alt as data attributes rather than an <img> — the parent owns the single flip-card `<img>` pair; view.js reads these on hover to swap faces, keeping the 3D-transform markup out of every item.
  */
 
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';

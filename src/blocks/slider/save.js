@@ -1,10 +1,5 @@
 /**
- * Slider Block - Save
- *
- * Dots aren't rendered here — they depend on the slide count, which a plain
- * save() can't read (no data-store/hooks access there). The dots container
- * ships empty and view.js populates it from the live DOM on the frontend
- * (edit.js does the equivalent with real JSX for the editor preview).
+ * Slider Block - Save. Dots aren't rendered here — save() has no data-store/hooks access to read slide count — so the dots container ships empty and view.js populates it from the live DOM (edit.js does the JSX equivalent for the editor preview).
  */
 
 import clsx from 'clsx';

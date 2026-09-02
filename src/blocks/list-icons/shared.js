@@ -1,13 +1,8 @@
 /**
- * Shared helpers for the Icon List parent block.
- *
- * Builds the wrapper class names and CSS custom properties used by both the
- * editor preview (edit.js) and the saved markup (save.js), so the two stay in
- * sync. The `list-item-icon` children read these CSS variables from the cascade.
+ * Shared helpers for the Icon List parent block — builds wrapper class names/CSS custom properties shared by edit.js and save.js so they stay in sync; `list-item-icon` children read these vars from the cascade.
  */
 
-// Maps the user-facing Top/Middle/Bottom labels to the align-items keyword
-// each applies to (cross-axis alignment of the icon relative to the text).
+// Maps the user-facing Top/Middle/Bottom labels to the align-items keyword each applies to (cross-axis alignment of the icon relative to the text).
 const FLEX_POSITION_MAP = {
 	top: 'flex-start',
 	middle: 'center',

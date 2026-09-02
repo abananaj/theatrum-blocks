@@ -1,7 +1,5 @@
 /**
- * Front-end behavior for the Slider block. The actual runtime lives in
- * ../../formats/slider.js, shared with the `is-style-tm-slider` format on
- * core/query and core/gallery — see ../../formats/index.js.
+ * Front-end behavior for the Slider block — actual runtime lives in ../../formats/slider.js, shared with the `is-style-tm-slider` format on core/query and core/gallery (see ../../formats/index.js).
  */
 
 import { initSlider } from '../../formats/slider';

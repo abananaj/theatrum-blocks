@@ -1,18 +1,8 @@
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
- * v1: Before Arrow Styles / arrow position controls were added. Saved markup
- * had no `tm-slider-arrows-*` position class and no inline arrow style
- * vars — just the plain `tm-slider` wrapper, matching what save.js emitted
- * before this block gained the arrowPosition/arrowBackground/arrowColor/
- * arrowBackgroundColor/arrowSize/arrowSizeUnit attributes. Keeps existing
- * saved content (e.g. from before this change shipped) from showing a
- * block-validation error in the editor.
- *
- * Note: this only prevents the *editor* validation warning. The *frontend*
- * still serves each post's frozen saved HTML — since this is a static
- * block, a post saved before the new arrow attributes existed won't show
- * their effect on the frontend until that post is opened and saved again.
+ * v1: pre-Arrow-Styles markup — plain `tm-slider` wrapper, no `tm-slider-arrows-*` class or inline arrow vars — kept so old saved content doesn't trigger a block-validation error.
+ * Note: only fixes the editor warning — the frontend serves frozen saved HTML, so old posts won't show arrow styling until reopened and resaved.
  */
 const v1 = {
 	attributes: {

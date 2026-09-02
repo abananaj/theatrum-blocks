@@ -59,24 +59,14 @@ export default function Edit( {
 	);
 	const selected = isSelected || hasSelectedInner;
 
-	// Manual override, set by the toolbar eye icon, the dialog's own close
-	// button, or clicking the backdrop — lets an author force the preview
-	// open or closed regardless of selection (e.g. pin it open to screenshot
-	// it, or close it while still selected without deselecting the block).
-	// `null` means "no override, follow selection". Reset back to `null`
-	// whenever selection actually changes so the override doesn't get stuck:
-	// closing it while selected only hides it until you select elsewhere and
-	// come back, at which point it goes back to auto-following selection.
+	// Manual override (toolbar eye icon, dialog close button, or backdrop click) lets an author force the preview open/closed regardless of selection (e.g. pin it open to screenshot, or close it without deselecting). `null` = "follow selection".
+	// Reset to `null` on selection change so the override doesn't get stuck — closing while selected only hides until you reselect elsewhere and come back.
 	const [ forcedState, setForcedState ] = useState( null );
 	useEffect( () => {
 		setForcedState( null );
 	}, [ selected ] );
 
-	// Real dialog styling shown while the block (or something nested inside
-	// it, e.g. the WPForms embed) is selected, so the editor preview matches
-	// the frontend — but collapsed otherwise so it isn't a wall of open
-	// dialogs cluttering the canvas. Instances that are closed and not
-	// selected stay reachable via the List View/Outline sidebar.
+	// Shows real dialog styling while the block (or nested content, e.g. WPForms) is selected, matching the frontend; collapsed otherwise so it's not a wall of open dialogs. Closed, unselected instances stay reachable via List View/Outline.
 	const open = forcedState !== null ? forcedState : selected;
 
 	const togglePopup = () => setForcedState( open ? false : true );

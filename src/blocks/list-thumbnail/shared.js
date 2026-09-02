@@ -1,16 +1,8 @@
 /**
- * Shared helpers for the Thumbnail List parent block.
- *
- * Builds the wrapper class name and CSS custom properties used by both the
- * editor preview (edit.js) and the saved markup (save.js), so the two render
- * identical layout/geometry and only diverge on the JS-driven hover state.
- * The `list-item-thumbnail` children read `--animation-speed` and
- * `--item-height` from the cascade.
+ * Shared helpers for the Thumbnail List parent block — builds wrapper class/CSS custom properties shared by edit.js and save.js so layout stays identical (only hover state diverges). `list-item-thumbnail` children read `--animation-speed`/`--item-height` from the cascade.
  */
 
-// Converts a spacing preset reference (e.g. "var:preset|spacing|40") saved by
-// the core "Block spacing" control into the `var(--wp--preset--spacing--40)`
-// form usable in an inline style; passes literal values (e.g. "2rem") through.
+// Converts a spacing preset ref (e.g. "var:preset|spacing|40") to `var(--wp--preset--spacing--40)`; passes literal values (e.g. "2rem") through.
 function resolveSpacingPreset( value ) {
 	if ( typeof value === 'string' && value.startsWith( 'var:' ) ) {
 		return `var(--wp--${ value.slice( 4 ).replace( /\|/g, '--' ) })`;
@@ -46,11 +38,7 @@ export function getThumbnailListProps( attributes ) {
 		.filter( Boolean )
 		.join( ' ' );
 
-	// The "Block spacing" (Styles > Spacing > Blocks) control saves to
-	// `style.spacing.blockGap` but — unlike margin/padding — WordPress only
-	// auto-applies it for blocks that declare `supports.layout`. This block
-	// uses a manual CSS grid instead, so the value has to be read and passed
-	// through as a CSS custom property ourselves for the control to do anything.
+	// "Block spacing" saves to `style.spacing.blockGap` but WordPress only auto-applies it for blocks with `supports.layout`; this block uses a manual grid instead, so we read/pass it through as a CSS custom property ourselves.
 	const blockGap = resolveSpacingPreset( blockStyle?.spacing?.blockGap );
 
 	const verticalAlignmentMap = {

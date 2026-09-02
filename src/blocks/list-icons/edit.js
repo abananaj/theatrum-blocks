@@ -1,10 +1,5 @@
 /**
- * Icon List Block Editor (parent)
- *
- * An unordered list wrapper whose items are individual `theatrum/list-item-icon`
- * child blocks. The parent owns the list-wide icon settings (size, position,
- * alignment, spacing, colour and hover behaviour) and passes them down to the
- * items as block context and CSS custom properties so the markup stays static.
+ * Icon List Block Editor (parent). Owns list-wide icon settings (size, position, alignment, spacing, colour, hover), passed down to `theatrum/list-item-icon` children as CSS custom properties so the markup stays static.
  */
 
 import {

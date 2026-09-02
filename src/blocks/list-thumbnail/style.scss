@@ -1,18 +1,7 @@
 /**
- * Thumbnail List Block Styles (parent)
- * Shared between editor canvas and frontend via block.json `style`.
- *
- * Item-level styles (height, hover text-shift) live in the
- * `list-item-thumbnail` child block — this file owns the wrapper grid and the
- * flip-card panel.
- *
- * The 3D flip relies on an unbroken preserve-3d chain:
- *   .thumbnail-container  -> owns the `perspective`
- *   .thumbnail-flipper    -> `preserve-3d`, the element that rotates
- *   .thumbnail(front|back)-> the two faces, backface hidden
- *
- * Do NOT add `overflow: hidden` (or any non-visible overflow) to the container
- * or flipper — it forces `transform-style: flat` and silently kills the flip.
+ * Thumbnail List Block Styles (parent). Shared between editor and frontend via block.json `style`; item-level styles live in `list-item-thumbnail` — this file owns the wrapper grid and flip-card panel.
+ * 3D flip needs an unbroken preserve-3d chain: .thumbnail-container (perspective) -> .thumbnail-flipper (preserve-3d, rotates) -> .thumbnail-front/back (backface hidden).
+ * Do NOT add `overflow: hidden` to the container or flipper — it forces `transform-style: flat` and silently kills the flip.
  */
 
 @use "@wordpress/base-styles/breakpoints" as *;
@@ -70,16 +59,13 @@
 		}
 	}
 
-	// When an aspect ratio is chosen, height is derived from width instead of
-	// the explicit --thumb-height — CSS `aspect-ratio` is ignored by browsers
-	// whenever an explicit height is also set, so the two are mutually exclusive.
+	// With an aspect ratio chosen, height derives from width instead of --thumb-height — CSS `aspect-ratio` is ignored by browsers when an explicit height is also set.
 	&.has-aspect-ratio .thumbnail-container {
 		height: auto;
 		aspect-ratio: var(--thumb-aspect-ratio, auto);
 	}
 
-	// Position variants. The panel is second in the DOM; `order` moves it to
-	// the first grid column for the left layout.
+	// Position variants: panel is second in the DOM; `order` moves it to the first grid column for the left layout.
 	&.thumbnail-position-right .thumbnail-list-wrapper {
 		grid-template-columns: 1fr auto;
 	}

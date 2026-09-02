@@ -1,9 +1,5 @@
 /**
- * Carousel Block - Editor
- *
- * Renders the same wrapper/controls markup as render.php so the editor is a
- * real WYSIWYG preview; the cards themselves are `theatrum/carousel-item`
- * child blocks edited directly in the canvas, like a Group.
+ * Carousel Block - Editor. Renders the same wrapper/controls markup as render.php for a WYSIWYG preview; cards are `theatrum/carousel-item` child blocks edited directly in the canvas, like a Group.
  */
 
 import {

@@ -1,13 +1,7 @@
 /* Popup Block Styles — modelled on the Gutenberg Dialog component */
 
-// Design tokens (fallbacks match Gutenberg Dialog defaults)
-//
-// Shared with .popup-portal: at runtime, view.js moves the dialog/backdrop
-// out to a direct child of <body> so position: fixed can't be broken by an
-// ancestor that sets transform/filter/will-change/contain (which would turn
-// "fixed" into "absolute relative to that ancestor"). These custom properties
-// have to resolve on the portal too since it's no longer a descendant of
-// .wp-block-theatrum-popup.
+// Design tokens (fallbacks match Gutenberg Dialog defaults).
+// Shared with .popup-portal: view.js moves the dialog/backdrop to a direct child of <body> at runtime so an ancestor with transform/filter/will-change/contain can't turn `position: fixed` into "absolute relative to that ancestor" — these custom properties must resolve on the portal too since it's no longer a descendant of .wp-block-theatrum-popup.
 :where(.wp-block-theatrum-popup, .popup-portal) {
 	--popup-padding: 2rem;
 	--popup-gap: 16px;
@@ -30,12 +24,7 @@
 }
 
 // ── Trigger button ──────────────────────────────────────────────────────────
-// The trigger isn't part of this block — it's a separate core/button "Popup
-// Trigger" variation (see ../../popup-trigger-variation.js) linked to a popup
-// via `href="#<this popup's anchor>"`. Its class (`.popup-trigger-button`) is
-// what the frontend view.js and the theme's button styles
-// (chance-ollie/src/scss/buttons.scss) key off of — it lives wherever the
-// button was placed on the page, not inside .wp-block-theatrum-popup.
+// Not part of this block — a separate core/button "Popup Trigger" variation (see ../../popup-trigger-variation.js) linked via `href="#<popup's anchor>"`. Its `.popup-trigger-button` class is what view.js and the theme's buttons.scss key off of; it lives wherever the button was placed, not inside .wp-block-theatrum-popup.
 
 // ── Backdrop ────────────────────────────────────────────────────────────────
 
@@ -60,10 +49,7 @@
 }
 
 // ── Dialog popup ─────────────────────────────────────────────────────────────
-//
-// Layout model: flex column — header (sticky) → content (scrollable).
-// Visual: white card, rounded corners, prominent shadow, 1px border.
-// Animation: opacity + scale, matching Gutenberg Dialog enter/exit curves.
+// Flex column (sticky header → scrollable content); white card w/ shadow+border; opacity+scale animation matching Gutenberg Dialog enter/exit curves.
 
 .popup-dialog {
 	position: fixed;
@@ -82,12 +68,8 @@
 	overflow: hidden;
 	color: var(--popup-content-color);
 
-	// Enter animation (open state): ease in
-	// Exit animation (closed state): ease out
-	// Targets opacity + transform generically — each .is-position-* modifier
-	// below supplies its own transform values for the open/closed states
-	// (a scale for the center modal, a translate for offcanvas panels) but
-	// shares this timing.
+	// Enter (open): ease in. Exit (closed): ease out.
+	// Targets opacity + transform generically — each .is-position-* modifier below supplies its own transform values (scale for center, translate for offcanvas) but shares this timing.
 	@media not (prefers-reduced-motion) {
 		transition:
 			opacity var(--ct-duration-fast-1, 0.2s) var(--ct-ease-emphasis-exit, cubic-bezier(1, 0, 0.2, 1)),
@@ -126,8 +108,7 @@
 			transform: translate(-50%, -50%) scale(0.9);
 		}
 
-		// Sizing maps to max-width — medium matches Dialog is-medium
-		// (max-width: surface-width-lg ≈ 640px).
+		// Sizing maps to max-width — medium matches Dialog is-medium (max-width: surface-width-lg ≈ 640px).
 		&.is-size-small {
 			max-width: 480px;
 		}
@@ -253,10 +234,7 @@
 }
 
 // ── Dialog header ────────────────────────────────────────────────────────────
-//
-// Sticky at the top; provides asymmetric block padding:
-// outer edge (popup top) → padding-2xl (24px)
-// inner edge (toward content) → gap-lg minus 1px (border slot)
+// Sticky at the top; asymmetric block padding: outer edge (popup top) → padding-2xl (24px), inner edge (toward content) → gap-lg minus 1px (border slot).
 
 .popup-dialog-header {
 	display: flex;
@@ -272,10 +250,7 @@
 }
 
 // ── Dialog content (scrollable body) ─────────────────────────────────────────
-//
-// flex: 1 1 auto + min-block-size: 0 allows shrinking below content size
-// so overflow-y: auto can engage when height is constrained.
-// Top padding is 0 because .popup-dialog-header already provides the inner gap.
+// flex: 1 1 auto + min-block-size: 0 allows shrinking below content size so overflow-y: auto can engage when height is constrained; top padding is 0 since .popup-dialog-header already provides the inner gap.
 
 .popup-dialog-content {
 	flex: 1 1 auto;

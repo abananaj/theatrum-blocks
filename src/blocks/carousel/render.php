@@ -8,10 +8,7 @@ if (! defined('ABSPATH')) {
  * Carousel Block - Server-side render callback
  */
 
-// Card width/gap are user input feeding an inline CSS custom property, so
-// they're restricted to a plain number (matching the editor's number field)
-// rather than sanitize_text_field, which would still allow CSS-breaking
-// characters.
+// Card width/gap feed an inline CSS custom property, so digits-only (not sanitize_text_field, which allows CSS-breaking characters).
 $allowed_units = array('px', '%', 'em', 'rem');
 
 $card_width = isset($attributes['cardWidth']) ? preg_replace('/[^0-9.]/', '', (string) $attributes['cardWidth']) : '';
@@ -49,10 +46,7 @@ if ($show_scrollbar) {
   $modifier_classes[] = 'theatrum-scrollbar-visible';
 }
 
-// Arrow color/background-color are sanitized via theatrum_carousel_sanitize_color()
-// (inc/helpers.php, always loaded — shared with the is-style-ct-carousel
-// format's render_block filter in inc/format-controls.php, which can run on
-// pages that never render a theatrum/carousel block at all).
+// Sanitized via theatrum_carousel_sanitize_color() (inc/helpers.php, always loaded — shared with the is-style-ct-carousel format's render_block filter in inc/format-controls.php).
 $arrow_background = ! isset($attributes['arrowBackground']) || ! empty($attributes['arrowBackground']);
 $arrow_color = theatrum_carousel_sanitize_color($attributes['arrowColor'] ?? '');
 $arrow_background_color = theatrum_carousel_sanitize_color($attributes['arrowBackgroundColor'] ?? '');
@@ -74,17 +68,8 @@ if ('' !== $arrow_size) {
   $arrow_style_parts[] = '--ct-arrow-size: ' . esc_attr($arrow_size . $arrow_size_unit) . ';';
 }
 
-// Let WordPress generate the wrapper class plus all supports-driven
-// classes/inline styles (align, spacing, color, border, etc.) so the
-// frontend wrapper matches what useBlockProps() renders in the editor.
-//
-// The arrow vars are NOT passed through get_block_wrapper_attributes()'s
-// own 'style' merging — that pipeline runs the combined style string
-// through safecss_filter_attr(), which only recognizes a fixed allowlist
-// of known CSS properties and silently strips custom properties like
-// --ct-arrow-color. They're output directly on the inner wrapper div
-// instead (same raw, pre-escaped approach $content_style already uses on
-// the <ul> below, for the same reason).
+// get_block_wrapper_attributes() generates supports-driven classes/styles to match useBlockProps() in the editor.
+// Arrow vars bypass its 'style' merging — safecss_filter_attr() strips unknown custom properties like --ct-arrow-color — so they're output directly on the inner div instead (same as $content_style below).
 $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $modifier_classes)));
 $arrow_style = ! empty($arrow_style_parts) ? ' style="' . implode(' ', $arrow_style_parts) . '"' : '';
 

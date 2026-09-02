@@ -1,22 +1,7 @@
 /**
- * Thumbnail List Item Block Editor (child of theatrum/list-thumbnail)
- *
- * Renders a single `.list-item` containing nested heading/paragraph content
- * (a real InnerBlocks area, not fixed RichText fields — lets each item hold
- * whatever mix of headings/paragraphs is needed) plus a thumbnail image
- * managed from the Inspector.
- *
- * The parent's "Resolution" setting (`imageSizeSlug`) flows down as block
- * context. Because this is a static block, the resolved image URL for that
- * size must be baked into `thumbnailUrl` at edit-time — there is no
- * render.php to resolve it later — so an effect re-resolves the URL whenever
- * the context value changes, using the canonical media entity (`core.getMedia`)
- * rather than trusting whatever URL the media picker returned at selection time.
- *
- * Items with no thumbnail chosen default to the blue-gradient placeholder
- * attachment (#106035, block.json default) rather than a blank/broken image,
- * and that placeholder flows through the same size-resolution effect as any
- * other selected image.
+ * Thumbnail List Item Block Editor (child of theatrum/list-thumbnail). Renders a `.list-item` with nested heading/paragraph InnerBlocks (not fixed RichText, so items can mix content) plus a thumbnail managed from the Inspector.
+ * Static block, so the parent's Resolution setting (`imageSizeSlug` context) must be baked into `thumbnailUrl` at edit-time (no render.php) — an effect re-resolves it via `core.getMedia` whenever context changes, rather than trusting the picker's URL.
+ * No-thumbnail items default to the blue-gradient placeholder (#106035, block.json default), which flows through the same resolution effect as any selected image.
  */
 
 import {
@@ -67,9 +52,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		templateLock: false,
 	} );
 
-	// Re-resolve the saved thumbnailUrl whenever the list-wide Resolution
-	// setting changes, so existing items (including ones still on the
-	// placeholder) pick up the new size without needing to re-select.
+	// Re-resolve thumbnailUrl whenever the list-wide Resolution setting changes, so existing items (including placeholder ones) pick up the new size.
 	const media = useSelect(
 		( select ) =>
 			thumbnailId ? select( 'core' ).getMedia( thumbnailId ) : null,

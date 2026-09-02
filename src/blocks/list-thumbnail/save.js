@@ -1,12 +1,6 @@
 /**
- * Thumbnail List Block Save (parent)
- *
- * Renders the list-item children (via InnerBlocks) alongside a single
- * flip-card preview panel with two faces (front/back). Faces start on the
- * blue-gradient placeholder so nothing is broken/blank before JS runs;
- * view.js populates the front face with the first item's thumbnail (or the
- * same placeholder, if that item has none) on load and swaps faces on hover,
- * exactly like the source CodePen.
+ * Thumbnail List Block Save (parent). Renders list-item children plus a flip-card preview panel (two faces, front/back) starting on the blue-gradient placeholder so nothing is broken/blank before JS runs.
+ * view.js populates the front face on load and swaps faces on hover, per the source CodePen.
  */
 
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';

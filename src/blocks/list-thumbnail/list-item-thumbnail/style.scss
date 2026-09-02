@@ -1,16 +1,6 @@
 /**
- * Thumbnail List Item - Frontend Styles (shared with editor via block.json `style`)
- *
- * Item-level layout. Height, and the hover transition speed, are read from
- * CSS custom properties set on the parent `.wp-block-theatrum-list-thumbnail`
- * wrapper, so this item inherits list-wide settings without needing block
- * context. Loading via the `style` field (not `editorStyle`) means these
- * rules apply in the editor canvas too, so backend and frontend spacing
- * always match.
- *
- * Content is nested core/heading + core/paragraph blocks rather than fixed
- * title/description fields, so styling targets generic heading/paragraph
- * elements instead of dedicated classes.
+ * Thumbnail List Item - Frontend Styles (shared with editor via block.json `style`, not `editorStyle`, so canvas/frontend spacing always match). Height and hover-transition speed read from CSS custom properties on the parent `.wp-block-theatrum-list-thumbnail` wrapper.
+ * Content is nested core/heading + core/paragraph blocks (not fixed fields), so styling targets generic heading/paragraph elements instead of dedicated classes.
  */
 
 .list-item {
@@ -30,9 +20,7 @@
 		transition: transform var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) var(--ct-ease-standard, ease);
 	}
 
-	// "Hide Description Until Hover" (parent block setting): collapse every
-	// paragraph by default and reveal it on hover via the grid-rows trick
-	// (0fr -> 1fr), which animates smoothly without needing a fixed height.
+	// "Hide Description Until Hover": collapse paragraphs by default, reveal on hover via the grid-rows trick (0fr -> 1fr) to animate without a fixed height.
 	.wp-block-theatrum-list-thumbnail.hide-description-until-hover & {
 
 		:where(p) {

@@ -1,18 +1,12 @@
 /**
- * Icon List Item - Frontend Styles
- *
- * Item-level layout. Icon size, spacing and colour are read from CSS custom
- * properties set on the parent `.wp-block-theatrum-list-icons` wrapper, so the
- * item inherits the list-wide settings without needing block context at save.
+ * Icon List Item - Frontend Styles. Icon size/spacing/colour are read from CSS custom properties set on the parent `.wp-block-theatrum-list-icons` wrapper, so the item inherits list-wide settings without block context at save.
  */
 
 .list-icons-item {
 	display: flex;
 	align-items: var(--list-icon-align, center);
 	gap: var(--list-icon-spacing, 8px);
-	// --wp--style--block-gap is set on the wrapper by the block's "Block
-	// spacing" support (block.json supports.spacing.blockGap) — read it here
-	// since that support only emits the custom property, not a consuming rule.
+	// --wp--style--block-gap is set on the wrapper by the block's "Block spacing" support (block.json supports.spacing.blockGap) — read it here since that support only emits the custom property, not a consuming rule.
 	margin-bottom: var(--wp--style--block-gap, 0.5em);
 
 	&:last-child {
@@ -26,10 +20,7 @@
 		object-fit: contain;
 	}
 
-	// SVG icons render as a masked <span> (see save.js) rather than an <img>,
-	// so a CSS mask is the only way to recolor them — an <img>'s SVG source is
-	// opaque to `color`/CSS variables. Falls back to the inherited text color
-	// when no override is set on the parent list.
+	// SVG icons render as a masked <span> (see save.js), since an <img>'s SVG source is opaque to `color`/CSS variables; falls back to inherited text color when no override is set.
 	.list-icons-icon--svg {
 		display: inline-block;
 		background-color: var(--list-icon-color, currentColor);

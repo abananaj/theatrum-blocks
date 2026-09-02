@@ -1,20 +1,7 @@
 /**
- * Thumbnail List Block Frontend Script
- *
- * Drives the two-face flip-card preview. Ported from the source CodePen:
- * exactly two <img> faces (front / back) alternate as the visible face while
- * the flipper rotates by `index * -180deg` on hover. The rotated-away face is
- * hidden via `backface-visibility: hidden`, so we can safely update its src
- * before it comes back into view.
- *
- * List items are rendered by the `theatrum/list-item-thumbnail` child block —
- * each carries its thumbnail URL/alt as data attributes for us to read here.
- * Items saved before the blue-gradient placeholder became the default (or
- * otherwise missing a URL) fall back to that same placeholder here, so the
- * flip panel never shows a blank/broken face.
- *
- * Animation duration comes from the `--animation-speed` CSS custom property
- * set in save.js (applied to the flipper transition in style.scss).
+ * Thumbnail List Block Frontend Script. Drives the two-face flip-card preview (ported from the source CodePen): two <img> faces alternate as the flipper rotates `index * -180deg` on hover; the rotated-away face is `backface-visibility: hidden`, so its src can be swapped before it's visible again.
+ * List items (`theatrum/list-item-thumbnail`) carry thumbnail URL/alt as data attributes; items missing one (or saved before the blue-gradient placeholder became default) fall back to that placeholder so the panel never shows blank/broken.
+ * Animation duration comes from `--animation-speed` (set in save.js, applied in style.scss).
  */
 
 const PLACEHOLDER_THUMBNAIL_URL =

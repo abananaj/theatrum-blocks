@@ -1,9 +1,5 @@
 /**
- * Icon List Item Block - Frontend Rendering (child of theatrum/list-icons)
- *
- * Saves a single `<li>` with its optional icon and text. Icon size, spacing,
- * colour, position and hover behaviour are inherited from the parent wrapper's
- * CSS custom properties and modifier classes.
+ * Icon List Item Block - Frontend Rendering (child of theatrum/list-icons). Icon size/spacing/colour/position/hover are inherited from the parent wrapper's CSS custom properties and modifier classes.
  */
 
 import { useBlockProps, RichText } from '@wordpress/block-editor';
@@ -19,9 +15,7 @@ export default function Save( { attributes } ) {
 	return (
 		<li { ...blockProps }>
 			{ iconUrl && isSvgUrl( iconUrl ) && (
-				// SVGs are recolored via a CSS mask (so they pick up
-				// --list-icon-color / the inherited text color) instead of an
-				// <img>, whose internal SVG colors CSS can't otherwise touch.
+				// SVGs are recolored via a CSS mask (so they pick up --list-icon-color / inherited text color) instead of an <img>, whose internal SVG colors CSS can't touch.
 				<span
 					className="list-icons-icon list-icons-icon--svg"
 					style={ { '--list-icon-svg-url': `url("${ iconUrl }")` } }

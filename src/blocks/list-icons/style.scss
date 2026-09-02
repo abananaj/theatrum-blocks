@@ -1,9 +1,5 @@
 /**
- * Icon List Block - Frontend Styles (parent wrapper)
- *
- * Item-level styles live in the `list-item-icon` child block. This file owns the
- * list wrapper: resetting the default list look, applying icon position via the
- * modifier classes, and the hover-only behaviour.
+ * Icon List Block - Frontend Styles (parent wrapper). Item-level styles live in `list-item-icon`; this file owns the list wrapper reset, icon-position modifier classes, and hover-only behaviour.
  */
 
 .wp-block-theatrum-list-icons {
@@ -11,9 +7,7 @@
 	padding-left: 0;
 	margin: 0;
 
-	// Cross-axis alignment (align-items) is user-controlled via
-	// --list-icon-align (see list-item-icon/style.scss) and applies the same
-	// regardless of direction.
+	// Cross-axis alignment (align-items) is user-controlled via --list-icon-align (see list-item-icon/style.scss) and applies regardless of direction.
 	&.icon-position-left .list-icons-item {
 		flex-direction: row;
 	}

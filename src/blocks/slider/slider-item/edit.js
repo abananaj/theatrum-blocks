@@ -1,11 +1,5 @@
 /**
- * Slider Item — a single slide, editable like a Group.
- *
- * The active-slide state and the "n / total" badge both depend on sibling
- * count/selection, which a plain save() can't access — so this mirrors the
- * same useSelect(core/block-editor) trick theatrum/tab's edit.js uses to
- * derive "am I the active one" from selection (defaulting to the first
- * child), extended to also report this slide's index/total for the badge.
+ * Slider Item — a single slide, editable like a Group. Active-slide state and the "n / total" badge depend on sibling count/selection (unavailable to a plain save()), so this mirrors theatrum/tab edit.js's useSelect(core/block-editor) trick for "am I active" (defaulting to the first child), extended to report index/total.
  */
 
 import clsx from 'clsx';

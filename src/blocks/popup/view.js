@@ -1,16 +1,12 @@
 // Popup Block Frontend Script
 document.addEventListener( 'DOMContentLoaded', function () {
-	// Popups by anchor id, so any trigger anywhere on the page can look one up
-	// by the id in its `href="#id"` — the trigger button no longer needs to
-	// be a DOM descendant of the popup.
+	// Popups indexed by anchor id, so any trigger anywhere on the page can look one up via `href="#id"` — no longer needs to be a DOM descendant of the popup.
 	const popups = new Map();
 
-	// How many popups are currently open, so closing one doesn't clear the
-	// body scroll lock while another is still open.
+	// Count of currently-open popups, so closing one doesn't clear the body scroll lock while another is still open.
 	let openCount = 0;
 
-	// Pass A: find every popup, portal its dialog/backdrop to <body>, and
-	// register it by id.
+	// Pass A: find every popup, portal its dialog/backdrop to <body>, and register it by id.
 	document
 		.querySelectorAll( '.wp-block-theatrum-popup' )
 		.forEach( ( wrapper ) => {
@@ -29,14 +25,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				return;
 			}
 
-			// Move the dialog/backdrop to a direct child of <body>. Left in
-			// place, they'd inherit whatever containing block their
-			// ancestors create — any ancestor with transform/filter/
-			// will-change/contain turns their position: fixed into "fixed
-			// relative to that ancestor" instead of the viewport, so the
-			// dialog scrolls with the page instead of staying centered.
-			// Escaping to <body> makes that impossible regardless of what
-			// wraps the block on a given page.
+			// Move dialog/backdrop to a direct child of <body> — left in place, an ancestor with transform/filter/will-change/contain would turn their position: fixed into "fixed relative to that ancestor" instead of the viewport, making the dialog scroll with the page.
+			// Escaping to <body> makes that impossible regardless of what wraps the block.
 			const portal = document.createElement( 'div' );
 			portal.className = 'popup-portal';
 			portal.append( backdrop, popupDialog );
@@ -50,8 +40,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			};
 			popups.set( id, popup );
 
-			// Auto-open: render.php only emits this attribute when a delay
-			// is configured.
+			// Auto-open: render.php only emits this attribute when a delay is configured.
 			const autoOpenDelay = parseFloat( wrapper.dataset.autoOpenDelay );
 			if ( autoOpenDelay > 0 ) {
 				const sessionKey = `theatrum-popup-autoopen-${ id }`;
@@ -59,8 +48,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				try {
 					alreadyShown = !! sessionStorage.getItem( sessionKey );
 				} catch {
-					// sessionStorage unavailable (e.g. some private browsing
-					// modes) — fall back to allowing the auto-open.
+					// sessionStorage unavailable (e.g. some private browsing modes) — fall back to allowing auto-open.
 				}
 
 				if ( ! alreadyShown ) {
@@ -123,16 +111,9 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			} );
 		} );
 
-	// Pass B: wire up every trigger button. A trigger is ANY core/button link
-	// (`.wp-block-button__link` / `.wp-element-button`, depending on which
-	// class core's global styles land the button on) whose href hash matches
-	// a popup registered above — plain, default-styled buttons work exactly
-	// as well as ones wearing the `theatrum/popup-trigger` style variation.
-	// This is intentionally permissive: any button on the page that happens
-	// to link to `#<a popup's anchor>` becomes a trigger, even if that
-	// wasn't the author's intent. Accepted tradeoff — the alternative
-	// (requiring a special class) forced every trigger to wear the
-	// variation's distinct visual style, which the client didn't want.
+	// Pass B: wire up trigger buttons. A trigger is ANY core/button link (`.wp-block-button__link`/`.wp-element-button`) whose href hash matches a popup registered above — plain buttons work as well as ones wearing the `theatrum/popup-trigger` style variation.
+	// Intentionally permissive: any button linking to `#<a popup's anchor>` becomes a trigger, even if unintended.
+	// Accepted tradeoff — the alternative (requiring a special class) forced every trigger to wear the variation's distinct visual style, which the client didn't want.
 	document
 		.querySelectorAll( '.wp-block-button__link, .wp-element-button' )
 		.forEach( ( trigger ) => {
@@ -143,9 +124,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			const targetId = href.slice( 1 );
 			const popup = popups.get( targetId );
 			if ( ! popup ) {
-				// Explicit no-op: the button points at an id that isn't a
-				// registered popup (typo, deleted popup, or a plain anchor
-				// link that isn't meant to open anything).
+				// Explicit no-op: id isn't a registered popup (typo, deleted popup, or a plain anchor link).
 				return;
 			}
 
@@ -154,10 +133,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			trigger.setAttribute( 'aria-haspopup', 'dialog' );
 
 			trigger.addEventListener( 'click', function ( e ) {
-				// Without this, the browser's native #anchor handling would
-				// scroll to the popup's original, now-empty wrapper div,
-				// which still owns that id even after its dialog/backdrop
-				// have been portalled away.
+				// Without this, native #anchor handling would scroll to the popup's now-empty wrapper div, which still owns that id after the dialog/backdrop are portalled away.
 				e.preventDefault();
 				const isExpanded =
 					this.getAttribute( 'aria-expanded' ) === 'true';

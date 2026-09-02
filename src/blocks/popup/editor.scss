@@ -6,18 +6,9 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-// style.scss sets `.popup-dialog`/`.popup-backdrop` to `display: flex`/block
-// unconditionally (needed on the frontend so closed WPForms content still
-// gets real layout dimensions for JS-measured widgets like reCAPTCHA). That
-// rule has equal-or-higher specificity than the browser's own `[hidden] {
-// display: none }`, so in the editor the closed dialog stayed fully laid out
-// at real size, centered via position: fixed, just invisible (opacity: 0) —
-// an invisible full-size box sitting over the canvas. `pointer-events: none`
-// on the box itself didn't save it because Gutenberg's own block-wrapper
-// styles reassert `pointer-events: auto` on the nested WPForms block inside
-// it, which wins back hit-testing for that region. The editor's InnerBlocks
-// preview is always a static disabled SSR render (no live JS measuring
-// widgets), so it's safe to actually collapse it here — editor-only.
+// style.scss forces `.popup-dialog`/`.popup-backdrop` to display: flex/block unconditionally (frontend needs closed WPForms content to keep real layout dimensions for JS-measured widgets like reCAPTCHA), which out-specifies the browser's `[hidden] { display: none }` — so in the editor a closed dialog stayed fully laid out and invisible (opacity: 0), an inert-looking box over the canvas.
+// `pointer-events: none` didn't fix it — Gutenberg's block-wrapper CSS reasserts `pointer-events: auto` on the nested WPForms block, winning back hit-testing.
+// The editor's InnerBlocks preview is a static disabled SSR render (no live JS-measuring widgets), so it's safe to actually collapse it here, editor-only.
 .popup-backdrop[hidden],
 .popup-dialog[hidden] {
 	display: none !important;

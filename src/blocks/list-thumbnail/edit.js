@@ -1,18 +1,6 @@
 /**
- * Thumbnail List Block Editor (parent)
- *
- * A list wrapper whose items are individual `theatrum/list-item-thumbnail`
- * child blocks (title, description, thumbnail image — each editable inline
- * or via its own Inspector, with native WP reordering/drag-and-drop). The
- * parent owns the list-wide settings (thumbnail position/size, item height,
- * animation speed) and the flip-card preview panel that mirrors the
- * frontend's hover interaction.
- *
- * Layout/geometry (item height, thumbnail dimensions, hover transitions) is
- * driven entirely by CSS custom properties from shared.js and consumed by
- * style.scss, which loads in both the editor canvas and the frontend via the
- * block.json `style` field — so this component only needs to reproduce the
- * *dynamic* hover behaviour, not the static layout.
+ * Thumbnail List Block Editor (parent). Wraps `theatrum/list-item-thumbnail` children and owns list-wide settings plus a flip-card preview panel mirroring the frontend's hover interaction.
+ * Layout/geometry comes from CSS custom properties (shared.js/style.scss, shared with the frontend) — this component only reproduces the *dynamic* hover behaviour, not static layout.
  */
 
 import {
@@ -66,17 +54,13 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const { className, style } = getThumbnailListProps( attributes );
 	const blockProps = useBlockProps( { className, style } );
 
-	// Read the child blocks directly from the editor store so the flip
-	// preview can react to hover without each child needing to know its own
-	// position or expose a callback prop (InnerBlocks children are rendered
-	// by the block editor, not by us).
+	// Read child blocks from the editor store so the flip preview can react to hover without each child needing a callback prop (InnerBlocks renders them, not us).
 	const innerBlocks = useSelect(
 		( select ) => select( 'core/block-editor' ).getBlocks( clientId ),
 		[ clientId ]
 	);
 
-	// Registered WP image sizes (Thumbnail/Medium/Large/Full + any custom
-	// sizes), same source core/image uses for its own size dropdown.
+	// Registered WP image sizes (Thumbnail/Medium/Large/Full + custom), same source core/image uses for its dropdown.
 	const imageSizeOptions = useSelect( ( select ) => {
 		const sizes = select( blockEditorStore ).getSettings().imageSizes || [];
 		return sizes.map( ( { slug, name } ) => ( {
@@ -112,9 +96,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		);
 	};
 
-	// Event delegation: WP wraps every rendered block (including our
-	// InnerBlocks children) with a `data-block="<clientId>"` attribute, so we
-	// can find which item was hovered without the child needing to report it.
+	// Event delegation: WP wraps every rendered block with a `data-block="<clientId>"` attribute, so we can find which item was hovered without the child reporting it.
 	const handleMouseOver = ( event ) => {
 		const itemEl = event.target.closest( '[data-block]' );
 		if ( ! itemEl ) {
