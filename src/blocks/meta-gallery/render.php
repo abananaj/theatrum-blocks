@@ -5,9 +5,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Meta Gallery Block - Server-side render callback
- * Handles ACF gallery fields that return an array of image arrays
- * Styled to match core/gallery block
+ * Meta Gallery block — server-side render; handles ACF gallery fields (array of image arrays), styled to match core/gallery.
  */
 
 $post_id = $block->context['postId'] ?? get_the_ID();
@@ -32,8 +30,7 @@ $custom_height = isset($attributes['customHeight']) ? intval($attributes['custom
 $fallback_text = isset($attributes['fallbackText']) ? sanitize_text_field($attributes['fallbackText']) : '';
 $caption      = isset($attributes['caption']) ? wp_kses_post($attributes['caption']) : '';
 
-// Desktop/tablet/mobile column counts fall back down the chain so an unset
-// breakpoint inherits the wider one (mirrors edit.js's numColumns* calc).
+// Desktop/tablet/mobile column counts fall back down the chain so an unset breakpoint inherits the wider one (mirrors edit.js's numColumns* calc).
 $columns_desktop_resolved = $columns ?: 3;
 $columns_tablet_resolved  = $columns_tablet ?: $columns_desktop_resolved;
 $columns_mobile_resolved  = $columns_mobile ?: $columns_tablet_resolved;
@@ -93,8 +90,7 @@ foreach ($value as $image) {
     $attach_id   = isset($image['ID']) ? intval($image['ID']) : 0;
 
     if ($use_custom_size && $attach_id) {
-      // ACF gallery arrays only carry pre-registered sizes, so a custom
-      // width/height needs its own lookup against the attachment ID.
+      // ACF gallery arrays only carry pre-registered sizes, so a custom width/height needs its own lookup against the attachment ID.
       $custom_src = wp_get_attachment_image_src($attach_id, [$custom_width, $custom_height]);
       $img_url    = $custom_src ? esc_url($custom_src[0]) : $full_url;
     } elseif ($size_slug !== 'full' && isset($image['sizes'][$size_slug])) {
@@ -227,9 +223,7 @@ if (is_array($gap)) {
   }
 }
 
-// Desktop/tablet/mobile column counts as CSS custom properties — the
-// tablet/mobile media queries in style.scss read these to override
-// --theatrum-gallery-columns, which the item flex-basis calc uses.
+// Desktop/tablet/mobile column counts as CSS custom properties — style.scss's tablet/mobile media queries read these to override --theatrum-gallery-columns, which the item flex-basis calc uses.
 $columns_style = sprintf(
   '--theatrum-gallery-columns: %d; --theatrum-gallery-columns-tablet: %d; --theatrum-gallery-columns-mobile: %d;',
   $columns_desktop_resolved,

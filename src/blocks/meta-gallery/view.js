@@ -1,17 +1,8 @@
 /**
- * Frontend JavaScript for Meta Gallery block
- *
- * This file can be used for:
- * - Lightbox functionality
- * - Dynamic image loading
- * - Gallery interactions
- * - Custom event handling
- *
+ * Frontend JavaScript for Meta Gallery block — placeholder for lightbox/dynamic-loading/interaction hooks.
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#view-script
  */
 
 ( () => {
-	// Meta Gallery frontend functionality can be added here
-	// The gallery uses WordPress core styling for captions and interactions
-	// Lightbox effects are handled by WordPress/theme CSS
+	// Empty for now — captions/interactions use WordPress core styling; lightbox effects are handled by theme CSS, not JS.
 } )();

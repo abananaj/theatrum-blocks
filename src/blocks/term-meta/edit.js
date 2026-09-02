@@ -86,9 +86,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 		setIsLoadingTerms( true );
 
-		// Don't clobber a previously saved termId when the block first mounts
-		// with an existing taxonomy — only reset it when the user actually
-		// changes the taxonomy afterwards.
+		// Don't clobber a previously saved termId on mount — only reset it when the user actually changes the taxonomy afterwards.
 		if ( isInitialTaxonomyRun.current ) {
 			isInitialTaxonomyRun.current = false;
 		} else {

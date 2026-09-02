@@ -129,10 +129,8 @@
 	}
 }
 
-// Responsive columns — mirrors style.scss. The editor canvas is an iframe,
-// so these media queries apply when previewing tablet/mobile viewports.
-// Reassigning from the (already-resolved) -tablet/-mobile custom property
-// avoids a self-referencing cycle on --theatrum-gallery-columns itself.
+// Responsive columns mirror style.scss; editor canvas is an iframe so these queries apply when previewing tablet/mobile viewports.
+// Reassigns from the already-resolved -tablet/-mobile property (not itself) to avoid a self-referencing custom-property cycle.
 @media (max-width: 781px) {
 	.wp-block-theatrum-meta-gallery .wp-block-gallery.blocks-gallery-grid {
 		--theatrum-gallery-columns: var(--theatrum-gallery-columns-tablet);

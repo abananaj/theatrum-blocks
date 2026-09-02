@@ -17,8 +17,7 @@ import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
 
 /**
- * Extract a YouTube video ID from any standard YouTube URL.
- * Handles: watch?v=, youtu.be/, /embed/, /shorts/
+ * Extract a YouTube video ID from any standard YouTube URL (watch?v=, youtu.be/, /embed/, /shorts/).
  * @param url
  */
 function getYouTubeId( url ) {
@@ -31,8 +30,7 @@ function getYouTubeId( url ) {
 	return match ? match[ 1 ] : null;
 }
 
-// Mirrors core/embed's getClassNames() (@wordpress/block-library) so the
-// "Resize for smaller devices" toggle behaves exactly like the core Embed block's.
+// Mirrors core/embed's getClassNames() (@wordpress/block-library) so the responsive toggle matches core Embed's behavior.
 const ASPECT_RATIOS = [
 	{ ratio: 2.33, className: 'wp-embed-aspect-21-9' },
 	{ ratio: 2, className: 'wp-embed-aspect-18-9' },
@@ -128,8 +126,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 	const hasEmbed =
 		( isYouTube && youTubeId ) || ( ! isYouTube && embedData?.html );
 
-	// Same aspect-ratio detection as core/embed, so the responsive preview
-	// in the editor matches what render.php produces on the frontend.
+	// Same aspect-ratio detection as core/embed, so the editor preview matches render.php's frontend output.
 	let aspectClassName = '';
 	if ( isYouTube && youTubeId ) {
 		aspectClassName = getAspectRatioClassName( 16, 9, allowResponsive );

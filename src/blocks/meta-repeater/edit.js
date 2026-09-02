@@ -31,19 +31,15 @@ const SUBFIELD_TAG_OPTIONS = [
 	{ label: '<h6>', value: 'h6' },
 ];
 
-// One choice sets both the block wrapper and the row tag together, since
-// the two are structurally paired (li only makes sense inside ul/ol; p
-// rows need a plain div around them, not another list).
+// One choice sets both wrapper and row tag together — they're structurally paired (li only valid inside ul/ol; p rows need a div wrapper, not a list).
 const ROW_STYLE_OPTIONS = [
 	{ label: 'Paragraph text', value: 'p' },
 	{ label: 'Unordered List', value: 'ul' },
 	{ label: 'Ordered List', value: 'ol' },
 ];
 
-// Repeater subfields are plain ACF text fields (no per-row WYSIWYG), so
-// editors have adopted typing a literal `<br />` to split a row into
-// multiple lines — mirrors render.php's theatrum_repeater_escape_value().
-// Rendering the raw string as a React child would print the tag itself.
+// Repeater subfields are plain ACF text fields (no per-row WYSIWYG), so editors type literal `<br />` to split a row — mirrors render.php's theatrum_repeater_escape_value().
+// Rendering the raw string as a React child would print the tag itself, hence this helper.
 function renderWithBreaks( text ) {
 	const parts = String( text ).split( /<br\s*\/?>/i );
 	return parts.flatMap( ( part, i ) =>

@@ -125,9 +125,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		imageLimit,
 	] );
 
-	// Calculate gallery layout — desktop/tablet/mobile column counts fall
-	// back down the chain so an unset breakpoint inherits the wider one,
-	// mirroring the CSS custom-property fallback in style.scss/editor.scss.
+	// Desktop/tablet/mobile column counts fall back down the chain (mirrors the CSS custom-property fallback in style.scss/editor.scss).
 	const numColumns = columns || 3;
 	const numColumnsTablet = columnsTablet || numColumns;
 	const numColumnsMobile = columnsMobile || numColumnsTablet;
@@ -582,10 +580,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 												: undefined,
 									} }
 								>
-									{ /* No inline sizing/crop styles here — driven entirely by the shared
-									.wp-block-gallery/.is-cropped CSS (style.scss), matching render.php's
-									output exactly. Inline styles would silently override the CSS in the
-									editor since they beat stylesheet rules regardless of specificity. */ }
+									{ /* No inline sizing/crop styles — driven by shared .wp-block-gallery/.is-cropped CSS (style.scss) matching render.php's output; inline styles would override CSS regardless of specificity. */ }
 									<img
 										src={ img.url }
 										alt={ img.alt || '' }

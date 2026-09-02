@@ -5,8 +5,7 @@ figure.wp-block-theatrum-meta-gallery.has-nested-images {
 }
 
 .wp-block-theatrum-meta-gallery.has-nested-images {
-	// Need bogus :not(#individual-image) to override long :not()
-	// specificity chain on default image block on front end.
+	// Need bogus :not(#individual-image) to override long :not() specificity chain on default image block on front end.
 	figure.wp-block-image:not(#individual-image) {
 		width: calc(50% - (var(--wp--style--unstable-gallery-gap, 16px) / 2));
 		margin: 0;
@@ -191,13 +190,8 @@ figure.wp-block-theatrum-meta-gallery.has-nested-images {
 	}
 }
 
-// Responsive column settings — render.php/edit.js always resolve and emit
-// concrete `--theatrum-gallery-columns(-tablet|-mobile)` values inline (each
-// already falling back to the wider breakpoint when unset), so the media
-// queries below just swap which resolved property the flex-basis calc reads
-// from. Reassigning `--theatrum-gallery-columns` from a *different* custom
-// property (never from itself) avoids a self-referencing cycle, which would
-// resolve to the guaranteed-invalid value instead of the intended fallback.
+// render.php/edit.js resolve concrete --theatrum-gallery-columns(-tablet|-mobile) values inline (fallback already applied); these queries just swap which resolved property the flex-basis calc reads.
+// Must reassign --theatrum-gallery-columns from a *different* property, never itself — self-referencing resolves to an invalid value instead of the intended fallback.
 @media (max-width: 781px) {
 	.wp-block-gallery.blocks-gallery-grid {
 		--theatrum-gallery-columns: var(--theatrum-gallery-columns-tablet);

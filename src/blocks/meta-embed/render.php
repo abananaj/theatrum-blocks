@@ -55,8 +55,7 @@ if (empty($url)) {
   return;
 }
 
-// Same "Resize for smaller devices" toggle as core/embed — wraps the
-// embed in an aspect-ratio box so it scales responsively when enabled.
+// Same "Resize for smaller devices" toggle as core/embed — wraps the embed in an aspect-ratio box when enabled.
 $allow_responsive = ! isset($attributes['allowResponsive']) || (bool) $attributes['allowResponsive'];
 
 // --- YouTube variation ---

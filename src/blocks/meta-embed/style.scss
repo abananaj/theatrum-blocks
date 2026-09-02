@@ -1,8 +1,4 @@
-// Meta Embed block frontend styles
-//
-// Mirrors core/embed's responsive aspect-ratio behavior (the
-// "Resize for smaller devices" toggle) so theatrum/meta-embed scales
-// exactly the same way.
+// Meta Embed block frontend styles — mirrors core/embed's responsive aspect-ratio behavior ("Resize for smaller devices" toggle).
 
 $aspect-ratios: (
 	'21-9': 42.85%,

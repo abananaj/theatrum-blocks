@@ -16,10 +16,8 @@ $tag_a        = isset($attributes['tagA']) ? sanitize_text_field($attributes['ta
 $tag_b        = isset($attributes['tagB']) ? sanitize_text_field($attributes['tagB']) : 'span';
 $row_style    = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
 
-// One attribute (tagName) drives both the block wrapper and the row tag
-// together, since they're structurally paired: <li> only makes sense
-// inside <ul>/<ol>, and <p> rows need a plain <div> around them. Resolved
-// up front so the empty-marker calls below can use the right wrapper tag.
+// tagName drives both the block wrapper and row tag together — they're structurally paired (<li> only valid inside <ul>/<ol>; <p> rows need a <div> wrapper).
+// Resolved up front so the empty-marker calls below use the right wrapper tag.
 if (! in_array($row_style, array('ul', 'ol', 'p'), true)) {
   $row_style = 'p';
 }
@@ -28,8 +26,7 @@ $is_paragraph_rows = ($row_style === 'p');
 $wrapper_tag       = $is_paragraph_rows ? 'div' : $row_style;
 $item_tag          = $is_paragraph_rows ? 'p' : 'li';
 
-// <p> rows can only hold inline content, so subfields collapse to <span> —
-// matches the lock applied in edit.js.
+// <p> rows can only hold inline content, so subfields collapse to <span> — matches the lock applied in edit.js.
 if ($is_paragraph_rows) {
   $tag_a = 'span';
   $tag_b = 'span';

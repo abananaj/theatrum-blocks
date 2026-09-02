@@ -1,10 +1,7 @@
 import { __ } from '@wordpress/i18n';
 
 /**
- * Block variations for Meta Embed.
- *
- * youtube: reads a meta key whose value is a YouTube URL,
- *          embeds via youtube-nocookie.com iframe.
+ * Block variations for Meta Embed — "youtube" reads a meta key holding a YouTube URL, embeds via youtube-nocookie.com iframe.
  */
 const variations = [
 	{

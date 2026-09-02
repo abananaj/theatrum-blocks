@@ -57,8 +57,7 @@ if ($value === '' || $value === false) {
   return;
 }
 
-// Handle arrays/objects — render each item in its own <span> instead of
-// collapsing the value into a JSON blob.
+// Handle arrays/objects — render each item in its own <span> instead of collapsing the value into a JSON blob.
 if (is_array($value) || is_object($value)) {
   $items = is_object($value) ? (array) $value : $value;
   $spans = array();
@@ -77,11 +76,8 @@ if (is_array($value) || is_object($value)) {
   return;
 }
 
-// WYSIWYG/rich-text fields (e.g. ACF `widget_content`) store raw TinyMCE
-// output: blank-line-separated text, not literal <p> tags. Core defers that
-// conversion to wpautop() at render time (same as the_content), so it has to
-// run here too or paragraphs collapse into one clump. Tag/href/prepend/append
-// don't apply to block-level HTML, so they're skipped in this mode.
+// WYSIWYG fields (e.g. ACF `widget_content`) store raw TinyMCE output (blank-line-separated, no <p> tags) — run wpautop() here like core's the_content, or paragraphs collapse into one clump.
+// Tag/href/prepend/append don't apply to block-level HTML, so they're skipped in this mode.
 if ($is_html) {
   printf(
     '<div %s>%s</div>',
