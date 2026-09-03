@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
     exit;
 }
 
@@ -13,9 +13,8 @@ add_filter('render_block_theatrum/table-advanced', 'theatrum_table_wrap_scroll_c
  * @param string $block_content Saved block markup.
  * @return string Markup guaranteed to carry the scroll wrapper.
  */
-function theatrum_table_wrap_scroll_container($block_content)
-{
-    if (! is_string($block_content) || '' === trim($block_content)) {
+function theatrum_table_wrap_scroll_container($block_content) {
+    if ( ! is_string($block_content) || '' === trim($block_content)) {
         return $block_content;
     }
 

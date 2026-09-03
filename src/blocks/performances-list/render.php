@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -12,11 +12,11 @@ if (! defined('ABSPATH')) {
 
 $post_id = isset($block->context['postId']) ? (int) $block->context['postId'] : get_the_ID();
 
-if (! $post_id) {
+if ( ! $post_id) {
   return;
 }
 
-if (! function_exists('get_field')) {
+if ( ! function_exists('get_field')) {
   return;
 }
 
@@ -78,10 +78,10 @@ $parse_time = function ($raw) {
 // Filter rows to upcoming (today or later) and attach parsed timestamp.
 $upcoming = array();
 foreach ($rows as $row) {
-  if (! is_array($row)) {
+  if ( ! is_array($row)) {
     continue;
   }
-  if (! empty($row['hide'])) {
+  if ( ! empty($row['hide'])) {
     continue;
   }
   $ts = $parse_date($row['date'] ?? '');

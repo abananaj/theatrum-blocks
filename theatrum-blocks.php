@@ -14,7 +14,7 @@
  * @package           Theatrum_Blocks
  */
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
@@ -29,8 +29,7 @@ require_once __DIR__ . '/inc/table-scroll-wrapper.php';
 /**
  * Load the plugin text domain so the PHP-side __() strings are translatable.
  */
-function theatrum_blocks_load_textdomain()
-{
+function theatrum_blocks_load_textdomain() {
 	load_plugin_textdomain('theatrum-blocks', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 add_action('init', 'theatrum_blocks_load_textdomain');
@@ -38,8 +37,7 @@ add_action('init', 'theatrum_blocks_load_textdomain');
 /**
  * Registers the blocks using block.json files.
  */
-function theatrum_register_blocks()
-{
+function theatrum_register_blocks() {
 
 	$custom_blocks = array(
 		'breadcrumbs',
@@ -154,8 +152,7 @@ add_action('init', 'theatrum_register_blocks');
  * @param array[] $categories Array of block categories.
  * @return array[] Modified array of block categories.
  */
-function theatrum_register_block_category($categories)
-{
+function theatrum_register_block_category($categories) {
 	$theatrum_categories = array(
 		array(
 			'slug'  => 'theatrum',
@@ -203,12 +200,11 @@ add_filter('block_categories_all', 'theatrum_register_block_category');
  * @param array $metadata Block metadata.
  * @return array Modified metadata with devMode attribute.
  */
-function theatrum_add_dev_mode_attribute($metadata)
-{
+function theatrum_add_dev_mode_attribute($metadata) {
 	// Only add to this plugin's own blocks (theatrum/* namespace)
 	$name = $metadata['name'] ?? '';
 	if (strpos($name, 'theatrum/') === 0) {
-		if (!isset($metadata['attributes'])) {
+		if ( ! isset($metadata['attributes'])) {
 			$metadata['attributes'] = array();
 		}
 
@@ -225,11 +221,10 @@ add_filter('block_type_metadata', 'theatrum_add_dev_mode_attribute');
 /**
  * Enqueues the Style Book editor script that positions the "Custom Blocks" tab correctly in the Site Editor Style Book.
  */
-function theatrum_enqueue_style_book_script()
-{
+function theatrum_enqueue_style_book_script() {
 	$asset_file = __DIR__ . '/build/style-book.asset.php';
 
-	if (! file_exists($asset_file)) {
+	if ( ! file_exists($asset_file)) {
 		return;
 	}
 
@@ -248,11 +243,10 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_style_book_script');
 /**
  * Enqueues the meta-variations script that registers core block variations backed by the theatrum/post-meta Block Bindings source.
  */
-function theatrum_enqueue_meta_variations_script()
-{
+function theatrum_enqueue_meta_variations_script() {
 	$asset_file = __DIR__ . '/build/meta-variations.asset.php';
 
-	if (! file_exists($asset_file)) {
+	if ( ! file_exists($asset_file)) {
 		return;
 	}
 
@@ -271,11 +265,10 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_meta_variations_scri
 /**
  * Enqueues the popup-trigger-variation script that registers the theatrum/popup-trigger core/button variation.
  */
-function theatrum_enqueue_popup_trigger_variation_script()
-{
+function theatrum_enqueue_popup_trigger_variation_script() {
 	$asset_file = __DIR__ . '/build/popup-trigger-variation.asset.php';
 
-	if (! file_exists($asset_file)) {
+	if ( ! file_exists($asset_file)) {
 		return;
 	}
 
@@ -294,11 +287,10 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_popup_trigger_variat
 /**
  * Enqueues the block-color script that colors custom block icons for visual distinction in the inserter/list view/toolbar (mirroring how meta-bound variations show purple).
  */
-function theatrum_enqueue_block_color_script()
-{
+function theatrum_enqueue_block_color_script() {
 	$asset_file = __DIR__ . '/build/block-color.asset.php';
 
-	if (! file_exists($asset_file)) {
+	if ( ! file_exists($asset_file)) {
 		return;
 	}
 
@@ -317,11 +309,10 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_block_color_script')
 /**
  * Enqueues the rich-text-formats script that registers custom RichText toolbar formats (e.g. Small) alongside core bold/italic/etc.
  */
-function theatrum_enqueue_rich_text_formats_script()
-{
+function theatrum_enqueue_rich_text_formats_script() {
 	$asset_file = __DIR__ . '/build/rich-text-formats.asset.php';
 
-	if (! file_exists($asset_file)) {
+	if ( ! file_exists($asset_file)) {
 		return;
 	}
 
@@ -340,8 +331,7 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_rich_text_formats_sc
 /**
  * Registers the Carousel/Slider block styles ("formats" — see src/formats/) on core/query and core/gallery; names are prefixed (ct-carousel, ct-slider) to avoid colliding with other plugins' bare slugs.
  */
-function theatrum_register_format_styles()
-{
+function theatrum_register_format_styles() {
 	$blocks = array('core/query', 'core/gallery');
 	$styles = array(
 		array('name' => 'ct-carousel', 'label' => __('Carousel', 'theatrum-blocks')),
@@ -359,23 +349,20 @@ add_action('init', 'theatrum_register_format_styles');
 /**
  * Blocks eligible for the Carousel/Slider formats, and their style slugs (without the is-style- prefix) — shared by the editor/frontend enqueue functions below.
  */
-function theatrum_format_blocks()
-{
+function theatrum_format_blocks() {
 	return array('core/query', 'core/gallery');
 }
 
-function theatrum_format_style_slugs()
-{
+function theatrum_format_style_slugs() {
 	return array('ct-carousel', 'ct-slider');
 }
 
 /**
  * Registers (without enqueuing) the shared formats.js/formats.css handles so the editor/frontend enqueue functions below can reference them.
  */
-function theatrum_register_format_assets()
-{
+function theatrum_register_format_assets() {
 	$script_asset_file = __DIR__ . '/build/formats.asset.php';
-	if (! file_exists($script_asset_file)) {
+	if ( ! file_exists($script_asset_file)) {
 		return;
 	}
 	$script_asset = require $script_asset_file;
@@ -407,9 +394,8 @@ add_action('init', 'theatrum_register_format_assets');
 /**
  * Editor: enqueue the formats stylesheet for correct Carousel/Slider previews. No script here — the runtime is frontend-only, matching theatrum/carousel's and theatrum/slider's own viewScript.
  */
-function theatrum_enqueue_format_editor_assets()
-{
-	if (! is_admin()) {
+function theatrum_enqueue_format_editor_assets() {
+	if ( ! is_admin()) {
 		return;
 	}
 	wp_enqueue_style('theatrum-formats');
@@ -419,10 +405,9 @@ add_action('enqueue_block_assets', 'theatrum_enqueue_format_editor_assets');
 /**
  * Enqueues src/format-controls.js, which adds Grid Gap + Arrow Styles inspector controls to is-style-ct-carousel-styled core/query/core/gallery — editor-side counterpart to inc/format-controls.php's render_block filter.
  */
-function theatrum_enqueue_format_controls_script()
-{
+function theatrum_enqueue_format_controls_script() {
 	$asset_file = __DIR__ . '/build/format-controls.asset.php';
-	if (! file_exists($asset_file)) {
+	if ( ! file_exists($asset_file)) {
 		return;
 	}
 	$asset = require $asset_file;
@@ -436,22 +421,25 @@ function theatrum_enqueue_format_controls_script()
 		true
 	);
 
-	wp_localize_script($handle, 'theatrumFormatControls', array(
+	wp_localize_script(
+        $handle,
+        'theatrumFormatControls',
+        array(
 		'blocks' => array_values(theatrum_format_blocks()),
-	));
+        )
+    );
 }
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_format_controls_script');
 
 /**
  * Frontend: enqueue the formats script/style only on pages rendering a Carousel/Slider-styled core/query or core/gallery block. An enqueue sniff, not a markup filter — $block_content is returned untouched.
  */
-function theatrum_enqueue_format_frontend_assets($block_content, $block)
-{
+function theatrum_enqueue_format_frontend_assets($block_content, $block) {
 	if (is_admin() || empty($block['blockName'])) {
 		return $block_content;
 	}
 
-	if (! in_array($block['blockName'], theatrum_format_blocks(), true)) {
+	if ( ! in_array($block['blockName'], theatrum_format_blocks(), true)) {
 		return $block_content;
 	}
 

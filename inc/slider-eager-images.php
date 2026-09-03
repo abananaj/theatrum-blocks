@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
     exit;
 }
 
@@ -14,9 +14,8 @@ add_filter('the_content', 'theatrum_slider_force_eager_images', 20);
  * @return string Content with `loading="lazy"` swapped to `loading="eager"`
  *                on <img> tags nested inside slider markup.
  */
-function theatrum_slider_force_eager_images($content)
-{
-    if (! is_string($content) || '' === $content) {
+function theatrum_slider_force_eager_images($content) {
+    if ( ! is_string($content) || '' === $content) {
         return $content;
     }
 
@@ -24,24 +23,24 @@ function theatrum_slider_force_eager_images($content)
         return $content;
     }
 
-    if (! class_exists('DOMDocument')) {
+    if ( ! class_exists('DOMDocument')) {
         return $content;
     }
 
-    $dom = new DOMDocument();
+    $dom            = new DOMDocument();
     $previous_state = libxml_use_internal_errors(true);
-    $loaded = $dom->loadHTML(
+    $loaded         = $dom->loadHTML(
         '<?xml encoding="UTF-8"?><div id="theatrum-slider-eager-root">' . $content . '</div>',
         LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
     );
     libxml_clear_errors();
     libxml_use_internal_errors($previous_state);
 
-    if (! $loaded) {
+    if ( ! $loaded) {
         return $content;
     }
 
-    $xpath = new DOMXPath($dom);
+    $xpath         = new DOMXPath($dom);
     $slider_images = $xpath->query(
         "//*[contains(concat(' ', normalize-space(@class), ' '), ' tm-slider ')" .
         " or contains(concat(' ', normalize-space(@class), ' '), ' is-style-ct-slider ')]" .
@@ -59,7 +58,7 @@ function theatrum_slider_force_eager_images($content)
     }
 
     $roots = $xpath->query('//div[@id="theatrum-slider-eager-root"]');
-    if (! $roots || 0 === $roots->length) {
+    if ( ! $roots || 0 === $roots->length) {
         return $content;
     }
 

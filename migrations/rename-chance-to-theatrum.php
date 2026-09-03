@@ -14,7 +14,7 @@
  * Do NOT run this against any database without the user's explicit go-ahead for that specific run — writing this file is not permission to execute it.
  */
 
-if (! defined('WP_CLI') || ! WP_CLI) {
+if ( ! defined('WP_CLI') || ! WP_CLI) {
 	echo "This script must be run via WP-CLI: wp eval-file migrations/rename-chance-to-theatrum.php [apply]\n";
 	return;
 }
@@ -26,47 +26,47 @@ $apply = in_array('apply', $args ?? [], true);
 // ---------------------------------------------------------------------
 
 const THEATRUM_BLOCK_NAME_MAP = [
-	'chance/blockquote-advanced'    => 'theatrum/blockquote-advanced',
-	'chance/blockquote-source'      => 'theatrum/blockquote-source',
-	'chance/blockquote-text'        => 'theatrum/blockquote-text',
-	'chance/carousel'               => 'theatrum/carousel',
-	'chance/carousel-item'          => 'theatrum/carousel-item',
-	'chance/chance-card'            => 'theatrum/chance-card',
-	'chance/cover-card'             => 'theatrum/cover-card',
-	'chance/list-icons'             => 'theatrum/list-icons',
-	'chance/list-item-icon'         => 'theatrum/list-item-icon',
-	'chance/list-thumbnail'         => 'theatrum/list-thumbnail',
-	'chance/list-item-thumbnail'    => 'theatrum/list-item-thumbnail',
-	'chance/meta-button'            => 'theatrum/meta-button',
-	'chance/meta-date'              => 'theatrum/meta-date',
-	'chance/meta-embed'             => 'theatrum/meta-embed',
-	'chance/meta-field'             => 'theatrum/meta-field',
-	'chance/meta-file'              => 'theatrum/meta-file',
-	'chance/meta-gallery'           => 'theatrum/meta-gallery',
-	'chance/meta-icon'              => 'theatrum/meta-icon',
-	'chance/meta-image'             => 'theatrum/meta-image',
-	'chance/meta-related'           => 'theatrum/meta-related',
-	'chance/meta-repeater'          => 'theatrum/meta-repeater',
-	'chance/meta-time'              => 'theatrum/meta-time',
-	'chance/popover'                => 'theatrum/popover',
-	'chance/popover-content'        => 'theatrum/popover-content',
-	'chance/popover-trigger'        => 'theatrum/popover-trigger',
-	'chance/popup'                  => 'theatrum/popup',
-	'chance/performances-list'      => 'theatrum/performances-list',
-	'chance/production-quotes'      => 'theatrum/production-quotes',
-	'chance/production-tabs'        => 'theatrum/production-tabs',
-	'chance/tab'                    => 'theatrum/tab',
-	'chance/tab-content'            => 'theatrum/tab-content',
-	'chance/tab-heading'            => 'theatrum/tab-heading',
-	'chance/query-filter'           => 'theatrum/query-filter',
-	'chance/site-option'            => 'theatrum/site-option',
-	'chance/slider'                 => 'theatrum/slider',
-	'chance/slider-item'            => 'theatrum/slider-item',
-	'chance/term-meta'              => 'theatrum/term-meta',
-	'chance/title-advanced'         => 'theatrum/title-advanced',
+	'chance/blockquote-advanced' => 'theatrum/blockquote-advanced',
+	'chance/blockquote-source'   => 'theatrum/blockquote-source',
+	'chance/blockquote-text'     => 'theatrum/blockquote-text',
+	'chance/carousel'            => 'theatrum/carousel',
+	'chance/carousel-item'       => 'theatrum/carousel-item',
+	'chance/chance-card'         => 'theatrum/chance-card',
+	'chance/cover-card'          => 'theatrum/cover-card',
+	'chance/list-icons'          => 'theatrum/list-icons',
+	'chance/list-item-icon'      => 'theatrum/list-item-icon',
+	'chance/list-thumbnail'      => 'theatrum/list-thumbnail',
+	'chance/list-item-thumbnail' => 'theatrum/list-item-thumbnail',
+	'chance/meta-button'         => 'theatrum/meta-button',
+	'chance/meta-date'           => 'theatrum/meta-date',
+	'chance/meta-embed'          => 'theatrum/meta-embed',
+	'chance/meta-field'          => 'theatrum/meta-field',
+	'chance/meta-file'           => 'theatrum/meta-file',
+	'chance/meta-gallery'        => 'theatrum/meta-gallery',
+	'chance/meta-icon'           => 'theatrum/meta-icon',
+	'chance/meta-image'          => 'theatrum/meta-image',
+	'chance/meta-related'        => 'theatrum/meta-related',
+	'chance/meta-repeater'       => 'theatrum/meta-repeater',
+	'chance/meta-time'           => 'theatrum/meta-time',
+	'chance/popover'             => 'theatrum/popover',
+	'chance/popover-content'     => 'theatrum/popover-content',
+	'chance/popover-trigger'     => 'theatrum/popover-trigger',
+	'chance/popup'               => 'theatrum/popup',
+	'chance/performances-list'   => 'theatrum/performances-list',
+	'chance/production-quotes'   => 'theatrum/production-quotes',
+	'chance/production-tabs'     => 'theatrum/production-tabs',
+	'chance/tab'                 => 'theatrum/tab',
+	'chance/tab-content'         => 'theatrum/tab-content',
+	'chance/tab-heading'         => 'theatrum/tab-heading',
+	'chance/query-filter'        => 'theatrum/query-filter',
+	'chance/site-option'         => 'theatrum/site-option',
+	'chance/slider'              => 'theatrum/slider',
+	'chance/slider-item'         => 'theatrum/slider-item',
+	'chance/term-meta'           => 'theatrum/term-meta',
+	'chance/title-advanced'      => 'theatrum/title-advanced',
 	// Added 2026-08-04: originally excluded as chance-ollie theme blocks, they've since moved to theatrum-credits and been renamed there; the mu-plugin aliases nothing, so stored chance/ instances are now dead blocks and in scope.
-	'chance/artist-credits'         => 'theatrum/artist-credits',
-	'chance/production-credits'     => 'theatrum/production-credits',
+	'chance/artist-credits'      => 'theatrum/artist-credits',
+	'chance/production-credits'  => 'theatrum/production-credits',
 ];
 
 const THEATRUM_BINDING_SOURCE_MAP = [
@@ -92,8 +92,7 @@ const THEATRUM_NEW_WRAPPER_CLASS_FRAGMENT = 'wp-block-theatrum-';
  * @param int   &$count Incremented once per string actually changed.
  * @return mixed
  */
-function theatrum_rewrite_wrapper_class($value, &$count)
-{
+function theatrum_rewrite_wrapper_class($value, &$count) {
 	if (is_string($value)) {
 		if (strpos($value, THEATRUM_OLD_WRAPPER_CLASS_FRAGMENT) !== false) {
 			$count++;
@@ -123,8 +122,7 @@ function theatrum_rewrite_wrapper_class($value, &$count)
  * @param array &$stats
  * @return array
  */
-function theatrum_migrate_attrs(array $attrs, array &$stats)
-{
+function theatrum_migrate_attrs(array $attrs, array &$stats) {
 	if (isset($attrs['metadata']['bindings']) && is_array($attrs['metadata']['bindings'])) {
 		foreach ($attrs['metadata']['bindings'] as $attr_name => $binding) {
 			if (
@@ -160,14 +158,13 @@ function theatrum_migrate_attrs(array $attrs, array &$stats)
  * @param array &$stats
  * @return array
  */
-function theatrum_migrate_blocks(array $blocks, array &$stats)
-{
+function theatrum_migrate_blocks(array $blocks, array &$stats) {
 	foreach ($blocks as &$block) {
-		if (! is_array($block)) {
+		if ( ! is_array($block)) {
 			continue;
 		}
 
-		$original_name = $block['blockName'] ?? null;
+		$original_name    = $block['blockName'] ?? null;
 		$is_renamed_block = $original_name !== null && isset(THEATRUM_BLOCK_NAME_MAP[$original_name]);
 
 		if ($is_renamed_block) {
@@ -175,21 +172,21 @@ function theatrum_migrate_blocks(array $blocks, array &$stats)
 			$stats['block_names']++;
 		}
 
-		if (! empty($block['attrs']) && is_array($block['attrs'])) {
+		if ( ! empty($block['attrs']) && is_array($block['attrs'])) {
 			$block['attrs'] = theatrum_migrate_attrs($block['attrs'], $stats);
 		}
 
 		// Raw saved markup — see the file header for why this can't be skipped in favor of renaming attrs.className alone. Only touched for blocks we're actually renaming.
 		if ($is_renamed_block) {
-			if (! empty($block['attrs']) && is_array($block['attrs'])) {
+			if ( ! empty($block['attrs']) && is_array($block['attrs'])) {
 				$block['attrs'] = theatrum_rewrite_wrapper_class($block['attrs'], $stats['classnames']);
 			}
 
-			if (! empty($block['innerHTML']) && is_string($block['innerHTML'])) {
+			if ( ! empty($block['innerHTML']) && is_string($block['innerHTML'])) {
 				$block['innerHTML'] = theatrum_rewrite_wrapper_class($block['innerHTML'], $stats['classnames']);
 			}
 
-			if (! empty($block['innerContent']) && is_array($block['innerContent'])) {
+			if ( ! empty($block['innerContent']) && is_array($block['innerContent'])) {
 				foreach ($block['innerContent'] as $i => $chunk) {
 					if (is_string($chunk)) {
 						$block['innerContent'][$i] = theatrum_rewrite_wrapper_class($chunk, $stats['classnames']);
@@ -198,7 +195,7 @@ function theatrum_migrate_blocks(array $blocks, array &$stats)
 			}
 		}
 
-		if (! empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+		if ( ! empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
 			$block['innerBlocks'] = theatrum_migrate_blocks($block['innerBlocks'], $stats);
 		}
 	}
@@ -214,8 +211,7 @@ function theatrum_migrate_blocks(array $blocks, array &$stats)
  * @param array  &$stats
  * @return string|null New content, or null if nothing changed.
  */
-function theatrum_migrate_content($content, array &$stats)
-{
+function theatrum_migrate_content($content, array &$stats) {
 	if (
 		strpos($content, 'chance/') === false
 		&& strpos($content, THEATRUM_OLD_WRAPPER_CLASS_FRAGMENT) === false
@@ -223,9 +219,9 @@ function theatrum_migrate_content($content, array &$stats)
 		return null; // Fast path — nothing this script cares about.
 	}
 
-	$blocks  = parse_blocks($content);
-	$before  = ['block_names' => 0, 'bindings' => 0, 'variation_names' => 0, 'classnames' => 0];
-	$blocks  = theatrum_migrate_blocks($blocks, $before);
+	$blocks = parse_blocks($content);
+	$before = ['block_names' => 0, 'bindings' => 0, 'variation_names' => 0, 'classnames' => 0];
+	$blocks = theatrum_migrate_blocks($blocks, $before);
 
 	$changed = array_sum($before);
 	if ($changed === 0) {
@@ -245,10 +241,12 @@ function theatrum_migrate_content($content, array &$stats)
 
 global $wpdb;
 
-$post_types = array_unique(array_merge(
-	get_post_types(['public' => true], 'names'),
-	['wp_block', 'wp_template', 'wp_template_part']
-));
+$post_types = array_unique(
+    array_merge(
+        get_post_types(['public' => true], 'names'),
+        ['wp_block', 'wp_template', 'wp_template_part']
+    )
+);
 
 $placeholders = implode(',', array_fill(0, count($post_types), '%s'));
 
@@ -272,12 +270,12 @@ WP_CLI::log(sprintf('Scanning %d post type(s): %s', count($post_types), implode(
 WP_CLI::log(sprintf('%d candidate post(s) matched the LIKE pre-filter.', count($rows)));
 WP_CLI::log('');
 
-$totals = ['block_names' => 0, 'bindings' => 0, 'variation_names' => 0, 'classnames' => 0];
+$totals        = ['block_names' => 0, 'bindings' => 0, 'variation_names' => 0, 'classnames' => 0];
 $touched_posts = 0;
 
 foreach ($rows as $row) {
 	$post = get_post($row->ID);
-	if (! $post) {
+	if ( ! $post) {
 		continue;
 	}
 
@@ -293,22 +291,29 @@ foreach ($rows as $row) {
 		$totals[$k] += $v;
 	}
 
-	WP_CLI::log(sprintf(
-		'#%-7s %-16s %-40s block names:%-3d bindings:%-3d variation names:%-3d classnames:%-3d',
-		$row->ID,
-		$row->post_type,
-		mb_substr($row->post_title !== '' ? $row->post_title : '(no title)', 0, 38),
-		$stats['block_names'],
-		$stats['bindings'],
-		$stats['variation_names'],
-		$stats['classnames']
-	));
+	WP_CLI::log(
+        sprintf(
+            '#%-7s %-16s %-40s block names:%-3d bindings:%-3d variation names:%-3d classnames:%-3d',
+            $row->ID,
+            $row->post_type,
+            mb_substr($row->post_title !== '' ? $row->post_title : '(no title)', 0, 38),
+            $stats['block_names'],
+            $stats['bindings'],
+            $stats['variation_names'],
+            $stats['classnames']
+        )
+    );
 
 	if ($apply) {
-		$result = wp_update_post(wp_slash([
-			'ID'           => $row->ID,
-			'post_content' => $updated,
-		]), true);
+		$result = wp_update_post(
+            wp_slash(
+                [
+                'ID'           => $row->ID,
+                'post_content' => $updated,
+                ]
+            ),
+            true
+        );
 
 		if (is_wp_error($result)) {
 			WP_CLI::warning(sprintf('  #%s failed to save: %s', $row->ID, $result->get_error_message()));
@@ -317,16 +322,18 @@ foreach ($rows as $row) {
 }
 
 WP_CLI::log('');
-WP_CLI::log(sprintf(
-	'%d post(s) touched — %d block name(s), %d binding source(s), %d variation name(s), %d classname string(s).',
-	$touched_posts,
-	$totals['block_names'],
-	$totals['bindings'],
-	$totals['variation_names'],
-	$totals['classnames']
-));
+WP_CLI::log(
+    sprintf(
+        '%d post(s) touched — %d block name(s), %d binding source(s), %d variation name(s), %d classname string(s).',
+        $touched_posts,
+        $totals['block_names'],
+        $totals['bindings'],
+        $totals['variation_names'],
+        $totals['classnames']
+    )
+);
 
-if (! $apply) {
+if ( ! $apply) {
 	WP_CLI::success('Dry run complete. Re-run with \'apply\' to write changes.');
 	return;
 }

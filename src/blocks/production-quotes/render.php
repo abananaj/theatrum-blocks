@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -11,13 +11,13 @@ if (! defined('ABSPATH')) {
 
 $post_id = get_the_ID() ?: ($block->context['postId'] ?? 0);
 
-if (!$post_id) {
+if ( ! $post_id) {
   return;
 }
 
 $post = get_post($post_id);
 
-if (!$post) {
+if ( ! $post) {
   return;
 }
 
@@ -32,11 +32,11 @@ $wrapper_attributes = get_block_wrapper_attributes(array('class' => 'wp-block-th
 echo '<div ' . wp_kses_data($wrapper_attributes) . '>';
 
 foreach ($quotes as $quote_row) {
-  $quote_text   = isset($quote_row['quote-text']) ? $quote_row['quote-text'] : '';
-  $source       = isset($quote_row['quote-cite']) ? $quote_row['quote-cite'] : '';
+  $quote_text    = isset($quote_row['quote-text']) ? $quote_row['quote-text'] : '';
+  $source        = isset($quote_row['quote-cite']) ? $quote_row['quote-cite'] : '';
   $quote_link_id = isset($quote_row['quote-link']) ? $quote_row['quote-link'] : '';
 
-  if (!$quote_text) {
+  if ( ! $quote_text) {
     continue;
   }
 

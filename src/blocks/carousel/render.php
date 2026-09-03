@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -11,12 +11,12 @@ if (! defined('ABSPATH')) {
 // Card width/gap feed an inline CSS custom property, so digits-only (not sanitize_text_field, which allows CSS-breaking characters).
 $allowed_units = array('px', '%', 'em', 'rem');
 
-$card_width = isset($attributes['cardWidth']) ? preg_replace('/[^0-9.]/', '', (string) $attributes['cardWidth']) : '';
+$card_width      = isset($attributes['cardWidth']) ? preg_replace('/[^0-9.]/', '', (string) $attributes['cardWidth']) : '';
 $card_width_unit = isset($attributes['cardWidthUnit']) && in_array($attributes['cardWidthUnit'], $allowed_units, true)
   ? $attributes['cardWidthUnit']
   : 'px';
 
-$gap = isset($attributes['gap']) ? preg_replace('/[^0-9.]/', '', (string) $attributes['gap']) : '';
+$gap      = isset($attributes['gap']) ? preg_replace('/[^0-9.]/', '', (string) $attributes['gap']) : '';
 $gap_unit = isset($attributes['gapUnit']) && in_array($attributes['gapUnit'], $allowed_units, true)
   ? $attributes['gapUnit']
   : 'px';
@@ -31,10 +31,10 @@ if ($gap !== '') {
 $content_style = ! empty($content_style_parts) ? 'style="' . implode(' ', $content_style_parts) . '"' : '';
 
 $allowed_arrow_positions = array('outside', 'inside', 'hidden');
-$arrow_position = isset($attributes['arrowPosition']) && in_array($attributes['arrowPosition'], $allowed_arrow_positions, true)
+$arrow_position          = isset($attributes['arrowPosition']) && in_array($attributes['arrowPosition'], $allowed_arrow_positions, true)
   ? $attributes['arrowPosition']
   : 'outside';
-$show_scrollbar = ! empty($attributes['showScrollbar']);
+$show_scrollbar          = ! empty($attributes['showScrollbar']);
 
 $modifier_classes = array('wp-block-theatrum-carousel');
 if ('inside' === $arrow_position) {
@@ -47,11 +47,11 @@ if ($show_scrollbar) {
 }
 
 // Sanitized via theatrum_carousel_sanitize_color() (inc/helpers.php, always loaded — shared with the is-style-ct-carousel format's render_block filter in inc/format-controls.php).
-$arrow_background = ! isset($attributes['arrowBackground']) || ! empty($attributes['arrowBackground']);
-$arrow_color = theatrum_carousel_sanitize_color($attributes['arrowColor'] ?? '');
+$arrow_background       = ! isset($attributes['arrowBackground']) || ! empty($attributes['arrowBackground']);
+$arrow_color            = theatrum_carousel_sanitize_color($attributes['arrowColor'] ?? '');
 $arrow_background_color = theatrum_carousel_sanitize_color($attributes['arrowBackgroundColor'] ?? '');
-$arrow_size = isset($attributes['arrowSize']) ? preg_replace('/[^0-9.]/', '', (string) $attributes['arrowSize']) : '';
-$arrow_size_unit = isset($attributes['arrowSizeUnit']) && in_array($attributes['arrowSizeUnit'], $allowed_units, true)
+$arrow_size             = isset($attributes['arrowSize']) ? preg_replace('/[^0-9.]/', '', (string) $attributes['arrowSize']) : '';
+$arrow_size_unit        = isset($attributes['arrowSizeUnit']) && in_array($attributes['arrowSizeUnit'], $allowed_units, true)
   ? $attributes['arrowSizeUnit']
   : 'px';
 
@@ -59,7 +59,7 @@ $arrow_style_parts = array();
 if ('' !== $arrow_color) {
   $arrow_style_parts[] = '--ct-arrow-color: ' . esc_attr($arrow_color) . ';';
 }
-if (! $arrow_background) {
+if ( ! $arrow_background) {
   $arrow_style_parts[] = '--ct-arrow-bg: transparent;';
 } elseif ('' !== $arrow_background_color) {
   $arrow_style_parts[] = '--ct-arrow-bg: ' . esc_attr($arrow_background_color) . ';';
@@ -71,7 +71,7 @@ if ('' !== $arrow_size) {
 // get_block_wrapper_attributes() generates supports-driven classes/styles to match useBlockProps() in the editor.
 // Arrow vars bypass its 'style' merging — safecss_filter_attr() strips unknown custom properties like --ct-arrow-color — so they're output directly on the inner div instead (same as $content_style below).
 $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $modifier_classes)));
-$arrow_style = ! empty($arrow_style_parts) ? ' style="' . implode(' ', $arrow_style_parts) . '"' : '';
+$arrow_style        = ! empty($arrow_style_parts) ? ' style="' . implode(' ', $arrow_style_parts) . '"' : '';
 
 ob_start();
 ?>

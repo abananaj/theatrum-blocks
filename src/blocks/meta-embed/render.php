@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -24,19 +24,19 @@ elseif (function_exists('get_the_ID')) {
   $post_id = get_the_ID();
 }
 // 3. Finally, fall back to the global post object
-if (! $post_id) {
+if ( ! $post_id) {
   global $post;
   if ($post && isset($post->ID)) {
     $post_id = $post->ID;
   }
 }
 
-if (! $key) {
+if ( ! $key) {
   theatrum_render_meta_empty_marker('div', '');
   return;
 }
 
-if (! $post_id) {
+if ( ! $post_id) {
   return;
 }
 
@@ -61,11 +61,11 @@ $allow_responsive = ! isset($attributes['allowResponsive']) || (bool) $attribute
 // --- YouTube variation ---
 if ('youtube' === $embed_type) {
   // Extract the video ID from any standard YouTube URL
-  preg_match(
+preg_match(
     '/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_\-]{11})/',
     $url,
     $matches
-  );
+);
   $video_id = $matches[1] ?? '';
 
   if (empty($video_id)) {
@@ -74,31 +74,31 @@ if ('youtube' === $embed_type) {
   }
 
   $embed_src = 'https://www.youtube-nocookie.com/embed/' . esc_attr($video_id);
-  $iframe    = sprintf(
+$iframe      = sprintf(
     '<iframe src="%s" width="1200" height="675" title="%s" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>',
     esc_url($embed_src),
     esc_attr__('YouTube video', 'theatrum-blocks')
-  );
+);
 
   $wrapper_class = theatrum_embed_aspect_ratio_classnames(16, 9, $allow_responsive);
 
-  printf(
+printf(
     '<div %s><div class="wp-block-embed__wrapper">%s</div></div>',
     wp_kses_data(get_block_wrapper_attributes(array('class' => $wrapper_class))),
     $iframe // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $iframe built above from esc_url()/esc_attr() output; wp_kses_post() would strip the <iframe>.
-  );
+);
   return;
 }
 
 // --- Generic variation: oEmbed ---
 $embed_html = wp_oembed_get($url);
 
-if (! $embed_html) {
+if ( ! $embed_html) {
   // Fallback to iframe embed for direct URLs
-  $embed_html = sprintf(
+$embed_html = sprintf(
     '<iframe src="%s" width="1200" height="675" frameborder="0" allowfullscreen></iframe>',
     esc_url($url)
-  );
+);
 }
 
 $width  = 0;
@@ -113,7 +113,7 @@ if (preg_match('/height=["\']?(\d+)/i', $embed_html, $height_match)) {
 $wrapper_class = theatrum_embed_aspect_ratio_classnames($width ?: 16, $height ?: 9, $allow_responsive);
 
 printf(
-  '<div %s><div class="wp-block-embed__wrapper">%s</div></div>',
-  wp_kses_data(get_block_wrapper_attributes(array('class' => $wrapper_class))),
-  wp_kses($embed_html, theatrum_embed_allowed_html())
+    '<div %s><div class="wp-block-embed__wrapper">%s</div></div>',
+    wp_kses_data(get_block_wrapper_attributes(array('class' => $wrapper_class))),
+    wp_kses($embed_html, theatrum_embed_allowed_html())
 );

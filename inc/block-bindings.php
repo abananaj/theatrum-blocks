@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -20,8 +20,7 @@ if (! defined('ABSPATH')) {
  * @param string   $attribute_name The block attribute being bound (id, url, href, content…).
  * @return mixed|null
  */
-function theatrum_post_meta_binding_callback($source_args, $block_instance, $attribute_name)
-{
+function theatrum_post_meta_binding_callback($source_args, $block_instance, $attribute_name) {
 	$post_id = isset($block_instance->context['postId'])
 		? (int) $block_instance->context['postId']
 		: (int) get_the_ID();
@@ -29,7 +28,7 @@ function theatrum_post_meta_binding_callback($source_args, $block_instance, $att
 	// sanitize_key() lowercases, breaking any ACF/meta key with uppercase letters — strip to the same charset without forcing case.
 	$key = isset($source_args['key']) ? preg_replace('/[^a-zA-Z0-9_\-]/', '', $source_args['key']) : '';
 
-	if (! $post_id || ! $key) {
+	if ( ! $post_id || ! $key) {
 		return null;
 	}
 
@@ -66,8 +65,8 @@ function theatrum_post_meta_binding_callback($source_args, $block_instance, $att
 	// --- content (core/paragraph, core/heading) ---
 
 	// Date formatting: when a format arg is present, parse the stored value as a date.
-	$format        = $source_args['format']        ?? '';
-	$custom_format = $source_args['customFormat']  ?? '';
+	$format        = $source_args['format'] ?? '';
+	$custom_format = $source_args['customFormat'] ?? '';
 
 	if ($format) {
 		$actual_format = ($format === 'custom' && $custom_format) ? $custom_format : $format;
@@ -76,7 +75,7 @@ function theatrum_post_meta_binding_callback($source_args, $block_instance, $att
 		$timestamp = function_exists('theatrum_parse_flexible_date')
 			? theatrum_parse_flexible_date($date_str)
 			: null;
-		if (! $timestamp) {
+		if ( ! $timestamp) {
 			$timestamp = strtotime($date_str);
 		}
 		return ($timestamp) ? theatrum_decode_entities(wp_date($actual_format, $timestamp)) : null;
@@ -90,14 +89,20 @@ function theatrum_post_meta_binding_callback($source_args, $block_instance, $att
 	return theatrum_decode_entities((string) $value);
 }
 
-add_action('init', function () {
-	if (! function_exists('register_block_bindings_source')) {
+add_action(
+    'init',
+    function () {
+	if ( ! function_exists('register_block_bindings_source')) {
 		return; // WP < 6.5 guard.
 	}
 
-	register_block_bindings_source('theatrum/post-meta', [
+	register_block_bindings_source(
+        'theatrum/post-meta',
+        [
 		'label'              => __('Post Meta', 'theatrum-blocks'),
 		'get_value_callback' => 'theatrum_post_meta_binding_callback',
 		'uses_context'       => ['postId', 'postType'],
-	]);
-});
+        ]
+    );
+    }
+);

@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
     exit;
 }
 
@@ -18,10 +18,9 @@ const THEATRUM_FORMAT_CONTROLS_MARKER_CLASS = 'ct-carousel-controls-applied';
  * @param string $slug  Style slug to check for, e.g. 'is-style-ct-carousel'.
  * @return bool
  */
-function theatrum_format_controls_has_style($block, $slug)
-{
+function theatrum_format_controls_has_style($block, $slug) {
     $class_name = (string) ($block['attrs']['className'] ?? '');
-    $classes = preg_split('/\s+/', trim($class_name));
+    $classes    = preg_split('/\s+/', trim($class_name));
     return in_array($slug, $classes, true);
 }
 
@@ -30,15 +29,14 @@ function theatrum_format_controls_has_style($block, $slug)
  * @param array  $block         Parsed block array.
  * @return string
  */
-function theatrum_format_controls_render_block($block_content, $block)
-{
+function theatrum_format_controls_render_block($block_content, $block) {
     if (empty($block['blockName']) || ! in_array($block['blockName'], theatrum_format_blocks(), true)) {
         return $block_content;
     }
 
     $is_carousel = theatrum_format_controls_has_style($block, 'is-style-ct-carousel');
-    $is_slider = ! $is_carousel && theatrum_format_controls_has_style($block, 'is-style-ct-slider');
-    if (! $is_carousel && ! $is_slider) {
+    $is_slider   = ! $is_carousel && theatrum_format_controls_has_style($block, 'is-style-ct-slider');
+    if ( ! $is_carousel && ! $is_slider) {
         return $block_content;
     }
 
@@ -46,31 +44,31 @@ function theatrum_format_controls_render_block($block_content, $block)
         return $block_content;
     }
 
-    $attrs = $block['attrs'] ?? array();
-    $allowed_units = array('px', '%', 'em', 'rem');
-    $classes = array();
-    $style_parts = array();
+    $attrs            = $block['attrs'] ?? array();
+    $allowed_units    = array('px', '%', 'em', 'rem');
+    $classes          = array();
+    $style_parts      = array();
     $extra_attributes = array();
 
     if ($is_carousel) {
         if ('core/query' === $block['blockName']) {
-            $gap = isset($attrs['ctCarouselGap']) ? preg_replace('/[^0-9.]/', '', (string) $attrs['ctCarouselGap']) : '';
+            $gap      = isset($attrs['ctCarouselGap']) ? preg_replace('/[^0-9.]/', '', (string) $attrs['ctCarouselGap']) : '';
             $gap_unit = in_array($attrs['ctCarouselGapUnit'] ?? '', $allowed_units, true) ? $attrs['ctCarouselGapUnit'] : 'px';
             if ('' !== $gap) {
                 $style_parts[] = '--ct-carousel-gap:' . esc_attr($gap . $gap_unit);
             }
         }
-        $arrow_css_prefix = '--ct-arrow-';
+        $arrow_css_prefix   = '--ct-arrow-';
         $arrow_inside_class = 'theatrum-arrows-inside';
         $arrow_hidden_class = 'theatrum-arrows-hidden';
     } else {
-        $autoplay = ! empty($attrs['ctAutoplay']);
-        $autoplay_speed = isset($attrs['ctAutoplaySpeed']) ? (int) $attrs['ctAutoplaySpeed'] : 5000;
-        $extra_attributes['data-autoplay'] = $autoplay ? 'true' : 'false';
+        $autoplay                                = ! empty($attrs['ctAutoplay']);
+        $autoplay_speed                          = isset($attrs['ctAutoplaySpeed']) ? (int) $attrs['ctAutoplaySpeed'] : 5000;
+        $extra_attributes['data-autoplay']       = $autoplay ? 'true' : 'false';
         $extra_attributes['data-autoplay-speed'] = (string) $autoplay_speed;
-        $arrow_css_prefix = '--tm-arrow-';
-        $arrow_inside_class = 'tm-slider-arrows-inside';
-        $arrow_hidden_class = 'tm-slider-arrows-hidden';
+        $arrow_css_prefix                        = '--tm-arrow-';
+        $arrow_inside_class                      = 'tm-slider-arrows-inside';
+        $arrow_hidden_class                      = 'tm-slider-arrows-hidden';
     }
 
     $arrow_position = in_array($attrs['ctArrowPosition'] ?? '', array('outside', 'inside', 'hidden'), true)
@@ -82,16 +80,16 @@ function theatrum_format_controls_render_block($block_content, $block)
         $classes[] = $arrow_hidden_class;
     }
 
-    $arrow_background = ! isset($attrs['ctArrowBackground']) || ! empty($attrs['ctArrowBackground']);
-    $arrow_color = theatrum_carousel_sanitize_color($attrs['ctArrowColor'] ?? '');
+    $arrow_background       = ! isset($attrs['ctArrowBackground']) || ! empty($attrs['ctArrowBackground']);
+    $arrow_color            = theatrum_carousel_sanitize_color($attrs['ctArrowColor'] ?? '');
     $arrow_background_color = theatrum_carousel_sanitize_color($attrs['ctArrowBackgroundColor'] ?? '');
-    $arrow_size = isset($attrs['ctArrowSize']) ? preg_replace('/[^0-9.]/', '', (string) $attrs['ctArrowSize']) : '';
-    $arrow_size_unit = in_array($attrs['ctArrowSizeUnit'] ?? '', $allowed_units, true) ? $attrs['ctArrowSizeUnit'] : 'px';
+    $arrow_size             = isset($attrs['ctArrowSize']) ? preg_replace('/[^0-9.]/', '', (string) $attrs['ctArrowSize']) : '';
+    $arrow_size_unit        = in_array($attrs['ctArrowSizeUnit'] ?? '', $allowed_units, true) ? $attrs['ctArrowSizeUnit'] : 'px';
 
     if ('' !== $arrow_color) {
         $style_parts[] = $arrow_css_prefix . 'color:' . esc_attr($arrow_color);
     }
-    if (! $arrow_background) {
+    if ( ! $arrow_background) {
         $style_parts[] = $arrow_css_prefix . 'bg:transparent';
     } elseif ('' !== $arrow_background_color) {
         $style_parts[] = $arrow_css_prefix . 'bg:' . esc_attr($arrow_background_color);
@@ -105,7 +103,7 @@ function theatrum_format_controls_render_block($block_content, $block)
     }
 
     $processor = new WP_HTML_Tag_Processor($block_content);
-    if (! $processor->next_tag()) {
+    if ( ! $processor->next_tag()) {
         return $block_content;
     }
 
@@ -119,9 +117,9 @@ function theatrum_format_controls_render_block($block_content, $block)
         $processor->add_class($class);
     }
 
-    if (! empty($style_parts)) {
+    if ( ! empty($style_parts)) {
         $existing_style = rtrim((string) $processor->get_attribute('style'), '; ');
-        $new_style = ('' === $existing_style ? '' : $existing_style . ';') . implode(';', $style_parts) . ';';
+        $new_style      = ('' === $existing_style ? '' : $existing_style . ';') . implode(';', $style_parts) . ';';
         $processor->set_attribute('style', $new_style);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -14,12 +14,12 @@ $button_text = isset($attributes['buttonText']) ? sanitize_text_field($attribute
 
 $post_id = isset($block->context['postId']) ? $block->context['postId'] : get_the_ID();
 
-if (! $key) {
+if ( ! $key) {
   theatrum_render_meta_empty_marker('div', '', array('class' => 'wp-block-button'));
   return;
 }
 
-if (! $post_id) {
+if ( ! $post_id) {
   return;
 }
 
@@ -31,8 +31,8 @@ if (empty($url)) {
 }
 
 printf(
-  '<div %1$s><a href="%2$s" class="wp-block-button__link wp-element-button">%3$s</a></div>',
-  wp_kses_data( get_block_wrapper_attributes( array( 'class' => 'wp-block-button' ) ) ),
-  $url, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $url is esc_url()'d at assignment.
-  esc_html($button_text)
+    '<div %1$s><a href="%2$s" class="wp-block-button__link wp-element-button">%3$s</a></div>',
+    wp_kses_data( get_block_wrapper_attributes( array( 'class' => 'wp-block-button' ) ) ),
+    $url, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $url is esc_url()'d at assignment.
+    esc_html($button_text)
 );

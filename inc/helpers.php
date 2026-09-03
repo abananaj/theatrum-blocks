@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -17,8 +17,7 @@ if (! defined('ABSPATH')) {
  *
  * @return bool True if the option name is allowed.
  */
-function theatrum_is_allowed_settings_option($option_name)
-{
+function theatrum_is_allowed_settings_option($option_name) {
 	return (bool) preg_match('/^options?_/', (string) $option_name);
 }
 
@@ -28,12 +27,11 @@ function theatrum_is_allowed_settings_option($option_name)
  * @param mixed $value Raw attribute value to sanitize.
  * @return string Sanitized color value, or '' if not a safe shape.
  */
-function theatrum_carousel_sanitize_color($value)
-{
-	if (! is_string($value) || '' === trim($value)) {
+function theatrum_carousel_sanitize_color($value) {
+	if ( ! is_string($value) || '' === trim($value)) {
 		return '';
 	}
-	$value = trim($value);
+	$value   = trim($value);
 	$pattern = '/^(#[0-9a-fA-F]{3,8}|(?:rgba?|hsla?)\([0-9.,%\s]+\)|var\(--[a-zA-Z0-9-]+\))$/';
 	return preg_match($pattern, $value) ? $value : '';
 }
@@ -45,8 +43,7 @@ function theatrum_carousel_sanitize_color($value)
  *
  * @return bool
  */
-function theatrum_is_editor_render_context()
-{
+function theatrum_is_editor_render_context() {
 	return defined('REST_REQUEST') && REST_REQUEST;
 }
 
@@ -57,8 +54,7 @@ function theatrum_is_editor_render_context()
  * @param string $key                 Meta key being requested, shown as an editor-only placeholder.
  * @param array  $extra_wrapper_args  Extra args passed to get_block_wrapper_attributes(), e.g. ['class' => '...'].
  */
-function theatrum_render_meta_empty_marker($tag, $key = '', $extra_wrapper_args = array())
-{
+function theatrum_render_meta_empty_marker($tag, $key = '', $extra_wrapper_args = array()) {
 	$extra_wrapper_args['class'] = trim('theatrum-meta-empty ' . ($extra_wrapper_args['class'] ?? ''));
 
 	$inner = ($key !== '' && theatrum_is_editor_render_context())
@@ -80,8 +76,7 @@ function theatrum_render_meta_empty_marker($tag, $key = '', $extra_wrapper_args 
  *
  * @return string
  */
-function theatrum_decode_entities($value)
-{
+function theatrum_decode_entities($value) {
 	$decoded = html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
 	return htmlspecialchars($decoded, ENT_NOQUOTES, 'UTF-8');
 }
@@ -93,8 +88,7 @@ function theatrum_decode_entities($value)
  *
  * @return int[] Ordered list of post IDs (may be empty).
  */
-function theatrum_meta_related_collect_ids($meta_value)
-{
+function theatrum_meta_related_collect_ids($meta_value) {
 	if (empty($meta_value)) {
 		return array();
 	}
@@ -102,7 +96,7 @@ function theatrum_meta_related_collect_ids($meta_value)
 	// A single ACF Post Object array is associative with an 'ID' key — treat as one.
 	if (is_array($meta_value) && isset($meta_value['ID'])) {
 		$meta_value = array($meta_value);
-	} elseif (!is_array($meta_value)) {
+	} elseif ( ! is_array($meta_value)) {
 		// Wrap single scalar / WP_Post so we can iterate uniformly.
 		$meta_value = array($meta_value);
 	}
@@ -129,8 +123,7 @@ function theatrum_meta_related_collect_ids($meta_value)
  *
  * @return mixed Field value (ACF-shaped array, scalar, etc.), or '' if unset.
  */
-function theatrum_get_meta($post_id, $key)
-{
+function theatrum_get_meta($post_id, $key) {
 	$value = function_exists('get_field') ? get_field($key, $post_id) : null;
 	if ($value === null || $value === false || $value === '') {
 		$value = get_post_meta($post_id, $key, true);
@@ -150,9 +143,8 @@ function theatrum_get_meta($post_id, $key)
  * @return string Space-separated "wp-embed-aspect-*  wp-has-aspect-ratio"
  *                classnames, or '' if not applicable.
  */
-function theatrum_embed_aspect_ratio_classnames($width, $height, $allow_responsive = true)
-{
-	if (! $allow_responsive || ! $width || ! $height) {
+function theatrum_embed_aspect_ratio_classnames($width, $height, $allow_responsive = true) {
+	if ( ! $allow_responsive || ! $width || ! $height) {
 		return '';
 	}
 
@@ -192,8 +184,7 @@ function theatrum_embed_aspect_ratio_classnames($width, $height, $allow_responsi
  *
  * @return string
  */
-function theatrum_repeater_resolve_value($value)
-{
+function theatrum_repeater_resolve_value($value) {
 	if (is_null($value) || $value === false || $value === '') {
 		return '';
 	}
@@ -244,8 +235,7 @@ function theatrum_repeater_resolve_value($value)
  *
  * @param string $value Already-resolved (theatrum_repeater_resolve_value()) subfield text.
  */
-function theatrum_repeater_escape_value($value)
-{
+function theatrum_repeater_escape_value($value) {
 	return wp_kses((string) $value, array('br' => array()));
 }
 
@@ -255,8 +245,7 @@ function theatrum_repeater_escape_value($value)
  * @param mixed $value Raw meta value.
  * @return array<int, array{id:int, title:string, url:string, type:string}>
  */
-function theatrum_resolve_post_links($value)
-{
+function theatrum_resolve_post_links($value) {
 	if (is_null($value) || $value === false || $value === '') {
 		return array();
 	}
@@ -264,7 +253,7 @@ function theatrum_resolve_post_links($value)
 	// A single reference array (ACF post-object 'ID', or term array 'term_id') is treated as one item, not iterated.
 	$is_single_ref_array = is_array($value) && (isset($value['ID']) || isset($value['term_id']));
 
-	$items = (is_array($value) && ! $is_single_ref_array) ? $value : array($value);
+	$items    = (is_array($value) && ! $is_single_ref_array) ? $value : array($value);
 	$resolved = array();
 
 	foreach ($items as $item) {
@@ -301,7 +290,7 @@ function theatrum_resolve_post_links($value)
 				'type'  => 'post',
 			);
 		} elseif ($term instanceof WP_Term) {
-			$term_link = get_term_link($term);
+			$term_link  = get_term_link($term);
 			$resolved[] = array(
 				'id'    => $term->term_id,
 				'title' => html_entity_decode($term->name, ENT_QUOTES, 'UTF-8'),
@@ -330,23 +319,21 @@ function theatrum_resolve_post_links($value)
  *
  * @return string
  */
-function theatrum_sanitize_tag($tag, array $allowed, $default)
-{
+function theatrum_sanitize_tag($tag, array $allowed, $default) {
 	return in_array($tag, $allowed, true) ? $tag : $default;
 }
 
 /**
  * Parses a date string in many formats (Unix timestamp, YYYYMMDD, Y-m-d, m/d/Y, text dates, etc.) into a timestamp, caching results.
  */
-function theatrum_parse_flexible_date($date_str)
-{
+function theatrum_parse_flexible_date($date_str) {
 	if (empty($date_str)) {
 		return null;
 	}
 
-	$date_str = trim($date_str);
+	$date_str  = trim($date_str);
 	$cache_key = 'ct_date_' . md5($date_str);
-	$cached = wp_cache_get($cache_key, 'ct_dates');
+	$cached    = wp_cache_get($cache_key, 'ct_dates');
 
 	// Sentinel 'none' marks a cached negative result — storing PHP `null` directly is indistinguishable from a cache miss on some persistent object-cache backends (both read back `false`), which made the negative cache a no-op.
 	if ($cached === 'none') {
@@ -367,7 +354,7 @@ function theatrum_parse_flexible_date($date_str)
 	// Unix timestamp (10-13 digits)
 	if ($len >= 10 && $len <= 13 && ctype_digit($date_str)) {
 		$timestamp = (int) $date_str;
-		$year = (int) wp_date('Y', $timestamp);
+		$year      = (int) wp_date('Y', $timestamp);
 
 		// Validate year is reasonable
 		if ($year >= 1900 && $year <= 2100) {
@@ -380,14 +367,14 @@ function theatrum_parse_flexible_date($date_str)
 
 	// YYYYMMDD format (8 digits, no separators)
 	if ($len === 8 && ctype_digit($date_str)) {
-		$year = (int) substr($date_str, 0, 4);
+		$year  = (int) substr($date_str, 0, 4);
 		$month = (int) substr($date_str, 4, 2);
-		$day = (int) substr($date_str, 6, 2);
+		$day   = (int) substr($date_str, 6, 2);
 
 		if ($year >= 1900 && $year <= 2100 && $month >= 1 && $month <= 12 && $day >= 1 && $day <= 31) {
 			// Get WordPress timezone
 			$tz_string = wp_timezone_string();
-			$tz = new DateTimeZone($tz_string);
+			$tz        = new DateTimeZone($tz_string);
 
 			$dt = DateTime::createFromFormat('Y-m-d', "{$year}-{$month}-{$day}", $tz);
 			if ($dt !== false) {
@@ -414,7 +401,7 @@ function theatrum_parse_flexible_date($date_str)
 	// Get WordPress timezone, with fallback to UTC
 	try {
 		$tz_string = wp_timezone_string();
-		$tz = new DateTimeZone($tz_string);
+		$tz        = new DateTimeZone($tz_string);
 	} catch (Exception $e) {
 		$tz = new DateTimeZone('UTC');
 	}
@@ -444,22 +431,21 @@ function theatrum_parse_flexible_date($date_str)
 /**
  * Parses a time-only string (17:30, 5:30 PM, 14:30:00, etc.) into today's timestamp at that time.
  */
-function theatrum_parse_flexible_time($time_str)
-{
+function theatrum_parse_flexible_time($time_str) {
 	if (empty($time_str)) {
 		return null;
 	}
 
-	$time_str = trim($time_str);
+	$time_str  = trim($time_str);
 	$cache_key = 'ct_time_' . md5($time_str);
-	$cached = wp_cache_get($cache_key, 'ct_times');
+	$cached    = wp_cache_get($cache_key, 'ct_times');
 
 	if ($cached !== false) {
 		return $cached;
 	}
 
 	$tz_string = wp_timezone_string();
-	$tz = new DateTimeZone($tz_string);
+	$tz        = new DateTimeZone($tz_string);
 
 	// Try common time formats
 	$time_formats = array(
@@ -509,8 +495,7 @@ function theatrum_parse_flexible_time($time_str)
  * @return array|null Production object with: ID, title, featured_image, opening, closing
  *                    or null if none found
  */
-function theatrum_get_current_production()
-{
+function theatrum_get_current_production() {
 	// Get current_season from wp_options
 	$current_season = get_option('options_current_season');
 
@@ -553,8 +538,7 @@ function theatrum_get_current_production()
  * @return array List of ['post' => WP_Post, 'opening_ts' => int|false, 'closing_ts' => int|false],
  *               sorted by opening_ts ascending.
  */
-function theatrum_query_season_productions($season)
-{
+function theatrum_query_season_productions($season) {
 	$args = array(
 		'post_type'      => 'production',
 		'posts_per_page' => -1,
@@ -587,9 +571,12 @@ function theatrum_query_season_productions($season)
 		);
 	}
 
-	usort($productions, function ($a, $b) {
+	usort(
+        $productions,
+        function ($a, $b) {
 		return ($a['opening_ts'] ?: 0) <=> ($b['opening_ts'] ?: 0);
-	});
+        }
+    );
 
 	return $productions;
 }
@@ -600,8 +587,7 @@ function theatrum_query_season_productions($season)
  * @return array|null Production object with: ID, title, featured_image, opening, closing
  *                    or null if none found
  */
-function theatrum_get_next_production()
-{
+function theatrum_get_next_production() {
 	// Get current_season from wp_options
 	$current_season = get_option('options_current_season');
 
@@ -611,13 +597,13 @@ function theatrum_get_next_production()
 
 	$current_prod = theatrum_get_current_production();
 
-	if (!$current_prod) {
+	if ( ! $current_prod) {
 		return null;
 	}
 
 	// Get the opening date of current production to find the next one after it.
 	$current_opening = theatrum_parse_flexible_date($current_prod['opening']);
-	$productions      = theatrum_query_season_productions($current_season);
+	$productions     = theatrum_query_season_productions($current_season);
 
 	foreach ($productions as $production) {
 		if ((int) $production['post']->ID === (int) $current_prod['ID']) {
@@ -638,12 +624,11 @@ function theatrum_get_next_production()
  *
  * @return array Production data with: ID, title, featured_image, featured_image_id, opening, closing, slug
  */
-function theatrum_build_production_data($post)
-{
+function theatrum_build_production_data($post) {
 	$opening_str = get_post_meta($post->ID, 'opening', true);
 	$closing_str = get_post_meta($post->ID, 'closing', true);
 
-	$featured_image_id = get_post_thumbnail_id($post->ID);
+	$featured_image_id  = get_post_thumbnail_id($post->ID);
 	$featured_image_url = $featured_image_id ? wp_get_attachment_url($featured_image_id) : null;
 
 	return array(
@@ -666,8 +651,7 @@ function theatrum_build_production_data($post)
  *
  * @return string Formatted date or empty string if invalid
  */
-function theatrum_format_production_date($date, $format = 'M j')
-{
+function theatrum_format_production_date($date, $format = 'M j') {
 	if (empty($date)) {
 		return '';
 	}
@@ -690,8 +674,7 @@ function theatrum_format_production_date($date, $format = 'M j')
  *
  * @return array Modified query vars.
  */
-function theatrum_filter_query_loop_by_term($query, $block)
-{
+function theatrum_filter_query_loop_by_term($query, $block) {
 	if (empty($block->context['termId']) || empty($block->context['taxonomy'])) {
 		return $query;
 	}
@@ -700,7 +683,7 @@ function theatrum_filter_query_loop_by_term($query, $block)
 	$post_type = $query['post_type'] ?? 'post';
 
 	// Only constrain when the taxonomy actually applies to this post type, leaving unrelated term-templates untouched.
-	if (! is_object_in_taxonomy($post_type, $taxonomy)) {
+	if ( ! is_object_in_taxonomy($post_type, $taxonomy)) {
 		return $query;
 	}
 
@@ -727,8 +710,7 @@ add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_term', 
  *
  * @return array Modified query vars.
  */
-function theatrum_filter_query_loop_by_orderby($query)
-{
+function theatrum_filter_query_loop_by_orderby($query) {
 	if (empty($_GET['orderby'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
 		return $query;
 	}
@@ -742,7 +724,7 @@ function theatrum_filter_query_loop_by_orderby($query)
 		'title-desc' => array('orderby' => 'title', 'order' => 'DESC'),
 	);
 
-	if (! isset($map[$value])) {
+	if ( ! isset($map[$value])) {
 		return $query;
 	}
 
@@ -754,9 +736,8 @@ function theatrum_filter_query_loop_by_orderby($query)
 add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_orderby');
 
 // wp_kses_post() has no <iframe>, so it silently stripped every oEmbed; this is post-kses plus the iframe attributes providers actually emit.
-function theatrum_embed_allowed_html()
-{
-	$allowed = wp_kses_allowed_html('post');
+function theatrum_embed_allowed_html() {
+	$allowed           = wp_kses_allowed_html('post');
 	$allowed['iframe'] = array(
 		'src' => true, 'width' => true, 'height' => true, 'title' => true, 'class' => true, 'style' => true,
 		'frameborder' => true, 'allow' => true, 'allowfullscreen' => true, 'loading' => true,

@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -11,7 +11,7 @@ if (! defined('ABSPATH')) {
  * $attributes/$content/$block injected by WordPress.
  */
 
-if (! is_singular(array('page', 'production', 'event'))) {
+if ( ! is_singular(array('page', 'production', 'event'))) {
 	return '';
 }
 
@@ -23,12 +23,14 @@ $nav_label = isset($attributes['navLabel']) && '' !== trim((string) $attributes[
 	? sanitize_text_field($attributes['navLabel'])
 	: __('On this page', 'theatrum-blocks');
 
-$wrapper_attributes = get_block_wrapper_attributes(array(
+$wrapper_attributes = get_block_wrapper_attributes(
+    array(
 	'class'                 => 'theatrum-page-nav',
 	'aria-label'            => $nav_label,
 	'data-content-selector' => $content_selector,
 	// Hidden until view.js confirms there is at least one section to link to.
 	'hidden'                => 'hidden',
-));
+    )
+);
 
 printf('<nav %s></nav>', wp_kses_data($wrapper_attributes));

@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -10,7 +10,7 @@ if (! defined('ABSPATH')) {
 
 $post_id = $block->context['postId'] ?? get_the_ID();
 
-if (! $post_id) {
+if ( ! $post_id) {
   return;
 }
 
@@ -20,12 +20,12 @@ $fallback_text   = isset($attributes['fallbackText']) ? sanitize_text_field($att
 $open_in_new_tab = ! empty($attributes['openInNewTab']);
 $show_icon       = ! empty($attributes['showIcon']);
 
-if (! $key_input) {
+if ( ! $key_input) {
   theatrum_render_meta_empty_marker('div', '', array('class' => 'wp-block-theatrum-meta-file'));
   return;
 }
 
-if (! $link_text) {
+if ( ! $link_text) {
   return;
 }
 
@@ -38,9 +38,9 @@ if ($value === null || $value === false || $value === '') {
 if (empty($value)) {
   if ($fallback_text) {
     printf(
-      '<div %s>%s</div>',
-      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
-      esc_html($fallback_text)
+        '<div %s>%s</div>',
+        wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
+        esc_html($fallback_text)
     );
   } else {
     theatrum_render_meta_empty_marker('div', $key_input, array('class' => 'wp-block-theatrum-meta-file'));
@@ -49,18 +49,18 @@ if (empty($value)) {
 }
 
 // Resolve file data from whatever ACF returns
-$file_url = '';
+$file_url  = '';
 $file_name = '';
 $attach_id = 0;
 
 if (is_array($value)) {
   // ACF file field array format: { ID, url, title, filename, ... }
-  $file_url   = isset($value['url']) ? esc_url($value['url']) : '';
-  $file_name  = isset($value['title']) ? sanitize_text_field($value['title']) : '';
-  $attach_id  = isset($value['ID']) ? intval($value['ID']) : 0;
+  $file_url  = isset($value['url']) ? esc_url($value['url']) : '';
+  $file_name = isset($value['title']) ? sanitize_text_field($value['title']) : '';
+  $attach_id = isset($value['ID']) ? intval($value['ID']) : 0;
 
   // Fallback to filename if title not set
-  if (! $file_name && isset($value['filename'])) {
+  if ( ! $file_name && isset($value['filename'])) {
     $file_name = sanitize_text_field($value['filename']);
   }
 } elseif (is_numeric($value)) {
@@ -70,16 +70,16 @@ if (is_array($value)) {
   $file_name = get_the_title($attach_id);
 } elseif (is_string($value)) {
   // ACF returned a URL string
-  $file_url = esc_url($value);
+  $file_url  = esc_url($value);
   $file_name = basename($file_url);
 }
 
-if (! $file_url) {
+if ( ! $file_url) {
   if ($fallback_text) {
     printf(
-      '<div %s>%s</div>',
-      wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
-      esc_html($fallback_text)
+        '<div %s>%s</div>',
+        wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
+        esc_html($fallback_text)
     );
   } else {
     theatrum_render_meta_empty_marker('div', $key_input, array('class' => 'wp-block-theatrum-meta-file'));
@@ -93,16 +93,16 @@ if ($attach_id) {
   $mime_type = get_post_mime_type($attach_id);
   if ($mime_type) {
     $ext_map = array(
-      'application/pdf'                => 'pdf',
-      'application/msword'             => 'doc',
+      'application/pdf'          => 'pdf',
+      'application/msword'       => 'doc',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-      'application/vnd.ms-excel'       => 'xls',
+      'application/vnd.ms-excel' => 'xls',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
-      'text/plain'                     => 'txt',
-      'image/'                         => 'image',
-      'video/'                         => 'video',
-      'audio/'                         => 'audio',
-      'application/zip'                => 'archive',
+      'text/plain'               => 'txt',
+      'image/'                   => 'image',
+      'video/'                   => 'video',
+      'audio/'                   => 'audio',
+      'application/zip'          => 'archive',
     );
 
     foreach ($ext_map as $mime => $ext) {
@@ -114,7 +114,7 @@ if ($attach_id) {
   }
 } else {
   // Try to detect from filename
-  $ext = strtolower(pathinfo($file_url, PATHINFO_EXTENSION));
+  $ext      = strtolower(pathinfo($file_url, PATHINFO_EXTENSION));
   $file_ext = $ext ?: 'file';
 }
 
@@ -137,20 +137,20 @@ if ($show_icon) {
     'archive' => 'media-archive',
   );
 
-  $icon = isset($icon_map[$file_ext]) ? $icon_map[$file_ext] : 'media-document';
+  $icon      = isset($icon_map[$file_ext]) ? $icon_map[$file_ext] : 'media-document';
   $icon_html = '<span class="dashicon dashicons dashicons-' . esc_attr($icon) . '" style="margin-right: 0.5em; vertical-align: middle;" aria-hidden="true"></span>';
 }
 
 $link_html = sprintf(
-  '<a href="%s" class="wp-block-theatrum-meta-file-link"%s>%s%s</a>',
-  $file_url,
-  $target_attr,
-  $icon_html,
-  esc_html($link_text)
+    '<a href="%s" class="wp-block-theatrum-meta-file-link"%s>%s%s</a>',
+    $file_url,
+    $target_attr,
+    $icon_html,
+    esc_html($link_text)
 );
 
 printf(
-  '<div %s>%s</div>',
-  wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
-  $link_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled above from esc_url()/esc_attr()/esc_html() output.
+    '<div %s>%s</div>',
+    wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
+    $link_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled above from esc_url()/esc_attr()/esc_html() output.
 );

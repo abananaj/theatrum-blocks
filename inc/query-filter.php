@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -22,7 +22,7 @@ function theatrum_find_blocks_by_name(array $blocks, string $name): array {
     if (($block['blockName'] ?? '') === $name) {
       $found[] = $block;
     }
-    if (!empty($block['innerBlocks'])) {
+    if ( ! empty($block['innerBlocks'])) {
       $found = array_merge($found, theatrum_find_blocks_by_name($block['innerBlocks'], $name));
     }
   }
@@ -77,7 +77,7 @@ function theatrum_query_filter_field_name(array $attrs, int $query_id): string {
 function theatrum_apply_query_filter(array $query, array $attrs, int $query_id): array {
   $field_name = theatrum_query_filter_field_name($attrs, $query_id);
 
-  if (!isset($_GET[$field_name])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
+  if ( ! isset($_GET[$field_name])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
     return $query;
   }
 
@@ -111,7 +111,7 @@ function theatrum_apply_query_filter(array $query, array $attrs, int $query_id):
   }
 
   $taxonomy = $attrs['taxonomy'] ?? 'season';
-  if (!taxonomy_exists($taxonomy)) {
+  if ( ! taxonomy_exists($taxonomy)) {
     return $query;
   }
 
@@ -125,21 +125,26 @@ function theatrum_apply_query_filter(array $query, array $attrs, int $query_id):
   return $query;
 }
 
-add_filter('query_loop_block_query_vars', function ($query, $block) {
-  $query_id = absint($block->context['queryId'] ?? 0);
-  if (!$query_id) {
-    return $query;
-  }
-
-  foreach (theatrum_query_filter_blocks_in_current_post() as $filter_block) {
-    $attrs = $filter_block['attrs'] ?? [];
-
-    if (absint($attrs['queryId'] ?? 0) !== $query_id) {
-      continue;
+add_filter(
+    'query_loop_block_query_vars',
+    function ($query, $block) {
+    $query_id = absint($block->context['queryId'] ?? 0);
+    if ( ! $query_id) {
+      return $query;
     }
 
-    $query = theatrum_apply_query_filter($query, $attrs, $query_id);
-  }
+    foreach (theatrum_query_filter_blocks_in_current_post() as $filter_block) {
+      $attrs = $filter_block['attrs'] ?? [];
 
-  return $query;
-}, 10, 2);
+      if (absint($attrs['queryId'] ?? 0) !== $query_id) {
+        continue;
+      }
+
+      $query = theatrum_apply_query_filter($query, $attrs, $query_id);
+    }
+
+    return $query;
+    },
+    10,
+    2
+);

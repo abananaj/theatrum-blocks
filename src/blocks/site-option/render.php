@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -9,24 +9,24 @@ if (! defined('ABSPATH')) {
  * Handles generic options, staff members, and board members
  */
 
-$member_type = isset($attributes['memberType']) ? $attributes['memberType'] : '';
-$option_name = isset($attributes['optionName']) ? $attributes['optionName'] : '';
-$prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
-$prepend_tag = isset($attributes['prependTag']) ? $attributes['prependTag'] : '';
-$append = isset($attributes['append']) ? $attributes['append'] : '';
-$append_tag = isset($attributes['appendTag']) ? $attributes['appendTag'] : '';
-$meta_key = isset($attributes['metaKey']) ? $attributes['metaKey'] : '';
+$member_type     = isset($attributes['memberType']) ? $attributes['memberType'] : '';
+$option_name     = isset($attributes['optionName']) ? $attributes['optionName'] : '';
+$prepend         = isset($attributes['prepend']) ? $attributes['prepend'] : '';
+$prepend_tag     = isset($attributes['prependTag']) ? $attributes['prependTag'] : '';
+$append          = isset($attributes['append']) ? $attributes['append'] : '';
+$append_tag      = isset($attributes['appendTag']) ? $attributes['appendTag'] : '';
+$meta_key        = isset($attributes['metaKey']) ? $attributes['metaKey'] : '';
 $link_post_title = isset($attributes['linkPostTitle']) ? (bool) $attributes['linkPostTitle'] : true;
 
 // Check if this is a staff or board member block — resolved up front so the empty-marker calls below can use the right wrapper class.
-$is_member_type = $member_type === 'staff' || $member_type === 'board';
+$is_member_type     = $member_type === 'staff' || $member_type === 'board';
 $empty_marker_class = $is_member_type
   ? ($member_type === 'board' ? 'wp-block-theatrum-board-member' : 'wp-block-theatrum-staff-member')
   : 'wp-block-theatrum-site-option';
 
 // Wrap prepend/append text in an inline styling tag (em/strong/small) when set.
 $affix_allowed_tags = array('em', 'strong', 'small');
-$wrap_affix = function ($text, $tag) use ($affix_allowed_tags) {
+$wrap_affix         = function ($text, $tag) use ($affix_allowed_tags) {
   if ($text === '') {
     return '';
   }
@@ -35,15 +35,15 @@ $wrap_affix = function ($text, $tag) use ($affix_allowed_tags) {
   }
   return esc_html($text);
 };
-$prepend_html = $wrap_affix($prepend, $prepend_tag);
-$append_html = $wrap_affix($append, $append_tag);
+$prepend_html       = $wrap_affix($prepend, $prepend_tag);
+$append_html        = $wrap_affix($append, $append_tag);
 
-if (!$option_name) {
+if ( ! $option_name) {
   theatrum_render_meta_empty_marker('div', '', array('class' => $empty_marker_class));
   return;
 }
 
-if (!theatrum_is_allowed_settings_option($option_name)) {
+if ( ! theatrum_is_allowed_settings_option($option_name)) {
   return;
 }
 
@@ -112,9 +112,12 @@ if ($is_member_type) {
   // Check if the value is an array of post IDs
   if (is_array($option_value)) {
     // Filter out empty values and non-numeric IDs
-    $post_ids = array_filter($option_value, function ($id) {
-      return is_numeric($id) && !empty($id);
-    });
+    $post_ids = array_filter(
+        $option_value,
+        function ($id) {
+        return is_numeric($id) && ! empty($id);
+        }
+    );
 
     if (empty($post_ids)) {
       theatrum_render_meta_empty_marker('div', $option_name, array('class' => $css_class));
@@ -126,10 +129,10 @@ if ($is_member_type) {
     if (isset($attributes['className'])) {
       $classes[] = $attributes['className'];
     }
-    $class_string = implode(' ', $classes);
+    $class_string  = implode(' ', $classes);
     $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => $class_string)) );
 
-    $html = '<div ' . $wrapper_attrs . '>' . $prepend_html;
+    $html  = '<div ' . $wrapper_attrs . '>' . $prepend_html;
     $html .= '<ul>';
 
     foreach ($post_ids as $post_id) {
@@ -149,7 +152,7 @@ if ($is_member_type) {
         $html .= '<strong>' . esc_html($post_title) . '</strong>';
       }
 
-      if (!empty($post_meta_title)) {
+      if ( ! empty($post_meta_title)) {
         $html .= '<br />';
         $html .= '<em>' . esc_html($post_meta_title) . '</em>';
       }
@@ -178,14 +181,14 @@ if ($is_member_type) {
     }
     $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
 
-    $html = '<div ' . $wrapper_attrs . '>' . $prepend_html;
+    $html  = '<div ' . $wrapper_attrs . '>' . $prepend_html;
     $html .= '<p>';
     if ($post_url) {
       $html .= '<a href="' . esc_url($post_url) . '"><strong>' . esc_html($post_title) . '</strong></a>';
     } else {
       $html .= '<strong>' . esc_html($post_title) . '</strong>';
     }
-    if (!empty($post_meta_title)) {
+    if ( ! empty($post_meta_title)) {
       $html .= '<br />';
       $html .= '<em>' . esc_html($post_meta_title) . '</em>';
     }
@@ -195,7 +198,7 @@ if ($is_member_type) {
     echo $html;
   } else {
     // Single string value
-    if (!$option_value) {
+    if ( ! $option_value) {
       theatrum_render_meta_empty_marker('div', $option_name, array('class' => $css_class));
       return;
     }
@@ -206,7 +209,7 @@ if ($is_member_type) {
     }
     $wrapper_attrs = wp_kses_data( get_block_wrapper_attributes(array('class' => implode(' ', $classes))) );
 
-    $html = '<div ' . $wrapper_attrs . '>' . $prepend_html;
+    $html  = '<div ' . $wrapper_attrs . '>' . $prepend_html;
     $html .= '<p>' . esc_html($option_value) . '</p>';
     $html .= $append_html . '</div>';
     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $html assembled above from wp_kses_data()/esc_html()/esc_url() output.
@@ -245,7 +248,7 @@ if ($has_ref_links) {
     $post_title = $link['title'] !== '' ? $link['title'] : 'Untitled';
 
     // Show the meta value alongside the option value (title); meta only applies to posts, not terms.
-    $meta_value = (!empty($meta_key) && $link['type'] === 'post')
+    $meta_value = ( ! empty($meta_key) && $link['type'] === 'post')
       ? get_post_meta($link['id'], $meta_key, true)
       : '';
 
@@ -255,10 +258,10 @@ if ($has_ref_links) {
     } else {
       $html .= '<span>' . esc_html($post_title) . '</span>';
     }
-    if (!empty($meta_key)) {
+    if ( ! empty($meta_key)) {
       $html .= ',';
     }
-    if (!empty($meta_value) && is_scalar($meta_value)) {
+    if ( ! empty($meta_value) && is_scalar($meta_value)) {
       $html .= ' <span class="site-option-meta">' . $wrap_affix((string) $meta_value, $append_tag) . '</span>';
     }
     $html .= '</p>';
@@ -292,7 +295,7 @@ if (isset($attributes['className'])) {
   $classes[] = $attributes['className'];
 }
 
-$class_string = implode(' ', $classes);
+$class_string  = implode(' ', $classes);
 $wrapper_attrs = get_block_wrapper_attributes(array('class' => $class_string));
 
 $value_html = $href !== ''
@@ -301,10 +304,10 @@ $value_html = $href !== ''
 
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- $prepend_html/$value_html/$append_html assembled from esc_html()/esc_url() output.
 printf(
-  '<div %s><p>%s%s%s</p></div>',
-  wp_kses_data($wrapper_attrs),
-  $prepend_html,
-  $value_html,
-  $append_html
+    '<div %s><p>%s%s%s</p></div>',
+    wp_kses_data($wrapper_attrs),
+    $prepend_html,
+    $value_html,
+    $append_html
 );
 // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
