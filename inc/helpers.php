@@ -484,10 +484,10 @@ function theatrum_parse_flexible_time($time_str)
 
 	// Try datetime formats to extract time from full datetime strings
 	$datetime_formats = array(
-		'Y-m-d H:i:s',   // 2026-01-01 14:30:00 (WordPress default)
-		'Y-m-d H:i',     // 2026-01-01 14:30
-		'Y-m-d h:i:s A', // 2026-01-01 02:30:00 PM
-		'Y-m-d h:i A',   // 2026-01-01 02:30 PM
+		'Y-m-d H:i:s',   // WordPress default, 24-hour with seconds
+		'Y-m-d H:i',     // 24-hour, no seconds
+		'Y-m-d h:i:s A', // 12-hour with seconds
+		'Y-m-d h:i A',   // 12-hour, no seconds
 	);
 
 	foreach ($datetime_formats as $format) {

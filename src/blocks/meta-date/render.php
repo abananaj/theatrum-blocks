@@ -40,7 +40,7 @@ if (isset($block->context['postId']) && !empty($block->context['postId'])) {
 elseif (function_exists('get_the_ID')) {
   $post_id = get_the_ID();
 }
-// 3. Finally, try global $post object
+// 3. Finally, fall back to the global post object
 if (!$post_id) {
   global $post;
   if ($post && isset($post->ID)) {
