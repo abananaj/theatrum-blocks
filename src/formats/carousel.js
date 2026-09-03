@@ -6,6 +6,7 @@
  */
 
 import { resolveTrack } from './resolve-track';
+import { fitArrows } from './fit-arrows';
 
 const CONTENT_SELECTOR = '.theatrum-carousel-content';
 
@@ -46,6 +47,11 @@ export function initCarousel( component ) {
 	}
 
 	const hasControls = nextButton !== null || prevButton !== null;
+
+	fitArrows( component, 'theatrum-arrows-auto-inside', [
+		'theatrum-arrows-inside',
+		'theatrum-arrows-hidden',
+	] );
 
 	let maxScrollWidth = content.scrollWidth - content.clientWidth;
 	let scrollBy = content.clientWidth / 2;

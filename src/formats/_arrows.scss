@@ -22,6 +22,7 @@
 	border: 0;
 	cursor: pointer;
 
+	// Outside by default; formats/fit-arrows.js flips the block to the auto-inside class below when there is no room beyond its edge.
 	&.theatrum-arrow-prev {
 		left: -48px;
 
@@ -66,9 +67,26 @@
 	}
 }
 
-// Native theatrum/carousel only — not part of the is-style-ct-carousel format's contract, so
-// these are scoped under its own modifier classes rather than the base .theatrum-carousel-arrow rules.
-.theatrum-arrows-inside {
+// Below the medium breakpoint (782px, mirrors the theme's $break-medium) the arrows sit over the cards anyway, so give them the inside backdrop and a fixed inset (breakpoint audit B-12).
+@media (max-width: 781px) {
+
+	.theatrum-carousel-arrow {
+		background: var(--ct-arrow-bg, rgba(255, 255, 255, 0.85));
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+		&.theatrum-arrow-prev {
+			left: 8px;
+		}
+
+		&.theatrum-arrow-next {
+			right: 8px;
+		}
+	}
+}
+
+// Authored inside position (native theatrum/carousel's Arrow Position control) and the auto-inside fallback fit-arrows.js applies to any root — same look.
+.theatrum-arrows-inside,
+.theatrum-arrows-auto-inside {
 
 	.theatrum-carousel-arrow {
 		// Inside arrows sit on card images (often dark), so give them an opaque backdrop to stay

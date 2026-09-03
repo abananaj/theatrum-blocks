@@ -6,6 +6,7 @@
  */
 
 import { resolveTrack } from './resolve-track';
+import { fitArrows } from './fit-arrows';
 
 function buildArrow( direction, glyph ) {
 	const button = document.createElement( 'button' );
@@ -24,6 +25,13 @@ function buildArrow( direction, glyph ) {
  *                           the native block, or any `is-style-ct-slider`
  *                           core block).
  */
+function buildPauseButton() {
+	const button = document.createElement( 'button' );
+	button.type = 'button';
+	button.className = 'tm-slider-pause';
+	return button;
+}
+
 export function initSlider( root ) {
 	const track =
 		root.querySelector( '.tm-slider-track' ) ?? resolveTrack( root );
@@ -59,6 +67,11 @@ export function initSlider( root ) {
 		root.append( nextButton );
 	}
 
+	fitArrows( root, 'tm-slider-arrows-auto-inside', [
+		'tm-slider-arrows-inside',
+		'tm-slider-arrows-hidden',
+	] );
+
 	if ( ! dotsContainer ) {
 		dotsContainer = document.createElement( 'div' );
 		dotsContainer.className = 'tm-slider-dots';
@@ -92,6 +105,18 @@ export function initSlider( root ) {
 
 	let currentIndex = 0;
 	let autoplayTimer = null;
+	let paused = false;
+	const autoplaySpeed = parseInt( root.dataset.autoplaySpeed, 10 ) || 5000;
+	const wantsAutoplay = root.dataset.autoplay === 'true' && slides.length > 1;
+	// WCAG 2.3.3: an autoplaying slideshow is motion the user can't control, so it starts paused for reduced-motion users; the toggle lets them opt in.
+	const reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+
+	// WCAG 2.2.2: a visible pause/play control for anything that auto-advances.
+	let pauseButton = root.querySelector( '.tm-slider-pause' );
+	if ( wantsAutoplay && ! pauseButton ) {
+		pauseButton = buildPauseButton();
+		dotsContainer.append( pauseButton );
+	}
 
 	const activate = ( index ) => {
 		currentIndex = ( index + slides.length ) % slides.length;
@@ -104,16 +129,59 @@ export function initSlider( root ) {
 		} );
 	};
 
+	const stopAutoplay = () => {
+		if ( autoplayTimer ) {
+			clearInterval( autoplayTimer );
+			autoplayTimer = null;
+		}
+	};
+
+	const startAutoplay = () => {
+		stopAutoplay();
+		if ( wantsAutoplay && ! paused ) {
+			autoplayTimer = setInterval(
+				() => activate( currentIndex + 1 ),
+				autoplaySpeed
+			);
+		}
+	};
+
+	// Manual navigation resets the timer so the next auto-advance is a full interval away; a no-op while paused.
 	const restartAutoplay = () => {
-		if ( ! autoplayTimer ) {
+		if ( autoplayTimer ) {
+			startAutoplay();
+		}
+	};
+
+	const syncPauseButton = () => {
+		if ( ! pauseButton ) {
 			return;
 		}
-		clearInterval( autoplayTimer );
-		autoplayTimer = setInterval(
-			() => activate( currentIndex + 1 ),
-			parseInt( root.dataset.autoplaySpeed, 10 ) || 5000
+		pauseButton.setAttribute( 'aria-pressed', String( paused ) );
+		pauseButton.setAttribute(
+			'aria-label',
+			paused ? 'Play slideshow' : 'Pause slideshow'
 		);
+		pauseButton.textContent = paused ? '▶' : '❚❚';
 	};
+
+	pauseButton?.addEventListener( 'click', () => {
+		paused = ! paused;
+		if ( paused ) {
+			stopAutoplay();
+		} else {
+			startAutoplay();
+		}
+		syncPauseButton();
+	} );
+
+	// Keyboard users tabbing through the arrows/dots shouldn't have the slide change under them.
+	root.addEventListener( 'focusin', stopAutoplay );
+	root.addEventListener( 'focusout', ( e ) => {
+		if ( ! root.contains( e.relatedTarget ) && ! paused ) {
+			startAutoplay();
+		}
+	} );
 
 	prevButton?.addEventListener( 'click', ( e ) => {
 		e.preventDefault();
@@ -144,10 +212,9 @@ export function initSlider( root ) {
 	root.classList.add( 'is-ready' );
 	activate( 0 );
 
-	if ( root.dataset.autoplay === 'true' && slides.length > 1 ) {
-		autoplayTimer = setInterval(
-			() => activate( currentIndex + 1 ),
-			parseInt( root.dataset.autoplaySpeed, 10 ) || 5000
-		);
+	if ( wantsAutoplay ) {
+		paused = reducedMotion;
+		syncPauseButton();
+		startAutoplay();
 	}
 }

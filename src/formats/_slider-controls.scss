@@ -30,6 +30,7 @@
 	transition: var(--ct-duration-slow-1, 0.3s) var(--ct-ease-standard, ease);
 	user-select: none;
 
+	// Outside by default; formats/fit-arrows.js flips the root to .tm-slider-arrows-auto-inside when there is no room beyond its edge.
 	&.tm-slider-prev {
 		left: -48px;
 	}
@@ -43,11 +44,29 @@
 	}
 }
 
+// Below the medium breakpoint the arrows sit over the slide anyway, so use the inside look and a fixed inset.
+@media (max-width: 781px) {
+
+	.tm-slider-arrow {
+		color: var(--tm-arrow-color, #fff);
+		background-color: var(--tm-arrow-bg, rgba(0, 0, 0, 0.5));
+
+		&.tm-slider-prev {
+			left: 8px;
+		}
+
+		&.tm-slider-next {
+			right: 8px;
+		}
+	}
+}
+
 .tm-slider-arrows-hidden .tm-slider-arrow {
 	display: none;
 }
 
-.tm-slider-arrows-inside .tm-slider-arrow {
+.tm-slider-arrows-inside .tm-slider-arrow,
+.tm-slider-arrows-auto-inside .tm-slider-arrow {
 	// Same --tm-arrow-color/--tm-arrow-bg vars as the base rule above, just with different fallbacks for this position.
 	color: var(--tm-arrow-color, #fff);
 	background-color: var(--tm-arrow-bg, rgba(0, 0, 0, 0.5));
@@ -96,5 +115,34 @@
 		width: var(--tm-arrow-size, 28px);
 		height: var(--tm-arrow-size, 28px);
 		font-size: calc(var(--tm-arrow-size, 28px) * 0.4);
+	}
+}
+
+// Autoplay pause/play toggle (WCAG 2.2.2) — built by slider.js beside the dots, only when autoplay is on.
+.tm-slider-pause {
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	margin: 0 0 0 8px;
+	padding: 0;
+	vertical-align: middle;
+	font-size: 11px;
+	line-height: 1;
+	color: #fff;
+	background-color: #717171;
+	border: 0;
+	border-radius: 50%;
+
+	&:hover,
+	&:focus-visible {
+		background-color: #333;
+	}
+
+	&:focus-visible {
+		outline: 2px solid #333;
+		outline-offset: 2px;
 	}
 }
