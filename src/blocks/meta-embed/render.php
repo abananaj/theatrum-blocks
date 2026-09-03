@@ -41,6 +41,7 @@ if ( ! $post_id) {
 }
 
 // Get the meta value (URL)
+// Raw value on purpose: get_field() would return ACF's formatted output, which is not a bare oEmbed URL.
 $url = get_post_meta($post_id, $key, true);
 
 if (empty($url) || ! is_string($url)) {

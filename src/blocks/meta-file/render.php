@@ -29,11 +29,7 @@ if ( ! $link_text) {
   return;
 }
 
-// Get the raw meta/ACF value
-$value = function_exists('get_field') ? get_field($key_input, $post_id) : null;
-if ($value === null || $value === false || $value === '') {
-  $value = get_post_meta($post_id, $key_input, true);
-}
+$value = theatrum_get_meta($post_id, $key_input);
 
 if (empty($value)) {
   if ($fallback_text) {

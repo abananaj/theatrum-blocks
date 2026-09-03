@@ -35,13 +35,7 @@ if ( ! $source_post_id) {
 }
 
 // Get the meta value (supports ACF get_field returning Post Object or raw ID)
-$meta_value = false;
-if (function_exists('get_field')) {
-  $meta_value = get_field($key_input, $source_post_id);
-}
-if ($meta_value === false || $meta_value === null || $meta_value === '') {
-  $meta_value = get_post_meta($source_post_id, $key_input, true);
-}
+$meta_value = theatrum_get_meta($source_post_id, $key_input);
 
 if (empty($meta_value)) {
   theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => 'wp-block-theatrum-meta-related'));

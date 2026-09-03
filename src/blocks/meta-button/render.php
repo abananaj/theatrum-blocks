@@ -23,6 +23,7 @@ if ( ! $post_id) {
   return;
 }
 
+// Raw value on purpose: get_field() would return ACF's formatted output, which esc_url() cannot take.
 $url = esc_url(get_post_meta($post_id, $key, true));
 
 if (empty($url)) {

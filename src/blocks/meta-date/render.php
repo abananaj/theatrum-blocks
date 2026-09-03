@@ -57,7 +57,7 @@ if ( ! $post_id) {
   return;
 }
 
-// Get the meta value
+// Raw value on purpose: get_field() would return ACF's formatted output, which theatrum_parse_flexible_date() cannot re-parse.
 $value = get_post_meta($post_id, $key, true);
 
 if (empty($value)) {

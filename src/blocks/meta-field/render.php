@@ -42,6 +42,7 @@ if ( ! $key_input) {
 }
 
 // Get post meta value
+// Raw value on purpose: get_field() would return ACF's formatted output, which would defeat this block's own formatting controls.
 $value = get_post_meta($post->ID, $key_input, true);
 
 if ($value === '' || $value === false) {
