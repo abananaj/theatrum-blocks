@@ -46,8 +46,16 @@ if ( ! $key_input) {
 $value = get_post_meta($post->ID, $key_input, true);
 
 if ($value === '' || $value === false) {
-  if ($fallback_to_post_content) {
-    $fallback = apply_filters('the_content', $post->post_content);
+  // Re-entrancy guard: the fallback runs the_content on the post that holds this very block, so an unguarded call recurses until PHP runs out of memory.
+  static $fallback_in_progress = array();
+  $can_fall_back = $fallback_to_post_content
+    && 'wp_block' !== $post->post_type
+    && ! isset($fallback_in_progress[$post->ID]);
+
+  if ($can_fall_back) {
+    $fallback_in_progress[$post->ID] = true;
+    $fallback                        = apply_filters('the_content', $post->post_content);
+    unset($fallback_in_progress[$post->ID]);
     if (trim($fallback) !== '') {
       // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $fallback is the_content filter output (trusted post content).
       printf('<div %s>%s</div>', wp_kses_data($wrapper_attrs), $fallback);
