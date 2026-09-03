@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -9,14 +9,14 @@ if (! defined('ABSPATH')) {
  * $attributes, $content, $block are injected by WordPress.
  */
 
-$key = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
+$key         = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
 $time_format = isset($attributes['timeFormat']) ? sanitize_text_field($attributes['timeFormat']) : 'h:i A';
-$prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
-$append = isset($attributes['append']) ? $attributes['append'] : '';
+$prepend     = isset($attributes['prepend']) ? $attributes['prepend'] : '';
+$append      = isset($attributes['append']) ? $attributes['append'] : '';
 
 // If custom format is selected, use the custom format value
 if ($time_format === 'custom') {
-  $format = isset($attributes['customFormat']) && !empty($attributes['customFormat'])
+  $format = isset($attributes['customFormat']) && ! empty($attributes['customFormat'])
     ? sanitize_text_field($attributes['customFormat'])
     : 'h:i A';
 } else {
@@ -24,24 +24,25 @@ if ($time_format === 'custom') {
 }
 
 $tag = theatrum_sanitize_tag(
-  $attributes['tagName'] ?? 'p',
-  array('p', 'span', 'time', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
-  'p'
+    $attributes['tagName'] ?? 'p',
+    array('p', 'span', 'time', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
+    'p'
 );
 
 // Get post ID from context or current post
 $post_id = isset($block->context['postId']) ? $block->context['postId'] : get_the_ID();
 
-if (! $key) {
+if ( ! $key) {
   theatrum_render_meta_empty_marker($tag, '');
   return;
 }
 
-if (! $post_id) {
+if ( ! $post_id) {
   return;
 }
 
 // Get the meta value
+// Raw value on purpose: get_field() would return ACF's formatted output, which theatrum_parse_flexible_time() cannot re-parse.
 $value = get_post_meta($post_id, $key, true);
 
 if (empty($value)) {
@@ -52,7 +53,7 @@ if (empty($value)) {
 // Parse the time using theatrum_parse_flexible_time to extract timestamp
 $timestamp = theatrum_parse_flexible_time($value);
 
-if (!$timestamp) {
+if ( ! $timestamp) {
   $display_value = esc_html($value);
 } else {
   $display_value = wp_date($format, $timestamp);
@@ -61,8 +62,8 @@ if (!$timestamp) {
 $display_value = $prepend . $display_value . $append;
 
 printf(
-  '<%1$s %2$s>%3$s</%1$s>',
-  tag_escape($tag),
-  wp_kses_data(get_block_wrapper_attributes()),
-  esc_html($display_value)
+    '<%1$s %2$s>%3$s</%1$s>',
+    tag_escape($tag),
+    wp_kses_data(get_block_wrapper_attributes()),
+    esc_html($display_value)
 );

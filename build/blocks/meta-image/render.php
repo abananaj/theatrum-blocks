@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -10,27 +10,23 @@ if (! defined('ABSPATH')) {
  */
 $post_id = $block->context['postId'] ?? get_the_ID();
 
-if (!$post_id) {
+if ( ! $post_id) {
   return;
 }
 
-$key_input  = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
-$image_size = isset($attributes['imageSize']) ? sanitize_key($attributes['imageSize']) : 'full';
-$link_to    = isset($attributes['linkTo']) ? sanitize_text_field($attributes['linkTo']) : 'none';
-$custom_link = isset($attributes['customLink']) ? esc_url($attributes['customLink']) : '';
-$open_new   = !empty($attributes['openInNewTab']);
-$show_caption = !empty($attributes['showCaption']);
+$key_input    = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
+$image_size   = isset($attributes['imageSize']) ? sanitize_key($attributes['imageSize']) : 'full';
+$link_to      = isset($attributes['linkTo']) ? sanitize_text_field($attributes['linkTo']) : 'none';
+$custom_link  = isset($attributes['customLink']) ? esc_url($attributes['customLink']) : '';
+$open_new     = ! empty($attributes['openInNewTab']);
+$show_caption = ! empty($attributes['showCaption']);
 
-if (!$key_input) {
+if ( ! $key_input) {
   theatrum_render_meta_empty_marker('figure', '', array('class' => 'wp-block-theatrum-meta-image'));
   return;
 }
 
-// Get the raw meta/ACF value
-$value = function_exists('get_field') ? get_field($key_input, $post_id) : null;
-if ($value === null || $value === false || $value === '') {
-  $value = get_post_meta($post_id, $key_input, true);
-}
+$value = theatrum_get_meta($post_id, $key_input);
 
 if (empty($value)) {
   theatrum_render_meta_empty_marker('figure', $key_input, array('class' => 'wp-block-theatrum-meta-image'));
@@ -38,19 +34,19 @@ if (empty($value)) {
 }
 
 // Resolve image data from whatever ACF returns
-$img_url    = '';
-$img_alt    = '';
+$img_url     = '';
+$img_alt     = '';
 $img_caption = '';
-$attach_id  = 0;
-$attach_url = '';
+$attach_id   = 0;
+$attach_url  = '';
 
 if (is_array($value)) {
   // ACF array format: { url, alt, caption, id, sizes, ... }
-  $img_url     = isset($value['url'])     ? esc_url($value['url'])           : '';
-  $img_alt     = isset($value['alt'])     ? esc_attr($value['alt'])          : '';
-  $img_caption = isset($value['caption']) ? wp_kses_post($value['caption'])  : '';
-  $attach_id   = isset($value['ID'])      ? intval($value['ID'])             : 0;
-  $attach_url  = isset($value['url'])     ? esc_url($value['url'])           : '';
+  $img_url     = isset($value['url']) ? esc_url($value['url']) : '';
+  $img_alt     = isset($value['alt']) ? esc_attr($value['alt']) : '';
+  $img_caption = isset($value['caption']) ? wp_kses_post($value['caption']) : '';
+  $attach_id   = isset($value['ID']) ? intval($value['ID']) : 0;
+  $attach_url  = isset($value['url']) ? esc_url($value['url']) : '';
 
   // If a specific size was requested and exists in sizes array
   if ($image_size !== 'full' && isset($value['sizes'][$image_size])) {
@@ -59,11 +55,11 @@ if (is_array($value)) {
 } elseif (is_numeric($value)) {
   // ACF returned an attachment ID
   $attach_id = intval($value);
-  $src = wp_get_attachment_image_src($attach_id, $image_size);
+  $src       = wp_get_attachment_image_src($attach_id, $image_size);
   if ($src) {
-    $img_url   = esc_url($src[0]);
-    $img_alt   = esc_attr(get_post_meta($attach_id, '_wp_attachment_image_alt', true));
-    $attach_url = esc_url(wp_get_attachment_url($attach_id));
+    $img_url     = esc_url($src[0]);
+    $img_alt     = esc_attr(get_post_meta($attach_id, '_wp_attachment_image_alt', true));
+    $attach_url  = esc_url(wp_get_attachment_url($attach_id));
     $img_caption = wp_kses_post(wp_get_attachment_caption($attach_id));
   }
 } elseif (is_string($value)) {
@@ -71,13 +67,13 @@ if (is_array($value)) {
   $img_url = esc_url($value);
 }
 
-if (!$img_url) {
+if ( ! $img_url) {
   theatrum_render_meta_empty_marker('figure', $key_input, array('class' => 'wp-block-theatrum-meta-image'));
   return;
 }
 
 // Determine link href
-$link_href = '';
+$link_href   = '';
 $link_target = $open_new ? ' target="_blank" rel="noopener noreferrer"' : '';
 
 if ($link_to === 'media') {
@@ -90,10 +86,10 @@ if ($link_to === 'media') {
 
 // Build img tag
 $img_tag = sprintf(
-  '<img src="%s" alt="%s" class="wp-image-%s" style="max-width:100%%;height:auto;" />',
-  $img_url,
-  $img_alt,
-  $attach_id ? esc_attr($attach_id) : ''
+    '<img src="%s" alt="%s" class="wp-image-%s" style="max-width:100%%;height:auto;" />',
+    $img_url,
+    $img_alt,
+    $attach_id ? esc_attr($attach_id) : ''
 );
 
 // Wrap in link if needed
@@ -108,8 +104,8 @@ if ($show_caption && $img_caption) {
 }
 
 printf(
-  '<figure %s>%s%s</figure>',
-  wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-image']) ),
-  $img_content, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- <img>/<a> assembled above from esc_url()/esc_attr() output.
-  $caption_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- caption is wp_kses_post()'d where built.
+    '<figure %s>%s%s</figure>',
+    wp_kses_data( get_block_wrapper_attributes(['class' => 'wp-block-theatrum-meta-image']) ),
+    $img_content, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- <img>/<a> assembled above from esc_url()/esc_attr() output.
+    $caption_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- caption is wp_kses_post()'d where built.
 );

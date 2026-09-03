@@ -158,7 +158,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 			<InspectorControls>
 				<ToolsPanel
-					label={ __( 'Gallery settings' ) }
+					label={ __( 'Gallery settings', 'theatrum-blocks' ) }
 					panelId="theatrum/meta-gallery"
 					resetAll={ () => {
 						setAttributes( {
@@ -183,18 +183,18 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => metaKey !== '' }
-						label={ __( 'Meta Key' ) }
+						label={ __( 'Meta Key', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () => setAttributes( { metaKey: '' } ) }
 					>
 						<TextControl
-							label={ __( 'Meta Key' ) }
+							label={ __( 'Meta Key', 'theatrum-blocks' ) }
 							value={ metaKey || '' }
 							onChange={ ( value ) =>
 								setAttributes( { metaKey: value.trim() } )
 							}
 							placeholder="e.g., production_gallery"
-							help={ __( 'ACF or post meta field key' ) }
+							help={ __( 'ACF or post meta field key', 'theatrum-blocks' ) }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
@@ -202,14 +202,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => columns !== undefined }
-						label={ __( 'Columns' ) }
+						label={ __( 'Columns', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { columns: undefined } )
 						}
 					>
 						<RangeControl
-							label={ __( 'Columns' ) }
+							label={ __( 'Columns', 'theatrum-blocks' ) }
 							value={ columns || 3 }
 							onChange={ ( value ) =>
 								setAttributes( { columns: value } )
@@ -223,14 +223,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => columnsTablet !== undefined }
-						label={ __( 'Columns (Tablet)' ) }
+						label={ __( 'Columns (Tablet)', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { columnsTablet: undefined } )
 						}
 					>
 						<RangeControl
-							label={ __( 'Columns (Tablet)' ) }
+							label={ __( 'Columns (Tablet)', 'theatrum-blocks' ) }
 							value={ columnsTablet || numColumns }
 							onChange={ ( value ) =>
 								setAttributes( { columnsTablet: value } )
@@ -238,7 +238,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							min={ 1 }
 							max={ 8 }
 							help={ __(
-								'Applies at tablet widths (781px and below). Defaults to the desktop column count.'
+								'Applies at tablet widths (781px and below). Defaults to the desktop column count.', 'theatrum-blocks'
 							) }
 							__nextHasNoMarginBottom
 						/>
@@ -247,14 +247,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => columnsMobile !== undefined }
-						label={ __( 'Columns (Mobile)' ) }
+						label={ __( 'Columns (Mobile)', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { columnsMobile: undefined } )
 						}
 					>
 						<RangeControl
-							label={ __( 'Columns (Mobile)' ) }
+							label={ __( 'Columns (Mobile)', 'theatrum-blocks' ) }
 							value={ columnsMobile || numColumnsTablet }
 							onChange={ ( value ) =>
 								setAttributes( { columnsMobile: value } )
@@ -262,7 +262,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							min={ 1 }
 							max={ 8 }
 							help={ __(
-								'Applies at mobile widths (599px and below). Defaults to the tablet column count.'
+								'Applies at mobile widths (599px and below). Defaults to the tablet column count.', 'theatrum-blocks'
 							) }
 							__nextHasNoMarginBottom
 						/>
@@ -271,14 +271,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => sizeSlug !== 'large' }
-						label={ __( 'Image Size' ) }
+						label={ __( 'Image Size', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { sizeSlug: 'large' } )
 						}
 					>
 						<SelectControl
-							label={ __( 'Image Size' ) }
+							label={ __( 'Image Size', 'theatrum-blocks' ) }
 							value={ sizeSlug || 'large' }
 							onChange={ ( value ) =>
 								setAttributes( { sizeSlug: value } )
@@ -292,7 +292,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						<ToolsPanelItem
 							isShownByDefault
 							hasValue={ () => !! customWidth || !! customHeight }
-							label={ __( 'Custom Resolution' ) }
+							label={ __( 'Custom Resolution', 'theatrum-blocks' ) }
 							panelId="theatrum/meta-gallery"
 							onDeselect={ () =>
 								setAttributes( {
@@ -304,7 +304,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							<Flex>
 								<FlexItem isBlock>
 									<TextControl
-										label={ __( 'Width (px)' ) }
+										label={ __( 'Width (px)', 'theatrum-blocks' ) }
 										type="number"
 										min={ 1 }
 										value={ customWidth || '' }
@@ -320,7 +320,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								</FlexItem>
 								<FlexItem isBlock>
 									<TextControl
-										label={ __( 'Height (px)' ) }
+										label={ __( 'Height (px)', 'theatrum-blocks' ) }
 										type="number"
 										min={ 1 }
 										value={ customHeight || '' }
@@ -337,7 +337,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							</Flex>
 							<p className="components-base-control__help">
 								{ __(
-									'Requests the closest generated image size to these dimensions.'
+									'Requests the closest generated image size to these dimensions.', 'theatrum-blocks'
 								) }
 							</p>
 						</ToolsPanelItem>
@@ -346,12 +346,12 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => linkTo !== 'none' }
-						label={ __( 'Link To' ) }
+						label={ __( 'Link To', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () => setAttributes( { linkTo: 'none' } ) }
 					>
 						<SelectControl
-							label={ __( 'Link Images To' ) }
+							label={ __( 'Link Images To', 'theatrum-blocks' ) }
 							value={ linkTo || 'none' }
 							onChange={ ( value ) =>
 								setAttributes( { linkTo: value } )
@@ -364,14 +364,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => imageCrop !== true }
-						label={ __( 'Image Crop' ) }
+						label={ __( 'Image Crop', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { imageCrop: true } )
 						}
 					>
 						<ToggleControl
-							label={ __( 'Crop images to same height' ) }
+							label={ __( 'Crop images to same height', 'theatrum-blocks' ) }
 							checked={ imageCrop }
 							onChange={ ( value ) =>
 								setAttributes( { imageCrop: value } )
@@ -383,14 +383,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => fixedHeight !== true }
-						label={ __( 'Fixed Height' ) }
+						label={ __( 'Fixed Height', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { fixedHeight: true } )
 						}
 					>
 						<ToggleControl
-							label={ __( 'Fixed height' ) }
+							label={ __( 'Fixed height', 'theatrum-blocks' ) }
 							checked={ fixedHeight }
 							onChange={ ( value ) =>
 								setAttributes( { fixedHeight: value } )
@@ -402,14 +402,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => randomOrder !== false }
-						label={ __( 'Random Order' ) }
+						label={ __( 'Random Order', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { randomOrder: false } )
 						}
 					>
 						<ToggleControl
-							label={ __( 'Random order' ) }
+							label={ __( 'Random order', 'theatrum-blocks' ) }
 							checked={ randomOrder }
 							onChange={ ( value ) =>
 								setAttributes( { randomOrder: value } )
@@ -421,14 +421,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => !! imageLimit }
-						label={ __( 'Limit' ) }
+						label={ __( 'Limit', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { imageLimit: undefined } )
 						}
 					>
 						<TextControl
-							label={ __( 'Limit number of images' ) }
+							label={ __( 'Limit number of images', 'theatrum-blocks' ) }
 							type="number"
 							min={ 1 }
 							value={ imageLimit || '' }
@@ -439,9 +439,9 @@ export default function Edit( { attributes, setAttributes, context } ) {
 										: undefined,
 								} )
 							}
-							placeholder={ __( 'All' ) }
+							placeholder={ __( 'All', 'theatrum-blocks' ) }
 							help={ __(
-								'Maximum number of images to display. Leave empty to show all.'
+								'Maximum number of images to display. Leave empty to show all.', 'theatrum-blocks'
 							) }
 							__nextHasNoMarginBottom
 						/>
@@ -450,14 +450,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => navigationButtonType !== 'icon' }
-						label={ __( 'Navigation Buttons' ) }
+						label={ __( 'Navigation Buttons', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { navigationButtonType: 'icon' } )
 						}
 					>
 						<ToggleGroupControl
-							label={ __( 'Navigation buttons' ) }
+							label={ __( 'Navigation buttons', 'theatrum-blocks' ) }
 							value={ navigationButtonType }
 							onChange={ ( value ) =>
 								setAttributes( { navigationButtonType: value } )
@@ -467,15 +467,15 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						>
 							<ToggleGroupControlOption
 								value="icon"
-								label={ __( 'Icon' ) }
+								label={ __( 'Icon', 'theatrum-blocks' ) }
 							/>
 							<ToggleGroupControlOption
 								value="text"
-								label={ __( 'Text' ) }
+								label={ __( 'Text', 'theatrum-blocks' ) }
 							/>
 							<ToggleGroupControlOption
 								value="both"
-								label={ __( 'Both' ) }
+								label={ __( 'Both', 'theatrum-blocks' ) }
 							/>
 						</ToggleGroupControl>
 					</ToolsPanelItem>
@@ -483,20 +483,20 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => aspectRatio !== 'auto' }
-						label={ __( 'Aspect Ratio' ) }
+						label={ __( 'Aspect Ratio', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { aspectRatio: 'auto' } )
 						}
 					>
 						<SelectControl
-							label={ __( 'Aspect Ratio' ) }
+							label={ __( 'Aspect Ratio', 'theatrum-blocks' ) }
 							value={ aspectRatio || 'auto' }
 							onChange={ ( value ) =>
 								setAttributes( { aspectRatio: value } )
 							}
 							options={ [
-								{ label: __( 'Original' ), value: 'auto' },
+								{ label: __( 'Original', 'theatrum-blocks' ), value: 'auto' },
 								{ label: '1:1', value: '1' },
 								{ label: '3:2', value: '1.5' },
 								{ label: '4:3', value: '1.333' },
@@ -510,14 +510,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<ToolsPanelItem
 						isShownByDefault
 						hasValue={ () => allowResize !== false }
-						label={ __( 'Allow Resize' ) }
+						label={ __( 'Allow Resize', 'theatrum-blocks' ) }
 						panelId="theatrum/meta-gallery"
 						onDeselect={ () =>
 							setAttributes( { allowResize: false } )
 						}
 					>
 						<ToggleControl
-							label={ __( 'Allow resize' ) }
+							label={ __( 'Allow resize', 'theatrum-blocks' ) }
 							checked={ allowResize }
 							onChange={ ( value ) =>
 								setAttributes( { allowResize: value } )
@@ -527,18 +527,18 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 				</ToolsPanel>
 
-				<PanelBody title={ __( 'Fallback' ) } initialOpen={ false }>
+				<PanelBody title={ __( 'Fallback', 'theatrum-blocks' ) } initialOpen={ false }>
 					<TextControl
-						label={ __( 'Fallback Text' ) }
+						label={ __( 'Fallback Text', 'theatrum-blocks' ) }
 						value={ fallbackText || '' }
 						onChange={ ( value ) =>
 							setAttributes( { fallbackText: value } )
 						}
 						placeholder={ __(
-							'Optional text if no images are found'
+							'Optional text if no images are found', 'theatrum-blocks'
 						) }
 						help={ __(
-							'Leave empty to hide the block when no images are found'
+							'Leave empty to hide the block when no images are found', 'theatrum-blocks'
 						) }
 						__nextHasNoMarginBottom
 					/>
@@ -630,7 +630,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 				{ ! isLoading && images.length === 0 && ! metaKey && (
 					<div style={ { color: '#999', fontStyle: 'italic' } }>
-						{ __( 'Enter a meta key to display images' ) }
+						{ __( 'Enter a meta key to display images', 'theatrum-blocks' ) }
 					</div>
 				) }
 			</figure>

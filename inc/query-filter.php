@@ -115,6 +115,7 @@ function theatrum_apply_query_filter(array $query, array $attrs, int $query_id):
     return $query;
   }
 
+  // phpcs:ignore WordPress.DB.SlowDBQuery -- the query-filter block's whole purpose; the term set is one taxonomy.
   $query['tax_query']   = $query['tax_query'] ?? [];
   $query['tax_query'][] = [
     'taxonomy' => $taxonomy,

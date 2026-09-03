@@ -542,6 +542,7 @@ function theatrum_query_season_productions($season) {
 	$args = array(
 		'post_type'      => 'production',
 		'posts_per_page' => -1,
+		// phpcs:ignore WordPress.DB.SlowDBQuery -- bounded to a single season or production, and cached by the caller.
 		'tax_query'      => array(
 			array(
 				'taxonomy' => 'series',
@@ -688,6 +689,7 @@ function theatrum_filter_query_loop_by_term($query, $block) {
 	}
 
 	if (empty($query['tax_query']) || ! is_array($query['tax_query'])) {
+		// phpcs:ignore WordPress.DB.SlowDBQuery -- bounded to a single season or production, and cached by the caller.
 		$query['tax_query'] = array();
 	}
 

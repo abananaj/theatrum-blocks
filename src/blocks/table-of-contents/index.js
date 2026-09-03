@@ -23,47 +23,47 @@ const settings = {
 				name: 'core/heading',
 				attributes: {
 					level: 2,
-					content: __( 'Heading' ),
+					content: __( 'Heading', 'theatrum-blocks' ),
 				},
 			},
 			{
 				name: 'core/heading',
 				attributes: {
 					level: 3,
-					content: __( 'Subheading' ),
+					content: __( 'Subheading', 'theatrum-blocks' ),
 				},
 			},
 			{
 				name: 'core/heading',
 				attributes: {
 					level: 2,
-					content: __( 'Heading' ),
+					content: __( 'Heading', 'theatrum-blocks' ),
 				},
 			},
 			{
 				name: 'core/heading',
 				attributes: {
 					level: 3,
-					content: __( 'Subheading' ),
+					content: __( 'Subheading', 'theatrum-blocks' ),
 				},
 			},
 		],
 		attributes: {
 			headings: [
 				{
-					content: __( 'Heading' ),
+					content: __( 'Heading', 'theatrum-blocks' ),
 					level: 2,
 				},
 				{
-					content: __( 'Subheading' ),
+					content: __( 'Subheading', 'theatrum-blocks' ),
 					level: 3,
 				},
 				{
-					content: __( 'Heading' ),
+					content: __( 'Heading', 'theatrum-blocks' ),
 					level: 2,
 				},
 				{
-					content: __( 'Subheading' ),
+					content: __( 'Subheading', 'theatrum-blocks' ),
 					level: 3,
 				},
 			],

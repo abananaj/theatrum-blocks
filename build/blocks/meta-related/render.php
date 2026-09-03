@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -9,20 +9,20 @@ if (! defined('ABSPATH')) {
  * Reads a meta field holding one or more post IDs (or ACF Post Objects) and displays each related post's title, optionally linked.
  */
 
-$key_input   = isset($attributes['keyInput'])  ? sanitize_text_field($attributes['keyInput'])  : '';
-$tag_name    = isset($attributes['tagName'])   ? sanitize_text_field($attributes['tagName'])   : 'p';
-$link_to_post = !empty($attributes['linkToPost']);
-$prepend     = isset($attributes['prepend'])   ? $attributes['prepend']                        : '';
-$append      = isset($attributes['append'])    ? $attributes['append']                         : '';
-$separator   = isset($attributes['separator']) ? $attributes['separator']                      : ', ';
+$key_input    = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
+$tag_name     = isset($attributes['tagName']) ? sanitize_text_field($attributes['tagName']) : 'p';
+$link_to_post = ! empty($attributes['linkToPost']);
+$prepend      = isset($attributes['prepend']) ? $attributes['prepend'] : '';
+$append       = isset($attributes['append']) ? $attributes['append'] : '';
+$separator    = isset($attributes['separator']) ? $attributes['separator'] : ', ';
 
 // Validate tag name up front so it's available to the empty-marker calls below too.
 $allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6');
-if (!in_array($tag_name, $allowed_tags, true)) {
+if ( ! in_array($tag_name, $allowed_tags, true)) {
   $tag_name = 'p';
 }
 
-if (!$key_input) {
+if ( ! $key_input) {
   theatrum_render_meta_empty_marker($tag_name, '', array('class' => 'wp-block-theatrum-meta-related'));
   return;
 }
@@ -30,18 +30,12 @@ if (!$key_input) {
 // Determine the source post ID — from Query Loop context or current post
 $source_post_id = isset($block->context['postId']) ? intval($block->context['postId']) : get_the_ID();
 
-if (!$source_post_id) {
+if ( ! $source_post_id) {
   return;
 }
 
 // Get the meta value (supports ACF get_field returning Post Object or raw ID)
-$meta_value = false;
-if (function_exists('get_field')) {
-  $meta_value = get_field($key_input, $source_post_id);
-}
-if ($meta_value === false || $meta_value === null || $meta_value === '') {
-  $meta_value = get_post_meta($source_post_id, $key_input, true);
-}
+$meta_value = theatrum_get_meta($source_post_id, $key_input);
 
 if (empty($meta_value)) {
   theatrum_render_meta_empty_marker($tag_name, $key_input, array('class' => 'wp-block-theatrum-meta-related'));
@@ -60,7 +54,7 @@ if (empty($related_post_ids)) {
 $items = array();
 foreach ($related_post_ids as $related_post_id) {
   $related_post = get_post($related_post_id);
-  if (!$related_post) {
+  if ( ! $related_post) {
     continue;
   }
 

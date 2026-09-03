@@ -16,9 +16,9 @@ import { useEffect, useRef } from '@wordpress/element';
 export function DevModeToggle( { isDevMode, onChange } ) {
 	return (
 		<ToggleControl
-			label={ __( 'Dev Mode' ) }
+			label={ __( 'Dev Mode', 'theatrum-blocks' ) }
 			help={ __(
-				'Show block name and class names in the top-left corner of the block for development.'
+				'Show block name and class names in the top-left corner of the block for development.', 'theatrum-blocks'
 			) }
 			checked={ isDevMode }
 			onChange={ onChange }

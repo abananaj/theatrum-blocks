@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -9,14 +9,14 @@ if (! defined('ABSPATH')) {
  * $attributes, $content, $block are injected by WordPress.
  */
 
-$key = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
+$key         = isset($attributes['keyInput']) ? sanitize_text_field($attributes['keyInput']) : '';
 $date_format = isset($attributes['dateFormat']) ? sanitize_text_field($attributes['dateFormat']) : 'Y-m-d';
-$prepend = isset($attributes['prepend']) ? $attributes['prepend'] : '';
-$append = isset($attributes['append']) ? $attributes['append'] : '';
+$prepend     = isset($attributes['prepend']) ? $attributes['prepend'] : '';
+$append      = isset($attributes['append']) ? $attributes['append'] : '';
 
 // If custom format is selected, use the custom format value
 if ($date_format === 'custom') {
-  $format = isset($attributes['customFormat']) && !empty($attributes['customFormat'])
+  $format = isset($attributes['customFormat']) && ! empty($attributes['customFormat'])
     ? sanitize_text_field($attributes['customFormat'])
     : 'Y-m-d';
 } else {
@@ -24,16 +24,16 @@ if ($date_format === 'custom') {
 }
 
 $tag = theatrum_sanitize_tag(
-  $attributes['tagName'] ?? 'p',
-  array('p', 'span', 'time', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
-  'p'
+    $attributes['tagName'] ?? 'p',
+    array('p', 'span', 'time', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
+    'p'
 );
 
 // Get post ID - try multiple sources for template compatibility
 $post_id = 0;
 
 // 1. First try block context (Query Loop, etc.)
-if (isset($block->context['postId']) && !empty($block->context['postId'])) {
+if (isset($block->context['postId']) && ! empty($block->context['postId'])) {
   $post_id = $block->context['postId'];
 }
 // 2. Then try current post in loop
@@ -41,23 +41,23 @@ elseif (function_exists('get_the_ID')) {
   $post_id = get_the_ID();
 }
 // 3. Finally, fall back to the global post object
-if (!$post_id) {
+if ( ! $post_id) {
   global $post;
   if ($post && isset($post->ID)) {
     $post_id = $post->ID;
   }
 }
 
-if (! $key) {
+if ( ! $key) {
   theatrum_render_meta_empty_marker($tag, '');
   return;
 }
 
-if (! $post_id) {
+if ( ! $post_id) {
   return;
 }
 
-// Get the meta value
+// Raw value on purpose: get_field() would return ACF's formatted output, which theatrum_parse_flexible_date() cannot re-parse.
 $value = get_post_meta($post_id, $key, true);
 
 if (empty($value)) {
@@ -85,11 +85,11 @@ if (strlen($date_only_value) > 10) {
 $timestamp = theatrum_parse_flexible_date($date_only_value);
 
 // Last resort: try strtotime
-if (!$timestamp) {
+if ( ! $timestamp) {
   $timestamp = strtotime($date_only_value);
 }
 
-if (!$timestamp) {
+if ( ! $timestamp) {
   $display_value = esc_html($date_only_value);
 } else {
   $display_value = wp_date($format, $timestamp);
@@ -98,8 +98,8 @@ if (!$timestamp) {
 $display_value = $prepend . $display_value . $append;
 
 printf(
-  '<%1$s %2$s>%3$s</%1$s>',
-  tag_escape($tag),
-  wp_kses_data(get_block_wrapper_attributes()),
-  esc_html($display_value)
+    '<%1$s %2$s>%3$s</%1$s>',
+    tag_escape($tag),
+    wp_kses_data(get_block_wrapper_attributes()),
+    esc_html($display_value)
 );

@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -11,37 +11,38 @@ if (! defined('ABSPATH')) {
 
 $post_id = $block->context['postId'] ?? 0;
 
-if (!$post_id) {
+if ( ! $post_id) {
   return;
 }
 
 $post = get_post($post_id);
 
-if (!$post) {
+if ( ! $post) {
   return;
 }
 
 $key_input = $attributes['keyInput'] ?? '';
 $tag_name  = theatrum_sanitize_tag(
-  $attributes['tagName'] ?? 'span',
-  array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'),
-  'span'
+    $attributes['tagName'] ?? 'span',
+    array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'),
+    'span'
 );
 $href      = $attributes['href'] ?? '';
 $prepend   = $attributes['prepend'] ?? '';
 $append    = $attributes['append'] ?? '';
-$is_html   = !empty($attributes['isHtml']);
+$is_html   = ! empty($attributes['isHtml']);
 
-$wrapper_class = 'wp-block-theatrum-post-meta-field' . ($is_html ? ' is-html' : '');
-$wrapper_attrs = get_block_wrapper_attributes(array('class' => $wrapper_class));
-$fallback_to_post_content = !empty($attributes['fallbackToPostContent']);
+$wrapper_class            = 'wp-block-theatrum-post-meta-field' . ($is_html ? ' is-html' : '');
+$wrapper_attrs            = get_block_wrapper_attributes(array('class' => $wrapper_class));
+$fallback_to_post_content = ! empty($attributes['fallbackToPostContent']);
 
-if (!$key_input) {
+if ( ! $key_input) {
   theatrum_render_meta_empty_marker($tag_name, '', array('class' => $wrapper_class));
   return;
 }
 
 // Get post meta value
+// Raw value on purpose: get_field() would return ACF's formatted output, which would defeat this block's own formatting controls.
 $value = get_post_meta($post->ID, $key_input, true);
 
 if ($value === '' || $value === false) {
@@ -66,42 +67,42 @@ if (is_array($value) || is_object($value)) {
     $spans[] = '<span>' . esc_html($item) . '</span>';
   }
 
-  printf(
+printf(
     '<div %s>%s%s%s</div>',
     wp_kses_data($wrapper_attrs),
     esc_html($prepend),
     implode('', $spans), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each $spans entry is esc_html()'d where built.
     esc_html($append)
-  );
+);
   return;
 }
 
 // WYSIWYG fields (e.g. ACF `widget_content`) store raw TinyMCE output (blank-line-separated, no <p> tags) — run wpautop() here like core's the_content, or paragraphs collapse into one clump.
 // Tag/href/prepend/append don't apply to block-level HTML, so they're skipped in this mode.
 if ($is_html) {
-  printf(
+printf(
     '<div %s>%s</div>',
     wp_kses_data($wrapper_attrs),
     wp_kses_post(wpautop((string) $value))
-  );
+);
   return;
 }
 
 $value = $prepend . (string) $value . $append;
 
 if ($tag_name === 'a') {
-  printf(
+printf(
     '<div %s><a href="%s">%s</a></div>',
     wp_kses_data($wrapper_attrs),
     esc_url($href),
     esc_html($value)
-  );
+);
 } else {
-  printf(
+printf(
     '<div %s><%s>%s</%s></div>',
     wp_kses_data($wrapper_attrs),
     tag_escape($tag_name),
     esc_html($value),
     tag_escape($tag_name)
-  );
+);
 }

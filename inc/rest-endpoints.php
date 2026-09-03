@@ -577,6 +577,7 @@ function theatrum_register_site_option_rest_endpoint() {
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_site_option_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		// phpcs:ignore WordPress.DB.SlowDBQuery -- editor-only REST route, bounded by the requested post type.
 		'args'                => array('option_name' => theatrum_rest_key_arg(), 'meta_key' => theatrum_rest_key_arg(false)),
         )
     );
@@ -684,6 +685,7 @@ function theatrum_register_term_meta_field_rest_endpoint() {
 			'methods'             => 'GET',
 			'callback'            => 'theatrum_get_term_meta_field_rest_callback',
 			'permission_callback' => 'theatrum_editor_permission_check',
+			// phpcs:ignore WordPress.DB.SlowDBQuery -- editor-only REST route, bounded by the requested post type.
 			'args'                => array('term_id' => theatrum_rest_int_arg(), 'meta_key' => theatrum_rest_key_arg()),
 		)
 	);
@@ -869,6 +871,7 @@ function theatrum_register_season_producer_rest_endpoint() {
 			'post_id'  => array('validate_callback' => function ($param) {
 				return is_numeric($param);
 			}),
+			// phpcs:ignore WordPress.DB.SlowDBQuery -- editor-only REST route, bounded by the requested post type.
 			'meta_key' => array('sanitize_callback' => 'sanitize_key'),
 		),
         )

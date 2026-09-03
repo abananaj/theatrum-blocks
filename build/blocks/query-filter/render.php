@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -12,14 +12,14 @@ if (! defined('ABSPATH')) {
  * @param WP_Block $block      Block instance.
  */
 
-$query_id     = absint($attributes['queryId'] ?? 0);
-$filter_type  = $attributes['filterType'] ?? 'taxonomy';
-$taxonomy     = $attributes['taxonomy'] ?? 'season';
-$param_name   = $attributes['paramName'] ?? 'season';
-$label        = $attributes['label'] ?? 'Season';
-$show_label   = (bool) ($attributes['showLabel'] ?? true);
-$all_label    = $attributes['allLabel'] ?? 'All';
-$layout       = $attributes['layout'] ?? 'horizontal';
+$query_id    = absint($attributes['queryId'] ?? 0);
+$filter_type = $attributes['filterType'] ?? 'taxonomy';
+$taxonomy    = $attributes['taxonomy'] ?? 'season';
+$param_name  = $attributes['paramName'] ?? 'season';
+$label       = $attributes['label'] ?? 'Season';
+$show_label  = (bool) ($attributes['showLabel'] ?? true);
+$all_label   = $attributes['allLabel'] ?? 'All';
+$layout      = $attributes['layout'] ?? 'horizontal';
 
 // GET params are namespaced by queryId (`season-q23`) so multiple Query Loop + filter pairs can
 // coexist without URL collisions; theatrum_apply_query_filter() in inc/query-filter.php reads this
@@ -37,12 +37,14 @@ $action_url = strtok(isset($_SERVER['REQUEST_URI']) ? esc_url_raw(wp_unslash($_S
 // Build terms list for taxonomy filters.
 $terms = [];
 if ('taxonomy' === $filter_type) {
-  $terms = get_terms([
+$terms = get_terms(
+    [
     'taxonomy'   => $taxonomy,
     'hide_empty' => true,
     'orderby'    => 'name',
     'order'      => 'ASC',
-  ]);
+    ]
+);
 
   if (is_wp_error($terms) || empty($terms)) {
     return;
@@ -55,7 +57,7 @@ $preserved_params = [];
 $skip_params      = ['paged', 'page', $field_name, $param_name, 'orderby'];
 foreach ($_GET as $key => $value) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter/sort read from GET; no state change, value sanitized + unslashed.
   $key = sanitize_key($key);
-  if (in_array($key, $skip_params, true) || !is_string($value)) {
+  if (in_array($key, $skip_params, true) || ! is_string($value)) {
     continue;
   }
   $preserved_params[$key] = sanitize_text_field(wp_unslash($value));
@@ -65,10 +67,12 @@ foreach ($_GET as $key => $value) { // phpcs:ignore WordPress.Security.NonceVeri
 // given), so handing it the already-namespaced $field_name scopes client-side updates too.
 $context = wp_interactivity_data_wp_context(['paramName' => $field_name]);
 
-$wrapper_attributes = get_block_wrapper_attributes([
-  'class'                => 'query-filter query-filter--' . esc_attr($layout),
-  'data-wp-interactive' => 'theatrum/query-filter',
-]);
+$wrapper_attributes = get_block_wrapper_attributes(
+    [
+    'class'               => 'query-filter query-filter--' . esc_attr($layout),
+    'data-wp-interactive' => 'theatrum/query-filter',
+    ]
+);
 ?>
 
 <div <?php echo wp_kses_data($wrapper_attributes); ?> <?php echo $context; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output of wp_interactivity_data_wp_context() (already an escaped attribute string). ?>>

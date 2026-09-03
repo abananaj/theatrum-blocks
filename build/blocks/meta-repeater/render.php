@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	exit;
 }
 
@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) {
  * $attributes, $content, $block are injected by WordPress.
  */
 
-$repeater_key   = isset($attributes['repeaterKey']) ? sanitize_text_field($attributes['repeaterKey']) : '';
+$repeater_key = isset($attributes['repeaterKey']) ? sanitize_text_field($attributes['repeaterKey']) : '';
 $subfield_a   = isset($attributes['subfieldA']) ? sanitize_text_field($attributes['subfieldA']) : '';
 $subfield_b   = isset($attributes['subfieldB']) ? sanitize_text_field($attributes['subfieldB']) : '';
 $tag_a        = isset($attributes['tagA']) ? sanitize_text_field($attributes['tagA']) : 'span';
@@ -18,7 +18,7 @@ $row_style    = isset($attributes['tagName']) ? sanitize_text_field($attributes[
 
 // tagName drives both the block wrapper and row tag together — they're structurally paired (<li> only valid inside <ul>/<ol>; <p> rows need a <div> wrapper).
 // Resolved up front so the empty-marker calls below use the right wrapper tag.
-if (! in_array($row_style, array('ul', 'ol', 'p'), true)) {
+if ( ! in_array($row_style, array('ul', 'ol', 'p'), true)) {
   $row_style = 'p';
 }
 
@@ -37,17 +37,17 @@ $override_post_id = ! empty($attributes['overridePostId']) ? absint($attributes[
 $context_post_id  = isset($block->context['postId']) ? absint($block->context['postId']) : get_the_ID();
 $post_id          = $override_post_id ?: $context_post_id;
 
-if (! $repeater_key) {
+if ( ! $repeater_key) {
   theatrum_render_meta_empty_marker($wrapper_tag, '');
   return;
 }
 
-if (! $post_id) {
+if ( ! $post_id) {
   return;
 }
 
 // Get the repeater field (ACF)
-if (! function_exists('get_field')) {
+if ( ! function_exists('get_field')) {
   return;
 }
 
@@ -66,10 +66,10 @@ if (empty($subfield_a) && empty($subfield_b)) {
 
 // Validate subfield tags
 $allowed_tags = array('span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6');
-if (! in_array($tag_a, $allowed_tags, true)) {
+if ( ! in_array($tag_a, $allowed_tags, true)) {
   $tag_a = 'span';
 }
-if (! in_array($tag_b, $allowed_tags, true)) {
+if ( ! in_array($tag_b, $allowed_tags, true)) {
   $tag_b = 'span';
 }
 
@@ -78,7 +78,7 @@ printf('<div %s>', wp_kses_data( get_block_wrapper_attributes() ));
 printf('<%s class="repeater-rows">', tag_escape($wrapper_tag));
 
 foreach ($rows as $row) {
-  if (! is_array($row)) {
+  if ( ! is_array($row)) {
     continue;
   }
 
@@ -87,32 +87,32 @@ foreach ($rows as $row) {
   $printed_a = false;
 
   // Display Subfield A
-  if (! empty($subfield_a) && array_key_exists($subfield_a, $row)) {
+  if ( ! empty($subfield_a) && array_key_exists($subfield_a, $row)) {
     $display_a = theatrum_repeater_resolve_value($row[$subfield_a]);
     if ($display_a !== '') {
-      printf(
+    printf(
         '<%s class="repeater-subfield-a">%s</%s>',
         tag_escape($tag_a),
         theatrum_repeater_escape_value($display_a), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theatrum_repeater_escape_value() is a wp_kses() wrapper (allows <br> only).
         tag_escape($tag_a)
-      );
+    );
       $printed_a = true;
     }
   }
 
   // Display Subfield B
-  if (! empty($subfield_b) && array_key_exists($subfield_b, $row)) {
+  if ( ! empty($subfield_b) && array_key_exists($subfield_b, $row)) {
     $display_b = theatrum_repeater_resolve_value($row[$subfield_b]);
     if ($display_b !== '') {
       if ($printed_a) {
         echo ' ';
       }
-      printf(
+    printf(
         '<%s class="repeater-subfield-b">%s</%s>',
         tag_escape($tag_b),
         theatrum_repeater_escape_value($display_b), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theatrum_repeater_escape_value() is a wp_kses() wrapper (allows <br> only).
         tag_escape($tag_b)
-      );
+    );
     }
   }
 
