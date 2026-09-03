@@ -138,7 +138,7 @@ if ($show_icon) {
   );
 
   $icon = isset($icon_map[$file_ext]) ? $icon_map[$file_ext] : 'media-document';
-  $icon_html = '<span class="dashicon dashicons dashicons-' . esc_attr($icon) . '" style="margin-right: 0.5em; vertical-align: middle;"></span>';
+  $icon_html = '<span class="dashicon dashicons dashicons-' . esc_attr($icon) . '" style="margin-right: 0.5em; vertical-align: middle;" aria-hidden="true"></span>';
 }
 
 $link_html = sprintf(

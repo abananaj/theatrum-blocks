@@ -45,6 +45,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			item.addEventListener( 'mouseenter', () =>
 				updateThumbnail( index )
 			);
+			// Keyboard parity: focusing a link inside the item swaps the thumbnail too.
+			item.addEventListener( 'focusin', () => updateThumbnail( index ) );
 		} );
 
 		// Show the first item on load.

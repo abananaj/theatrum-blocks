@@ -77,11 +77,11 @@ ob_start();
 ?>
 <div <?php echo wp_kses_data($wrapper_attributes); ?>>
   <div class="theatrum-carousel-wrapper"<?php echo $arrow_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute string; the arrow color/size values are esc_attr()'d where $arrow_style is built. ?>>
-    <button class="theatrum-carousel-arrow disabled theatrum-arrow-prev" aria-label="Previous"></button>
+    <button class="theatrum-carousel-arrow disabled theatrum-arrow-prev" aria-label="<?php esc_attr_e('Previous', 'theatrum-blocks'); ?>" aria-disabled="true"></button>
     <ul class="theatrum-carousel-content" <?php echo $content_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute string; the card-width/gap values are esc_attr()'d where $content_style is built. ?>>
       <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- InnerBlocks output, already rendered/sanitized by the block pipeline. ?>
     </ul>
-    <button class="theatrum-carousel-arrow theatrum-arrow-next" aria-label="Next"></button>
+    <button class="theatrum-carousel-arrow theatrum-arrow-next" aria-label="<?php esc_attr_e('Next', 'theatrum-blocks'); ?>"></button>
   </div>
 </div>
 <?php

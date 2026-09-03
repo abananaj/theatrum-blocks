@@ -7,6 +7,7 @@
  */
 window.addEventListener( 'load', () => {
 	const groups = document.querySelectorAll( '.ct-tabs' );
+	let tabIdSeed = 0;
 
 	for ( const group of groups ) {
 		const items = Array.from(
@@ -23,6 +24,7 @@ window.addEventListener( 'load', () => {
 		if ( ! parts.length ) {
 			continue;
 		}
+		tabIdSeed += 1;
 
 		const activate = ( index ) => {
 			parts.forEach( ( part, i ) => {
@@ -37,6 +39,15 @@ window.addEventListener( 'load', () => {
 		};
 
 		parts.forEach( ( part, i ) => {
+			// Header ↔ panel wiring so AT can announce what each toggle controls.
+			if ( ! part.panel.id ) {
+				part.panel.id = `ct-tab-panel-${ tabIdSeed }-${ i }`;
+			}
+			if ( ! part.header.id ) {
+				part.header.id = `ct-tab-header-${ tabIdSeed }-${ i }`;
+			}
+			part.header.setAttribute( 'aria-controls', part.panel.id );
+			part.panel.setAttribute( 'aria-labelledby', part.header.id );
 			part.header.setAttribute( 'aria-expanded', 'false' );
 			part.header.addEventListener( 'click', () => activate( i ) );
 

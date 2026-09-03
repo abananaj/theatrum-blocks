@@ -5,6 +5,7 @@
  * arrows itself when missing (every core block, and theatrum/carousel before render.php added them).
  */
 
+import { __ } from '@wordpress/i18n';
 import { resolveTrack } from './resolve-track';
 import { fitArrows } from './fit-arrows';
 
@@ -16,7 +17,9 @@ function buildArrow( direction ) {
 	button.className = `theatrum-carousel-arrow theatrum-arrow-${ direction }`;
 	button.setAttribute(
 		'aria-label',
-		direction === 'prev' ? 'Previous' : 'Next'
+		direction === 'prev'
+			? __( 'Previous', 'theatrum-blocks' )
+			: __( 'Next', 'theatrum-blocks' )
 	);
 	if ( direction === 'prev' ) {
 		button.classList.add( 'disabled' );
@@ -65,12 +68,18 @@ export function initCarousel( component ) {
 		toggleArrows();
 	};
 
+	// aria-disabled (not the disabled attribute) so the arrow stays focusable and announces its state.
+	const setArrowState = ( button, isDisabled ) => {
+		if ( ! button ) {
+			return;
+		}
+		button.classList.toggle( 'disabled', isDisabled );
+		button.setAttribute( 'aria-disabled', String( isDisabled ) );
+	};
+
 	const toggleArrows = () => {
-		nextButton?.classList.toggle(
-			'disabled',
-			content.scrollLeft >= maxScrollWidth - 10
-		);
-		prevButton?.classList.toggle( 'disabled', content.scrollLeft <= 10 );
+		setArrowState( nextButton, content.scrollLeft >= maxScrollWidth - 10 );
+		setArrowState( prevButton, content.scrollLeft <= 10 );
 	};
 
 	remeasure();

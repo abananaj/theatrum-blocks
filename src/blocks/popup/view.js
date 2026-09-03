@@ -6,6 +6,23 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	// Count of currently-open popups, so closing one doesn't clear the body scroll lock while another is still open.
 	let openCount = 0;
 
+	// Everything outside the popup portals is made inert while a dialog is open (aria-modal alone doesn't stop keyboard/AT reaching it); restored when the last one closes.
+	const inertedByPopup = new Set();
+	const setPageInert = ( on ) => {
+		if ( on ) {
+			for ( const child of document.body.children ) {
+				if ( child.classList.contains( 'popup-portal' ) || child.hasAttribute( 'inert' ) ) {
+					continue;
+				}
+				child.setAttribute( 'inert', '' );
+				inertedByPopup.add( child );
+			}
+		} else {
+			inertedByPopup.forEach( ( el ) => el.removeAttribute( 'inert' ) );
+			inertedByPopup.clear();
+		}
+	};
+
 	// Pass A: find every popup, portal its dialog/backdrop to <body>, and register it by id.
 	document
 		.querySelectorAll( '.wp-block-theatrum-popup' )
@@ -179,6 +196,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		openCount += 1;
 		if ( openCount === 1 ) {
 			document.body.style.overflow = 'hidden';
+			setPageInert( true );
 		}
 
 		// Trigger CSS enter animation (double rAF ensures paint before transition)
@@ -228,6 +246,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			openCount = Math.max( 0, openCount - 1 );
 			if ( openCount === 0 ) {
 				document.body.style.overflow = '';
+				setPageInert( false );
 			}
 		};
 

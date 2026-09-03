@@ -115,5 +115,5 @@ $wrapper_class = theatrum_embed_aspect_ratio_classnames($width ?: 16, $height ?:
 printf(
   '<div %s><div class="wp-block-embed__wrapper">%s</div></div>',
   wp_kses_data(get_block_wrapper_attributes(array('class' => $wrapper_class))),
-  wp_kses_post($embed_html)
+  wp_kses($embed_html, theatrum_embed_allowed_html())
 );

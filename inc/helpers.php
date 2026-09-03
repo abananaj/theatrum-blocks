@@ -752,3 +752,15 @@ function theatrum_filter_query_loop_by_orderby($query)
 	return $query;
 }
 add_filter('query_loop_block_query_vars', 'theatrum_filter_query_loop_by_orderby');
+
+// wp_kses_post() has no <iframe>, so it silently stripped every oEmbed; this is post-kses plus the iframe attributes providers actually emit.
+function theatrum_embed_allowed_html()
+{
+	$allowed = wp_kses_allowed_html('post');
+	$allowed['iframe'] = array(
+		'src' => true, 'width' => true, 'height' => true, 'title' => true, 'class' => true, 'style' => true,
+		'frameborder' => true, 'allow' => true, 'allowfullscreen' => true, 'loading' => true,
+		'referrerpolicy' => true, 'sandbox' => true,
+	);
+	return $allowed;
+}

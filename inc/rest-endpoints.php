@@ -15,6 +15,28 @@ if (! defined('ABSPATH')) {
  * @param WP_REST_Request|null $request
  * @return bool True if the current user can access this specific request.
  */
+// Shared `args` for routes that only take URL params — every param is sanitized and validated before the callback runs.
+function theatrum_rest_int_arg()
+{
+	return array(
+		'sanitize_callback' => 'absint',
+		'validate_callback' => function ($value) {
+			return is_numeric($value) && (int) $value > 0;
+		},
+	);
+}
+
+function theatrum_rest_key_arg($required = true)
+{
+	return array(
+		'required'          => $required,
+		'sanitize_callback' => 'sanitize_key',
+		'validate_callback' => function ($value) {
+			return is_string($value) && preg_match('/^[A-Za-z0-9_-]+$/', $value) === 1;
+		},
+	);
+}
+
 function theatrum_editor_permission_check($request = null)
 {
 	if (! current_user_can('edit_posts')) {
@@ -46,6 +68,7 @@ function theatrum_register_meta_date_rest_endpoint()
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_date_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg(), 'format' => array('sanitize_callback' => 'sanitize_text_field')),
 	));
 }
 add_action('rest_api_init', 'theatrum_register_meta_date_rest_endpoint');
@@ -90,6 +113,7 @@ function theatrum_register_meta_time_rest_endpoint()
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_time_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg(), 'format' => array('sanitize_callback' => 'sanitize_text_field')),
 	));
 }
 add_action('rest_api_init', 'theatrum_register_meta_time_rest_endpoint');
@@ -125,6 +149,7 @@ function theatrum_register_post_meta_field_rest_endpoint()
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_post_meta_field_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg(), 'fallback' => array('required' => false, 'enum' => array('post_content'))),
 	));
 }
 add_action('rest_api_init', 'theatrum_register_post_meta_field_rest_endpoint');
@@ -174,6 +199,7 @@ function theatrum_register_meta_repeater_rest_endpoint()
 			'methods'             => 'GET',
 			'callback'            => 'theatrum_get_meta_repeater_rest_callback',
 			'permission_callback' => 'theatrum_editor_permission_check',
+			'args'                => array('post_id' => theatrum_rest_int_arg(), 'repeater_key' => theatrum_rest_key_arg()),
 		)
 	);
 }
@@ -223,6 +249,7 @@ function theatrum_register_meta_button_rest_endpoint()
 			'methods'             => 'GET',
 			'callback'            => 'theatrum_get_meta_button_rest_callback',
 			'permission_callback' => 'theatrum_editor_permission_check',
+			'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg()),
 		)
 	);
 }
@@ -512,6 +539,7 @@ function theatrum_register_board_member_rest_endpoint()
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_board_member_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array('option_name' => theatrum_rest_key_arg()),
 	));
 }
 add_action('rest_api_init', 'theatrum_register_board_member_rest_endpoint');
@@ -531,6 +559,7 @@ function theatrum_register_site_option_rest_endpoint()
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_site_option_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array('option_name' => theatrum_rest_key_arg(), 'meta_key' => theatrum_rest_key_arg(false)),
 	));
 }
 add_action('rest_api_init', 'theatrum_register_site_option_rest_endpoint');
@@ -613,6 +642,7 @@ function theatrum_register_staff_member_rest_endpoint()
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_staff_member_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array('option_name' => theatrum_rest_key_arg()),
 	));
 }
 add_action('rest_api_init', 'theatrum_register_staff_member_rest_endpoint');
@@ -635,6 +665,7 @@ function theatrum_register_term_meta_field_rest_endpoint()
 			'methods'             => 'GET',
 			'callback'            => 'theatrum_get_term_meta_field_rest_callback',
 			'permission_callback' => 'theatrum_editor_permission_check',
+			'args'                => array('term_id' => theatrum_rest_int_arg(), 'meta_key' => theatrum_rest_key_arg()),
 		)
 	);
 }
@@ -736,6 +767,7 @@ function theatrum_register_meta_related_rest_endpoint()
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_related_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
+		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg()),
 	));
 }
 add_action('rest_api_init', 'theatrum_register_meta_related_rest_endpoint');

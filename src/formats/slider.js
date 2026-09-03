@@ -5,6 +5,7 @@
  * inline `style.display`, and builds the badge/dots/arrows from the live DOM for core blocks that don't ship them.
  */
 
+import { __ } from '@wordpress/i18n';
 import { resolveTrack } from './resolve-track';
 import { fitArrows } from './fit-arrows';
 
@@ -14,7 +15,9 @@ function buildArrow( direction, glyph ) {
 	button.className = `tm-slider-arrow tm-slider-${ direction }`;
 	button.setAttribute(
 		'aria-label',
-		direction === 'prev' ? 'Previous' : 'Next'
+		direction === 'prev'
+			? __( 'Previous', 'theatrum-blocks' )
+			: __( 'Next', 'theatrum-blocks' )
 	);
 	button.textContent = glyph;
 	return button;
@@ -98,7 +101,13 @@ export function initSlider( root ) {
 		dot.className = 'theatrum-slider-dot';
 		dot.setAttribute( 'role', 'button' );
 		dot.setAttribute( 'tabindex', '0' );
-		dot.setAttribute( 'aria-label', `${ index + 1 }` );
+		dot.setAttribute(
+			'aria-label',
+			// translators: %1$d: slide number, %2$d: slide count.
+			__( 'Slide %1$d of %2$d', 'theatrum-blocks' )
+				.replace( '%1$d', index + 1 )
+				.replace( '%2$d', slides.length )
+		);
 		dotsContainer.appendChild( dot );
 		return dot;
 	} );
@@ -126,6 +135,11 @@ export function initSlider( root ) {
 		} );
 		dots.forEach( ( dot, i ) => {
 			dot.classList.toggle( 'is-active', i === currentIndex );
+			if ( i === currentIndex ) {
+				dot.setAttribute( 'aria-current', 'true' );
+			} else {
+				dot.removeAttribute( 'aria-current' );
+			}
 		} );
 	};
 
@@ -160,7 +174,9 @@ export function initSlider( root ) {
 		pauseButton.setAttribute( 'aria-pressed', String( paused ) );
 		pauseButton.setAttribute(
 			'aria-label',
-			paused ? 'Play slideshow' : 'Pause slideshow'
+			paused
+				? __( 'Play slideshow', 'theatrum-blocks' )
+				: __( 'Pause slideshow', 'theatrum-blocks' )
 		);
 		pauseButton.textContent = paused ? '▶' : '❚❚';
 	};
@@ -208,6 +224,12 @@ export function initSlider( root ) {
 			}
 		} );
 	} );
+
+	// Announce the widget as a carousel without stepping on an author-set role.
+	if ( ! root.hasAttribute( 'role' ) ) {
+		root.setAttribute( 'role', 'region' );
+	}
+	root.setAttribute( 'aria-roledescription', __( 'carousel', 'theatrum-blocks' ) );
 
 	root.classList.add( 'is-ready' );
 	activate( 0 );
