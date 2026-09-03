@@ -71,6 +71,7 @@
 
 	// Crumbs after the first need extra left room so their text clears the incoming arrow point.
 	li:not(:first-child) {
+
 		a,
 		span {
 			padding-left: calc(var(--bc-bevel) + 0.75em);

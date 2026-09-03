@@ -4,10 +4,7 @@
  * Consumers supply their own defaults, CSS prefix (get-arrow-style-vars.js), and optional
  * attributePrefix (attr-key.js), keeping this component block- and attribute-name-agnostic.
  */
-import {
-	InspectorControls,
-	PanelColorSettings,
-} from '@wordpress/block-editor';
+import { InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	SelectControl,
@@ -32,15 +29,15 @@ const UNIT_OPTIONS = [
 
 /**
  * @param {Object}   props
- * @param {Object}   props.attributes       Block attributes.
- * @param {Function} props.setAttributes    Block `setAttributes`.
- * @param {string[]} [props.positions]      Which arrow-position options to
- *                                          offer, in order (default: all three).
+ * @param {Object}   props.attributes        Block attributes.
+ * @param {Function} props.setAttributes     Block `setAttributes`.
+ * @param {string[]} [props.positions]       Which arrow-position options to
+ *                                           offer, in order (default: all three).
  * @param {string}   [props.attributePrefix] Namespace prefix for the
- *                                          underlying attribute names (see
- *                                          attr-key.js). Default '' reads/
- *                                          writes the bare `arrowPosition`
- *                                          etc. names the native blocks use.
+ *                                           underlying attribute names (see
+ *                                           attr-key.js). Default '' reads/
+ *                                           writes the bare `arrowPosition`
+ *                                           etc. names the native blocks use.
  */
 export default function ArrowControls( {
 	attributes,
@@ -51,7 +48,10 @@ export default function ArrowControls( {
 	const positionKey = attrKey( attributePrefix, 'ArrowPosition' );
 	const backgroundKey = attrKey( attributePrefix, 'ArrowBackground' );
 	const colorKey = attrKey( attributePrefix, 'ArrowColor' );
-	const backgroundColorKey = attrKey( attributePrefix, 'ArrowBackgroundColor' );
+	const backgroundColorKey = attrKey(
+		attributePrefix,
+		'ArrowBackgroundColor'
+	);
 	const sizeKey = attrKey( attributePrefix, 'ArrowSize' );
 	const sizeUnitKey = attrKey( attributePrefix, 'ArrowSizeUnit' );
 

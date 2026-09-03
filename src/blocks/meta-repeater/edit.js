@@ -43,7 +43,9 @@ const ROW_STYLE_OPTIONS = [
 function renderWithBreaks( text ) {
 	const parts = String( text ).split( /<br\s*\/?>/i );
 	return parts.flatMap( ( part, i ) =>
-		i === 0 ? [ part ] : [ createElement( 'br', { key: `br-${ i }` } ), part ]
+		i === 0
+			? [ part ]
+			: [ createElement( 'br', { key: `br-${ i }` } ), part ]
 	);
 }
 

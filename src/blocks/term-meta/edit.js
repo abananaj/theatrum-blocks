@@ -354,9 +354,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				<Tag { ...blockProps }>
 					{ prepend }
 					{ metaItems.map( ( item, i ) => (
-						<Fragment
-							key={ item.id || `${ item.title }-${ i }` }
-						>
+						<Fragment key={ item.id || `${ item.title }-${ i }` }>
 							{ i > 0 && ', ' }
 							{ linkToPost && item.url ? (
 								<a

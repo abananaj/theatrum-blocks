@@ -193,12 +193,14 @@ figure.wp-block-theatrum-meta-gallery.has-nested-images {
 // render.php/edit.js resolve concrete --theatrum-gallery-columns(-tablet|-mobile) values inline (fallback already applied); these queries just swap which resolved property the flex-basis calc reads.
 // Must reassign --theatrum-gallery-columns from a *different* property, never itself — self-referencing resolves to an invalid value instead of the intended fallback.
 @media (max-width: 781px) {
+
 	.wp-block-gallery.blocks-gallery-grid {
 		--theatrum-gallery-columns: var(--theatrum-gallery-columns-tablet);
 	}
 }
 
 @media (max-width: 599px) {
+
 	.wp-block-gallery.blocks-gallery-grid {
 		--theatrum-gallery-columns: var(--theatrum-gallery-columns-mobile);
 	}
@@ -206,6 +208,7 @@ figure.wp-block-theatrum-meta-gallery.has-nested-images {
 
 // Cropped images
 .wp-block-gallery.is-cropped {
+
 	.blocks-gallery-item img {
 		width: 100%;
 		height: 100%;

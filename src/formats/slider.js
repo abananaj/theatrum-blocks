@@ -118,7 +118,9 @@ export function initSlider( root ) {
 	const autoplaySpeed = parseInt( root.dataset.autoplaySpeed, 10 ) || 5000;
 	const wantsAutoplay = root.dataset.autoplay === 'true' && slides.length > 1;
 	// WCAG 2.3.3: an autoplaying slideshow is motion the user can't control, so it starts paused for reduced-motion users; the toggle lets them opt in.
-	const reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+	const reducedMotion = window.matchMedia(
+		'(prefers-reduced-motion: reduce)'
+	).matches;
 
 	// WCAG 2.2.2: a visible pause/play control for anything that auto-advances.
 	let pauseButton = root.querySelector( '.tm-slider-pause' );
@@ -229,7 +231,10 @@ export function initSlider( root ) {
 	if ( ! root.hasAttribute( 'role' ) ) {
 		root.setAttribute( 'role', 'region' );
 	}
-	root.setAttribute( 'aria-roledescription', __( 'carousel', 'theatrum-blocks' ) );
+	root.setAttribute(
+		'aria-roledescription',
+		__( 'carousel', 'theatrum-blocks' )
+	);
 
 	root.classList.add( 'is-ready' );
 	activate( 0 );

@@ -80,6 +80,7 @@
 
 	// Responsive: stack the panel under the list.
 	@media (max-width: #{ $break-medium }) {
+
 		.thumbnail-list-wrapper {
 			grid-template-columns: 1fr !important;
 		}

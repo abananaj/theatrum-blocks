@@ -5,17 +5,20 @@
 @use 'mixins';
 
 .wp-block-theatrum-tabs.is-editor {
+
 	.ct-tab__panel {
 		display: none;
 	}
 
 	.ct-tab.is-active {
+
 		.ct-tab__panel {
 			display: block;
 		}
 
 		// Reuses the frontend's active-color custom properties so the highlighted tab matches.
 		> .ct-tab__header {
+
 			@include mixins.tab-header-active-colors;
 			border-bottom-color: var(--ct-tab-header-accent, currentColor);
 		}

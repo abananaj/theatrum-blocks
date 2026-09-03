@@ -3,6 +3,7 @@
 .tm-table-advanced {
 	table-layout: auto;
 	width: 100%;
+
 	&.table-layout-fixed {
 		table-layout: fixed;
 	}
@@ -10,7 +11,9 @@
 
 // ===== STICKY HEADER ROW / FIRST COLUMN
 .tm-table-advanced {
+
 	&.sticky-header {
+
 		thead th,
 		thead td {
 			position: sticky;
@@ -21,7 +24,9 @@
 			background-color: var( --wp--preset--color--white, #fff );
 		}
 	}
+
 	&.sticky-first-column {
+
 		tr > th:first-child,
 		tr > td:first-child {
 			position: sticky;
@@ -30,7 +35,9 @@
 			background-color: var( --wp--preset--color--white, #fff );
 		}
 	}
+
 	&.sticky-header.sticky-first-column {
+
 		thead th:first-child,
 		thead td:first-child {
 			z-index: 3;
@@ -40,7 +47,9 @@
 // Editor preview: div-based fake table (see "Known Editor Rendering Issues" in README.md) needs
 // its own selectors since .tm-edit-th/.tm-edit-td sit inside wrapper divs, not real <th>/<td>.
 .editor-styles-wrapper .tm-edit-table {
+
 	&.sticky-header {
+
 		.tm-edit-thead .tm-edit-th,
 		.tm-edit-thead .tm-edit-td {
 			position: sticky;
@@ -49,11 +58,14 @@
 			background-color: var( --wp--preset--color--white, #fff );
 		}
 	}
+
 	&.sticky-first-column {
+
 		.tm-edit-tr
 			> .block-editor-inner-blocks
 			> .block-editor-block-list__layout
 			> .block-editor-block-list__block:first-child {
+
 			.tm-edit-th,
 			.tm-edit-td {
 				position: sticky;
@@ -78,12 +90,14 @@
 .tm-table-row {
 	margin-top: 0;
 }
+
 .editor-styles-wrapper .tm-edit-tr, // editor
 .editor-styles-wrapper .tm-edit-tr > .block-editor-inner-blocks, // editor
 .editor-styles-wrapper .tm-edit-tr > .block-editor-inner-blocks	> .block-editor-block-list__layout {
 	display: flex;
 	width: 100%;
 }
+
 .editor-styles-wrapper .tm-edit-tr {
 	// Remove default InnerBlocks padding so cells butt up against borders
 	> .block-editor-inner-blocks {
@@ -118,6 +132,7 @@
 	width: 100%;
 	// Keep native table-cell display so the frontend <th> aligns in columns (display:flex breaks browser table layout).
 	vertical-align: middle;
+
 	.wp-block-paragraph {
 		width: 100%;
 		margin: 0.5rem 0;
@@ -132,6 +147,7 @@
 	font-size:1em;
 	// Keep native table-cell display so the frontend <td> aligns in columns (display:flex breaks browser table layout).
 	vertical-align: middle;
+
 	.wp-block-paragraph {
 		width: 100%;
 		font-size: 1em;
@@ -141,6 +157,7 @@
 		text-wrap: balance;
 	}
 }
+
 .horizontal-scroll {
 	overflow-x: auto;
 	overflow-y: hidden;

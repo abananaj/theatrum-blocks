@@ -113,6 +113,7 @@
 
 	// Cropped images
 	&.is-cropped {
+
 		.blocks-gallery-item figure img {
 			width: 100%;
 			height: 100%;
@@ -132,12 +133,14 @@
 // Responsive columns mirror style.scss; editor canvas is an iframe so these queries apply when previewing tablet/mobile viewports.
 // Reassigns from the already-resolved -tablet/-mobile property (not itself) to avoid a self-referencing custom-property cycle.
 @media (max-width: 781px) {
+
 	.wp-block-theatrum-meta-gallery .wp-block-gallery.blocks-gallery-grid {
 		--theatrum-gallery-columns: var(--theatrum-gallery-columns-tablet);
 	}
 }
 
 @media (max-width: 599px) {
+
 	.wp-block-theatrum-meta-gallery .wp-block-gallery.blocks-gallery-grid {
 		--theatrum-gallery-columns: var(--theatrum-gallery-columns-mobile);
 	}

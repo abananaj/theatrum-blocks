@@ -96,6 +96,8 @@ function isArrowFormatBlock( name, attributes ) {
 
 /**
  * Builds the modifier classes + inline CSS vars for a carousel-/slider-format instance, shared by the BlockListBlock and getSaveContent.extraProps filters below.
+ * @param name
+ * @param attributes
  */
 function buildFormatModifiers( name, attributes ) {
 	const classes = [];
@@ -111,7 +113,10 @@ function buildFormatModifiers( name, attributes ) {
 			prefix: 'ct-arrow',
 			attributePrefix: 'ct',
 		} );
-		if ( GAP_ELIGIBLE_BLOCKS.includes( name ) && attributes.ctCarouselGap ) {
+		if (
+			GAP_ELIGIBLE_BLOCKS.includes( name ) &&
+			attributes.ctCarouselGap
+		) {
 			style[ '--ct-carousel-gap' ] = `${ attributes.ctCarouselGap }${
 				attributes.ctCarouselGapUnit || 'px'
 			}`;
@@ -139,6 +144,7 @@ function buildFormatModifiers( name, attributes ) {
 
 /**
  * Builds the data-autoplay/data-autoplay-speed attributes src/formats/slider.js reads off the format root, for a slider-format instance.
+ * @param attributes
  */
 function buildAutoplayAttributes( attributes ) {
 	return {
@@ -189,10 +195,15 @@ const withFormatInspectorControls = createHigherOrderComponent(
 						>
 							<div style={ { display: 'flex', gap: '8px' } }>
 								<TextControl
-									label={ __( 'Grid Gap', 'theatrum-blocks' ) }
+									label={ __(
+										'Grid Gap',
+										'theatrum-blocks'
+									) }
 									value={ attributes.ctCarouselGap }
 									onChange={ ( value ) =>
-										setAttributes( { ctCarouselGap: value } )
+										setAttributes( {
+											ctCarouselGap: value,
+										} )
 									}
 									type="number"
 									min="0"
@@ -277,7 +288,10 @@ addFilter(
 /* 3. Reflect classes + CSS vars (+ data-autoplay* for slider) on the editor canvas wrapper. Arrow vars have no visible effect yet — the arrow buttons are built by frontend-only JS (src/formats/carousel.js, slider.js), so there's no arrow DOM in the canvas. Carousel Grid Gap IS visible immediately (canvas already has .wp-block-post-template + the var). Setting the rest anyway is harmless and future-proofs the arrow-DOM limitation being lifted later. */
 const withFormatEditorClass = createHigherOrderComponent(
 	( BlockListBlock ) => ( props ) => {
-		const isCarousel = isCarouselFormatBlock( props.name, props.attributes );
+		const isCarousel = isCarouselFormatBlock(
+			props.name,
+			props.attributes
+		);
 		const isSlider = isSliderFormatBlock( props.name, props.attributes );
 		if ( ! isCarousel && ! isSlider ) {
 			return <BlockListBlock { ...props } />;
@@ -342,7 +356,9 @@ addFilter(
 			blockType.name,
 			attributes
 		);
-		const extraProps = isSlider ? buildAutoplayAttributes( attributes ) : {};
+		const extraProps = isSlider
+			? buildAutoplayAttributes( attributes )
+			: {};
 
 		if (
 			! classes.length &&

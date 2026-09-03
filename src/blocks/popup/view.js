@@ -11,7 +11,10 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	const setPageInert = ( on ) => {
 		if ( on ) {
 			for ( const child of document.body.children ) {
-				if ( child.classList.contains( 'popup-portal' ) || child.hasAttribute( 'inert' ) ) {
+				if (
+					child.classList.contains( 'popup-portal' ) ||
+					child.hasAttribute( 'inert' )
+				) {
 					continue;
 				}
 				child.setAttribute( 'inert', '' );

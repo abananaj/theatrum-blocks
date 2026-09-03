@@ -77,10 +77,13 @@ export default function TableOfContentsEdit( {
 	const { createWarningNotice } = useDispatch( noticeStore );
 	const showRedirectionPreventedNotice = ( event ) => {
 		event.preventDefault();
-		createWarningNotice( __( 'Links are disabled in the editor.', 'theatrum-blocks' ), {
-			id: `block-library/core/table-of-contents/redirection-prevented/${ instanceId }`,
-			type: 'snackbar',
-		} );
+		createWarningNotice(
+			__( 'Links are disabled in the editor.', 'theatrum-blocks' ),
+			{
+				id: `block-library/core/table-of-contents/redirection-prevented/${ instanceId }`,
+				type: 'snackbar',
+			}
+		);
 	};
 
 	const canInsertList = useSelect(
@@ -104,7 +107,10 @@ export default function TableOfContentsEdit( {
 				<ToolbarButton
 					icon={ isRTL() ? formatListBulletsRTL : formatListBullets }
 					title={ __( 'Unordered', 'theatrum-blocks' ) }
-					description={ __( 'Convert to unordered list', 'theatrum-blocks' ) }
+					description={ __(
+						'Convert to unordered list',
+						'theatrum-blocks'
+					) }
 					onClick={ () => setAttributes( { ordered: false } ) }
 					isActive={ ordered === false }
 				/>
@@ -113,7 +119,10 @@ export default function TableOfContentsEdit( {
 						isRTL() ? formatListNumberedRTL : formatListNumbered
 					}
 					title={ __( 'Ordered', 'theatrum-blocks' ) }
-					description={ __( 'Convert to ordered list', 'theatrum-blocks' ) }
+					description={ __(
+						'Convert to ordered list',
+						'theatrum-blocks'
+					) }
 					onClick={ () => setAttributes( { ordered: true } ) }
 					isActive={ ordered === true }
 				/>
@@ -158,14 +167,20 @@ export default function TableOfContentsEdit( {
 			>
 				<ToolsPanelItem
 					hasValue={ () => !! onlyIncludeCurrentPage }
-					label={ __( 'Only include current page', 'theatrum-blocks' ) }
+					label={ __(
+						'Only include current page',
+						'theatrum-blocks'
+					) }
 					onDeselect={ () =>
 						setAttributes( { onlyIncludeCurrentPage: false } )
 					}
 					isShownByDefault
 				>
 					<ToggleControl
-						label={ __( 'Only include current page', 'theatrum-blocks' ) }
+						label={ __(
+							'Only include current page',
+							'theatrum-blocks'
+						) }
 						checked={ onlyIncludeCurrentPage }
 						onChange={ ( value ) =>
 							setAttributes( { onlyIncludeCurrentPage: value } )
@@ -173,10 +188,12 @@ export default function TableOfContentsEdit( {
 						help={
 							onlyIncludeCurrentPage
 								? __(
-										'Only including headings from the current page (if the post is paginated).', 'theatrum-blocks'
+										'Only including headings from the current page (if the post is paginated).',
+										'theatrum-blocks'
 								  )
 								: __(
-										'Include headings from all pages (if the post is paginated).', 'theatrum-blocks'
+										'Include headings from all pages (if the post is paginated).',
+										'theatrum-blocks'
 								  )
 						}
 					/>
@@ -191,16 +208,40 @@ export default function TableOfContentsEdit( {
 				>
 					<SelectControl
 						__next40pxDefaultSize
-						label={ __( 'Include headings down to level', 'theatrum-blocks' ) }
+						label={ __(
+							'Include headings down to level',
+							'theatrum-blocks'
+						) }
 						value={ maxLevel || '' }
 						options={ [
-							{ value: '', label: __( 'All levels', 'theatrum-blocks' ) },
-							{ value: '1', label: __( 'Heading 1', 'theatrum-blocks' ) },
-							{ value: '2', label: __( 'Heading 2', 'theatrum-blocks' ) },
-							{ value: '3', label: __( 'Heading 3', 'theatrum-blocks' ) },
-							{ value: '4', label: __( 'Heading 4', 'theatrum-blocks' ) },
-							{ value: '5', label: __( 'Heading 5', 'theatrum-blocks' ) },
-							{ value: '6', label: __( 'Heading 6', 'theatrum-blocks' ) },
+							{
+								value: '',
+								label: __( 'All levels', 'theatrum-blocks' ),
+							},
+							{
+								value: '1',
+								label: __( 'Heading 1', 'theatrum-blocks' ),
+							},
+							{
+								value: '2',
+								label: __( 'Heading 2', 'theatrum-blocks' ),
+							},
+							{
+								value: '3',
+								label: __( 'Heading 3', 'theatrum-blocks' ),
+							},
+							{
+								value: '4',
+								label: __( 'Heading 4', 'theatrum-blocks' ),
+							},
+							{
+								value: '5',
+								label: __( 'Heading 5', 'theatrum-blocks' ),
+							},
+							{
+								value: '6',
+								label: __( 'Heading 6', 'theatrum-blocks' ),
+							},
 						] }
 						onChange={ ( value ) =>
 							setAttributes( {
@@ -210,10 +251,12 @@ export default function TableOfContentsEdit( {
 						help={
 							! maxLevel
 								? __(
-										'Including all heading levels in the table of contents.', 'theatrum-blocks'
+										'Including all heading levels in the table of contents.',
+										'theatrum-blocks'
 								  )
 								: __(
-										'Only include headings up to and including this level.', 'theatrum-blocks'
+										'Only include headings up to and including this level.',
+										'theatrum-blocks'
 								  )
 						}
 					/>
@@ -232,7 +275,8 @@ export default function TableOfContentsEdit( {
 						icon={ <BlockIcon icon={ icon } /> }
 						label={ __( 'Table of Contents', 'theatrum-blocks' ) }
 						instructions={ __(
-							'Start adding Heading blocks to create a table of contents. Headings with HTML anchors will be linked here.', 'theatrum-blocks'
+							'Start adding Heading blocks to create a table of contents. Headings with HTML anchors will be linked here.',
+							'theatrum-blocks'
 						) }
 					/>
 				</div>

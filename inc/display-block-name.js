@@ -18,7 +18,8 @@ export function DevModeToggle( { isDevMode, onChange } ) {
 		<ToggleControl
 			label={ __( 'Dev Mode', 'theatrum-blocks' ) }
 			help={ __(
-				'Show block name and class names in the top-left corner of the block for development.', 'theatrum-blocks'
+				'Show block name and class names in the top-left corner of the block for development.',
+				'theatrum-blocks'
 			) }
 			checked={ isDevMode }
 			onChange={ onChange }

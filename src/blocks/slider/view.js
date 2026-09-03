@@ -4,8 +4,8 @@
 
 import { initSlider } from '../../formats/slider';
 
-window.addEventListener('load', () => {
-	for (const slider of document.querySelectorAll('.tm-slider')) {
-		initSlider(slider);
+window.addEventListener( 'load', () => {
+	for ( const slider of document.querySelectorAll( '.tm-slider' ) ) {
+		initSlider( slider );
 	}
-});
+} );

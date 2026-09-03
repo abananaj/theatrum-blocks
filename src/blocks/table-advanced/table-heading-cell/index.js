@@ -65,9 +65,7 @@ const Edit = ( { attributes, setAttributes } ) => {
 	};
 	// "middle" is the CSS default (style.scss); only emit an inline override when it differs, keeping already-saved cells validating without a deprecation.
 	const verticalAlignStyle =
-		verticalAlign && verticalAlign !== 'middle'
-			? { verticalAlign }
-			: {};
+		verticalAlign && verticalAlign !== 'middle' ? { verticalAlign } : {};
 	const blockProps = useBlockProps( {
 		className: [ 'tm-edit-th', colorProps.className, borderProps.className ]
 			.filter( Boolean )
@@ -184,9 +182,7 @@ const save = ( { attributes } ) => {
 	};
 	// "middle" is the CSS default (style.scss); only emit an inline override when it differs, keeping already-saved cells validating without a deprecation.
 	const verticalAlignStyle =
-		verticalAlign && verticalAlign !== 'middle'
-			? { verticalAlign }
-			: {};
+		verticalAlign && verticalAlign !== 'middle' ? { verticalAlign } : {};
 	const blockProps = useBlockProps.save( {
 		className: [
 			'tm-table-heading-cell',

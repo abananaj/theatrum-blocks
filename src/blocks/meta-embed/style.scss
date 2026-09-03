@@ -11,6 +11,7 @@ $aspect-ratios: (
 );
 
 .wp-block-theatrum-meta-embed {
+
 	.wp-block-embed__wrapper {
 		position: relative;
 	}
@@ -22,6 +23,7 @@ $aspect-ratios: (
 
 	@each $ratio, $padding in $aspect-ratios {
 		&.wp-embed-aspect-#{$ratio}.wp-has-aspect-ratio .wp-block-embed__wrapper {
+
 			&::before {
 				content: '';
 				display: block;

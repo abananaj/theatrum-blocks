@@ -27,11 +27,13 @@ $ct-tabs-breakpoint: 768px;
 			color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease),
 			background-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease),
 			border-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease);
+
 		h2,
 		h3 {
 			font-size: inherit;
 			font-weight: inherit;
 		}
+
 		&:hover {
 			color: var(
 				--ct-tab-header-hover-color,
@@ -45,6 +47,7 @@ $ct-tabs-breakpoint: 768px;
 		}
 
 		&.is-active {
+
 			@include mixins.tab-header-active-colors;
 			border-radius: var(--wp--preset--border-radius--large);
 			// Accent underline defaults to the active header's own text color, overridable via --ct-tab-header-accent.
@@ -55,6 +58,7 @@ $ct-tabs-breakpoint: 768px;
 	.ct-tab__panel {
 		display: none;
 		padding: 1rem;
+
 		&.is-active {
 			display: block;
 		}
@@ -68,7 +72,9 @@ $ct-tabs-breakpoint: 768px;
 }
 
 @media (min-width: $ct-tabs-breakpoint) {
+
 	.ct-tabs {
+
 		@include mixins.tab-strip-layout;
 
 		&.is-equal-width .ct-tab__header {

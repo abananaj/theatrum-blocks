@@ -194,7 +194,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								setAttributes( { metaKey: value.trim() } )
 							}
 							placeholder="e.g., production_gallery"
-							help={ __( 'ACF or post meta field key', 'theatrum-blocks' ) }
+							help={ __(
+								'ACF or post meta field key',
+								'theatrum-blocks'
+							) }
 							__nextHasNoMarginBottom
 						/>
 					</ToolsPanelItem>
@@ -230,7 +233,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						}
 					>
 						<RangeControl
-							label={ __( 'Columns (Tablet)', 'theatrum-blocks' ) }
+							label={ __(
+								'Columns (Tablet)',
+								'theatrum-blocks'
+							) }
 							value={ columnsTablet || numColumns }
 							onChange={ ( value ) =>
 								setAttributes( { columnsTablet: value } )
@@ -238,7 +244,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							min={ 1 }
 							max={ 8 }
 							help={ __(
-								'Applies at tablet widths (781px and below). Defaults to the desktop column count.', 'theatrum-blocks'
+								'Applies at tablet widths (781px and below). Defaults to the desktop column count.',
+								'theatrum-blocks'
 							) }
 							__nextHasNoMarginBottom
 						/>
@@ -254,7 +261,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						}
 					>
 						<RangeControl
-							label={ __( 'Columns (Mobile)', 'theatrum-blocks' ) }
+							label={ __(
+								'Columns (Mobile)',
+								'theatrum-blocks'
+							) }
 							value={ columnsMobile || numColumnsTablet }
 							onChange={ ( value ) =>
 								setAttributes( { columnsMobile: value } )
@@ -262,7 +272,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							min={ 1 }
 							max={ 8 }
 							help={ __(
-								'Applies at mobile widths (599px and below). Defaults to the tablet column count.', 'theatrum-blocks'
+								'Applies at mobile widths (599px and below). Defaults to the tablet column count.',
+								'theatrum-blocks'
 							) }
 							__nextHasNoMarginBottom
 						/>
@@ -292,7 +303,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						<ToolsPanelItem
 							isShownByDefault
 							hasValue={ () => !! customWidth || !! customHeight }
-							label={ __( 'Custom Resolution', 'theatrum-blocks' ) }
+							label={ __(
+								'Custom Resolution',
+								'theatrum-blocks'
+							) }
 							panelId="theatrum/meta-gallery"
 							onDeselect={ () =>
 								setAttributes( {
@@ -304,7 +318,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							<Flex>
 								<FlexItem isBlock>
 									<TextControl
-										label={ __( 'Width (px)', 'theatrum-blocks' ) }
+										label={ __(
+											'Width (px)',
+											'theatrum-blocks'
+										) }
 										type="number"
 										min={ 1 }
 										value={ customWidth || '' }
@@ -320,7 +337,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								</FlexItem>
 								<FlexItem isBlock>
 									<TextControl
-										label={ __( 'Height (px)', 'theatrum-blocks' ) }
+										label={ __(
+											'Height (px)',
+											'theatrum-blocks'
+										) }
 										type="number"
 										min={ 1 }
 										value={ customHeight || '' }
@@ -337,7 +357,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							</Flex>
 							<p className="components-base-control__help">
 								{ __(
-									'Requests the closest generated image size to these dimensions.', 'theatrum-blocks'
+									'Requests the closest generated image size to these dimensions.',
+									'theatrum-blocks'
 								) }
 							</p>
 						</ToolsPanelItem>
@@ -371,7 +392,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						}
 					>
 						<ToggleControl
-							label={ __( 'Crop images to same height', 'theatrum-blocks' ) }
+							label={ __(
+								'Crop images to same height',
+								'theatrum-blocks'
+							) }
 							checked={ imageCrop }
 							onChange={ ( value ) =>
 								setAttributes( { imageCrop: value } )
@@ -428,7 +452,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						}
 					>
 						<TextControl
-							label={ __( 'Limit number of images', 'theatrum-blocks' ) }
+							label={ __(
+								'Limit number of images',
+								'theatrum-blocks'
+							) }
 							type="number"
 							min={ 1 }
 							value={ imageLimit || '' }
@@ -441,7 +468,8 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							}
 							placeholder={ __( 'All', 'theatrum-blocks' ) }
 							help={ __(
-								'Maximum number of images to display. Leave empty to show all.', 'theatrum-blocks'
+								'Maximum number of images to display. Leave empty to show all.',
+								'theatrum-blocks'
 							) }
 							__nextHasNoMarginBottom
 						/>
@@ -457,7 +485,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						}
 					>
 						<ToggleGroupControl
-							label={ __( 'Navigation buttons', 'theatrum-blocks' ) }
+							label={ __(
+								'Navigation buttons',
+								'theatrum-blocks'
+							) }
 							value={ navigationButtonType }
 							onChange={ ( value ) =>
 								setAttributes( { navigationButtonType: value } )
@@ -496,7 +527,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								setAttributes( { aspectRatio: value } )
 							}
 							options={ [
-								{ label: __( 'Original', 'theatrum-blocks' ), value: 'auto' },
+								{
+									label: __( 'Original', 'theatrum-blocks' ),
+									value: 'auto',
+								},
 								{ label: '1:1', value: '1' },
 								{ label: '3:2', value: '1.5' },
 								{ label: '4:3', value: '1.333' },
@@ -527,7 +561,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</ToolsPanelItem>
 				</ToolsPanel>
 
-				<PanelBody title={ __( 'Fallback', 'theatrum-blocks' ) } initialOpen={ false }>
+				<PanelBody
+					title={ __( 'Fallback', 'theatrum-blocks' ) }
+					initialOpen={ false }
+				>
 					<TextControl
 						label={ __( 'Fallback Text', 'theatrum-blocks' ) }
 						value={ fallbackText || '' }
@@ -535,10 +572,12 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							setAttributes( { fallbackText: value } )
 						}
 						placeholder={ __(
-							'Optional text if no images are found', 'theatrum-blocks'
+							'Optional text if no images are found',
+							'theatrum-blocks'
 						) }
 						help={ __(
-							'Leave empty to hide the block when no images are found', 'theatrum-blocks'
+							'Leave empty to hide the block when no images are found',
+							'theatrum-blocks'
 						) }
 						__nextHasNoMarginBottom
 					/>
@@ -630,7 +669,10 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 				{ ! isLoading && images.length === 0 && ! metaKey && (
 					<div style={ { color: '#999', fontStyle: 'italic' } }>
-						{ __( 'Enter a meta key to display images', 'theatrum-blocks' ) }
+						{ __(
+							'Enter a meta key to display images',
+							'theatrum-blocks'
+						) }
 					</div>
 				) }
 			</figure>

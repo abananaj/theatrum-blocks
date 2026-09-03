@@ -37,11 +37,15 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		setIsLoading( true );
 
 		const params = [];
-		if ( attributes.isHtml ) params.push( 'html=1' );
-		if ( attributes.fallbackToPostContent ) params.push( 'fallback=post_content' );
-		const url = `/theatrum/v1/post-meta/${ postId }/${ attributes.keyInput }${
-			params.length ? `?${ params.join( '&' ) }` : ''
-		}`;
+		if ( attributes.isHtml ) {
+			params.push( 'html=1' );
+		}
+		if ( attributes.fallbackToPostContent ) {
+			params.push( 'fallback=post_content' );
+		}
+		const url = `/theatrum/v1/post-meta/${ postId }/${
+			attributes.keyInput
+		}${ params.length ? `?${ params.join( '&' ) }` : '' }`;
 
 		apiFetch( { path: url } )
 			.then( ( data ) => {
@@ -52,7 +56,12 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				setDisplayValue( '' );
 				setIsLoading( false );
 			} );
-	}, [ attributes.keyInput, attributes.isHtml, attributes.fallbackToPostContent, postId ] );
+	}, [
+		attributes.keyInput,
+		attributes.isHtml,
+		attributes.fallbackToPostContent,
+		postId,
+	] );
 
 	const Tag = attributes.tagName || 'span';
 	const displayText = displayValue || `[${ attributes.keyInput }]`;
@@ -161,7 +170,9 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					</em>
 				) : attributes.isHtml ? (
 					<div className="wp-block-theatrum-post-meta-field is-html">
-						<RawHTML>{ displayValue || `[${ attributes.keyInput }]` }</RawHTML>
+						<RawHTML>
+							{ displayValue || `[${ attributes.keyInput }]` }
+						</RawHTML>
 					</div>
 				) : (
 					<Tag

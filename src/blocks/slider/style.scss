@@ -2,9 +2,11 @@
 // Only one .tm-slider-slide is visible at a time (.is-active), snapping with no transition — a fade effect was tried and deliberately removed. Editor derives `.is-active` from block selection instead of clicks/autoplay (see slider-item/edit.js).
 // Arrow/dot chrome (.tm-slider-arrow, .tm-slider-dots, .theatrum-slider-dot) is shared with the is-style-ct-slider format on core/query and core/gallery — see ../../formats/_slider-controls.scss.
 @use "../../formats/slider-controls";
+
 .tm-slider {
 	max-width: 1000px;
 	margin: 0 auto;
+
 .tm-slider-wrapper {
 		position: relative;
 	}
