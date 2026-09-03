@@ -24,6 +24,7 @@ require_once __DIR__ . '/inc/block-bindings.php';
 require_once __DIR__ . '/inc/query-filter.php';
 require_once __DIR__ . '/inc/slider-eager-images.php';
 require_once __DIR__ . '/inc/format-controls.php';
+require_once __DIR__ . '/inc/table-scroll-wrapper.php';
 
 /**
  * Load the plugin text domain so the PHP-side __() strings are translatable.
