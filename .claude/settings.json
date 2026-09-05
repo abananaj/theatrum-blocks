@@ -1,9 +1,0 @@
-{
-  "changelog": {
-    "enabled": true,
-    "file": "CHANGELOG.md",
-    "format": "keep-a-changelog",
-    "semanticVersioning": true,
-    "autoUpdate": true
-  }
-}
