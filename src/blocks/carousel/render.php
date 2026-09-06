@@ -46,6 +46,13 @@ if ($show_scrollbar) {
   $modifier_classes[] = 'theatrum-scrollbar-visible';
 }
 
+// ct-scrollbar consumes the chance-ollie theme's scrollbar mixin (W-02) at runtime via its
+// already-compiled CSS class — only needed once the scrollbar is actually visible.
+$content_classes = array('theatrum-carousel-content');
+if ($show_scrollbar) {
+  $content_classes[] = 'ct-scrollbar';
+}
+
 // Sanitized via theatrum_carousel_sanitize_color() (inc/helpers.php, always loaded — shared with the is-style-ct-carousel format's render_block filter in inc/format-controls.php).
 $arrow_background       = ! isset($attributes['arrowBackground']) || ! empty($attributes['arrowBackground']);
 $arrow_color            = theatrum_carousel_sanitize_color($attributes['arrowColor'] ?? '');
@@ -78,7 +85,7 @@ ob_start();
 <div <?php echo wp_kses_data($wrapper_attributes); ?>>
   <div class="theatrum-carousel-wrapper"<?php echo $arrow_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute string; the arrow color/size values are esc_attr()'d where $arrow_style is built. ?>>
     <button class="theatrum-carousel-arrow disabled theatrum-arrow-prev" aria-label="<?php esc_attr_e('Previous', 'theatrum-blocks'); ?>" aria-disabled="true"></button>
-    <ul class="theatrum-carousel-content" <?php echo $content_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute string; the card-width/gap values are esc_attr()'d where $content_style is built. ?>>
+    <ul class="<?php echo esc_attr(implode(' ', $content_classes)); ?>" <?php echo $content_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute string; the card-width/gap values are esc_attr()'d where $content_style is built. ?>>
       <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- InnerBlocks output, already rendered/sanitized by the block pipeline. ?>
     </ul>
     <button class="theatrum-carousel-arrow theatrum-arrow-next" aria-label="<?php esc_attr_e('Next', 'theatrum-blocks'); ?>"></button>

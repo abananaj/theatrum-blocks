@@ -61,7 +61,11 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: 'theatrum-carousel-content',
+			// ct-scrollbar mirrors render.php: consumes the theme's scrollbar mixin (W-02) once the
+			// scrollbar is actually shown.
+			className: classnames( 'theatrum-carousel-content', {
+				'ct-scrollbar': showScrollbar,
+			} ),
 			style: Object.keys( contentStyle ).length
 				? contentStyle
 				: undefined,

@@ -8,6 +8,7 @@
 
 @use "./arrows";
 @use "./slider-controls";
+@use "@wordpress/base-styles/breakpoints" as *;
 
 // ---------------------------------------------------------------------------
 // Carousel
@@ -24,11 +25,26 @@
 		scroll-snap-type: x mandatory;
 		gap: var(--ct-carousel-gap, 20px);
 
+		// --ct-carousel-gap is written inline (format-controls.js:120, inc/format-controls.php:55-58),
+		// so a media query on the variable itself would be inert — cap the consuming property instead,
+		// same fix as the theatrum/carousel block (W-08).
+		@media (max-width: #{ $break-small }) {
+			gap: min(var(--ct-carousel-gap, 20px), 12px);
+		}
+
 		> li {
 			flex: 0 0 var(--ct-carousel-card-width, 300px);
 			width: auto; // beats .columns-N > li { width: calc(...) }
 			max-width: none;
 			scroll-snap-align: start;
+
+			// --ct-carousel-card-width is never written for the format (no ctCarouselCardWidth
+			// attribute exists; GAP_ELIGIBLE_BLOCKS only exposes gap), so this always resolves to its
+			// 300px fallback today. Capped anyway for consistency with the block and in case a
+			// card-width control is ever added here.
+			@media (max-width: #{ $break-small }) {
+				flex-basis: min(var(--ct-carousel-card-width, 300px), 70vw);
+			}
 		}
 	}
 }
@@ -44,6 +60,13 @@
 		width: var(--ct-carousel-card-width, 300px);
 		max-width: none;
 		scroll-snap-align: start;
+
+		// Same as the query variant above: --ct-carousel-card-width has no control on this format
+		// today and always falls back to 300px, but core/gallery isn't gap-eligible anyway (its
+		// spacing comes from core's blockGap) — capped only for consistency and future-proofing.
+		@media (max-width: #{ $break-small }) {
+			width: min(var(--ct-carousel-card-width, 300px), 70vw);
+		}
 	}
 }
 

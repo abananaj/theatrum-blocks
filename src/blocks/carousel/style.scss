@@ -1,5 +1,6 @@
 // Arrow visuals (.theatrum-carousel-arrow) are shared with the is-style-ct-carousel format on core/query and core/gallery — see ../../formats/_arrows.scss.
 @use "../../formats/arrows";
+@use "@wordpress/base-styles/breakpoints" as *;
 
 .wp-block-theatrum-carousel {
 	width: fit-content;
@@ -67,27 +68,32 @@
 		grid-auto-columns: var(--ct-carousel-card-width, 175px);
 		list-style: none;
 
+		// --ct-carousel-gap / --ct-carousel-card-width are inline styles (render.php/edit.js) whenever
+		// the author sets an attribute, so a media query on the variables would do nothing on exactly
+		// the carousels someone has configured — cap the consuming properties instead (Q-07's fix).
+		@media (max-width: #{ $break-small }) {
+			grid-gap: min(var(--ct-carousel-gap, 24px), 12px);
+			grid-auto-columns: min(var(--ct-carousel-card-width, 175px), 70vw);
+		}
+
 		&::-webkit-scrollbar {
 			display: none;
 		}
 	}
 
 	&.theatrum-scrollbar-visible .theatrum-carousel-content {
-		scrollbar-width: auto;
+		// Un-hiding plus color come from the ct-scrollbar class (render.php/edit.js), which consumes
+		// the chance-ollie theme's scrollbar mixin (W-02) via its compiled CSS. scrollbar-width and
+		// scrollbar-color are pinned here too — .ct-scrollbar alone ties in specificity with the base
+		// hidden rule above (both single-class selectors), so relying on cascade order between this
+		// plugin's stylesheet and the theme's would be a coin flip.
+		scrollbar-width: thin;
+		scrollbar-color: var(--ct-primary, #000) transparent;
 		-ms-overflow-style: auto;
 
 		&::-webkit-scrollbar {
 			display: block;
 			height: 8px;
-		}
-
-		&::-webkit-scrollbar-track {
-			background: transparent;
-		}
-
-		&::-webkit-scrollbar-thumb {
-			background: rgba(0, 0, 0, 0.3);
-			border-radius: 4px;
 		}
 	}
 
