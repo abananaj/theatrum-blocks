@@ -12,9 +12,10 @@
 }
 
 .wp-block-theatrum-production-quotes .wp-block-quote {
-	// `main` was a parent-theme (Ollie) palette slug that our palette replaces, so it always
-	// resolved to the #000 fallback; --ct-primary is the equivalent token in our nomenclature.
-	border-left: 2px solid var(--ct-primary, #000);
+	// D-07: 2px accent borders sitewide become the `subtle` shadow preset plus a `--ct-muted-light`
+	// background rather than an outline — see STYLING-SEPT-2026.md T3-04.
+	box-shadow: var(--wp--preset--shadow--subtle, 0 3px 5px rgba(0, 0, 0, 0.04));
+	background-color: var(--ct-muted-light, transparent);
   padding: 0 var(--wp--preset--spacing--40);
   margin: 0.5rem 0;
   max-width: 45ch;
