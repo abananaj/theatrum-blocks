@@ -9,12 +9,13 @@
 	box-sizing: border-box;
 
 	// --- Tunable tokens (simplified from the CodePen demo) -----------------
+	// --ct-* tokens follow the page's nomenclature category (--ct-primary is navy at :root, red on Onstage); fixed --wp--preset--color--* names don't.
 	--bc-bevel: 1.25em; // depth of each segment's beveled arrow point
 	--bc-seam: 2px; // width of the separating line between segments
-	--bc-bg: var(--wp--preset--color--dark-blue);
-	--bc-bg-hover: var(--wp--preset--color--blue);
-	--bc-text: var(--wp--preset--color--white);
-	--bc-seam-color: var(--wp--preset--color--white); // the "cut" between segments
+	--bc-bg: var(--ct-primary);
+	--bc-bg-hover: var(--ct-tertiary);
+	--bc-text: var(--ct-on-primary); // paired with --bc-bg so it's always legible
+	--bc-seam-color: var(--ct-on-primary); // the "cut" between segments, paired with --bc-bg at rest
 
 	ol {
 		list-style: none;
@@ -82,7 +83,66 @@
 	a:focus-visible,
 	span[aria-current="page"] {
 		background-color: var(--bc-bg-hover);
-		color: var(--bc-text);
+		// --ct-tertiary is the light end of the ramp, so the hover state needs its own paired
+		// text/seam token rather than reusing --bc-text — on Onstage red just as much as at :root navy.
+		color: var(--ct-on-tertiary);
+		border-color: var(--ct-on-tertiary);
 		outline: none;
+	}
+}
+
+/**
+ * "Plain" style — text with separators, no chevron, no fill. Consumes the same `--separator`
+ * custom property render.php already writes on the wrapper (block.json's `separator` attribute),
+ * which the bevel style above never reads.
+ */
+.wp-block-theatrum-breadcrumbs.is-style-plain {
+
+	ol {
+		flex-wrap: wrap;
+	}
+
+	li {
+		margin-left: 0;
+
+		&:not(:first-child) {
+			margin-left: 0;
+
+			a,
+			span {
+				padding-left: 0;
+			}
+
+			&::before {
+				content: var(--separator, "/");
+				display: flex;
+				align-items: center;
+				margin-inline: 0.5em;
+				color: var(--ct-muted, currentColor);
+			}
+		}
+	}
+
+	a,
+	span {
+		padding: 0;
+		background-color: transparent;
+		border: none;
+		corner-shape: normal;
+		border-radius: 0;
+		color: var(--ct-link-on-light, currentColor);
+	}
+
+	a:hover,
+	a:focus-visible {
+		background-color: transparent;
+		color: var(--ct-primary);
+		text-decoration: underline;
+	}
+
+	span[aria-current="page"] {
+		background-color: transparent;
+		color: var(--ct-on-light, currentColor);
+		font-weight: 600;
 	}
 }

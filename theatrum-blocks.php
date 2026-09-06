@@ -347,6 +347,17 @@ function theatrum_register_format_styles() {
 add_action('init', 'theatrum_register_format_styles');
 
 /**
+ * Registers the "Plain" breadcrumbs style — text with separators, no chevron fill. The bevel look is the implicit default WP adds automatically.
+ */
+function theatrum_register_breadcrumbs_styles() {
+	register_block_style(
+		'theatrum/breadcrumbs',
+		array('name' => 'plain', 'label' => __('Plain', 'theatrum-blocks'))
+	);
+}
+add_action('init', 'theatrum_register_breadcrumbs_styles');
+
+/**
  * Blocks eligible for the Carousel/Slider formats, and their style slugs (without the is-style- prefix) — shared by the editor/frontend enqueue functions below.
  */
 function theatrum_format_blocks() {
