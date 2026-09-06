@@ -8,4 +8,4 @@ This block is a variation of the core/query block that is specific to each post 
 7. Credit Loop
 8. Venue Loop
 
-Under Settings in the Block editor inspector panel, the "QUERY TYPE" and "POST TYPE" will not be visible as they will be preset. Everything else should be the same. 
+Under Settings in the Block editor inspector panel, the "QUERY TYPE" and "POST TYPE" will not be visible as they will be preset. Everything else should be the same.

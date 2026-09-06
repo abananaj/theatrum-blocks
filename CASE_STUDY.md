@@ -2,8 +2,7 @@
 
 > First draft. Component deep-dive; project-level story lives in the [root case study](../../../CASE_STUDY.md).
 
-29 custom Gutenberg blocks. The oldest repo in the project — block work started
-a month before the theme existed.
+29 custom Gutenberg blocks. The oldest repo in the project — block work started a month before the theme existed.
 
 ---
 
@@ -31,17 +30,13 @@ a month before the theme existed.
 
 `src/blocks/` — each block is a directory with `block.json`, registration auto-discovered.
 
-**Meta blocks** — read custom fields off the current post
-`meta-field` · `meta-date` · `meta-time` · `meta-image` · `meta-gallery` · `meta-file` · `meta-embed` · `meta-button` · `meta-related` · `meta-repeater` · `term-meta` · `site-option`
+**Meta blocks** — read custom fields off the current post `meta-field` · `meta-date` · `meta-time` · `meta-image` · `meta-gallery` · `meta-file` · `meta-embed` · `meta-button` · `meta-related` · `meta-repeater` · `term-meta` · `site-option`
 
-**Query blocks** — filtered, sorted post lists
-`query-loop` · `query-filter`
+**Query blocks** — filtered, sorted post lists `query-loop` · `query-filter`
 
-**Layout & navigation**
-`tabs` · `table-advanced` · `table-of-contents` · `breadcrumbs` · `page-nav` · `popup` · `popover`
+**Layout & navigation** `tabs` · `table-advanced` · `table-of-contents` · `breadcrumbs` · `page-nav` · `popup` · `popover`
 
-**Media & display**
-`carousel` · `slider` · `list-icons` · `list-thumbnail` · `title-advanced` · `blockquote-advanced` · `production-quotes` · `performances-list`
+**Media & display** `carousel` · `slider` · `list-icons` · `list-thumbnail` · `title-advanced` · `blockquote-advanced` · `production-quotes` · `performances-list`
 
 Plus `utils/` (shared helpers) and `block.jsonc` (the documented template).
 

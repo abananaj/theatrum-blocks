@@ -82,13 +82,13 @@ You can style this block using theme.json color and typography settings. The blo
 
 ## Attributes
 
-| Attribute      | Type    | Default | Description                                  |
-| -------------- | ------- | ------- | -------------------------------------------- |
-| `items`        | array   | []      | Array of list items with id, text, icon data |
-| `iconSize`     | string  | '24'    | Icon size value                              |
-| `iconSizeUnit` | string  | 'px'    | Icon size unit: px, em, rem, %               |
-| `iconPosition` | string  | 'left'  | Icon position: left, right, top, bottom      |
-| `iconSpacing`  | string  | '8'     | Spacing between icon and text (px)           |
-| `iconColor`    | string  | ''      | CSS color value for icons                    |
-| `iconAlign`    | string  | 'middle'| Cross-axis alignment: top, middle, bottom    |
-| `hoverOnly`    | boolean | false   | Show icons only on hover                     |
+| Attribute      | Type    | Default  | Description                                  |
+| -------------- | ------- | -------- | -------------------------------------------- |
+| `items`        | array   | []       | Array of list items with id, text, icon data |
+| `iconSize`     | string  | '24'     | Icon size value                              |
+| `iconSizeUnit` | string  | 'px'     | Icon size unit: px, em, rem, %               |
+| `iconPosition` | string  | 'left'   | Icon position: left, right, top, bottom      |
+| `iconSpacing`  | string  | '8'      | Spacing between icon and text (px)           |
+| `iconColor`    | string  | ''       | CSS color value for icons                    |
+| `iconAlign`    | string  | 'middle' | Cross-axis alignment: top, middle, bottom    |
+| `hoverOnly`    | boolean | false    | Show icons only on hover                     |

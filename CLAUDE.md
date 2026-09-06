@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Markdown Formatting
 
-Write prose as one line per paragraph — never hard-wrap sentences across multiple lines. Tables, code blocks, and lists are unaffected.
+Write prose as one line per paragraph — never hard-wrap sentences across multiple lines. In tables, pad every cell with spaces so the `|` columns line up visually in the raw text. Code blocks and lists are otherwise unaffected.
 
 ## Project Overview
 
@@ -178,30 +178,17 @@ Blocks can fetch from these endpoints in `edit.js` via `@wordpress/api-fetch`.
 
 Blocks inherit WordPress theme styling via `theme.json`. Use block.json `supports` to enable color, typography, spacing, and border controls. Inline styles are compiled by wp-scripts.
 
-**Motion**: never hand-type a duration or easing keyword in a `transition`. Use
-the shared motion tokens — `--ct-duration-*` and `--ct-ease-*` — defined by the
-chance-ollie theme (`src/json/settings/motion.jsonc` → `theme.json`, aliased in
-its `src/scss/_tokens.scss`). The scale and the intent behind each step are
-documented in the theme's `docs/MOTION.md`.
+**Motion**: never hand-type a duration or easing keyword in a `transition`. Use the shared motion tokens — `--ct-duration-*` and `--ct-ease-*` — defined by the chance-ollie theme (`src/json/settings/motion.jsonc` → `theme.json`, aliased in its `src/scss/_tokens.scss`). The scale and the intent behind each step are documented in the theme's `docs/MOTION.md`.
 
-Because this is a plugin and cannot assume its theme, **always supply the literal
-as a fallback** so the rule still works with the theme deactivated — the same
-house style used for colour tokens (`var(--ct-tab-header-accent, currentColor)`):
+Because this is a plugin and cannot assume its theme, **always supply the literal as a fallback** so the rule still works with the theme deactivated — the same house style used for colour tokens (`var(--ct-tab-header-accent, currentColor)`):
 
 ```scss
 transition: opacity var(--ct-duration-fast-1, 0.2s) var(--ct-ease-entrance, ease-out);
 ```
 
-The fallback must be the literal the token actually resolves to, or the block
-renders one curve with the theme active and a different one without it. Two
-traps: a bare `ease` is `var(--ct-ease-standard, ease)`, not `ease-in-out`; and
-the easing roles are the inverse of the CSS keyword they name —
-`--ct-ease-entrance` is `ease-out`, `--ct-ease-exit` is `ease-in`.
+The fallback must be the literal the token actually resolves to, or the block renders one curve with the theme active and a different one without it. Two traps: a bare `ease` is `var(--ct-ease-standard, ease)`, not `ease-in-out`; and the easing roles are the inverse of the CSS keyword they name — `--ct-ease-entrance` is `ease-out`, `--ct-ease-exit` is `ease-in`.
 
-Exception: where a block exposes its own timing control as a custom property
-(e.g. list-thumbnail's `--animation-speed`, an editor-facing enum), keep the
-control and tokenise only its fallback:
-`var(--animation-speed, var(--ct-duration-slow-1, 0.3s))`.
+Exception: where a block exposes its own timing control as a custom property (e.g. list-thumbnail's `--animation-speed`, an editor-facing enum), keep the control and tokenise only its fallback: `var(--animation-speed, var(--ct-duration-slow-1, 0.3s))`.
 
 ## Important Concepts
 

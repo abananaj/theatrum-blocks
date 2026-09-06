@@ -15,12 +15,12 @@ Summarize your post with a list of headings. Add HTML anchors to Heading blocks 
 
 _Defined via the [`attributes`](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/) property in block.json._
 
-| Attribute | [Type](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/#type-validation) | [Default](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/#default-value) | Description |
-|-----------|------|---------|-------------|
-| `headings` | `array` | `[]` | — |
-| `onlyIncludeCurrentPage` | `boolean` | `false` | — |
-| `maxLevel` | `number` | — | — |
-| `ordered` | `boolean` | `true` | — |
+| Attribute                | [Type](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/#type-validation) | [Default](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/#default-value) | Description |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------- |
+| `headings`               | `array`                                                                                                           | `[]`                                                                                                               | —           |
+| `onlyIncludeCurrentPage` | `boolean`                                                                                                         | `false`                                                                                                            | —           |
+| `maxLevel`               | `number`                                                                                                          | —                                                                                                                  | —           |
+| `ordered`                | `boolean`                                                                                                         | `true`                                                                                                             | —           |
 
 ## Supports
 

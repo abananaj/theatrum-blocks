@@ -1,3 +1,3 @@
-Refer to example.html which is wp block markup that shows how I want the block styled and structured. There is no need to use user inputs, the meta fields can be hard coded into the block. 
+Refer to example.html which is wp block markup that shows how I want the block styled and structured. There is no need to use user inputs, the meta fields can be hard coded into the block.
 
-So the repeater key is performances and each row displays date (meta Date block), time (meta Time block), and note (meta Field block). I have the row number hardcoded rights now 0-4, but I want the block to automatically show the next 5 upcoming performances that are on or after the current day's date. 
+So the repeater key is performances and each row displays date (meta Date block), time (meta Time block), and note (meta Field block). I have the row number hardcoded rights now 0-4, but I want the block to automatically show the next 5 upcoming performances that are on or after the current day's date.

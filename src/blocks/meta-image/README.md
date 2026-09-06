@@ -1,2 +1,1 @@
-This block will display an image from a user input meta key which will return a an array, URL, or ID of an attachment. This block should have all the options and functionality of the WP core/image block styling and options. 
-[acf documentation](https://www.advancedcustomfields.com/resources/image/)
+This block will display an image from a user input meta key which will return a an array, URL, or ID of an attachment. This block should have all the options and functionality of the WP core/image block styling and options. [acf documentation](https://www.advancedcustomfields.com/resources/image/)

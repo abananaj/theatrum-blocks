@@ -2,47 +2,17 @@
 
 ## ⚠️ Correction (2026-08-06)
 
-This document's claims below that `board-member`, `staff-member`, `season-producer`, and
-`meta-icon` were fully **deleted** do not match the code as it actually exists today —
-whatever happened between this doc being written and now, none of that was fully carried
-out:
+This document's claims below that `board-member`, `staff-member`, `season-producer`, and `meta-icon` were fully **deleted** do not match the code as it actually exists today — whatever happened between this doc being written and now, none of that was fully carried out:
 
-- `board-member`/`staff-member` were never separate blocks post-migration — they're
-  `theatrum/site-option`'s `staff`/`board` **variations** (`memberType` attribute), still
-  defined in `site-option/block.json` with live REST endpoints in `inc/rest-endpoints.php`.
-- `season-producer` is likewise `theatrum/term-meta`'s `season-producer` **variation**
-  (`displayType` attribute), not a deleted standalone block — also still defined with a
-  live REST endpoint.
-- `meta-icon`'s folder and REST-independent `render.php`/`edit.js` were never deleted —
-  it was just left out of the `$custom_blocks` array in `theatrum-blocks.php` (unregistered
-  dead code), contrary to the "deleted outright" claim below.
+- `board-member`/`staff-member` were never separate blocks post-migration — they're `theatrum/site-option`'s `staff`/`board` **variations** (`memberType` attribute), still defined in `site-option/block.json` with live REST endpoints in `inc/rest-endpoints.php`.
+- `season-producer` is likewise `theatrum/term-meta`'s `season-producer` **variation** (`displayType` attribute), not a deleted standalone block — also still defined with a live REST endpoint.
+- `meta-icon`'s folder and REST-independent `render.php`/`edit.js` were never deleted — it was just left out of the `$custom_blocks` array in `theatrum-blocks.php` (unregistered dead code), contrary to the "deleted outright" claim below.
 
-As of 2026-08-06, all four of these (plus `theatrum/query-loop`'s `credit-loop` variation,
-`theatrum/cover-card`, and `theatrum/chance-card`) were formally **soft-deprecated**
-instead: hidden from the inserter (variation `scope` drops `inserter`; standalone blocks
-move to the `deprecated` category with `supports.inserter:false`) but kept registered/
-functional so existing content keeps rendering. `meta-icon` was re-registered under that
-same treatment rather than staying silently unregistered. See `CHANGELOG.md` under
-`[Unreleased] → Deprecated` for the authoritative record of that change. Treat every
-"✅ deleted" / "no longer registered" claim below about these four as inaccurate — the
-current README.md Block Inventory table is the source of truth for what's actually
-registered.
+As of 2026-08-06, all four of these (plus `theatrum/query-loop`'s `credit-loop` variation, `theatrum/cover-card`, and `theatrum/chance-card`) were formally **soft-deprecated** instead: hidden from the inserter (variation `scope` drops `inserter`; standalone blocks move to the `deprecated` category with `supports.inserter:false`) but kept registered/ functional so existing content keeps rendering. `meta-icon` was re-registered under that same treatment rather than staying silently unregistered. See `CHANGELOG.md` under `[Unreleased] → Deprecated` for the authoritative record of that change. Treat every "✅ deleted" / "no longer registered" claim below about these four as inaccurate — the current README.md Block Inventory table is the source of truth for what's actually registered.
 
 ## ✅ Update (2026-08-31) — cover-card, chance-card, meta-icon fully deleted
 
-The three `// ❌ delete` TODOs left in `theatrum-blocks.php` after the 2026-08-06
-soft-deprecation (Correction above) are now closed. Verification before deletion (flat
-`LIKE`, a `parse_blocks()`-based recursive scan across all post types including
-`wp_block`/`wp_template`/`wp_template_part`, and the pre-rename `chance/*` legacy
-namespace) found 0 instances in any *live* content for all three. Two non-live records
-still contain old markup and were deliberately left untouched: a trashed page (114582)
-and an unreferenced, unrendered reusable block (104870, "Home v1") — matches
-`docs/class-usage.csv`'s `.cover-card` flag exactly. Removed: PHP registration, all three
-`src/blocks/*` source directories, the dedicated `cover-card`/`meta-icon` REST endpoints
-in `inc/rest-endpoints.php`, and the theme-side `theatrum/cover-card` style entry
-(`chance-ollie`'s `custom.jsonc` → regenerated `theme.json`/`styles.json`/`blocks.json`)
-plus its dead `.cover-card .button` CSS rule. See `CHANGELOG.md` under
-`[Unreleased] → Removed` for the authoritative record.
+The three `// ❌ delete` TODOs left in `theatrum-blocks.php` after the 2026-08-06 soft-deprecation (Correction above) are now closed. Verification before deletion (flat `LIKE`, a `parse_blocks()`-based recursive scan across all post types including `wp_block`/`wp_template`/`wp_template_part`, and the pre-rename `chance/*` legacy namespace) found 0 instances in any *live* content for all three. Two non-live records still contain old markup and were deliberately left untouched: a trashed page (114582) and an unreferenced, unrendered reusable block (104870, "Home v1") — matches `docs/class-usage.csv`'s `.cover-card` flag exactly. Removed: PHP registration, all three `src/blocks/*` source directories, the dedicated `cover-card`/`meta-icon` REST endpoints in `inc/rest-endpoints.php`, and the theme-side `theatrum/cover-card` style entry (`chance-ollie`'s `custom.jsonc` → regenerated `theme.json`/`styles.json`/`blocks.json`) plus its dead `.cover-card .button` CSS rule. See `CHANGELOG.md` under `[Unreleased] → Removed` for the authoritative record.
 
 ## Status: 21 of 22 items complete (2026-07-09)
 
@@ -96,16 +66,16 @@ These are corrections/discoveries made *while implementing*, not part of the ori
 
 ### Migration map — all rows done
 
-| Deprecated block | Replacement | Status |
-|---|---|---|
-| `chance/board-member` | `chance/site-option` var. `board` | ✅ migrated + deleted |
-| `chance/staff-member` | `chance/site-option` var. `staff` | ✅ migrated + deleted |
-| `chance/season-producer` | `chance/term-meta` var. `season-producer` | ✅ migrated (8 instances) + deleted |
-| `chance/video-trailer` (folder `production-trailer`) | `chance/meta-embed` | ✅ migrated (1 instance) + deleted |
-| `chance/meta-icon` | *(deleted, no replacement)* | ✅ soft-deprecated 2026-08-06, then 0 live instances confirmed + hard-deleted 2026-08-31 (see Update above) |
-| `chance/cover-carousel` | *(deleted, no replacement)* | ✅ 0 live instances confirmed, deleted |
-| `theatrum/cover-card` | *(deleted, no replacement)* | ✅ soft-deprecated 2026-08-06, then 0 live instances confirmed + hard-deleted 2026-08-31 (see Update above) |
-| `theatrum/chance-card` | *(deleted, no replacement)* | ✅ soft-deprecated 2026-08-06, then 0 live instances confirmed + hard-deleted 2026-08-31 (see Update above) |
+| Deprecated block                                     | Replacement                               | Status                                                                                                     |
+| ---------------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `chance/board-member`                                | `chance/site-option` var. `board`         | ✅ migrated + deleted                                                                                       |
+| `chance/staff-member`                                | `chance/site-option` var. `staff`         | ✅ migrated + deleted                                                                                       |
+| `chance/season-producer`                             | `chance/term-meta` var. `season-producer` | ✅ migrated (8 instances) + deleted                                                                         |
+| `chance/video-trailer` (folder `production-trailer`) | `chance/meta-embed`                       | ✅ migrated (1 instance) + deleted                                                                          |
+| `chance/meta-icon`                                   | *(deleted, no replacement)*               | ✅ soft-deprecated 2026-08-06, then 0 live instances confirmed + hard-deleted 2026-08-31 (see Update above) |
+| `chance/cover-carousel`                              | *(deleted, no replacement)*               | ✅ 0 live instances confirmed, deleted                                                                      |
+| `theatrum/cover-card`                                | *(deleted, no replacement)*               | ✅ soft-deprecated 2026-08-06, then 0 live instances confirmed + hard-deleted 2026-08-31 (see Update above) |
+| `theatrum/chance-card`                               | *(deleted, no replacement)*               | ✅ soft-deprecated 2026-08-06, then 0 live instances confirmed + hard-deleted 2026-08-31 (see Update above) |
 
 ### Never used anywhere — deleted
 

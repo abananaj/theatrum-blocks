@@ -122,8 +122,7 @@ Merges exported `wp_global_styles` JSON into `theme.json`.
 **Refer to:**
 - [theme.json Handbook](https://developer.wordpress.org/block-editor/reference-guides/theme-json/)
 - [Theme.json Version 3 Reference (latest)](https://developer.wordpress.org/block-editor/reference-guides/theme-json-reference/theme-json-living/)
-- [JSON schema WordPress 7.0](https://raw.githubusercontent.com/WordPress/gutenberg/wp/7.0/schemas/json/theme.json)
-**Use when:**
+- [JSON schema WordPress 7.0](https://raw.githubusercontent.com/WordPress/gutenberg/wp/7.0/schemas/json/theme.json) **Use when:**
 - Merging style exports from the Site Editor
 - Updating theme.json with new color/typography settings
 
@@ -138,12 +137,9 @@ Updates the changelog section in README.md each time a git commit is made, follo
 - After making a git commit, to automatically update the changelog with the commit message and categorize it as Added, Changed, Fixed, etc.
 
 ### wp-cli Skill
-Builds WP-CLI commands based on user descriptions, offers suggestions when WP-CLI may be useful. Does NOT run WP-CLI commands directly.
-**Refer to:**
-- [WP-CLI Documentation](https://wp-cli.org/)
-**Use when:**
-- Only when asked to generate a WP-CLI command
-**Example:**
+Builds WP-CLI commands based on user descriptions, offers suggestions when WP-CLI may be useful. Does NOT run WP-CLI commands directly. **Refer to:**
+- [WP-CLI Documentation](https://wp-cli.org/) **Use when:**
+- Only when asked to generate a WP-CLI command **Example:**
 ```
 /wp-cli "list all the posts"
 ```
