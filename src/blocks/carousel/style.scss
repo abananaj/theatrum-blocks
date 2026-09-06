@@ -87,8 +87,13 @@
 		// scrollbar-color are pinned here too — .ct-scrollbar alone ties in specificity with the base
 		// hidden rule above (both single-class selectors), so relying on cascade order between this
 		// plugin's stylesheet and the theme's would be a coin flip.
-		scrollbar-width: thin;
-		scrollbar-color: var(--ct-primary, #000) transparent;
+		// Gated to engines without ::-webkit-scrollbar (Firefox): in Chrome 121+ either standard
+		// property makes the whole ::-webkit-scrollbar-* set be ignored, which would kill both the
+		// height below and the theme's .ct-scrollbar theming this class exists to pull in.
+		@supports not selector(::-webkit-scrollbar) {
+			scrollbar-width: thin;
+			scrollbar-color: var(--ct-primary, #000) transparent;
+		}
 		-ms-overflow-style: auto;
 
 		&::-webkit-scrollbar {
