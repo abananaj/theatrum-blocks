@@ -3,6 +3,10 @@
  * HTML Anchor): `<section id>` elements (first heading as text, skips ones inside a Query Loop
  * card) and anchored Query Loop cards (post title as text, skips ones inside a section) — either
  * kind also skips inactive Tabs panels. Removes itself if nothing qualifies. Enqueued as viewScript.
+ *
+ * Also runs a scroll-spy: an IntersectionObserver marks the link for whichever target is currently
+ * under the sticky-header offset with `aria-current="true"`, so style.scss can style from that
+ * attribute instead of a separately-tracked class.
  */
 
 const HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6';
@@ -145,6 +149,90 @@ function buildItem( { id, text } ) {
 }
 
 /**
+ * Mark exactly one link as the current section; semantics and styling both read this attribute.
+ *
+ * @param {Map<string, HTMLElement>} linksById All jump links, keyed by target id.
+ * @param {string}                   activeId  Id of the link to mark current.
+ */
+function setActiveLink( linksById, activeId ) {
+	linksById.forEach( ( link, id ) => {
+		if ( id === activeId ) {
+			link.setAttribute( 'aria-current', 'true' );
+		} else {
+			link.removeAttribute( 'aria-current' );
+		}
+	} );
+}
+
+/**
+ * Scroll-spy: watches each target and keeps the nearest-above-the-fold one marked current.
+ *
+ * The activation line reuses each target's own `scroll-margin-top` (style.scss sets it from
+ * `--theatrum-page-nav-offset`, the same property anchor clicks already scroll against), so the
+ * highlighted link always matches where a click on it would actually land — no separate constant
+ * to keep in sync with the sticky header's height.
+ *
+ * @param {Array<{id: string, text: string}>} items     Nav items, in document order.
+ * @param {Map<string, HTMLElement>}          linksById Jump links, keyed by target id.
+ */
+function initScrollSpy( items, linksById ) {
+	if ( ! ( 'IntersectionObserver' in window ) ) {
+		return;
+	}
+
+	const targets = items
+		.map( ( item ) => document.getElementById( item.id ) )
+		.filter( Boolean );
+
+	if ( ! targets.length ) {
+		return;
+	}
+
+	const offset =
+		parseFloat( getComputedStyle( targets[ 0 ] ).scrollMarginTop ) || 0;
+	const visible = new Set();
+	let activeId = items[ 0 ].id;
+
+	setActiveLink( linksById, activeId );
+
+	const observer = new IntersectionObserver(
+		( entries ) => {
+			entries.forEach( ( entry ) => {
+				if ( entry.isIntersecting ) {
+					visible.add( entry.target.id );
+				} else {
+					visible.delete( entry.target.id );
+				}
+			} );
+
+			if ( ! visible.size ) {
+				return;
+			}
+
+			// Document-order items, filtered to what's currently in the band: the last one is the
+			// section the reader has most recently scrolled to.
+			const next = items
+				.map( ( item ) => item.id )
+				.filter( ( id ) => visible.has( id ) )
+				.pop();
+
+			if ( next && next !== activeId ) {
+				activeId = next;
+				setActiveLink( linksById, activeId );
+			}
+		},
+		{
+			// A thin band starting just below the sticky header and ending well before the
+			// viewport's bottom, so a target counts as "current" once its top has passed the
+			// header rather than as soon as any sliver of it appears.
+			rootMargin: `-${ offset }px 0px -60% 0px`,
+		}
+	);
+
+	targets.forEach( ( target ) => observer.observe( target ) );
+}
+
+/**
  * Populate one page-nav container, or remove it if there is nothing to link to.
  *
  * @param {HTMLElement} nav The `.theatrum-page-nav` container.
@@ -161,10 +249,18 @@ function initPageNav( nav ) {
 
 	const list = document.createElement( 'div' );
 	list.className = 'wp-block-buttons theatrum-page-nav__list';
-	items.forEach( ( item ) => list.appendChild( buildItem( item ) ) );
+	const linksById = new Map();
+
+	items.forEach( ( item ) => {
+		const wrapper = buildItem( item );
+		list.appendChild( wrapper );
+		linksById.set( item.id, wrapper.querySelector( 'a' ) );
+	} );
 
 	nav.appendChild( list );
 	nav.hidden = false;
+
+	initScrollSpy( items, linksById );
 }
 
 function ready( fn ) {

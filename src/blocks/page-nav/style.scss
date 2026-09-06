@@ -17,9 +17,21 @@
 		justify-content: flex-start;
 		margin: 0;
 	}
+
+	&__item .wp-block-button__link[aria-current="true"] {
+		// Non-color-only current-section signal (WCAG 1.4.1): weight plus an underline, matching
+		// the border/underline motif used for current state elsewhere on the site.
+		font-weight: 700;
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 0.2em;
+	}
 }
-// Offset anchored sections so a sticky header doesn't cover the heading; override with --theatrum-page-nav-offset.
-section[id] {
+// Offset anchored jump targets (sections and anchored Query Loop cards) so a sticky header doesn't
+// cover them; override with --theatrum-page-nav-offset. view.js's scroll-spy reads this same
+// computed value back, so the highlighted link always matches where a click on it lands.
+section[id],
+.wp-block-query[id] .wp-block-post-template > * {
 	scroll-margin-top: var(--theatrum-page-nav-offset, 5rem);
 }
 
