@@ -233,24 +233,9 @@
 	}
 }
 
-// ── Dialog header ────────────────────────────────────────────────────────────
-// Sticky at the top; asymmetric block padding: outer edge (popup top) → padding-2xl (24px), inner edge (toward content) → gap-lg minus 1px (border slot).
-
-.popup-dialog-header {
-	display: flex;
-	align-items: center;
-	gap: var(--popup-gap-sm);
-	padding-block: var(--popup-padding) calc(var(--popup-gap) - 1px);
-	padding-inline: var(--popup-padding);
-	min-height: 32px;
-	flex-shrink: 0;
-
-	// Reserve 1px border slot; colorized by scroll-state (optional enhancement)
-	border-block-end: 1px solid transparent;
-}
-
 // ── Dialog content (scrollable body) ─────────────────────────────────────────
-// flex: 1 1 auto + min-block-size: 0 allows shrinking below content size so overflow-y: auto can engage when height is constrained; top padding is 0 since .popup-dialog-header already provides the inner gap.
+// flex: 1 1 auto + min-block-size: 0 allows shrinking below content size so overflow-y: auto can engage when height is constrained.
+// Top padding equals --popup-close-size so content clears the absolutely-positioned close button; don't reduce it without moving the button.
 
 .popup-dialog-content {
 	flex: 1 1 auto;
@@ -258,6 +243,15 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	padding: var(--popup-padding) var(--popup-padding) calc(var(--popup-padding) * 0.75) var(--popup-padding);
+
+	// The close button is the first child, so the first *content* block is what follows it — its own top margin stacked on the padding was the extra gap at the top of every popup.
+	> .popup-close-button + * {
+		margin-block-start: 0;
+	}
+
+	> :last-child {
+		margin-block-end: 0;
+	}
 }
 
 // ── Close button ─────────────────────────────────────────────────────────────

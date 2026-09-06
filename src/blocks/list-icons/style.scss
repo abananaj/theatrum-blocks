@@ -2,10 +2,22 @@
  * Icon List Block - Frontend Styles (parent wrapper). Item-level styles live in `list-item-icon`; this file owns the list wrapper reset, icon-position modifier classes, and hover-only behaviour.
  */
 
+@use "@wordpress/base-styles/breakpoints" as *;
+
 .wp-block-theatrum-list-icons {
 	list-style: none;
 	padding-left: 0;
 	margin: 0;
+
+	// --list-icon-size is an inline style from shared.js, so a stylesheet can't override the variable — cap the consuming width/height instead.
+	@media (max-width: #{ $break-small }) {
+
+		// Goes through .list-icons-item to outrank list-item-icon's own rule, whose stylesheet order isn't guaranteed.
+		.list-icons-item .list-icons-icon {
+			width: min(var(--list-icon-size, 1.125rem), var(--list-icon-size-max, 2rem));
+			height: min(var(--list-icon-size, 1.125rem), var(--list-icon-size-max, 2rem));
+		}
+	}
 
 	// Cross-axis alignment (align-items) is user-controlled via --list-icon-align (see list-item-icon/style.scss) and applies regardless of direction.
 	&.icon-position-left .list-icons-item {

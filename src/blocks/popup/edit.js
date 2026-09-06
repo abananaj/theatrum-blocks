@@ -176,7 +176,8 @@ export default function Edit( {
 					hidden={ ! open }
 					style={ { pointerEvents: open ? 'auto' : 'none' } }
 				>
-					<div className="popup-dialog-header">
+					{ /* Button lives inside .popup-dialog-content so the editor DOM matches render.php's. */ }
+					<div className="popup-dialog-content">
 						<button
 							className="popup-close-button"
 							onClick={ togglePopup }
@@ -203,8 +204,6 @@ export default function Edit( {
 								/>
 							</svg>
 						</button>
-					</div>
-					<div className="popup-dialog-content">
 						<InnerBlocks />
 					</div>
 				</div>
