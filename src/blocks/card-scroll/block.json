@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "theatrum/card-scroll",
+	"title": "Scroll Reveal Card",
+	"category": "theatrum",
+	"icon": "cover-image",
+	"description": "A card whose image panel grows into view as it scrolls onto the screen.",
+	"keywords": ["card", "scroll", "reveal"],
+	"textdomain": "theatrum-blocks",
+	"attributes": {
+		"mediaId": { "type": "number", "default": 0 },
+		"mediaUrl": { "type": "string", "default": "" },
+		"mediaAlt": { "type": "string", "default": "" },
+		"title": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": ".wp-block-theatrum-card-scroll__title",
+			"default": ""
+		},
+		"description": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": ".wp-block-theatrum-card-scroll__description",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"gradients": true,
+			"__experimentalDefaultControls": {
+				"background": false,
+				"text": false
+			}
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}

@@ -1,0 +1,62 @@
+/**
+ * Scroll Reveal Card, adapted from the "gsap-card-scroll-reveal" CodePen. Driven by a plain
+ * IntersectionObserver (view.js), not GSAP/ScrollTrigger — see view.js for why. The image sits
+ * at its full width by default so a no-JS visitor always sees it; `.is-js` (added once view.js
+ * has wired the observer) is what collapses it ahead of the reveal.
+ */
+
+.wp-block-theatrum-card-scroll {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--40, 2rem);
+
+	&__image {
+		flex: 0 0 auto;
+		width: 20%;
+		overflow: hidden;
+
+		img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	&__image-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex: 0 0 auto;
+		width: 20%;
+		aspect-ratio: 4 / 3;
+		background: var(--ct-muted-light, #dde4eb);
+		color: var(--ct-on-muted-light, #030e19);
+		font-size: 0.85em;
+	}
+
+	&.is-js &__image {
+		width: 0;
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition: width var(--ct-duration-slow-4, 600ms) var(--ct-ease-emphasis-entrance, cubic-bezier(0.29, 0, 0, 1));
+		}
+	}
+
+	&.is-js.is-revealed &__image {
+		width: 20%;
+	}
+
+	&__info {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	&__title {
+		margin: 0 0 0.5em;
+	}
+
+	&__description {
+		margin: 0;
+	}
+}

@@ -1,0 +1,97 @@
+/**
+ * Expanding Card, adapted from the "expanding-card" CodePen (fixed 304x256 layout with the
+ * info panel absolutely overlapping the image; simplified here to a fluid stacked layout so
+ * it survives arbitrary grid widths instead of one fixed card size).
+ */
+
+.wp-block-theatrum-card-expanding {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition: transform var(--ct-duration-default, 250ms) var(--ct-ease-emphasis-entrance, cubic-bezier(0.29, 0, 0, 1));
+	}
+
+	&.is-expanded {
+		transform: scale(1.08);
+	}
+
+	&__image {
+		overflow: hidden;
+		border-radius: var(--wp--preset--border-radius--small, 4px);
+
+		img {
+			display: block;
+			width: 100%;
+			aspect-ratio: 4 / 3;
+			object-fit: cover;
+
+			@media (prefers-reduced-motion: no-preference) {
+				transition: opacity var(--ct-duration-default, 250ms) var(--ct-ease-standard, ease), transform var(--ct-duration-default, 250ms) var(--ct-ease-standard, ease);
+			}
+		}
+	}
+
+	&.is-expanded &__image img {
+		opacity: 0.2;
+		transform: scale(1.1);
+	}
+
+	&__image-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 4 / 3;
+		background: var(--ct-muted-light, #dde4eb);
+		color: var(--ct-on-muted-light, #030e19);
+		font-size: 0.85em;
+	}
+
+	&__info {
+		position: relative;
+		background: var(--ct-light, #fff);
+		color: var(--ct-on-light, #030e19);
+		box-shadow: var(--wp--preset--shadow--subtle, 0 3px 5px rgba(0, 0, 0, 0.04));
+		border-radius: var(--wp--preset--border-radius--small, 4px);
+		padding: 1em 1.25em;
+	}
+
+	// Real <button>, visually reset — cursor/focus restyled explicitly below so unsetting
+	// the browser's default chrome doesn't also drop the focus indicator.
+	&__trigger {
+		all: unset;
+		display: block;
+		width: 100%;
+		cursor: pointer;
+		font: inherit;
+		color: inherit;
+
+		&:focus-visible {
+			outline: 2px solid var(--ct-primary, currentColor);
+			outline-offset: 2px;
+		}
+	}
+
+	&__title {
+		display: block;
+		font-weight: 600;
+		margin-bottom: 0.5em;
+	}
+
+	&__description {
+		margin: 0;
+		color: var(--ct-on-light, #030e19);
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition: height var(--ct-duration-slow-1, 300ms) var(--ct-ease-entrance, ease-out);
+		}
+	}
+
+	// Collapsed-by-default only once view.js has wired the toggle — until then (no JS)
+	// the full description shows, so nothing is hidden from a non-JS visitor.
+	&.is-ready &__description {
+		height: 1.6em;
+		overflow: hidden;
+	}
+}

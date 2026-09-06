@@ -166,6 +166,129 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
+	'card-expanding' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/card-expanding',
+		'title' => 'Expanding Card',
+		'category' => 'theatrum',
+		'icon' => 'excerpt-view',
+		'description' => 'A card that expands on click to reveal a description — click-triggered, not hover-only, with real button semantics.',
+		'keywords' => array(
+			'card',
+			'expand',
+			'reveal',
+			'click'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'attributes' => array(
+			'mediaId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'mediaUrl' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'mediaAlt' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'title' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => '.wp-block-theatrum-card-expanding__title',
+				'default' => ''
+			),
+			'description' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => '.wp-block-theatrum-card-expanding__description',
+				'default' => ''
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => false,
+					'text' => false
+				)
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js'
+	),
+	'card-scroll' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'theatrum/card-scroll',
+		'title' => 'Scroll Reveal Card',
+		'category' => 'theatrum',
+		'icon' => 'cover-image',
+		'description' => 'A card whose image panel grows into view as it scrolls onto the screen.',
+		'keywords' => array(
+			'card',
+			'scroll',
+			'reveal'
+		),
+		'textdomain' => 'theatrum-blocks',
+		'attributes' => array(
+			'mediaId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'mediaUrl' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'mediaAlt' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'title' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => '.wp-block-theatrum-card-scroll__title',
+				'default' => ''
+			),
+			'description' => array(
+				'type' => 'rich-text',
+				'source' => 'rich-text',
+				'selector' => '.wp-block-theatrum-card-scroll__description',
+				'default' => ''
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => false,
+					'text' => false
+				)
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js'
+	),
 	'carousel' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
