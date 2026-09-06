@@ -14,6 +14,10 @@
 
 		.ct-tab__panel {
 			display: block;
+
+			@media (prefers-reduced-motion: no-preference) {
+				animation: ct-tab-panel-fade-in var(--ct-duration-fast-2, 150ms) var(--ct-ease-entrance, ease-out);
+			}
 		}
 
 		// Reuses the frontend's active-color custom properties so the highlighted tab matches.
@@ -21,6 +25,11 @@
 
 			@include mixins.tab-header-active-colors;
 			border-bottom-color: var(--ct-tab-header-accent, currentColor);
+
+			// Selection-driven equivalent of style.scss's `.ct-tab__header.is-active::after` rotate.
+			&::after {
+				transform: translateY(-50%) rotate(180deg);
+			}
 		}
 	}
 }

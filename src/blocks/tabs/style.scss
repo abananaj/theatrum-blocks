@@ -7,6 +7,17 @@
 
 $ct-tabs-breakpoint: 768px;
 
+@keyframes ct-tab-panel-fade-in {
+
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
 .ct-tabs {
 	// Reset the header <button> so it reads as plain text until styled.
 	.ct-tab__header {
@@ -20,9 +31,12 @@ $ct-tabs-breakpoint: 768px;
 		cursor: pointer;
 		color: var(--ct-tab-header-color, var(--ct-light, inherit));
 		background-color: var(--ct-tab-header-bg, transparent);
-		padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+		// Right padding leaves room for the mobile-only rotating indicator (::after below); reset at the desktop breakpoint.
+		padding: var(--wp--preset--spacing--20) calc(var(--wp--preset--spacing--30) + 1.5rem)
+			var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
 		border-radius: var(--wp--preset--border-radius--x-large);
 		font-size: 1.25rem;
+		position: relative;
 		transition:
 			color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease),
 			background-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease),
@@ -32,6 +46,35 @@ $ct-tabs-breakpoint: 768px;
 		h3 {
 			font-size: inherit;
 			font-weight: inherit;
+		}
+
+		// Mobile accordion indicator: chevron (same asset as formats/_arrows.scss) points down when
+		// closed, flips to point up when active. Hidden in the desktop tab strip below.
+		&::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			right: var(--wp--preset--spacing--30);
+			width: 0.75rem;
+			height: 0.45rem;
+			background-color: currentcolor;
+			-webkit-mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgMTUgOSI+Cgk8cGF0aCBmaWxsPSIjMzMzMzMzIiBkPSJNNy44NjcgOC41NzRsLTcuMjItNy4yMi43MDctLjcwOEw3Ljg2NyA3LjE2IDE0LjA1Ljk4bC43MDYuNzA3Ii8+Cjwvc3ZnPgo=);
+			mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgMTUgOSI+Cgk8cGF0aCBmaWxsPSIjMzMzMzMzIiBkPSJNNy44NjcgOC41NzRsLTcuMjItNy4yMi43MDctLjcwOEw3Ljg2NyA3LjE2IDE0LjA1Ljk4bC43MDYuNzA3Ii8+Cjwvc3ZnPgo=);
+			-webkit-mask-size: contain;
+			mask-size: contain;
+			-webkit-mask-repeat: no-repeat;
+			mask-repeat: no-repeat;
+			-webkit-mask-position: center;
+			mask-position: center;
+			transform: translateY(-50%) rotate(0deg);
+
+			@media (prefers-reduced-motion: no-preference) {
+				transition: transform var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease);
+			}
+		}
+
+		&.is-active::after {
+			transform: translateY(-50%) rotate(180deg);
 		}
 
 		&:hover {
@@ -51,7 +94,7 @@ $ct-tabs-breakpoint: 768px;
 			@include mixins.tab-header-active-colors;
 			border-radius: var(--wp--preset--border-radius--large);
 			// Accent underline defaults to the active header's own text color, overridable via --ct-tab-header-accent.
-			// border-bottom-color: var(--ct-tab-header-accent, currentColor);
+			border-bottom-color: var(--ct-tab-header-accent, currentColor);
 		}
 	}
 
@@ -61,6 +104,10 @@ $ct-tabs-breakpoint: 768px;
 
 		&.is-active {
 			display: block;
+
+			@media (prefers-reduced-motion: no-preference) {
+				animation: ct-tab-panel-fade-in var(--ct-duration-fast-2, 150ms) var(--ct-ease-entrance, ease-out);
+			}
 		}
 	}
 
@@ -76,6 +123,15 @@ $ct-tabs-breakpoint: 768px;
 	.ct-tabs {
 
 		@include mixins.tab-strip-layout;
+
+		.ct-tab__header {
+			// Indicator is mobile-accordion-only; desktop tab strip doesn't need the reserved space.
+			padding-right: var(--wp--preset--spacing--30);
+
+			&::after {
+				display: none;
+			}
+		}
 
 		&.is-equal-width .ct-tab__header {
 			flex: 1 1 0;
