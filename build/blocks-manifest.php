@@ -173,7 +173,7 @@ return array(
 		'title' => 'Expanding Card',
 		'category' => 'theatrum',
 		'icon' => 'excerpt-view',
-		'description' => 'A card that expands on click to reveal a description — click-triggered, not hover-only, with real button semantics.',
+		'description' => 'A card that expands on click to reveal everything below its heading — click-triggered, not hover-only, with real button semantics. Heading and body are nested blocks; the image is chosen and sized in the sidebar.',
 		'keywords' => array(
 			'card',
 			'expand',
@@ -181,7 +181,15 @@ return array(
 			'click'
 		),
 		'textdomain' => 'theatrum-blocks',
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
 		'attributes' => array(
+			'useFeaturedImage' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
 			'mediaId' => array(
 				'type' => 'number',
 				'default' => 0
@@ -194,17 +202,36 @@ return array(
 				'type' => 'string',
 				'default' => ''
 			),
-			'title' => array(
-				'type' => 'rich-text',
-				'source' => 'rich-text',
-				'selector' => '.wp-block-theatrum-card-expanding__title',
+			'imageSizeSlug' => array(
+				'type' => 'string',
+				'default' => 'full'
+			),
+			'imageWidth' => array(
+				'type' => 'string',
+				'default' => '100'
+			),
+			'imageWidthUnit' => array(
+				'type' => 'string',
+				'default' => '%'
+			),
+			'imageHeight' => array(
+				'type' => 'string',
 				'default' => ''
 			),
-			'description' => array(
-				'type' => 'rich-text',
-				'source' => 'rich-text',
-				'selector' => '.wp-block-theatrum-card-expanding__description',
-				'default' => ''
+			'imageHeightUnit' => array(
+				'type' => 'string',
+				'default' => 'px'
+			),
+			'imageAspectRatio' => array(
+				'type' => 'string',
+				'default' => '4/3'
+			),
+			'imageObjectFit' => array(
+				'type' => 'string',
+				'default' => 'cover'
+			),
+			'imageFocalPoint' => array(
+				'type' => 'object'
 			)
 		),
 		'supports' => array(
@@ -224,7 +251,9 @@ return array(
 				)
 			)
 		),
+		'render' => 'file:./render.php',
 		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),
@@ -235,14 +264,22 @@ return array(
 		'title' => 'Scroll Reveal Card',
 		'category' => 'theatrum',
 		'icon' => 'cover-image',
-		'description' => 'A card whose image panel grows into view as it scrolls onto the screen.',
+		'description' => 'A card whose image panel grows into view as it scrolls onto the screen. Heading and body are nested blocks; the image is chosen and sized in the sidebar.',
 		'keywords' => array(
 			'card',
 			'scroll',
 			'reveal'
 		),
 		'textdomain' => 'theatrum-blocks',
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
 		'attributes' => array(
+			'useFeaturedImage' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
 			'mediaId' => array(
 				'type' => 'number',
 				'default' => 0
@@ -255,17 +292,32 @@ return array(
 				'type' => 'string',
 				'default' => ''
 			),
-			'title' => array(
-				'type' => 'rich-text',
-				'source' => 'rich-text',
-				'selector' => '.wp-block-theatrum-card-scroll__title',
-				'default' => ''
+			'imageSizeSlug' => array(
+				'type' => 'string',
+				'default' => 'full'
 			),
-			'description' => array(
-				'type' => 'rich-text',
-				'source' => 'rich-text',
-				'selector' => '.wp-block-theatrum-card-scroll__description',
-				'default' => ''
+			'imageWidth' => array(
+				'type' => 'string',
+				'default' => '20'
+			),
+			'imageWidthUnit' => array(
+				'type' => 'string',
+				'default' => '%'
+			),
+			'imageHeight' => array(
+				'type' => 'string',
+				'default' => '12'
+			),
+			'imageHeightUnit' => array(
+				'type' => 'string',
+				'default' => 'rem'
+			),
+			'imageObjectFit' => array(
+				'type' => 'string',
+				'default' => 'cover'
+			),
+			'imageFocalPoint' => array(
+				'type' => 'object'
 			)
 		),
 		'supports' => array(
@@ -285,7 +337,9 @@ return array(
 				)
 			)
 		),
+		'render' => 'file:./render.php',
 		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),

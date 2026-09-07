@@ -5,24 +5,65 @@
 	"title": "Expanding Card",
 	"category": "theatrum",
 	"icon": "excerpt-view",
-	"description": "A card that expands on click to reveal a description — click-triggered, not hover-only, with real button semantics.",
-	"keywords": ["card", "expand", "reveal", "click"],
+	"description": "A card that expands on click to reveal everything below its heading — click-triggered, not hover-only, with real button semantics. Heading and body are nested blocks; the image is chosen and sized in the sidebar.",
+	"keywords": [
+		"card",
+		"expand",
+		"reveal",
+		"click"
+	],
 	"textdomain": "theatrum-blocks",
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"attributes": {
-		"mediaId": { "type": "number", "default": 0 },
-		"mediaUrl": { "type": "string", "default": "" },
-		"mediaAlt": { "type": "string", "default": "" },
-		"title": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": ".wp-block-theatrum-card-expanding__title",
+		"useFeaturedImage": {
+			"type": "boolean",
+			"default": false
+		},
+		"mediaId": {
+			"type": "number",
+			"default": 0
+		},
+		"mediaUrl": {
+			"type": "string",
 			"default": ""
 		},
-		"description": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": ".wp-block-theatrum-card-expanding__description",
+		"mediaAlt": {
+			"type": "string",
 			"default": ""
+		},
+		"imageSizeSlug": {
+			"type": "string",
+			"default": "full"
+		},
+		"imageWidth": {
+			"type": "string",
+			"default": "100"
+		},
+		"imageWidthUnit": {
+			"type": "string",
+			"default": "%"
+		},
+		"imageHeight": {
+			"type": "string",
+			"default": ""
+		},
+		"imageHeightUnit": {
+			"type": "string",
+			"default": "px"
+		},
+		"imageAspectRatio": {
+			"type": "string",
+			"default": "4/3"
+		},
+		"imageObjectFit": {
+			"type": "string",
+			"default": "cover"
+		},
+		"imageFocalPoint": {
+			"type": "object"
 		}
 	},
 	"supports": {
@@ -42,7 +83,9 @@
 			}
 		}
 	},
+	"render": "file:./render.php",
 	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"viewScript": "file:./view.js"
 }

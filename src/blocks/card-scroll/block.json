@@ -5,24 +5,60 @@
 	"title": "Scroll Reveal Card",
 	"category": "theatrum",
 	"icon": "cover-image",
-	"description": "A card whose image panel grows into view as it scrolls onto the screen.",
-	"keywords": ["card", "scroll", "reveal"],
+	"description": "A card whose image panel grows into view as it scrolls onto the screen. Heading and body are nested blocks; the image is chosen and sized in the sidebar.",
+	"keywords": [
+		"card",
+		"scroll",
+		"reveal"
+	],
 	"textdomain": "theatrum-blocks",
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"attributes": {
-		"mediaId": { "type": "number", "default": 0 },
-		"mediaUrl": { "type": "string", "default": "" },
-		"mediaAlt": { "type": "string", "default": "" },
-		"title": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": ".wp-block-theatrum-card-scroll__title",
+		"useFeaturedImage": {
+			"type": "boolean",
+			"default": false
+		},
+		"mediaId": {
+			"type": "number",
+			"default": 0
+		},
+		"mediaUrl": {
+			"type": "string",
 			"default": ""
 		},
-		"description": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": ".wp-block-theatrum-card-scroll__description",
+		"mediaAlt": {
+			"type": "string",
 			"default": ""
+		},
+		"imageSizeSlug": {
+			"type": "string",
+			"default": "full"
+		},
+		"imageWidth": {
+			"type": "string",
+			"default": "20"
+		},
+		"imageWidthUnit": {
+			"type": "string",
+			"default": "%"
+		},
+		"imageHeight": {
+			"type": "string",
+			"default": "12"
+		},
+		"imageHeightUnit": {
+			"type": "string",
+			"default": "rem"
+		},
+		"imageObjectFit": {
+			"type": "string",
+			"default": "cover"
+		},
+		"imageFocalPoint": {
+			"type": "object"
 		}
 	},
 	"supports": {
@@ -42,7 +78,9 @@
 			}
 		}
 	},
+	"render": "file:./render.php",
 	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"viewScript": "file:./view.js"
 }

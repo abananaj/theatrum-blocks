@@ -1,13 +1,24 @@
 /**
- * Expanding Card, adapted from the "expanding-card" CodePen (fixed 304x256 layout with the
- * info panel absolutely overlapping the image; simplified here to a fluid stacked layout so
- * it survives arbitrary grid widths instead of one fixed card size).
+ * Expanding Card, adapted from the "expanding-card" CodePen (fixed 304x256 layout with the info
+ * panel absolutely overlapping the image). Simplified here to a fluid stacked card so it survives
+ * arbitrary grid widths: the card itself is the white panel, with the image bleeding to its edges.
+ *
+ * Structure (save.js):
+ *   `__image`   — optional, sized entirely by the --theatrum-card-image-* custom properties the
+ *                 card carries (src/components/card-image).
+ *   `__content` — the nested blocks. view.js treats the first heading in here as the toggle and
+ *                 wraps everything after it in `__collapse`, which is what opens and closes.
  */
 
 .wp-block-theatrum-card-expanding {
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
+	background: var(--ct-light, #fff);
+	color: var(--ct-on-light, #030e19);
+	border-radius: var(--wp--preset--border-radius--small, 4px);
+	box-shadow: var(--wp--preset--shadow--subtle, 0 3px 5px rgba(0, 0, 0, 0.04));
 
 	@media (prefers-reduced-motion: no-preference) {
 		transition: transform var(--ct-duration-default, 250ms) var(--ct-ease-emphasis-entrance, cubic-bezier(0.29, 0, 0, 1));
@@ -18,14 +29,16 @@
 	}
 
 	&__image {
+		width: var(--theatrum-card-image-width, 100%);
 		overflow: hidden;
-		border-radius: var(--wp--preset--border-radius--small, 4px);
 
 		img {
 			display: block;
 			width: 100%;
-			aspect-ratio: 4 / 3;
-			object-fit: cover;
+			height: var(--theatrum-card-image-height, auto);
+			aspect-ratio: var(--theatrum-card-image-aspect-ratio, 4 / 3);
+			object-fit: var(--theatrum-card-image-object-fit, cover);
+			object-position: var(--theatrum-card-image-object-position, 50% 50%);
 
 			@media (prefers-reduced-motion: no-preference) {
 				transition: opacity var(--ct-duration-default, 250ms) var(--ct-ease-standard, ease), transform var(--ct-duration-default, 250ms) var(--ct-ease-standard, ease);
@@ -38,59 +51,62 @@
 		transform: scale(1.1);
 	}
 
-	&__image-placeholder {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		aspect-ratio: 4 / 3;
-		background: var(--ct-muted-light, #dde4eb);
-		color: var(--ct-on-muted-light, #030e19);
-		font-size: 0.85em;
-	}
-
-	&__info {
-		position: relative;
-		background: var(--ct-light, #fff);
-		color: var(--ct-on-light, #030e19);
-		box-shadow: var(--wp--preset--shadow--subtle, 0 3px 5px rgba(0, 0, 0, 0.04));
-		border-radius: var(--wp--preset--border-radius--small, 4px);
+	&__content {
 		padding: 1em 1.25em;
+
+		// Nested blocks bring their own margins; the card owns its own rhythm instead.
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: 0.5em;
+		}
 	}
 
-	// Real <button>, visually reset — cursor/focus restyled explicitly below so unsetting
-	// the browser's default chrome doesn't also drop the focus indicator.
+	// The heading view.js wired up. Positioned so the trigger's overlay can cover this row only —
+	// not the whole card, whose body may hold its own links once opened.
+	&__heading {
+		position: relative;
+		cursor: pointer;
+	}
+
+	// Real <button>, visually reset. Left `inline` (what `all: unset` gives) so the heading's
+	// line-clamp utility still governs the text; the overlay below supplies the hit area, and the
+	// focus ring is restored explicitly since `all: unset` drops it too.
 	&__trigger {
 		all: unset;
-		display: block;
-		width: 100%;
 		cursor: pointer;
-		font: inherit;
-		color: inherit;
 
-		&:focus-visible {
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+		}
+
+		&:focus-visible::after {
 			outline: 2px solid var(--ct-primary, currentColor);
 			outline-offset: 2px;
 		}
 	}
 
-	&__title {
-		display: block;
-		font-weight: 600;
-		margin-bottom: 0.5em;
+	// Fallback trigger: a heading that already holds a link can't hold a button, so view.js makes
+	// the heading itself the control instead (see view.js).
+	&__heading[role="button"]:focus-visible {
+		outline: 2px solid var(--ct-primary, currentColor);
+		outline-offset: 2px;
 	}
 
-	&__description {
-		margin: 0;
-		color: var(--ct-on-light, #030e19);
+	&__collapse {
 
 		@media (prefers-reduced-motion: no-preference) {
 			transition: height var(--ct-duration-slow-1, 300ms) var(--ct-ease-entrance, ease-out);
 		}
 	}
 
-	// Collapsed-by-default only once view.js has wired the toggle — until then (no JS)
-	// the full description shows, so nothing is hidden from a non-JS visitor.
-	&.is-ready &__description {
+	// Collapsed-by-default only once view.js has wired the toggle — until then (no JS) the whole
+	// card shows, so nothing is hidden from a non-JS visitor.
+	&.is-ready &__collapse {
 		height: 1.6em;
 		overflow: hidden;
 	}

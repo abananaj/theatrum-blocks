@@ -1,0 +1,16 @@
+/**
+ * Editor-only: the stand-in shown in the image's slot until one is chosen (placeholder.js).
+ * The front end has no image element at all until there's an image, so none of this ships.
+ */
+
+.wp-block-theatrum-card-expanding {
+
+	&__image-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: var(--theatrum-card-image-aspect-ratio, 4 / 3);
+		background: var(--ct-muted-light, #dde4eb);
+		color: var(--ct-on-muted-light, #030e19);
+	}
+}

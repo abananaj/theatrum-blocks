@@ -1,26 +1,10 @@
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+/**
+ * Dynamic block: save writes only the nested blocks, bare — render.php owns the card wrapper, the
+ * image element and the `__content` wrapper (the same split theatrum/carousel uses). The image has
+ * to be resolved server-side so "use the featured image" can mean *this* post inside a Query Loop.
+ */
+import { InnerBlocks } from '@wordpress/block-editor';
 
-export default function save( { attributes } ) {
-	const { mediaUrl, mediaAlt, title, description } = attributes;
-	const blockProps = useBlockProps.save();
-
-	return (
-		<div { ...blockProps }>
-			<div className="wp-block-theatrum-card-scroll__image">
-				{ mediaUrl && <img src={ mediaUrl } alt={ mediaAlt } /> }
-			</div>
-			<div className="wp-block-theatrum-card-scroll__info">
-				<RichText.Content
-					tagName="h3"
-					className="wp-block-theatrum-card-scroll__title max-line-two"
-					value={ title }
-				/>
-				<RichText.Content
-					tagName="p"
-					className="wp-block-theatrum-card-scroll__description"
-					value={ description }
-				/>
-			</div>
-		</div>
-	);
+export default function save() {
+	return <InnerBlocks.Content />;
 }

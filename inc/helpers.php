@@ -752,3 +752,180 @@ function theatrum_embed_allowed_html() {
 	);
 	return $allowed;
 }
+
+/**
+ * Card image helpers — shared by theatrum/card-expanding and theatrum/card-scroll, whose image is
+ * a block attribute rather than a nested block (see src/components/card-image).
+ *
+ * The geometry is emitted as CSS custom properties on the `__image` element itself, not on the
+ * block wrapper: get_block_wrapper_attributes() runs a merged style through safecss_filter_attr(),
+ * which has historically dropped custom properties, so writing the style directly here is the same
+ * approach theatrum/carousel already uses for its own vars.
+ */
+
+// Digits-only (not sanitize_text_field, which allows CSS-breaking characters) plus a unit allowlist.
+function theatrum_card_image_length($value, $unit, $default_unit = '%') {
+	$allowed_units = array('px', '%', 'em', 'rem');
+	$number        = preg_replace('/[^0-9.]/', '', (string) $value);
+
+	if ('' === $number) {
+		return '';
+	}
+
+	$unit = in_array($unit, $allowed_units, true) ? $unit : $default_unit;
+
+	return $number . $unit;
+}
+
+/**
+ * Builds the `--theatrum-card-image-*` declarations for a card's image element. Mirrors
+ * src/components/card-image/get-card-image-vars.js — keep the two in step.
+ *
+ * @param array $attributes           Block attributes.
+ * @param bool  $include_aspect_ratio Whether this block offers an aspect-ratio control
+ *                                    (theatrum/card-scroll doesn't — see its README).
+ * @return string Style attribute value, already escaped; empty when nothing is set.
+ */
+function theatrum_card_image_style($attributes, $include_aspect_ratio = true) {
+	$parts = array();
+
+	$width = theatrum_card_image_length($attributes['imageWidth'] ?? '', $attributes['imageWidthUnit'] ?? '%');
+	if ('' !== $width) {
+		$parts[] = '--theatrum-card-image-width:' . $width;
+	}
+
+	$height = theatrum_card_image_length($attributes['imageHeight'] ?? '', $attributes['imageHeightUnit'] ?? 'px', 'px');
+	if ('' !== $height) {
+		$parts[] = '--theatrum-card-image-height:' . $height;
+	}
+
+	if ($include_aspect_ratio) {
+		$allowed_ratios = array('auto', '1', '4/3', '3/4', '16/9', '9/16');
+		$ratio          = $attributes['imageAspectRatio'] ?? '';
+		if (in_array($ratio, $allowed_ratios, true)) {
+			$parts[] = '--theatrum-card-image-aspect-ratio:' . $ratio;
+		}
+	}
+
+	$allowed_fits = array('cover', 'contain', 'fill');
+	$fit          = $attributes['imageObjectFit'] ?? '';
+	if (in_array($fit, $allowed_fits, true)) {
+		$parts[] = '--theatrum-card-image-object-fit:' . $fit;
+	}
+
+	$focal = $attributes['imageFocalPoint'] ?? null;
+	if (is_array($focal) && isset($focal['x'], $focal['y'])) {
+		$parts[] = sprintf(
+			'--theatrum-card-image-object-position:%d%% %d%%',
+			round((float) $focal['x'] * 100),
+			round((float) $focal['y'] * 100)
+		);
+	}
+
+	return esc_attr(implode(';', $parts));
+}
+
+/**
+ * The height half of theatrum_card_image_style(), for an element that needs the card's band height
+ * but none of the image's other geometry.
+ *
+ * theatrum/card-scroll's `__content` column carries it: the card is a fixed-height band, and a
+ * flex item only stops growing with its content once it has a *definite* height of its own — which
+ * is also what gives its `__body` section something to scroll inside. Written onto the element for
+ * the same reason as the image's own properties, above.
+ *
+ * @param array $attributes Block attributes.
+ * @return string Style attribute value, already escaped; empty when no height is set.
+ */
+function theatrum_card_height_style($attributes) {
+	$height = theatrum_card_image_length($attributes['imageHeight'] ?? '', $attributes['imageHeightUnit'] ?? 'px', 'px');
+
+	return '' === $height ? '' : esc_attr('--theatrum-card-image-height:' . $height);
+}
+
+/**
+ * Renders a card's `__image` element, or an empty string when the card has no image to show.
+ *
+ * With "Use featured image" on, the picture comes from the post being rendered — which inside a
+ * Query Loop is each queried post in turn, the whole reason these blocks render server-side. A
+ * separately selected image stays usable as the fallback for posts with no featured image.
+ *
+ * @param array  $attributes Block attributes.
+ * @param int    $post_id    Post to read the featured image from.
+ * @param string $base_class The block's base class, e.g. `wp-block-theatrum-card-scroll`.
+ * @param bool   $include_aspect_ratio Passed through to theatrum_card_image_style().
+ * @return string
+ */
+function theatrum_card_image_html($attributes, $post_id, $base_class, $include_aspect_ratio = true) {
+	$use_featured  = ! empty($attributes['useFeaturedImage']);
+	$selected_id   = isset($attributes['mediaId']) ? (int) $attributes['mediaId'] : 0;
+	$selected_url  = isset($attributes['mediaUrl']) ? (string) $attributes['mediaUrl'] : '';
+	$selected_alt  = isset($attributes['mediaAlt']) ? (string) $attributes['mediaAlt'] : '';
+	$attachment_id = 0;
+	$is_featured   = false;
+
+	if ($use_featured && $post_id) {
+		$attachment_id = (int) get_post_thumbnail_id($post_id);
+		$is_featured   = (bool) $attachment_id;
+	}
+
+	if ( ! $attachment_id) {
+		$attachment_id = $selected_id;
+	}
+
+	$size = isset($attributes['imageSizeSlug']) ? sanitize_key($attributes['imageSizeSlug']) : 'full';
+	if ( ! in_array($size, array_merge(get_intermediate_image_sizes(), array('full')), true)) {
+		$size = 'full';
+	}
+
+	if ($attachment_id) {
+		// The attachment's own alt text describes the featured image; the block's Alt Text field
+		// describes the *selected* image, so it would be wrong to reuse it for someone else's.
+		$image_attrs = ( ! $is_featured && '' !== $selected_alt) ? array('alt' => $selected_alt) : array();
+		$image       = wp_get_attachment_image($attachment_id, $size, false, $image_attrs);
+	} elseif ('' !== $selected_url) {
+		// A URL-only image (no attachment behind it) — still supported, just without srcset.
+		$image = sprintf('<img src="%s" alt="%s" />', esc_url($selected_url), esc_attr($selected_alt));
+	} else {
+		return '';
+	}
+
+	if ('' === $image) {
+		return '';
+	}
+
+	$style = theatrum_card_image_style($attributes, $include_aspect_ratio);
+
+	return sprintf(
+		'<div class="%1$s__image"%2$s>%3$s</div>',
+		esc_attr($base_class),
+		'' !== $style ? ' style="' . $style . '"' : '',
+		$image
+	);
+}
+
+/**
+ * True when a card block's `$content` is markup saved by a pre-dynamic version of the block.
+ *
+ * A deprecation only rewrites `post_content` when the post is opened *and saved*. Until then the
+ * saved HTML is the whole old card — wrapper, image and all — and a render callback would wrap a
+ * second card around it. Detected by the content opening with the block's own wrapper, which the
+ * current save() (nested blocks only) never does.
+ *
+ * The class has to match as a whole token, not a substring: the first block inside a current card
+ * is a section group carrying `{base_class}__header`, which a substring test would read as the old
+ * wrapper and hand the card straight back unrendered.
+ *
+ * @param string $content    Block content passed to the render callback.
+ * @param string $base_class The block's base class.
+ * @return bool
+ */
+function theatrum_card_is_legacy_content($content, $base_class) {
+	$trimmed = ltrim((string) $content);
+
+	if ('' === $trimmed || ! preg_match('/^<div\b[^>]*\sclass="([^"]*)"/', $trimmed, $matches)) {
+		return false;
+	}
+
+	return in_array($base_class, preg_split('/\s+/', trim($matches[1])), true);
+}

@@ -1,40 +1,117 @@
 /**
  * Scroll Reveal Card, adapted from the "gsap-card-scroll-reveal" CodePen. Driven by a plain
- * IntersectionObserver (view.js), not GSAP/ScrollTrigger — see view.js for why. The image sits
- * at its full width by default so a no-JS visitor always sees it; `.is-js` (added once view.js
- * has wired the observer) is what collapses it ahead of the reveal.
+ * IntersectionObserver (view.js), not GSAP/ScrollTrigger — see view.js for why.
+ *
+ * Structure (render.php + edit.js TEMPLATE):
+ *   `__image`   — the panel that grows, at the card's leading edge.
+ *   `__content` — the nested blocks, the text column beside it. Seeded with two groups:
+ *     `__header` — fits its content and stays put.
+ *     `__body`   — takes the height that's left and scrolls. The only scroll region in the card;
+ *                  nothing above it ever scrolls, at any nesting depth.
+ *
+ * The card is a fixed-height band (the Height control, default 12rem): the panel and the text
+ * column each carry that height, so the card can't grow past it however much body copy there is,
+ * and the reveal changes the card's horizontal layout only — nothing below it moves while it runs.
+ * `object-fit: cover` means the narrowing panel crops the picture rather than distorting it.
+ *
+ * The panel sits at its full width by default so a no-JS visitor always sees it; `.is-js` (added
+ * once view.js has wired the observer) is what collapses it ahead of the reveal.
  */
 
 .wp-block-theatrum-card-scroll {
 	display: flex;
-	align-items: center;
-	gap: var(--wp--preset--spacing--40, 2rem);
+	align-items: stretch;
 
+	// The band's height is each column's own `height`, and it has to be a definite one: the <img>
+	// inside the panel is `height: 100%`, which against an auto-height parent would resolve to the
+	// picture's natural height and blow the band open. The sizing custom properties are written
+	// onto these elements (render.php) rather than the block wrapper, since a merged style on the
+	// wrapper goes through safecss_filter_attr() — see inc/helpers.php.
 	&__image {
 		flex: 0 0 auto;
-		width: 20%;
+		width: var(--theatrum-card-image-width, 20%);
+		height: var(--theatrum-card-image-height, 12rem);
 		overflow: hidden;
+		border-radius: var(--wp--preset--border-radius--small, 4px);
 
 		img {
 			display: block;
 			width: 100%;
 			height: 100%;
-			object-fit: cover;
+			object-fit: var(--theatrum-card-image-object-fit, cover);
+			object-position: var(--theatrum-card-image-object-position, 50% 50%);
 		}
 	}
 
-	&__image-placeholder {
+	// Same definite height as the panel, so the card's height is the band whether or not there's
+	// an image. A flex column, so `__body` can be handed whatever height `__header` leaves.
+	//
+	// It never scrolls itself: `__body` is the only scroll region in the card, which is the whole
+	// point of the split. A column with no `__body` anywhere in it clips at the band instead of
+	// quietly scrolling, because a column that scrolls takes the header down with it.
+	&__content {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex: 0 0 auto;
-		width: 20%;
-		aspect-ratio: 4 / 3;
-		background: var(--ct-muted-light, #dde4eb);
-		color: var(--ct-on-muted-light, #030e19);
-		font-size: 0.85em;
+		flex: 1 1 auto;
+		flex-direction: column;
+		min-width: 0;
+		height: var(--theatrum-card-image-height, 12rem);
+		overflow: hidden;
+
+		// Nested blocks bring their own margins; the card owns its own rhythm instead.
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: 0.75em;
+		}
 	}
 
+	// The sections don't have to be direct children. An author's own wrapper group around them —
+	// the shape the source pattern uses, and the shape a card picks up as soon as the pair gets
+	// grouped for a background or padding — would otherwise absorb the column's height and leave
+	// the body nothing to size against, so the whole column would overflow and the header would
+	// scroll away. Every element on the path down to the body is made a pass-through flex column,
+	// so the band's height reaches the body however deep it sits.
+	&__content :has(.wp-block-theatrum-card-scroll__body) {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	// Sized by its content and never scrolled — whatever the author puts here is always visible.
+	&__header {
+		flex: 0 0 auto;
+	}
+
+	// A constrained group hands its children `margin-inline: auto !important`, and auto inline
+	// margins switch off a flex item's stretch — so inside an author's wrapper the sections would
+	// shrink to their content the moment that wrapper became a flex column. The margins can't be
+	// outranked, so the width is taken away from them instead: at full width there's no free space
+	// left for an auto margin to take, and both resolve to zero.
+	&__header,
+	&__body {
+		width: 100%;
+	}
+
+	// Takes the height the header leaves and scrolls the overflow. `min-height: 0` is what lets a
+	// flex item shrink below its content in the first place; without it the body would size to its
+	// copy and push the card open instead of scrolling.
+	&__body {
+		flex: 1 1 auto;
+		min-height: 0;
+
+		// Header and body are two panels of one surface (the pattern this follows butts them
+		// together), so the column's rhythm doesn't apply above the body. Same specificity as
+		// that rule, later in the file — which is what lets it win.
+		margin-block-start: 0;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	// Collapsed ahead of the reveal. The flex gap keeps the text a constant distance from the
+	// panel, so it slides across as the panel opens — the movement the source pen gets from GSAP.
 	&.is-js &__image {
 		width: 0;
 
@@ -44,19 +121,6 @@
 	}
 
 	&.is-js.is-revealed &__image {
-		width: 20%;
-	}
-
-	&__info {
-		flex: 1 1 auto;
-		min-width: 0;
-	}
-
-	&__title {
-		margin: 0 0 0.5em;
-	}
-
-	&__description {
-		margin: 0;
+		width: var(--theatrum-card-image-width, 20%);
 	}
 }
