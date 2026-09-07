@@ -39,6 +39,16 @@ export function initCarousel( component ) {
 		return;
 	}
 
+	// Claim the TRACK, not the root: index.js does a flat querySelectorAll for
+	// `.is-style-ct-carousel`, so a carousel-styled query nested inside another one gives two
+	// roots that resolve to the same scroller — each built its own arrow pair, one at the inner
+	// root's edge and one further out. The root-level guard below cannot catch that, because
+	// the outer root's querySelector never sees the inner root's buttons as its own.
+	if ( content.dataset.ctCarouselBound ) {
+		return;
+	}
+	content.dataset.ctCarouselBound = 'true';
+
 	let prevButton = component.querySelector( '.theatrum-arrow-prev' );
 	let nextButton = component.querySelector( '.theatrum-arrow-next' );
 
