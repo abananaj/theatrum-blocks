@@ -32,8 +32,10 @@
 			gap: min(var(--ct-carousel-gap, 20px), 12px);
 		}
 
+		// core's flow-layout block gap (`:where(.is-layout-flow) > :where(:not(:first-child))`) still applies here, and in a horizontal flex row it lands as a top margin on every card but the first — which then stretches 1 block-gap taller than its siblings.
 		> li {
 			flex: 0 0 var(--ct-carousel-card-width, 300px);
+			margin-block-start: 0;
 			width: auto; // beats .columns-N > li { width: calc(...) }
 			max-width: none;
 			scroll-snap-align: start;
@@ -82,6 +84,7 @@
 
 		> li {
 			display: none;
+			margin-block-start: 0; // same flow-gap leak as the carousel — without this, every slide but the first sits 1 block-gap lower.
 			width: auto;
 			max-width: none;
 
