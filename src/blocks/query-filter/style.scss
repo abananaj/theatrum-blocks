@@ -36,10 +36,11 @@
 
 	.query-filter__submit {
 		padding: 0.375rem 1rem;
-		border: 1px solid var(--ct-dark-blue);
+		// --ct-dark-blue/--ct-on-dark-blue were never defined anywhere, so border, background and colour were all invalid and the button rendered unstyled until hovered. The nomenclature pair is --ct-dark/--ct-on-dark; literals match :root, per the plugin fallback rule.
+		border: 1px solid var(--ct-dark, #030e19);
 		border-radius: 2rem;
-		background-color: var(--ct-dark-blue);
-		color: var(--ct-on-dark-blue);
+		background-color: var(--ct-dark, #030e19);
+		color: var(--ct-on-dark, #f3f9ff);
 		font-family: inherit;
 		font-size: 0.875rem;
 		cursor: pointer;
