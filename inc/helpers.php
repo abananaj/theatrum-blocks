@@ -81,6 +81,11 @@ function theatrum_decode_entities($value) {
 	return htmlspecialchars($decoded, ENT_NOQUOTES, 'UTF-8');
 }
 
+/** Decode-only variant for REST preview payloads: React escapes text nodes itself, so the re-escape in theatrum_decode_entities() would show as literal &amp;. Never use this for frontend output. */
+function theatrum_decode_entities_for_preview($value) {
+	return html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
+}
+
 /**
  * Normalizes a related-post meta value (raw ID, WP_Post, ACF Post Object array, or arrays of those) into a flat list of post IDs. Shared by meta-related's render.php and its REST endpoint so both resolve the same posts.
  *

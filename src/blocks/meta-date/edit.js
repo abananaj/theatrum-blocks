@@ -195,7 +195,6 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						className="wp-block-theatrum-meta-date"
 						style={ {
 							margin: 0,
-							padding: '8px 0',
 							wordBreak: 'break-word',
 						} }
 					>

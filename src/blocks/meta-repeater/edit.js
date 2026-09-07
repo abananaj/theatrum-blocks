@@ -169,7 +169,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 		return createElement(
 			WrapperTag,
-			{ className: 'wp-block-theatrum-meta-repeater-preview' },
+			{ className: 'repeater-rows' },
 			...items
 		);
 	};

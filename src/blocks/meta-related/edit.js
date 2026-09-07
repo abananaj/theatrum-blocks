@@ -15,9 +15,7 @@ import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit( { attributes, setAttributes, context } ) {
-	const blockProps = useBlockProps( {
-		style: { background: 'transparent', padding: 0 },
-	} );
+	const blockProps = useBlockProps();
 	const [ relatedPosts, setRelatedPosts ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( false );
 

@@ -16,7 +16,11 @@ import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes, context } ) {
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps( {
+		className:
+			'wp-block-theatrum-post-meta-field' +
+			( attributes.isHtml ? ' is-html' : '' ),
+	} );
 	const [ displayValue, setDisplayValue ] = useState( '' );
 	const [ isLoading, setIsLoading ] = useState( false );
 
@@ -169,14 +173,13 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						Enter a key to display its value
 					</em>
 				) : attributes.isHtml ? (
-					<div className="wp-block-theatrum-post-meta-field is-html">
+					<div>
 						<RawHTML>
 							{ displayValue || `[${ attributes.keyInput }]` }
 						</RawHTML>
 					</div>
 				) : (
 					<Tag
-						className="wp-block-theatrum-post-meta-field"
 						style={ { wordBreak: 'break-word' } }
 						{ ...( attributes.tagName === 'a'
 							? {
