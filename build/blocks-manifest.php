@@ -2062,7 +2062,6 @@ return array(
 		),
 		'textdomain' => 'theatrum-blocks',
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./editor.scss',
 		'supports' => array(
 			'inserter' => false
 		)
@@ -2836,8 +2835,8 @@ return array(
 			)
 		),
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style.scss',
-		'editorStyle' => 'file:./editor.scss'
+		'style' => 'file:./style-index.css',
+		'editorStyle' => 'file:./index.css'
 	),
 	'blockquote-source' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

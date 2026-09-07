@@ -40,6 +40,6 @@
     }
   },
   "editorScript": "file:./index.js",
-  "style": "file:./style.scss",
-  "editorStyle": "file:./editor.scss"
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
 }

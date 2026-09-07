@@ -9,7 +9,6 @@
 	"keywords": ["query", "loop", "production", "event", "artist"],
 	"textdomain": "theatrum-blocks",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor.scss",
 	"supports": {
 		"inserter": false
 	}
