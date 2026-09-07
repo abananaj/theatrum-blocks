@@ -1,7 +1,7 @@
 /**
  * Front-end behavior for the Scroll Reveal Card block. The image panel grows into view once the
  * card crosses the middle of the viewport, matching this project's global animation-trigger
- * convention (STYLING-SEPT-2026.md T3-11: viewport 50%).
+ * convention (STYLING-SEPT-2026.md T3-11: viewport 85%).
  *
  * Deliberately NOT theatrum-animation's GSAP/ScrollTrigger engine: that plugin's registry is a
  * fixed set of generic entrance presets bound to any block via the inspector, not a slot for a
@@ -38,7 +38,7 @@ window.addEventListener( 'load', () => {
 				}
 			} );
 		},
-		{ rootMargin: '0px 0px -50% 0px' }
+		{ rootMargin: '0px 0px -15% 0px' }
 	);
 
 	// `.is-js` is what collapses the image (style.scss) — until this runs, the no-JS
