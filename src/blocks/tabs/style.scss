@@ -34,7 +34,7 @@ $ct-tabs-breakpoint: 768px;
 		// Right padding leaves room for the mobile-only rotating indicator (::after below); reset at the desktop breakpoint.
 		padding: var(--wp--preset--spacing--20) calc(var(--wp--preset--spacing--30) + 1.5rem)
 			var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
-		border-radius: var(--wp--preset--border-radius--x-large);
+		border-radius: var(--wp--preset--border-radius--extra-large);
 		font-size: 1.25rem;
 		position: relative;
 		transition:
@@ -86,7 +86,7 @@ $ct-tabs-breakpoint: 768px;
 				--ct-tab-header-hover-bg,
 				var(--ct-tab-header-bg, var(--ct-secondary, inherit))
 			);
-			border-radius: var(--wp--preset--border-radius--x-large);
+			border-radius: var(--wp--preset--border-radius--extra-large);
 		}
 
 		&.is-active {
