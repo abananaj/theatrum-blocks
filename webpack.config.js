@@ -1,8 +1,14 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const path = require( 'path' );
 
-// Extra standalone editor scripts (not blocks) to include in the script build.
+// Extra standalone scripts (not blocks) to include in the script build. Editor-side, except
+// accordion-icon-view, which is the Icon Accordion's front-end enhancement.
 const extraEntries = {
+	'accordion-icon': path.resolve( __dirname, 'src/accordion-icon/index.js' ),
+	'accordion-icon-view': path.resolve(
+		__dirname,
+		'src/accordion-icon/view.js'
+	),
 	'meta-variations': path.resolve( __dirname, 'src/meta-variations.js' ),
 	'popup-trigger-variation': path.resolve(
 		__dirname,

@@ -288,6 +288,118 @@ function theatrum_enqueue_popup_trigger_variation_script() {
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_popup_trigger_variation_script');
 
 /**
+ * Registers the "Icon Accordion" style on core/accordion — the stacked coloured cards with an icon rail, modelled on the responsive-expandable-cards-table CodePen. Registering it as a style (not just as the variation's className) is what lets an author apply the look to an accordion that already exists, and what makes the class survive a round-trip through the Styles tab. Prefixed `ct-` like the carousel/slider formats, to avoid colliding with another plugin's bare slug.
+ */
+function theatrum_register_accordion_icon_style() {
+	register_block_style(
+		'core/accordion',
+		array('name' => 'ct-accordion-icon', 'label' => __('Icon Accordion', 'theatrum-blocks'))
+	);
+}
+add_action('init', 'theatrum_register_accordion_icon_style');
+
+/**
+ * Registers the Icon Accordion stylesheet against core/accordion. wp_enqueue_block_style() ties the CSS to the block itself, so it loads on the front end only for pages that actually render an accordion, and in the editor canvas — no render_block class sniff needed (unlike the carousel/slider formats, whose styles sit on blocks that are otherwise unstyled).
+ */
+function theatrum_enqueue_accordion_icon_style() {
+	$style_path = __DIR__ . '/build/style-accordion-icon.css';
+
+	if ( ! file_exists($style_path)) {
+		return;
+	}
+
+	wp_enqueue_block_style(
+		'core/accordion',
+		array(
+			'handle' => 'theatrum-accordion-icon',
+			'src'    => plugins_url('build/style-accordion-icon.css', __FILE__),
+			'path'   => $style_path,
+			'ver'    => (string) filemtime($style_path),
+		)
+	);
+}
+add_action('init', 'theatrum_enqueue_accordion_icon_style');
+
+/**
+ * Enqueues the accordion-icon script that registers the theatrum/accordion-icon core/accordion variation.
+ */
+function theatrum_enqueue_accordion_icon_script() {
+	$asset_file = __DIR__ . '/build/accordion-icon.asset.php';
+
+	if ( ! file_exists($asset_file)) {
+		return;
+	}
+
+	$asset = require $asset_file;
+
+	wp_enqueue_script(
+		'theatrum-accordion-icon',
+		plugins_url('build/accordion-icon.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_accordion_icon_script');
+
+/**
+ * Registers the Icon Accordion's front-end script — the one that holds a clicked card still while the stack reflows around it (src/accordion-icon/view.js). Registered here, enqueued by the render_block sniff below.
+ */
+function theatrum_register_accordion_icon_view_script() {
+	$asset_file = __DIR__ . '/build/accordion-icon-view.asset.php';
+
+	if ( ! file_exists($asset_file)) {
+		return;
+	}
+
+	$asset = require $asset_file;
+
+	wp_register_script(
+		'theatrum-accordion-icon-view',
+		plugins_url('build/accordion-icon-view.js', __FILE__),
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+}
+add_action('init', 'theatrum_register_accordion_icon_view_script');
+
+/**
+ * Frontend: enqueue that script only for an accordion actually carrying the Icon Accordion style. Unlike the stylesheet above — which wp_enqueue_block_style() can tie to core/accordion wholesale, since an unstyled accordion is simply unaffected by rules scoped to the class — the script would be dead weight on any other accordion, so it takes the render_block sniff the carousel/slider formats use. An enqueue sniff, not a markup filter: $block_content is returned untouched.
+ */
+function theatrum_enqueue_accordion_icon_view_script($block_content, $block) {
+	if (is_admin() || 'core/accordion' !== ($block['blockName'] ?? '')) {
+		return $block_content;
+	}
+
+	if (false !== strpos((string) ($block['attrs']['className'] ?? ''), 'is-style-ct-accordion-icon')) {
+		wp_enqueue_script('theatrum-accordion-icon-view');
+	}
+
+	return $block_content;
+}
+add_filter('render_block', 'theatrum_enqueue_accordion_icon_view_script', 10, 2);
+
+/**
+ * Also loads the Icon Accordion stylesheet into the admin document. wp_enqueue_block_style() above covers the front end and the editor canvas, but the canvas is an iframe — the block inspector is not inside it, and the Icon panel's preview swatch draws its image the same way the rail does. Separate handle for the same file: wp_enqueue_block_style() registers its handle lazily inside a closure, so there is nothing to re-enqueue here.
+ */
+function theatrum_enqueue_accordion_icon_editor_style() {
+	$style_path = __DIR__ . '/build/style-accordion-icon.css';
+
+	if ( ! file_exists($style_path)) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'theatrum-accordion-icon-editor',
+		plugins_url('build/style-accordion-icon.css', __FILE__),
+		array(),
+		(string) filemtime($style_path)
+	);
+}
+add_action('enqueue_block_editor_assets', 'theatrum_enqueue_accordion_icon_editor_style');
+
+/**
  * Enqueues the block-color script that colors custom block icons for visual distinction in the inserter/list view/toolbar (mirroring how meta-bound variations show purple).
  */
 function theatrum_enqueue_block_color_script() {
