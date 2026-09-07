@@ -122,7 +122,6 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							style={ {
 								maxWidth: '100%',
 								height: 'auto',
-								display: 'block',
 							} }
 						/>
 						{ attributes.showCaption && imageData.caption && (

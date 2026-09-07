@@ -783,7 +783,7 @@ function theatrum_get_meta_embed_rest_callback($request) {
 
 	// Fallback to iframe embed for direct URLs
 	$iframe_html = sprintf(
-		'<iframe src="%s" width="100%%" height="400" style="border:0" allowfullscreen></iframe>',
+		'<iframe src="%s" width="1200" height="675" frameborder="0" allowfullscreen></iframe>',
 		esc_url($url)
 	);
 

@@ -75,10 +75,10 @@ export default function Edit( { attributes, setAttributes } ) {
 		const linkTitle = isMemberType || attributes.linkPostTitle !== false;
 
 		return (
-			<div style={ { marginTop: '8px' } }>
+			<div>
 				{ renderAffix( attributes.prepend, attributes.prependTag ) }
 				{ displayItems.map( ( item, index ) => (
-					<p key={ index } style={ { margin: '4px 0 0 0' } }>
+					<p key={ index }>
 						{ item.url && linkTitle ? (
 							<a
 								href={ item.url }
@@ -249,7 +249,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					displayItems.length === 0 &&
 					attributes.optionName &&
 					! isMemberType && (
-						<p style={ { margin: 0, wordBreak: 'break-word' } }>
+						<p style={ { wordBreak: 'break-word' } }>
 							{ renderAffix(
 								attributes.prepend,
 								attributes.prependTag

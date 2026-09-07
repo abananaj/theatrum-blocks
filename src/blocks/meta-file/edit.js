@@ -54,7 +54,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					/>
 					<TextControl
 						label="Link Text"
-						value={ attributes.linkText || 'Open File' }
+						value={ attributes.linkText || 'Download File' }
 						onChange={ ( value ) =>
 							setAttributes( { linkText: value } )
 						}
@@ -114,7 +114,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								} }
 							/>
 						) }
-						{ attributes.linkText || 'Open File' }
+						{ attributes.linkText || 'Download File' }
 					</a>
 				) }
 				{ ! isLoading &&

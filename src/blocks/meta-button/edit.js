@@ -11,7 +11,7 @@ import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes, context } ) {
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps( { className: 'wp-block-button' } );
 	const [ urlValue, setUrlValue ] = useState( '' );
 	const [ isLoading, setIsLoading ] = useState( false );
 
