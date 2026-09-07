@@ -92,7 +92,6 @@ $ct-tabs-breakpoint: 768px;
 		&.is-active {
 
 			@include mixins.tab-header-active-colors;
-			border-radius: var(--wp--preset--border-radius--large);
 			// Accent underline defaults to the active header's own text color, overridable via --ct-tab-header-accent.
 			border-bottom-color: var(--ct-tab-header-accent, currentColor);
 		}
