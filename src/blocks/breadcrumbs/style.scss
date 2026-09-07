@@ -74,9 +74,35 @@
 		}
 	}
 
+	// Each crumb takes the next colour in the same five-step cycle the page nav uses (chance-ollie's page-nav.scss), so the two read as one system. Rebinding the tokens is enough — the a/span rule above already consumes them — and 5n keeps it repeating on a trail longer than five.
+	li:nth-child(5n + 1) {
+		--bc-bg: var(--ct-primary);
+		--bc-text: var(--ct-on-primary);
+	}
+
+	li:nth-child(5n + 2) {
+		--bc-bg: var(--ct-secondary);
+		--bc-text: var(--ct-on-secondary);
+	}
+
+	li:nth-child(5n + 3) {
+		--bc-bg: var(--ct-tertiary);
+		--bc-text: var(--ct-on-tertiary);
+	}
+
+	li:nth-child(5n + 4) {
+		--bc-bg: var(--ct-muted);
+		--bc-text: var(--ct-dark);
+	}
+
+	li:nth-child(5n) {
+		--bc-bg: var(--ct-light);
+		--bc-text: var(--ct-dark);
+	}
+
+	// Hover only — the current-page crumb used to take this fill too, which would now override its step colour and break the cycle on the last crumb.
 	a:hover,
-	a:focus-visible,
-	span[aria-current="page"] {
+	a:focus-visible {
 		background-color: var(--bc-bg-hover);
 		// --ct-tertiary is the light end of the ramp, so the hover state needs its own paired text token rather than reusing --bc-text — on Onstage red just as much as at :root navy.
 		color: var(--ct-on-tertiary);
