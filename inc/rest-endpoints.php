@@ -59,6 +59,11 @@ function theatrum_editor_permission_check($request = null) {
  * Meta Date
  * -------------------------------------------------------------------- */
 
+// sanitize_text_field() deletes every %XX sequence it finds, which is exactly what a percent-encoded date format is made of — "F%20j%2C%20Y" became "FjY", so the editor rendered "March12026" where the front end rendered "March 1, 2026". Decode first, then strip tags.
+function theatrum_sanitize_date_format($value) {
+	return trim(wp_strip_all_tags(urldecode((string) $value)));
+}
+
 function theatrum_register_meta_date_rest_endpoint() {
 	register_rest_route(
         'theatrum/v1',
@@ -67,7 +72,7 @@ function theatrum_register_meta_date_rest_endpoint() {
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_date_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
-		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg(), 'format' => array('sanitize_callback' => 'sanitize_text_field')),
+		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg(), 'format' => array('sanitize_callback' => 'theatrum_sanitize_date_format')),
         )
     );
 }
@@ -76,7 +81,7 @@ add_action('rest_api_init', 'theatrum_register_meta_date_rest_endpoint');
 function theatrum_get_meta_date_rest_callback($request) {
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
-	$format  = sanitize_text_field(urldecode($request['format']));
+	$format  = theatrum_sanitize_date_format($request['format']);
 
 	$value = get_post_meta($post_id, $key, true);
 
@@ -114,7 +119,7 @@ function theatrum_register_meta_time_rest_endpoint() {
 		'methods'             => 'GET',
 		'callback'            => 'theatrum_get_meta_time_rest_callback',
 		'permission_callback' => 'theatrum_editor_permission_check',
-		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg(), 'format' => array('sanitize_callback' => 'sanitize_text_field')),
+		'args'                => array('post_id' => theatrum_rest_int_arg(), 'key' => theatrum_rest_key_arg(), 'format' => array('sanitize_callback' => 'theatrum_sanitize_date_format')),
         )
     );
 }
@@ -123,7 +128,7 @@ add_action('rest_api_init', 'theatrum_register_meta_time_rest_endpoint');
 function theatrum_get_meta_time_rest_callback($request) {
 	$post_id = intval($request['post_id']);
 	$key     = sanitize_text_field($request['key']);
-	$format  = sanitize_text_field(urldecode($request['format']));
+	$format  = theatrum_sanitize_date_format($request['format']);
 
 	$value = get_post_meta($post_id, $key, true);
 
