@@ -1,8 +1,10 @@
 /**
- * Expanding Card editor. The card's text is nested blocks — heading and body are real blocks the
- * author selects and edits like any others, seeded by TEMPLATE. The image is not: it's a block
- * attribute picked and sized from the sidebar (<CardImageControls>), so its dimensions are
- * independent of the content flow and the front-end reveal can size it.
+ * Expanding Card editor. The card's text is nested blocks — real blocks the author selects and
+ * edits like any others, seeded by TEMPLATE as two groups: a header (the heading view.js turns
+ * into the disclosure trigger) and a body (what opens). Same split `theatrum/card-scroll` uses —
+ * only the classes matter, and they're what view.js and style.scss hook the behaviour onto. The
+ * image is not a nested block: it's a block attribute picked and sized from the sidebar
+ * (<CardImageControls>), so its dimensions are independent of the content flow.
  *
  * Content stays fully expanded while authoring: the click-to-collapse behaviour is a front-end
  * enhancement wired by view.js, and collapsing it here would hide the very blocks this exists to
@@ -28,25 +30,47 @@ import './editor.scss';
 
 const BASE_CLASS = 'wp-block-theatrum-card-expanding';
 
-// The first heading is the toggle and everything after it is what opens (view.js).
-// `line-clamp-1` is the theme's title-overflow utility.
+// Two sections: a header holding the heading view.js turns into the disclosure trigger, and a
+// body that opens/closes beneath it. `metadata.name` is what labels each one in the List View;
+// the classes are what view.js finds them by. `line-clamp-1` is the theme's title-overflow
+// utility.
 const TEMPLATE = [
 	[
-		'core/heading',
+		'core/group',
 		{
-			level: 3,
-			className: 'line-clamp-1',
-			placeholder: __( 'Card title', 'theatrum-blocks' ),
+			className: `${ BASE_CLASS }__header`,
+			metadata: { name: __( 'Card header', 'theatrum-blocks' ) },
+			layout: { type: 'constrained' },
 		},
+		[
+			[
+				'core/heading',
+				{
+					level: 3,
+					className: 'line-clamp-1',
+					placeholder: __( 'Card title', 'theatrum-blocks' ),
+				},
+			],
+		],
 	],
 	[
-		'core/paragraph',
+		'core/group',
 		{
-			placeholder: __(
-				'Description shown when the card opens…',
-				'theatrum-blocks'
-			),
+			className: `${ BASE_CLASS }__body`,
+			metadata: { name: __( 'Card body', 'theatrum-blocks' ) },
+			layout: { type: 'constrained' },
 		},
+		[
+			[
+				'core/paragraph',
+				{
+					placeholder: __(
+						'Description shown when the card opens…',
+						'theatrum-blocks'
+					),
+				},
+			],
+		],
 	],
 ];
 
@@ -56,6 +80,16 @@ const DEFAULTS = Object.fromEntries(
 		schema.default,
 	] )
 );
+
+// The heading usually sits inside the header group now, not as a direct child of the card, so
+// this has to look past the top level — same reasoning as view.js falling back for content
+// saved before the header/body split.
+const containsHeading = ( blocks ) =>
+	blocks.some(
+		( block ) =>
+			block.name === 'core/heading' ||
+			containsHeading( block.innerBlocks || [] )
+	);
 
 export default function Edit( {
 	attributes,
@@ -84,9 +118,7 @@ export default function Edit( {
 	// renders open, so say so here rather than leaving the author to find out on the front end.
 	const hasHeading = useSelect(
 		( select ) =>
-			select( blockEditorStore )
-				.getBlocks( clientId )
-				.some( ( block ) => block.name === 'core/heading' ),
+			containsHeading( select( blockEditorStore ).getBlocks( clientId ) ),
 		[ clientId ]
 	);
 
@@ -106,7 +138,7 @@ export default function Edit( {
 				<PanelBody title={ __( 'Expanding card', 'theatrum-blocks' ) }>
 					<p>
 						{ __(
-							'On the front end the heading becomes the button that opens this card, and everything below it stays collapsed until a visitor clicks. Here every block stays visible so you can edit it.',
+							'On the front end a visitor can click anywhere on the card to reveal the body; the header stays put. Here every block stays visible so you can edit it.',
 							'theatrum-blocks'
 						) }
 					</p>

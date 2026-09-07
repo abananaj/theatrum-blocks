@@ -3,11 +3,17 @@
  * panel absolutely overlapping the image). Simplified here to a fluid stacked card so it survives
  * arbitrary grid widths: the card itself is the white panel, with the image bleeding to its edges.
  *
- * Structure (save.js):
+ * Structure (edit.js's TEMPLATE + render.php):
  *   `__image`   — optional, sized entirely by the --theatrum-card-image-* custom properties the
  *                 card carries (src/components/card-image).
- *   `__content` — the nested blocks. view.js treats the first heading in here as the toggle and
- *                 wraps everything after it in `__collapse`, which is what opens and closes.
+ *   `__content` — the nested blocks, seeded as two `core/group`s (the same split
+ *                 `theatrum/card-scroll` uses):
+ *                   `__header` — the heading view.js turns into the disclosure trigger.
+ *                   `__body`   — what opens; view.js tags it `__collapse`, which is what this
+ *                                file actually animates.
+ *                 Content saved before that split is a flat heading + paragraph run instead;
+ *                 view.js falls back to treating the first heading as the toggle and wrapping
+ *                 everything after it in a synthesized `__collapse`, so it still works unmigrated.
  */
 
 .wp-block-theatrum-card-expanding {
@@ -15,6 +21,7 @@
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+	cursor: pointer;
 	background: var(--ct-light, #fff);
 	color: var(--ct-on-light, #030e19);
 	border-radius: var(--wp--preset--border-radius--small, 4px);
@@ -64,11 +71,9 @@
 		}
 	}
 
-	// The heading view.js wired up. Positioned so the trigger's overlay can cover this row only —
-	// not the whole card, whose body may hold its own links once opened.
+	// The heading view.js wired up.
 	&__heading {
 		position: relative;
-		cursor: pointer;
 	}
 
 	// Real <button>, visually reset. Left `inline` (what `all: unset` gives) so the heading's
