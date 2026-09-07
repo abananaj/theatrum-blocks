@@ -187,25 +187,28 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					/>
 				</div>
 			</InspectorControls>
-			<div { ...blockProps }>
-				{ isLoading ? (
+			{ isLoading ? (
+				<Tag { ...blockProps }>
 					<Spinner />
-				) : attributes.keyInput ? (
-					<Tag
-						className="wp-block-theatrum-meta-date"
-						style={ {
-							margin: 0,
-							wordBreak: 'break-word',
-						} }
-					>
-						{ `${ attributes.prepend || '' }${
-							displayValue || `[${ attributes.keyInput }]`
-						}${ attributes.append || '' }` }
-					</Tag>
-				) : (
-					<em style={ { color: '#999' } }>Enter a date field key</em>
-				) }
-			</div>
+				</Tag>
+			) : attributes.keyInput ? (
+				<Tag { ...blockProps }>
+					{ `${ attributes.prepend || '' }${
+						displayValue || `[${ attributes.keyInput }]`
+					}${ attributes.append || '' }` }
+				</Tag>
+			) : (
+				<Tag
+					{ ...blockProps }
+					style={ {
+						...blockProps.style,
+						color: '#999',
+						fontStyle: 'italic',
+					} }
+				>
+					Enter a date field key
+				</Tag>
+			) }
 		</Fragment>
 	);
 }

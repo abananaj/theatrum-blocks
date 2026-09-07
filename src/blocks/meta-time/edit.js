@@ -140,27 +140,28 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					/>
 				</div>
 			</InspectorControls>
-			<div { ...blockProps }>
-				{ isLoading ? (
+			{ isLoading ? (
+				<Tag { ...blockProps }>
 					<Spinner />
-				) : attributes.keyInput ? (
-					<Tag
-						className="wp-block-theatrum-meta-time"
-						style={ {
-							margin: 0,
-							wordBreak: 'break-word',
-						} }
-					>
-						{ `${ attributes.prepend || '' }${
-							displayValue || `[${ attributes.keyInput }]`
-						}${ attributes.append || '' }` }
-					</Tag>
-				) : (
-					<em style={ { color: '#999' } }>
-						Enter a time field key to display its value
-					</em>
-				) }
-			</div>
+				</Tag>
+			) : attributes.keyInput ? (
+				<Tag { ...blockProps }>
+					{ `${ attributes.prepend || '' }${
+						displayValue || `[${ attributes.keyInput }]`
+					}${ attributes.append || '' }` }
+				</Tag>
+			) : (
+				<Tag
+					{ ...blockProps }
+					style={ {
+						...blockProps.style,
+						color: '#999',
+						fontStyle: 'italic',
+					} }
+				>
+					Enter a time field key to display its value
+				</Tag>
+			) }
 		</Fragment>
 	);
 }

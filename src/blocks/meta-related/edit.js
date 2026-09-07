@@ -75,20 +75,14 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		return text;
 	};
 
+	// True only for the "no key entered yet" hint, which renders muted italic on the Tag itself.
+	const isHint = ! relatedPosts.length && ! attributes.keyInput;
+
 	const renderDisplay = () => {
 		if ( ! relatedPosts.length ) {
-			if ( attributes.keyInput ) {
-				return createElement(
-					Tag,
-					{ style: { margin: 0 } },
-					`[${ attributes.keyInput }]`
-				);
-			}
-			return createElement(
-				Tag,
-				{ style: { margin: 0, color: '#999', fontStyle: 'italic' } },
-				'Enter a meta key to display a related post'
-			);
+			return attributes.keyInput
+				? `[${ attributes.keyInput }]`
+				: 'Enter a meta key to display a related post';
 		}
 
 		// Interleave links with the separator: prepend, link, sep, link, …, append.
@@ -101,7 +95,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		} );
 		children.push( attributes.append || '' );
 
-		return createElement( Tag, { style: { margin: 0 } }, children );
+		return children;
 	};
 
 	return (
@@ -178,9 +172,20 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					/>
 				</div>
 			</InspectorControls>
-			<div { ...blockProps }>
+			<Tag
+				{ ...blockProps }
+				style={
+					isHint
+						? {
+								...blockProps.style,
+								color: '#999',
+								fontStyle: 'italic',
+						  }
+						: blockProps.style
+				}
+			>
 				{ isLoading ? <Spinner /> : renderDisplay() }
-			</div>
+			</Tag>
 		</Fragment>
 	);
 }
