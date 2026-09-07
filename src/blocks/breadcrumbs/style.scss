@@ -11,11 +11,9 @@
 	// --- Tunable tokens (simplified from the CodePen demo) -----------------
 	// --ct-* tokens follow the page's nomenclature category (--ct-primary is navy at :root, red on Onstage); fixed --wp--preset--color--* names don't.
 	--bc-bevel: 1.25em; // depth of each segment's beveled arrow point
-	--bc-seam: 2px; // width of the separating line between segments
 	--bc-bg: var(--ct-primary);
 	--bc-bg-hover: var(--ct-tertiary);
 	--bc-text: var(--ct-on-primary); // paired with --bc-bg so it's always legible
-	--bc-seam-color: var(--ct-on-primary); // the "cut" between segments, paired with --bc-bg at rest
 
 	ol {
 		list-style: none;
@@ -64,9 +62,6 @@
 		corner-shape: bevel;
 		border-radius: 0 var(--bc-bevel) var(--bc-bevel) 0 / 0 50% 50% 0;
 
-		// Border traces the beveled edge, drawing the seam between segments.
-		border: var(--bc-seam) solid var(--bc-seam-color);
-
 		transition: background-color var(--ct-duration-fast-2, 150ms) var(--ct-ease-linear, linear), color var(--ct-duration-fast-2, 150ms) var(--ct-ease-linear, linear);
 	}
 
@@ -83,10 +78,8 @@
 	a:focus-visible,
 	span[aria-current="page"] {
 		background-color: var(--bc-bg-hover);
-		// --ct-tertiary is the light end of the ramp, so the hover state needs its own paired
-		// text/seam token rather than reusing --bc-text — on Onstage red just as much as at :root navy.
+		// --ct-tertiary is the light end of the ramp, so the hover state needs its own paired text token rather than reusing --bc-text — on Onstage red just as much as at :root navy.
 		color: var(--ct-on-tertiary);
-		border-color: var(--ct-on-tertiary);
 		outline: none;
 	}
 }
