@@ -13,65 +13,70 @@ Custom Gutenberg block plugin for [Chance Theater](https://chancetheater.org). 3
 Rebuilt 2026-08-04 directly against the `$custom_blocks` registration array in `theatrum-blocks.php` (30 top-level blocks, 48 total including nested children, as of 2026-08-31's removal of `cover-card`, `chance-card`, and `meta-icon` — see `BLOCK_CLEANUP_PLAN.md`) — the previous version of this table had drifted significantly (documented blocks that were deleted per `BLOCK_CLEANUP_PLAN.md`, and was missing several that were added since).
 
 ### 🎭 Production Blocks
+
 | Block                     | Status | Notes                                                        |
 | ------------------------- | ------ | ------------------------------------------------------------ |
-| `production-performances` | ✅      | Var of meta-repeater; filters to upcoming only, shows next 5 |
-| `production-quotes`       | ✅      | Var of meta-repeater; responds to font-size                  |
+| `production-performances` | ✅     | Var of meta-repeater; filters to upcoming only, shows next 5 |
+| `production-quotes`       | ✅     | Var of meta-repeater; responds to font-size                  |
 
 ### 🔗 Meta Blocks (Block Bindings)
+
 Variation blocks backed by the `theatrum/post-meta` binding source (WP 6.5+). Existing instances migrate via "Transform to" in the block toolbar.
 
 | Block           | Status | Notes                                                                            |
 | --------------- | ------ | -------------------------------------------------------------------------------- |
-| `meta-button`   | ✅      | Var of `core/button`                                                             |
-| `meta-date`     | ✅      | Var of `core/paragraph`; date format arg                                         |
-| `meta-embed`    | ✅      | Var of `core/embed`                                                              |
-| `meta-field`    | ✅      | Var of `core/paragraph`                                                          |
-| `meta-file`     | ✅      | Var of `core/file`                                                               |
-| `meta-image`    | ✅      | Var of `core/image`; binds `id` attribute                                        |
-| `meta-gallery`  | ✅      | Kept as custom block (too many custom controls)                                  |
-| `meta-repeater` | ✅      | Variations: bylines, awards, producers, performances, quotes, notes, events      |
+| `meta-button`   | ✅     | Var of `core/button`                                                             |
+| `meta-date`     | ✅     | Var of `core/paragraph`; date format arg                                         |
+| `meta-embed`    | ✅     | Var of `core/embed`                                                              |
+| `meta-field`    | ✅     | Var of `core/paragraph`                                                          |
+| `meta-file`     | ✅     | Var of `core/file`                                                               |
+| `meta-image`    | ✅     | Var of `core/image`; binds `id` attribute                                        |
+| `meta-gallery`  | ✅     | Kept as custom block (too many custom controls)                                  |
+| `meta-repeater` | ✅     | Variations: bylines, awards, producers, performances, quotes, notes, events      |
 | `meta-related`  | ⏭️     | Skip — no suitable core block target                                             |
 | `meta-time`     | ⚠️     | Actively used in existing content — kept for now, revisit with a migration later |
 
 ### 📋 Table-Advanced
+
 Hierarchical table block system.
 
 | Block                               | Status                                               |
 | ----------------------------------- | ---------------------------------------------------- |
 | `table-advanced`                    | ⚠️ `table-layout: auto` default not yet configurable |
-| `table-advanced/table-caption`      | ✅                                                    |
-| `table-advanced/table-header`       | ✅                                                    |
-| `table-advanced/table-body`         | ✅                                                    |
-| `table-advanced/table-footer`       | ✅                                                    |
-| `table-advanced/table-row`          | ✅                                                    |
-| `table-advanced/table-heading-cell` | ✅ responds to color settings                         |
-| `table-advanced/table-cell`         | ✅ responds to color settings                         |
+| `table-advanced/table-caption`      | ✅                                                   |
+| `table-advanced/table-header`       | ✅                                                   |
+| `table-advanced/table-body`         | ✅                                                   |
+| `table-advanced/table-footer`       | ✅                                                   |
+| `table-advanced/table-row`          | ✅                                                   |
+| `table-advanced/table-heading-cell` | ✅ responds to color settings                        |
+| `table-advanced/table-cell`         | ✅ responds to color settings                        |
 
 ### 🖼️ Display Blocks
+
 | Block                                | Status | Notes                                                                                                                                                 |
 | ------------------------------------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `breadcrumbs`                        | ✅      |                                                                                                                                                       |
-| `carousel`                           | ✅      | Child: `carousel/carousel-item`                                                                                                                       |
-| `slider`                             | ✅      | Child: `slider/slider-item`                                                                                                                           |
-| `blockquote-advanced`                | ✅      | Children: `blockquote-text`, `blockquote-source`                                                                                                      |
+| `breadcrumbs`                        | ✅     |                                                                                                                                                       |
+| `carousel`                           | ✅     | Child: `carousel/carousel-item`                                                                                                                       |
+| `slider`                             | ✅     | Child: `slider/slider-item`                                                                                                                           |
+| `blockquote-advanced`                | ✅     | Children: `blockquote-text`, `blockquote-source`                                                                                                      |
 | `list-icons`                         | ⚠️     | Needs list-item as nested block                                                                                                                       |
-| `list-icons/list-item-icon`          | ✅      | Child of list-icons                                                                                                                                   |
-| `list-thumbnail`                     | ✅      | Refactored to nested `list-item-thumbnail` blocks (model after list-icons); flip-card hover animation fixed                                           |
-| `list-thumbnail/list-item-thumbnail` | ✅      | Child of list-thumbnail                                                                                                                               |
-| `popover`                            | ✅      | Trigger and content are separate nested blocks (`popover/popover-trigger`, `popover/popover-content`), each accepting any blocks                      |
-| `popup`                              | ✅      |                                                                                                                                                       |
-| `tabs`                               | ✅      | Renamed from `production-tabs` (2026-08-06) — no longer production-specific; recategorized to `design`. Children: `tab`, `tab-heading`, `tab-content` |
-| `page-nav`                           | ✅      |                                                                                                                                                       |
-| `title-advanced`                     | ✅      |                                                                                                                                                       |
+| `list-icons/list-item-icon`          | ✅     | Child of list-icons                                                                                                                                   |
+| `list-thumbnail`                     | ✅     | Refactored to nested `list-item-thumbnail` blocks (model after list-icons); flip-card hover animation fixed                                           |
+| `list-thumbnail/list-item-thumbnail` | ✅     | Child of list-thumbnail                                                                                                                               |
+| `popover`                            | ✅     | Trigger and content are separate nested blocks (`popover/popover-trigger`, `popover/popover-content`), each accepting any blocks                      |
+| `popup`                              | ✅     |                                                                                                                                                       |
+| `tabs`                               | ✅     | Renamed from `production-tabs` (2026-08-06) — no longer production-specific; recategorized to `design`. Children: `tab`, `tab-heading`, `tab-content` |
+| `page-nav`                           | ✅     |                                                                                                                                                       |
+| `title-advanced`                     | ✅     |                                                                                                                                                       |
 
 ### 🔍 Query & Data Blocks
+
 | Block               | Status | Notes                                                                                                                                                                             |
 | ------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `query-filter`      | ✅      | Frontend filter/sort for query loops via Interactivity API                                                                                                                        |
-| `query-loop`        | ✅      | Variations by main post type. `credit-loop` variation deprecated (2026-08-06) — hidden from the inserter                                                                          |
-| `site-option`       | ✅      | Shows option value + meta value in `.site-option-meta` span. `staff`/`board` variations deprecated (2026-08-06) — hidden from the inserter; use the generic block for new content |
-| `term-meta`         | ⭐      | `season-producer` variation deprecated (2026-08-06) — hidden from the inserter; use the generic block for new content                                                             |
+| `query-filter`      | ✅     | Frontend filter/sort for query loops via Interactivity API                                                                                                                        |
+| `query-loop`        | ✅     | Variations by main post type. `credit-loop` variation deprecated (2026-08-06) — hidden from the inserter                                                                          |
+| `site-option`       | ✅     | Shows option value + meta value in `.site-option-meta` span. `staff`/`board` variations deprecated (2026-08-06) — hidden from the inserter; use the generic block for new content |
+| `term-meta`         | ⭐     | `season-producer` variation deprecated (2026-08-06) — hidden from the inserter; use the generic block for new content                                                             |
 | `table-of-contents` | ⚠️     | Renamed from `core/table-of-contents` to `theatrum/table-of-contents` (was squatting on core's namespace); auto-generation from headings not yet wired                            |
 
 ---
@@ -100,7 +105,7 @@ theatrum-blocks/
 - **REST API** — 15 endpoints under `/wp-json/theatrum/v1/` serve block editor previews. All require `edit_posts` capability.
 - **Date parsing** — `theatrum_parse_flexible_date()` handles Unix timestamps, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY, text dates; results cached 1h in `ct_dates` group.
 - **Query loop by term** — `theatrum_filter_query_loop_by_term()` constrains nested query loops to their `term-template` context (supports WP 6.9+ `core/term-template`).
-- **Core-block styles** — the plugin styles a few core blocks rather than forking them: `is-style-ct-carousel`/`is-style-ct-slider` on `core/query`/`core/gallery` (`src/formats/`), and `is-style-ct-accordion-icon` on `core/accordion` (`src/accordion-icon/`), which also ships a **Icon Accordion** variation with a pre-built five-card stack. Cards colour themselves from the nomenclature ramp by position (primary → quinary, then muted-light), each with its matching `--ct-on-*` text colour, unless an author paints one; each card also gets an **Icon** panel (`src/accordion-icon/controls.js`, a `core/accordion-item` extension) for its rail icon — any image from the media library — with the rail's background colour a menu item away in the same ToolsPanel. A card with no icon shows the accordion's `+`, drawn dark on every card and rotated into an × on open. A card painted a light colour by hand still needs `is-text-dark`, since the accordion family has no `color.text` support. A small front-end script (`src/accordion-icon/view.js`, enqueued by a `render_block` sniff for pages that render the style) holds the clicked card still while the stack reflows, so an `autoclose` collapse above it cannot yank the page.
+- **Core-block styles** — the plugin styles a few core blocks rather than forking them: `is-style-ct-carousel`/`is-style-ct-slider` on `core/query`/`core/gallery` (`src/formats/`), and `is-style-tm-accordion-icon` on `core/accordion` (`src/accordion-icon/`), which also ships a **Icon Accordion** variation with a pre-built five-card stack. Cards colour themselves from the nomenclature ramp by position (primary → quinary, then muted-light), each with its matching `--ct-on-*` text colour, unless an author paints one; each card also gets an **Icon** panel (`src/accordion-icon/controls.js`, a `core/accordion-item` extension) for its rail icon — any image from the media library — with the rail's background colour a menu item away in the same ToolsPanel. A card with no icon shows the accordion's `+`, drawn dark on every card and rotated into an × on open. A card painted a light colour by hand still needs `is-text-dark`, since the accordion family has no `color.text` support. A small front-end script (`src/accordion-icon/view.js`, enqueued by a `render_block` sniff for pages that render the style) holds the clicked card still while the stack reflows, so an `autoclose` collapse above it cannot yank the page.
 - **devMode** — `theatrum_add_dev_mode_attribute` injects a `devMode` boolean attribute to every `theatrum/*` block via `block_type_metadata` filter. Only `breadcrumbs` currently wires up the inspector toggle/indicator (see `DEV_MODE.md`).
 
 ---
@@ -124,22 +129,26 @@ npm run plugin-zip      # create a distributable plugin zip
 ## Next Steps (by severity)
 
 ### 🔴 Security
+
 - ~~`/cover-card` endpoint is unauthenticated~~ — fixed. It's still public (the home page widget needs anonymous access), but now checks `is_post_publicly_viewable()` so drafts/private/pending posts of any type can no longer be enumerated.
 - ~~board-member/staff-member/site-option allow reading arbitrary `wp_options`~~ — fixed. Option names are now gated to `options_`/`option_`-prefixed ACF-options-page values via `theatrum_is_allowed_settings_option()`.
 
 ### 🟠 Bugs / Correctness
+
 - ~~Wrong text domain in `production-details/render.php`~~ — fixed (`theatrum-blocks`).
 - ~~`date()` instead of `wp_date()`~~ — fixed in cover-card, copyright-date-block, and `theatrum_format_production_date()`.
 - ~~`cover-card` ignores block context `postId`~~ — fixed, now falls back to `$block->context['postId']`.
 - ~~Mixed `opening`/`closing` meta_query formats~~ — fixed; production queries now parse via `theatrum_parse_flexible_date()` rather than SQL DATE/DATETIME casts, since stored values are a genuine mix of `Ymd` and `Y-m-d H:i:s`.
 
 ### 🟡 Technical Debt
+
 - ~~**Unprefixed REST callback functions**: `get_board_member_rest_callback`, `get_staff_member_rest_callback`, `get_meta_date_rest_callback`, `get_meta_time_rest_callback`, `get_meta_related_rest_callback`, `get_production_performances_rest_callback`, `get_site_option_rest_callback` — should use `theatrum_` prefix to avoid collisions.~~ — fixed; all REST endpoint functions in `inc/rest-endpoints.php` now use the `theatrum_` prefix (along with the whole plugin's `chance/` → `theatrum/` block-namespace unification).
 - **`board-member` / `staff-member` REST callbacks are ~90% duplicate code** — extract shared person-list logic into a helper. (Low priority now that both `site-option` variations are deprecated.)
 - **`theatrum_get_next_production()` calls `theatrum_get_current_production()` internally** — two pages showing both blocks run multiple uncached DB queries; consider `wp_cache_get/set`.
 - **`package.json` still has scaffolding defaults**: `description` = "Example block scaffolded with Create Block tool." and `author` = "The WordPress Contributors".
 
 ### 🗑️ Cleanup / Removal
+
 - `meta-time` is actively used in existing content — keeping it for now; revisit removal alongside a content migration.
 - ~~`meta-icon`'s folder is unregistered dead code~~ — removed 2026-08-31; deprecated (2026-08-06) then confirmed 0 live instances and fully deleted (registration, source, REST endpoint).
 - Fold `meta-related` into `term-meta` (marked Skip).
@@ -150,6 +159,7 @@ npm run plugin-zip      # create a distributable plugin zip
 - `query-loop`'s `credit-loop` variation deprecated (2026-08-06) — hidden from the inserter; the other post-type-specific query-loop variations are unaffected.
 
 ### 🔧 Improvements
+
 - `table-advanced`: add `table-layout-fixed` toggle.
 - `list-icons`: refactor to use nested `list-item-icon` block (model after `core/list` + `core/list-item`).
 - ~~`title-subtitle`: add `core/post-title` to allowed inner blocks.~~ — `title-subtitle` no longer exists; `title-advanced` is the current registered block.

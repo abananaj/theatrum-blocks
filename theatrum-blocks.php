@@ -293,7 +293,7 @@ add_action('enqueue_block_editor_assets', 'theatrum_enqueue_popup_trigger_variat
 function theatrum_register_accordion_icon_style() {
 	register_block_style(
 		'core/accordion',
-		array('name' => 'ct-accordion-icon', 'label' => __('Icon Accordion', 'theatrum-blocks'))
+		array('name' => 'tm-accordion-icon', 'label' => __('Icon Accordion', 'theatrum-blocks'))
 	);
 }
 add_action('init', 'theatrum_register_accordion_icon_style');
@@ -372,7 +372,7 @@ function theatrum_enqueue_accordion_icon_view_script($block_content, $block) {
 		return $block_content;
 	}
 
-	if (false !== strpos((string) ($block['attrs']['className'] ?? ''), 'is-style-ct-accordion-icon')) {
+	if (false !== strpos((string) ($block['attrs']['className'] ?? ''), 'is-style-tm-accordion-icon')) {
 		wp_enqueue_script('theatrum-accordion-icon-view');
 	}
 

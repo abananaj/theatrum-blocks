@@ -40,3 +40,7 @@ node_modules/
 
 # Claude Code worktrees
 .claude/worktrees/
+
+# Local design prototypes — standalone HTML for iterating on block CSS without a build.
+# Kept out of git (and therefore out of the deploy) since the plugin directory is web-reachable.
+.prototypes/

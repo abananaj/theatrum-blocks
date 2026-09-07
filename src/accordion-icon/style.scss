@@ -1,6 +1,6 @@
 // Icon Accordion — a look for core/accordion, modelled on the "responsive expandable cards table"
 // CodePen (.examples/responsive-expandable-cards-table-accordion.zip). Registered as both a block
-// style (`is-style-ct-accordion-icon`, so it can be applied to any existing accordion) and a
+// style (`is-style-tm-accordion-icon`, so it can be applied to any existing accordion) and a
 // variation that ships a pre-built five-card stack. See src/accordion-icon/index.js.
 //
 // The CodePen drove everything from `tabindex` + `onfocus` and killed focus outlines. None of its
@@ -20,36 +20,43 @@
 // (0,2,0) and win without !important — but they are load-bearing, not tidying: without them the
 // theme's solid fills cover every card colour.
 
-.wp-block-accordion.is-style-ct-accordion-icon {
-
+.wp-block-accordion.is-style-tm-accordion-icon {
 	// Tunables — override on a single block via Advanced -> Additional CSS class, or per site.
-	--ct-accordion-icon-rail: 4rem;
-	--ct-accordion-icon-row: 4.5rem;
-	--ct-accordion-icon-fg: var(--wp--preset--color--light, #fbfaf5);
-	--ct-accordion-icon-glyph-size: 1.75rem;
+	--tm-accordion-icon-rail: 4rem;
+	--tm-accordion-icon-row: 4.5rem;
+	--tm-accordion-icon-fg: var(--wp--preset--color--light, #fbfaf5);
+	--tm-accordion-icon-glyph-size: 1.75rem;
 
 	// How far a media icon grows on open — the "+" rotates into an ×, but a rotated ticket or
 	// spotlight reads as a glitch, so a custom icon gets a scale instead. Same transition (below):
 	// one motion vocabulary for whichever glyph is showing.
-	--ct-accordion-icon-glyph-open-scale: 1.15;
+	--tm-accordion-icon-glyph-open-scale: 1.15;
 
 	// The literal "+" sits on the x-height, so it renders at roughly half its type size — it needs
 	// a much larger font-size than a media icon to read at the same weight.
-	--ct-accordion-icon-plus-size: 2.75rem;
+	--tm-accordion-icon-plus-size: 2.75rem;
 
 	// The "+" is drawn dark on every card rather than in the card's own text colour. Deliberate,
 	// and the one place this file does not follow the ramp: it reads as the accordion's control
 	// rather than as part of the card's copy. On the two darkest rungs (primary, quaternary) that
 	// is low contrast by design — give the card a rail colour, or override this, if that matters.
-	--ct-accordion-icon-plus-color: var(--wp--preset--color--dark, #0f0f11);
-	--ct-accordion-icon-pad: 1.25rem;
+	--tm-accordion-icon-plus-color: var(--wp--preset--color--dark, #0f0f11);
+	--tm-accordion-icon-pad: 1.25rem;
 
 	// The rail's own colour, used until one is chosen in the Icon panel. Mixed from the card's text
 	// colour rather than stated as a black-or-white overlay, so it lightens a dark card and darkens
 	// a pale one with nothing written down per card: the ramp below already pairs every surface with
 	// a legible --ct-on-* foreground, and this simply follows it.
-	--ct-accordion-icon-rail-tint: color-mix(in srgb, currentcolor 12%, transparent);
-	--ct-accordion-icon-rail-tint-hover: color-mix(in srgb, currentcolor 20%, transparent);
+	--tm-accordion-icon-rail-tint: color-mix(
+		in srgb,
+		currentcolor 12%,
+		transparent
+	);
+	--tm-accordion-icon-rail-tint-hover: color-mix(
+		in srgb,
+		currentcolor 20%,
+		transparent
+	);
 
 	// Square corners, as the CodePen has. Not only cosmetic: with no radius nothing needs clipping
 	// at the container, so the editor's block appender stays visible and the canvas and the front
@@ -63,9 +70,9 @@
 	> .wp-block-accordion-item {
 		position: relative;
 		display: grid;
-		grid-template-columns: var(--ct-accordion-icon-rail) 1fr;
+		grid-template-columns: var(--tm-accordion-icon-rail) 1fr;
 		grid-template-rows: auto 0fr;
-		color: var(--ct-accordion-icon-fg);
+		color: var(--tm-accordion-icon-fg);
 		// box-shadow: 0 1px 0 rgba(0, 0, 0, 0.18); // NO SHADOW BY DEFAULT
 
 		&.is-open {
@@ -82,11 +89,17 @@
 			// Unset, the rail is the tint above: a strip of the card's own colour, a shade off it. A
 			// colour chosen in the Icon panel replaces that tint outright rather than sitting under an
 			// overlay, so the rail is exactly the colour the author picked.
-			background-color: var(--ct-accordion-icon-rail-bg, var(--ct-accordion-icon-rail-tint));
+			background-color: var(
+				--tm-accordion-icon-rail-bg,
+				var(--tm-accordion-icon-rail-tint)
+			);
 		}
 
 		&:not(.is-open):hover::before {
-			background-color: var(--ct-accordion-icon-rail-bg, var(--ct-accordion-icon-rail-tint-hover));
+			background-color: var(
+				--tm-accordion-icon-rail-bg,
+				var(--tm-accordion-icon-rail-tint-hover)
+			);
 		}
 	}
 
@@ -108,36 +121,36 @@
 	// The ramp is five roles long. Everything past the fifth card lands on muted-light, which is
 	// the base declaration here; :nth-child() then overrides the first five.
 	> .wp-block-accordion-item:not(.has-background) {
-		--ct-accordion-icon-fg: var(--ct-on-muted-light, #030e19);
+		--tm-accordion-icon-fg: var(--ct-on-muted-light, #030e19);
 
 		background-color: var(--ct-muted-light, #dde4eb);
 
 		&:nth-child(1) {
-			--ct-accordion-icon-fg: var(--ct-on-primary, #f3f9ff);
+			--tm-accordion-icon-fg: var(--ct-on-primary, #f3f9ff);
 
 			background-color: var(--ct-primary, #1b3a55);
 		}
 
 		&:nth-child(2) {
-			--ct-accordion-icon-fg: var(--ct-on-secondary, #f3f9ff);
+			--tm-accordion-icon-fg: var(--ct-on-secondary, #f3f9ff);
 
 			background-color: var(--ct-secondary, #1b6aa6);
 		}
 
 		&:nth-child(3) {
-			--ct-accordion-icon-fg: var(--ct-on-tertiary, #030e19);
+			--tm-accordion-icon-fg: var(--ct-on-tertiary, #030e19);
 
 			background-color: var(--ct-tertiary, #b1c5d8);
 		}
 
 		&:nth-child(4) {
-			--ct-accordion-icon-fg: var(--ct-on-quaternary, #f3f9ff);
+			--tm-accordion-icon-fg: var(--ct-on-quaternary, #f3f9ff);
 
 			background-color: var(--ct-quaternary, #00385f);
 		}
 
 		&:nth-child(5) {
-			--ct-accordion-icon-fg: var(--ct-on-quinary, #030e19);
+			--tm-accordion-icon-fg: var(--ct-on-quinary, #030e19);
 
 			background-color: var(--ct-quinary, #ccdeef);
 		}
@@ -163,8 +176,8 @@
 	}
 
 	.wp-block-accordion-heading__toggle {
-		min-height: var(--ct-accordion-icon-row);
-		padding: 0.75rem var(--ct-accordion-icon-pad);
+		min-height: var(--tm-accordion-icon-row);
+		padding: 0.75rem var(--tm-accordion-icon-pad);
 		align-items: center;
 		overflow: visible;
 		color: inherit;
@@ -200,13 +213,13 @@
 		// `inset-block: 0` the glyph is centred in whatever the heading currently measures, so it
 		// shifted by a pixel or two as the card opened. A fixed box can't move.
 		inset-block-start: 0;
-		inset-inline-start: calc(-1 * var(--ct-accordion-icon-rail));
-		width: var(--ct-accordion-icon-rail);
-		height: var(--ct-accordion-icon-row);
+		inset-inline-start: calc(-1 * var(--tm-accordion-icon-rail));
+		width: var(--tm-accordion-icon-rail);
+		height: var(--tm-accordion-icon-row);
 		display: grid;
 		place-items: center;
-		color: var(--ct-accordion-icon-plus-color);
-		font-size: var(--ct-accordion-icon-plus-size);
+		color: var(--tm-accordion-icon-plus-color);
+		font-size: var(--tm-accordion-icon-plus-size);
 		font-weight: 300;
 		line-height: 1;
 		// text-shadow: 0 2px 3px rgba(0, 0, 0, 0.26); // NO SHADOW BY DEFAULT
@@ -216,13 +229,14 @@
 	// With an icon chosen the literal "+" is suppressed and core's 45deg rotation replaced with a
 	// scale — a rotating ticket or spotlight reads as a glitch, but a card visibly growing while its
 	// own icon stayed perfectly still read as disconnected from it. The marker class and the
-	// --ct-accordion-icon-glyph url() beside it are written by the Icon panel; see
+	// --tm-accordion-icon-glyph url() beside it are written by the Icon panel; see
 	// src/accordion-icon/controls.js.
 	//
 	// .is-open added to win outright over core's own `.is-open ... toggle-icon { rotate(45deg) }`
 	// (chained onto .has-ct-icon, one class heavier) rather than relying on this stylesheet loading
 	// after core's, which happened to be true but was never guaranteed.
-	> .wp-block-accordion-item.has-ct-icon .wp-block-accordion-heading__toggle-icon {
+	> .wp-block-accordion-item.has-ct-icon
+		.wp-block-accordion-heading__toggle-icon {
 		font-size: 0;
 		transform: none;
 
@@ -236,14 +250,16 @@
 		// and align-content defaults to stretch: the two auto rows split the box evenly and the
 		// icon centred in the lower half, ~18px below the title with a gap above it. One box and
 		// one background have no tracks to divide.
-		background-image: var(--ct-accordion-icon-glyph);
+		background-image: var(--tm-accordion-icon-glyph);
 		background-position: center;
 		background-repeat: no-repeat;
-		background-size: var(--ct-accordion-icon-glyph-size) var(--ct-accordion-icon-glyph-size);
+		background-size: var(--tm-accordion-icon-glyph-size)
+			var(--tm-accordion-icon-glyph-size);
 	}
 
-	> .wp-block-accordion-item.has-ct-icon.is-open .wp-block-accordion-heading__toggle-icon {
-		transform: scale(var(--ct-accordion-icon-glyph-open-scale));
+	> .wp-block-accordion-item.has-ct-icon.is-open
+		.wp-block-accordion-heading__toggle-icon {
+		transform: scale(var(--tm-accordion-icon-glyph-open-scale));
 	}
 
 	// ---------------------------------------------------------------------------------------
@@ -266,7 +282,7 @@
 		min-height: 0;
 		overflow: hidden;
 		margin: 0;
-		padding: 0 var(--ct-accordion-icon-pad);
+		padding: 0 var(--tm-accordion-icon-pad);
 		background: transparent;
 		color: inherit;
 
@@ -295,7 +311,7 @@
 	// needs this class to flip its foreground. Cards left on the default ramp above never need it:
 	// each rung already carries its own --ct-on-* text colour.
 	> .wp-block-accordion-item.is-text-dark {
-		--ct-accordion-icon-fg: var(--wp--preset--color--dark, #0f0f11);
+		--tm-accordion-icon-fg: var(--wp--preset--color--dark, #0f0f11);
 	}
 
 	// ---------------------------------------------------------------------------------------
@@ -303,17 +319,19 @@
 	// ---------------------------------------------------------------------------------------
 
 	@media (prefers-reduced-motion: no-preference) {
-
 		> .wp-block-accordion-item {
-			transition: grid-template-rows var(--ct-duration-slow-1, 300ms) var(--ct-ease-entrance, ease-out);
+			transition: grid-template-rows var(--ct-duration-slow-1, 300ms)
+				var(--ct-ease-entrance, ease-out);
 
 			&::before {
-				transition: background-color var(--ct-duration-fast-1, 200ms) var(--ct-ease-standard, ease);
+				transition: background-color var(--ct-duration-fast-1, 200ms)
+					var(--ct-ease-standard, ease);
 			}
 		}
 
 		.wp-block-accordion-heading__toggle-icon {
-			transition: transform var(--ct-duration-fast-1, 200ms) var(--ct-ease-standard, ease);
+			transition: transform var(--ct-duration-fast-1, 200ms)
+				var(--ct-ease-standard, ease);
 		}
 	}
 
@@ -322,11 +340,11 @@
 	// ---------------------------------------------------------------------------------------
 
 	@media (max-width: 600px) {
-		--ct-accordion-icon-rail: 3.25rem;
-		--ct-accordion-icon-row: 4rem;
-		--ct-accordion-icon-glyph-size: 1.375rem;
-		--ct-accordion-icon-plus-size: 2.25rem;
-		--ct-accordion-icon-pad: 1rem;
+		--tm-accordion-icon-rail: 3.25rem;
+		--tm-accordion-icon-row: 4rem;
+		--tm-accordion-icon-glyph-size: 1.375rem;
+		--tm-accordion-icon-plus-size: 2.25rem;
+		--tm-accordion-icon-pad: 1rem;
 	}
 }
 
@@ -338,7 +356,7 @@
 // reached by the separate `theatrum-accordion-icon-editor` enqueue in theatrum-blocks.php rather
 // than by the block stylesheet the canvas loads.
 
-.ct-accordion-icon-media {
+.tm-accordion-icon-media {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -346,11 +364,11 @@
 }
 
 // Drawn the same way the rail draws it, so the preview shows what the card will actually show.
-.ct-accordion-icon-preview {
+.tm-accordion-icon-preview {
 	flex: none;
 	width: 32px;
 	height: 32px;
-	background-image: var(--ct-accordion-icon-glyph);
+	background-image: var(--tm-accordion-icon-glyph);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: contain;

@@ -3,7 +3,7 @@
  * CodePen (.examples/responsive-expandable-cards-table-accordion.zip): a stack of full-bleed
  * coloured cards, each with an icon rail on the left, that expand in place.
  *
- * The look itself lives in `is-style-ct-accordion-icon`, registered as a real block style in
+ * The look itself lives in `is-style-tm-accordion-icon`, registered as a real block style in
  * theatrum-blocks.php so it can also be applied to an accordion that already exists (Styles tab).
  * This variation is the convenience path: same class, plus `autoclose` (with fluid card heights,
  * several open cards make the block balloon) and a five-card starting point in palette colours.
@@ -24,7 +24,7 @@ import './style.scss';
 
 const CUSTOM_BLOCK_COLOR = '#4499ca'; // matches src/block-color.js
 const VARIATION_NAME = 'theatrum/accordion-icon';
-const STYLE_CLASS = 'is-style-ct-accordion-icon'; // registered in theatrum-blocks.php
+const STYLE_CLASS = 'is-style-tm-accordion-icon'; // registered in theatrum-blocks.php
 
 /**
  * Starting cards — titles only. Deliberately no backgroundColor: a card left unpainted takes its
@@ -37,18 +37,18 @@ const STYLE_CLASS = 'is-style-ct-accordion-icon'; // registered in theatrum-bloc
  * controls.js); there is no default set to seed here.
  */
 const CARDS = [
-	__( 'Tickets', 'theatrum-blocks' ),
-	__( 'Schedule', 'theatrum-blocks' ),
-	__( 'Getting here', 'theatrum-blocks' ),
-	__( 'Groups & students', 'theatrum-blocks' ),
-	__( 'Support us', 'theatrum-blocks' ),
+	__('Tickets', 'theatrum-blocks'),
+	__('Schedule', 'theatrum-blocks'),
+	__('Getting here', 'theatrum-blocks'),
+	__('Groups & students', 'theatrum-blocks'),
+	__('Support us', 'theatrum-blocks'),
 ];
 
-const innerBlocks = CARDS.map( ( title ) => [
+const innerBlocks = CARDS.map((title) => [
 	'core/accordion-item',
 	{},
 	[
-		[ 'core/accordion-heading', { title } ],
+		['core/accordion-heading', { title }],
 		[
 			'core/accordion-panel',
 			{},
@@ -65,17 +65,17 @@ const innerBlocks = CARDS.map( ( title ) => [
 			],
 		],
 	],
-] );
+]);
 
-registerBlockVariation( 'core/accordion', {
+registerBlockVariation('core/accordion', {
 	name: VARIATION_NAME,
-	title: __( 'Icon Accordion', 'theatrum-blocks' ),
+	title: __('Icon Accordion', 'theatrum-blocks'),
 	description: __(
 		'A stack of coloured cards with an icon rail, each expanding in place to reveal its content.',
 		'theatrum-blocks'
 	),
 	icon: { src: stack, foreground: CUSTOM_BLOCK_COLOR },
-	keywords: [ 'accordion', 'cards', 'expand', 'faq', 'stack' ],
+	keywords: ['accordion', 'cards', 'expand', 'faq', 'stack'],
 	attributes: {
 		className: STYLE_CLASS,
 		autoclose: true,
@@ -84,6 +84,6 @@ registerBlockVariation( 'core/accordion', {
 		iconPosition: 'left',
 	},
 	innerBlocks,
-	isActive: ( attrs ) =>
-		!! attrs?.className?.split( ' ' ).includes( STYLE_CLASS ),
-} );
+	isActive: (attrs) =>
+		!!attrs?.className?.split(' ').includes(STYLE_CLASS),
+});
