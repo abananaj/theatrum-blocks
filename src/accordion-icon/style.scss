@@ -16,9 +16,11 @@
 //      transition). Browsers that don't interpolate `fr` snap instead of easing; nothing breaks.
 //
 // Specificity note: chance-ollie paints core/accordion-heading with --ct-primary and -panel with
-// --ct-light from theme.json, which lands at `:root :where(...)` = (0,1,0). The resets below reach
-// (0,2,0) and win without !important — but they are load-bearing, not tidying: without them the
-// theme's solid fills cover every card colour.
+// --ct-light from theme.json, which lands at `:root :where(...)` = (0,1,0). The heading override
+// below reaches (0,2,0) and wins without !important — load-bearing, not tidying: without it the
+// theme's solid fill covers every card colour. The panel rule lands at the same specificity but
+// happens to restate the theme's own --ct-light fill, since the panel is meant to stay light
+// regardless of the card's colour.
 
 .wp-block-accordion.is-style-tm-accordion-icon {
 	// Tunables — override on a single block via Advanced -> Additional CSS class, or per site.
@@ -36,17 +38,17 @@
 	// a much larger font-size than a media icon to read at the same weight.
 	--tm-accordion-icon-plus-size: 2.75rem;
 
-	// The "+" is drawn dark on every card rather than in the card's own text colour. Deliberate,
-	// and the one place this file does not follow the ramp: it reads as the accordion's control
-	// rather than as part of the card's copy. On the two darkest rungs (primary, quaternary) that
-	// is low contrast by design — give the card a rail colour, or override this, if that matters.
+	// The "+" is drawn dark on every card rather than in the card's own text colour. Deliberate:
+	// it reads as the accordion's control rather than as part of the card's copy. On a dark card
+	// that is low contrast by design — give the card a rail colour, or override this, if that
+	// matters.
 	--tm-accordion-icon-plus-color: var(--wp--preset--color--dark, #0f0f11);
 	--tm-accordion-icon-pad: 1.25rem;
 
 	// The rail's own colour, used until one is chosen in the Icon panel. Mixed from the card's text
 	// colour rather than stated as a black-or-white overlay, so it lightens a dark card and darkens
-	// a pale one with nothing written down per card: the ramp below already pairs every surface with
-	// a legible --ct-on-* foreground, and this simply follows it.
+	// a pale one with nothing written down per card: the default below already pairs the surface
+	// with a legible --ct-on-* foreground, and this simply follows it.
 	--tm-accordion-icon-rail-tint: color-mix(
 		in srgb,
 		currentcolor 12%,
@@ -104,56 +106,22 @@
 	}
 
 	// ---------------------------------------------------------------------------------------
-	// Default card colours — the nomenclature ramp, in order
+	// Default card colour
 	// ---------------------------------------------------------------------------------------
 
-	// A stack is coloured without anyone choosing anything, and every colour comes from the
-	// semantic --ct-* layer rather than a fixed preset, so the whole accordion retints inside a
-	// .is-nomenclature-* context (chance-ollie/src/scss/_nomenclature.scss). Each surface is paired
-	// with the --ct-on-* text colour the nomenclature recipes compute to be legible on it, which is
-	// why these cards need no is-text-dark: pale rungs of the ramp bring dark text with them, and
-	// the rail tint above follows that foreground too.
+	// A stack is coloured without anyone choosing anything: every card left unpainted takes the
+	// same flat surface from the semantic --ct-* layer rather than a fixed preset, so the whole
+	// accordion retints inside a .is-nomenclature-* context (chance-ollie/src/scss/_nomenclature.
+	// scss). Paired with the --ct-on-* text colour the nomenclature recipes compute to be legible
+	// on it, which is why these cards need no is-text-dark.
 	//
 	// Guarded on :not(.has-background) so an author's own choice still wins — a preset choice
 	// arrives as a `!important` class and would win regardless, but a custom colour arrives as a
-	// plain inline style and would otherwise lose to these.
-	//
-	// The ramp is five roles long. Everything past the fifth card lands on muted-light, which is
-	// the base declaration here; :nth-child() then overrides the first five.
+	// plain inline style and would otherwise lose to this.
 	> .wp-block-accordion-item:not(.has-background) {
 		--tm-accordion-icon-fg: var(--ct-on-muted-light, #030e19);
 
 		background-color: var(--ct-muted-light, #dde4eb);
-
-		&:nth-child(1) {
-			--tm-accordion-icon-fg: var(--ct-on-primary, #f3f9ff);
-
-			background-color: var(--ct-primary, #1b3a55);
-		}
-
-		&:nth-child(2) {
-			--tm-accordion-icon-fg: var(--ct-on-secondary, #f3f9ff);
-
-			background-color: var(--ct-secondary, #1b6aa6);
-		}
-
-		&:nth-child(3) {
-			--tm-accordion-icon-fg: var(--ct-on-tertiary, #030e19);
-
-			background-color: var(--ct-tertiary, #b1c5d8);
-		}
-
-		&:nth-child(4) {
-			--tm-accordion-icon-fg: var(--ct-on-quaternary, #f3f9ff);
-
-			background-color: var(--ct-quaternary, #00385f);
-		}
-
-		&:nth-child(5) {
-			--tm-accordion-icon-fg: var(--ct-on-quinary, #030e19);
-
-			background-color: var(--ct-quinary, #ccdeef);
-		}
 	}
 
 	// ---------------------------------------------------------------------------------------
@@ -266,8 +234,10 @@
 	// Panel
 	// ---------------------------------------------------------------------------------------
 
-	// min-height: 0 is what lets the 0fr row actually collapse; the background reset beats the
-	// theme's --ct-light fill.
+	// min-height: 0 is what lets the 0fr row actually collapse. The panel always shows the theme's
+	// light surface rather than the card's own colour — so it needs its own colour pair, not the
+	// card's inherited --tm-accordion-icon-fg, else a dark card would put light text on a light
+	// panel.
 	//
 	// The closing space is a margin on the last child, NOT padding on the panel. min-height: 0 and
 	// overflow: hidden take the panel's minimum contribution to zero, but padding is outside the
@@ -283,8 +253,8 @@
 		overflow: hidden;
 		margin: 0;
 		padding: 0 var(--tm-accordion-icon-pad);
-		background: transparent;
-		color: inherit;
+		background: var(--ct-light, #f3f9ff);
+		color: var(--ct-on-light, #030e19);
 
 		> :first-child {
 			margin-block-start: 0;
@@ -308,8 +278,8 @@
 
 	// core/accordion-item supports color.background but not color.text — there is no text-colour
 	// control anywhere in the accordion family — so a card an author has painted a light colour
-	// needs this class to flip its foreground. Cards left on the default ramp above never need it:
-	// each rung already carries its own --ct-on-* text colour.
+	// needs this class to flip its foreground. Cards left on the default background above never
+	// need it: that default already carries its own --ct-on-* text colour.
 	> .wp-block-accordion-item.is-text-dark {
 		--tm-accordion-icon-fg: var(--wp--preset--color--dark, #0f0f11);
 	}

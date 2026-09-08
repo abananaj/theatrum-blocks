@@ -27,28 +27,27 @@ const VARIATION_NAME = 'theatrum/accordion-icon';
 const STYLE_CLASS = 'is-style-tm-accordion-icon'; // registered in theatrum-blocks.php
 
 /**
- * Starting cards — titles only. Deliberately no backgroundColor: a card left unpainted takes its
- * colour from the nomenclature ramp by position (primary, secondary, tertiary, quaternary, quinary,
- * then muted-light for every card after the fifth), each with the --ct-on-* text colour computed to
- * be legible on it. So the stack is coloured on insertion, follows any Global Category applied to
- * the page, and keeps colouring itself as an author adds cards. See style.scss.
+ * Starting cards — titles only. Deliberately no backgroundColor: a card left unpainted takes the
+ * default muted-light surface, with the --ct-on-* text colour computed to be legible on it. So the
+ * stack is coloured on insertion, follows any Global Category applied to the page, and keeps
+ * colouring itself as an author adds cards. See style.scss.
  *
  * Icons are chosen per card from the media library in the Icon panel (src/accordion-icon/
  * controls.js); there is no default set to seed here.
  */
 const CARDS = [
-	__('Tickets', 'theatrum-blocks'),
-	__('Schedule', 'theatrum-blocks'),
-	__('Getting here', 'theatrum-blocks'),
-	__('Groups & students', 'theatrum-blocks'),
-	__('Support us', 'theatrum-blocks'),
+	__( 'Tickets', 'theatrum-blocks' ),
+	__( 'Schedule', 'theatrum-blocks' ),
+	__( 'Getting here', 'theatrum-blocks' ),
+	__( 'Groups & students', 'theatrum-blocks' ),
+	__( 'Support us', 'theatrum-blocks' ),
 ];
 
-const innerBlocks = CARDS.map((title) => [
+const innerBlocks = CARDS.map( ( title ) => [
 	'core/accordion-item',
 	{},
 	[
-		['core/accordion-heading', { title }],
+		[ 'core/accordion-heading', { title } ],
 		[
 			'core/accordion-panel',
 			{},
@@ -65,17 +64,17 @@ const innerBlocks = CARDS.map((title) => [
 			],
 		],
 	],
-]);
+] );
 
-registerBlockVariation('core/accordion', {
+registerBlockVariation( 'core/accordion', {
 	name: VARIATION_NAME,
-	title: __('Icon Accordion', 'theatrum-blocks'),
+	title: __( 'Icon Accordion', 'theatrum-blocks' ),
 	description: __(
 		'A stack of coloured cards with an icon rail, each expanding in place to reveal its content.',
 		'theatrum-blocks'
 	),
 	icon: { src: stack, foreground: CUSTOM_BLOCK_COLOR },
-	keywords: ['accordion', 'cards', 'expand', 'faq', 'stack'],
+	keywords: [ 'accordion', 'cards', 'expand', 'faq', 'stack' ],
 	attributes: {
 		className: STYLE_CLASS,
 		autoclose: true,
@@ -84,6 +83,6 @@ registerBlockVariation('core/accordion', {
 		iconPosition: 'left',
 	},
 	innerBlocks,
-	isActive: (attrs) =>
-		!!attrs?.className?.split(' ').includes(STYLE_CLASS),
-});
+	isActive: ( attrs ) =>
+		!! attrs?.className?.split( ' ' ).includes( STYLE_CLASS ),
+} );
