@@ -9,7 +9,8 @@
  *
  * Reveal Style (`revealStyle`) picks which of two mechanics view.js/style.scss wire up on the
  * front end:
- *   - "expand" (default): the body grows open beneath a heading that stays put.
+ *   - "expand" (default): the body opens beneath a heading that stays put, out of the page's flow
+ *     so the card keeps its closed footprint and nothing below it moves.
  *   - "overlay": the whole header+body panel slides up to cover an edge-to-edge image — the
  *     image's Width control has nothing to do here, so it's hidden.
  *
@@ -252,7 +253,7 @@ export default function Edit( {
 					) : (
 						<p>
 							{ __(
-								'On the front end the body opens beneath the header, which stays put. Here every block stays visible so you can edit it.',
+								'On the front end the body opens beneath the header, which stays put. The card keeps the size it has closed and the body hangs over whatever is below it, so opening one never shifts the rest of the page. Here every block stays visible so you can edit it.',
 								'theatrum-blocks'
 							) }
 						</p>

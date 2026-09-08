@@ -4,7 +4,7 @@ A card that reveals its body. Two independent Inspector settings decide how: **R
 
 | Reveal Style | Behaviour                                                                                     |
 | ------------ | ---------------------------------------------------------------------------------------------- |
-| **Expand**   | The body grows open beneath a heading that stays put. Default. Modelled on the `expanding-card` CodePen. |
+| **Expand**   | The body opens beneath a heading that stays put, hanging over what follows rather than resizing the card. Default. Modelled on the `expanding-card` CodePen. |
 | **Overlay**  | Closed, it looks like an Expand card — image, then header. Opening slides the header+body panel up over the image, coming to rest on the card's bottom edge. |
 
 | Activate On | Behaviour                                                                                       |
@@ -23,7 +23,9 @@ The card's content is ordinary InnerBlocks, seeded (`edit.js`'s `TEMPLATE`) as t
 | Group      | Role                                                                                                                                                                          |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `__header` | Expand mode: the disclosure trigger. `view.js` takes the first `h1`–`h6` inside it, wherever it sits, and turns it into the accessible control (button, `aria-expanded`, focus ring). Overlay mode: the visible top of the sliding panel, and the trigger's accessible *label* instead — see below. Either way, a header with no heading isn't invalid; the whole group stands in for it, so any content is enough. |
-| `__body`   | What opens/reveals. Expand mode collapses it to one line until opened. Overlay mode parks it below the fold and scrolls its own overflow rather than letting the panel travel past the top of the card. |
+| `__body`   | What opens/reveals. Expand mode collapses it to nothing until opened, out of the page's flow. Overlay mode parks it below the fold and scrolls its own overflow rather than letting the panel travel past the top of the card. |
+
+The two sections overlap by a hairline (`__content > * + *` carries `margin-block-start: -1px`, and Overlay's more specific `__body` rule repeats it). They meet at whatever fractional height the header's content works out to, and a boundary landing mid-device-pixel is antialiased — both backgrounds blend with what is behind them, which is this block's own light backing (`__content` in Overlay, the `__collapse` wrapper in Expand). On sections an author has painted darker than the card, that reads as a faint light line across the card. The overlap covers it, since the lower section paints last. Expand mode needs one more thing for the same reason: its panel is out of flow and therefore paints *after* the header, so its backing would land between the two — `__header` is given `z-index: 1` there so it stays on top and nothing lighter can get between the sections.
 
 Everything inside either group is an ordinary, selectable, editable block — authors can add, remove and reorder anything within a group, nothing is locked. Only the group's class (`__header`/`__body`) matters to `view.js` and `style.scss`; the blocks inside are free.
 
@@ -53,14 +55,20 @@ This is a from-scratch block name with no earlier saved shape of its own, so the
 
 ## How Expand mode renders
 
-Image then `__content` stacked in normal document flow — the card itself is the white panel, with the image bleeding to its edges, and the body growing the card taller as it opens.
+Image then `__content` stacked in normal document flow — the card itself is the white panel, with the image bleeding to its edges.
+
+The body is the exception: once `.is-ready`, `__collapse` is absolutely positioned at `top: 100%`, so the card keeps the footprint it has closed (image plus header) and the opening body hangs below it, over whatever follows, instead of growing the card and pushing the rest of the page down. `.is-expanded`'s existing `z-index` is what lifts it over the content it covers. It is out of flow in *both* states rather than only while open, so closing animates exactly the way opening did instead of snapping back into flow first.
+
+Two consequences the CSS has to handle. The card can no longer clip its own children (`overflow: visible` once ready, or the hanging panel would be cut off), so `__image` carries the top corner radii itself. And the panel now paints outside the card's box, so it repeats the card's background, bottom radii and shadow from the same literals — a background set on the block through colour supports stays on the wrapper and doesn't reach it.
+
+That is also why `view.js` *wraps* the body group rather than animating it directly: the group carries the theme's own padding, and a padded box can't be collapsed to nothing — `height: 0` leaves the padding behind, which out of flow would hang below every closed card as a strip of background with the body's first line showing through. The wrapper has none of its own.
 
 The saved markup carries no ids or ARIA, so `view.js`'s `setUpExpandCard` assembles the interactive structure on load. In Click mode that means a full disclosure control (Hover mode skips all of it — see [Activation](#activation-click-or-hover)):
 
 - it finds `__header`/`__body` by class (falling back to the pre-split heuristic — see above — when they're absent, which still requires an actual heading since there's no group boundary to lean on instead);
 - inside `__header`, the first `h1`–`h6` becomes the trigger, or — when there isn't one — the whole group does;
 - the trigger's contents move into a real `<button>` (`<h3><button>` is the WAI-ARIA accordion shape, and a real button gets Enter/Space for free), gaining `aria-expanded` + `aria-controls`;
-- the `__body` group is tagged `__collapse`, which is what the height transition actually animates (for the pre-split shape, `view.js` synthesizes that element instead, wrapping everything after the heading);
+- the `__body` group is wrapped in a `__collapse` element, which is what the height transition actually animates (for the pre-split shape, the same element is synthesized around everything after the heading);
 - ids are minted here rather than baked into `save()`, so several cards on a page never collide.
 
 The button is left `display: inline` so the heading's `line-clamp-1` utility still governs the text; a `::after` overlay makes the whole heading row a hit area too.

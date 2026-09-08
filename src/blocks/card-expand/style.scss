@@ -2,9 +2,10 @@
  * Expand Card. Reveal Style (`revealStyle`, a wrapper class `is-overlay` or its absence) picks
  * between two independent reveal mechanics sharing one card shell:
  *
- *   - Expand (default, adapted from the "expanding-card" CodePen): the body grows open beneath a
- *     heading that stays put. `__image` and `__content` stack in normal flow — the card itself is
- *     the white panel, with the image bleeding to its edges.
+ *   - Expand (default, adapted from the "expanding-card" CodePen): the body opens beneath a heading
+ *     that stays put. `__image` and `__content` stack in normal flow — the card itself is the white
+ *     panel, with the image bleeding to its edges — but the body itself is taken out of that flow
+ *     once wired, so opening hangs it over what follows instead of resizing the card.
  *   - Overlay: image and `__content` (header+body together) share one `__frame`, so they can occupy
  *     the same box. Closed, the card looks like the expand one — image, then header — because the
  *     panel is parked with only its header showing; open, the panel slides up over the image and
@@ -21,9 +22,10 @@
  *                   `__header` — expand mode: the heading view.js turns into the disclosure
  *                                trigger. overlay mode: the sliding panel's always-visible top,
  *                                and the trigger's accessible label.
- *                   `__body`   — what opens/reveals. expand mode: view.js tags it `__collapse`,
- *                                which is what this file actually animates. overlay mode: takes
- *                                the height the header leaves and scrolls its own overflow.
+ *                   `__body`   — what opens/reveals. expand mode: view.js wraps it in a padding-free
+ *                                `__collapse` element, which is what this file actually animates
+ *                                and positions. overlay mode: takes the height the header leaves
+ *                                and scrolls its own overflow.
  *                 Content saved before the header/body split (expand mode only, inherited from
  *                 this block's ancestor `theatrum/card-expanding`) is a flat heading + paragraph
  *                 run instead; view.js falls back to treating the first heading as the toggle and
@@ -58,12 +60,23 @@
 			margin-block: 0;
 		}
 
+		// margin-block-start: 0.5em;
+		//
+		// Pulled up a hairline instead, so each section overlaps the one above it by a pixel. The
+		// sections meet at whatever fractional position the header's content works out to, and a
+		// boundary that lands mid-device-pixel is antialiased: both backgrounds blend with what is
+		// behind them, which is this block's own light backing (`__content` in overlay mode, the
+		// `__collapse` wrapper in expand mode). On sections an author has painted dark, that reads
+		// as a faint light line across the card. The overlap covers it — the lower section paints
+		// last, and in expand mode the body sits flush against the top of its wrapper, so it covers
+		// the wrapper's backing too rather than dragging it over the header.
 		> * + * {
-			// margin-block-start: 0.5em;
+			margin-block-start: -1px;
 		}
 	}
 
-	// Expand: image then content stacked in flow, the card growing taller as the body opens.
+	// Expand: image then content stacked in flow, the body dropping out of that flow to open over
+	// whatever follows the card (see the `.is-ready` block at the end of this section).
 	&:not(.is-overlay) {
 		display: flex;
 		flex-direction: column;
@@ -139,11 +152,55 @@
 			}
 		}
 
-		// Collapsed-by-default only once view.js has wired the toggle — until then (no JS) the
-		// whole card shows, so nothing is hidden from a non-JS visitor.
-		&.is-ready .wp-block-theatrum-card-expand__collapse {
-			height: 0;
-			overflow: hidden;
+		// Everything here is gated behind `.is-ready` — until view.js has wired the toggle (no JS)
+		// the whole card shows in normal flow, so nothing is hidden from a non-JS visitor.
+		//
+		// The body leaves the flow entirely once it is wired: the card keeps the footprint it has
+		// closed — image plus header — and the opening body hangs below it, over whatever follows,
+		// rather than growing the card and shifting the rest of the page down. It is absolutely
+		// positioned in both states rather than only while open, so closing animates exactly the
+		// way opening did instead of snapping back into flow first. `.is-expanded`'s `z-index`
+		// above is what lifts it over the content it now covers.
+		&.is-ready {
+			// A hanging panel can't be clipped to the card's box, so the image element takes over
+			// the corner-rounding this used to do for it.
+			overflow: visible;
+
+			.wp-block-theatrum-card-expand__image {
+				border-start-start-radius: inherit;
+				border-start-end-radius: inherit;
+			}
+
+			// The header paints above the panel rather than below it. The panel is out of flow, so
+			// it paints after the header — including its own backing, which would land *between*
+			// the header and the body and bleed through the body's antialiased top edge as a
+			// hairline wherever an author has painted the two sections darker than the card. With
+			// the header on top, and the seam overlap from the top of this file, the two sections
+			// meet with nothing lighter anywhere between them.
+			.wp-block-theatrum-card-expand__header {
+				position: relative;
+				z-index: 1;
+			}
+
+			.wp-block-theatrum-card-expand__collapse {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				right: 0;
+				height: 0;
+				overflow: hidden;
+
+				// Outside the card's own box, so none of the card's background paints behind it —
+				// the same literals the card itself uses at the top of this file. A background set
+				// on the block (color supports) stays on the wrapper and doesn't reach here.
+				background: var(--ct-light, #fff);
+				color: var(--ct-on-light, #030e19);
+				// Stated rather than inherited: the panel's parent is `__content`, which has no
+				// radius of its own to pass down.
+				border-end-start-radius: var(--wp--preset--border-radius--small, 4px);
+				border-end-end-radius: var(--wp--preset--border-radius--small, 4px);
+				box-shadow: var(--wp--preset--shadow--subtle, 0 3px 5px rgba(0, 0, 0, 0.04));
+			}
 		}
 	}
 
@@ -230,9 +287,10 @@
 			overflow-y: auto;
 			overscroll-behavior: contain;
 
-			// Header and body are two parts of one panel, not independent rhythm — same
-			// specificity as the `> * + *` rule above, which is what lets it win.
-			margin-block-start: 0;
+			// Header and body are two parts of one panel, not independent rhythm. The hairline is
+			// the seam overlap the `> * + *` rule at the top of this file explains; this rule is
+			// more specific than that one, so it has to carry the value rather than inherit it.
+			margin-block-start: -1px;
 		}
 
 		// 100% of the panel's own height, from an origin at the frame's bottom edge: the panel ends

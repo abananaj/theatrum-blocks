@@ -2,8 +2,8 @@
  * Front-end behaviour for the Expand Card block, along two independent axes:
  *
  *   - Reveal Style (a wrapper class, `is-overlay` or absent) picks which of the two algorithms
- *     below wires up each card — `setUpExpandCard` (the body grows open beneath a heading that
- *     stays put) or `setUpOverlayCard` (the whole header+body panel slides up to cover the image).
+ *     below wires up each card — `setUpExpandCard` (the body opens beneath a heading that stays
+ *     put) or `setUpOverlayCard` (the whole header+body panel slides up to cover the image).
  *     They share only the outer loop and an `idSeed` counter threaded between them so ids never
  *     collide across a page mixing both styles.
  *   - Activate On (`is-hover`, or absent) picks what triggers the reveal. Click mode is the default
@@ -51,7 +51,9 @@ function wireHoverReveal( card, setExpanded ) {
 }
 
 /**
- * Expand mode: the card's body opens beneath a heading that stays put.
+ * Expand mode: the card's body opens beneath a heading that stays put. The body is taken out of
+ * the page's flow to do it (style.scss), so the card keeps its closed footprint and the body hangs
+ * over what follows rather than pushing it down.
  *
  * The card is seeded (edit.js's TEMPLATE) as two `core/group`s — `__header` (stays put) and
  * `__body` (what opens) — the same split `theatrum/card-scroll` uses, so a card authored today is
@@ -110,7 +112,16 @@ function setUpExpandCard( card, idSeed, useHover ) {
 		triggerSource =
 			headerGroup.querySelector( 'h1, h2, h3, h4, h5, h6' ) ||
 			headerGroup;
-		collapse = bodyGroup;
+
+		// The body group is wrapped rather than animated directly. It carries the theme's own
+		// padding, and a padded box cannot be collapsed to nothing — `height: 0` leaves the padding
+		// behind, which for an out-of-flow panel (style.scss) would hang below every closed card as
+		// a strip of the card's background with the first line of the body showing through it. The
+		// wrapper has no padding of its own, so closed it really is zero-height. The flat legacy
+		// shape below already had one for the same mechanical reason.
+		collapse = document.createElement( 'div' );
+		bodyGroup.before( collapse );
+		collapse.appendChild( bodyGroup );
 	} else {
 		const children = Array.from( content.children );
 		const flatHeading = children.find( ( child ) =>
