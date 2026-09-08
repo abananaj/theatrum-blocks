@@ -854,9 +854,15 @@ function theatrum_card_height_style($attributes) {
  * @param int    $post_id    Post to read the featured image from.
  * @param string $base_class The block's base class, e.g. `wp-block-theatrum-card-scroll`.
  * @param bool   $include_aspect_ratio Passed through to theatrum_card_image_style().
+ * @param string $link_url   Wrap the image in a link to this URL. Empty (the default) renders the
+ *                           image bare, which is what every card did before hover activation.
+ * @param string $link_label Accessible name for that link. Worth supplying: the picture may be a
+ *                           featured image whose own alt text belongs to somebody else's post, or
+ *                           a deliberately decorative one with no alt at all, and either way the
+ *                           link would otherwise have no name.
  * @return string
  */
-function theatrum_card_image_html($attributes, $post_id, $base_class, $include_aspect_ratio = true) {
+function theatrum_card_image_html($attributes, $post_id, $base_class, $include_aspect_ratio = true, $link_url = '', $link_label = '') {
 	$use_featured  = ! empty($attributes['useFeaturedImage']);
 	$selected_id   = isset($attributes['mediaId']) ? (int) $attributes['mediaId'] : 0;
 	$selected_url  = isset($attributes['mediaUrl']) ? (string) $attributes['mediaUrl'] : '';
@@ -892,6 +898,19 @@ function theatrum_card_image_html($attributes, $post_id, $base_class, $include_a
 
 	if ('' === $image) {
 		return '';
+	}
+
+	// Inside the `__image` element rather than around it, so the geometry custom properties below
+	// stay on the same element every stylesheet already targets (`__image img` is a descendant
+	// selector, so it reaches through the anchor unchanged).
+	if ('' !== $link_url) {
+		$image = sprintf(
+			'<a class="%1$s__image-link" href="%2$s"%3$s>%4$s</a>',
+			esc_attr($base_class),
+			esc_url($link_url),
+			'' !== $link_label ? ' aria-label="' . esc_attr($link_label) . '"' : '',
+			$image
+		);
 	}
 
 	$style = theatrum_card_image_style($attributes, $include_aspect_ratio);

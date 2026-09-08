@@ -45,7 +45,7 @@ function theatrum_register_blocks() {
 		'carousel',
 		'carousel/carousel-item',
 
-		'card-expanding',
+		'card-expand',
 		'card-scroll',
 
 		'blockquote-advanced',

@@ -166,19 +166,22 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
-	'card-expanding' => array(
+	'card-expand' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'theatrum/card-expanding',
-		'title' => 'Expanding Card',
+		'name' => 'theatrum/card-expand',
+		'title' => 'Expand Card',
 		'category' => 'theatrum',
 		'icon' => 'excerpt-view',
-		'description' => 'A card that expands on click to reveal everything below its heading — click-triggered, not hover-only, with real button semantics. Heading and body are nested blocks; the image is chosen and sized in the sidebar.',
+		'description' => 'A card that reveals its body on click or on hover — Reveal Style chooses whether the body expands open beneath a heading that stays put, or the whole header+body panel slides up to cover the image. Heading and body are nested blocks; the image is chosen and sized in the sidebar.',
 		'keywords' => array(
 			'card',
 			'expand',
+			'overlay',
 			'reveal',
-			'click'
+			'click',
+			'hover',
+			'link'
 		),
 		'textdomain' => 'theatrum-blocks',
 		'usesContext' => array(
@@ -186,6 +189,26 @@ return array(
 			'postType'
 		),
 		'attributes' => array(
+			'revealStyle' => array(
+				'type' => 'string',
+				'default' => 'expand',
+				'enum' => array(
+					'expand',
+					'overlay'
+				)
+			),
+			'activateOn' => array(
+				'type' => 'string',
+				'default' => 'click',
+				'enum' => array(
+					'click',
+					'hover'
+				)
+			),
+			'linkImageToPost' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
 			'useFeaturedImage' => array(
 				'type' => 'boolean',
 				'default' => false

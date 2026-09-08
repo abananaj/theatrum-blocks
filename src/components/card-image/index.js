@@ -67,6 +67,9 @@ const OBJECT_FIT_OPTIONS = [
  * @param {Object}   props.defaults          The block's own attribute defaults, used for "reset
  *                                           all" and for deciding what counts as a changed value.
  * @param {boolean}  [props.showAspectRatio] Offer the Aspect Ratio control (default true).
+ * @param {boolean}  [props.showWidth]       Offer the Width control (default true). A block whose
+ *                                           image always fills its frame edge-to-edge — nothing
+ *                                           for a narrower image to do — passes `false`.
  * @param {Array}    [props.heightUnits]     Units the Height control offers. Defaults to all of
  *                                           them; a block whose height must be definite passes
  *                                           ABSOLUTE_UNIT_OPTIONS instead.
@@ -78,6 +81,7 @@ export default function CardImageControls( {
 	setAttributes,
 	defaults,
 	showAspectRatio = true,
+	showWidth = true,
 	heightHelp,
 	heightUnits = UNIT_OPTIONS,
 } ) {
@@ -263,45 +267,47 @@ export default function CardImageControls( {
 					} )
 				}
 			>
-				<ToolsPanelItem
-					hasValue={ () => imageWidth !== defaults.imageWidth }
-					label={ __( 'Width', 'theatrum-blocks' ) }
-					onDeselect={ () =>
-						setAttributes( {
-							imageWidth: defaults.imageWidth,
-							imageWidthUnit: defaults.imageWidthUnit,
-						} )
-					}
-					isShownByDefault={ true }
-				>
-					<div
-						style={ {
-							display: 'flex',
-							gap: '8px',
-							alignItems: 'flex-end',
-						} }
+				{ showWidth && (
+					<ToolsPanelItem
+						hasValue={ () => imageWidth !== defaults.imageWidth }
+						label={ __( 'Width', 'theatrum-blocks' ) }
+						onDeselect={ () =>
+							setAttributes( {
+								imageWidth: defaults.imageWidth,
+								imageWidthUnit: defaults.imageWidthUnit,
+							} )
+						}
+						isShownByDefault={ true }
 					>
-						<TextControl
-							label={ __( 'Width', 'theatrum-blocks' ) }
-							type="number"
-							value={ imageWidth }
-							onChange={ ( value ) =>
-								setAttributes( { imageWidth: value } )
-							}
-							style={ { flex: 1 } }
-						/>
-						<SelectControl
-							label={ __( 'Unit', 'theatrum-blocks' ) }
-							hideLabelFromVision
-							value={ imageWidthUnit }
-							options={ UNIT_OPTIONS }
-							onChange={ ( value ) =>
-								setAttributes( { imageWidthUnit: value } )
-							}
-							style={ { width: '80px' } }
-						/>
-					</div>
-				</ToolsPanelItem>
+						<div
+							style={ {
+								display: 'flex',
+								gap: '8px',
+								alignItems: 'flex-end',
+							} }
+						>
+							<TextControl
+								label={ __( 'Width', 'theatrum-blocks' ) }
+								type="number"
+								value={ imageWidth }
+								onChange={ ( value ) =>
+									setAttributes( { imageWidth: value } )
+								}
+								style={ { flex: 1 } }
+							/>
+							<SelectControl
+								label={ __( 'Unit', 'theatrum-blocks' ) }
+								hideLabelFromVision
+								value={ imageWidthUnit }
+								options={ UNIT_OPTIONS }
+								onChange={ ( value ) =>
+									setAttributes( { imageWidthUnit: value } )
+								}
+								style={ { width: '80px' } }
+							/>
+						</div>
+					</ToolsPanelItem>
+				) }
 
 				{ showAspectRatio && (
 					<ToolsPanelItem
