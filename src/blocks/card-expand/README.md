@@ -91,6 +91,8 @@ Opening translates the panel to `-100%`, which is 100% of the **panel's own box*
 
 `__header` is `flex: 0 0 auto` (fixed at the panel's own top) and `__body` is `flex: 1 1 auto; min-height: 0; overflow-y: auto` (takes what's left and scrolls) — so a body with more to show than the frame has room for scrolls internally instead of pushing the panel past the top of the card.
 
+That makes `__body` the card's one scroll region, so `view.js` tags it `ct-scrollbar` — the chance-ollie theme's own compiled class, consumed rather than restated here, the same way `theatrum/carousel` picks it up for its own scroller. It's added in `view.js` rather than `render.php` because the body is an author's own block inside the rendered inner blocks, and because it only ever scrolls once the card is wired. With the theme inactive the class simply does nothing and the browser's default bar shows.
+
 Because the header travels with the body, it can't double as the clickable/announced control the way Expand mode's heading can. In Click mode `view.js` instead makes the whole `__frame` the accessible control: `role="button"`, `tabindex="0"`, keyboard-activatable, `aria-expanded`/`aria-controls` wired to `__body`, and an `aria-label` borrowed from the header's own text (or, with a header that isn't just a heading, its general text content) so a screen reader announces the card by its title. `aria-hidden` goes on `__body` rather than the whole panel, precisely because the header is on show in both states.
 
 This does mean the frame's `role="button"` can end up containing focusable descendants once the body has a link or a button of its own — the same accepted compromise Expand mode documents for a heading that already holds a link.

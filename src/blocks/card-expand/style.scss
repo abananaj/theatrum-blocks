@@ -280,7 +280,8 @@
 
 		// Takes the height the header leaves and scrolls the overflow, so a body longer than the
 		// frame never grows the panel past it. `min-height: 0` is what lets a flex item shrink
-		// below its content in the first place.
+		// below its content in the first place. The bar itself is the site's: view.js tags this
+		// element `ct-scrollbar`, the theme's own compiled class.
 		&.is-ready .wp-block-theatrum-card-expand__body {
 			flex: 1 1 auto;
 			min-height: 0;

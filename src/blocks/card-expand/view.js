@@ -291,6 +291,15 @@ function setUpOverlayCard( card, idSeed, useHover ) {
 	);
 	const label = headerGroup ? headerGroup.textContent.trim() : '';
 
+	// The body is this card's one scroll region (style.scss), so it takes the site's scrollbar
+	// treatment: `ct-scrollbar` consumes the chance-ollie theme's already-compiled class rather
+	// than restating its rules here, the same way theatrum/carousel picks it up. Added here rather
+	// than in render.php because the body is an author's own block inside the rendered inner
+	// blocks, and because it only ever scrolls once this has wired the card up.
+	if ( bodyGroup ) {
+		bodyGroup.classList.add( 'ct-scrollbar' );
+	}
+
 	// How far up the panel is parked while collapsed, and how much room the frame keeps under the
 	// image for it (style.scss). Measured rather than guessed: the header is whatever blocks the
 	// author put there, at whatever the card's width makes them wrap to. Re-measured on resize,
