@@ -17,7 +17,7 @@
  * (theatrum-blocks.php) just for pages that render an accordion carrying the style class.
  */
 
-const ACCORDION = '.wp-block-accordion.is-style-ct-accordion-icon';
+const ACCORDION = '.wp-block-accordion.is-style-tm-accordion-icon';
 const ITEM = '.wp-block-accordion-item';
 const TOGGLE = '.wp-block-accordion-heading__toggle';
 
@@ -42,16 +42,16 @@ let cancelActive = null;
  * @param {Element} element Element to measure.
  * @return {number} Duration in ms, clamped to MAX_WATCH.
  */
-function transitionDuration( element ) {
+function transitionDuration(element) {
 	const declared =
-		window.getComputedStyle( element ).transitionDuration || '';
+		window.getComputedStyle(element).transitionDuration || '';
 
-	const longest = declared.split( ',' ).reduce( ( max, value ) => {
-		const parsed = parseFloat( value ) || 0;
-		return Math.max( max, value.includes( 'ms' ) ? parsed : parsed * 1000 );
-	}, 0 );
+	const longest = declared.split(',').reduce((max, value) => {
+		const parsed = parseFloat(value) || 0;
+		return Math.max(max, value.includes('ms') ? parsed : parsed * 1000);
+	}, 0);
 
-	return Math.min( longest, MAX_WATCH );
+	return Math.min(longest, MAX_WATCH);
 }
 
 /**
@@ -59,34 +59,34 @@ function transitionDuration( element ) {
  *
  * @param {Element} toggle The heading button that was activated.
  */
-function pin( toggle ) {
+function pin(toggle) {
 	const target = toggle.getBoundingClientRect().top;
 	const deadline =
 		performance.now() +
-		transitionDuration( toggle.closest( ITEM ) || toggle ) +
+		transitionDuration(toggle.closest(ITEM) || toggle) +
 		SLACK;
 
 	let frame = 0;
 
 	const cancel = () => {
-		window.cancelAnimationFrame( frame );
-		window.removeEventListener( 'wheel', cancel );
-		window.removeEventListener( 'touchstart', cancel );
-		window.removeEventListener( 'keydown', cancel );
+		window.cancelAnimationFrame(frame);
+		window.removeEventListener('wheel', cancel);
+		window.removeEventListener('touchstart', cancel);
+		window.removeEventListener('keydown', cancel);
 		cancelActive = null;
 	};
 
 	const step = () => {
 		const drift = toggle.getBoundingClientRect().top - target;
 
-		if ( Math.abs( drift ) >= THRESHOLD ) {
+		if (Math.abs(drift) >= THRESHOLD) {
 			// `instant`, not the default `auto`: auto obeys a `scroll-behavior: smooth` set
 			// anywhere up the tree, which would animate each correction and never catch up.
-			window.scrollBy( { top: drift, left: 0, behavior: 'instant' } );
+			window.scrollBy({ top: drift, left: 0, behavior: 'instant' });
 		}
 
-		if ( performance.now() < deadline ) {
-			frame = window.requestAnimationFrame( step );
+		if (performance.now() < deadline) {
+			frame = window.requestAnimationFrame(step);
 			return;
 		}
 
@@ -94,7 +94,7 @@ function pin( toggle ) {
 	};
 
 	// A second click mid-animation re-pins to the new toggle; only one loop ever runs.
-	if ( cancelActive ) {
+	if (cancelActive) {
 		cancelActive();
 	}
 
@@ -102,21 +102,21 @@ function pin( toggle ) {
 
 	// Anything the reader does to scroll for themselves wins immediately — correcting past that
 	// would feel like the page fighting back. The click's own keydown has already fired by now.
-	window.addEventListener( 'wheel', cancel, { passive: true } );
-	window.addEventListener( 'touchstart', cancel, { passive: true } );
-	window.addEventListener( 'keydown', cancel );
+	window.addEventListener('wheel', cancel, { passive: true });
+	window.addEventListener('touchstart', cancel, { passive: true });
+	window.addEventListener('keydown', cancel);
 
-	frame = window.requestAnimationFrame( step );
+	frame = window.requestAnimationFrame(step);
 }
 
 // Capture phase, so the measurement happens before core's Interactivity API store toggles the card.
 document.addEventListener(
 	'click',
-	( event ) => {
-		const toggle = event.target?.closest?.( TOGGLE );
+	(event) => {
+		const toggle = event.target?.closest?.(TOGGLE);
 
-		if ( toggle?.closest( ACCORDION ) ) {
-			pin( toggle );
+		if (toggle?.closest(ACCORDION)) {
+			pin(toggle);
 		}
 	},
 	true
