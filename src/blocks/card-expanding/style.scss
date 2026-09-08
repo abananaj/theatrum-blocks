@@ -33,6 +33,7 @@
 
 	&.is-expanded {
 		transform: scale(1.08);
+		z-index: 999;
 	}
 
 	&__image {
@@ -59,7 +60,7 @@
 	}
 
 	&__content {
-		padding: 1em 1.25em;
+		// padding: 1em 1.25em;
 
 		// Nested blocks bring their own margins; the card owns its own rhythm instead.
 		> * {
@@ -67,7 +68,7 @@
 		}
 
 		> * + * {
-			margin-block-start: 0.5em;
+			// margin-block-start: 0.5em;
 		}
 	}
 

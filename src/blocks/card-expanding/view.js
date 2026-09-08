@@ -7,11 +7,15 @@
  *
  * The card is seeded (edit.js's TEMPLATE) as two `core/group`s — `__header` (stays put) and
  * `__body` (what opens) — the same split `theatrum/card-scroll` uses, so a card authored today is
- * found by class rather than by position. Content saved before that split is a flat heading +
- * paragraph run with no groups at all; for that shape this falls back to the original heuristic —
- * the first heading in `__content`, and everything after it — so it keeps working unmigrated.
+ * found by class rather than by position. The header doesn't have to hold a heading — the first
+ * `h1`–`h6` inside it becomes the trigger when there is one, and the whole header group stands in
+ * for it otherwise, so any content is enough. Content saved before the header/body split is a flat
+ * heading + paragraph run with no groups at all; for that shape this falls back to the original
+ * heuristic — the first heading in `__content`, and everything after it — so it keeps working
+ * unmigrated (and does still require an actual heading, since there's no group boundary to lean on
+ * instead).
  *
- * Either way, the heading's text moves into a real <button> (`<h3><button>` is the WAI-ARIA
+ * Either way, the trigger's contents move into a real <button> (`<h3><button>` is the WAI-ARIA
  * accordion shape, and a real button gives Enter/Space activation for free). Doing that at
  * runtime rather than in save() keeps ids out of the saved markup, so multiple instances on a page
  * never collide — the same reason theatrum/tabs assigns its ARIA here.
@@ -41,11 +45,16 @@ window.addEventListener( 'load', () => {
 			':scope > .wp-block-theatrum-card-expanding__body'
 		);
 
-		let heading;
+		// What becomes the trigger: a heading when there is one, or (inside the header/body
+		// shape) the whole header group when there isn't — never just "the heading" once a
+		// header can hold anything.
+		let triggerSource;
 		let collapse;
 
 		if ( headerGroup && bodyGroup ) {
-			heading = headerGroup.querySelector( 'h1, h2, h3, h4, h5, h6' );
+			triggerSource =
+				headerGroup.querySelector( 'h1, h2, h3, h4, h5, h6' ) ||
+				headerGroup;
 			collapse = bodyGroup;
 		} else {
 			const children = Array.from( content.children );
@@ -57,15 +66,16 @@ window.addEventListener( 'load', () => {
 				: [];
 
 			if ( flatHeading && body.length ) {
-				heading = flatHeading;
+				triggerSource = flatHeading;
 				collapse = document.createElement( 'div' );
-				heading.after( collapse );
+				triggerSource.after( collapse );
 				body.forEach( ( element ) => collapse.appendChild( element ) );
 			}
 		}
 
-		// No heading, or nothing to disclose: leave the card open.
-		if ( ! heading || ! collapse ) {
+		// No header content (or, for the flat legacy shape, no heading), or nothing to disclose:
+		// leave the card open.
+		if ( ! triggerSource || ! collapse ) {
 			return;
 		}
 
@@ -74,29 +84,31 @@ window.addEventListener( 'load', () => {
 		collapse.classList.add( 'wp-block-theatrum-card-expanding__collapse' );
 		collapse.id = `card-expanding-collapse-${ idSeed }`;
 
-		heading.classList.add( 'wp-block-theatrum-card-expanding__heading' );
+		triggerSource.classList.add(
+			'wp-block-theatrum-card-expanding__heading'
+		);
 
-		// A heading that already contains a link (or any other control) can't have its contents
+		// Content that already contains a link (or any other control) can't have its contents
 		// moved into a <button> — nesting interactive elements is invalid and breaks both. Those
-		// headings fall back to the div[role="button"] treatment theatrum/tabs uses, which needs
-		// its keyboard activation wired by hand.
-		const hasInteractiveContent = heading.querySelector(
+		// fall back to the div[role="button"] treatment theatrum/tabs uses, which needs its
+		// keyboard activation wired by hand.
+		const hasInteractiveContent = triggerSource.querySelector(
 			'a[href], button, input, select, textarea'
 		);
 		let trigger;
 
 		if ( hasInteractiveContent ) {
-			trigger = heading;
+			trigger = triggerSource;
 			trigger.setAttribute( 'role', 'button' );
 			trigger.setAttribute( 'tabindex', '0' );
 		} else {
 			trigger = document.createElement( 'button' );
 			trigger.type = 'button';
 			trigger.className = 'wp-block-theatrum-card-expanding__trigger';
-			while ( heading.firstChild ) {
-				trigger.appendChild( heading.firstChild );
+			while ( triggerSource.firstChild ) {
+				trigger.appendChild( triggerSource.firstChild );
 			}
-			heading.appendChild( trigger );
+			triggerSource.appendChild( trigger );
 		}
 
 		trigger.setAttribute( 'aria-controls', collapse.id );

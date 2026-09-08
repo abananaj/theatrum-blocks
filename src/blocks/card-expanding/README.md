@@ -8,14 +8,14 @@ The card's content is ordinary InnerBlocks, seeded (`edit.js`'s `TEMPLATE`) as t
 
 | Group        | Role                                                                                                                                              |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `__header`   | Holds the heading. `view.js` takes the first `h1`–`h6` inside it, wherever it sits, and turns it into the accessible disclosure control (button, `aria-expanded`, focus ring). |
+| `__header`   | The disclosure trigger. `view.js` takes the first `h1`–`h6` inside it, wherever it sits, and turns it into the accessible control (button, `aria-expanded`, focus ring); a header with no heading isn't invalid — the whole group stands in for it instead, so any content in there is enough. |
 | `__body`     | What opens. Collapsed to one line until the card is opened.                                                                                       |
 
 Everything inside either group is an ordinary, selectable, editable block — authors can add, remove and reorder anything within a group, nothing is locked. Only the group's class (`__header`/`__body`) matters to `view.js` and `style.scss`; the blocks inside are free.
 
 The image is deliberately **not** a nested block. It's a block attribute chosen and sized from the sidebar, so its dimensions belong to the card rather than to the content flow, there's no `core/image` in the List View competing for the same settings, and it can be *the current post's featured image* — which no saved `core/image` could express.
 
-No heading anywhere in the header, no toggle: the card renders permanently open, and the editor says so in the Inspector rather than leaving it to be discovered on the front end.
+An empty header, no toggle: the card renders permanently open, and the editor says so in the Inspector rather than leaving it to be discovered on the front end.
 
 Content saved before this split was added is a flat heading + paragraph run with no groups at all; `view.js` falls back to its original heuristic for that shape — the first heading in `__content`, and everything after it — so existing posts keep working without a migration (see [Migrating old content](#migrating-old-content)).
 
@@ -39,8 +39,9 @@ The sizing custom properties go on the `__image` element itself rather than the 
 
 The saved markup carries no ids or ARIA, so `view.js` assembles the interactive structure on load:
 
-- it finds `__header`/`__body` by class (falling back to the pre-split heuristic — see above — when they're absent);
-- the heading's contents move into a real `<button>` (`<h3><button>` is the WAI-ARIA accordion shape, and a real button gets Enter/Space for free), gaining `aria-expanded` + `aria-controls`;
+- it finds `__header`/`__body` by class (falling back to the pre-split heuristic — see above — when they're absent, which still requires an actual heading since there's no group boundary to lean on instead);
+- inside `__header`, the first `h1`–`h6` becomes the trigger, or — when there isn't one — the whole group does;
+- the trigger's contents move into a real `<button>` (`<h3><button>` is the WAI-ARIA accordion shape, and a real button gets Enter/Space for free), gaining `aria-expanded` + `aria-controls`;
 - the `__body` group is tagged `__collapse`, which is what the height transition actually animates (for the pre-split shape, `view.js` synthesizes that element instead, wrapping everything after the heading);
 - ids are minted here rather than baked into `save()`, so several cards on a page never collide — the same reason `theatrum/tabs` assigns its ARIA at runtime.
 
@@ -48,7 +49,7 @@ The button is left `display: inline` so the heading's `line-clamp-1` utility sti
 
 Clicking is delegated to the whole card, not just the heading, so the image and the rest of the card are clickable the way visitors expect. The one exception: a real link/button/form control elsewhere on the card — most likely inside the opened body — behaves normally instead of also toggling, so content the author nests inside stays usable once the card is open.
 
-A heading that already holds a link can't hold a button (nested interactive elements are invalid), so those fall back to `div[role="button"]` with keyboard activation wired by hand — the compromise `theatrum/tabs` documents.
+Trigger content that already holds a link, button or other control can't also hold a button (nested interactive elements are invalid), so those fall back to `div[role="button"]` (or, when the trigger is the whole header group, that group's own wrapper) with keyboard activation wired by hand — the compromise `theatrum/tabs` documents.
 
 `.is-ready` gates the collapsed CSS, so a visitor without JS gets the whole card rather than a permanently clipped one.
 

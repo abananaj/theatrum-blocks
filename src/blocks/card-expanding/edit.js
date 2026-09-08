@@ -1,10 +1,11 @@
 /**
  * Expanding Card editor. The card's text is nested blocks — real blocks the author selects and
- * edits like any others, seeded by TEMPLATE as two groups: a header (the heading view.js turns
- * into the disclosure trigger) and a body (what opens). Same split `theatrum/card-scroll` uses —
- * only the classes matter, and they're what view.js and style.scss hook the behaviour onto. The
- * image is not a nested block: it's a block attribute picked and sized from the sidebar
- * (<CardImageControls>), so its dimensions are independent of the content flow.
+ * edits like any others, seeded by TEMPLATE as two groups: a header (what view.js turns into the
+ * disclosure trigger — a heading if there is one, otherwise the header's content generally) and a
+ * body (what opens). Same split `theatrum/card-scroll` uses — only the classes matter, and
+ * they're what view.js and style.scss hook the behaviour onto. The image is not a nested block:
+ * it's a block attribute picked and sized from the sidebar (<CardImageControls>), so its
+ * dimensions are independent of the content flow.
  *
  * Content stays fully expanded while authoring: the click-to-collapse behaviour is a front-end
  * enhancement wired by view.js, and collapsing it here would hide the very blocks this exists to
@@ -30,10 +31,10 @@ import './editor.scss';
 
 const BASE_CLASS = 'wp-block-theatrum-card-expanding';
 
-// Two sections: a header holding the heading view.js turns into the disclosure trigger, and a
-// body that opens/closes beneath it. `metadata.name` is what labels each one in the List View;
-// the classes are what view.js finds them by. `line-clamp-1` is the theme's title-overflow
-// utility.
+// Two sections: a header (view.js turns its heading, or failing that its whole content, into the
+// disclosure trigger), and a body that opens/closes beneath it. `metadata.name` is what labels
+// each one in the List View; the classes are what view.js finds them by. `line-clamp-1` is the
+// theme's title-overflow utility.
 const TEMPLATE = [
 	[
 		'core/group',
@@ -81,9 +82,30 @@ const DEFAULTS = Object.fromEntries(
 	] )
 );
 
-// The heading usually sits inside the header group now, not as a direct child of the card, so
-// this has to look past the top level — same reasoning as view.js falling back for content
-// saved before the header/body split.
+// A heading isn't required inside the header group — view.js falls back to the whole group when
+// there isn't one, so any block in there is enough. Only content saved before the header/body
+// split (a flat run with no groups at all) still needs an actual heading, since that's the only
+// boundary view.js's fallback heuristic has to find.
+const findGroupByClassName = ( blocks, className ) => {
+	for ( const block of blocks ) {
+		if (
+			( block.attributes?.className || '' )
+				.split( ' ' )
+				.includes( className )
+		) {
+			return block;
+		}
+		const found = findGroupByClassName(
+			block.innerBlocks || [],
+			className
+		);
+		if ( found ) {
+			return found;
+		}
+	}
+	return null;
+};
+
 const containsHeading = ( blocks ) =>
 	blocks.some(
 		( block ) =>
@@ -114,11 +136,23 @@ export default function Edit( {
 		}
 	);
 
-	// view.js needs a heading to turn into the disclosure button; without one the card just
-	// renders open, so say so here rather than leaving the author to find out on the front end.
-	const hasHeading = useSelect(
-		( select ) =>
-			containsHeading( select( blockEditorStore ).getBlocks( clientId ) ),
+	// view.js needs something to turn into the disclosure trigger — a heading if the header
+	// holds one, otherwise the header group's content generally, or (for a card saved before
+	// the header/body split) a heading somewhere in the flat content. Without any of that the
+	// card just renders open, so say so here rather than leaving the author to find out on the
+	// front end.
+	const hasTrigger = useSelect(
+		( select ) => {
+			const blocks = select( blockEditorStore ).getBlocks( clientId );
+			const header = findGroupByClassName(
+				blocks,
+				`${ BASE_CLASS }__header`
+			);
+
+			return header
+				? header.innerBlocks.length > 0
+				: containsHeading( blocks );
+		},
 		[ clientId ]
 	);
 
@@ -142,10 +176,10 @@ export default function Edit( {
 							'theatrum-blocks'
 						) }
 					</p>
-					{ ! hasHeading && (
+					{ ! hasTrigger && (
 						<Notice status="warning" isDismissible={ false }>
 							{ __(
-								'No Heading block: without one there is nothing for a visitor to click, so this card will render permanently open.',
+								'Empty Card header: put something inside it for a visitor to click — without that, this card will render permanently open.',
 								'theatrum-blocks'
 							) }
 						</Notice>
