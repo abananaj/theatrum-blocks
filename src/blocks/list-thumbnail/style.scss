@@ -1,7 +1,8 @@
 /**
- * Thumbnail List Block Styles (parent). Shared between editor and frontend via block.json `style`; item-level styles live in `list-item-thumbnail` — this file owns the wrapper grid and flip-card panel.
+ * Thumbnail List Block Styles (parent). Shared between editor and frontend via block.json `style`; item-level styles live in `list-item-thumbnail` — this file owns the wrapper layout and flip-card icon.
  * 3D flip needs an unbroken preserve-3d chain: .thumbnail-container (perspective) -> .thumbnail-flipper (preserve-3d, rotates) -> .thumbnail-front/back (backface hidden).
  * Do NOT add `overflow: hidden` to the container or flipper — it forces `transform-style: flat` and silently kills the flip.
+ * The icon doesn't sit in a layout column — it's absolutely positioned over the gutter reserved by .list-items' padding, then JS (view.js/edit.js) translates it vertically to the hovered item's offsetTop so it travels row-to-row instead of staying in one fixed spot (ported from the source CodePen).
  */
 
 @use "@wordpress/base-styles/breakpoints" as *;
@@ -10,9 +11,7 @@
 	box-sizing: border-box;
 
 	.thumbnail-list-wrapper {
-		display: grid;
-		gap: var(--wp--style--block-gap, 2rem);
-		align-items: var(--vertical-alignment, start);
+		position: relative;
 	}
 
 	.list-items {
@@ -20,15 +19,16 @@
 		flex-direction: column;
 	}
 
-	// Flip-card preview panel
+	// Flip-card preview icon — sized independently of item rows; JS centers it vertically against whichever row is hovered.
 	.thumbnail-container {
-		width: var(--thumb-width, 400px);
-		height: var(--thumb-height, 300px);
+		width: var(--thumb-width, 48px);
+		height: var(--thumb-height, 48px);
 		box-sizing: border-box;
-		position: sticky;
-		top: 1rem;
+		position: absolute;
+		top: 0;
 		perspective: 1000px;
-		flex-shrink: 0;
+		pointer-events: none;
+		transition: transform var(--animation-speed, var(--ct-duration-slow-1, 0.3s)) var(--ct-ease-standard, ease);
 	}
 
 	.thumbnail-flipper {
@@ -65,24 +65,33 @@
 		aspect-ratio: var(--thumb-aspect-ratio, auto);
 	}
 
-	// Position variants: panel is second in the DOM; `order` moves it to the first grid column for the left layout.
-	&.thumbnail-position-right .thumbnail-list-wrapper {
-		grid-template-columns: 1fr auto;
-	}
-
-	&.thumbnail-position-left .thumbnail-list-wrapper {
-		grid-template-columns: auto 1fr;
-
+	// Position variants: icon hugs an edge; .list-items reserves a matching gutter so row text never runs under it.
+	&.thumbnail-position-right {
 		.thumbnail-container {
-			order: -1;
+			right: 0;
+		}
+
+		.list-items {
+			padding-right: calc(var(--thumb-width, 48px) + var(--wp--style--block-gap, 2rem));
 		}
 	}
 
-	// Responsive: stack the panel under the list.
+	&.thumbnail-position-left {
+		.thumbnail-container {
+			left: 0;
+		}
+
+		.list-items {
+			padding-left: calc(var(--thumb-width, 48px) + var(--wp--style--block-gap, 2rem));
+		}
+	}
+
+	// Responsive: stack a static icon under the list instead of travelling beside it.
 	@media (max-width: #{ $break-medium }) {
 
-		.thumbnail-list-wrapper {
-			grid-template-columns: 1fr !important;
+		.list-items {
+			padding-left: 0 !important;
+			padding-right: 0 !important;
 		}
 
 		.thumbnail-container {
@@ -91,6 +100,7 @@
 			height: auto !important;
 			aspect-ratio: 4 / 3;
 			margin-top: 1em;
+			transform: none !important;
 		}
 	}
 }

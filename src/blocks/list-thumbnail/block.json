@@ -52,7 +52,7 @@
 	"attributes": {
 		"thumbnailWidth": {
 			"type": "string",
-			"default": "400"
+			"default": "48"
 		},
 		"thumbnailWidthUnit": {
 			"type": "string",
@@ -61,7 +61,7 @@
 		},
 		"thumbnailHeight": {
 			"type": "string",
-			"default": "300"
+			"default": "48"
 		},
 		"thumbnailHeightUnit": {
 			"type": "string",
@@ -80,12 +80,6 @@
 			"type": "string",
 			"default": "right",
 			"enum": ["left", "right"]
-		},
-		"verticalAlignment": {
-			"type": "string",
-			"default": "top",
-			"enum": ["top", "center", "bottom"],
-			"description": "Vertical alignment of the list-items column against the flip-card thumbnail panel"
 		},
 		"animationSpeed": {
 			"type": "string",

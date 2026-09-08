@@ -11,7 +11,7 @@ import {
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
 import {
 	TextControl,
 	ButtonGroup,
@@ -43,7 +43,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		itemHeight,
 		itemHeightUnit,
 		thumbnailPosition,
-		verticalAlignment,
 		animationSpeed,
 		imageSizeSlug,
 		thumbnailAspectRatio,
@@ -71,6 +70,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const [ hoverIndex, setHoverIndex ] = useState( 0 );
 	const [ faces, setFaces ] = useState( { front: null, back: null } );
+	const [ offsetY, setOffsetY ] = useState( 0 );
+	const containerRef = useRef( null );
 
 	// Seed the front face with the first item so the preview isn't blank.
 	useEffect( () => {
@@ -83,7 +84,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		}
 	}, [ innerBlocks ] );
 
-	const updateFlip = ( index ) => {
+	const updateFlip = ( index, itemEl ) => {
 		const block = innerBlocks[ index ];
 		if ( ! block ) {
 			return;
@@ -94,6 +95,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				? { ...prev, back: block.attributes }
 				: { ...prev, front: block.attributes }
 		);
+
+		// Travel the icon to sit beside the hovered row, centered against its height (mirrors view.js).
+		if ( itemEl && containerRef.current ) {
+			const containerHeight = containerRef.current.offsetHeight;
+			setOffsetY(
+				itemEl.offsetTop + ( itemEl.offsetHeight - containerHeight ) / 2
+			);
+		}
 	};
 
 	// Event delegation: WP wraps every rendered block with a `data-block="<clientId>"` attribute, so we can find which item was hovered without the child reporting it.
@@ -106,7 +115,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			( block ) => block.clientId === itemEl.dataset.block
 		);
 		if ( index !== -1 ) {
-			updateFlip( index );
+			updateFlip( index, itemEl );
 		}
 	};
 
@@ -128,14 +137,13 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					label={ __( 'Display Settings', 'theatrum-blocks' ) }
 					resetAll={ () => {
 						setAttributes( {
-							thumbnailWidth: '400',
+							thumbnailWidth: '48',
 							thumbnailWidthUnit: 'px',
-							thumbnailHeight: '300',
+							thumbnailHeight: '48',
 							thumbnailHeightUnit: 'px',
 							itemHeight: '80',
 							itemHeightUnit: 'px',
 							thumbnailPosition: 'right',
-							verticalAlignment: 'top',
 							animationSpeed: '0.3',
 							hideDescriptionUntilHover: false,
 						} );
@@ -212,49 +220,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={ () => verticalAlignment !== 'top' }
-						label={ __( 'Vertical Alignment', 'theatrum-blocks' ) }
-						onDeselect={ () =>
-							setAttributes( { verticalAlignment: 'top' } )
-						}
-						isShownByDefault={ true }
-					>
-						<ButtonGroup>
-							{ [
-								{
-									label: __( 'Top', 'theatrum-blocks' ),
-									value: 'top',
-								},
-								{
-									label: __( 'Center', 'theatrum-blocks' ),
-									value: 'center',
-								},
-								{
-									label: __( 'Bottom', 'theatrum-blocks' ),
-									value: 'bottom',
-								},
-							].map( ( option ) => (
-								<Button
-									key={ option.value }
-									isPrimary={
-										verticalAlignment === option.value
-									}
-									isSecondary={
-										verticalAlignment !== option.value
-									}
-									onClick={ () =>
-										setAttributes( {
-											verticalAlignment: option.value,
-										} )
-									}
-								>
-									{ option.label }
-								</Button>
-							) ) }
-						</ButtonGroup>
-					</ToolsPanelItem>
-
-					<ToolsPanelItem
 						hasValue={ () => itemHeight !== '80' }
 						label={ __( 'Item Height', 'theatrum-blocks' ) }
 						onDeselect={ () =>
@@ -298,11 +263,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					</ToolsPanelItem>
 
 					<ToolsPanelItem
-						hasValue={ () => thumbnailWidth !== '400' }
+						hasValue={ () => thumbnailWidth !== '48' }
 						label={ __( 'Thumbnail Width', 'theatrum-blocks' ) }
 						onDeselect={ () =>
 							setAttributes( {
-								thumbnailWidth: '400',
+								thumbnailWidth: '48',
 								thumbnailWidthUnit: 'px',
 							} )
 						}
@@ -344,14 +309,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 					{ thumbnailAspectRatio === 'auto' && (
 						<ToolsPanelItem
-							hasValue={ () => thumbnailHeight !== '300' }
+							hasValue={ () => thumbnailHeight !== '48' }
 							label={ __(
 								'Thumbnail Height',
 								'theatrum-blocks'
 							) }
 							onDeselect={ () =>
 								setAttributes( {
-									thumbnailHeight: '300',
+									thumbnailHeight: '48',
 									thumbnailHeightUnit: 'px',
 								} )
 							}
@@ -585,9 +550,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<div { ...innerBlocksProps } />
 
 					<div
+						ref={ containerRef }
 						className="thumbnail-container"
 						style={ {
-							order: thumbnailPosition === 'left' ? -1 : 0,
+							transform: `translateY(${ offsetY }px)`,
 						} }
 					>
 						<div

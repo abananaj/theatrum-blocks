@@ -668,7 +668,7 @@ return array(
 		'attributes' => array(
 			'thumbnailWidth' => array(
 				'type' => 'string',
-				'default' => '400'
+				'default' => '48'
 			),
 			'thumbnailWidthUnit' => array(
 				'type' => 'string',
@@ -682,7 +682,7 @@ return array(
 			),
 			'thumbnailHeight' => array(
 				'type' => 'string',
-				'default' => '300'
+				'default' => '48'
 			),
 			'thumbnailHeightUnit' => array(
 				'type' => 'string',
@@ -709,16 +709,6 @@ return array(
 					'left',
 					'right'
 				)
-			),
-			'verticalAlignment' => array(
-				'type' => 'string',
-				'default' => 'top',
-				'enum' => array(
-					'top',
-					'center',
-					'bottom'
-				),
-				'description' => 'Vertical alignment of the list-items column against the flip-card thumbnail panel'
 			),
 			'animationSpeed' => array(
 				'type' => 'string',

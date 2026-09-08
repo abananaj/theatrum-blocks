@@ -13,7 +13,6 @@ function resolveSpacingPreset( value ) {
 export function getThumbnailListProps( attributes ) {
 	const {
 		thumbnailPosition,
-		verticalAlignment,
 		animationSpeed,
 		itemHeight,
 		itemHeightUnit,
@@ -41,16 +40,8 @@ export function getThumbnailListProps( attributes ) {
 	// "Block spacing" saves to `style.spacing.blockGap` but WordPress only auto-applies it for blocks with `supports.layout`; this block uses a manual grid instead, so we read/pass it through as a CSS custom property ourselves.
 	const blockGap = resolveSpacingPreset( blockStyle?.spacing?.blockGap );
 
-	const verticalAlignmentMap = {
-		top: 'start',
-		center: 'center',
-		bottom: 'end',
-	};
-
 	const style = {
 		'--animation-speed': `${ animationSpeed }s`,
-		'--vertical-alignment':
-			verticalAlignmentMap[ verticalAlignment ] || 'start',
 		'--item-height': `${ itemHeight }${ itemHeightUnit }`,
 		'--thumb-width': `${ thumbnailWidth }${ thumbnailWidthUnit }`,
 		'--thumb-height': `${ thumbnailHeight }${ thumbnailHeightUnit }`,
