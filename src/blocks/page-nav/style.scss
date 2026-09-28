@@ -20,6 +20,23 @@
 
 	// No active-item treatment, by design (Anna's call) — view.js still sets aria-current for screen readers, it just carries no visual weight.
 }
+
+// Compact sticky bar for long navs (view.js); layout only — its look is the theme's. --theatrum-page-nav-jump-top clears a fixed site header.
+.theatrum-page-nav__jump {
+	position: fixed;
+	top: var(--theatrum-page-nav-jump-top, 0);
+	inset-inline: 0;
+	z-index: 1000;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
+	justify-content: center;
+
+	&[hidden] {
+		display: none;
+	}
+}
 // Offset anchored jump targets (sections and anchored Query Loop cards) so a sticky header doesn't
 // cover them; override with --theatrum-page-nav-offset. view.js's scroll-spy reads this same
 // computed value back, so the highlighted link always matches where a click on it lands.

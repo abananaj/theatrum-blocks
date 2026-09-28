@@ -7,6 +7,8 @@
  * Also runs a scroll-spy: an IntersectionObserver marks the link for whichever target is currently
  * under the sticky-header offset with `aria-current="true"`, so style.scss can style from that
  * attribute instead of a separately-tracked class.
+ *
+ * Navs with JUMP_THRESHOLD+ links also get a compact sticky "Jump to section" select bar.
  */
 
 const HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6';
@@ -15,6 +17,9 @@ const QUERY_LOOP_CARD_SELECTOR =
 	'.wp-block-query[id] .wp-block-post-template > *';
 const TAB_PANEL_SELECTOR = '.wp-block-theatrum-tab-content';
 const SECTION_SELECTOR = 'section[id]';
+// Navs this long also get a compact sticky "Jump to section" bar once the full tab list scrolls away.
+const JUMP_THRESHOLD = 6;
+let jumpCount = 0;
 
 /**
  * Slugify arbitrary text into an id-safe string.
@@ -174,8 +179,9 @@ function setActiveLink( linksById, activeId ) {
  *
  * @param {Array<{id: string, text: string}>} items     Nav items, in document order.
  * @param {Map<string, HTMLElement>}          linksById Jump links, keyed by target id.
+ * @param {Function}                          onActive  Optional; called with the new current id.
  */
-function initScrollSpy( items, linksById ) {
+function initScrollSpy( items, linksById, onActive = () => {} ) {
 	if ( ! ( 'IntersectionObserver' in window ) ) {
 		return;
 	}
@@ -194,6 +200,7 @@ function initScrollSpy( items, linksById ) {
 	let activeId = items[ 0 ].id;
 
 	setActiveLink( linksById, activeId );
+	onActive( activeId );
 
 	const observer = new IntersectionObserver(
 		( entries ) => {
@@ -219,6 +226,7 @@ function initScrollSpy( items, linksById ) {
 			if ( next && next !== activeId ) {
 				activeId = next;
 				setActiveLink( linksById, activeId );
+				onActive( activeId );
 			}
 		},
 		{
@@ -230,6 +238,56 @@ function initScrollSpy( items, linksById ) {
 	);
 
 	targets.forEach( ( target ) => observer.observe( target ) );
+}
+
+/**
+ * Build the compact sticky bar for long navs: a labelled native <select>, shown only while the full
+ * tab list is scrolled above the viewport. Appended to <body> so no transformed ancestor (entrance
+ * animations) breaks its position: fixed.
+ *
+ * @param {Array<{id: string, text: string}>} items Nav items, in document order.
+ * @param {HTMLElement}                       nav   The full page-nav it stands in for.
+ * @return {HTMLSelectElement} The select, so the scroll-spy can keep it in sync.
+ */
+function initJumpBar( items, nav ) {
+	const bar = document.createElement( 'nav' );
+	bar.className = 'theatrum-page-nav__jump';
+	bar.setAttribute( 'aria-label', nav.getAttribute( 'aria-label' ) || 'On this page' );
+	bar.hidden = true;
+
+	const selectId = `theatrum-page-nav-jump-${ ++jumpCount }`;
+	const label = document.createElement( 'label' );
+	label.className = 'theatrum-page-nav__jump-label';
+	label.htmlFor = selectId;
+	label.textContent = 'Jump to section';
+
+	const select = document.createElement( 'select' );
+	select.id = selectId;
+	select.className = 'theatrum-page-nav__jump-select';
+	items.forEach( ( { id, text } ) => {
+		select.appendChild( new Option( text, id ) );
+	} );
+
+	// scrollIntoView honours the target's scroll-margin-top and the CSS scroll-behavior (smooth only without reduced motion).
+	select.addEventListener( 'change', () => {
+		const target = document.getElementById( select.value );
+		if ( target ) {
+			target.scrollIntoView( { block: 'start' } );
+			history.replaceState( null, '', `#${ select.value }` );
+		}
+	} );
+
+	bar.append( label, select );
+	document.body.appendChild( bar );
+
+	if ( 'IntersectionObserver' in window ) {
+		new IntersectionObserver( ( [ entry ] ) => {
+			// Visible only once the full nav has left through the top, not before the reader reaches it.
+			bar.hidden = entry.isIntersecting || entry.boundingClientRect.top > 0;
+		} ).observe( nav );
+	}
+
+	return select;
 }
 
 /**
@@ -260,7 +318,14 @@ function initPageNav( nav ) {
 	nav.appendChild( list );
 	nav.hidden = false;
 
-	initScrollSpy( items, linksById );
+	const jumpSelect =
+		items.length >= JUMP_THRESHOLD ? initJumpBar( items, nav ) : null;
+
+	initScrollSpy( items, linksById, ( id ) => {
+		if ( jumpSelect ) {
+			jumpSelect.value = id;
+		}
+	} );
 }
 
 function ready( fn ) {
