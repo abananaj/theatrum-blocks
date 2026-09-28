@@ -90,6 +90,13 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						}
 						__nextHasNoMarginBottom
 					/>
+					<ToggleControl
+						label="Embed PDF on the page"
+						help="Shows a PDF inline below the link (front end only). Other file types stay a link."
+						checked={ !! attributes.embed }
+						onChange={ ( value ) => setAttributes( { embed: value } ) }
+						__nextHasNoMarginBottom
+					/>
 				</div>
 			</InspectorControls>
 			<div { ...blockProps }>

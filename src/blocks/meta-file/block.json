@@ -46,6 +46,10 @@
 		"showIcon": {
 			"type": "boolean",
 			"default": true
+		},
+		"embed": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {},

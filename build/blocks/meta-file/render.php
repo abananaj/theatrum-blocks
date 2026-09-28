@@ -145,8 +145,20 @@ $link_html = sprintf(
     esc_html($link_text)
 );
 
+// Inline viewer for PDFs; the link above stays, since phones often show only a PDF's first page inside a frame.
+$embed_html = '';
+if ( ! empty($attributes['embed']) && 'pdf' === $file_ext) {
+  $embed_html = sprintf(
+      '<iframe class="wp-block-theatrum-meta-file-embed" src="%s" title="%s" loading="lazy"></iframe>',
+      // Match the page's scheme: offloaded media URLs are stored as http://, which an https page blocks inside a frame.
+      esc_url(set_url_scheme($file_url)),
+      esc_attr($file_name ?: $link_text)
+  );
+}
+
 printf(
-    '<div %s>%s</div>',
+    '<div %s>%s%s</div>',
     wp_kses_data( get_block_wrapper_attributes(array('class' => 'wp-block-theatrum-meta-file')) ),
-    $link_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled above from esc_url()/esc_attr()/esc_html() output.
+    $link_html, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled above from esc_url()/esc_attr()/esc_html() output.
+    $embed_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled above from esc_url()/esc_attr() output.
 );

@@ -102,6 +102,15 @@ if ( ! $meta_key) {
   return;
 }
 
+// No fixed term: use the current post's own term in the chosen taxonomy (e.g. each production's season), so one pattern serves every season.
+if ( ! $term_id && ! empty($attributes['taxonomy'])) {
+  $context_post = $block->context['postId'] ?? get_the_ID();
+  $post_terms   = $context_post ? get_the_terms($context_post, sanitize_key($attributes['taxonomy'])) : false;
+  if ( ! empty($post_terms) && ! is_wp_error($post_terms)) {
+    $term_id = (int) $post_terms[0]->term_id;
+  }
+}
+
 if ( ! $term_id) {
   return;
 }

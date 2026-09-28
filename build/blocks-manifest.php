@@ -1146,6 +1146,10 @@ return array(
 			'showIcon' => array(
 				'type' => 'boolean',
 				'default' => true
+			),
+			'embed' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'example' => array(
