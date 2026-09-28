@@ -4052,7 +4052,7 @@ return array(
 			)
 		),
 		'selectors' => array(
-			'root' => '.tm-table-advanced .tm-table-row'
+			'root' => '.tm-table-row'
 		),
 		'styles' => array(
 			array(
