@@ -15,8 +15,9 @@
  * Access-Control-Allow-Origin — so a masked attachment renders as nothing at all, with no error
  * anywhere. Measured 2026-09-07: masking a data: URI paints, masking the same attachment URL does
  * not, and `img.crossOrigin = 'anonymous'` on it fails. Give the bucket a CORS rule for the site
- * origin and tinting becomes a few lines again; until then an icon arrives in whatever colours it
- * was uploaded with, and the rail colour below is the way to sit it on a contrasting ground.
+ * origin and tinting becomes a few lines again. On the front end SVG icons sidestep this: they are
+ * inlined server-side (inc/accordion-icon-svg.php) and take the card's text colour; raster icons,
+ * and every icon in the editor canvas, still arrive in whatever colours they were uploaded with.
  *
  * Everything persists as a custom property in the card's inline style, because a class cannot carry
  * an arbitrary URL or colour. Two KSES details govern the values written (safecss_filter_attr()):
@@ -149,8 +150,7 @@ addFilter(
 			...settings,
 			attributes: {
 				...settings.attributes,
-				// The id is not read anywhere yet — it is stored so the media library can show the
-				// current selection, and so a future revision could resolve the URL server-side.
+				// Read server-side by inc/accordion-icon-svg.php to inline SVG icons on the front end.
 				ctIconId: { type: 'number' },
 				ctIconUrl: { type: 'string', default: '' },
 				ctIconBackground: { type: 'string', default: '' },

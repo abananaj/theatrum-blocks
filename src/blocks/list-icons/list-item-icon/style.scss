@@ -34,6 +34,11 @@
 		mask-position: center;
 	}
 
+	// Frontend swaps the masked span for inline <svg> (inc/list-icons-svg.php); feeds the list colour into the theme's .ct-svg-icon fill so it matches the mask's.
+	.list-icons-icon--inline {
+		--ct-icon-color: var(--list-icon-color, currentColor);
+	}
+
 	.list-icons-text {
 		flex: 1;
 	}

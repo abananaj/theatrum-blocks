@@ -26,6 +26,8 @@ require_once __DIR__ . '/inc/slider-eager-images.php';
 require_once __DIR__ . '/inc/format-controls.php';
 require_once __DIR__ . '/inc/table-scroll-wrapper.php';
 require_once __DIR__ . '/inc/list-thumbnail-svg.php';
+require_once __DIR__ . '/inc/list-icons-svg.php';
+require_once __DIR__ . '/inc/accordion-icon-svg.php';
 
 /**
  * Load the plugin text domain so the PHP-side __() strings are translatable.

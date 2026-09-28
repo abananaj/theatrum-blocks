@@ -211,7 +211,7 @@
 		// Drawn, not masked. `mask-image` would let the icon take the card's own text colour, but
 		// it is CORS-restricted and this site's media is offloaded to a bucket that sends no
 		// Access-Control-Allow-Origin, so a masked attachment paints nothing at all — see the note
-		// at the top of controls.js. An icon therefore arrives in the colours it was uploaded with.
+		// at the top of controls.js. This is the fallback: front-end SVG icons are inlined instead (below).
 		//
 		// Painted on the span itself rather than on a ::after, which is what it used to be. A
 		// pseudo-element is a second grid item beside the anonymous one holding the suppressed "+",
@@ -228,6 +228,19 @@
 	> .wp-block-accordion-item.has-ct-icon.is-open
 		.wp-block-accordion-heading__toggle-icon {
 		transform: scale(var(--tm-accordion-icon-glyph-open-scale));
+	}
+
+	// Front-end SVG icons are inlined by inc/accordion-icon-svg.php and painted in the card's text colour; the background-image above stays the fallback for raster icons and the editor.
+	> .wp-block-accordion-item.has-ct-icon-inline
+		.wp-block-accordion-heading__toggle-icon {
+		background-image: none;
+	}
+
+	.tm-accordion-icon-svg {
+		--ct-icon-color: var(--tm-accordion-icon-fg);
+
+		width: var(--tm-accordion-icon-glyph-size);
+		height: var(--tm-accordion-icon-glyph-size);
 	}
 
 	// ---------------------------------------------------------------------------------------
