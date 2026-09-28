@@ -125,6 +125,21 @@
 		}
 	}
 }
+
+// Editor vertical alignment — cells are stretched flex items here, so the td's vertical-align is emulated with a column flex.
+.editor-styles-wrapper :is(.tm-edit-td, .tm-edit-th)[data-valign] {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	&[data-valign="top"] {
+		justify-content: flex-start;
+	}
+
+	&[data-valign="bottom"] {
+		justify-content: flex-end;
+	}
+}
 // ===== TABLE HEADING CELLS
 .tm-edit-th,
 .tm-table-heading-cell {

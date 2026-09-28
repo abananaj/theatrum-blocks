@@ -88,6 +88,8 @@ const Edit = ( { attributes, setAttributes } ) => {
 			...verticalAlignStyle,
 		},
 		'data-has-column-width': columnWidth ? '' : undefined,
+		// Editor cells are flex items, where vertical-align is ignored — style.scss maps this to justify-content.
+		'data-valign': verticalAlign || 'middle',
 	} );
 
 	return (
