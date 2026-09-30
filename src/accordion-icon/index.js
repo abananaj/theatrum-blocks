@@ -8,9 +8,8 @@
  * This variation is the convenience path: same class, plus `autoclose` (with fluid card heights,
  * several open cards make the block balloon) and a five-card starting point in palette colours.
  *
- * Departs from src/popup-trigger-variation.js in one way: that variation identifies itself with a
- * metadata.name marker, but metadata.name is also core's block-rename label, so it prints the raw
- * slug in List View and the breadcrumb. Here the style class is the marker instead — and an author
+ * Identified by its style class rather than a metadata.name marker: metadata.name is also core's
+ * block-rename label, so it would print the raw slug in List View and the breadcrumb. An author
  * who removes it from the Styles tab genuinely no longer has a Icon Accordion, so falling out of
  * the variation is the right answer rather than a bug.
  */

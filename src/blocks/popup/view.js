@@ -131,7 +131,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			} );
 		} );
 
-	// Pass B: wire up trigger buttons. A trigger is ANY core/button link (`.wp-block-button__link`/`.wp-element-button`) whose href hash matches a popup registered above — plain buttons work as well as ones wearing the `theatrum/popup-trigger` style variation.
+	// Pass B: wire up trigger buttons. A trigger is ANY core/button link (`.wp-block-button__link`/`.wp-element-button`) whose href hash matches a popup registered above.
 	// Intentionally permissive: any button linking to `#<a popup's anchor>` becomes a trigger, even if unintended.
 	// Accepted tradeoff — the alternative (requiring a special class) forced every trigger to wear the variation's distinct visual style, which the client didn't want.
 	document
@@ -164,6 +164,16 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				}
 			} );
 		} );
+
+	// Deep link: a URL hash naming a popup (`/page/#choose`) opens it on load and on in-page hash changes.
+	const openFromHash = () => {
+		const popup = popups.get( decodeURIComponent( window.location.hash.slice( 1 ) ) );
+		if ( popup && popup.dialog.getAttribute( 'data-state' ) !== 'open' ) {
+			openPopup( popup, null );
+		}
+	};
+	openFromHash();
+	window.addEventListener( 'hashchange', openFromHash );
 
 	// Escape key closes whichever popup(s) are currently open.
 	document.addEventListener( 'keydown', function ( e ) {

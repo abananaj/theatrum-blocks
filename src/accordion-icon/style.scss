@@ -24,10 +24,10 @@
 
 .wp-block-accordion.is-style-tm-accordion-icon {
 	// Tunables — override on a single block via Advanced -> Additional CSS class, or per site.
-	--tm-accordion-icon-rail: 4rem;
-	--tm-accordion-icon-row: 4.5rem;
+	--tm-accordion-icon-rail: 3.25rem;
+	--tm-accordion-icon-row: 3.5rem;
 	--tm-accordion-icon-fg: var(--wp--preset--color--light, #fbfaf5);
-	--tm-accordion-icon-glyph-size: 1.75rem;
+	--tm-accordion-icon-glyph-size: 1.5rem;
 
 	// How far a media icon grows on open — the "+" rotates into an ×, but a rotated ticket or
 	// spotlight reads as a glitch, so a custom icon gets a scale instead. Same transition (below):
@@ -36,14 +36,14 @@
 
 	// The literal "+" sits on the x-height, so it renders at roughly half its type size — it needs
 	// a much larger font-size than a media icon to read at the same weight.
-	--tm-accordion-icon-plus-size: 2.75rem;
+	--tm-accordion-icon-plus-size: 2.25rem;
 
 	// The "+" is drawn dark on every card rather than in the card's own text colour. Deliberate:
 	// it reads as the accordion's control rather than as part of the card's copy. On a dark card
 	// that is low contrast by design — give the card a rail colour, or override this, if that
 	// matters.
 	--tm-accordion-icon-plus-color: var(--wp--preset--color--dark, #0f0f11);
-	--tm-accordion-icon-pad: 1.25rem;
+	--tm-accordion-icon-pad: 1rem;
 
 	// The rail's own colour, used until one is chosen in the Icon panel. Mixed from the card's text
 	// colour rather than stated as a black-or-white overlay, so it lightens a dark card and darkens
@@ -157,7 +157,7 @@
 	}
 
 	.wp-block-accordion-heading__toggle-title {
-		font-size: clamp(1.125rem, 1.2vw + 0.85rem, 1.625rem);
+		font-size: clamp(1rem, 0.9vw + 0.8rem, 1.375rem);
 		font-weight: 700;
 		line-height: 1.2;
 	}
@@ -230,6 +230,27 @@
 		transform: scale(var(--tm-accordion-icon-glyph-open-scale));
 	}
 
+	// No icon chosen: drop the rail entirely; the "+" goes back to the end of the heading row (core's own placement).
+	> .wp-block-accordion-item:not(.has-ct-icon) {
+		grid-template-columns: 1fr;
+
+		&::before {
+			content: none;
+		}
+
+		.wp-block-accordion-heading,
+		.wp-block-accordion-panel {
+			grid-column: 1;
+		}
+
+		.wp-block-accordion-heading__toggle-icon {
+			position: static;
+			width: auto;
+			height: auto;
+			color: inherit;
+		}
+	}
+
 	// Front-end SVG icons are inlined by inc/accordion-icon-svg.php and painted in the card's text colour; the background-image above stays the fallback for raster icons and the editor.
 	> .wp-block-accordion-item.has-ct-icon-inline
 		.wp-block-accordion-heading__toggle-icon {
@@ -274,7 +295,7 @@
 		}
 
 		> :last-child {
-			margin-block-end: 1.5rem;
+			margin-block-end: 1.25rem;
 		}
 
 		// Inline links only — buttons are <a> on the front end but <div> in the editor.
@@ -324,11 +345,11 @@
 	// ---------------------------------------------------------------------------------------
 
 	@media (max-width: 600px) {
-		--tm-accordion-icon-rail: 3.25rem;
-		--tm-accordion-icon-row: 4rem;
-		--tm-accordion-icon-glyph-size: 1.375rem;
-		--tm-accordion-icon-plus-size: 2.25rem;
-		--tm-accordion-icon-pad: 1rem;
+		--tm-accordion-icon-rail: 2.75rem;
+		--tm-accordion-icon-row: 3.25rem;
+		--tm-accordion-icon-glyph-size: 1.25rem;
+		--tm-accordion-icon-plus-size: 2rem;
+		--tm-accordion-icon-pad: 0.875rem;
 	}
 }
 

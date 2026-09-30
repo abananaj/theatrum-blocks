@@ -23,8 +23,7 @@
 	margin-bottom: 1em;
 }
 
-// ── Trigger button ──────────────────────────────────────────────────────────
-// Not part of this block — a separate core/button "Popup Trigger" variation (see ../../popup-trigger-variation.js) linked via `href="#<popup's anchor>"`. Its `.popup-trigger-button` class is what view.js and the theme's buttons.scss key off of; it lives wherever the button was placed, not inside .wp-block-theatrum-popup.
+// Triggers are plain core/buttons linking to `#<popup's anchor>` (view.js); no trigger styles here.
 
 // ── Backdrop ────────────────────────────────────────────────────────────────
 

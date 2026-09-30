@@ -98,7 +98,7 @@ return array(
 			),
 			'showHomeItem' => array(
 				'type' => 'boolean',
-				'default' => true
+				'default' => false
 			),
 			'showCurrentItem' => array(
 				'type' => 'boolean',

@@ -209,6 +209,11 @@ figure.wp-block-theatrum-meta-gallery.has-nested-images {
 // Cropped images
 .wp-block-gallery.is-cropped {
 
+	// Crop needs a box to fill: without one, mixed portrait/landscape photos kept natural heights and left gaps. An aspectRatio attribute (inline on the figure) still wins.
+	.blocks-gallery-item figure {
+		aspect-ratio: var(--theatrum-gallery-crop-ratio, 3 / 2);
+	}
+
 	.blocks-gallery-item img {
 		width: 100%;
 		height: 100%;

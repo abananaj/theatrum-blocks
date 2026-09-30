@@ -100,7 +100,6 @@ function theatrum_register_blocks() {
 		// edit button text and dialog title in UI rather than inspectorpanel boxes. 
 		// popup content is not rendering on the frontend AND not saving in the backend
 		// make this button nestable inside core/buttons?
-		// ability to link to production page with this popup open from other pages by appending a query of some sort to the url? #anchor tag?
 
 		'performances-list', // ➡️ move to theme
 		// should render on block editor as well as frontend, so user can see what it will look like on the frontend.
@@ -267,28 +266,6 @@ function theatrum_enqueue_meta_variations_script() {
 	);
 }
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_meta_variations_script');
-
-/**
- * Enqueues the popup-trigger-variation script that registers the theatrum/popup-trigger core/button variation.
- */
-function theatrum_enqueue_popup_trigger_variation_script() {
-	$asset_file = __DIR__ . '/build/popup-trigger-variation.asset.php';
-
-	if ( ! file_exists($asset_file)) {
-		return;
-	}
-
-	$asset = require $asset_file;
-
-	wp_enqueue_script(
-		'theatrum-popup-trigger-variation',
-		plugins_url('build/popup-trigger-variation.js', __FILE__),
-		$asset['dependencies'],
-		$asset['version'],
-		true
-	);
-}
-add_action('enqueue_block_editor_assets', 'theatrum_enqueue_popup_trigger_variation_script');
 
 /**
  * Registers the "Icon Accordion" style on core/accordion — the stacked coloured cards with an icon rail, modelled on the responsive-expandable-cards-table CodePen. Registering it as a style (not just as the variation's className) is what lets an author apply the look to an accordion that already exists, and what makes the class survive a round-trip through the Styles tab. Prefixed `ct-` like the carousel/slider formats, to avoid colliding with another plugin's bare slug.

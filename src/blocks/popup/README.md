@@ -18,6 +18,6 @@ A dialog/popup block that reveals nested content. It has no button of its own �
 1. Insert a `theatrum/popup` block and give it an HTML Anchor (Advanced panel).
 2. Insert a `core/button` block (styled however you like, e.g. sitting in an ordinary `core/buttons` group next to other CTAs) and set its URL to `#that-anchor`.
 
-Any `core/button` whose URL matches a popup's anchor becomes a trigger — no special class or style is required. For a pre-styled, ready-made look, a **Popup Trigger** style variation is also available (`src/popup-trigger-variation.js`); it's optional visual sugar, not a functional requirement.
+Any `core/button` whose URL matches a popup's anchor becomes a trigger — no special class or style is required. A page URL ending in the popup's anchor (e.g. `/?production=bedtrick#choose`) opens that popup on load, so other pages can link straight to it.
 
 The trigger and the popup don't need to be near each other in the layout — any page content can link to a popup this way.

@@ -10,10 +10,6 @@ const extraEntries = {
 		'src/accordion-icon/view.js'
 	),
 	'meta-variations': path.resolve( __dirname, 'src/meta-variations.js' ),
-	'popup-trigger-variation': path.resolve(
-		__dirname,
-		'src/popup-trigger-variation.js'
-	),
 	'style-book': path.resolve( __dirname, 'src/style-book.js' ),
 	'block-color': path.resolve( __dirname, 'src/block-color.js' ),
 	formats: path.resolve( __dirname, 'src/formats/index.js' ),

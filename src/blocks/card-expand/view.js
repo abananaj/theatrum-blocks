@@ -397,7 +397,8 @@ function setUpOverlayCard( card, idSeed, useHover ) {
 	return idSeed;
 }
 
-window.addEventListener( 'load', () => {
+// Wired at DOM-ready, not window load: waiting for every image left the un-collapsed body showing, then snapping shut.
+const initCards = () => {
 	const cards = document.querySelectorAll( '.wp-block-theatrum-card-expand' );
 	let idSeed = 0;
 
@@ -428,4 +429,10 @@ window.addEventListener( 'load', () => {
 			}
 		} );
 	} );
-} );
+};
+
+if ( document.readyState === 'loading' ) {
+	document.addEventListener( 'DOMContentLoaded', initCards );
+} else {
+	initCards();
+}

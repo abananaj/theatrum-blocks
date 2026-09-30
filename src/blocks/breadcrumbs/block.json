@@ -19,7 +19,7 @@
 		},
 		"showHomeItem": {
 			"type": "boolean",
-			"default": true
+			"default": false
 		},
 		"showCurrentItem": {
 			"type": "boolean",
