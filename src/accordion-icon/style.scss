@@ -277,7 +277,8 @@
 			margin-block-end: 1.5rem;
 		}
 
-		a {
+		// Inline links only — buttons are <a> on the front end but <div> in the editor.
+		a:not(.wp-block-button__link, .wp-element-button) {
 			color: inherit;
 			font-weight: 700;
 			text-decoration: underline;
