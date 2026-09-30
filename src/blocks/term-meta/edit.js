@@ -58,6 +58,29 @@ export default function Edit( { attributes, setAttributes, context } ) {
 	const contextPostId = context?.postId;
 	const postId = contextPostId || editorPostId;
 
+	// termId 0 = "Current term": preview with the post's first term in the chosen taxonomy, as render.php does.
+	const currentTermId = useSelect(
+		( select ) => {
+			if ( termId || ! taxonomy || ! postId ) {
+				return 0;
+			}
+			const record =
+				contextPostId && context?.postType
+					? select( 'core' ).getEntityRecord(
+							'postType',
+							context.postType,
+							contextPostId
+					  )
+					: null;
+			const ids = record
+				? record[ taxonomy ]
+				: select( 'core/editor' ).getEditedPostAttribute( taxonomy );
+			return Array.isArray( ids ) && ids.length ? ids[ 0 ] : 0;
+		},
+		[ termId, taxonomy, postId, contextPostId, context?.postType ]
+	);
+	const effectiveTermId = termId || currentTermId;
+
 	// Fetch all taxonomies on mount (for generic display)
 	useEffect( () => {
 		if ( isSeasonProducer ) {
@@ -112,7 +135,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 
 	// Fetch meta value when termId or metaKey changes (for generic display)
 	useEffect( () => {
-		if ( isSeasonProducer || ! termId || ! metaKey ) {
+		if ( isSeasonProducer || ! effectiveTermId || ! metaKey ) {
 			setMetaValue( '' );
 			setMetaItems( [] );
 			return;
@@ -121,7 +144,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		setIsLoadingMeta( true );
 
 		apiFetch( {
-			path: `/theatrum/v1/term-meta-field/${ termId }/${ metaKey }`,
+			path: `/theatrum/v1/term-meta-field/${ effectiveTermId }/${ metaKey }`,
 		} )
 			.then( ( data ) => {
 				setMetaValue( data.value || '' );
@@ -133,7 +156,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				setMetaItems( [] );
 				setIsLoadingMeta( false );
 			} );
-	}, [ isSeasonProducer, termId, metaKey ] );
+	}, [ isSeasonProducer, effectiveTermId, metaKey ] );
 
 	// Fetch season producers (for season-producer display)
 	useEffect( () => {
@@ -291,13 +314,21 @@ export default function Edit( { attributes, setAttributes, context } ) {
 								label="Term"
 								value={ termId }
 								options={ [
-									{ label: '— Select term —', value: 0 },
+									{
+										label: 'Current term (from post)',
+										value: 0,
+									},
 									...terms,
 								] }
 								onChange={ ( value ) =>
 									setAttributes( {
 										termId: parseInt( value ),
 									} )
+								}
+								help={
+									termId
+										? undefined
+										: "Uses the post's own term in this taxonomy (or the archive's term), so one pattern works across every season."
 								}
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
@@ -312,6 +343,25 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							setAttributes( { metaKey: value } )
 						}
 						placeholder="e.g., description, color, icon"
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					/>
+					<SelectControl
+						label="HTML Tag"
+						value={ tagName || 'p' }
+						onChange={ ( value ) =>
+							setAttributes( { tagName: value } )
+						}
+						options={ [
+							{ label: '<p>', value: 'p' },
+							{ label: '<span>', value: 'span' },
+							{ label: '<h1>', value: 'h1' },
+							{ label: '<h2>', value: 'h2' },
+							{ label: '<h3>', value: 'h3' },
+							{ label: '<h4>', value: 'h4' },
+							{ label: '<h5>', value: 'h5' },
+							{ label: '<h6>', value: 'h6' },
+						] }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
@@ -376,7 +426,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				<Tag { ...blockProps }>{ `${ prepend || '' }${ metaValue }${
 					append || ''
 				}` }</Tag>
-			) : termId && metaKey ? (
+			) : effectiveTermId && metaKey ? (
 				<Tag { ...blockProps }>{ `[${ metaKey }]` }</Tag>
 			) : (
 				<Tag
@@ -387,7 +437,9 @@ export default function Edit( { attributes, setAttributes, context } ) {
 						fontStyle: 'italic',
 					} }
 				>
-					Select a taxonomy, term, and meta key
+					{ taxonomy && ! termId && metaKey
+						? 'Current term — no term assigned to this post yet'
+						: 'Select a taxonomy, term, and meta key' }
 				</Tag>
 			) }
 		</Fragment>

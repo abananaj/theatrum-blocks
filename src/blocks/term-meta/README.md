@@ -55,9 +55,9 @@ Season Producers (optional heading)
 
 - `displayType`: "generic" (default)
 - `taxonomy`: Taxonomy REST base (e.g., "categories", "tags")
-- `termId`: Selected term ID
+- `termId`: Selected term ID; `0` ("Current term (from post)") uses the current post's first term in `taxonomy`, or the queried term on that taxonomy's archive — lets one pattern serve every season
 - `metaKey`: Term meta field key to retrieve
-- `tagName`: HTML tag - "p", "span", "a", "h1-h6" (default: "p")
+- `tagName`: HTML tag - "p", "span", "h1-h6" (default: "p"); set via the "HTML Tag" control in the Meta panel
 - `prepend`: Optional text to prepend
 - `append`: Optional text to append
 

@@ -104,10 +104,22 @@ if ( ! $meta_key) {
 
 // No fixed term: use the current post's own term in the chosen taxonomy (e.g. each production's season), so one pattern serves every season.
 if ( ! $term_id && ! empty($attributes['taxonomy'])) {
+  // The attribute holds the REST base (e.g. "categories"); map it back to the taxonomy name.
+  $taxonomy = sanitize_key($attributes['taxonomy']);
+  foreach (get_taxonomies(array('show_in_rest' => true), 'objects') as $tax_object) {
+    if (($tax_object->rest_base ?: $tax_object->name) === $taxonomy) {
+      $taxonomy = $tax_object->name;
+      break;
+    }
+  }
+
   $context_post = $block->context['postId'] ?? get_the_ID();
-  $post_terms   = $context_post ? get_the_terms($context_post, sanitize_key($attributes['taxonomy'])) : false;
+  $post_terms   = $context_post ? get_the_terms($context_post, $taxonomy) : false;
   if ( ! empty($post_terms) && ! is_wp_error($post_terms)) {
     $term_id = (int) $post_terms[0]->term_id;
+  } elseif (is_tax($taxonomy) || ('category' === $taxonomy && is_category()) || ('post_tag' === $taxonomy && is_tag())) {
+    // On the term's own archive, fall back to the queried term.
+    $term_id = (int) get_queried_object_id();
   }
 }
 
