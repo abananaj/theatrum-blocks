@@ -52,7 +52,8 @@ $dialog_classes     = 'popup-dialog is-position-' . $position . ' is-size-' . $s
     aria-modal="true"
     aria-label="<?php echo esc_attr($dialog_label); ?>"
     inert>
-    <div class="popup-dialog-content">
+    <?php // ct-scrollbar consumes the chance-ollie theme's scrollbar mixin (W-02) via its compiled CSS class. ?>
+    <div class="popup-dialog-content ct-scrollbar">
       <button
         class="popup-close-button"
         data-close-popup="true"

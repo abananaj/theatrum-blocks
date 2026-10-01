@@ -177,7 +177,7 @@ export default function Edit( {
 					style={ { pointerEvents: open ? 'auto' : 'none' } }
 				>
 					{ /* Button lives inside .popup-dialog-content so the editor DOM matches render.php's. */ }
-					<div className="popup-dialog-content">
+					<div className="popup-dialog-content ct-scrollbar">
 						<button
 							className="popup-close-button"
 							onClick={ togglePopup }
