@@ -25,6 +25,7 @@ if ($display_type === 'season-producer') {
   }
 
   if ( ! $post_id) {
+    theatrum_render_meta_empty_marker('div', $meta_key, array('class' => 'season-producer-list-wrap'));
     return;
   }
 
@@ -32,6 +33,7 @@ if ($display_type === 'season-producer') {
   $terms = get_the_terms($post_id, 'season');
 
   if (empty($terms) || is_wp_error($terms)) {
+    theatrum_render_meta_empty_marker('div', $meta_key, array('class' => 'season-producer-list-wrap'));
     return;
   }
 
@@ -47,6 +49,7 @@ if ($display_type === 'season-producer') {
   }
 
   if (empty($field_value)) {
+    theatrum_render_meta_empty_marker('div', $meta_key, array('class' => 'season-producer-list-wrap'));
     return;
   }
 
@@ -67,6 +70,7 @@ if ($display_type === 'season-producer') {
   }
 
   if (empty($producers)) {
+    theatrum_render_meta_empty_marker('div', $meta_key, array('class' => 'season-producer-list-wrap'));
     return;
   }
 
@@ -124,6 +128,7 @@ if ( ! $term_id && ! empty($attributes['taxonomy'])) {
 }
 
 if ( ! $term_id) {
+  theatrum_render_meta_empty_marker($tag, $meta_key);
   return;
 }
 
