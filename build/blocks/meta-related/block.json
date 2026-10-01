@@ -22,6 +22,7 @@
     "className": true,
     "customClassName": true,
     "typography": {
+      "textAlign": true,
       "fontSize": true,
       "fontFamily": true,
       "fontStyle": true,

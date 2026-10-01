@@ -862,6 +862,7 @@ return array(
 				'gradient' => true
 			),
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'fontFamily' => true,
 				'fontWeight' => true,
@@ -1015,6 +1016,7 @@ return array(
 			'className' => true,
 			'customClassName' => true,
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'fontFamily' => true,
 				'fontStyle' => true,
@@ -1118,6 +1120,7 @@ return array(
 				'padding' => true
 			),
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'lineHeight' => true
 			)
@@ -1432,6 +1435,7 @@ return array(
 			'className' => true,
 			'customClassName' => true,
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'fontFamily' => true,
 				'fontStyle' => true,
@@ -1518,6 +1522,7 @@ return array(
 				'gradient' => true
 			),
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'fontFamily' => true,
 				'fontWeight' => true,
@@ -1614,6 +1619,7 @@ return array(
 				'gradient' => true
 			),
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'fontFamily' => true,
 				'fontWeight' => true,
@@ -2153,6 +2159,7 @@ return array(
 			'className' => true,
 			'customClassName' => true,
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'fontFamily' => true,
 				'fontStyle' => true,
@@ -2749,6 +2756,7 @@ return array(
 				'gradient' => true
 			),
 			'typography' => array(
+				'textAlign' => true,
 				'fontSize' => true,
 				'fontFamily' => true,
 				'fontWeight' => true,

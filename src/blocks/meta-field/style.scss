@@ -4,7 +4,9 @@
   display: inline-block;
   word-break: break-word;
 
-  &.is-html {
+  // Text alignment needs a full-width box — inline-block shrink-wraps, leaving nothing to align within.
+  &.is-html,
+  &[class*="has-text-align-"] {
     display: block;
   }
 }

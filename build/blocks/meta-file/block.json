@@ -21,6 +21,7 @@
       "padding": true
     },
     "typography": {
+      "textAlign": true,
       "fontSize": true,
       "lineHeight": true
     }

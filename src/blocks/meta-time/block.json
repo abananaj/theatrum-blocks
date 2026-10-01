@@ -18,6 +18,7 @@
 			"gradient": true
 		},
 		"typography": {
+			"textAlign": true,
 			"fontSize": true,
 			"fontFamily": true,
 			"fontWeight": true,
