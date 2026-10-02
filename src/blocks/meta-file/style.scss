@@ -3,11 +3,11 @@
 	.wp-block-theatrum-meta-file-link {
 		display: inline-flex;
 		align-items: center;
-		color: var(--wp--preset--color--primary, #0073aa);
+		color: inherit;
 		text-decoration: none;
 		padding: 0.25em 0.5em;
 		border-radius: 0.25em;
-		font-weight: 500;
+		font-weight: 400;
 		transition: all var(--ct-duration-fast-1, 0.2s) var(--ct-ease-standard, ease);
 
 		.dashicons {
@@ -19,12 +19,12 @@
 		}
 
 		&:hover {
-			color: var(--wp--preset--color--primary, #005a87);
+			color: var(--ct-secondary, #005a87);
 			background-color: rgba(0, 115, 170, 0.1);
 		}
 
 		&:focus {
-			outline: 2px solid var(--wp--preset--color--primary, #0073aa);
+			outline: 2px solid var(--ct-primary, #0073aa);
 			outline-offset: 2px;
 		}
 	}
