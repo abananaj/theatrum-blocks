@@ -89,12 +89,44 @@ function theatrum_post_meta_binding_callback($source_args, $block_instance, $att
 	return theatrum_decode_entities((string) $value);
 }
 
+/**
+ * Binding source callback for theatrum/post-link — the current post's permalink, plus an optional #anchor (src/utils/post-link-binding.js).
+ *
+ * @param array    $source_args    Args: anchor (string, optional) fragment without the #.
+ * @param WP_Block $block_instance Block instance with context.
+ * @return string|null
+ */
+function theatrum_post_link_binding_callback($source_args, $block_instance) {
+	$post_id = isset($block_instance->context['postId'])
+		? (int) $block_instance->context['postId']
+		: (int) get_the_ID();
+
+	// Mirrors sanitizeAnchor() in JS: drop leading #, keep id-safe chars only.
+	$anchor = isset($source_args['anchor']) ? preg_replace('/[^A-Za-z0-9_\-:.]/', '', ltrim((string) $source_args['anchor'], '#')) : '';
+	$link   = $post_id ? get_permalink($post_id) : '';
+
+	if ( ! $link && ! $anchor) {
+		return null;
+	}
+
+	return esc_url_raw(($link ?: '') . ($anchor ? '#' . $anchor : ''));
+}
+
 add_action(
     'init',
     function () {
 	if ( ! function_exists('register_block_bindings_source')) {
 		return; // WP < 6.5 guard.
 	}
+
+	register_block_bindings_source(
+        'theatrum/post-link',
+        [
+		'label'              => __('Current Post Link', 'theatrum-blocks'),
+		'get_value_callback' => 'theatrum_post_link_binding_callback',
+		'uses_context'       => ['postId', 'postType'],
+        ]
+    );
 
 	register_block_bindings_source(
         'theatrum/post-meta',

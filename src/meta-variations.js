@@ -11,6 +11,7 @@ import { image, button, paragraph } from '@wordpress/icons';
 import './utils/meta-binding-source';
 import './utils/meta-binding-panel';
 import './utils/meta-transforms';
+import './utils/post-link-binding';
 
 const BIND_COLOR = '#8B5CF6';
 
