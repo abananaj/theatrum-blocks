@@ -7,7 +7,8 @@
 import { registerBlockBindingsSource } from '@wordpress/blocks';
 import { store as coreStore } from '@wordpress/core-data';
 
-registerBlockBindingsSource( 'theatrum/post-meta', {
+registerBlockBindingsSource( {
+	name: 'theatrum/post-meta',
 	label: 'Post Meta',
 	usesContext: [ 'postId', 'postType' ],
 	getValues( { select, context, bindings } ) {
