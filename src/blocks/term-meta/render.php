@@ -94,15 +94,16 @@ $term_id      = isset($attributes['termId']) ? intval($attributes['termId']) : 0
 $meta_key     = isset($attributes['metaKey']) ? sanitize_text_field($attributes['metaKey']) : '';
 $tag          = theatrum_sanitize_tag(
     $attributes['tagName'] ?? 'p',
-    array('p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
+    array('p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul'),
     'p'
 );
 $prepend      = isset($attributes['prepend']) ? $attributes['prepend'] : '';
 $append       = isset($attributes['append']) ? $attributes['append'] : '';
 $link_to_post = ! isset($attributes['linkToPost']) || ! empty($attributes['linkToPost']);
+$marker_tag   = 'ul' === $tag ? 'div' : $tag;
 
 if ( ! $meta_key) {
-  theatrum_render_meta_empty_marker($tag, '');
+  theatrum_render_meta_empty_marker($marker_tag, '');
   return;
 }
 
@@ -128,7 +129,7 @@ if ( ! $term_id && ! empty($attributes['taxonomy'])) {
 }
 
 if ( ! $term_id) {
-  theatrum_render_meta_empty_marker($tag, $meta_key);
+  theatrum_render_meta_empty_marker($marker_tag, $meta_key);
   return;
 }
 
@@ -136,12 +137,30 @@ if ( ! $term_id) {
 $value = get_term_meta($term_id, $meta_key, true);
 
 if (empty($value)) {
-  theatrum_render_meta_empty_marker($tag, $meta_key);
+  theatrum_render_meta_empty_marker($marker_tag, $meta_key);
   return;
 }
 
 // Resolve post IDs / post objects (single or array) to linked titles.
 $links = theatrum_resolve_post_links($value);
+
+// List mode: one <li> per resolved item (or the scalar value); prepend/append don't apply inside a <ul>.
+if ('ul' === $tag) {
+  $list_items = '';
+  foreach ($links ?: array(array('title' => is_scalar($value) ? (string) $value : wp_json_encode($value), 'url' => '')) as $link) {
+    $label       = ($link_to_post && $link['url'] !== '')
+      ? sprintf('<a href="%s">%s</a>', esc_url($link['url']), esc_html($link['title']))
+      : esc_html($link['title']);
+    $list_items .= '<li>' . $label . '</li>';
+  }
+
+  printf(
+      '<ul %s>%s</ul>',
+      wp_kses_data(get_block_wrapper_attributes()),
+      $list_items // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built above from esc_html()/esc_url() output.
+  );
+  return;
+}
 
 if ( ! empty($links)) {
   $parts = array();

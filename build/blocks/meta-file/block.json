@@ -4,7 +4,7 @@
   "name": "theatrum/meta-file",
   "title": "Meta File Link",
   "category": "metablock",
-  "description": "Display a link to a file from a post meta or ACF file field by entering a key",
+  "description": "Display links to one or more files from a post meta or ACF file field by entering a key",
   "icon": "media-document",
   "supports": {
     "html": false,
@@ -38,6 +38,19 @@
     "linkText": {
       "type": "string",
       "default": "Download File"
+    },
+    "linkTextSource": {
+      "type": "string",
+      "default": "custom",
+      "enum": [
+        "custom",
+        "title",
+        "filename"
+      ]
+    },
+    "showAsList": {
+      "type": "boolean",
+      "default": true
     },
     "fallbackText": {
       "type": "string",

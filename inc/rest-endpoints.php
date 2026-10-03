@@ -969,37 +969,24 @@ function theatrum_get_meta_file_rest_callback($request) {
 		return new WP_REST_Response(['url' => ''], 200);
 	}
 
-	$value = theatrum_get_meta($post_id, $key);
+	$files = theatrum_resolve_meta_files(theatrum_get_meta($post_id, $key));
 
-	if (empty($value)) {
-		return new WP_REST_Response(['url' => ''], 200);
+	if (empty($files)) {
+		return new WP_REST_Response(['url' => '', 'files' => []], 200);
 	}
 
-	$file_url  = '';
-	$file_name = '';
-	$attach_id = 0;
-
-	if (is_array($value)) {
-		// ACF file field array format: { ID, url, title, filename, ... }
-		$file_url  = $value['url'] ?? '';
-		$file_name = $value['title'] ?? $value['filename'] ?? '';
-		$attach_id = $value['ID'] ?? 0;
-	} elseif (is_numeric($value)) {
-		// Attachment ID
-		$attach_id = intval($value);
-		$file_url  = wp_get_attachment_url($attach_id);
-		$file_name = get_the_title($attach_id);
-	} elseif (is_string($value)) {
-		// Direct URL
-		$file_url  = $value;
-		$file_name = basename($file_url);
+	foreach ($files as &$file) {
+		$file['url'] = esc_url($file['url']);
 	}
+	unset($file);
 
+	// Top-level url/name/id mirror the first file for older callers.
 	return new WP_REST_Response(
         [
-		'url'  => esc_url($file_url),
-		'name' => sanitize_text_field($file_name),
-		'id'   => $attach_id,
+		'url'   => $files[0]['url'],
+		'name'  => $files[0]['title'],
+		'id'    => $files[0]['id'],
+		'files' => $files,
         ],
         200
     );

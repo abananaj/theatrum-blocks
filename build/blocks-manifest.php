@@ -1103,7 +1103,7 @@ return array(
 		'name' => 'theatrum/meta-file',
 		'title' => 'Meta File Link',
 		'category' => 'metablock',
-		'description' => 'Display a link to a file from a post meta or ACF file field by entering a key',
+		'description' => 'Display links to one or more files from a post meta or ACF file field by entering a key',
 		'icon' => 'media-document',
 		'supports' => array(
 			'html' => false,
@@ -1137,6 +1137,19 @@ return array(
 			'linkText' => array(
 				'type' => 'string',
 				'default' => 'Download File'
+			),
+			'linkTextSource' => array(
+				'type' => 'string',
+				'default' => 'custom',
+				'enum' => array(
+					'custom',
+					'title',
+					'filename'
+				)
+			),
+			'showAsList' => array(
+				'type' => 'boolean',
+				'default' => true
 			),
 			'fallbackText' => array(
 				'type' => 'string',

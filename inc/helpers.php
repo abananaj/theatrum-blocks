@@ -137,6 +137,74 @@ function theatrum_get_meta($post_id, $key) {
 }
 
 /**
+ * Resolves a file meta value (ACF file array, attachment ID/WP_Post, URL, or a list of any of these) into a list of files. Shared by meta-file's render.php and its REST preview.
+ *
+ * @param mixed $value Raw meta value.
+ *
+ * @return array<int, array{id:int, url:string, title:string, filename:string, ext:string}>
+ */
+function theatrum_resolve_meta_files($value) {
+	if (empty($value)) {
+		return array();
+	}
+
+	// A single ACF file array is one file; any other array is a list of files.
+	$is_single = ! is_array($value) || isset($value['url']) || isset($value['ID']);
+	$items     = $is_single ? array($value) : array_values($value);
+	$files     = array();
+
+	foreach ($items as $item) {
+		$id    = 0;
+		$url   = '';
+		$title = '';
+		$name  = '';
+
+		if ($item instanceof WP_Post) {
+			$item = $item->ID;
+		}
+
+		if (is_array($item)) {
+			$id    = isset($item['ID']) ? intval($item['ID']) : 0;
+			$url   = $item['url'] ?? ($id ? (string) wp_get_attachment_url($id) : '');
+			$title = $item['title'] ?? '';
+			$name  = $item['filename'] ?? '';
+		} elseif (is_numeric($item)) {
+			$id    = intval($item);
+			$url   = (string) wp_get_attachment_url($id);
+			$title = $id ? get_the_title($id) : '';
+		} elseif (is_string($item) && preg_match('#^(https?:)?/#i', $item)) {
+			$url = $item;
+		}
+
+		if ( ! $url) {
+			continue;
+		}
+
+		$name = $name ?: rawurldecode(wp_basename((string) wp_parse_url($url, PHP_URL_PATH)));
+		$ext  = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+		// Group by MIME family so the icon picks the right dashicon for any image/video/audio extension.
+		$mime = $id ? (string) get_post_mime_type($id) : '';
+		foreach (array('image/' => 'image', 'video/' => 'video', 'audio/' => 'audio', 'application/zip' => 'archive') as $prefix => $family) {
+			if (0 === strpos($mime, $prefix)) {
+				$ext = $family;
+				break;
+			}
+		}
+
+		$files[] = array(
+			'id'       => $id,
+			'url'      => $url,
+			'title'    => html_entity_decode(sanitize_text_field($title ?: $name), ENT_QUOTES, 'UTF-8'),
+			'filename' => sanitize_text_field($name),
+			'ext'      => $ext ?: 'file',
+		);
+	}
+
+	return $files;
+}
+
+/**
  * Mirrors core/embed's aspect-ratio classname logic (getClassNames() in
  * @wordpress/block-library) so theatrum/meta-embed's "Resize for smaller
  * devices" toggle behaves exactly like the core Embed block's.

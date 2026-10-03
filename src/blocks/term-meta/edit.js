@@ -41,6 +41,9 @@ export default function Edit( { attributes, setAttributes, context } ) {
 	} = attributes;
 	const isSeasonProducer = displayType === 'season-producer';
 	const Tag = tagName || 'p';
+	const isList = Tag === 'ul';
+	// Placeholder text can't sit directly inside a <ul>.
+	const PlaceholderTag = isList ? 'div' : Tag;
 
 	const [ taxonomies, setTaxonomies ] = useState( [] );
 	const [ terms, setTerms ] = useState( [] );
@@ -361,30 +364,35 @@ export default function Edit( { attributes, setAttributes, context } ) {
 							{ label: '<h4>', value: 'h4' },
 							{ label: '<h5>', value: 'h5' },
 							{ label: '<h6>', value: 'h6' },
+							{ label: 'List (<ul> of <li>)', value: 'ul' },
 						] }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
-					<TextControl
-						label="Prepend"
-						value={ prepend || '' }
-						onChange={ ( value ) =>
-							setAttributes( { prepend: value } )
-						}
-						placeholder="Text before value"
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-					/>
-					<TextControl
-						label="Append"
-						value={ append || '' }
-						onChange={ ( value ) =>
-							setAttributes( { append: value } )
-						}
-						placeholder="Text after value"
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-					/>
+					{ ! isList && (
+						<Fragment>
+							<TextControl
+								label="Prepend"
+								value={ prepend || '' }
+								onChange={ ( value ) =>
+									setAttributes( { prepend: value } )
+								}
+								placeholder="Text before value"
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							/>
+							<TextControl
+								label="Append"
+								value={ append || '' }
+								onChange={ ( value ) =>
+									setAttributes( { append: value } )
+								}
+								placeholder="Text after value"
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							/>
+						</Fragment>
+					) }
 					<ToggleControl
 						label="Link to post"
 						checked={ linkToPost }
@@ -400,6 +408,28 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				<div { ...blockProps }>
 					<Spinner />
 				</div>
+			) : isList && ( metaItems.length > 0 || metaValue ) ? (
+				<ul { ...blockProps }>
+					{ ( metaItems.length > 0
+						? metaItems
+						: [ { title: metaValue } ]
+					).map( ( item, i ) => (
+						<li key={ item.id || `${ item.title }-${ i }` }>
+							{ linkToPost && item.url ? (
+								<a
+									href={ item.url }
+									onClick={ ( event ) =>
+										event.preventDefault()
+									}
+								>
+									{ decodeHtmlEntities( item.title ) }
+								</a>
+							) : (
+								decodeHtmlEntities( item.title )
+							) }
+						</li>
+					) ) }
+				</ul>
 			) : metaItems.length > 0 ? (
 				<Tag { ...blockProps }>
 					{ prepend }
@@ -427,9 +457,11 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					append || ''
 				}` }</Tag>
 			) : effectiveTermId && metaKey ? (
-				<Tag { ...blockProps }>{ `[${ metaKey }]` }</Tag>
+				<PlaceholderTag
+					{ ...blockProps }
+				>{ `[${ metaKey }]` }</PlaceholderTag>
 			) : (
-				<Tag
+				<PlaceholderTag
 					{ ...blockProps }
 					style={ {
 						...blockProps.style,
@@ -440,7 +472,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					{ taxonomy && ! termId && metaKey
 						? 'Current term — no term assigned to this post yet'
 						: 'Select a taxonomy, term, and meta key' }
-				</Tag>
+				</PlaceholderTag>
 			) }
 		</Fragment>
 	);
