@@ -20,6 +20,7 @@ $label       = $attributes['label'] ?? 'Season';
 $show_label  = (bool) ($attributes['showLabel'] ?? true);
 $all_label   = $attributes['allLabel'] ?? 'All';
 $layout      = $attributes['layout'] ?? 'horizontal';
+$term_order  = ('DESC' === ($attributes['termOrder'] ?? 'ASC')) ? 'DESC' : 'ASC';
 
 // GET params are namespaced by queryId (`season-q23`) so multiple Query Loop + filter pairs can
 // coexist without URL collisions; theatrum_apply_query_filter() in inc/query-filter.php reads this
@@ -42,7 +43,7 @@ $terms = get_terms(
     'taxonomy'   => $taxonomy,
     'hide_empty' => true,
     'orderby'    => 'name',
-    'order'      => 'ASC',
+    'order'      => $term_order,
     ]
 );
 
@@ -65,7 +66,8 @@ foreach ($_GET as $key => $value) { // phpcs:ignore WordPress.Security.NonceVeri
 
 // Interactivity API context: view.js is queryId-agnostic (just writes whatever param name it's
 // given), so handing it the already-namespaced $field_name scopes client-side updates too.
-$context = wp_interactivity_data_wp_context(['paramName' => $field_name]);
+// queryId 0 targets a core/terms-query (inc/query-filter.php), which has no router region to swap, so the change does a full page load.
+$context = wp_interactivity_data_wp_context(['paramName' => $field_name, 'fullReload' => ! $query_id]);
 
 $wrapper_attributes = get_block_wrapper_attributes(
     [

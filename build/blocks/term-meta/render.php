@@ -107,6 +107,15 @@ if ( ! $meta_key) {
   return;
 }
 
+// No fixed term inside a core/term-template row (Press Room's season list): that row's term, when the taxonomy matches.
+if ( ! $term_id && ! empty($block->context['termId'])) {
+  $row_taxonomy = $block->context['taxonomy'] ?? '';
+  $row_term     = get_term((int) $block->context['termId'], $row_taxonomy);
+  if ($row_term && ! is_wp_error($row_term) && (empty($attributes['taxonomy']) || in_array($attributes['taxonomy'], array($row_taxonomy, get_taxonomy($row_taxonomy)->rest_base ?? ''), true))) {
+    $term_id = (int) $row_term->term_id;
+  }
+}
+
 // No fixed term: use the current post's own term in the chosen taxonomy (e.g. each production's season), so one pattern serves every season.
 if ( ! $term_id && ! empty($attributes['taxonomy'])) {
   // The attribute holds the REST base (e.g. "categories"); map it back to the taxonomy name.

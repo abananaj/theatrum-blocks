@@ -99,8 +99,13 @@
 		}
 	}
 
-	// Responsive: stack a static icon under the list instead of travelling beside it.
+	// Responsive: a static icon at its own size above the list, on the list's side — stretched to 100% it filled the screen (Membership's piggy bank).
 	@media (max-width: #{ $break-medium }) {
+
+		.thumbnail-list-wrapper {
+			display: flex;
+			flex-direction: column;
+		}
 
 		.list-items {
 			padding-left: 0 !important;
@@ -109,11 +114,14 @@
 
 		.thumbnail-container {
 			position: static;
-			width: 100% !important;
-			height: auto !important;
-			aspect-ratio: 4 / 3;
-			margin-top: 1em;
+			order: -1;
+			max-width: 50%;
+			margin-bottom: 1em;
 			transform: none !important;
+		}
+
+		&.thumbnail-position-right .thumbnail-container {
+			align-self: flex-end;
 		}
 	}
 }

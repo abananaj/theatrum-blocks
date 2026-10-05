@@ -65,6 +65,7 @@ function Edit( { attributes, setAttributes } ) {
 		label,
 		showLabel,
 		allLabel,
+		termOrder,
 		layout,
 	} = attributes;
 
@@ -181,6 +182,20 @@ function Edit( { attributes, setAttributes } ) {
 							value={ allLabel }
 							onChange={ ( value ) =>
 								setAttributes( { allLabel: value } )
+							}
+						/>
+					) }
+
+					{ filterType === 'taxonomy' && (
+						<SelectControl
+							label={ __( 'Term order', 'theatrum-blocks' ) }
+							value={ termOrder }
+							options={ [
+								{ label: __( 'A → Z', 'theatrum-blocks' ), value: 'ASC' },
+								{ label: __( 'Z → A (newest season first)', 'theatrum-blocks' ), value: 'DESC' },
+							] }
+							onChange={ ( value ) =>
+								setAttributes( { termOrder: value } )
 							}
 						/>
 					) }

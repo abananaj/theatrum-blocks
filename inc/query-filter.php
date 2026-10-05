@@ -149,3 +149,43 @@ add_filter(
     10,
     2
 );
+
+/**
+ * Terms Query support: a taxonomy query-filter with no target Query Loop (queryId 0) narrows any core/terms-query on the same taxonomy in the same post to the chosen term.
+ * With no choice in the URL, `theatrum_terms_query_default_include` may supply term IDs (e.g. the current season) so the page never renders every term at once.
+ * Applied to the core/term-template's termQuery context: render_block_data on a nested terms-query doesn't rebuild its children, so changing its attrs never reaches the template.
+ */
+add_filter(
+    'render_block_context',
+    function ($context, $parsed_block) {
+    if (($parsed_block['blockName'] ?? '') !== 'core/term-template' || empty($context['termQuery']['taxonomy'])) {
+      return $context;
+    }
+
+    $taxonomy = $context['termQuery']['taxonomy'];
+    if ( ! taxonomy_exists($taxonomy)) {
+      return $context;
+    }
+
+    foreach (theatrum_query_filter_blocks_in_current_post() as $filter_block) {
+      $attrs = $filter_block['attrs'] ?? [];
+      if (absint($attrs['queryId'] ?? 0) || ('taxonomy' !== ($attrs['filterType'] ?? 'taxonomy')) || (($attrs['taxonomy'] ?? 'season') !== $taxonomy)) {
+        continue;
+      }
+
+      $param = $attrs['paramName'] ?? 'season';
+      $slug  = isset($_GET[$param]) ? sanitize_title(wp_unslash($_GET[$param])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Front-end faceted filter read from GET; no state change, value sanitized + unslashed.
+      $term  = $slug ? get_term_by('slug', $slug, $taxonomy) : false;
+      $ids   = $term ? [(int) $term->term_id] : array_map('intval', (array) apply_filters('theatrum_terms_query_default_include', [], $taxonomy));
+
+      if ($ids) {
+        $context['termQuery']['include'] = $ids;
+      }
+      break;
+    }
+
+    return $context;
+    },
+    10,
+    2
+);

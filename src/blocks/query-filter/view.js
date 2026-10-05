@@ -21,7 +21,7 @@ const { state } = store( 'theatrum/query-filter', {
 		 * @param {Event} event - The change event from the select element.
 		 */
 		async updateFilter( event ) {
-			const { paramName } = getContext();
+			const { paramName, fullReload } = getContext();
 			const value = event.target.value;
 
 			const url = new URL( window.location.href );
@@ -35,6 +35,12 @@ const { state } = store( 'theatrum/query-filter', {
 			// Reset pagination when filtering.
 			url.searchParams.delete( 'paged' );
 			url.searchParams.delete( 'page' );
+
+			// Terms Query targets have no router region to swap (render.php sets fullReload).
+			if ( fullReload ) {
+				window.location.assign( url.toString() );
+				return;
+			}
 
 			await routerActions.navigate( url.toString() );
 		},

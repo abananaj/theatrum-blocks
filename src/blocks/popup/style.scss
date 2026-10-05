@@ -17,6 +17,11 @@
 	--popup-offcanvas-height: 60vh; // medium, for top/bottom offcanvas
 	--popup-backdrop-color: rgba(0, 0, 0, 0.35);
 	--popup-z-index: 9999;
+
+	// Phones: 2rem outside plus 2rem inside cost 57px a side and squeezed the Rental Request form; halve both.
+	@media (max-width: 599px) {
+		--popup-padding: 1rem;
+	}
 }
 
 .wp-block-theatrum-popup {

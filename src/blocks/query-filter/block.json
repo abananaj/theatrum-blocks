@@ -56,6 +56,11 @@
 			"type": "string",
 			"default": "All"
 		},
+		"termOrder": {
+			"type": "string",
+			"default": "ASC",
+			"enum": ["ASC", "DESC"]
+		},
 		"layout": {
 			"type": "string",
 			"default": "horizontal",

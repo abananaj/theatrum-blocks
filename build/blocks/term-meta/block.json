@@ -94,7 +94,9 @@
   },
   "usesContext": [
     "postId",
-    "postType"
+    "postType",
+    "termId",
+    "taxonomy"
   ],
   "example": {},
   "keywords": [

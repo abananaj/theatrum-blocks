@@ -1,4 +1,5 @@
 @use "@wordpress/base-styles/breakpoints" as *;
+@use "chevron";
 
 // Slider arrow/dot chrome — shared by theatrum/slider and any core block styled `is-style-ct-slider`;
 // extracted from blocks/slider/style.scss so formats/slider.js's arrows/dots (core/query, core/gallery)
@@ -16,15 +17,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	// A fixed square (like theatrum/carousel's arrows) rather than padding-around-text, so
-	// border-radius: 50% below is a true circle regardless of glyph width.
+	// Same box and chevron as theatrum/carousel's arrows (_arrows.scss), so the two read as one control family.
 	width: var(--tm-arrow-size, 40px);
 	height: var(--tm-arrow-size, 40px);
 	padding: 0;
-	color: var(--tm-arrow-color, #333);
-	font-weight: 700;
-	// Scales with --tm-arrow-size (18/40 preserves the old default glyph size at the new default button size).
-	font-size: calc(var(--tm-arrow-size, 40px) * 0.45);
+	font-size: 0; // hides the saved ❮/❯ text glyph; the chevron below replaces it
 	line-height: 1;
 	background-color: var(--tm-arrow-bg, transparent);
 	border: 0;
@@ -32,13 +29,26 @@
 	transition: var(--ct-duration-slow-1, 0.3s) var(--ct-ease-standard, ease);
 	user-select: none;
 
+	&::before {
+		@include chevron.mask;
+		background-color: var(--tm-arrow-color, #333);
+	}
+
 	// Outside by default; formats/fit-arrows.js flips the root to .tm-slider-arrows-auto-inside when there is no room beyond its edge.
 	&.tm-slider-prev {
 		left: -48px;
+
+		&::before {
+			transform: rotate(90deg);
+		}
 	}
 
 	&.tm-slider-next {
 		right: -48px;
+
+		&::before {
+			transform: rotate(-90deg);
+		}
 	}
 
 	&:hover {
@@ -50,8 +60,11 @@
 @media (max-width: 781px) {
 
 	.tm-slider-arrow {
-		color: var(--tm-arrow-color, #fff);
-		background-color: var(--tm-arrow-bg, rgba(0, 0, 0, 0.5));
+		// Touch floor: OTR's authored 20px arrows were dots on a phone; 40px is the carousel default.
+		min-width: 40px;
+		min-height: 40px;
+		background-color: var(--tm-arrow-bg, rgba(255, 255, 255, 0.85));
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
 		&.tm-slider-prev {
 			left: 8px;
@@ -67,11 +80,11 @@
 	display: none;
 }
 
+// Over slide content: the carousel's opaque light backdrop, so the dark chevron reads on any image.
 .tm-slider-arrows-inside .tm-slider-arrow,
 .tm-slider-arrows-auto-inside .tm-slider-arrow {
-	// Same --tm-arrow-color/--tm-arrow-bg vars as the base rule above, just with different fallbacks for this position.
-	color: var(--tm-arrow-color, #fff);
-	background-color: var(--tm-arrow-bg, rgba(0, 0, 0, 0.5));
+	background-color: var(--tm-arrow-bg, rgba(255, 255, 255, 0.85));
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
 	&.tm-slider-prev {
 		left: 8px;
@@ -82,7 +95,7 @@
 	}
 
 	&:hover {
-		background-color: var(--tm-arrow-hover-bg, rgba(0, 0, 0, 0.8));
+		background-color: var(--tm-arrow-hover-bg, #fff);
 	}
 }
 
@@ -108,15 +121,6 @@
 	&.is-active,
 	&:hover {
 		background-color: #717171;
-	}
-}
-
-@media only screen and (max-width: $break-zoomed-in) {
-
-	.tm-slider-arrow {
-		width: var(--tm-arrow-size, 28px);
-		height: var(--tm-arrow-size, 28px);
-		font-size: calc(var(--tm-arrow-size, 28px) * 0.4);
 	}
 }
 

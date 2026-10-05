@@ -2124,6 +2124,14 @@ return array(
 				'type' => 'string',
 				'default' => 'All'
 			),
+			'termOrder' => array(
+				'type' => 'string',
+				'default' => 'ASC',
+				'enum' => array(
+					'ASC',
+					'DESC'
+				)
+			),
 			'layout' => array(
 				'type' => 'string',
 				'default' => 'horizontal',
@@ -2849,7 +2857,9 @@ return array(
 		),
 		'usesContext' => array(
 			'postId',
-			'postType'
+			'postType',
+			'termId',
+			'taxonomy'
 		),
 		'example' => array(
 			

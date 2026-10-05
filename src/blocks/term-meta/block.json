@@ -89,7 +89,7 @@
 			"default": "h2"
 		}
 	},
-	"usesContext": ["postId", "postType"],
+	"usesContext": ["postId", "postType", "termId", "taxonomy"],
 	"example": {},
 	"keywords": ["taxonomy", "term", "category", "meta"],
 	"textdomain": "theatrum-blocks",

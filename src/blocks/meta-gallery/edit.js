@@ -145,7 +145,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 		margin: 0,
 		padding: 0,
 		'--wp--style--unstable-gallery-gap': `${ gap }px`,
-		'--theatrum-gallery-columns': numColumns,
+		'--theatrum-gallery-columns-desktop': numColumns,
 		'--theatrum-gallery-columns-tablet': numColumnsTablet,
 		'--theatrum-gallery-columns-mobile': numColumnsMobile,
 	};

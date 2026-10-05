@@ -190,8 +190,13 @@ figure.wp-block-theatrum-meta-gallery.has-nested-images {
 	}
 }
 
-// render.php/edit.js resolve concrete --theatrum-gallery-columns(-tablet|-mobile) values inline (fallback already applied); these queries just swap which resolved property the flex-basis calc reads.
-// Must reassign --theatrum-gallery-columns from a *different* property, never itself — self-referencing resolves to an invalid value instead of the intended fallback.
+// render.php/edit.js resolve concrete --theatrum-gallery-columns-(desktop|tablet|mobile) values inline (fallback already applied); these rules pick which one the flex-basis calc reads.
+// Inline only sets the three source values: an inline --theatrum-gallery-columns outranked the media queries below, so tablet/mobile counts never applied.
+// Must assign --theatrum-gallery-columns from a *different* property, never itself — self-referencing resolves to an invalid value instead of the intended fallback.
+.wp-block-gallery.blocks-gallery-grid {
+	--theatrum-gallery-columns: var(--theatrum-gallery-columns-desktop, 3);
+}
+
 @media (max-width: 781px) {
 
 	.wp-block-gallery.blocks-gallery-grid {

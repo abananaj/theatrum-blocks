@@ -223,9 +223,9 @@ if (is_array($gap)) {
   }
 }
 
-// Desktop/tablet/mobile column counts as CSS custom properties — style.scss's tablet/mobile media queries read these to override --theatrum-gallery-columns, which the item flex-basis calc uses.
+// Desktop/tablet/mobile column counts as CSS custom properties — style.scss picks one into --theatrum-gallery-columns per breakpoint (never set inline, or the media queries can't override it).
 $columns_style = sprintf(
-    '--theatrum-gallery-columns: %d; --theatrum-gallery-columns-tablet: %d; --theatrum-gallery-columns-mobile: %d;',
+    '--theatrum-gallery-columns-desktop: %d; --theatrum-gallery-columns-tablet: %d; --theatrum-gallery-columns-mobile: %d;',
     $columns_desktop_resolved,
     $columns_tablet_resolved,
     $columns_mobile_resolved
