@@ -14,7 +14,7 @@
 	);
 }
 
-// Horizontal tab-strip layout used by style.scss's `min-width: 768px` query, loaded in both
+// Horizontal tab-strip layout used by style.scss's `min-width: 782px (WordPress $break-medium)` query, loaded in both
 // frontend and editor (block.json's "style" key) — the editor canvas iframe has a real
 // viewport, so the breakpoint applies there too, including the Desktop/Tablet/Mobile toggle.
 @mixin tab-strip-layout {

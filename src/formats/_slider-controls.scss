@@ -1,3 +1,5 @@
+@use "@wordpress/base-styles/breakpoints" as *;
+
 // Slider arrow/dot chrome — shared by theatrum/slider and any core block styled `is-style-ct-slider`;
 // extracted from blocks/slider/style.scss so formats/slider.js's arrows/dots (core/query, core/gallery)
 // get it too. Color/bg/size are CSS custom properties so theatrum/slider's Arrow Styles controls can
@@ -109,7 +111,7 @@
 	}
 }
 
-@media only screen and (max-width: 300px) {
+@media only screen and (max-width: $break-zoomed-in) {
 
 	.tm-slider-arrow {
 		width: var(--tm-arrow-size, 28px);

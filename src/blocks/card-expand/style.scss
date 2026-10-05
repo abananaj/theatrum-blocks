@@ -300,5 +300,12 @@
 		&.is-ready.is-expanded .wp-block-theatrum-card-expand__content {
 			transform: translateY(-100%);
 		}
+
+		// Body stays hidden until view.js is ready, so it no longer flashes under the image on load; no-JS visitors keep the stacked fallback.
+		@media (scripting: enabled) {
+			&:not(.is-ready) .wp-block-theatrum-card-expand__body {
+				display: none;
+			}
+		}
 	}
 }

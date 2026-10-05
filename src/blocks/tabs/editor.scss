@@ -1,4 +1,4 @@
-// Editor-only overrides: layout comes from style.scss's shared `min-width: 768px` media query
+// Editor-only overrides: layout comes from style.scss's shared `min-width: 782px (WordPress $break-medium)` media query
 // (loaded here too, iframe has a real viewport). No click JS in editor — tab/edit.js derives
 // `.is-active` from block selection on the parent .ct-tab instead, like core/accordion.
 

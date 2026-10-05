@@ -4,8 +4,9 @@
 // (tab/edit.js + editor.scss) but reuses this same layout.
 
 @use "mixins";
+@use "@wordpress/base-styles/breakpoints" as *;
 
-$ct-tabs-breakpoint: 768px;
+$ct-tabs-breakpoint: $break-medium; // WordPress medium (782px), same as core blocks
 
 @keyframes ct-tab-panel-fade-in {
 
@@ -36,6 +37,8 @@ $ct-tabs-breakpoint: 768px;
 			var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
 		border-radius: var(--wp--preset--border-radius--extra-large);
 		font-size: 1.25rem;
+		// A tab title never breaks onto two lines; the strip wraps whole tabs instead (Anna, Oct 4).
+		white-space: nowrap;
 		position: relative;
 		transition:
 			color var(--ct-duration-fast-2, 150ms) var(--ct-ease-standard, ease),
@@ -132,8 +135,10 @@ $ct-tabs-breakpoint: 768px;
 			}
 		}
 
+		// min-width keeps an equal-width tab from shrinking below its title, so a full row wraps to the next line instead.
 		&.is-equal-width .ct-tab__header {
 			flex: 1 1 0;
+			min-width: max-content;
 		}
 	}
 }

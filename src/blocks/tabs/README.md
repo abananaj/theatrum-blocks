@@ -24,7 +24,7 @@ Editors add a tab per section via the parent's block appender; each new tab come
 Each `theatrum/tab-heading` saves a `.ct-tab__header` element (`div[role="button"]` — not a real `<button>`, since headings aren't valid inside one) and each `theatrum/tab-content` saves a `.ct-tab__panel` `<div>`, both direct children of the `.ct-tab` wrapper.
 
 - **Mobile (default):** headers are full-width and stacked; only the active panel shows → accordion.
-- **Desktop (`min-width: 768px`):** `.ct-tab` becomes `display: contents` so the headers/panels join the parent flex row. Headers get `order: 0` (a tab strip); the single active panel gets `order: 1; width: 100%` and drops below.
+- **Desktop (`min-width: 782px (WordPress $break-medium)`):** `.ct-tab` becomes `display: contents` so the headers/panels join the parent flex row. Headers get `order: 0` (a tab strip); the single active panel gets `order: 1; width: 100%` and drops below.
 
 `view.js` toggles `.is-active` on click or Enter/Space (adds `.is-ready` to disable the no-JS "first panel open" fallback). See `style.scss`.
 

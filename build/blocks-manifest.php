@@ -2048,8 +2048,12 @@ return array(
 		),
 		'textdomain' => 'theatrum-blocks',
 		'editorScript' => 'file:./index.js',
+		'viewScript' => 'file:./view.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
+		'style' => array(
+			'file:./style-index.css',
+			'wp-block-quote'
+		),
 		'render' => 'file:./render.php'
 	),
 	'query-filter' => array(

@@ -3,6 +3,9 @@
 @use "@wordpress/base-styles/breakpoints" as *;
 
 .wp-block-theatrum-carousel {
+	// minmax(0, …) zeroes the min-content floor, so fit-content stops at the available width instead of the whole track (was 900px wide on a 375px phone).
+	display: grid;
+	grid-template-columns: minmax(0, max-content);
 	width: fit-content;
 	max-width: 1140px;
 	margin-inline: auto;
@@ -112,7 +115,7 @@
 
 			.theatrum-carousel-content {
 
-				@media only screen and (min-width: 1180px) {
+				@media only screen and (min-width: $break-wide) {
 					justify-content: space-between;
 				}
 			}
