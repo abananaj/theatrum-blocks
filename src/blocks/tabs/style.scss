@@ -35,7 +35,7 @@ $ct-tabs-breakpoint: $break-medium; // WordPress medium (782px), same as core bl
 		// Right padding leaves room for the mobile-only rotating indicator (::after below); reset at the desktop breakpoint.
 		padding: var(--wp--preset--spacing--20) calc(var(--wp--preset--spacing--30) + 1.5rem)
 			var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
-		border-radius: var(--wp--preset--border-radius--extra-large);
+		border-radius: var(--wp--preset--border-radius--large) var(--wp--preset--border-radius--large) 0 0;
 		font-size: 1.25rem;
 		// A tab title never breaks onto two lines; the strip wraps whole tabs instead (Anna, Oct 4).
 		white-space: nowrap;
@@ -89,7 +89,7 @@ $ct-tabs-breakpoint: $break-medium; // WordPress medium (782px), same as core bl
 				--ct-tab-header-hover-bg,
 				var(--ct-tab-header-bg, var(--ct-secondary, inherit))
 			);
-			border-radius: var(--wp--preset--border-radius--extra-large);
+			// border-radius: var(--wp--preset--border-radius--extra-large);
 		}
 
 		&.is-active {
