@@ -17,4 +17,9 @@
 		background: var(--ct-muted-light, #dde4eb);
 		color: var(--ct-on-muted-light, #030e19);
 	}
+
+	// Selecting a parked body block focuses it, and focus scrolls an `overflow: hidden` frame, shoving the image up; `clip` can't be scrolled.
+	&.is-overlay.is-ready .wp-block-theatrum-card-expand__frame {
+		overflow: clip;
+	}
 }

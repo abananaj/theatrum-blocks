@@ -19,10 +19,12 @@
  * `linkImageToPost`: the link is both the card's own call to action and the tab stop a keyboard
  * visitor reveals the card from.
  *
- * Content stays fully expanded/visible while authoring however it's set: the reveal is a front-end
- * enhancement wired by view.js, and hiding it here would hide the very blocks this exists to
- * expose. The same goes for the front-end-only markup render.php adds — overlay mode's `__frame`
- * wrapper and hover mode's image link — which the canvas never draws.
+ * Expand mode stays fully expanded while authoring: its reveal is a front-end enhancement wired by
+ * view.js. Overlay mode mirrors the front end instead, like theatrum/popup: the canvas draws the
+ * same `__frame` render.php prints, marks the card `is-ready` itself (measuring the header the way
+ * view.js does), and adds `is-expanded` while the card or any block inside it is selected — so
+ * picking a body block in the List View slides the panel into place. Hover mode's image link is
+ * still front-end only.
  */
 import {
 	useBlockProps,
@@ -32,6 +34,8 @@ import {
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
+import { useRefEffect } from '@wordpress/compose';
+import { useState } from '@wordpress/element';
 import {
 	PanelBody,
 	Notice,
@@ -148,6 +152,7 @@ export default function Edit( {
 	setAttributes,
 	clientId,
 	context,
+	isSelected,
 } ) {
 	const { imageSizeSlug, revealStyle, activateOn, linkImageToPost } =
 		attributes;
@@ -159,11 +164,57 @@ export default function Edit( {
 	const image = useCardImagePreview( attributes, context );
 	const imageStyle = getCardImageVars( attributes );
 
+	// Overlay mode opens while the card or anything inside it is selected (same rule as theatrum/popup).
+	const hasSelectedInner = useSelect(
+		( select ) =>
+			select( blockEditorStore ).hasSelectedInnerBlock( clientId, true ),
+		[ clientId ]
+	);
+	const isOpen = isOverlay && ( isSelected || hasSelectedInner );
+
+	// Editor stand-in for view.js's header measurement, which parks the closed panel.
+	const [ headerHeight, setHeaderHeight ] = useState( 0 );
+	const measureRef = useRefEffect(
+		( node ) => {
+			if ( ! isOverlay ) {
+				return;
+			}
+			const content = node.querySelector( `.${ BASE_CLASS }__content` );
+			const { ResizeObserver } = node.ownerDocument.defaultView;
+			if ( ! content || ! ResizeObserver ) {
+				return;
+			}
+			// Observes the content too, so a header added or removed later is still picked up.
+			const sync = () => {
+				const header = content.querySelector(
+					`:scope > .${ BASE_CLASS }__header`
+				);
+				if ( header ) {
+					observer.observe( header );
+				}
+				setHeaderHeight( header ? header.offsetHeight : 0 );
+			};
+			const observer = new ResizeObserver( sync );
+			observer.observe( content );
+			sync();
+			return () => observer.disconnect();
+		},
+		[ isOverlay ]
+	);
+
 	const blockProps = useBlockProps( {
+		ref: measureRef,
 		className:
-			[ isOverlay && 'is-overlay', isHover && 'is-hover' ]
+			[
+				isOverlay && 'is-overlay is-ready',
+				isOpen && 'is-expanded',
+				isHover && 'is-hover',
+			]
 				.filter( Boolean )
 				.join( ' ' ) || undefined,
+		style: isOverlay
+			? { '--theatrum-card-expand-header-height': `${ headerHeight }px` }
+			: undefined,
 	} );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: `${ BASE_CLASS }__content` },
@@ -223,6 +274,22 @@ export default function Edit( {
 		} );
 	};
 
+	const imageSlot = image.url ? (
+		<CardImage
+			baseClass={ BASE_CLASS }
+			url={ image.url }
+			alt={ image.alt }
+			style={ imageStyle }
+		/>
+	) : (
+		<CardImagePlaceholder
+			baseClass={ BASE_CLASS }
+			onSelect={ onSelectImage }
+			style={ imageStyle }
+			notice={ image.notice }
+		/>
+	);
+
 	return (
 		<>
 			<InspectorControls>
@@ -239,7 +306,7 @@ export default function Edit( {
 						<>
 							<p>
 								{ __(
-									'On the front end the card looks like an Expand one until it opens: the image, with the header below it. Opening it slides the header and body up over the image as one panel, resting on the card’s bottom edge. Here every block stays visible so you can edit it.',
+									'On the front end the card looks like an Expand one until it opens: the image, with the header below it. Opening it slides the header and body up over the image as one panel, resting on the card’s bottom edge. Here the card opens while it, or any block inside it, is selected — pick the body’s blocks in the List View to edit them.',
 									'theatrum-blocks'
 								) }
 							</p>
@@ -323,22 +390,17 @@ export default function Edit( {
 				}
 			/>
 			<div { ...blockProps }>
-				{ image.url ? (
-					<CardImage
-						baseClass={ BASE_CLASS }
-						url={ image.url }
-						alt={ image.alt }
-						style={ imageStyle }
-					/>
+				{ isOverlay ? (
+					<div className={ `${ BASE_CLASS }__frame` }>
+						{ imageSlot }
+						<div { ...innerBlocksProps } />
+					</div>
 				) : (
-					<CardImagePlaceholder
-						baseClass={ BASE_CLASS }
-						onSelect={ onSelectImage }
-						style={ imageStyle }
-						notice={ image.notice }
-					/>
+					<>
+						{ imageSlot }
+						<div { ...innerBlocksProps } />
+					</>
 				) }
-				<div { ...innerBlocksProps } />
 			</div>
 		</>
 	);
