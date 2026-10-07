@@ -49,19 +49,26 @@ export function initCarousel( component ) {
 	}
 	content.dataset.ctCarouselBound = 'true';
 
+	// core/comments also wraps its title and form, so its arrows anchor to the track's wrapper, not the whole block; no comments yet means no track at all.
+	const isComments = component.matches( '.wp-block-comments' );
+	if ( isComments && content === component ) {
+		return;
+	}
+	const arrowRoot = isComments ? content.parentElement : component;
+
 	let prevButton = component.querySelector( '.theatrum-arrow-prev' );
 	let nextButton = component.querySelector( '.theatrum-arrow-next' );
 
 	if ( ! prevButton && ! nextButton ) {
 		prevButton = buildArrow( 'prev' );
 		nextButton = buildArrow( 'next' );
-		component.prepend( prevButton );
-		component.append( nextButton );
+		arrowRoot.prepend( prevButton );
+		arrowRoot.append( nextButton );
 	}
 
 	const hasControls = nextButton !== null || prevButton !== null;
 
-	fitArrows( component, 'theatrum-arrows-auto-inside', [
+	fitArrows( arrowRoot, 'theatrum-arrows-auto-inside', [
 		'theatrum-arrows-inside',
 		'theatrum-arrows-hidden',
 	] );

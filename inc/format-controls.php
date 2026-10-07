@@ -51,7 +51,7 @@ function theatrum_format_controls_render_block($block_content, $block) {
     $extra_attributes = array();
 
     if ($is_carousel) {
-        if ('core/query' === $block['blockName']) {
+        if (in_array($block['blockName'], array('core/query', 'core/comments'), true)) {
             $gap      = isset($attrs['ctCarouselGap']) ? preg_replace('/[^0-9.]/', '', (string) $attrs['ctCarouselGap']) : '';
             $gap_unit = in_array($attrs['ctCarouselGapUnit'] ?? '', $allowed_units, true) ? $attrs['ctCarouselGapUnit'] : 'px';
             if ('' !== $gap) {

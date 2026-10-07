@@ -424,7 +424,7 @@ function theatrum_enqueue_rich_text_formats_script() {
 add_action('enqueue_block_editor_assets', 'theatrum_enqueue_rich_text_formats_script');
 
 /**
- * Registers the Carousel/Slider block styles ("formats" — see src/formats/) on core/query and core/gallery; names are prefixed (ct-carousel, ct-slider) to avoid colliding with other plugins' bare slugs.
+ * Registers the Carousel/Slider block styles ("formats" — see src/formats/) on core/query and core/gallery, plus Carousel only on core/comments; names are prefixed (ct-carousel, ct-slider) to avoid colliding with other plugins' bare slugs.
  */
 function theatrum_register_format_styles() {
 	$blocks = array('core/query', 'core/gallery');
@@ -438,6 +438,7 @@ function theatrum_register_format_styles() {
 			register_block_style($block, $style);
 		}
 	}
+	register_block_style('core/comments', $styles[0]);
 }
 add_action('init', 'theatrum_register_format_styles');
 
@@ -456,7 +457,7 @@ add_action('init', 'theatrum_register_breadcrumbs_styles');
  * Blocks eligible for the Carousel/Slider formats, and their style slugs (without the is-style- prefix) — shared by the editor/frontend enqueue functions below.
  */
 function theatrum_format_blocks() {
-	return array('core/query', 'core/gallery');
+	return array('core/query', 'core/gallery', 'core/comments');
 }
 
 function theatrum_format_style_slugs() {

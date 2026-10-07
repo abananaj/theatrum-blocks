@@ -25,8 +25,9 @@ const SLIDER_STYLE_SLUG = 'is-style-ct-slider';
 const TARGET_BLOCKS = ( window.theatrumFormatControls || {} ).blocks || [
 	'core/query',
 	'core/gallery',
+	'core/comments',
 ];
-const GAP_ELIGIBLE_BLOCKS = [ 'core/query' ];
+const GAP_ELIGIBLE_BLOCKS = [ 'core/query', 'core/comments' ];
 
 const UNIT_OPTIONS = [
 	{ label: 'px', value: 'px' },
