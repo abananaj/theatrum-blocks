@@ -19,6 +19,13 @@
       "margin": true,
       "padding": true,
       "blockGap": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
     }
   },
   "usesContext": [

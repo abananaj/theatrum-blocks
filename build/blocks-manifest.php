@@ -1800,6 +1800,13 @@ return array(
 				'margin' => true,
 				'padding' => true,
 				'blockGap' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
 			)
 		),
 		'usesContext' => array(
