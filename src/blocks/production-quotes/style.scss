@@ -12,10 +12,10 @@
 }
 
 .wp-block-theatrum-production-quotes .wp-block-quote {
-	// D-07: 2px accent borders sitewide become the `subtle` shadow preset plus a `--ct-muted-light`
+	// D-07: 2px accent borders sitewide become the `subtle` shadow preset plus a `--ct-quinary`
 	// background rather than an outline — see STYLING-SEPT-2026.md T3-04.
 	box-shadow: var(--wp--preset--shadow--subtle, 0 3px 5px rgba(0, 0, 0, 0.04));
-	background-color: var(--ct-muted-light, transparent);
+	background-color: var(--ct-quinary, transparent);
   padding: 0 var(--wp--preset--spacing--40);
   margin: 0.5rem 0;
   max-width: 45ch;

@@ -81,9 +81,6 @@ foreach ($rows as $row) {
   if ( ! is_array($row)) {
     continue;
   }
-  if ( ! empty($row['hide'])) {
-    continue;
-  }
   $ts = $parse_date($row['date'] ?? '');
   if (false === $ts || $ts < $today_ts) {
     continue;

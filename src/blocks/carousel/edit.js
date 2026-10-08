@@ -97,7 +97,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							type="number"
 							min="0"
 							help={ __(
-								'Leave empty for cards to size to their content.',
+								'Leave empty for the standard 175px.',
 								'theatrum-blocks'
 							) }
 							__nextHasNoMarginBottom

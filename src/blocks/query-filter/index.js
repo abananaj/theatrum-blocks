@@ -126,7 +126,7 @@ function Edit( { attributes, setAttributes } ) {
 										'theatrum-blocks'
 								  )
 								: __(
-										'Which Query Loop this filter controls. Required when a page has more than one Query Loop.',
+										'The Query Loop this filter controls. A Query Loop is only filtered when it is chosen here.',
 										'theatrum-blocks'
 								  )
 						}

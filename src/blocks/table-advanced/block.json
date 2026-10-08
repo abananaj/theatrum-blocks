@@ -118,8 +118,7 @@
 			"name": "regular",
 			"label": "Default",
 			"isDefault": true
-		},
-		{ "name": "stripes", "label": "Stripes" }
+		}
 	],
 	"example": {},
 	"keywords": ["table", "data", "rows", "columns"],

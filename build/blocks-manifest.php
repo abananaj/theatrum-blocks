@@ -2551,10 +2551,6 @@ return array(
 				'name' => 'regular',
 				'label' => 'Default',
 				'isDefault' => true
-			),
-			array(
-				'name' => 'stripes',
-				'label' => 'Stripes'
 			)
 		),
 		'example' => array(

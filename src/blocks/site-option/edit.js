@@ -121,12 +121,12 @@ export default function Edit( { attributes, setAttributes } ) {
 						placeholder={
 							isMemberType
 								? 'e.g., option_staff_members'
-								: 'e.g., siteurl, home, blogname'
+								: 'e.g., options_current_season'
 						}
 						help={
 							isMemberType
 								? 'Enter the WordPress option key for staff/board members'
-								: 'Enter the WordPress option key to retrieve from wp_options table'
+								: 'Site option name — must start with options_.'
 						}
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
